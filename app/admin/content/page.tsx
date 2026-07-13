@@ -47,6 +47,7 @@ export default function ContentManager() {
   const [category, setCategory] = useState<"Hooks" | "CTAs" | "Templates">("Hooks");
   const [tier, setTier] = useState<"standard" | "pro">("standard");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [directURL, setDirectURL] = useState("");
 
   // Upload progress states
   const [uploadProgress, setUploadProgress] = useState<number | null>(null);
@@ -116,8 +117,16 @@ export default function ContentManager() {
   // Handle uploading asset
   const handleUpload = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!selectedFile || !assetName.trim()) {
-      setErrorMessage("Please select a file and enter a name.");
+    const isUsingDirectURL = directURL.trim() !== "";
+
+    if (!isUsingDirectURL && !selectedFile) {
+      setErrorMessage("Please select a file to upload or paste a direct URL link.");
+      setUploadStatus("error");
+      return;
+    }
+
+    if (!assetName.trim()) {
+      setErrorMessage("Please enter an asset name.");
       setUploadStatus("error");
       return;
     }
@@ -127,49 +136,68 @@ export default function ContentManager() {
       setUploadProgress(10);
       setErrorMessage("");
 
-      // 1. Upload file to Firebase Storage
-      const storagePath = `contentAssets/${Date.now()}_${selectedFile.name}`;
-      const storageRef = ref(storage, storagePath);
-      const uploadTask = uploadBytesResumable(storageRef, selectedFile);
+      if (isUsingDirectURL) {
+        // Direct URL Case (Bypasses Storage completely)
+        setUploadProgress(50);
+        const assetData = {
+          name: assetName,
+          fileType,
+          tier,
+          category,
+          storagePath: "external_link",
+          downloadURL: directURL.trim(),
+          uploadedAt: serverTimestamp(),
+        };
 
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
-          setUploadProgress(progress);
-        },
-        (error) => {
-          console.error("Upload fail:", error);
-          setErrorMessage("Failed to upload file to storage: " + error.message);
-          setUploadStatus("error");
-        },
-        async () => {
-          // 2. Get download URL
-          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+        await addDoc(collection(db, "contentAssets"), assetData);
+        
+        setUploadStatus("success");
+        setUploadProgress(null);
+        setSelectedFile(null);
+        setAssetName("");
+        setDirectURL("");
+        fetchAssets();
+      } else {
+        // File Upload Case (Uses Firebase Storage)
+        const storagePath = `contentAssets/${Date.now()}_${selectedFile!.name}`;
+        const storageRef = ref(storage, storagePath);
+        const uploadTask = uploadBytesResumable(storageRef, selectedFile!);
 
-          // 3. Write record to Firestore
-          const assetData = {
-            name: assetName,
-            fileType,
-            tier,
-            category,
-            storagePath,
-            downloadURL,
-            uploadedAt: serverTimestamp(),
-          };
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {
+            const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+            setUploadProgress(progress);
+          },
+          (error) => {
+            console.error("Upload fail:", error);
+            setErrorMessage("Failed to upload file to storage: " + error.message);
+            setUploadStatus("error");
+          },
+          async () => {
+            const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
 
-          await addDoc(collection(db, "contentAssets"), assetData);
+            const assetData = {
+              name: assetName,
+              fileType,
+              tier,
+              category,
+              storagePath,
+              downloadURL,
+              uploadedAt: serverTimestamp(),
+            };
 
-          // Reset forms and show success
-          setUploadStatus("success");
-          setUploadProgress(null);
-          setSelectedFile(null);
-          setAssetName("");
-          
-          // Refresh lists
-          fetchAssets();
-        }
-      );
+            await addDoc(collection(db, "contentAssets"), assetData);
+
+            setUploadStatus("success");
+            setUploadProgress(null);
+            setSelectedFile(null);
+            setAssetName("");
+            setDirectURL("");
+            fetchAssets();
+          }
+        );
+      }
     } catch (err: any) {
       console.error("Upload error:", err);
       setErrorMessage(err.message || "An unexpected error occurred.");
@@ -255,6 +283,22 @@ export default function ContentManager() {
                     </>
                   )}
                 </div>
+              </div>
+
+              <div className="text-center text-[10px] font-bold text-zinc-400 uppercase my-2">— OR —</div>
+
+              <div className="space-y-1.5">
+                <label htmlFor="directURL" className="text-xs font-semibold text-zinc-500 uppercase tracking-wider">
+                  Paste Direct URL Link
+                </label>
+                <input
+                  id="directURL"
+                  type="url"
+                  placeholder="https://drive.google.com/..."
+                  value={directURL}
+                  onChange={(e) => setDirectURL(e.target.value)}
+                  className="w-full rounded-lg border border-zinc-200 px-3 py-2 text-sm bg-white dark:border-zinc-800 dark:bg-zinc-900 focus:outline-hidden focus:ring-1 focus:ring-blue-600 focus:border-blue-600"
+                />
               </div>
 
               {/* Asset Name */}

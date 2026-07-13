@@ -29,6 +29,15 @@ export default function LandingPage() {
   const [currency, setCurrency] = useState<"USD" | "INR">("USD");
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
 
+  // ROI Calculator states
+  const [calcViews, setCalcViews] = useState(250000);
+  const [calcCpm, setCalcCpm] = useState(10);
+  const [calcConv, setCalcConv] = useState(0.001);
+  const [calcPrice, setCalcPrice] = useState(27);
+
+  const calcSponsorship = (calcViews / 1000) * calcCpm;
+  const calcProductSales = calcViews * calcConv * calcPrice;
+
   const handleCheckout = async (plan: "standard" | "pro") => {
     if (!profile) {
       const confirmAuth = window.confirm("Please sign in with Google to proceed with checkout.");
@@ -226,6 +235,119 @@ export default function LandingPage() {
               <p className="text-xs text-zinc-500">Connect with other creators in general lounges, share wins, and submit page URLs for Loom video audits.</p>
             </CardContent>
           </Card>
+        </div>
+      </section>
+
+      {/* ROI CALCULATOR SECTION */}
+      <section className="mx-auto max-w-5xl px-6 space-y-12">
+        <div className="text-center space-y-2">
+          <span className="text-xs font-bold uppercase tracking-widest text-blue-600">Earnings Estimator</span>
+          <h2 className="text-3xl font-extrabold tracking-tight">Calculate Your Potential Faceless Income</h2>
+          <p className="text-sm text-zinc-500 max-w-md mx-auto">See how views, sponsorships, and digital product conversion rates turn into recurring revenue.</p>
+        </div>
+
+        <div className="grid gap-8 md:grid-cols-2 bg-zinc-50 border border-zinc-150 rounded-3xl p-8">
+          {/* Sliders Container */}
+          <div className="space-y-6">
+            <h3 className="font-bold text-lg text-zinc-900">Configure Your Channel Metrics</h3>
+            
+            {/* Slider 1: Views */}
+            <div className="space-y-2">
+              <div className="flex justify-between text-xs font-semibold text-zinc-700">
+                <span>Estimated Monthly Views</span>
+                <span className="text-blue-600">{(calcViews / 1000).toFixed(0)}K views</span>
+              </div>
+              <input
+                type="range"
+                min="10000"
+                max="2000000"
+                step="10000"
+                value={calcViews}
+                onChange={(e) => setCalcViews(Number(e.target.value))}
+                className="w-full h-1.5 bg-zinc-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
+              />
+            </div>
+
+            {/* Slider 2: CPM */}
+            <div className="space-y-2">
+              <div className="flex justify-between text-xs font-semibold text-zinc-700">
+                <span>Sponsorship CPM (per 1k views)</span>
+                <span className="text-blue-600">${calcCpm}</span>
+              </div>
+              <input
+                type="range"
+                min="2"
+                max="30"
+                step="1"
+                value={calcCpm}
+                onChange={(e) => setCalcCpm(Number(e.target.value))}
+                className="w-full h-1.5 bg-zinc-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
+              />
+            </div>
+
+            {/* Slider 3: Conversion Rate */}
+            <div className="space-y-2">
+              <div className="flex justify-between text-xs font-semibold text-zinc-700">
+                <span>Product Conversion Rate</span>
+                <span className="text-blue-600">{(calcConv * 100).toFixed(2)}%</span>
+              </div>
+              <input
+                type="range"
+                min="0.0005"
+                max="0.01"
+                step="0.0005"
+                value={calcConv}
+                onChange={(e) => setCalcConv(Number(e.target.value))}
+                className="w-full h-1.5 bg-zinc-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
+              />
+            </div>
+
+            {/* Slider 4: Product Price */}
+            <div className="space-y-2">
+              <div className="flex justify-between text-xs font-semibold text-zinc-700">
+                <span>Average Digital Product Price</span>
+                <span className="text-blue-600">${calcPrice}</span>
+              </div>
+              <input
+                type="range"
+                min="5"
+                max="100"
+                step="5"
+                value={calcPrice}
+                onChange={(e) => setCalcPrice(Number(e.target.value))}
+                className="w-full h-1.5 bg-zinc-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
+              />
+            </div>
+          </div>
+
+          {/* Earnings Display Card */}
+          <div className="rounded-2xl bg-zinc-900 text-white p-6 flex flex-col justify-between border border-zinc-800">
+            <div className="space-y-4">
+              <h4 className="font-bold text-xs text-zinc-400 uppercase tracking-widest">Estimated Earnings Breakdown</h4>
+              <div className="space-y-3 divide-y divide-zinc-850">
+                <div className="flex justify-between text-xs pt-2">
+                  <span className="text-zinc-400">Sponsorship Revenue</span>
+                  <span>${((calcViews / 1000) * calcCpm).toLocaleString(undefined, {maximumFractionDigits: 0})}</span>
+                </div>
+                <div className="flex justify-between text-xs pt-3">
+                  <span className="text-zinc-400">Digital Product Sales</span>
+                  <span>${(calcViews * calcConv * calcPrice).toLocaleString(undefined, {maximumFractionDigits: 0})}</span>
+                </div>
+                <div className="flex justify-between items-baseline pt-4">
+                  <span className="text-xs font-bold text-blue-400">Total Monthly Revenue (USD)</span>
+                  <span className="text-3xl font-extrabold text-white">${(calcSponsorship + calcProductSales).toLocaleString(undefined, {maximumFractionDigits: 0})}</span>
+                </div>
+                <div className="flex justify-between items-baseline pt-3">
+                  <span className="text-xs font-medium text-emerald-400">Equivalent INR (approx.)</span>
+                  <span className="text-xl font-bold text-emerald-300">₹{((calcSponsorship + calcProductSales) * 83).toLocaleString(undefined, {maximumFractionDigits: 0})}</span>
+                </div>
+              </div>
+            </div>
+            
+            <div className="pt-6">
+              <p className="text-[10px] text-zinc-500 leading-relaxed">Estimates are based on industry-standard brand sponsorships and e-book conversion rates. Real world performance varies depending on viewer engagement and niche alignment.</p>
+            </div>
+          </div>
         </div>
       </section>
 

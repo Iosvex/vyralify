@@ -193,6 +193,48 @@ export default function UsersManager() {
     }
   };
 
+  const toggleUserTier = async (user: UserRecord) => {
+    try {
+      const newTier = user.tier === "pro" ? "standard" : "pro";
+      const userRef = doc(db, "users", user.uid);
+      await updateDoc(userRef, { tier: newTier });
+      
+      setUsers((prev) =>
+        prev.map((u) => (u.uid === user.uid ? { ...u, tier: newTier } : u))
+      );
+    } catch (error) {
+      console.error("Error toggling tier:", error);
+    }
+  };
+
+  const toggleUserRole = async (user: UserRecord) => {
+    try {
+      const newRole = user.role === "admin" ? "member" : "admin";
+      const userRef = doc(db, "users", user.uid);
+      await updateDoc(userRef, { role: newRole });
+      
+      setUsers((prev) =>
+        prev.map((u) => (u.uid === user.uid ? { ...u, role: newRole } : u))
+      );
+    } catch (error) {
+      console.error("Error toggling role:", error);
+    }
+  };
+
+  const toggleUserStatus = async (user: UserRecord) => {
+    try {
+      const newStatus = user.subscriptionStatus === "active" ? null : "active";
+      const userRef = doc(db, "users", user.uid);
+      await updateDoc(userRef, { subscriptionStatus: newStatus });
+      
+      setUsers((prev) =>
+        prev.map((u) => (u.uid === user.uid ? { ...u, subscriptionStatus: newStatus } : u))
+      );
+    } catch (error) {
+      console.error("Error toggling status:", error);
+    }
+  };
+
   // Filter users based on query and status selectors
   const filteredUsers = users.filter((user) => {
     const nameStr = (user.displayName || "").toLowerCase();
@@ -339,38 +381,50 @@ export default function UsersManager() {
                           </div>
                         </td>
                         <td className="px-6 py-4">
-                          <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase ${
-                            user.role === "admin"
-                              ? "bg-rose-50 text-rose-700 dark:bg-rose-950/30 dark:text-rose-400"
-                              : user.role === "affiliate"
-                              ? "bg-purple-50 text-purple-700 dark:bg-purple-950/30 dark:text-purple-400"
-                              : "bg-zinc-100 text-zinc-800 dark:bg-zinc-800 dark:text-zinc-300"
-                          }`}>
+                          <button 
+                            onClick={() => toggleUserRole(user)}
+                            title="Click to toggle role (admin/member)"
+                            className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase cursor-pointer hover:opacity-85 transition-all ${
+                              user.role === "admin"
+                                ? "bg-rose-50 text-rose-700 dark:bg-rose-950/30 dark:text-rose-400"
+                                : user.role === "affiliate"
+                                ? "bg-purple-50 text-purple-700 dark:bg-purple-950/30 dark:text-purple-400"
+                                : "bg-zinc-100 text-zinc-800 dark:bg-zinc-800 dark:text-zinc-300"
+                            }`}
+                          >
                             {user.role === "admin" && <Shield className="h-2.5 w-2.5" />}
                             {user.role}
-                          </span>
+                          </button>
                         </td>
                         <td className="px-6 py-4">
-                          <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase ${
-                            user.tier === "pro"
-                              ? "bg-indigo-50 text-indigo-700 dark:bg-indigo-950/30 dark:text-indigo-400"
-                              : "bg-zinc-100 text-zinc-800 dark:bg-zinc-800 dark:text-zinc-300"
-                          }`}>
+                          <button 
+                            onClick={() => toggleUserTier(user)}
+                            title="Click to toggle access tier (pro/standard)"
+                            className={`inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase cursor-pointer hover:opacity-85 transition-all ${
+                              user.tier === "pro"
+                                ? "bg-indigo-50 text-indigo-700 dark:bg-indigo-950/30 dark:text-indigo-400"
+                                : "bg-zinc-100 text-zinc-800 dark:bg-zinc-800 dark:text-zinc-300"
+                            }`}
+                          >
                             {user.tier}
-                          </span>
+                          </button>
                         </td>
                         <td className="px-6 py-4">
-                          <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-semibold ${
-                            user.subscriptionStatus === "active"
-                              ? "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-400"
-                              : user.subscriptionStatus === "canceled"
-                              ? "bg-rose-50 text-rose-700 dark:bg-rose-950/30 dark:text-rose-400"
-                              : user.subscriptionStatus === "past_due"
-                              ? "bg-amber-50 text-amber-700 dark:bg-amber-950/30 dark:text-amber-400"
-                              : "bg-zinc-100 text-zinc-400 dark:bg-zinc-800 dark:text-zinc-500"
-                          }`}>
+                          <button 
+                            onClick={() => toggleUserStatus(user)}
+                            title="Click to toggle subscription status (active/none)"
+                            className={`inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-semibold cursor-pointer hover:opacity-85 transition-all ${
+                              user.subscriptionStatus === "active"
+                                ? "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-400"
+                                : user.subscriptionStatus === "canceled"
+                                ? "bg-rose-50 text-rose-700 dark:bg-rose-950/30 dark:text-rose-400"
+                                : user.subscriptionStatus === "past_due"
+                                ? "bg-amber-50 text-amber-700 dark:bg-amber-950/30 dark:text-amber-400"
+                                : "bg-zinc-100 text-zinc-400 dark:bg-zinc-800 dark:text-zinc-500"
+                            }`}
+                          >
                             {user.subscriptionStatus || "none"}
-                          </span>
+                          </button>
                         </td>
                         <td className="px-6 py-4 text-right">
                           <Button

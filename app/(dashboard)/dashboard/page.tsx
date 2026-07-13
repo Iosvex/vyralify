@@ -27,7 +27,7 @@ import {
   Plus,
 } from "lucide-react";
 import { db } from "@/lib/firebase/client";
-import { collection, query, getDocs } from "firebase/firestore";
+import { collection, query, getDocs, doc, updateDoc, onSnapshot } from "firebase/firestore";
 
 interface ContentAsset {
   id: string;
@@ -39,11 +39,53 @@ interface ContentAsset {
   createdAt?: any;
 }
 
+const CHECKLIST_ITEMS = [
+  { id: "pick_niche", label: "Choose Niche", desc: "Run niche quiz & pick monetization targets" },
+  { id: "create_name", label: "Create Account Name", desc: "Keep name under 12 characters, niche-focused" },
+  { id: "bio_setup", label: "Configure Bio", desc: "1 Hook + 1 Benefit + 1 CTA pointing to link" },
+  { id: "grid_aesthetic", label: "Visual Grid Aesthetic", desc: "Select 2 primary colors & premium typography" },
+  { id: "clean_posts", label: "Clean Existing Posts", desc: "Delete low performance or off-theme posts" },
+  { id: "profile_pic", label: "Upgrade Profile Picture", desc: "Use high-contrast avatar or brand logo" },
+  { id: "creator_account", label: "Transition to Creator Account", desc: "Enable full analytics inside Instagram settings" },
+  { id: "setup_store", label: "Configure Payhip/Beacons Store", desc: "Set up shop to offer digital products" },
+  { id: "payment_gateway", label: "Connect Payment Gateway", desc: "Integrate Stripe or Razorpay for checkout" },
+  { id: "affiliate_link", label: "Copy Affiliate Link", desc: "Get custom link to earn 50% commissions" },
+];
+
 export default function MemberDashboard() {
   const searchParams = useSearchParams();
   const activeTab = searchParams.get("tab") || "home";
   const { profile } = useUserProfile();
   const isPro = profile?.tier === "pro";
+
+  const [checklist, setChecklist] = useState<Record<string, boolean>>({});
+
+  // Sync checklist state from Firestore
+  useEffect(() => {
+    if (!profile?.uid) return;
+    const userDocRef = doc(db, "users", profile.uid);
+    const unsubscribe = onSnapshot(userDocRef, (snap) => {
+      if (snap.exists()) {
+        const data = snap.data();
+        setChecklist(data.checklistState || {});
+      }
+    });
+    return () => unsubscribe();
+  }, [profile?.uid]);
+
+  const toggleChecklist = async (itemId: string) => {
+    if (!profile?.uid) return;
+    const updated = { ...checklist, [itemId]: !checklist[itemId] };
+    setChecklist(updated); // Optimistic update
+    try {
+      const userDocRef = doc(db, "users", profile.uid);
+      await updateDoc(userDocRef, {
+        checklistState: updated,
+      });
+    } catch (err) {
+      console.error("Failed to update checklist in Firestore:", err);
+    }
+  };
 
   // Assets state for Content Vault
   const [assets, setAssets] = useState<ContentAsset[]>([]);
@@ -102,7 +144,34 @@ export default function MemberDashboard() {
   // Tab 4: Hook Vault states
   const [hookSearch, setHookSearch] = useState("");
   const [hookCategory, setHookCategory] = useState<"all" | "provocative" | "negative" | "question">("all");
+  const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
 
+  const handleCopyHook = (text: string, index: number) => {
+    navigator.clipboard.writeText(text);
+    setCopiedIndex(index);
+    setTimeout(() => setCopiedIndex(null), 2000);
+  };
+  // Audio preview states
+  const [playingUrl, setPlayingUrl] = useState<string | null>(null);
+  const [previewAudio, setPreviewAudio] = useState<HTMLAudioElement | null>(null);
+
+  const togglePlayAudio = (url: string) => {
+    if (playingUrl === url) {
+      previewAudio?.pause();
+      setPlayingUrl(null);
+    } else {
+      if (previewAudio) {
+        previewAudio.pause();
+      }
+      const audio = new Audio(url);
+      audio.play();
+      setPreviewAudio(audio);
+      setPlayingUrl(url);
+      audio.onended = () => {
+        setPlayingUrl(null);
+      };
+    }
+  };
   const hooksData = [
     { text: "The government doesn't want you to know this simple tax trick...", category: "provocative", retention: "94%", tier: "standard" },
     { text: "Stop posting reels without doing these 3 things first.", category: "negative", retention: "89%", tier: "standard" },
@@ -218,54 +287,64 @@ export default function MemberDashboard() {
             </CardContent>
           </Card>
 
-          {/* Step-by-Step Page setup guides */}
-          <div className="grid gap-6 md:grid-cols-2">
-            <Card className="border border-zinc-200 dark:border-zinc-800 dark:bg-zinc-900">
-              <CardHeader>
-                <CardTitle className="text-md font-bold">Build Your Faceless Page (New Page)</CardTitle>
-                <CardDescription>Launch your new account with these optimized steps.</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-3 text-sm text-zinc-600 dark:text-zinc-300">
-                  <li className="flex gap-2">
-                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-blue-100 text-[10px] font-bold text-blue-600 dark:bg-blue-900/30">1</span>
-                    <span>**Create Name**: Keep under 12 characters. Use active verbs or niche words (e.g. `@wealthvault`, `@mindsetpulse`).</span>
-                  </li>
-                  <li className="flex gap-2">
-                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-blue-100 text-[10px] font-bold text-blue-600 dark:bg-blue-900/30">2</span>
-                    <span>**Bio Configuration**: 1 Hook + 1 Benefit + 1 CTA pointing to your affiliate/Beacons link.</span>
-                  </li>
-                  <li className="flex gap-2">
-                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-blue-100 text-[10px] font-bold text-blue-600 dark:bg-blue-900/30">3</span>
-                    <span>**Visual Grid Aesthetic**: Select a clean color palette (2 primary colors max) and Outfit or Inter typography.</span>
-                  </li>
-                </ul>
-              </CardContent>
-            </Card>
-
-            <Card className="border border-zinc-200 dark:border-zinc-800 dark:bg-zinc-900">
-              <CardHeader>
-                <CardTitle className="text-md font-bold">Setup Existing Faceless Page</CardTitle>
-                <CardDescription>Tweak and audit your active account metrics.</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-3 text-sm text-zinc-600 dark:text-zinc-300">
-                  <li className="flex gap-2">
-                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-blue-100 text-[10px] font-bold text-blue-600 dark:bg-blue-900/30">1</span>
-                    <span>**Clean Old Posts**: Delete or archive posts with under 100 views that clutter your aesthetic layout.</span>
-                  </li>
-                  <li className="flex gap-2">
-                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-blue-100 text-[10px] font-bold text-blue-600 dark:bg-blue-900/30">2</span>
-                    <span>**Upgrade Profile Picture**: Use high-contrast logos or AI avatars generated from Midjourney.</span>
-                  </li>
-                  <li className="flex gap-2">
-                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-blue-100 text-[10px] font-bold text-blue-600 dark:bg-blue-900/30">3</span>
-                    <span>**Transition to Creator Account**: Make sure your IG settings are set to Creator profile to view real retention graphs.</span>
-                  </li>
-                </ul>
-              </CardContent>
-            </Card>
-          </div>
+          {/* Interactive Launch Checklist */}
+          <Card className="border border-zinc-200 dark:border-zinc-800 dark:bg-zinc-900">
+            <CardHeader className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <div>
+                <CardTitle className="flex items-center gap-2">
+                  <Check className="h-5 w-5 text-blue-500" /> Interactive Launch Checklist
+                </CardTitle>
+                <CardDescription>Complete these 10 actions to set up and launch your faceless empire.</CardDescription>
+              </div>
+              {/* Progress indicator */}
+              <div className="shrink-0 flex items-center gap-3 bg-zinc-50 dark:bg-zinc-800/50 px-4 py-2 rounded-xl border border-zinc-100 dark:border-zinc-850">
+                <span className="text-xs font-bold text-zinc-500">Progress:</span>
+                <span className="text-sm font-extrabold text-blue-500">
+                  {Object.values(checklist).filter(Boolean).length} / {CHECKLIST_ITEMS.length}
+                </span>
+                <div className="w-24 h-2 bg-zinc-200 dark:bg-zinc-700 rounded-full overflow-hidden">
+                  <div 
+                    className="bg-blue-600 h-full transition-all duration-300"
+                    style={{ width: `${(Object.values(checklist).filter(Boolean).length / CHECKLIST_ITEMS.length) * 100}%` }}
+                  />
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="grid gap-4 sm:grid-cols-2">
+                {CHECKLIST_ITEMS.map((item) => {
+                  const isCompleted = !!checklist[item.id];
+                  return (
+                    <div 
+                      key={item.id}
+                      onClick={() => toggleChecklist(item.id)}
+                      className={`flex items-start gap-3 p-3 rounded-xl border cursor-pointer transition-all duration-200 ${
+                        isCompleted
+                          ? "border-blue-500/30 bg-blue-50/10 dark:bg-blue-950/5"
+                          : "border-zinc-100 hover:border-zinc-200 dark:border-zinc-800 dark:hover:border-zinc-700 bg-white dark:bg-zinc-900"
+                      }`}
+                    >
+                      <div className={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-sm border ${
+                        isCompleted 
+                          ? "border-blue-500 bg-blue-500 text-white" 
+                          : "border-zinc-300 dark:border-zinc-700"
+                      }`}>
+                        {isCompleted && <Check className="h-3 w-3 stroke-[3]" />}
+                      </div>
+                      <div>
+                        <span className={`text-xs font-semibold block ${isCompleted ? "line-through text-zinc-400" : "text-zinc-900 dark:text-zinc-100"}`}>
+                          {item.label}
+                        </span>
+                        <span className="text-[10px] text-zinc-400 dark:text-zinc-500 block mt-0.5">
+                          {item.desc}
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </CardContent>
+          </Card>
         </div>
       )}
 
@@ -500,7 +579,16 @@ export default function MemberDashboard() {
                               {isLocked ? (
                                 <span className="text-[10px] text-zinc-400 font-semibold flex items-center justify-end gap-1"><Lock className="h-3 w-3" /> Pro</span>
                               ) : (
-                                <button className="text-xs text-blue-500 font-semibold hover:underline">Copy Script</button>
+                                <button 
+                                  onClick={() => handleCopyHook(hook.text, idx)}
+                                  className="text-xs text-blue-500 font-semibold hover:underline flex items-center gap-1.5 ml-auto"
+                                >
+                                  {copiedIndex === idx ? (
+                                    <span className="text-emerald-500 flex items-center gap-1"><Check className="h-3 w-3" /> Copied</span>
+                                  ) : (
+                                    <span>Copy Script</span>
+                                  )}
+                                </button>
                               )}
                             </td>
                           </tr>
@@ -624,9 +712,10 @@ export default function MemberDashboard() {
                   </thead>
                   <tbody className="divide-y divide-zinc-200 dark:divide-zinc-800">
                     {[
-                      { name: "Canva_Reel_Layouts_V1.pdf", format: "PDF Document", size: "4.2MB" },
-                      { name: "Aesthetic_Broll_Vault_Part1.zip", format: "Compressed Archive", size: "480MB" },
-                      { name: "Sound_Effects_SWISHES.mp3", format: "Audio MP3", size: "1.8MB" },
+                      { name: "Canva_Reel_Layouts_V1.pdf", format: "PDF Document", size: "4.2MB", url: "/downloads/Canva_Reel_Layouts_V1.pdf" },
+                      { name: "Aesthetic_Broll_Vault_Part1.zip", format: "Compressed Archive", size: "480MB", url: "/downloads/Aesthetic_Broll_Vault_Part1.zip" },
+                      { name: "Sound_Effects_SWISHES.mp3", format: "Audio MP3", size: "1.8MB", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3", isAudio: true },
+                      { name: "Cinematic_Whoosh_FX.wav", format: "Audio WAV", size: "0.9MB", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3", isAudio: true },
                     ].map((file, idx) => (
                       <tr key={idx}>
                         <td className="px-6 py-4 font-semibold text-zinc-800 dark:text-zinc-200">
@@ -638,10 +727,34 @@ export default function MemberDashboard() {
                         <td className="px-6 py-4 text-xs text-zinc-400">
                           {file.size}
                         </td>
-                        <td className="px-6 py-4 text-right">
-                          <button className="text-xs text-blue-500 font-semibold hover:underline flex items-center justify-end gap-1.5">
+                        <td className="px-6 py-4 text-right flex items-center justify-end gap-4">
+                          {file.isAudio && (
+                            <button 
+                              onClick={() => togglePlayAudio(file.url)}
+                              className="text-xs text-zinc-500 hover:text-zinc-950 dark:hover:text-zinc-50 flex items-center gap-1 font-semibold"
+                            >
+                              {playingUrl === file.url ? (
+                                <>
+                                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-ping" />
+                                  Pause Preview
+                                </>
+                              ) : (
+                                <>
+                                  <Play className="h-3 w-3" />
+                                  Play Preview
+                                </>
+                              )}
+                            </button>
+                          )}
+                          <a 
+                            href={file.url} 
+                            download 
+                            target="_blank" 
+                            rel="noreferrer" 
+                            className="text-xs text-blue-500 font-semibold hover:underline flex items-center gap-1.5"
+                          >
                             <Download className="h-3.5 w-3.5" /> Download
-                          </button>
+                          </a>
                         </td>
                       </tr>
                     ))}

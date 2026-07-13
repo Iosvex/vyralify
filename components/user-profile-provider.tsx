@@ -3,7 +3,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { useAuth } from "@/lib/firebase/auth";
 import { db } from "@/lib/firebase/client";
-import { doc, onSnapshot } from "firebase/firestore";
+import { doc, onSnapshot, setDoc } from "firebase/firestore";
 
 export interface UserProfile {
   uid: string;
@@ -61,7 +61,29 @@ export const UserProfileProvider = ({ children }: { children: React.ReactNode })
           } as UserProfile);
         } else {
           // If the document does not exist yet (e.g. immediately after signup before triggers run),
-          // fallback to a default structure so the UI does not crash
+          // fallback to a default structure so the UI does not crash, and auto-create the document.
+          const createProfile = async () => {
+            try {
+              const adminEmails = ["support@vyralify.in", "vyralify.io@gmail.com"];
+              const role = adminEmails.includes(user.email?.toLowerCase() || "") ? "admin" : "member";
+              const affiliateCode = Math.random().toString(36).substring(2, 8).toUpperCase();
+              
+              await setDoc(userDocRef, {
+                email: user.email || "",
+                displayName: user.displayName || "",
+                role,
+                tier: "standard",
+                subscriptionStatus: null,
+                affiliateCode,
+                referredBy: null,
+                createdAt: new Date(),
+              });
+            } catch (e) {
+              console.error("Failed to auto-create user document in Firestore:", e);
+            }
+          };
+          createProfile();
+
           setProfile({
             uid: user.uid,
             email: user.email || "",

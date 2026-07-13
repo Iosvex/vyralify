@@ -32,8 +32,8 @@ export default function LandingPage() {
   };
 
   const pricing = {
-    standard: currency === "USD" ? { price: "$49", period: "/mo" } : { price: "₹2,999", period: "/mo" },
-    pro: currency === "USD" ? { price: "$99", period: "/mo" } : { price: "₹5,999", period: "/mo" },
+    standard: currency === "USD" ? { price: "$49", period: "/mo" } : { price: "₹499", period: "/mo" },
+    pro: currency === "USD" ? { price: "$99", period: "/mo" } : { price: "₹999", period: "/mo" },
   };
 
   const faqs = [

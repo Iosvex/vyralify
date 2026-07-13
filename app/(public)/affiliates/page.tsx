@@ -54,7 +54,7 @@ export default function AffiliatesMarketingPage() {
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
-          className="inline-flex items-center gap-1.5 rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-600 dark:bg-blue-950/50 dark:text-blue-400"
+          className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-600 dark:bg-emerald-950/50 dark:text-emerald-400"
         >
           <Percent className="h-3.5 w-3.5" />
           50% Lifetime Recurring Affiliate Program
@@ -62,7 +62,7 @@ export default function AffiliatesMarketingPage() {
         
         <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight text-zinc-950 dark:text-white leading-[1.1]">
           Share Vyralify.<br />
-          <span className="text-blue-600 dark:text-blue-500">Earn lifetime passive income.</span>
+          <span className="text-emerald-600 dark:text-emerald-500">Earn lifetime passive income.</span>
         </h1>
 
         <p className="mx-auto max-w-xl text-base sm:text-lg text-zinc-600 dark:text-zinc-400">
@@ -72,7 +72,7 @@ export default function AffiliatesMarketingPage() {
         <div className="flex justify-center">
           <Button
             onClick={handleJoin}
-            className="bg-blue-600 hover:bg-blue-500 text-white font-semibold px-8 h-12 flex items-center gap-1.5 shadow-md shadow-blue-500/20"
+            className="bg-emerald-600 hover:bg-emerald-500 text-white font-semibold px-8 h-12 flex items-center gap-1.5 shadow-md shadow-emerald-500/20"
           >
             {profile ? "Go to your dashboard" : "Generate Affiliate Link"}
             <ArrowRight className="h-4 w-4" />
@@ -110,7 +110,7 @@ export default function AffiliatesMarketingPage() {
             <div className="space-y-4 max-w-xl mx-auto">
               <div className="flex justify-between text-sm font-semibold">
                 <span>Active Referred Members:</span>
-                <span className="text-blue-600 font-bold">{referralsCount}</span>
+                <span className="text-emerald-600 font-bold">{referralsCount}</span>
               </div>
               <input
                 type="range"
@@ -118,7 +118,7 @@ export default function AffiliatesMarketingPage() {
                 max="500"
                 value={referralsCount}
                 onChange={(e) => setReferralsCount(Number(e.target.value))}
-                className="w-full h-2 bg-zinc-100 rounded-lg appearance-none cursor-pointer dark:bg-zinc-800 accent-blue-600 focus:outline-hidden"
+                className="w-full h-2 bg-zinc-100 rounded-lg appearance-none cursor-pointer dark:bg-zinc-800 accent-emerald-600 focus:outline-hidden"
               />
               <div className="flex justify-between text-[10px] text-zinc-400 font-medium">
                 <span>1 member</span>
@@ -135,9 +135,9 @@ export default function AffiliatesMarketingPage() {
                   ${monthlyCommission.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                 </p>
               </div>
-              <div className="p-4 bg-blue-50/50 rounded-xl dark:bg-blue-950/20 border border-blue-100/50 dark:border-blue-900/30">
-                <span className="text-xs font-semibold text-blue-600 dark:text-blue-400">Yearly Total</span>
-                <p className="text-3xl font-extrabold text-blue-600 dark:text-blue-400 mt-1">
+              <div className="p-4 bg-emerald-50/50 rounded-xl dark:bg-emerald-950/20 border border-emerald-100/50 dark:border-emerald-900/30">
+                <span className="text-xs font-semibold text-emerald-600 dark:text-emerald-400">Yearly Total</span>
+                <p className="text-3xl font-extrabold text-emerald-600 dark:text-emerald-400 mt-1">
                   ${yearlyCommission.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                 </p>
               </div>
@@ -155,7 +155,7 @@ export default function AffiliatesMarketingPage() {
 
         <div className="grid gap-6 md:grid-cols-4 text-center">
           <div className="space-y-3">
-            <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-blue-50 text-blue-600 dark:bg-blue-950/50 dark:text-blue-400 text-sm font-bold">
+            <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-emerald-50 text-emerald-600 dark:bg-emerald-950/50 dark:text-emerald-400 text-sm font-bold">
               1
             </div>
             <h4 className="font-semibold text-sm">Join the Program</h4>
@@ -201,7 +201,7 @@ export default function AffiliatesMarketingPage() {
               {topEarners.map((earner) => (
                 <div key={earner.rank} className="flex items-center justify-between px-6 py-4">
                   <div className="flex items-center gap-3">
-                    <div className="flex h-6 w-6 items-center justify-center rounded-full bg-blue-50 text-blue-600 text-xs font-bold dark:bg-blue-950/50 dark:text-blue-400">
+                    <div className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-50 text-emerald-600 text-xs font-bold dark:bg-emerald-950/50 dark:text-emerald-400">
                       {earner.rank}
                     </div>
                     <div>

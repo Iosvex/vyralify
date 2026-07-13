@@ -116,8 +116,16 @@ export default function MemberDashboard() {
   }, [activeTab]);
 
   // Tab 1: Home Hub states
+  interface NicheRecommendation {
+    title: string;
+    subNiches: string[];
+    cpm: string;
+    monetization: string[];
+    strategy: string;
+  }
+
   const [nicheAnswers, setNicheAnswers] = useState<string[]>([]);
-  const [nicheScore, setNicheScore] = useState<string | null>(null);
+  const [nicheRecommendation, setNicheRecommendation] = useState<NicheRecommendation | null>(null);
   
   const handleNicheQuiz = (answer: string) => {
     if (nicheAnswers.includes(answer)) {
@@ -129,15 +137,39 @@ export default function MemberDashboard() {
 
   const calculateNiche = () => {
     if (nicheAnswers.length === 0) return;
-    // Simple logic matching interest answers to recommendations
+    
     if (nicheAnswers.includes("wealth") && nicheAnswers.includes("productivity")) {
-      setNicheScore("Finance & Solo SaaS (High CPM, Premium sponsorships)");
+      setNicheRecommendation({
+        title: "Finance & Solo SaaS Growth",
+        subNiches: ["Personal Finance Hacks", "Solopreneur AI Tools", "SaaS Software Walkthroughs"],
+        cpm: "High CPM ($18 - $35 per 1k views)",
+        monetization: ["Software affiliate links", "Sponsorship listings", "Exclusive newsletters"],
+        strategy: "Focus on presenting micro-case studies of SaaS founders using minimalist b-roll slides. Keep descriptions text-heavy with clear action items.",
+      });
     } else if (nicheAnswers.includes("luxury") || nicheAnswers.includes("travel")) {
-      setNicheScore("Aesthetic Luxury & Travel Reels (High affiliate sales, brand deals)");
+      setNicheRecommendation({
+        title: "Aesthetic Luxury & Scenic Escapes",
+        subNiches: ["Quiet Luxury Lifestyle", "Cinematic Hotel Tours", "Minimalist Travel Reels"],
+        cpm: "Medium-High CPM ($10 - $18 per 1k views)",
+        monetization: ["Hotel affiliate bookings", "Brand product integrations", "Aesthetic presets"],
+        strategy: "Use slow-paced cinematic drone footage overlayed with high-retention quotes about business, philosophy, and focus. Focus highly on sound effects.",
+      });
     } else if (nicheAnswers.includes("health") || nicheAnswers.includes("mindset")) {
-      setNicheScore("Mindset & Peak Performance (High e-book and digital course conversion)");
+      setNicheRecommendation({
+        title: "Biohacking & Peak Human Performance",
+        subNiches: ["Gym Focus Routines", "Dopamine Detox Blueprints", "Cold Plunge & Sleep Optimization"],
+        cpm: "Medium CPM ($6 - $12 per 1k views)",
+        monetization: ["High-converting e-books", "Peak Performance templates", "Supplements affiliate"],
+        strategy: "Highlight negative hooks (e.g. 'Do not do this in the morning') with high-contrast text slides and fast-paced edits.",
+      });
     } else {
-      setNicheScore("Faceless AI Tools & Tech Reviews (Excellent affiliate & software sponsorships)");
+      setNicheRecommendation({
+        title: "AI Tools & Automation Showcase",
+        subNiches: ["Faceless Workflow Automations", "AI Voice Generators", "ChatGPT Prompts Library"],
+        cpm: "High CPM ($12 - $22 per 1k views)",
+        monetization: ["AI product referral links", "Exclusive prompt manuals", "SaaS sponsorship slots"],
+        strategy: "Demonstrate simple screenshared tutorials showing step-by-step instructions. Always include a call to action asking followers to comment a keyword.",
+      });
     }
   };
 
@@ -202,12 +234,12 @@ export default function MemberDashboard() {
           <div className="grid gap-6 md:grid-cols-3">
             <div className="md:col-span-2 rounded-xl bg-zinc-900 text-white p-6 relative overflow-hidden border border-zinc-800 flex flex-col justify-between min-h-[300px]">
               <div className="space-y-2">
-                <span className="text-xs font-bold text-blue-400 uppercase tracking-widest">Introduction video</span>
+                <span className="text-xs font-bold text-emerald-400 uppercase tracking-widest">Introduction video</span>
                 <h3 className="text-2xl font-bold">Watch This First: How To Navigate the Platform</h3>
                 <p className="text-zinc-300 text-sm max-w-lg"> Ashwin walks you through the exact structure of Vyralify, where to grab your viral hooks, and how to configure your affiliate link to earn commissions.</p>
               </div>
               <div className="mt-6 flex items-center gap-3">
-                <Button className="bg-blue-600 hover:bg-blue-500 text-white border-none shadow-lg shadow-blue-500/20">
+                <Button className="bg-emerald-600 hover:bg-emerald-500 text-white border-none shadow-lg shadow-emerald-500/20">
                   <Play className="h-4 w-4 fill-white mr-2" /> Play Guide (5:14)
                 </Button>
                 <span className="text-xs text-zinc-400">Updated: 3 days ago</span>
@@ -221,17 +253,17 @@ export default function MemberDashboard() {
                 <div className="mt-6 space-y-4">
                   <div className="flex justify-between text-xs font-semibold">
                     <span>Milestone 1 (Canva Pack)</span>
-                    <span className="text-blue-500">2 / 1 Ref</span>
+                    <span className="text-emerald-500">2 / 1 Ref</span>
                   </div>
                   <div className="w-full bg-zinc-100 dark:bg-zinc-800 h-2 rounded-full overflow-hidden">
-                    <div className="bg-blue-600 h-full w-[100%]" />
+                    <div className="bg-emerald-600 h-full w-[100%]" />
                   </div>
                   <div className="flex justify-between text-xs font-semibold">
                     <span>Milestone 2 (CapCut Library)</span>
                     <span className="text-zinc-400">2 / 3 Refs</span>
                   </div>
                   <div className="w-full bg-zinc-100 dark:bg-zinc-800 h-2 rounded-full overflow-hidden">
-                    <div className="bg-blue-600 h-full w-[66%]" />
+                    <div className="bg-emerald-600 h-full w-[66%]" />
                   </div>
                 </div>
               </div>
@@ -245,7 +277,7 @@ export default function MemberDashboard() {
           <Card className="border border-zinc-200 dark:border-zinc-800 dark:bg-zinc-900">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Award className="h-5 w-5 text-blue-500" /> Phase 1: Choose Your Niche
+                <Award className="h-5 w-5 text-emerald-500" /> Phase 1: Choose Your Niche
               </CardTitle>
               <CardDescription>Select your core interests to calculate your high-converting faceless niche suggestion.</CardDescription>
             </CardHeader>
@@ -264,7 +296,7 @@ export default function MemberDashboard() {
                     onClick={() => handleNicheQuiz(niche.id)}
                     className={`cursor-pointer border rounded-xl p-4 transition-all duration-200 ${
                       nicheAnswers.includes(niche.id)
-                        ? "border-blue-500 bg-blue-50/50 dark:bg-blue-950/20"
+                        ? "border-emerald-500 bg-emerald-50/50 dark:bg-emerald-950/20"
                         : "border-zinc-200 hover:border-zinc-300 dark:border-zinc-800 dark:hover:border-zinc-700"
                     }`}
                   >
@@ -274,13 +306,42 @@ export default function MemberDashboard() {
                 ))}
               </div>
 
-              <div className="flex items-center gap-4">
-                <Button onClick={calculateNiche} className="bg-blue-600 hover:bg-blue-500 text-white border-none font-semibold">
+              <div className="space-y-4">
+                <Button onClick={calculateNiche} className="bg-emerald-600 hover:bg-emerald-500 text-white border-none font-semibold">
                   Calculate Suggestion
                 </Button>
-                {nicheScore && (
-                  <div className="text-sm font-medium text-zinc-600 dark:text-zinc-300 animate-slide-in">
-                    🎯 Suggested Niche: <span className="text-blue-500 font-bold">{nicheScore}</span>
+                
+                {nicheRecommendation && (
+                  <div className="mt-6 p-6 border border-emerald-500/20 bg-emerald-50/5 dark:bg-emerald-950/10 rounded-2xl space-y-4">
+                    <div className="flex items-center justify-between flex-wrap gap-2">
+                      <h4 className="font-extrabold text-base text-emerald-600 dark:text-emerald-400">
+                        🎯 Recommended Niche: {nicheRecommendation.title}
+                      </h4>
+                      <span className="text-[10px] font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400 px-2 py-0.5 rounded-full">
+                        {nicheRecommendation.cpm}
+                      </span>
+                    </div>
+
+                    <div className="grid gap-4 sm:grid-cols-2 text-xs">
+                      <div>
+                        <span className="font-bold text-zinc-700 dark:text-zinc-300 block mb-1">Sub-Niches to Target:</span>
+                        <ul className="list-disc list-inside space-y-1 text-zinc-500">
+                          {nicheRecommendation.subNiches.map((sub, i) => <li key={i}>{sub}</li>)}
+                        </ul>
+                      </div>
+
+                      <div>
+                        <span className="font-bold text-zinc-700 dark:text-zinc-300 block mb-1">Monetization Channels:</span>
+                        <ul className="list-disc list-inside space-y-1 text-zinc-500">
+                          {nicheRecommendation.monetization.map((mon, i) => <li key={i}>{mon}</li>)}
+                        </ul>
+                      </div>
+                    </div>
+
+                    <div className="text-xs border-t border-zinc-100 dark:border-zinc-800 pt-3 text-zinc-650 dark:text-zinc-400">
+                      <span className="font-bold block mb-1 text-zinc-700 dark:text-zinc-300">Action Strategy:</span>
+                      <p>{nicheRecommendation.strategy}</p>
+                    </div>
                   </div>
                 )}
               </div>
@@ -292,19 +353,19 @@ export default function MemberDashboard() {
             <CardHeader className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
               <div>
                 <CardTitle className="flex items-center gap-2">
-                  <Check className="h-5 w-5 text-blue-500" /> Interactive Launch Checklist
+                  <Check className="h-5 w-5 text-emerald-500" /> Interactive Launch Checklist
                 </CardTitle>
                 <CardDescription>Complete these 10 actions to set up and launch your faceless empire.</CardDescription>
               </div>
               {/* Progress indicator */}
               <div className="shrink-0 flex items-center gap-3 bg-zinc-50 dark:bg-zinc-800/50 px-4 py-2 rounded-xl border border-zinc-100 dark:border-zinc-850">
                 <span className="text-xs font-bold text-zinc-500">Progress:</span>
-                <span className="text-sm font-extrabold text-blue-500">
+                <span className="text-sm font-extrabold text-emerald-500">
                   {Object.values(checklist).filter(Boolean).length} / {CHECKLIST_ITEMS.length}
                 </span>
                 <div className="w-24 h-2 bg-zinc-200 dark:bg-zinc-700 rounded-full overflow-hidden">
                   <div 
-                    className="bg-blue-600 h-full transition-all duration-300"
+                    className="bg-emerald-600 h-full transition-all duration-300"
                     style={{ width: `${(Object.values(checklist).filter(Boolean).length / CHECKLIST_ITEMS.length) * 100}%` }}
                   />
                 </div>
@@ -320,13 +381,13 @@ export default function MemberDashboard() {
                       onClick={() => toggleChecklist(item.id)}
                       className={`flex items-start gap-3 p-3 rounded-xl border cursor-pointer transition-all duration-200 ${
                         isCompleted
-                          ? "border-blue-500/30 bg-blue-50/10 dark:bg-blue-950/5"
+                          ? "border-emerald-500/30 bg-emerald-50/10 dark:bg-emerald-950/5"
                           : "border-zinc-100 hover:border-zinc-200 dark:border-zinc-800 dark:hover:border-zinc-700 bg-white dark:bg-zinc-900"
                       }`}
                     >
                       <div className={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-sm border ${
                         isCompleted 
-                          ? "border-blue-500 bg-blue-500 text-white" 
+                          ? "border-emerald-500 bg-emerald-500 text-white" 
                           : "border-zinc-300 dark:border-zinc-700"
                       }`}>
                         {isCompleted && <Check className="h-3 w-3 stroke-[3]" />}
@@ -361,24 +422,24 @@ export default function MemberDashboard() {
             <Card className="md:col-span-2 border border-zinc-200 dark:border-zinc-800 dark:bg-zinc-900">
               <CardHeader>
                 <CardTitle className="text-md font-bold flex items-center gap-2">
-                  <TrendingUp className="h-5 w-5 text-blue-500" /> Algorithm Signals (How IG Ranks Content)
+                  <TrendingUp className="h-5 w-5 text-emerald-500" /> Algorithm Signals (How IG Ranks Content)
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="grid gap-4 sm:grid-cols-3">
                   <div className="border border-zinc-200 dark:border-zinc-800 rounded-xl p-4 text-center">
                     <span className="text-xs text-zinc-400">Priority 1</span>
-                    <h5 className="font-extrabold text-lg mt-1 text-blue-500">Watch Retention</h5>
+                    <h5 className="font-extrabold text-lg mt-1 text-emerald-500">Watch Retention</h5>
                     <p className="text-[10px] text-zinc-400 mt-1">Re-watching reels pushes it directly to explore feed.</p>
                   </div>
                   <div className="border border-zinc-200 dark:border-zinc-800 rounded-xl p-4 text-center">
                     <span className="text-xs text-zinc-400">Priority 2</span>
-                    <h5 className="font-extrabold text-lg mt-1 text-blue-500">Shares</h5>
+                    <h5 className="font-extrabold text-lg mt-1 text-emerald-500">Shares</h5>
                     <p className="text-[10px] text-zinc-400 mt-1">DMs or story shares double your distribution score.</p>
                   </div>
                   <div className="border border-zinc-200 dark:border-zinc-800 rounded-xl p-4 text-center">
                     <span className="text-xs text-zinc-400">Priority 3</span>
-                    <h5 className="font-extrabold text-lg mt-1 text-blue-500">Saves</h5>
+                    <h5 className="font-extrabold text-lg mt-1 text-emerald-500">Saves</h5>
                     <p className="text-[10px] text-zinc-400 mt-1">Indicates educational value for archiving.</p>
                   </div>
                 </div>
@@ -395,12 +456,12 @@ export default function MemberDashboard() {
               </CardHeader>
               <CardContent className="space-y-3">
                 <div className="p-3 bg-zinc-50 dark:bg-zinc-800/40 rounded-lg">
-                  <span className="text-[10px] font-bold text-blue-500 uppercase">niche: finance</span>
+                  <span className="text-[10px] font-bold text-emerald-500 uppercase">niche: finance</span>
                   <h6 className="font-bold text-sm mt-0.5">@growthalpha — 52k in 3 weeks</h6>
                   <p className="text-[11px] text-zinc-400 mt-1">Used short AI luxury clips + controversial financial hooks.</p>
                 </div>
                 <div className="p-3 bg-zinc-50 dark:bg-zinc-800/40 rounded-lg">
-                  <span className="text-[10px] font-bold text-blue-500 uppercase">niche: travel</span>
+                  <span className="text-[10px] font-bold text-emerald-500 uppercase">niche: travel</span>
                   <h6 className="font-bold text-sm mt-0.5">@escapehorizon — 100k in 2 months</h6>
                   <p className="text-[11px] text-zinc-400 mt-1">Utilized capcut cinematic filters + trending audio drops.</p>
                 </div>
@@ -412,7 +473,7 @@ export default function MemberDashboard() {
           <Card className="border border-zinc-200 dark:border-zinc-800 dark:bg-zinc-900">
             <CardHeader>
               <CardTitle className="text-md font-bold flex items-center gap-2">
-                <Calendar className="h-5 w-5 text-blue-500" /> Posting Calendar & Blueprint (First 7 Days)
+                <Calendar className="h-5 w-5 text-emerald-500" /> Posting Calendar & Blueprint (First 7 Days)
               </CardTitle>
               <CardDescription>Follow this daily calendar plan to prime your new account for maximum algorithm reach.</CardDescription>
             </CardHeader>
@@ -427,8 +488,8 @@ export default function MemberDashboard() {
                   { day: "Day 6", title: "Mini Case Study", desc: "Show how someone else hit X result." },
                   { day: "Day 7", title: "Deep Save Reel", desc: "Save this reel to protect your progress." },
                 ].map((item, idx) => (
-                  <div key={idx} className="border border-zinc-200 dark:border-zinc-800 rounded-xl p-3 bg-white dark:bg-zinc-900 hover:border-blue-500 transition-colors">
-                    <span className="text-[10px] font-bold text-blue-500">{item.day}</span>
+                  <div key={idx} className="border border-zinc-200 dark:border-zinc-800 rounded-xl p-3 bg-white dark:bg-zinc-900 hover:border-emerald-500 transition-colors">
+                    <span className="text-[10px] font-bold text-emerald-500">{item.day}</span>
                     <h6 className="font-bold text-xs mt-1">{item.title}</h6>
                     <p className="text-[10px] text-zinc-400 mt-1">{item.desc}</p>
                   </div>
@@ -486,7 +547,7 @@ export default function MemberDashboard() {
                       <div>
                         <div className="flex justify-between items-start">
                           <span className={`text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full ${
-                            item.tier === "pro" ? "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400" : "bg-zinc-100 text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300"
+                            item.tier === "pro" ? "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400" : "bg-zinc-100 text-zinc-700 dark:bg-zinc-800 dark:text-zinc-300"
                           }`}>
                             {item.tier}
                           </span>
@@ -498,7 +559,7 @@ export default function MemberDashboard() {
 
                       <div className="mt-6 pt-4 border-t border-zinc-100 dark:border-zinc-800">
                         {isLocked ? (
-                          <Button className="w-full bg-blue-600 hover:bg-blue-500 text-white border-none flex items-center justify-center gap-1.5 text-xs">
+                          <Button className="w-full bg-emerald-600 hover:bg-emerald-500 text-white border-none flex items-center justify-center gap-1.5 text-xs">
                             <Lock className="h-3.5 w-3.5" /> Unlock Pro Upgrade
                           </Button>
                         ) : (
@@ -532,7 +593,7 @@ export default function MemberDashboard() {
                 placeholder="Search viral hooks (e.g. 'tax', 'courses', 'secret')..."
                 value={hookSearch}
                 onChange={(e) => setHookSearch(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 bg-white border border-zinc-200 dark:bg-zinc-900 dark:border-zinc-800 rounded-xl text-sm focus:outline-none focus:border-blue-500"
+                className="w-full pl-10 pr-4 py-2 bg-white border border-zinc-200 dark:bg-zinc-900 dark:border-zinc-800 rounded-xl text-sm focus:outline-none focus:border-emerald-500"
               />
             </div>
             <div className="flex rounded-lg bg-zinc-100 dark:bg-zinc-900 border p-1 shrink-0">
@@ -572,7 +633,7 @@ export default function MemberDashboard() {
                                 {hook.category}
                               </span>
                             </td>
-                            <td className="px-6 py-4 text-center font-bold text-blue-500">
+                            <td className="px-6 py-4 text-center font-bold text-emerald-500">
                               {hook.retention}
                             </td>
                             <td className="px-6 py-4 text-right">
@@ -581,7 +642,7 @@ export default function MemberDashboard() {
                               ) : (
                                 <button 
                                   onClick={() => handleCopyHook(hook.text, idx)}
-                                  className="text-xs text-blue-500 font-semibold hover:underline flex items-center gap-1.5 ml-auto"
+                                  className="text-xs text-emerald-500 font-semibold hover:underline flex items-center gap-1.5 ml-auto"
                                 >
                                   {copiedIndex === idx ? (
                                     <span className="text-emerald-500 flex items-center gap-1"><Check className="h-3 w-3" /> Copied</span>
@@ -620,19 +681,19 @@ export default function MemberDashboard() {
               <CardContent className="space-y-4">
                 <ul className="space-y-3 text-sm text-zinc-600 dark:text-zinc-300">
                   <li className="flex gap-2">
-                    <Check className="h-4 w-4 text-blue-500 shrink-0 mt-0.5" />
+                    <Check className="h-4 w-4 text-emerald-500 shrink-0 mt-0.5" />
                     <span>Create a free account on Beacons.ai or Payhip.com.</span>
                   </li>
                   <li className="flex gap-2">
-                    <Check className="h-4 w-4 text-blue-500 shrink-0 mt-0.5" />
+                    <Check className="h-4 w-4 text-emerald-500 shrink-0 mt-0.5" />
                     <span>Choose a payment route (Stripe for cards, PayPal for global).</span>
                   </li>
                   <li className="flex gap-2">
-                    <Check className="h-4 w-4 text-blue-500 shrink-0 mt-0.5" />
+                    <Check className="h-4 w-4 text-emerald-500 shrink-0 mt-0.5" />
                     <span>Upload your first PDF guide (e.g. Canva Templates pack).</span>
                   </li>
                   <li className="flex gap-2">
-                    <Check className="h-4 w-4 text-blue-500 shrink-0 mt-0.5" />
+                    <Check className="h-4 w-4 text-emerald-500 shrink-0 mt-0.5" />
                     <span>Link the store URL in your Instagram Bio.</span>
                   </li>
                 </ul>
@@ -647,11 +708,11 @@ export default function MemberDashboard() {
               </CardHeader>
               <CardContent className="space-y-3">
                 <div className="border border-zinc-200 dark:border-zinc-800 rounded-xl p-4 bg-zinc-50 dark:bg-zinc-800/30 text-xs font-mono space-y-2">
-                  <p className="text-blue-500">{"// Opening DM line"}</p>
+                  <p className="text-emerald-500">{"// Opening DM line"}</p>
                   <p>{"Hey [Name]! Appreciate the support on my recent reel about [niche]. I saw you commented looking for more information."}</p>
-                  <p className="text-blue-500">{"// Check problem"}</p>
+                  <p className="text-emerald-500">{"// Check problem"}</p>
                   <p>{"Are you currently running a faceless page, or are you just getting started from scratch?"}</p>
-                  <p className="text-blue-500">{"// Redirect to value link"}</p>
+                  <p className="text-emerald-500">{"// Redirect to value link"}</p>
                   <p>{"I put together a step-by-step PDF pack that shows the exact AI prompt layouts. You can grab it here for free: [Link]"}</p>
                 </div>
               </CardContent>
@@ -677,11 +738,11 @@ export default function MemberDashboard() {
             ].map((tool, idx) => (
               <div key={idx} className="border border-zinc-200 dark:border-zinc-800 rounded-xl p-5 bg-white dark:bg-zinc-900 flex flex-col justify-between hover:border-zinc-300 dark:hover:border-zinc-700 transition-all">
                 <div>
-                  <span className="text-[10px] font-bold uppercase text-blue-500">{tool.category}</span>
+                  <span className="text-[10px] font-bold uppercase text-emerald-500">{tool.category}</span>
                   <h4 className="font-extrabold text-md mt-2">{tool.name}</h4>
                   <p className="text-xs text-zinc-400 mt-2">{tool.desc}</p>
                 </div>
-                <a href={tool.url} target="_blank" rel="noreferrer" className="mt-6 flex items-center gap-1 text-xs text-blue-500 font-semibold hover:underline">
+                <a href={tool.url} target="_blank" rel="noreferrer" className="mt-6 flex items-center gap-1 text-xs text-emerald-500 font-semibold hover:underline">
                   Open Tool <ExternalLink className="h-3 w-3" />
                 </a>
               </div>
@@ -751,7 +812,7 @@ export default function MemberDashboard() {
                             download 
                             target="_blank" 
                             rel="noreferrer" 
-                            className="text-xs text-blue-500 font-semibold hover:underline flex items-center gap-1.5"
+                            className="text-xs text-emerald-500 font-semibold hover:underline flex items-center gap-1.5"
                           >
                             <Download className="h-3.5 w-3.5" /> Download
                           </a>
@@ -788,7 +849,7 @@ export default function MemberDashboard() {
                       <h5 className="font-extrabold text-sm">Official Telegram Lounge</h5>
                       <p className="text-[11px] text-zinc-400 mt-1">Networking, introductions, general chat.</p>
                     </div>
-                    <Button className="w-full bg-blue-600 hover:bg-blue-500 text-white border-none mt-4 text-xs">
+                    <Button className="w-full bg-emerald-600 hover:bg-emerald-500 text-white border-none mt-4 text-xs">
                       Join Telegram Portal
                     </Button>
                   </div>
@@ -797,7 +858,7 @@ export default function MemberDashboard() {
                       <h5 className="font-extrabold text-sm">Discord Creator Nest</h5>
                       <p className="text-[11px] text-zinc-400 mt-1">Page review requests, wins sharing.</p>
                     </div>
-                    <Button className="w-full bg-blue-600 hover:bg-blue-500 text-white border-none mt-4 text-xs">
+                    <Button className="w-full bg-emerald-600 hover:bg-emerald-500 text-white border-none mt-4 text-xs">
                       Join Discord Server
                     </Button>
                   </div>
@@ -839,7 +900,7 @@ export default function MemberDashboard() {
           <Card className="border border-zinc-200 dark:border-zinc-800 dark:bg-zinc-900 overflow-hidden">
             <CardHeader className="bg-zinc-50/50 dark:bg-zinc-800/10 border-b border-zinc-200 dark:border-zinc-800">
               <CardTitle className="text-md font-bold flex items-center gap-2">
-                <Gift className="h-5 w-5 text-blue-500" /> Share Vyralify, Unlock Core Vault Rewards
+                <Gift className="h-5 w-5 text-emerald-500" /> Share Vyralify, Unlock Core Vault Rewards
               </CardTitle>
               <CardDescription>Just like Dropbox, both you and the friend you refer get rewarded. Track your milestones below:</CardDescription>
             </CardHeader>
@@ -847,7 +908,7 @@ export default function MemberDashboard() {
               {/* Progress Slider Track */}
               <div className="relative pt-6 pb-2">
                 <div className="absolute top-0 bottom-0 left-0 right-0 m-auto h-1.5 w-full bg-zinc-100 dark:bg-zinc-800 rounded-full" />
-                <div className="absolute top-0 bottom-0 left-0 m-auto h-1.5 w-[50%] bg-blue-600 rounded-full" /> {/* Represent 2 referrals out of 4 steps */}
+                <div className="absolute top-0 bottom-0 left-0 m-auto h-1.5 w-[50%] bg-emerald-600 rounded-full" /> {/* Represent 2 referrals out of 4 steps */}
 
                 {/* Milestone nodes */}
                 <div className="absolute top-0 bottom-0 left-0 right-0 flex justify-between items-center pointer-events-none">
@@ -862,12 +923,12 @@ export default function MemberDashboard() {
                       <div key={idx} className="flex flex-col items-center select-none">
                         <div className={`h-6 w-6 rounded-full border-4 flex items-center justify-center font-bold text-[9px] ${
                           active 
-                            ? "bg-blue-600 border-white dark:border-zinc-900 text-white shadow-lg shadow-blue-500/20" 
+                            ? "bg-emerald-600 border-white dark:border-zinc-900 text-white shadow-lg shadow-emerald-500/20" 
                             : "bg-zinc-200 border-white dark:bg-zinc-800 dark:border-zinc-900 text-zinc-500"
                         }`}>
                           {node.count}
                         </div>
-                        <span className={`text-[10px] font-semibold mt-2 ${active ? "text-blue-500" : "text-zinc-400"}`}>
+                        <span className={`text-[10px] font-semibold mt-2 ${active ? "text-emerald-500" : "text-zinc-400"}`}>
                           {node.label}
                         </span>
                       </div>
@@ -886,7 +947,7 @@ export default function MemberDashboard() {
                     navigator.clipboard.writeText(referralLink);
                     alert("Referral link copied to clipboard!");
                   }}
-                  className="bg-blue-600 hover:bg-blue-500 text-white border-none shrink-0 font-semibold"
+                  className="bg-emerald-600 hover:bg-emerald-500 text-white border-none shrink-0 font-semibold"
                 >
                   Copy Invitation Link
                 </Button>
@@ -907,7 +968,7 @@ export default function MemberDashboard() {
             <Card className="border border-zinc-200 dark:border-zinc-800 dark:bg-zinc-900">
               <CardContent className="pt-6">
                 <span className="text-[10px] font-bold uppercase text-zinc-400">Unpaid Commissions</span>
-                <h4 className="text-3xl font-extrabold mt-2 text-blue-500">$74.00</h4>
+                <h4 className="text-3xl font-extrabold mt-2 text-emerald-500">$74.00</h4>
                 <p className="text-xs text-zinc-400 mt-1">Payout cycle executes: 1st of month</p>
               </CardContent>
             </Card>
@@ -952,7 +1013,7 @@ export default function MemberDashboard() {
                 </div>
                 <div className="flex justify-between">
                   <span className="text-zinc-400">Affiliate Referral Code</span>
-                  <span className="font-mono font-bold text-blue-500">{profile?.affiliateCode}</span>
+                  <span className="font-mono font-bold text-emerald-500">{profile?.affiliateCode}</span>
                 </div>
               </CardContent>
             </Card>
@@ -965,7 +1026,7 @@ export default function MemberDashboard() {
               <CardContent className="space-y-4">
                 <div className="flex items-center justify-between p-4 bg-zinc-50 dark:bg-zinc-800/40 rounded-xl">
                   <div>
-                    <span className="text-[10px] font-bold text-blue-500 uppercase">Active Tier</span>
+                    <span className="text-[10px] font-bold text-emerald-500 uppercase">Active Tier</span>
                     <h5 className="font-extrabold text-lg uppercase mt-0.5">{profile?.tier || "Standard"}</h5>
                   </div>
                   <span className="text-xs font-semibold text-green-500 bg-green-50 dark:bg-green-950/20 px-3 py-1 rounded-full border border-green-500/20">Active</span>

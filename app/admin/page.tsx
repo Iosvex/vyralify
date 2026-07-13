@@ -91,7 +91,7 @@ export default function AdminOverview() {
               <CardTitle className="text-xs font-semibold text-zinc-500 uppercase tracking-wider">
                 Monthly Recurring Revenue
               </CardTitle>
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-50 text-blue-600 dark:bg-blue-950/50 dark:text-blue-400">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-50 text-emerald-600 dark:bg-emerald-950/50 dark:text-emerald-400">
                 <TrendingUp className="h-4 w-4" />
               </div>
             </CardHeader>
@@ -190,7 +190,7 @@ export default function AdminOverview() {
                     initial={{ height: 0 }}
                     animate={{ height: `${(val / 130) * 100}%` }}
                     transition={{ duration: 0.5, delay: idx * 0.05 }}
-                    className="w-full max-w-[48px] bg-blue-600 dark:bg-blue-500 rounded-t-sm hover:opacity-90 transition-opacity cursor-pointer relative group"
+                    className="w-full max-w-[48px] bg-emerald-600 dark:bg-emerald-500 rounded-t-sm hover:opacity-90 transition-opacity cursor-pointer relative group"
                   >
                     <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-zinc-900 text-white text-[10px] py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap shadow-md">
                       {currency === "USD" ? `$${val * 100}` : `₹${val * 8300}`}
@@ -281,7 +281,7 @@ export default function AdminOverview() {
         <div className="grid gap-4 grid-cols-2 md:grid-cols-4">
           <Link href="/admin/content" className="block">
             <Button variant="outline" className="w-full h-20 flex flex-col justify-center items-center gap-1 border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-900">
-              <FolderOpen className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+              <FolderOpen className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
               <span className="text-xs font-semibold">Upload Content</span>
             </Button>
           </Link>

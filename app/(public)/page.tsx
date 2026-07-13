@@ -105,7 +105,7 @@ export default function LandingPage() {
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="inline-flex items-center gap-1.5 rounded-full bg-blue-50 px-4 py-1.5 text-xs font-semibold text-blue-600 border border-blue-100"
+          className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-4 py-1.5 text-xs font-semibold text-emerald-600 border border-emerald-100"
         >
           <Sparkles className="h-3.5 w-3.5" />
           The Full Business-in-a-Box for Creators
@@ -118,7 +118,7 @@ export default function LandingPage() {
           className="text-5xl sm:text-7xl font-extrabold tracking-tight leading-[1.05]"
         >
           Build your faceless <br />
-          <span className="bg-gradient-to-r from-blue-600 to-blue-500 bg-clip-text text-transparent">Instagram empire.</span>
+          <span className="bg-gradient-to-r from-emerald-600 to-emerald-500 bg-clip-text text-transparent">Instagram empire.</span>
         </motion.h1>
 
         <motion.p
@@ -137,7 +137,7 @@ export default function LandingPage() {
           className="flex justify-center gap-4 pt-4"
         >
           <a href="#pricing">
-            <Button className="bg-blue-600 hover:bg-blue-500 text-white font-semibold px-8 h-12 shadow-lg shadow-blue-500/10">
+            <Button className="bg-emerald-600 hover:bg-emerald-500 text-white font-semibold px-8 h-12 shadow-lg shadow-emerald-500/10">
               Start Free Trial <ChevronRight className="ml-1 h-4 w-4" />
             </Button>
           </a>
@@ -152,7 +152,7 @@ export default function LandingPage() {
       {/* 2. HOW IT WORKS (3-STEP GUIDE) */}
       <section className="mx-auto max-w-5xl px-6 space-y-12">
         <div className="text-center space-y-2">
-          <span className="text-xs font-bold uppercase tracking-widest text-blue-600">The Roadmap</span>
+          <span className="text-xs font-bold uppercase tracking-widest text-emerald-600">The Roadmap</span>
           <h2 className="text-3xl font-extrabold tracking-tight">How It Works</h2>
         </div>
         <div className="grid gap-8 md:grid-cols-3">
@@ -162,7 +162,7 @@ export default function LandingPage() {
             { step: "03", title: "Scale & Monetize", desc: "Deploy your store, track your 50% lifetime recurring commissions, and grow your creator empire." },
           ].map((item, idx) => (
             <div key={idx} className="relative p-6 rounded-2xl bg-zinc-50 border border-zinc-100 space-y-4">
-              <span className="text-4xl font-black text-blue-600/20 block">{item.step}</span>
+              <span className="text-4xl font-black text-emerald-600/20 block">{item.step}</span>
               <h4 className="text-lg font-bold text-zinc-900">{item.title}</h4>
               <p className="text-sm text-zinc-500 leading-relaxed">{item.desc}</p>
             </div>
@@ -173,7 +173,7 @@ export default function LandingPage() {
       {/* 3. BENTO GRID FEATURES */}
       <section id="features" className="mx-auto max-w-6xl px-6 space-y-16">
         <div className="text-center space-y-2">
-          <span className="text-xs font-bold uppercase tracking-widest text-blue-600">Premium Vault</span>
+          <span className="text-xs font-bold uppercase tracking-widest text-emerald-600">Premium Vault</span>
           <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight">Everything You Need to Succeed</h2>
           <p className="text-zinc-500 max-w-md mx-auto text-sm sm:text-base">Explore the 5 core phases of the Vyralify curriculum built to scale your audience.</p>
         </div>
@@ -182,7 +182,7 @@ export default function LandingPage() {
           {/* Phase 1 */}
           <Card className="border-zinc-100 hover:shadow-xl hover:border-zinc-200 transition-all duration-300 bg-zinc-50/50">
             <CardContent className="pt-6 space-y-4">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-50 text-blue-600 border border-blue-100">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-50 text-emerald-600 border border-emerald-100">
                 <BookOpen className="h-5 w-5" />
               </div>
               <h3 className="text-lg font-bold">Phase 1: Foundation</h3>
@@ -228,7 +228,7 @@ export default function LandingPage() {
           {/* Phase 5 */}
           <Card className="border-zinc-100 hover:shadow-xl hover:border-zinc-200 transition-all duration-300 bg-zinc-50/50">
             <CardContent className="pt-6 space-y-4">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-50 text-blue-600 border border-blue-100">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-50 text-emerald-600 border border-emerald-100">
                 <Users2 className="h-5 w-5" />
               </div>
               <h3 className="text-lg font-bold">Phase 5: Private Community</h3>
@@ -241,7 +241,7 @@ export default function LandingPage() {
       {/* ROI CALCULATOR SECTION */}
       <section className="mx-auto max-w-5xl px-6 space-y-12">
         <div className="text-center space-y-2">
-          <span className="text-xs font-bold uppercase tracking-widest text-blue-600">Earnings Estimator</span>
+          <span className="text-xs font-bold uppercase tracking-widest text-emerald-600">Earnings Estimator</span>
           <h2 className="text-3xl font-extrabold tracking-tight">Calculate Your Potential Faceless Income</h2>
           <p className="text-sm text-zinc-500 max-w-md mx-auto">See how views, sponsorships, and digital product conversion rates turn into recurring revenue.</p>
         </div>
@@ -255,7 +255,7 @@ export default function LandingPage() {
             <div className="space-y-2">
               <div className="flex justify-between text-xs font-semibold text-zinc-700">
                 <span>Estimated Monthly Views</span>
-                <span className="text-blue-600">{(calcViews / 1000).toFixed(0)}K views</span>
+                <span className="text-emerald-600">{(calcViews / 1000).toFixed(0)}K views</span>
               </div>
               <input
                 type="range"
@@ -264,7 +264,7 @@ export default function LandingPage() {
                 step="10000"
                 value={calcViews}
                 onChange={(e) => setCalcViews(Number(e.target.value))}
-                className="w-full h-1.5 bg-zinc-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
+                className="w-full h-1.5 bg-zinc-200 rounded-lg appearance-none cursor-pointer accent-emerald-600"
               />
             </div>
 
@@ -272,7 +272,7 @@ export default function LandingPage() {
             <div className="space-y-2">
               <div className="flex justify-between text-xs font-semibold text-zinc-700">
                 <span>Sponsorship CPM (per 1k views)</span>
-                <span className="text-blue-600">${calcCpm}</span>
+                <span className="text-emerald-600">${calcCpm}</span>
               </div>
               <input
                 type="range"
@@ -281,7 +281,7 @@ export default function LandingPage() {
                 step="1"
                 value={calcCpm}
                 onChange={(e) => setCalcCpm(Number(e.target.value))}
-                className="w-full h-1.5 bg-zinc-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
+                className="w-full h-1.5 bg-zinc-200 rounded-lg appearance-none cursor-pointer accent-emerald-600"
               />
             </div>
 
@@ -289,7 +289,7 @@ export default function LandingPage() {
             <div className="space-y-2">
               <div className="flex justify-between text-xs font-semibold text-zinc-700">
                 <span>Product Conversion Rate</span>
-                <span className="text-blue-600">{(calcConv * 100).toFixed(2)}%</span>
+                <span className="text-emerald-600">{(calcConv * 100).toFixed(2)}%</span>
               </div>
               <input
                 type="range"
@@ -298,7 +298,7 @@ export default function LandingPage() {
                 step="0.0005"
                 value={calcConv}
                 onChange={(e) => setCalcConv(Number(e.target.value))}
-                className="w-full h-1.5 bg-zinc-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
+                className="w-full h-1.5 bg-zinc-200 rounded-lg appearance-none cursor-pointer accent-emerald-600"
               />
             </div>
 
@@ -306,7 +306,7 @@ export default function LandingPage() {
             <div className="space-y-2">
               <div className="flex justify-between text-xs font-semibold text-zinc-700">
                 <span>Average Digital Product Price</span>
-                <span className="text-blue-600">${calcPrice}</span>
+                <span className="text-emerald-600">${calcPrice}</span>
               </div>
               <input
                 type="range"
@@ -315,7 +315,7 @@ export default function LandingPage() {
                 step="5"
                 value={calcPrice}
                 onChange={(e) => setCalcPrice(Number(e.target.value))}
-                className="w-full h-1.5 bg-zinc-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
+                className="w-full h-1.5 bg-zinc-200 rounded-lg appearance-none cursor-pointer accent-emerald-600"
               />
             </div>
           </div>
@@ -334,7 +334,7 @@ export default function LandingPage() {
                   <span>${(calcViews * calcConv * calcPrice).toLocaleString(undefined, {maximumFractionDigits: 0})}</span>
                 </div>
                 <div className="flex justify-between items-baseline pt-4">
-                  <span className="text-xs font-bold text-blue-400">Total Monthly Revenue (USD)</span>
+                  <span className="text-xs font-bold text-emerald-400">Total Monthly Revenue (USD)</span>
                   <span className="text-3xl font-extrabold text-white">${(calcSponsorship + calcProductSales).toLocaleString(undefined, {maximumFractionDigits: 0})}</span>
                 </div>
                 <div className="flex justify-between items-baseline pt-3">
@@ -355,7 +355,7 @@ export default function LandingPage() {
       <section id="pricing" className="mx-auto max-w-5xl px-6 space-y-12">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between text-center sm:text-left">
           <div>
-            <span className="text-xs font-bold uppercase tracking-widest text-blue-600">Pricing Plans</span>
+            <span className="text-xs font-bold uppercase tracking-widest text-emerald-600">Pricing Plans</span>
             <h2 className="text-3xl font-extrabold tracking-tight mt-1">Flexible, Transparent Plans</h2>
             <p className="text-sm text-zinc-500 mt-1">Select a tier below. Switch pricing depending on your region.</p>
           </div>
@@ -364,7 +364,7 @@ export default function LandingPage() {
             <Button
               size="sm"
               variant={currency === "USD" ? "default" : "ghost"}
-              className={`text-xs h-8 px-4 rounded-full transition-all ${currency === "USD" ? "bg-blue-600 text-white" : "text-zinc-500"}`}
+              className={`text-xs h-8 px-4 rounded-full transition-all ${currency === "USD" ? "bg-emerald-600 text-white" : "text-zinc-500"}`}
               onClick={() => setCurrency("USD")}
             >
               USD ($)
@@ -372,7 +372,7 @@ export default function LandingPage() {
             <Button
               size="sm"
               variant={currency === "INR" ? "default" : "ghost"}
-              className={`text-xs h-8 px-4 rounded-full transition-all ${currency === "INR" ? "bg-blue-600 text-white" : "text-zinc-500"}`}
+              className={`text-xs h-8 px-4 rounded-full transition-all ${currency === "INR" ? "bg-emerald-600 text-white" : "text-zinc-500"}`}
               onClick={() => setCurrency("INR")}
             >
               INR (₹)
@@ -395,19 +395,19 @@ export default function LandingPage() {
               <CardContent className="p-0 mt-6">
                 <ul className="space-y-3 text-xs text-zinc-600">
                   <li className="flex items-center gap-2">
-                    <Check className="h-4 w-4 text-blue-600 shrink-0" />
+                    <Check className="h-4 w-4 text-emerald-600 shrink-0" />
                     <span>Access Standard Hooks & CTAs</span>
                   </li>
                   <li className="flex items-center gap-2">
-                    <Check className="h-4 w-4 text-blue-600 shrink-0" />
+                    <Check className="h-4 w-4 text-emerald-600 shrink-0" />
                     <span>Access Standard Video Templates</span>
                   </li>
                   <li className="flex items-center gap-2">
-                    <Check className="h-4 w-4 text-blue-600 shrink-0" />
+                    <Check className="h-4 w-4 text-emerald-600 shrink-0" />
                     <span>15% Commission Referral Rights</span>
                   </li>
                   <li className="flex items-center gap-2">
-                    <Check className="h-4 w-4 text-blue-600 shrink-0" />
+                    <Check className="h-4 w-4 text-emerald-600 shrink-0" />
                     <span>Standard Community Access</span>
                   </li>
                 </ul>
@@ -422,13 +422,13 @@ export default function LandingPage() {
           </Card>
 
           {/* Pro Plan */}
-          <Card className="border-blue-500 bg-white shadow-xl relative hover:shadow-2xl transition-all flex flex-col justify-between p-6 overflow-hidden">
-            <div className="absolute top-0 right-0 bg-blue-600 text-[10px] font-bold uppercase tracking-wider text-white px-3 py-1 rounded-bl-lg">
+          <Card className="border-emerald-500 bg-white shadow-xl relative hover:shadow-2xl transition-all flex flex-col justify-between p-6 overflow-hidden">
+            <div className="absolute top-0 right-0 bg-emerald-600 text-[10px] font-bold uppercase tracking-wider text-white px-3 py-1 rounded-bl-lg">
               Popular
             </div>
             <div>
               <CardHeader className="p-0">
-                <span className="text-xs font-bold text-blue-600 uppercase tracking-wider">Pro membership</span>
+                <span className="text-xs font-bold text-emerald-600 uppercase tracking-wider">Pro membership</span>
                 <div className="mt-2 flex items-baseline">
                   <span className="text-4xl font-extrabold tracking-tight">{pricing.pro.price}</span>
                   <span className="ml-1 text-sm text-zinc-400 font-medium">{pricing.pro.period}</span>
@@ -438,23 +438,23 @@ export default function LandingPage() {
               <CardContent className="p-0 mt-6">
                 <ul className="space-y-3 text-xs text-zinc-600">
                   <li className="flex items-center gap-2 font-medium text-zinc-900">
-                    <Check className="h-4 w-4 text-blue-600 shrink-0" />
+                    <Check className="h-4 w-4 text-emerald-600 shrink-0" />
                     <span>Everything in Standard</span>
                   </li>
                   <li className="flex items-center gap-2">
-                    <Check className="h-4 w-4 text-blue-600 shrink-0" />
+                    <Check className="h-4 w-4 text-emerald-600 shrink-0" />
                     <span>Access Pro Hooks & CapCut Libraries</span>
                   </li>
                   <li className="flex items-center gap-2">
-                    <Check className="h-4 w-4 text-blue-600 shrink-0" />
+                    <Check className="h-4 w-4 text-emerald-600 shrink-0" />
                     <span>Direct Download signed storage URLs</span>
                   </li>
                   <li className="flex items-center gap-2">
-                    <Check className="h-4 w-4 text-blue-600 shrink-0" />
+                    <Check className="h-4 w-4 text-emerald-600 shrink-0" />
                     <span>50% Lifetime Recurring Referral Rights</span>
                   </li>
                   <li className="flex items-center gap-2">
-                    <Check className="h-4 w-4 text-blue-600 shrink-0" />
+                    <Check className="h-4 w-4 text-emerald-600 shrink-0" />
                     <span>1-on-1 Loom Video Profile Audits</span>
                   </li>
                 </ul>
@@ -462,7 +462,7 @@ export default function LandingPage() {
             </div>
             <Button
               onClick={() => handleCheckout("pro")}
-              className="w-full bg-blue-600 hover:bg-blue-500 text-white font-semibold mt-8 h-11 shadow-lg shadow-blue-500/20"
+              className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold mt-8 h-11 shadow-lg shadow-emerald-500/20"
             >
               Choose Pro Access
             </Button>
@@ -473,7 +473,7 @@ export default function LandingPage() {
       {/* 5. FAQ SECTION */}
       <section id="faq" className="mx-auto max-w-4xl px-6 space-y-12">
         <div className="text-center space-y-2">
-          <span className="text-xs font-bold uppercase tracking-widest text-blue-600">Got Questions?</span>
+          <span className="text-xs font-bold uppercase tracking-widest text-emerald-600">Got Questions?</span>
           <h2 className="text-3xl font-extrabold tracking-tight">Frequently Asked Questions</h2>
           <p className="text-sm text-zinc-500">Answering your major queries regarding our platform, support, and affiliate setup.</p>
         </div>
@@ -485,13 +485,13 @@ export default function LandingPage() {
               <div key={idx} className="py-4">
                 <button
                   onClick={() => setActiveFaq(isOpen ? null : idx)}
-                  className="flex w-full items-center justify-between font-semibold text-sm sm:text-base text-left hover:text-blue-600 transition-colors"
+                  className="flex w-full items-center justify-between font-semibold text-sm sm:text-base text-left hover:text-emerald-600 transition-colors"
                 >
                   <span className="flex items-center gap-2.5">
                     <HelpCircle className="h-4 w-4 text-zinc-400" />
                     {faq.q}
                   </span>
-                  <ArrowRight className={`h-4 w-4 text-zinc-400 transition-transform ${isOpen ? "rotate-90 text-blue-600" : ""}`} />
+                  <ArrowRight className={`h-4 w-4 text-zinc-400 transition-transform ${isOpen ? "rotate-90 text-emerald-600" : ""}`} />
                 </button>
                 {isOpen && (
                   <motion.div
@@ -510,13 +510,13 @@ export default function LandingPage() {
 
       {/* 6. CTA BOTTOM SECTION */}
       <section className="mx-auto max-w-4xl px-6 text-center">
-        <div className="rounded-3xl bg-blue-600 text-white p-12 space-y-6 relative overflow-hidden shadow-2xl">
+        <div className="rounded-3xl bg-emerald-600 text-white p-12 space-y-6 relative overflow-hidden shadow-2xl">
           <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-white/5 blur-[50px]" />
           <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight">Unlock your faceless empire today.</h2>
-          <p className="text-sm sm:text-base text-blue-100 max-w-md mx-auto">Join hundreds of creators who are scaling and monetizing anonymous Instagram channels.</p>
+          <p className="text-sm sm:text-base text-emerald-100 max-w-md mx-auto">Join hundreds of creators who are scaling and monetizing anonymous Instagram channels.</p>
           <div className="pt-4 flex justify-center">
             <a href="#pricing">
-              <Button className="bg-white text-blue-600 hover:bg-zinc-100 font-bold px-8 h-12">
+              <Button className="bg-white text-emerald-600 hover:bg-zinc-100 font-bold px-8 h-12">
                 Get Started Now <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </a>

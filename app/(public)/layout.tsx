@@ -32,7 +32,7 @@ function PublicHeader() {
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600 text-white shadow-md shadow-blue-500/20">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-600 text-white shadow-md shadow-emerald-500/20">
             <ShieldCheck className="h-5 w-5" />
           </div>
           <span className="text-base font-bold tracking-tight text-zinc-900 dark:text-white">Vyralify.io</span>
@@ -76,7 +76,7 @@ function PublicHeader() {
             <Button
               size="sm"
               onClick={handleLogin}
-              className="bg-blue-600 hover:bg-blue-500 text-white flex items-center gap-1.5 text-xs font-semibold"
+              className="bg-emerald-600 hover:bg-emerald-500 text-white flex items-center gap-1.5 text-xs font-semibold"
             >
               Sign In
               <ArrowRight className="h-3.5 w-3.5" />
@@ -138,7 +138,7 @@ function PublicHeader() {
                   </div>
                 </div>
                 <Link href={profile.role === "admin" ? "/admin" : "/dashboard"} onClick={() => setMobileMenuOpen(false)}>
-                  <Button size="sm" className="w-full bg-blue-600 text-white text-xs font-semibold">
+                  <Button size="sm" className="w-full bg-emerald-600 text-white text-xs font-semibold">
                     Dashboard
                   </Button>
                 </Link>
@@ -147,7 +147,7 @@ function PublicHeader() {
                 </Button>
               </div>
             ) : (
-              <Button size="sm" onClick={handleLogin} className="w-full bg-blue-600 text-white text-xs font-semibold">
+              <Button size="sm" onClick={handleLogin} className="w-full bg-emerald-600 text-white text-xs font-semibold">
                 Sign In
               </Button>
             )}
@@ -163,7 +163,7 @@ function PublicFooter() {
     <footer className="border-t border-zinc-200 bg-white py-12 dark:border-zinc-800 dark:bg-zinc-950 text-xs text-zinc-500">
       <div className="mx-auto max-w-7xl px-6 flex flex-col md:flex-row justify-between items-center gap-6">
         <div className="flex items-center gap-2">
-          <div className="flex h-6 w-6 items-center justify-center rounded-md bg-blue-600 text-white">
+          <div className="flex h-6 w-6 items-center justify-center rounded-md bg-emerald-600 text-white">
             <ShieldCheck className="h-4 w-4" />
           </div>
           <span className="font-semibold text-zinc-900 dark:text-white">Vyralify.io</span>

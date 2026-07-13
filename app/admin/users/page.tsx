@@ -268,7 +268,7 @@ export default function UsersManager() {
             variant="outline"
             className="flex items-center gap-2 border-zinc-200 hover:bg-zinc-50 text-xs shrink-0 self-start"
           >
-            <Database className="h-4 w-4 text-blue-600" />
+            <Database className="h-4 w-4 text-emerald-600" />
             Seed Mock Users
           </Button>
         )}
@@ -291,7 +291,7 @@ export default function UsersManager() {
                   placeholder="Search user email/name..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full sm:w-48 rounded-lg border border-zinc-200 pl-9 pr-3 py-1.5 text-xs bg-white dark:border-zinc-800 dark:bg-zinc-900 focus:outline-hidden focus:ring-1 focus:ring-blue-600"
+                  className="w-full sm:w-48 rounded-lg border border-zinc-200 pl-9 pr-3 py-1.5 text-xs bg-white dark:border-zinc-800 dark:bg-zinc-900 focus:outline-hidden focus:ring-1 focus:ring-emerald-600"
                 />
               </div>
             </div>
@@ -345,7 +345,7 @@ export default function UsersManager() {
           <CardContent className="p-0">
             {loading ? (
               <div className="flex flex-col items-center justify-center py-20 gap-3">
-                <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
+                <Loader2 className="h-8 w-8 animate-spin text-emerald-600" />
                 <p className="text-sm text-zinc-500">Downloading accounts list...</p>
               </div>
             ) : filteredUsers.length === 0 ? (
@@ -431,7 +431,7 @@ export default function UsersManager() {
                             variant="ghost"
                             size="sm"
                             onClick={() => startEdit(user)}
-                            className="p-1 hover:text-blue-600 hover:bg-zinc-100"
+                            className="p-1 hover:text-emerald-600 hover:bg-zinc-100"
                           >
                             <Edit2 className="h-4 w-4" />
                           </Button>
@@ -449,7 +449,7 @@ export default function UsersManager() {
         <Card className="border-zinc-200 dark:border-zinc-800">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <CreditCard className="h-5 w-5 text-blue-600" />
+              <CreditCard className="h-5 w-5 text-emerald-600" />
               Configure Account
             </CardTitle>
             <CardDescription>Manually overwrite access properties and sub roles.</CardDescription>
@@ -471,7 +471,7 @@ export default function UsersManager() {
                   <select
                     value={editRole}
                     onChange={(e) => setEditRole(e.target.value as any)}
-                    className="w-full rounded-lg border border-zinc-200 px-3 py-2 text-sm bg-white dark:border-zinc-800 dark:bg-zinc-900 focus:outline-hidden focus:ring-1 focus:ring-blue-600"
+                    className="w-full rounded-lg border border-zinc-200 px-3 py-2 text-sm bg-white dark:border-zinc-800 dark:bg-zinc-900 focus:outline-hidden focus:ring-1 focus:ring-emerald-600"
                   >
                     <option value="member">Member</option>
                     <option value="affiliate">Affiliate</option>
@@ -485,7 +485,7 @@ export default function UsersManager() {
                   <select
                     value={editTier}
                     onChange={(e) => setEditTier(e.target.value as any)}
-                    className="w-full rounded-lg border border-zinc-200 px-3 py-2 text-sm bg-white dark:border-zinc-800 dark:bg-zinc-900 focus:outline-hidden focus:ring-1 focus:ring-blue-600"
+                    className="w-full rounded-lg border border-zinc-200 px-3 py-2 text-sm bg-white dark:border-zinc-800 dark:bg-zinc-900 focus:outline-hidden focus:ring-1 focus:ring-emerald-600"
                   >
                     <option value="standard">Standard Access</option>
                     <option value="pro">Pro Membership</option>
@@ -501,7 +501,7 @@ export default function UsersManager() {
                       const val = e.target.value;
                       setEditStatus(val === "none" ? null : (val as any));
                     }}
-                    className="w-full rounded-lg border border-zinc-200 px-3 py-2 text-sm bg-white dark:border-zinc-800 dark:bg-zinc-900 focus:outline-hidden focus:ring-1 focus:ring-blue-600"
+                    className="w-full rounded-lg border border-zinc-200 px-3 py-2 text-sm bg-white dark:border-zinc-800 dark:bg-zinc-900 focus:outline-hidden focus:ring-1 focus:ring-emerald-600"
                   >
                     <option value="none">No Subscription</option>
                     <option value="active">Active</option>
@@ -514,7 +514,7 @@ export default function UsersManager() {
                   <Button
                     type="submit"
                     disabled={updating}
-                    className="flex-1 bg-blue-600 hover:bg-blue-500 text-white"
+                    className="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white"
                   >
                     {updating ? "Saving Changes..." : "Save Changes"}
                   </Button>

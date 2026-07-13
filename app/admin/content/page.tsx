@@ -158,45 +158,45 @@ export default function ContentManager() {
         setDirectURL("");
         fetchAssets();
       } else {
-        // File Upload Case (Uses Firebase Storage)
-        const storagePath = `contentAssets/${Date.now()}_${selectedFile!.name}`;
-        const storageRef = ref(storage, storagePath);
-        const uploadTask = uploadBytesResumable(storageRef, selectedFile!);
+        // File Upload Case (Uses Local API Upload to public/uploads directory)
+        setUploadProgress(30);
+        const formData = new FormData();
+        formData.append("file", selectedFile!);
 
-        uploadTask.on(
-          "state_changed",
-          (snapshot) => {
-            const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
-            setUploadProgress(progress);
-          },
-          (error) => {
-            console.error("Upload fail:", error);
-            setErrorMessage("Failed to upload file to storage: " + error.message);
-            setUploadStatus("error");
-          },
-          async () => {
-            const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+        const response = await fetch("/api/upload", {
+          method: "POST",
+          body: formData,
+        });
 
-            const assetData = {
-              name: assetName,
-              fileType,
-              tier,
-              category,
-              storagePath,
-              downloadURL,
-              uploadedAt: serverTimestamp(),
-            };
+        setUploadProgress(70);
 
-            await addDoc(collection(db, "contentAssets"), assetData);
+        if (!response.ok) {
+          const errData = await response.json().catch(() => ({}));
+          throw new Error(errData.error || "Failed to upload file to local server");
+        }
 
-            setUploadStatus("success");
-            setUploadProgress(null);
-            setSelectedFile(null);
-            setAssetName("");
-            setDirectURL("");
-            fetchAssets();
-          }
-        );
+        const result = await response.json();
+        const downloadURL = result.downloadURL;
+        setUploadProgress(90);
+
+        const assetData = {
+          name: assetName,
+          fileType,
+          tier,
+          category,
+          storagePath: `local_upload_${Date.now()}`,
+          downloadURL,
+          uploadedAt: serverTimestamp(),
+        };
+
+        await addDoc(collection(db, "contentAssets"), assetData);
+
+        setUploadStatus("success");
+        setUploadProgress(null);
+        setSelectedFile(null);
+        setAssetName("");
+        setDirectURL("");
+        fetchAssets();
       }
     } catch (err: any) {
       console.error("Upload error:", err);

@@ -91,9 +91,22 @@ export async function initAiWidget(){
         headers:{'Content-Type':'application/json',Authorization:`Bearer ${t}`},
         body:JSON.stringify({tool,prompt:buildPrompt(text)})
       });
+      if(r.status===429){
+        pending.text="Daily limit of 3 AI generations reached. Credits reset in 24 hours.";
+        save();renderThread(thread);
+        return;
+      }
       const x=await r.json();
       if(!r.ok||!x.output)throw new Error();
       pending.text=x.output;
+      
+      // Update DOM credit counter
+      const creditsEl=document.getElementById('stat-credits');
+      if(creditsEl){
+        const currentCreditsStr=creditsEl.textContent.split('/')[0].trim();
+        const currentCredits=parseInt(currentCreditsStr)||3;
+        creditsEl.textContent=`${Math.max(0, currentCredits - 1)} / 3`;
+      }
     }catch{
       pending.text="Couldn't generate that — try again.";
     }

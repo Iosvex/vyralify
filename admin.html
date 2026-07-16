@@ -27,6 +27,30 @@
       <div class="greeting"><strong>Content &amp; members</strong><small>Manage the resource vault and see who has joined.</small></div>
     </header>
 
+    <!-- Admin Overview Stats Bar -->
+    <div class="stats-panel-grid" style="margin-bottom: 1.5rem;">
+      <div class="stat-mini-card card">
+        <span class="stat-label">Total Members</span>
+        <strong class="stat-value" id="admin-stat-total">—</strong>
+        <span class="stat-change" id="admin-stat-total-label">Registered users</span>
+      </div>
+      <div class="stat-mini-card card">
+        <span class="stat-label">Active Premium</span>
+        <strong class="stat-value" id="admin-stat-active">—</strong>
+        <span class="stat-change text-success" id="admin-stat-active-pct">0% conversion</span>
+      </div>
+      <div class="stat-mini-card card">
+        <span class="stat-label">AI Generations</span>
+        <strong class="stat-value" id="admin-stat-ai">—</strong>
+        <span class="stat-change">Total API completions</span>
+      </div>
+      <div class="stat-mini-card card">
+        <span class="stat-label">Estimated MRR</span>
+        <strong class="stat-value" id="admin-stat-mrr">—</strong>
+        <span class="stat-change text-success">INR 499 / member</span>
+      </div>
+    </div>
+
     <section class="dashboard-content card" style="margin-bottom:1rem">
       <h2>Add a content asset</h2>
       <form id="admin-asset-form" class="admin-form">
@@ -67,12 +91,26 @@
       </div>
     </section>
 
-    <section class="dashboard-content card">
-      <h2>Members</h2>
+    <section class="dashboard-content card" style="margin-bottom:1rem">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; margin-bottom: 0.5rem">
+        <h2 style="margin:0">Members</h2>
+        <input type="text" id="admin-user-search" placeholder="Search members by name/email..." style="padding:0.4rem 0.8rem; border-radius:8px; border:1px solid var(--line); font-size:0.85rem; width:260px" />
+      </div>
       <div class="admin-table">
         <table>
-          <thead><tr><th>Name</th><th>Email</th><th>Tier</th><th>Country</th></tr></thead>
-          <tbody id="admin-users"><tr><td colspan="4">Loading…</td></tr></tbody>
+          <thead><tr><th>Name</th><th>Email</th><th>Tier</th><th>Country</th><th>Actions</th></tr></thead>
+          <tbody id="admin-users"><tr><td colspan="5">Loading…</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Recent AI Activity Log Section -->
+    <section class="dashboard-content card">
+      <h2>Recent AI Activity Log</h2>
+      <div class="admin-table">
+        <table>
+          <thead><tr><th>User ID</th><th>Tool Used</th><th>Timestamp</th><th>Token Count</th></tr></thead>
+          <tbody id="admin-ai-log"><tr><td colspan="4">Loading…</td></tr></tbody>
         </table>
       </div>
     </section>

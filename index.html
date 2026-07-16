@@ -201,8 +201,15 @@
         <div class="pricing card" data-reveal>
           <div class="aura" aria-hidden="true"></div>
           <span class="eyebrow">Vyralify Membership</span>
-          <div class="price"><span data-price>$19</span><small data-price-period>/month</small></div>
-          <p data-price-note>Billed monthly in USD via Stripe · cancel anytime</p>
+          
+          <!-- Dual-Currency Pricing Switch -->
+          <div class="price-toggle-container">
+            <button type="button" class="toggle-btn active" id="toggle-inr">🇮🇳 INR (₹499)</button>
+            <button type="button" class="toggle-btn" id="toggle-usd">🌎 USD (Intl)</button>
+          </div>
+
+          <div class="price"><span data-price>₹499</span><small data-price-period>/month</small></div>
+          <p data-price-note>Billed monthly in INR · No hidden charges · Cancel anytime</p>
           <ul class="checks">
             <li>Full curriculum across all 5 tracks</li>
             <li>10 AI creator tools with chat memory</li>
@@ -210,7 +217,7 @@
             <li>Members-only community &amp; page reviews</li>
             <li>Weekly new lessons and trends</li>
           </ul>
-          <a class="btn btn-primary" href="/checkout.html">Join Vyralify</a>
+          <a class="btn btn-primary" id="pricing-cta" href="https://payments.cashfree.com/forms/vyralifyio">Join Vyralify</a>
         </div>
       </div>
     </section>

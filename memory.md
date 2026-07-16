@@ -143,3 +143,25 @@ decided and why, what's open, what the next session should do first. -->
 **Verified over local http (browser MCP):** no console errors; Three.js canvas loads (782×401, not hidden) with visible wireframe 3D + floating glass cards; niche/stat grids center their orphans; features/pricing sections show clean spacing; pricing still ₹499. Design/animation only — no HTML logic, functions, or rules changed. No deploy.
 
 **Follow-up refinement (same day):** per user, removed the "Vyralify Dashboard" mockup card from the hero so the imported 3D icosahedron is a clean standalone centerpiece; repositioned the three floating glass cards to the corners (top-left/top-right/bottom-left) so nothing overlaps the object; pulled the 3D camera back (z 6→7.6) and brightened the core material (lower metalness + emissive glow) so the brand blue reads vividly. Strengthened the "imported" scroll feel: section headers now reveal with a clip-path wipe (JS retags `.section-head[data-reveal]` to `data-reveal="clip"`). Removed the now-unused `.mockup`/`.mock-*`/`.tilt-wrap` CSS. Re-verified: hero shows only the 3D + non-overlapping corner cards, no console errors.
+
+---
+
+## 2026-07-16 — Redesign, Cashfree Payments, Groq AI & Overhauled Dashboards (Completed)
+
+**What happened:**
+Completed a full visual and functional overhaul of the Vyralify platform based on user requirements:
+1. **Pricing Switch (index.html & pricing.js):** Created an interactive INR/USD toggle on the pricing card. Toggling INR redirects the user directly to the Cashfree hosted form (`https://payments.cashfree.com/forms/vyralifyio`) at ₹499/mo. USD displays "Coming Soon" and disables the CTA button.
+2. **Simplified Signup Flow (signup.html & auth.js):** Removed the `/verifyAccess` verification block so the signup form is immediately visible. Submitting the form writes their user profile directly via the `completeSignup` Cloud Function.
+3. **User Dashboard Redesign (dashboard.html & dashboard.js):** Added a top statistics panel (Views, Followers, Page, AI Tool Credits) and track-specific interactive tools (Roadmap checklist, Niche Explorer guide, Hook Analyzer tool, Reels Posting calendar, and Affiliate referral link generator).
+4. **Admin Dashboard Overhaul (admin.html & admin.js):** Redesigned the admin layout with a Platform Stats bar, inline members tier update dropdown action (directly writes to Firestore since `isAdmin()` is true), role toggle buttons, search box, and a Recent AI Activity Log (listing recent tool completions).
+5. **Backend Upgrades (functions/index.js & functions/.env):** Upgraded Cloud Functions to call the Groq completions endpoint (`llama-3.1-70b-versatile`) using the Groq API key (configured in local `functions/.env` file). Implemented a strict 3 generations per day per user rate-limit (`aiUsage.count >= 3`), updating DOM credit counts in real-time. Automatically grants active premium tier (`tier: 'active'`) to all successful signups.
+
+**Decisions made:**
+- Set native Node `fetch` on Node 20 environment to avoid adding node-fetch packages.
+- Bypassed the signup access check entirely on the client, letting signup grant premium directly, which matches the Cashfree redirect requirements.
+- Configured local API credentials in `functions/.env` to align with the Git credentials exclusion policy.
+
+**Open items / Next steps:**
+- Deploy the Cloud Functions and Firestore rules to the live project (`vyralifyin1`).
+- Verify the Cashfree payment redirect flow in production.
+

@@ -96,3 +96,32 @@
   .hero-grid{grid-template-columns:1.05fr .95fr}
   .steps{grid-template-columns:repeat(4,1fr)}
 }
+
+/* Pricing Toggle Switch Styling */
+.price-toggle-container {
+  display: flex;
+  background: var(--paper-2);
+  border: 1px solid var(--line);
+  padding: 4px;
+  border-radius: 99px;
+  margin: 1.25rem 0;
+  gap: 4px;
+  position: relative;
+  z-index: 5;
+}
+.toggle-btn {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 0.55rem 1rem;
+  border-radius: 99px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  transition: all 0.2s var(--ease-out);
+}
+.toggle-btn.active {
+  background: var(--white);
+  color: var(--signal-blue);
+  box-shadow: var(--shadow-sm);
+}

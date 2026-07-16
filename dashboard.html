@@ -31,6 +31,30 @@
       </div>
     </header>
 
+    <!-- Top Stats Panel (Sleek Blue/White Cards) -->
+    <div class="stats-panel-grid" style="margin-bottom: 1.5rem;">
+      <div class="stat-mini-card card">
+        <span class="stat-label">Total Views</span>
+        <strong class="stat-value" id="stat-views">1.2M</strong>
+        <span class="stat-change text-success">↑ 18.4% this week</span>
+      </div>
+      <div class="stat-mini-card card">
+        <span class="stat-label">Followers Gained</span>
+        <strong class="stat-value" id="stat-followers">+12,480</strong>
+        <span class="stat-change text-success">↑ 8.2% this week</span>
+      </div>
+      <div class="stat-mini-card card">
+        <span class="stat-label">Active Page</span>
+        <strong class="stat-value" id="stat-handle">@quiet.capital</strong>
+        <span class="stat-change">Niche: Wealth & Mindset</span>
+      </div>
+      <div class="stat-mini-card card">
+        <span class="stat-label">AI Tool Credits</span>
+        <strong class="stat-value" id="stat-credits">3 / 3</strong>
+        <span class="stat-change" id="stat-credits-reset">Resets in 24h</span>
+      </div>
+    </div>
+
     <div class="dashboard-grid">
       <aside class="side-tabs" aria-label="Dashboard tracks">
         <button data-category="foundation" class="active">Foundation</button>
@@ -42,6 +66,104 @@
 
       <section class="dashboard-content card">
         <h2 id="track-title">Foundation</h2>
+
+        <!-- Tab 1: Foundation Tools -->
+        <div id="foundation-tools" class="tab-tools">
+          <div class="grid-2">
+            <!-- Roadmap Card -->
+            <div class="tool-section card" style="padding: 1.25rem; margin-bottom: 1.5rem;">
+              <h3 style="margin-top:0">🎯 Setup Checklist</h3>
+              <div class="checklist-item"><input type="checkbox" id="chk-niche" checked> <label for="chk-niche">Choose your niche page topic</label></div>
+              <div class="checklist-item"><input type="checkbox" id="chk-brand"> <label for="chk-brand">Create IG handle & brand kit</label></div>
+              <div class="checklist-item"><input type="checkbox" id="chk-bio"> <label for="chk-bio">Write bio & mount profile picture</label></div>
+              <div class="checklist-item"><input type="checkbox" id="chk-first"> <label for="chk-first">Publish first 3 viral Reels</label></div>
+            </div>
+            
+            <!-- Niche Explorer Card -->
+            <div class="tool-section card" style="padding: 1.25rem; margin-bottom: 1.5rem;">
+              <h3 style="margin-top:0">🔍 Niche Explorer</h3>
+              <p style="font-size:0.85rem;margin-bottom:0.75rem">Browse viral Instagram niches and extract brand guides instantly.</p>
+              <div class="niche-selectors" style="display:flex;gap:0.5rem;margin-bottom:0.75rem">
+                <button type="button" class="btn btn-secondary active" data-niche-select="wealth" style="padding:0.4rem 0.8rem;font-size:0.75rem">Wealth</button>
+                <button type="button" class="btn btn-secondary" data-niche-select="stoicism" style="padding:0.4rem 0.8rem;font-size:0.75rem">Stoicism</button>
+                <button type="button" class="btn btn-secondary" data-niche-select="luxury" style="padding:0.4rem 0.8rem;font-size:0.75rem">Luxury</button>
+              </div>
+              <div id="niche-details" class="card" style="padding:0.75rem;background:var(--paper);font-size:0.85rem">
+                <strong>💡 Topic:</strong> Financial freedom & money hacks.<br>
+                <strong>🔥 Best Hooks:</strong> "The 3 rules of wealth they hid from you..."<br>
+                <strong>🏷️ Recommended tags:</strong> #finance #moneyhacks #wealthmindset
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 2: Content Tools -->
+        <div id="content-tools" class="tab-tools hidden">
+          <div class="grid-2">
+            <!-- Hook Scorer Card -->
+            <div class="tool-section card" style="padding: 1.25rem; margin-bottom: 1.5rem;">
+              <h3 style="margin-top:0">⚡ Hook Analyzer</h3>
+              <p style="font-size:0.85rem;margin-bottom:0.75rem">Analyze your reel hooks to predict viewer retention.</p>
+              <div style="display:flex;gap:0.5rem">
+                <input type="text" id="hook-input" placeholder="Type your hook (e.g. 'How to start...')" style="flex:1;padding:0.5rem;border-radius:8px;border:1px solid var(--line)" />
+                <button type="button" id="btn-analyze-hook" class="btn btn-primary" style="padding:0.5rem 1rem;font-size:0.85rem">Analyze</button>
+              </div>
+              <div id="hook-result" class="hidden" style="margin-top:1rem;padding:0.75rem;border-radius:8px;font-size:0.85rem">
+                <!-- Hook score goes here -->
+              </div>
+            </div>
+            <!-- Quick AI Assistant access -->
+            <div class="tool-section card" style="padding: 1.25rem; margin-bottom: 1.5rem; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center">
+              <span style="font-size:2rem">✦</span>
+              <h3 style="margin: 0.5rem 0">Need complete scripts?</h3>
+              <p style="font-size:0.85rem;margin-top:0">Use our AI Creator Assistant to generate captions, hooks, and full viral scripts.</p>
+              <button type="button" id="btn-open-assistant" class="btn btn-primary" style="padding:0.5rem 1.25rem;font-size:0.85rem">Open Assistant</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 3: Scaling & Growth Tools -->
+        <div id="growth-tools" class="tab-tools hidden">
+          <!-- Posting Calendar Card -->
+          <div class="tool-section card" style="padding: 1.25rem; margin-bottom: 1.5rem;">
+            <h3 style="margin-top:0">📅 Reels Posting Calendar</h3>
+            <p style="font-size:0.85rem;margin-bottom:1rem">A proven, high-retention calendar sequence to warm the algorithm.</p>
+            <div class="calendar-grid">
+              <div class="cal-day card"><strong>MON</strong><span class="cal-activity">High-Retention Reel</span><small>5-second loop</small></div>
+              <div class="cal-day card"><strong>TUE</strong><span class="cal-activity">Educational Carousel</span><small>Niche guide</small></div>
+              <div class="cal-day card"><strong>WED</strong><span class="cal-activity">Trending Audio Reel</span><small>Using templates</small></div>
+              <div class="cal-day card"><strong>THU</strong><span class="cal-activity">Interactive Story</span><small>Q&A / Poll</small></div>
+              <div class="cal-day card"><strong>FRI</strong><span class="cal-activity">Deep-Value Reel</span><small>30-second script</small></div>
+              <div class="cal-day card"><strong>SAT</strong><span class="cal-activity">Behind the Scenes</span><small>Casual build</small></div>
+              <div class="cal-day card"><strong>SUN</strong><span class="cal-activity">Weekly Wins Review</span><small>Social proof</small></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 4: Monetisation Tools -->
+        <div id="monetisation-tools" class="tab-tools hidden">
+          <div class="grid-2">
+            <!-- Affiliate Panel -->
+            <div class="tool-section card" style="padding: 1.25rem; margin-bottom: 1.5rem;">
+              <h3 style="margin-top:0">💸 Affiliate Program</h3>
+              <p style="font-size:0.85rem;margin-bottom:0.75rem">Refer creators to Vyralify and earn a 40% recurring commission!</p>
+              <div class="affiliate-box" style="display:flex;gap:0.5rem;align-items:center;background:var(--paper);padding:0.5rem;border-radius:8px;border:1px solid var(--line)">
+                <code style="font-weight:700;font-size:0.95rem;color:var(--signal-blue)" id="affiliate-code">MYCODE499</code>
+                <button type="button" id="btn-copy-affiliate" class="btn btn-secondary" style="padding:0.3rem 0.6rem;font-size:0.75rem;margin-left:auto">Copy Link</button>
+              </div>
+              <p id="copy-status" style="font-size:0.75rem;color:var(--success);margin-top:0.25rem" class="hidden">Link copied to clipboard!</p>
+            </div>
+            <!-- Affiliate Stats -->
+            <div class="tool-section card" style="padding: 1.25rem; margin-bottom: 1.5rem;">
+              <h3 style="margin-top:0">📈 Affiliate Performance</h3>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-top:0.75rem">
+                <div class="card" style="padding:0.5rem;text-align:center;background:var(--paper);box-shadow:none"><small style="display:block">Clicks</small><strong id="aff-clicks">124</strong></div>
+                <div class="card" style="padding:0.5rem;text-align:center;background:var(--paper);box-shadow:none"><small style="display:block">Conversions</small><strong id="aff-signups">8</strong></div>
+              </div>
+              <p style="font-size:0.8rem;margin-top:0.75rem;text-align:center">Estimated Commission: <strong style="color:var(--success)">₹1,596/mo</strong></p>
+            </div>
+          </div>
+        </div>
 
         <div id="asset-list" class="asset-list"></div>
 

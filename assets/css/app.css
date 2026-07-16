@@ -80,3 +80,133 @@
 
 @media(min-width:900px){.dashboard-grid{grid-template-columns:220px 1fr}.side-tabs{display:grid;align-content:start;overflow:visible}.side-tabs button{text-align:left;border-radius:10px}.dashboard-content{min-height:520px}}
 @media(min-width:760px){.community{grid-template-columns:1fr}}
+
+/* Stats Panel Grid */
+.stats-panel-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+.stat-mini-card {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  transition: transform 0.3s var(--ease-out), box-shadow 0.3s var(--ease-out);
+}
+.stat-mini-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow);
+  border-color: rgba(47,107,255,0.3);
+}
+.stat-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.stat-value {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin: 0.25rem 0;
+  font-family: var(--font-mono);
+}
+.stat-change {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+.text-success {
+  color: var(--success) !important;
+}
+
+/* Grid helper */
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+@media(min-width:760px){
+  .grid-2 {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Checklist styles */
+.checklist-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0.65rem 0;
+  font-size: 0.88rem;
+}
+.checklist-item input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  border: 1px solid var(--line);
+  accent-color: var(--signal-blue);
+  cursor: pointer;
+}
+
+/* Calendar Grid */
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+.cal-day {
+  padding: 0.85rem;
+  text-align: center;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: none;
+}
+.cal-day strong {
+  font-size: 0.72rem;
+  font-family: var(--font-mono);
+  color: var(--signal-blue);
+}
+.cal-activity {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin: 0.25rem 0;
+}
+.cal-day small {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+/* Niche selectors */
+.niche-selectors button.active {
+  background: var(--signal-blue) !important;
+  color: #fff !important;
+  border-color: var(--signal-blue) !important;
+}
+
+/* 3D card perspective tilt support */
+.card {
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+.tool-section {
+  transition: transform 0.2s var(--ease-out), box-shadow 0.2s var(--ease-out);
+}
+.tool-section:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}

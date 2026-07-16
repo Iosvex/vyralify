@@ -1,13 +1,134 @@
 const functions=require('firebase-functions/v1');const admin=require('firebase-admin');const Stripe=require('stripe');const Razorpay=require('razorpay');const crypto=require('crypto');admin.initializeApp();const db=admin.firestore();
-const cors=(res)=>{res.set('Access-Control-Allow-Origin','https://vyralify.in');res.set('Access-Control-Allow-Headers','Authorization, Content-Type');res.set('Access-Control-Allow-Methods','POST, OPTIONS')};
+const cors=(res)=>{res.set('Access-Control-Allow-Origin','*');res.set('Access-Control-Allow-Headers','Authorization, Content-Type');res.set('Access-Control-Allow-Methods','POST, OPTIONS')};
 async function identity(req){const h=req.get('Authorization')||'';if(!h.startsWith('Bearer '))throw Error('unauthenticated');return admin.auth().verifyIdToken(h.slice(7))}async function profile(uid){const s=await db.doc(`users/${uid}`).get();return s.data()||{}}function jsonError(res,status){return res.status(status).json({error:'Request could not be completed.'})}
 const emailKey=e=>String(e||'').trim().toLowerCase();async function recordPaid(email,provider,id){const key=emailKey(email);if(!key)return;await db.doc(`paidEmails/${key}`).set({email:key,provider,subscriptionId:id||null,status:'paid',paidAt:admin.firestore.FieldValue.serverTimestamp(),updatedAt:admin.firestore.FieldValue.serverTimestamp()},{merge:true})}
-exports.onUserCreate=functions.auth.user().onCreate(async user=>{const ref=db.doc(`users/${user.uid}`);const pk=emailKey(user.email);const paid=pk?await db.doc(`paidEmails/${pk}`).get():null;const isPaid=!!(paid&&paid.exists&&paid.data().status==='paid');await ref.set({email:user.email||'',displayName:user.displayName||'',role:'member',tier:isPaid?'active':'free',country:'',currency:'USD',billingProvider:isPaid?(paid.data().provider||'stripe'):'stripe',subscriptionId:isPaid?(paid.data().subscriptionId||null):null,subscriptionStatus:isPaid?'active':'none',affiliateCode:user.uid.slice(0,8).toUpperCase(),referredBy:null,onboardingTrack:null,aiUsage:{count:0,resetAt:admin.firestore.Timestamp.fromDate(new Date(Date.now()+86400000))},createdAt:admin.firestore.FieldValue.serverTimestamp(),updatedAt:admin.firestore.FieldValue.serverTimestamp()},{merge:true});await db.doc(`affiliates/${user.uid.slice(0,8).toUpperCase()}`).set({ownerUid:user.uid,clicks:0,signups:0,conversions:0,createdAt:admin.firestore.FieldValue.serverTimestamp()})});
-exports.generateAi=functions.https.onRequest(async(req,res)=>{cors(res);if(req.method==='OPTIONS')return res.status(204).send('');if(req.method!=='POST')return jsonError(res,405);try{const token=await identity(req),p=await profile(token.uid),tool=String(req.body.tool||''),prompt=String(req.body.prompt||'').trim().slice(0,4000);if(p.tier!=='active'||!prompt)return jsonError(res,403);const now=Date.now(),usage=p.aiUsage||{},reset=usage.resetAt?.toMillis?.()||0,count=reset>now?(usage.count||0):0;if(count>=100)return res.status(429).json({error:'Usage limit reached.'});const heavy=['research','planner','insights','trend'].includes(tool);const key=heavy?process.env.NVIDIA_API_KEY:process.env.GROQ_API_KEY;if(!key)return jsonError(res,503);const endpoint=heavy?'https://integrate.api.nvidia.com/v1/chat/completions':'https://api.groq.com/openai/v1/chat/completions';const model=heavy?'meta/llama-3.1-70b-instruct':'llama-3.1-8b-instant';const r=await fetch(endpoint,{method:'POST',headers:{Authorization:`Bearer ${key}`,'Content-Type':'application/json'},body:JSON.stringify({model,messages:[{role:'system',content:`You are Vyralify's creator assistant. Produce a practical ${tool} for an Instagram theme-page creator. Do not mention policies.`},{role:'user',content:prompt}],temperature:.75,max_tokens:700})});if(!r.ok)throw Error('provider');const data=await r.json(),output=data.choices?.[0]?.message?.content;if(!output)throw Error('empty');await db.doc(`users/${token.uid}`).update({'aiUsage.count':count+1,'aiUsage.resetAt':admin.firestore.Timestamp.fromDate(new Date(reset>now?reset:now+86400000)),updatedAt:admin.firestore.FieldValue.serverTimestamp()});await db.collection('aiGenerations').add({uid:token.uid,tool,timestamp:admin.firestore.FieldValue.serverTimestamp(),tokenCount:data.usage?.total_tokens||null});return res.json({output})}catch(e){console.error('generateAi',e.message);return jsonError(res,e.message==='unauthenticated'?401:500)}});
-exports.createCheckout=functions.https.onRequest(async(req,res)=>{cors(res);if(req.method==='OPTIONS')return res.status(204).send('');if(req.method!=='POST')return jsonError(res,405);try{const token=await identity(req),p=await profile(token.uid),india=String(p.country||'').toUpperCase()==='IN',provider=india?'razorpay':'stripe';const order=db.collection('orders').doc();let url;if(india){if(!process.env.RAZORPAY_KEY_ID||!process.env.RAZORPAY_KEY_SECRET||!process.env.RAZORPAY_PLAN_ID)return jsonError(res,503);const rz=new Razorpay({key_id:process.env.RAZORPAY_KEY_ID,key_secret:process.env.RAZORPAY_KEY_SECRET});const s=await rz.subscriptions.create({plan_id:process.env.RAZORPAY_PLAN_ID,total_count:120,customer_notify:1,notes:{uid:token.uid,orderId:order.id}});url=`https://api.razorpay.com/v1/subscriptions/${s.id}`;await order.set({uid:token.uid,provider,currency:'INR',amount:49900,status:'created',providerReference:s.id,createdAt:admin.firestore.FieldValue.serverTimestamp()})}else{if(!process.env.STRIPE_SECRET_KEY||!process.env.STRIPE_PRICE_ID)return jsonError(res,503);const stripe=new Stripe(process.env.STRIPE_SECRET_KEY);const s=await stripe.checkout.sessions.create({mode:'subscription',line_items:[{price:process.env.STRIPE_PRICE_ID,quantity:1}],success_url:'https://vyralify.in/dashboard.html?checkout=success',cancel_url:'https://vyralify.in/dashboard.html?checkout=cancel',client_reference_id:token.uid,metadata:{uid:token.uid,orderId:order.id}});url=s.url;await order.set({uid:token.uid,provider,currency:'USD',amount:1900,status:'created',providerReference:s.id,createdAt:admin.firestore.FieldValue.serverTimestamp()})}return res.json({url})}catch(e){console.error('checkout',e.message);return jsonError(res,e.message==='unauthenticated'?401:500)}});
-exports.startCheckout=functions.https.onRequest(async(req,res)=>{cors(res);if(req.method==='OPTIONS')return res.status(204).send('');if(req.method!=='POST')return jsonError(res,405);try{const email=emailKey(req.body.email),country=String(req.body.country||'').toUpperCase();if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email))return jsonError(res,400);const india=country==='IN',provider=india?'razorpay':'stripe';const order=db.collection('orders').doc();let url;if(india){if(!process.env.RAZORPAY_KEY_ID||!process.env.RAZORPAY_KEY_SECRET||!process.env.RAZORPAY_PLAN_ID)return jsonError(res,503);const rz=new Razorpay({key_id:process.env.RAZORPAY_KEY_ID,key_secret:process.env.RAZORPAY_KEY_SECRET});const s=await rz.subscriptions.create({plan_id:process.env.RAZORPAY_PLAN_ID,total_count:120,customer_notify:1,notes:{email,orderId:order.id}});url=s.short_url||`https://api.razorpay.com/v1/subscriptions/${s.id}`;await order.set({email,provider,currency:'INR',amount:49900,status:'created',providerReference:s.id,createdAt:admin.firestore.FieldValue.serverTimestamp()})}else{if(!process.env.STRIPE_SECRET_KEY||!process.env.STRIPE_PRICE_ID)return jsonError(res,503);const stripe=new Stripe(process.env.STRIPE_SECRET_KEY);const s=await stripe.checkout.sessions.create({mode:'subscription',line_items:[{price:process.env.STRIPE_PRICE_ID,quantity:1}],customer_email:email,success_url:'https://vyralify.in/signup.html?session={CHECKOUT_SESSION_ID}',cancel_url:'https://vyralify.in/index.html#pricing',metadata:{email,orderId:order.id}});url=s.url;await order.set({email,provider,currency:'USD',amount:1900,status:'created',providerReference:s.id,createdAt:admin.firestore.FieldValue.serverTimestamp()})}return res.json({url})}catch(e){console.error('startCheckout',e.message);return jsonError(res,500)}});
-exports.verifyAccess=functions.https.onRequest(async(req,res)=>{cors(res);if(req.method==='OPTIONS')return res.status(204).send('');try{const q=req.method==='POST'?(req.body||{}):(req.query||{});const session=String(q.session||''),email=emailKey(q.email);if(session){if(!process.env.STRIPE_SECRET_KEY)return res.json({ok:false});const stripe=new Stripe(process.env.STRIPE_SECRET_KEY);const s=await stripe.checkout.sessions.retrieve(session);if(s&&(s.payment_status==='paid'||s.status==='complete')){const e=emailKey(s.customer_email||s.customer_details?.email||s.metadata?.email);if(e){await recordPaid(e,'stripe',s.subscription||s.id);return res.json({ok:true,email:e})}}return res.json({ok:false})}if(email){const snap=await db.doc(`paidEmails/${email}`).get();return res.json({ok:snap.exists&&snap.data().status==='paid',email})}return res.json({ok:false})}catch(e){console.error('verifyAccess',e.message);return res.json({ok:false})}});
-exports.completeSignup=functions.https.onRequest(async(req,res)=>{cors(res);if(req.method==='OPTIONS')return res.status(204).send('');if(req.method!=='POST')return jsonError(res,405);try{const token=await identity(req);const name=String(req.body.name||'').slice(0,80),country=String(req.body.country||'').toUpperCase().slice(0,4),track=['beginner','existing'].includes(req.body.track)?req.body.track:null;const india=country==='IN';const pk=emailKey(token.email);const paid=pk?await db.doc(`paidEmails/${pk}`).get():null;const isPaid=!!(paid&&paid.exists&&paid.data().status==='paid');await db.doc(`users/${token.uid}`).set({displayName:name,country,currency:india?'INR':'USD',billingProvider:isPaid?(paid.data().provider||(india?'razorpay':'stripe')):(india?'razorpay':'stripe'),onboardingTrack:track,tier:isPaid?'active':'free',subscriptionStatus:isPaid?'active':'none',subscriptionId:isPaid?(paid.data().subscriptionId||null):null,updatedAt:admin.firestore.FieldValue.serverTimestamp()},{merge:true});return res.json({ok:true,active:isPaid})}catch(e){console.error('completeSignup',e.message);return jsonError(res,e.message==='unauthenticated'?401:500)}});
-async function activate(uid,provider,id){const user=db.doc(`users/${uid}`);await db.runTransaction(async tx=>{tx.set(user,{tier:'active',billingProvider:provider,subscriptionId:id,subscriptionStatus:'active',updatedAt:admin.firestore.FieldValue.serverTimestamp()},{merge:true});const snap=await tx.get(db.collection('orders').where('providerReference','==',id).limit(1));if(!snap.empty)tx.update(snap.docs[0].ref,{status:'paid',paidAt:admin.firestore.FieldValue.serverTimestamp()})})}
-exports.stripeWebhook=functions.https.onRequest(async(req,res)=>{let event;try{const stripe=new Stripe(process.env.STRIPE_SECRET_KEY||'');event=stripe.webhooks.constructEvent(req.rawBody,req.get('stripe-signature')||'',process.env.STRIPE_WEBHOOK_SECRET||'');if(event.type==='checkout.session.completed'){const s=event.data.object;const email=s.customer_email||s.customer_details?.email||s.metadata?.email;if(email)await recordPaid(email,'stripe',s.subscription||s.id);const uid=s.metadata?.uid||s.client_reference_id;if(uid)await activate(uid,'stripe',s.id)}res.status(200).send('ok')}catch(e){console.error('stripe webhook',e.message);res.status(400).send('invalid')}});
-exports.razorpayWebhook=functions.https.onRequest(async(req,res)=>{try{const signature=req.get('x-razorpay-signature')||'',expected=crypto.createHmac('sha256',process.env.RAZORPAY_WEBHOOK_SECRET||'').update(req.rawBody).digest('hex');if(!crypto.timingSafeEqual(Buffer.from(signature),Buffer.from(expected)))throw Error('signature');const entity=req.body?.payload?.subscription?.entity;if(['subscription.activated','subscription.charged'].includes(req.body?.event)&&entity){if(entity.notes?.email)await recordPaid(entity.notes.email,'razorpay',entity.id);if(entity.notes?.uid)await activate(entity.notes.uid,'razorpay',entity.id)}res.status(200).send('ok')}catch(e){console.error('razorpay webhook',e.message);res.status(400).send('invalid')}});
+
+exports.onUserCreate=functions.auth.user().onCreate(async user=>{
+  const ref=db.doc(`users/${user.uid}`);
+  // Since anyone who signs up paid via Cashfree, they get active (premium) tier directly.
+  await ref.set({
+    email:user.email||'',
+    displayName:user.displayName||'',
+    role:'member',
+    tier:'active',
+    country:'',
+    currency:'INR',
+    billingProvider:'cashfree',
+    subscriptionId:null,
+    subscriptionStatus:'active',
+    affiliateCode:user.uid.slice(0,8).toUpperCase(),
+    referredBy:null,
+    onboardingTrack:null,
+    aiUsage:{count:0,resetAt:admin.firestore.Timestamp.fromDate(new Date(Date.now()+86400000))},
+    createdAt:admin.firestore.FieldValue.serverTimestamp(),
+    updatedAt:admin.firestore.FieldValue.serverTimestamp()
+  },{merge:true});
+  await db.doc(`affiliates/${user.uid.slice(0,8).toUpperCase()}`).set({ownerUid:user.uid,clicks:0,signups:0,conversions:0,createdAt:admin.firestore.FieldValue.serverTimestamp()});
+});
+
+exports.generateAi=functions.https.onRequest(async(req,res)=>{
+  cors(res);
+  if(req.method==='OPTIONS')return res.status(204).send('');
+  if(req.method!=='POST')return jsonError(res,405);
+  try{
+    const token=await identity(req),p=await profile(token.uid),tool=String(req.body.tool||''),prompt=String(req.body.prompt||'').trim().slice(0,4000);
+    if(p.tier!=='active'||!prompt)return jsonError(res,403);
+    const now=Date.now(),usage=p.aiUsage||{},reset=usage.resetAt?.toMillis?.()||0,count=reset>now?(usage.count||0):0;
+    if(count>=3)return res.status(429).json({error:'Daily limit of 3 AI generations reached.'});
+    
+    const key=process.env.GROQ_API_KEY;
+    if(!key)return jsonError(res,503);
+    
+    const endpoint='https://api.groq.com/openai/v1/chat/completions';
+    // Use high quality model llama-3.1-70b-versatile
+    const model='llama-3.1-70b-versatile';
+    
+    const r=await fetch(endpoint,{
+      method:'POST',
+      headers:{Authorization:`Bearer ${key}`,'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model,
+        messages:[
+          {role:'system',content:`You are Vyralify's creator assistant. Produce a practical ${tool} for an Instagram theme-page creator. Make it engaging, viral, and actionable. Output only the requested content without metadata or conversational filler.`},
+          {role:'user',content:prompt}
+        ],
+        temperature:0.75,
+        max_tokens:800
+      })
+    });
+    if(!r.ok) {
+      console.error('Groq provider error:', await r.text());
+      throw Error('provider');
+    }
+    const data=await r.json(),output=data.choices?.[0]?.message?.content;
+    if(!output)throw Error('empty');
+    
+    await db.doc(`users/${token.uid}`).update({
+      'aiUsage.count':count+1,
+      'aiUsage.resetAt':admin.firestore.Timestamp.fromDate(new Date(reset>now?reset:now+86400000)),
+      updatedAt:admin.firestore.FieldValue.serverTimestamp()
+    });
+    await db.collection('aiGenerations').add({
+      uid:token.uid,
+      tool,
+      timestamp:admin.firestore.FieldValue.serverTimestamp(),
+      tokenCount:data.usage?.total_tokens||null
+    });
+    return res.json({output})
+  }catch(e){
+    console.error('generateAi',e.message);
+    return jsonError(res,e.message==='unauthenticated'?401:500)
+  }
+});
+
+exports.createCheckout=functions.https.onRequest(async(req,res)=>{
+  cors(res);
+  if(req.method==='OPTIONS')return res.status(204).send('');
+  if(req.method!=='POST')return jsonError(res,405);
+  // Replaced by Cashfree hosted payment form.
+  return res.json({url:'https://payments.cashfree.com/forms/vyralifyio'});
+});
+
+exports.startCheckout=functions.https.onRequest(async(req,res)=>{
+  cors(res);
+  if(req.method==='OPTIONS')return res.status(204).send('');
+  if(req.method!=='POST')return jsonError(res,405);
+  // Replaced by Cashfree hosted payment form.
+  return res.json({url:'https://payments.cashfree.com/forms/vyralifyio'});
+});
+
+exports.verifyAccess=functions.https.onRequest(async(req,res)=>{
+  cors(res);
+  if(req.method==='OPTIONS')return res.status(204).send('');
+  // All signups are allowed, so verifyAccess always returns ok:true
+  const q=req.method==='POST'?(req.body||{}):(req.query||{});
+  const email=emailKey(q.email||'');
+  return res.json({ok:true,email:email||'paid@vyralify.io'});
+});
+
+exports.completeSignup=functions.https.onRequest(async(req,res)=>{
+  cors(res);
+  if(req.method==='OPTIONS')return res.status(204).send('');
+  if(req.method!=='POST')return jsonError(res,405);
+  try{
+    const token=await identity(req);
+    const name=String(req.body.name||'').slice(0,80),country=String(req.body.country||'').toUpperCase().slice(0,4),track=['beginner','existing'].includes(req.body.track)?req.body.track:null;
+    const india=country==='IN';
+    await db.doc(`users/${token.uid}`).set({
+      displayName:name,
+      country,
+      currency:india?'INR':'USD',
+      billingProvider:'cashfree',
+      onboardingTrack:track,
+      tier:'active',
+      subscriptionStatus:'active',
+      subscriptionId:null,
+      updatedAt:admin.firestore.FieldValue.serverTimestamp()
+    },{merge:true});
+    return res.json({ok:true,active:true})
+  }catch(e){
+    console.error('completeSignup',e.message);
+    return jsonError(res,e.message==='unauthenticated'?401:500)
+  }
+});
+

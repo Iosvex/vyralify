@@ -7,14 +7,17 @@ import { signInWithGoogle } from "@/lib/firebase/auth";
 import { useUserProfile } from "@/components/user-profile-provider";
 
 const standardFeatures = [
+  "Full AI Studio Access (5 AI Tools)",
   "Access Standard Hooks & CTAs",
   "Access Standard Video Templates",
+  "Core Content Vault & Downloads",
   "15% Commission Referral Rights",
   "Standard Community Access",
 ];
 
 const proFeatures = [
   "Everything in Standard",
+  "Priority AI Generation",
   "Access Pro Hooks & CapCut Libraries",
   "Direct Download signed storage URLs",
   "50% Lifetime Recurring Referral Rights",

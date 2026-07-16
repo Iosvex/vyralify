@@ -20,11 +20,13 @@ import {
   Menu,
   X,
   LogOut,
+  Sparkles,
 } from "lucide-react";
 
-// 10 tabs navigation items
+// Dashboard navigation items
 const navItems = [
   { name: "Home Hub", id: "home", icon: Home },
+  { name: "AI Studio", id: "ai", icon: Sparkles },
   { name: "Growth Systems", id: "growth", icon: TrendingUp },
   { name: "Content Vault", id: "vault", icon: FolderOpen },
   { name: "Hook Vault", id: "hooks", icon: Sparkles },
@@ -60,7 +62,7 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
         {/* Brand Header */}
         <div className="flex h-16 items-center justify-between border-b border-zinc-200 px-6 dark:border-zinc-800">
           <div className="flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-600 text-white shadow-md shadow-emerald-500/20">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600 text-white shadow-md shadow-blue-500/20">
               <span className="font-bold text-lg">V</span>
             </div>
             <span className="font-bold tracking-tight text-lg">Vyralify.io</span>
@@ -68,7 +70,7 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
           {profile && (
             <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider ${
               profile.tier === "pro" 
-                ? "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400 border border-emerald-500/20" 
+                ? "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400 border border-blue-500/20" 
                 : "bg-zinc-100 text-zinc-800 dark:bg-zinc-800 dark:text-zinc-400"
             }`}>
               {profile.tier}
@@ -87,11 +89,11 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
                 href={getHref(item.id)}
                 className={`group flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
                   isActive
-                    ? "bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400"
+                    ? "bg-blue-50 text-blue-600 dark:bg-blue-950/40 dark:text-blue-400"
                     : "text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800/50 dark:hover:text-zinc-50"
                 }`}
               >
-                <Icon className={`h-4 w-4 ${isActive ? "text-emerald-600 dark:text-emerald-400" : "text-zinc-400 group-hover:text-zinc-500 dark:text-zinc-500"}`} />
+                <Icon className={`h-4 w-4 ${isActive ? "text-blue-600 dark:text-blue-400" : "text-zinc-400 group-hover:text-zinc-500 dark:text-zinc-500"}`} />
                 {item.name}
               </a>
             );
@@ -101,7 +103,7 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
         {/* Sidebar Footer User Details */}
         <div className="border-t border-zinc-200 p-4 dark:border-zinc-800">
           <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 font-semibold text-sm">
+            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 font-semibold text-sm">
               {profile?.displayName?.charAt(0) || profile?.email?.charAt(0) || "U"}
             </div>
             <div className="flex-1 min-w-0">
@@ -138,7 +140,7 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
           </div>
           {profile && (
             <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase ${
-              profile.tier === "pro" ? "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30" : "bg-zinc-100 text-zinc-800 dark:bg-zinc-800"
+              profile.tier === "pro" ? "bg-blue-100 text-blue-800 dark:bg-blue-900/30" : "bg-zinc-100 text-zinc-800 dark:bg-zinc-800"
             }`}>
               {profile.tier}
             </span>

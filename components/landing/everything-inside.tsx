@@ -35,9 +35,9 @@ const assets = [
   },
   {
     icon: "🤖",
-    title: "AI Content Tools",
+    title: "AI Studio (5 Tools)",
     description:
-      "AI-powered caption writer, hashtag generator, and posting scheduler",
+      "Caption Generator, Hook Generator, Content Ideas, Content Planner & Growth Assistant",
   },
 ];
 

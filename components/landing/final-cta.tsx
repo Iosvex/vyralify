@@ -86,9 +86,11 @@ export default function FinalCta() {
           </motion.p>
 
           <motion.div variants={fadeUp} custom={2} className="mt-10">
-            <button className="inline-flex items-center justify-center bg-white text-blue-600 hover:bg-zinc-100 font-bold px-8 h-12 rounded-full text-sm hover:scale-105 transition-all duration-300 shadow-lg cursor-pointer">
-              Get Started Now →
-            </button>
+            <a href="#pricing">
+              <button className="inline-flex items-center justify-center bg-white text-blue-600 hover:bg-zinc-100 font-bold px-8 h-12 rounded-full text-sm hover:scale-105 transition-all duration-300 shadow-lg cursor-pointer">
+                Get Started Now →
+              </button>
+            </a>
           </motion.div>
 
           {/* Avatar stack */}

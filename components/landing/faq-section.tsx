@@ -6,7 +6,10 @@ import { HelpCircle, ChevronDown } from "lucide-react";
 
 const faqs = [
   {
-    q: "What is a faceless Instagram page?",
+    q: "What AI tools are included?",
+    a: "Every paid member gets access to our full AI Studio: Caption Generator, Hook Generator, Content Ideas, Content Planner, and Growth Assistant. These tools are powered by NVIDIA and Groq AI models and are exclusive to active subscribers.",
+  },
+  {
     a: "A faceless page is an Instagram account centered on a specific theme (like finance, peak performance, or travel aesthetic) where you don't show your face. We provide all the reels, caption scripts, and b-roll footage to help you post anonymously.",
   },
   {

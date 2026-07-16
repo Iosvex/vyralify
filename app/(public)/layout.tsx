@@ -57,6 +57,12 @@ function PublicHeader() {
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-zinc-500">
           <Link
+            href="/#ai-tools"
+            className="hover:text-zinc-900 transition-colors"
+          >
+            AI Tools
+          </Link>
+          <Link
             href="/#features"
             className="hover:text-zinc-900 transition-colors"
           >

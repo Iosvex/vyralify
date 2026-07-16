@@ -28,6 +28,7 @@ import {
 } from "lucide-react";
 import { db } from "@/lib/firebase/client";
 import { collection, query, getDocs, doc, updateDoc, onSnapshot } from "firebase/firestore";
+import AiStudio from "@/components/dashboard/ai-studio";
 
 interface ContentAsset {
   id: string;
@@ -57,6 +58,8 @@ export default function MemberDashboard() {
   const activeTab = searchParams.get("tab") || "home";
   const { profile } = useUserProfile();
   const isPro = profile?.tier === "pro";
+  const hasAiAccess =
+    profile?.role === "admin" || profile?.subscriptionStatus === "active";
 
   const [checklist, setChecklist] = useState<Record<string, boolean>>({});
 

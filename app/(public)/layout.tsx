@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { UserProfileProvider, useUserProfile } from "@/components/user-profile-provider";
@@ -48,9 +49,11 @@ function PublicHeader() {
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2.5">
-          <Image src={logo} alt="Vyralify logo" width={34} height={34} className="h-8 w-8 rounded-lg object-cover" />
+          <motion.div initial={{ opacity: 0, scale: 0.95, y: 4 }} animate={{ opacity: 1, scale: 1, y: 0 }} transition={{ duration: 0.4, ease: "easeOut" }}>
+            <Image src={logo} alt="Vyralify logo" width={32} height={32} className="h-8 w-8 object-contain" />
+          </motion.div>
           <span className="text-base font-bold tracking-tight text-zinc-900">
-            Vyralify<span className="text-indigo-600">.io</span>
+            Vyralify<span className="text-blue-600">.io</span>
           </span>
         </Link>
 

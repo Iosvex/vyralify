@@ -16,12 +16,12 @@ import { SectionFlow, Section } from "@/components/sectionflow/core/section-flow
 
 export default function LandingPage() {
   return (
-    <main className="bg-[#f5f3ef]">
-      <SectionFlow defaultTransition="circular-portal" className="bg-[#f5f3ef]">
-        <Section transition="circular-portal" className="min-h-0 bg-transparent">
+    <main className="bg-[#f8fbff]">
+      <SectionFlow defaultTransition="wave-reveal" className="bg-[#f8fbff]">
+        <Section transition="wave-reveal" className="min-h-0 bg-transparent">
           <HeroSection />
         </Section>
-        <Section transition="circular-portal" className="min-h-0 bg-transparent">
+        <Section transition="wave-reveal" className="min-h-0 bg-transparent">
           <SocialProof />
         </Section>
         <Section className="min-h-0 bg-transparent">

@@ -1,231 +1,172 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Image from "next/image";
-import { ChevronRight, Play } from "lucide-react";
+import { ChevronRight } from "lucide-react";
+import Link from "next/link";
+
+const panelLabels = [
+  "AI Caption Engine",
+  "Viral Hook Library",
+  "Content Planner",
+  "Growth Systems",
+  "Monetisation Vault",
+];
+
+const annotations = [
+  { text: "Experienced growth systems", position: "top-[18%] left-[8%]" },
+  { text: "Modern AI content tools", position: "top-[42%] right-[6%]" },
+  { text: "Individual niche strategy", position: "bottom-[22%] left-[12%]" },
+];
 
 const fadeUp = {
-  hidden: { opacity: 0, y: 30 },
+  hidden: { opacity: 0, y: 24 },
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.6, delay: i * 0.12, ease: [0.25, 0.4, 0.25, 1] },
+    transition: { duration: 0.55, delay: i * 0.1, ease: [0.25, 0.4, 0.25, 1] },
   }),
 };
 
-const featurePills = [
-  "✓ AI Powered",
-  "✓ Beginner Friendly",
-  "✓ Weekly Updates",
-  "✓ Active Community",
-];
-
 export default function HeroSection() {
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden bg-white">
-      {/* ── Background gradient blobs ── */}
-      <motion.div
-        className="absolute top-[-20%] right-[-10%] w-[700px] h-[700px] rounded-full bg-gradient-to-br from-blue-400/30 via-blue-500/20 to-transparent blur-3xl"
-        animate={{ scale: [1, 1.1, 1] }}
-        transition={{ repeat: Infinity, duration: 8, ease: "easeInOut" }}
-      />
-      <motion.div
-        className="absolute bottom-[-15%] left-[-5%] w-[500px] h-[500px] rounded-full bg-gradient-to-tr from-blue-300/20 via-blue-200/10 to-transparent blur-3xl"
-        animate={{ scale: [1, 1.08, 1] }}
-        transition={{ repeat: Infinity, duration: 10, ease: "easeInOut" }}
-      />
-
-      {/* Subtle grid overlay */}
-      <div
-        className="absolute inset-0 opacity-[0.03]"
-        style={{
-          backgroundImage:
-            "linear-gradient(#2563EB 1px, transparent 1px), linear-gradient(to right, #2563EB 1px, transparent 1px)",
-          backgroundSize: "60px 60px",
-        }}
-      />
-
-      {/* ── Content ── */}
-      <div className="relative mx-auto max-w-7xl w-full px-6 py-24 lg:py-0">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          {/* ── Left column: Text ── */}
-          <div className="space-y-8">
-            {/* Trust Badge Pill */}
-            <motion.div
-              custom={0}
-              variants={fadeUp}
-              initial="hidden"
-              animate="visible"
-              className="inline-flex items-center gap-2 rounded-full bg-blue-50 px-4 py-2 text-xs font-semibold text-blue-600 border border-blue-100"
-            >
-              <span>✨</span>
-              The #1 AI-Powered Platform Built For Instagram Creators
-            </motion.div>
-
-            {/* Headline */}
-            <motion.h1
-              custom={1}
-              variants={fadeUp}
-              initial="hidden"
-              animate="visible"
-              className="text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.05] text-zinc-900"
-            >
-              Build, Grow &amp;{" "}
-              <span className="bg-gradient-to-r from-blue-600 to-blue-500 bg-clip-text text-transparent">
-                Monetise
-              </span>{" "}
-              Viral Instagram Pages.
-            </motion.h1>
-
-            {/* Subheadline */}
-            <motion.p
-              custom={2}
-              variants={fadeUp}
-              initial="hidden"
-              animate="visible"
-              className="max-w-xl text-base sm:text-lg text-zinc-500 leading-relaxed"
-            >
-              An AI-powered all-in-one platform built to help you launch viral
-              Instagram pages, create high-performing content, master proven
-              growth strategies, and monetise your audience with high-demand
-              digital products.
-            </motion.p>
-
-            {/* CTA Buttons */}
-            <motion.div
-              custom={3}
-              variants={fadeUp}
-              initial="hidden"
-              animate="visible"
-              className="flex flex-wrap gap-4"
-            >
-              <a
-                href="#pricing"
-                className="inline-flex items-center gap-2 rounded-full bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-3.5 text-sm shadow-lg shadow-blue-500/20 transition-all duration-300 hover:shadow-xl hover:scale-[1.02]"
+    <section className="relative min-h-screen flex items-center bg-[#F5F3EF] px-4 sm:px-6 py-20 lg:py-0">
+      <div className="mx-auto w-full max-w-7xl">
+        {/* CRUNCHY-inspired rounded container */}
+        <div className="relative overflow-hidden rounded-[2rem] sm:rounded-[2.5rem] bg-[#FAFAF8] border border-zinc-200/80 shadow-[0_24px_80px_-20px_rgba(37,99,235,0.15)]">
+          <div className="grid lg:grid-cols-2 min-h-[85vh] lg:min-h-[88vh]">
+            {/* ── Left: Typography ── */}
+            <div className="flex flex-col justify-center px-8 sm:px-12 lg:px-14 py-14 lg:py-16 z-10">
+              <motion.p
+                custom={0}
+                variants={fadeUp}
+                initial="hidden"
+                animate="visible"
+                className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.25em] text-zinc-400 mb-6"
               >
-                Join Vyralify
-                <ChevronRight className="h-4 w-4" />
-              </a>
-              <button className="inline-flex items-center gap-2 rounded-full border border-zinc-200 hover:border-blue-200 bg-white hover:bg-blue-50/50 text-zinc-700 font-semibold px-8 py-3.5 text-sm transition-all duration-300 hover:scale-[1.02]">
-                <Play className="h-4 w-4 text-blue-600" />
-                View Platform
-              </button>
-            </motion.div>
+                Welcome to Vyralify
+              </motion.p>
 
-            {/* Feature Pills */}
-            <motion.div
-              custom={4}
-              variants={fadeUp}
-              initial="hidden"
-              animate="visible"
-              className="flex flex-wrap gap-3"
-            >
-              {featurePills.map((pill) => (
-                <span
-                  key={pill}
-                  className="rounded-full bg-zinc-50 border border-zinc-100 px-4 py-1.5 text-xs font-medium text-zinc-600"
+              <motion.h1
+                custom={1}
+                variants={fadeUp}
+                initial="hidden"
+                animate="visible"
+                className="text-4xl sm:text-5xl lg:text-[3.25rem] xl:text-[3.5rem] font-black uppercase tracking-tight leading-[1.08] text-zinc-950"
+              >
+                Build, Grow &amp;
+                <br />
+                Monetise Viral
+                <br />
+                Instagram Pages
+              </motion.h1>
+
+              <motion.p
+                custom={2}
+                variants={fadeUp}
+                initial="hidden"
+                animate="visible"
+                className="mt-6 max-w-md text-sm sm:text-base text-zinc-500 leading-relaxed"
+              >
+                An AI-powered all-in-one platform built to help you launch faceless
+                Instagram pages, create high-performing content, and monetise with
+                digital products — the full business-in-a-box for creators.
+              </motion.p>
+
+              <motion.p
+                custom={3}
+                variants={fadeUp}
+                initial="hidden"
+                animate="visible"
+                className="mt-4 max-w-md text-sm text-zinc-400 leading-relaxed"
+              >
+                Copy proven products, deploy battle-tested marketing, and scale with
+                weekly updates, premium vault assets, and a 50% lifetime affiliate program.
+              </motion.p>
+
+              <motion.div
+                custom={4}
+                variants={fadeUp}
+                initial="hidden"
+                animate="visible"
+                className="mt-8 flex flex-wrap items-center gap-4"
+              >
+                <a
+                  href="#pricing"
+                  className="inline-flex items-center gap-2 rounded-full bg-zinc-950 hover:bg-zinc-800 text-white font-semibold px-8 py-3.5 text-sm transition-all duration-300 hover:scale-[1.02] shadow-lg"
                 >
-                  {pill}
+                  Join Vyralify
+                  <ChevronRight className="h-4 w-4" />
+                </a>
+                <Link
+                  href="/affiliates"
+                  className="text-sm font-medium text-zinc-500 hover:text-zinc-900 transition-colors"
+                >
+                  Affiliate program →
+                </Link>
+              </motion.div>
+            </div>
+
+            {/* ── Right: Glass panel visual ── */}
+            <motion.div
+              initial={{ opacity: 0, x: 40 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.3, ease: [0.25, 0.4, 0.25, 1] }}
+              className="relative hidden lg:flex items-center justify-center overflow-hidden"
+            >
+              {/* Blue radial glow */}
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                <div className="w-[85%] h-[75%] rounded-full bg-gradient-radial from-blue-500/50 via-blue-600/30 to-transparent blur-2xl" />
+              </div>
+
+              {/* Floating annotations */}
+              {annotations.map((note) => (
+                <span
+                  key={note.text}
+                  className={`absolute ${note.position} text-[10px] font-medium text-white/70 tracking-wide z-20 hidden xl:block`}
+                >
+                  {note.text}
                 </span>
               ))}
-            </motion.div>
 
-            {/* Trusted By */}
-            <motion.div
-              custom={5}
-              variants={fadeUp}
-              initial="hidden"
-              animate="visible"
-              className="flex items-center gap-4 pt-2"
-            >
-              {/* Avatar stack */}
-              <div className="flex -space-x-2.5">
-                {[
-                  "bg-gradient-to-br from-blue-400 to-blue-600",
-                  "bg-gradient-to-br from-indigo-400 to-indigo-600",
-                  "bg-gradient-to-br from-purple-400 to-purple-600",
-                  "bg-gradient-to-br from-sky-400 to-sky-600",
-                  "bg-gradient-to-br from-cyan-400 to-cyan-600",
-                ].map((gradient, i) => (
+              {/* Vertical glass panels */}
+              <div className="relative flex items-stretch justify-center gap-1 h-[70%] w-[85%] z-10">
+                {panelLabels.map((label, i) => (
                   <div
-                    key={i}
-                    className={`h-9 w-9 rounded-full ${gradient} border-2 border-white flex items-center justify-center text-white text-[10px] font-bold`}
+                    key={label}
+                    className="relative flex-1 rounded-sm overflow-hidden"
+                    style={{
+                      background:
+                        "linear-gradient(180deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.04) 50%, rgba(37,99,235,0.08) 100%)",
+                      backdropFilter: "blur(12px)",
+                      WebkitBackdropFilter: "blur(12px)",
+                      borderLeft: i > 0 ? "1px solid rgba(255,255,255,0.15)" : undefined,
+                    }}
                   >
-                    {["A", "M", "S", "J", "K"][i]}
+                    <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-blue-900/10" />
                   </div>
                 ))}
-              </div>
-              <div>
-                <div className="flex items-center gap-1">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <svg
-                      key={i}
-                      className="h-3.5 w-3.5 text-yellow-400 fill-current"
-                      viewBox="0 0 20 20"
-                    >
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
-                  ))}
+
+                {/* Brand text across panels */}
+                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                  <span className="text-5xl xl:text-6xl font-black uppercase tracking-[0.15em] text-white drop-shadow-[0_2px_20px_rgba(37,99,235,0.5)] select-none">
+                    Vyralify
+                  </span>
                 </div>
-                <p className="text-xs text-zinc-500 mt-0.5">
-                  Join <span className="font-semibold text-zinc-700">1,000+</span> creators building with Vyralify
-                </p>
+              </div>
+
+              {/* Panel label strip */}
+              <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-3 z-20">
+                {["✨ AI", "🔥 Hooks", "📅 Planner"].map((tag) => (
+                  <span
+                    key={tag}
+                    className="text-[10px] font-semibold text-white/80 bg-white/10 backdrop-blur-md px-3 py-1 rounded-full border border-white/15"
+                  >
+                    {tag}
+                  </span>
+                ))}
               </div>
             </motion.div>
           </div>
-
-          {/* ── Right column: Dashboard Mockup ── */}
-          <motion.div
-            initial={{ opacity: 0, x: 80, rotateY: -8 }}
-            animate={{ opacity: 1, x: 0, rotateY: 0 }}
-            transition={{ duration: 0.9, delay: 0.4, ease: [0.25, 0.4, 0.25, 1] }}
-            className="relative hidden lg:block"
-          >
-            {/* Glassmorphism card wrapper */}
-            <div className="relative rounded-3xl shadow-2xl border border-white/20 overflow-hidden backdrop-blur-xl bg-white/10">
-              {/* Inner glow ring */}
-              <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-blue-400/10 via-transparent to-blue-600/5 pointer-events-none" />
-
-              <Image
-                src="/dashboard-mockup.jpg"
-                alt="Vyralify dashboard preview"
-                width={720}
-                height={480}
-                className="w-full h-auto"
-                priority
-              />
-            </div>
-
-            {/* Decorative floating badge */}
-            <motion.div
-              className="absolute -bottom-6 -left-6 rounded-2xl bg-white shadow-xl border border-zinc-100 px-5 py-3 flex items-center gap-3"
-              animate={{ y: [0, -8, 0] }}
-              transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-            >
-              <div className="h-10 w-10 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600 text-lg font-bold">
-                🚀
-              </div>
-              <div>
-                <p className="text-sm font-bold text-zinc-900">+234%</p>
-                <p className="text-[11px] text-zinc-500">Avg. Growth Rate</p>
-              </div>
-            </motion.div>
-
-            {/* Decorative floating badge top-right */}
-            <motion.div
-              className="absolute -top-4 -right-4 rounded-2xl bg-white shadow-xl border border-zinc-100 px-4 py-2.5 flex items-center gap-2"
-              animate={{ y: [0, -6, 0] }}
-              transition={{ repeat: Infinity, duration: 5, ease: "easeInOut", delay: 1 }}
-            >
-              <div className="h-8 w-8 rounded-lg bg-green-50 flex items-center justify-center text-green-600 text-sm">
-                💰
-              </div>
-              <div>
-                <p className="text-xs font-bold text-zinc-900">$10K+</p>
-                <p className="text-[10px] text-zinc-500">Revenue</p>
-              </div>
-            </motion.div>
-          </motion.div>
         </div>
       </div>
     </section>

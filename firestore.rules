@@ -1,34 +1,14 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    
-    // Helper to determine if user is an administrator
-    function isAdmin() {
-      return request.auth != null && (
-        // Database role verification
-        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin' ||
-        // Hardcoded admin email backups
-        request.auth.token.email == 'support@vyralify.in' ||
-        request.auth.token.email == 'vyralify.io@gmail.com'
-      );
-    }
-
-    // Anyone can read content assets (we handle tier filtering on frontend)
-    match /contentAssets/{document} {
-      allow read: if true;
-      allow write: if isAdmin();
-    }
-    
-    // Users can read/write their own profiles
-    match /users/{uid} {
-      allow read: if request.auth != null;
-      allow write: if request.auth != null && request.auth.uid == uid;
-      allow update: if request.auth != null && request.auth.uid == uid;
-    }
-    
-    // Administrators can read/write everything in the database
-    match /{document=**} {
-      allow read, write: if isAdmin();
-    }
+    function signedIn() { return request.auth != null; }
+    function isAdmin() { return signedIn() && (request.auth.token.email == 'support@vyralify.in' || request.auth.token.email == 'vyralify.io@gmail.com' || (exists(/databases/$(database)/documents/users/$(request.auth.uid)) && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin')); }
+    function validInitialProfile() { return request.resource.data.role == 'member' && request.resource.data.tier == 'free' && request.resource.data.keys().hasOnly(['email','displayName','role','tier','country','currency','billingProvider','onboardingTrack','createdAt','updatedAt']) && request.resource.data.currency in ['INR','USD'] && request.resource.data.billingProvider in ['razorpay','stripe']; }
+    match /users/{uid} { allow get: if signedIn() && (request.auth.uid == uid || isAdmin()); allow list: if isAdmin(); allow create: if signedIn() && request.auth.uid == uid && validInitialProfile(); allow update: if isAdmin() || (signedIn() && request.auth.uid == uid && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['displayName','country','currency','billingProvider','onboardingTrack','updatedAt']) && request.resource.data.role == resource.data.role && request.resource.data.tier == resource.data.tier && request.resource.data.subscriptionId == resource.data.subscriptionId && request.resource.data.subscriptionStatus == resource.data.subscriptionStatus); allow delete: if isAdmin(); }
+    match /contentAssets/{document} { allow read: if true; allow write: if isAdmin(); }
+    match /orders/{id} { allow get: if signedIn() && (resource.data.uid == request.auth.uid || isAdmin()); allow list: if isAdmin(); allow write: if false; }
+    match /aiGenerations/{id} { allow read, write: if isAdmin(); }
+    match /affiliates/{id} { allow get: if signedIn() && (resource.data.ownerUid == request.auth.uid || isAdmin()); allow list, write: if isAdmin(); }
+    match /communityPosts/{id} { allow read: if signedIn(); allow create: if signedIn() && request.resource.data.uid == request.auth.uid && request.resource.data.keys().hasOnly(['uid','body','createdAt']); allow update, delete: if signedIn() && resource.data.uid == request.auth.uid; }
   }
 }

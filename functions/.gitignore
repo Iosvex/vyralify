@@ -1,9 +1,0 @@
-# Compiled JavaScript output
-lib/
-
-# Dependency directory
-node_modules/
-
-# Logs
-*-debug.log
-firebase-debug-*.log

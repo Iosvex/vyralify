@@ -1,0 +1,2 @@
+import {gsap} from 'https://cdn.jsdelivr.net/npm/gsap@3.12.5/+esm';
+document.addEventListener('DOMContentLoaded',()=>{if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;gsap.from('[data-hero]',{opacity:0,y:22,duration:.8,stagger:.12,ease:'power3.out'});document.querySelectorAll('[data-count]').forEach(el=>{const end=Number(el.dataset.count)||0;gsap.to({n:0},{n:end,duration:1.4,scrollTrigger:{trigger:el,start:'top 85%',once:true},onUpdate(){el.textContent=Math.floor(this.targets()[0].n).toLocaleString()+'+'}})})});

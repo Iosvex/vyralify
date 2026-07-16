@@ -4,207 +4,346 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dashboard — Vyralify</title>
-  <meta name="robots" content="noindex" />
   <link rel="icon" href="/vyralifylogo.jpeg" />
-  <link rel="stylesheet" href="/assets/css/tokens.css" />
-  <link rel="stylesheet" href="/assets/css/base.css" />
-  <link rel="stylesheet" href="/assets/css/app.css" />
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="stylesheet" href="/dashboard.css" />
 </head>
-<body class="app-shell">
-  <a class="skip-link" href="#track-title">Skip to content</a>
+<body class="app-page" data-admin="false">
 
-  <nav class="app-nav">
-    <div class="container">
-      <a class="brand" href="/dashboard.html">V<i>Y</i>RAL<i>I</i>FY</a>
-      <div class="dash-actions">
-        <button id="checkout" class="btn btn-primary hidden">Unlock Full Access</button>
-        <button id="logout" class="btn btn-secondary">Log out</button>
+  <!-- App Top Bar -->
+  <header class="app-topbar">
+    <a class="topbar-brand" href="/">Vyral<span>ify</span></a>
+    <nav class="topbar-nav-links" aria-label="Dashboard">
+      <a href="#" data-category="foundation" class="active">Foundation</a>
+      <a href="#" data-category="content">Content</a>
+      <a href="#" data-category="growth">Growth</a>
+      <a href="#" data-category="monetisation">Monetise</a>
+      <a href="#" data-category="community">Community</a>
+    </nav>
+    <div class="topbar-context">
+      <div class="topbar-credits">
+        <span class="topbar-credits-icon">⚡</span>
+        <span id="stat-credits">3 / 3</span>
+        <span style="font-size:0.72rem;opacity:.7">AI credits</span>
+      </div>
+      <div class="topbar-user" id="topbar-user-menu" role="button" tabindex="0" aria-haspopup="true">
+        <div class="avatar" id="user-avatar">—</div>
+        <span id="member-name" style="max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Loading…</span>
+        <span style="font-size:0.7rem;opacity:.5">▾</span>
       </div>
     </div>
-  </nav>
-
-  <div class="container dashboard">
-    <header class="dash-head">
-      <div class="greeting">
-        <strong>Welcome, <span id="member-name">…</span></strong>
-        <small id="tier-state">Loading…</small>
-      </div>
-    </header>
-
-    <!-- Top Stats Panel (Sleek Blue/White Cards) -->
-    <div class="stats-panel-grid" style="margin-bottom: 1.5rem;">
-      <div class="stat-mini-card card">
-        <span class="stat-label">Total Views</span>
-        <strong class="stat-value" id="stat-views">1.2M</strong>
-        <span class="stat-change text-success">↑ 18.4% this week</span>
-      </div>
-      <div class="stat-mini-card card">
-        <span class="stat-label">Followers Gained</span>
-        <strong class="stat-value" id="stat-followers">+12,480</strong>
-        <span class="stat-change text-success">↑ 8.2% this week</span>
-      </div>
-      <div class="stat-mini-card card">
-        <span class="stat-label">Active Page</span>
-        <strong class="stat-value" id="stat-handle">@quiet.capital</strong>
-        <span class="stat-change">Niche: Wealth & Mindset</span>
-      </div>
-      <div class="stat-mini-card card">
-        <span class="stat-label">AI Tool Credits</span>
-        <strong class="stat-value" id="stat-credits">3 / 3</strong>
-        <span class="stat-change" id="stat-credits-reset">Resets in 24h</span>
-      </div>
-    </div>
-
-    <div class="dashboard-grid">
-      <aside class="side-tabs" aria-label="Dashboard tracks">
-        <button data-category="foundation" class="active">Foundation</button>
-        <button data-category="content">Content &amp; Posting</button>
-        <button data-category="growth">Scaling &amp; Growth</button>
-        <button data-category="monetisation">Monetisation</button>
-        <button data-category="community">Community</button>
-      </aside>
-
-      <section class="dashboard-content card">
-        <h2 id="track-title">Foundation</h2>
-
-        <!-- Tab 1: Foundation Tools -->
-        <div id="foundation-tools" class="tab-tools">
-          <div class="grid-2">
-            <!-- Roadmap Card -->
-            <div class="tool-section card" style="padding: 1.25rem; margin-bottom: 1.5rem;">
-              <h3 style="margin-top:0">🎯 Setup Checklist</h3>
-              <div class="checklist-item"><input type="checkbox" id="chk-niche" checked> <label for="chk-niche">Choose your niche page topic</label></div>
-              <div class="checklist-item"><input type="checkbox" id="chk-brand"> <label for="chk-brand">Create IG handle & brand kit</label></div>
-              <div class="checklist-item"><input type="checkbox" id="chk-bio"> <label for="chk-bio">Write bio & mount profile picture</label></div>
-              <div class="checklist-item"><input type="checkbox" id="chk-first"> <label for="chk-first">Publish first 3 viral Reels</label></div>
-            </div>
-            
-            <!-- Niche Explorer Card -->
-            <div class="tool-section card" style="padding: 1.25rem; margin-bottom: 1.5rem;">
-              <h3 style="margin-top:0">🔍 Niche Explorer</h3>
-              <p style="font-size:0.85rem;margin-bottom:0.75rem">Browse viral Instagram niches and extract brand guides instantly.</p>
-              <div class="niche-selectors" style="display:flex;gap:0.5rem;margin-bottom:0.75rem">
-                <button type="button" class="btn btn-secondary active" data-niche-select="wealth" style="padding:0.4rem 0.8rem;font-size:0.75rem">Wealth</button>
-                <button type="button" class="btn btn-secondary" data-niche-select="stoicism" style="padding:0.4rem 0.8rem;font-size:0.75rem">Stoicism</button>
-                <button type="button" class="btn btn-secondary" data-niche-select="luxury" style="padding:0.4rem 0.8rem;font-size:0.75rem">Luxury</button>
-              </div>
-              <div id="niche-details" class="card" style="padding:0.75rem;background:var(--paper);font-size:0.85rem">
-                <strong>💡 Topic:</strong> Financial freedom & money hacks.<br>
-                <strong>🔥 Best Hooks:</strong> "The 3 rules of wealth they hid from you..."<br>
-                <strong>🏷️ Recommended tags:</strong> #finance #moneyhacks #wealthmindset
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Tab 2: Content Tools -->
-        <div id="content-tools" class="tab-tools hidden">
-          <div class="grid-2">
-            <!-- Hook Scorer Card -->
-            <div class="tool-section card" style="padding: 1.25rem; margin-bottom: 1.5rem;">
-              <h3 style="margin-top:0">⚡ Hook Analyzer</h3>
-              <p style="font-size:0.85rem;margin-bottom:0.75rem">Analyze your reel hooks to predict viewer retention.</p>
-              <div style="display:flex;gap:0.5rem">
-                <input type="text" id="hook-input" placeholder="Type your hook (e.g. 'How to start...')" style="flex:1;padding:0.5rem;border-radius:8px;border:1px solid var(--line)" />
-                <button type="button" id="btn-analyze-hook" class="btn btn-primary" style="padding:0.5rem 1rem;font-size:0.85rem">Analyze</button>
-              </div>
-              <div id="hook-result" class="hidden" style="margin-top:1rem;padding:0.75rem;border-radius:8px;font-size:0.85rem">
-                <!-- Hook score goes here -->
-              </div>
-            </div>
-            <!-- Quick AI Assistant access -->
-            <div class="tool-section card" style="padding: 1.25rem; margin-bottom: 1.5rem; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center">
-              <span style="font-size:2rem">✦</span>
-              <h3 style="margin: 0.5rem 0">Need complete scripts?</h3>
-              <p style="font-size:0.85rem;margin-top:0">Use our AI Creator Assistant to generate captions, hooks, and full viral scripts.</p>
-              <button type="button" id="btn-open-assistant" class="btn btn-primary" style="padding:0.5rem 1.25rem;font-size:0.85rem">Open Assistant</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Tab 3: Scaling & Growth Tools -->
-        <div id="growth-tools" class="tab-tools hidden">
-          <!-- Posting Calendar Card -->
-          <div class="tool-section card" style="padding: 1.25rem; margin-bottom: 1.5rem;">
-            <h3 style="margin-top:0">📅 Reels Posting Calendar</h3>
-            <p style="font-size:0.85rem;margin-bottom:1rem">A proven, high-retention calendar sequence to warm the algorithm.</p>
-            <div class="calendar-grid">
-              <div class="cal-day card"><strong>MON</strong><span class="cal-activity">High-Retention Reel</span><small>5-second loop</small></div>
-              <div class="cal-day card"><strong>TUE</strong><span class="cal-activity">Educational Carousel</span><small>Niche guide</small></div>
-              <div class="cal-day card"><strong>WED</strong><span class="cal-activity">Trending Audio Reel</span><small>Using templates</small></div>
-              <div class="cal-day card"><strong>THU</strong><span class="cal-activity">Interactive Story</span><small>Q&A / Poll</small></div>
-              <div class="cal-day card"><strong>FRI</strong><span class="cal-activity">Deep-Value Reel</span><small>30-second script</small></div>
-              <div class="cal-day card"><strong>SAT</strong><span class="cal-activity">Behind the Scenes</span><small>Casual build</small></div>
-              <div class="cal-day card"><strong>SUN</strong><span class="cal-activity">Weekly Wins Review</span><small>Social proof</small></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Tab 4: Monetisation Tools -->
-        <div id="monetisation-tools" class="tab-tools hidden">
-          <div class="grid-2">
-            <!-- Affiliate Panel -->
-            <div class="tool-section card" style="padding: 1.25rem; margin-bottom: 1.5rem;">
-              <h3 style="margin-top:0">💸 Affiliate Program</h3>
-              <p style="font-size:0.85rem;margin-bottom:0.75rem">Refer creators to Vyralify and earn a 40% recurring commission!</p>
-              <div class="affiliate-box" style="display:flex;gap:0.5rem;align-items:center;background:var(--paper);padding:0.5rem;border-radius:8px;border:1px solid var(--line)">
-                <code style="font-weight:700;font-size:0.95rem;color:var(--signal-blue)" id="affiliate-code">MYCODE499</code>
-                <button type="button" id="btn-copy-affiliate" class="btn btn-secondary" style="padding:0.3rem 0.6rem;font-size:0.75rem;margin-left:auto">Copy Link</button>
-              </div>
-              <p id="copy-status" style="font-size:0.75rem;color:var(--success);margin-top:0.25rem" class="hidden">Link copied to clipboard!</p>
-            </div>
-            <!-- Affiliate Stats -->
-            <div class="tool-section card" style="padding: 1.25rem; margin-bottom: 1.5rem;">
-              <h3 style="margin-top:0">📈 Affiliate Performance</h3>
-              <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-top:0.75rem">
-                <div class="card" style="padding:0.5rem;text-align:center;background:var(--paper);box-shadow:none"><small style="display:block">Clicks</small><strong id="aff-clicks">124</strong></div>
-                <div class="card" style="padding:0.5rem;text-align:center;background:var(--paper);box-shadow:none"><small style="display:block">Conversions</small><strong id="aff-signups">8</strong></div>
-              </div>
-              <p style="font-size:0.8rem;margin-top:0.75rem;text-align:center">Estimated Commission: <strong style="color:var(--success)">₹1,596/mo</strong></p>
-            </div>
-          </div>
-        </div>
-
-        <div id="asset-list" class="asset-list"></div>
-
-        <div id="community-panel" class="community hidden">
-          <div id="chat-channels" role="tablist" aria-label="Community channels"></div>
-          <div class="chat-window card">
-            <h3 id="chat-channel-title">General Chat</h3>
-            <div id="chat-thread" class="chat-thread" aria-live="polite"></div>
-            <form id="chat-form" class="chat-form">
-              <input id="chat-input" type="text" maxlength="1000" placeholder="Message the community…" autocomplete="off" aria-label="Message" />
-              <button class="btn btn-primary" type="submit">Send</button>
-            </form>
-          </div>
-        </div>
-      </section>
-    </div>
+  </header>
+  <!-- User dropdown -->
+  <div id="user-dropdown" style="display:none;position:fixed;top:90px;right:calc((100% - min(95%,1200px))/2 + 16px);background:#fff;border:1px solid var(--border-color);border-radius:16px;box-shadow:var(--shadow-lg);padding:0.75rem;z-index:200;min-width:180px">
+    <div style="font-size:0.78rem;font-weight:700;color:var(--text-muted);padding:0.3rem 0.6rem;text-transform:uppercase;letter-spacing:.05em" id="tier-state">Active member</div>
+    <div style="height:1px;background:var(--border-color);margin:0.5rem 0"></div>
+    <button onclick="vyralifyLogout()" style="width:100%;text-align:left;padding:0.5rem 0.6rem;border-radius:8px;font-size:0.875rem;font-weight:600;color:var(--danger);cursor:pointer;border:none;background:transparent;font-family:inherit">Sign Out</button>
   </div>
 
-  <!-- Floating AI Creator Assistant -->
-  <button id="assistant-toggle" class="ai-fab" aria-expanded="false" aria-controls="assistant">✦ AI Assistant</button>
-  <section id="assistant" class="assistant card" aria-label="AI Creator Assistant">
-    <div class="assistant-header">
-      <div>
-        <strong>AI Creator Assistant</strong>
-        <small>Captions · Hooks · Scripts · Ideas · Trends</small>
+  <main class="dash-container" id="main">
+
+    <!-- Stats Strip -->
+    <div class="stats-strip">
+      <div class="stat-card">
+        <div class="stat-label">Reel Views</div>
+        <div class="stat-value">—</div>
+        <div class="stat-meta">This month est.</div>
       </div>
-      <div style="display:flex;gap:.5rem;align-items:center">
-        <button id="ai-clear" type="button">Clear</button>
-        <button id="assistant-close" class="assistant-close" type="button" aria-label="Close assistant">×</button>
+      <div class="stat-card">
+        <div class="stat-label">Followers</div>
+        <div class="stat-value">—</div>
+        <div class="stat-meta">Active page</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Pages Running</div>
+        <div class="stat-value">—</div>
+        <div class="stat-meta">Across niches</div>
+      </div>
+      <div class="stat-card highlight">
+        <div class="stat-label">AI Credits</div>
+        <div class="stat-value" id="stat-credits-card">3/3</div>
+        <div class="stat-meta">Resets daily at midnight</div>
       </div>
     </div>
-    <div id="ai-tools" role="tablist" aria-label="AI tools"></div>
-    <div id="ai-thread" class="ai-thread" aria-live="polite"></div>
-    <p id="ai-locked" class="hidden">Unlock the AI Assistant to generate captions, hooks and scripts in seconds. Use “Unlock Full Access” above to upgrade.</p>
-    <form id="ai-form" class="ai-form">
-      <textarea id="ai-prompt" placeholder="Write a scroll-stopping caption for…" aria-label="Your prompt"></textarea>
-      <button class="btn btn-primary" type="submit">Send</button>
-    </form>
-  </section>
 
-  <script type="module" src="/assets/js/smooth-scroll.js"></script>
+    <!-- Track Tabs -->
+    <div class="track-tabs" role="tablist" id="track-tabs">
+      <button class="track-tab active" role="tab" aria-selected="true" data-category="foundation">🧭 Foundation</button>
+      <button class="track-tab" role="tab" aria-selected="false" data-category="content">✍️ Content &amp; Posting</button>
+      <button class="track-tab" role="tab" aria-selected="false" data-category="growth">📈 Scaling &amp; Growth</button>
+      <button class="track-tab" role="tab" aria-selected="false" data-category="monetisation">💰 Monetisation</button>
+      <button class="track-tab" role="tab" aria-selected="false" data-category="community">🤝 Community</button>
+    </div>
+
+    <!-- Track Title -->
+    <div style="margin-bottom:1.25rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.75rem">
+      <h2 id="track-title" style="font-size:1.4rem;margin:0">Foundation</h2>
+      <button id="btn-open-assistant" class="btn btn-secondary" style="font-size:0.82rem;padding:0.5rem 1rem">🤖 Open AI Assistant</button>
+    </div>
+
+    <!-- FOUNDATION TOOLS -->
+    <div id="foundation-tools" class="tab-tools">
+      <div class="bento-grid">
+
+        <!-- Setup Checklist -->
+        <div class="bento-card bento-wide">
+          <div class="bento-card-header">
+            <span class="bento-card-title">🗺️ Setup Roadmap</span>
+            <span class="bento-card-badge" id="checklist-progress-badge">0 / 5 done</span>
+          </div>
+          <div class="progress-bar-wrap">
+            <div class="progress-bar-fill" id="checklist-bar" style="width:0%"></div>
+          </div>
+          <div class="checklist">
+            <label class="checklist-row"><input type="checkbox" onchange="updateChecklist(this)"> Pick your niche (Wealth / Stoicism / Luxury)</label>
+            <label class="checklist-row"><input type="checkbox" onchange="updateChecklist(this)"> Create your Instagram page &amp; write the bio</label>
+            <label class="checklist-row"><input type="checkbox" onchange="updateChecklist(this)"> Post your first reel using the hook library</label>
+            <label class="checklist-row"><input type="checkbox" onchange="updateChecklist(this)"> Set up your Linktree / landing page</label>
+            <label class="checklist-row"><input type="checkbox" onchange="updateChecklist(this)"> Join the community and introduce yourself</label>
+          </div>
+        </div>
+
+        <!-- Niche Explorer -->
+        <div class="bento-card">
+          <div class="bento-card-header">
+            <span class="bento-card-title">🎯 Niche Explorer</span>
+            <span class="bento-card-badge">Pick one</span>
+          </div>
+          <div class="niche-selector">
+            <button class="niche-btn" data-niche-select="wealth">💰 Wealth</button>
+            <button class="niche-btn" data-niche-select="stoicism">🧘 Stoicism</button>
+            <button class="niche-btn" data-niche-select="luxury">✨ Luxury</button>
+          </div>
+          <div class="niche-details-box" id="niche-details">
+            <span style="color:var(--text-muted);font-size:0.85rem">Select a niche above to see topic ideas, best hooks and hashtags.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONTENT TOOLS -->
+    <div id="content-tools" class="tab-tools hidden">
+      <div class="bento-grid">
+
+        <!-- Hook Analyzer -->
+        <div class="bento-card bento-wide">
+          <div class="bento-card-header">
+            <span class="bento-card-title">🔥 Hook Analyzer</span>
+            <span class="bento-card-badge">Score your hook</span>
+          </div>
+          <div class="hook-input-group">
+            <textarea id="hook-input" placeholder="Paste your reel hook here… e.g. &quot;The 3 money secrets they never taught you in school...&quot;"></textarea>
+          </div>
+          <button id="btn-analyze-hook" class="btn btn-primary" style="font-size:0.875rem;padding:0.65rem 1.25rem">Analyze Hook →</button>
+          <div class="hook-score-display" id="hook-result" style="margin-top:1rem"></div>
+        </div>
+
+        <!-- AI Assistant shortcut -->
+        <div class="bento-card">
+          <div class="bento-card-header">
+            <span class="bento-card-title">🤖 AI Content Tools</span>
+            <span class="bento-card-badge success">⚡ <span id="stat-credits-content">3</span>/3 left</span>
+          </div>
+          <p style="font-size:0.875rem;color:var(--text-body);margin-bottom:1rem">Generate captions, hooks, reel scripts, hashtag sets and trending content ideas instantly.</p>
+          <div style="display:flex;flex-wrap:wrap;gap:0.45rem;margin-bottom:1rem">
+            <span style="font-size:0.75rem;font-weight:700;background:var(--card-tint);color:var(--primary-blue);border:1px solid var(--border-tint);border-radius:var(--radius-full);padding:.2rem .65rem">Caption</span>
+            <span style="font-size:0.75rem;font-weight:700;background:var(--card-tint);color:var(--primary-blue);border:1px solid var(--border-tint);border-radius:var(--radius-full);padding:.2rem .65rem">Hook</span>
+            <span style="font-size:0.75rem;font-weight:700;background:var(--card-tint);color:var(--primary-blue);border:1px solid var(--border-tint);border-radius:var(--radius-full);padding:.2rem .65rem">Script</span>
+            <span style="font-size:0.75rem;font-weight:700;background:var(--card-tint);color:var(--primary-blue);border:1px solid var(--border-tint);border-radius:var(--radius-full);padding:.2rem .65rem">Ideas</span>
+            <span style="font-size:0.75rem;font-weight:700;background:var(--card-tint);color:var(--primary-blue);border:1px solid var(--border-tint);border-radius:var(--radius-full);padding:.2rem .65rem">Trends</span>
+          </div>
+          <button id="btn-open-assistant-content" class="btn btn-primary" style="width:100%;justify-content:center;font-size:0.875rem">Open AI Assistant →</button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- GROWTH TOOLS -->
+    <div id="growth-tools" class="tab-tools hidden">
+      <div class="bento-grid">
+
+        <!-- Posting Calendar -->
+        <div class="bento-card bento-wide">
+          <div class="bento-card-header">
+            <span class="bento-card-title">📅 Weekly Reels Calendar</span>
+            <span class="bento-card-badge">This week</span>
+          </div>
+          <p style="font-size:0.875rem;color:var(--text-body);margin-bottom:0.75rem">Click a day to mark it posted. Consistency compounds — aim for 5+ reels/week.</p>
+          <div class="cal-grid" id="posting-calendar">
+            <div class="cal-cell" data-day="Mon"><span class="day-label">Mon</span><span class="day-content">Reel 1</span></div>
+            <div class="cal-cell posted" data-day="Tue"><span class="day-label">Tue</span><span class="day-content">✓ Posted</span></div>
+            <div class="cal-cell" data-day="Wed"><span class="day-label">Wed</span><span class="day-content">Reel 3</span></div>
+            <div class="cal-cell posted" data-day="Thu"><span class="day-label">Thu</span><span class="day-content">✓ Posted</span></div>
+            <div class="cal-cell" data-day="Fri"><span class="day-label">Fri</span><span class="day-content">Reel 5</span></div>
+            <div class="cal-cell" data-day="Sat"><span class="day-label">Sat</span><span class="day-content">Rest</span></div>
+            <div class="cal-cell" data-day="Sun"><span class="day-label">Sun</span><span class="day-content">Rest</span></div>
+          </div>
+        </div>
+
+        <!-- Growth Tips -->
+        <div class="bento-card">
+          <div class="bento-card-header">
+            <span class="bento-card-title">📊 Growth Levers</span>
+            <span class="bento-card-badge">Key actions</span>
+          </div>
+          <div class="checklist">
+            <label class="checklist-row"><input type="checkbox"> Post within peak hours (7–9am, 7–9pm)</label>
+            <label class="checklist-row"><input type="checkbox"> Use 3–5 targeted hashtags, not 30</label>
+            <label class="checklist-row"><input type="checkbox"> Reply to every comment in first hour</label>
+            <label class="checklist-row"><input type="checkbox"> Batch-create 7 reels on Sunday</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MONETISATION TOOLS -->
+    <div id="monetisation-tools" class="tab-tools hidden">
+      <div class="bento-grid">
+
+        <!-- Affiliate Program -->
+        <div class="bento-card bento-wide">
+          <div class="bento-card-header">
+            <span class="bento-card-title">🤝 Affiliate Program</span>
+            <span class="bento-card-badge success">Earn per referral</span>
+          </div>
+          <p style="font-size:0.875rem;color:var(--text-body);margin-bottom:1rem">Share your referral link with your audience. For every signup you send, you earn a commission.</p>
+          <div class="ref-link-box">
+            <code id="affiliate-link-display">https://vyralify.io/signup.html?ref=<span id="affiliate-code">MEMBER</span></code>
+            <button class="btn-copy" id="btn-copy-affiliate">Copy</button>
+          </div>
+          <span id="copy-status" class="hidden" style="font-size:0.8rem;font-weight:700;color:var(--success)">✓ Copied to clipboard!</span>
+          <div class="aff-stats" style="margin-top:1.25rem">
+            <div class="aff-stat">
+              <strong id="aff-clicks">—</strong>
+              <small>Link clicks</small>
+            </div>
+            <div class="aff-stat">
+              <strong id="aff-signups">—</strong>
+              <small>Signups</small>
+            </div>
+            <div class="aff-stat">
+              <strong style="color:var(--success)">₹0</strong>
+              <small>Earned (pending)</small>
+            </div>
+          </div>
+        </div>
+
+        <!-- Monetisation Guide -->
+        <div class="bento-card">
+          <div class="bento-card-header">
+            <span class="bento-card-title">💡 Income Streams</span>
+          </div>
+          <div class="checklist">
+            <label class="checklist-row"><input type="checkbox"> Create a ₹499–₹999 digital product</label>
+            <label class="checklist-row"><input type="checkbox"> Set up an affiliate offer (Vyralify, Amazon)</label>
+            <label class="checklist-row"><input type="checkbox"> Create a paid shoutout rate card</label>
+            <label class="checklist-row"><input type="checkbox"> Add link-in-bio with Linktree / Beacons</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COMMUNITY PANEL -->
+    <div id="community-panel" class="hidden">
+      <div class="bento-card" style="min-height:400px">
+        <div class="bento-card-header">
+          <span class="bento-card-title">🤝 Community Chat</span>
+          <span class="bento-card-badge">Members only</span>
+        </div>
+        <!-- Community channels and chat — initialised by community.js -->
+        <div id="chat-channels" class="channel-tabs"></div>
+        <div class="chat-thread" id="chat-thread"></div>
+        <div class="chat-input-row">
+          <input type="text" id="chat-input" placeholder="Say something to the community…" />
+          <button class="btn btn-primary" id="chat-send" style="font-size:0.8rem;padding:0.6rem 1rem">Send</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Asset List (loaded per track from Firestore) -->
+    <div id="asset-list" class="asset-list" style="margin-top:1.25rem"></div>
+
+    <!-- Checkout CTA (shown if not active tier) -->
+    <div id="checkout" class="bento-card hidden" style="text-align:center;padding:2.5rem;margin-top:1.25rem;background:linear-gradient(135deg,var(--card-tint) 0%,#fff 100%)">
+      <span class="eyebrow">Unlock Full Access</span>
+      <h3 style="margin:0.5rem 0">Get all 5 tracks + AI tools</h3>
+      <p style="font-size:0.9rem;color:var(--text-body);margin-bottom:1.5rem">Join Vyralify for ₹499/month — no hidden charges.</p>
+      <a href="https://payments.cashfree.com/forms/vyralifyio" class="btn btn-primary">Upgrade to Full Access →</a>
+    </div>
+
+  </main>
+
+  <!-- AI Assistant Floating Widget -->
+  <div class="ai-panel" id="ai-panel">
+    <div class="ai-panel-body" id="ai-panel-body">
+      <div class="ai-panel-head">
+        <strong>🤖 AI Creator Assistant</strong>
+        <button onclick="document.getElementById('ai-panel-body').classList.remove('open')" style="background:none;border:none;font-size:1.2rem;cursor:pointer;color:var(--text-muted)">×</button>
+      </div>
+      <div class="ai-messages" id="ai-chat"></div>
+      <div style="padding:0.65rem 1rem;border-top:1px solid var(--border-color);display:flex;flex-wrap:wrap;gap:0.35rem">
+        <button class="ai-tool-btn" data-tool="caption" style="font-size:0.72rem;padding:0.3rem 0.6rem;border-radius:var(--radius-full);background:var(--card-tint);border:1px solid var(--border-tint);color:var(--primary-blue);font-weight:700;cursor:pointer">Caption</button>
+        <button class="ai-tool-btn" data-tool="hook" style="font-size:0.72rem;padding:0.3rem 0.6rem;border-radius:var(--radius-full);background:var(--card-tint);border:1px solid var(--border-tint);color:var(--primary-blue);font-weight:700;cursor:pointer">Hook</button>
+        <button class="ai-tool-btn" data-tool="script" style="font-size:0.72rem;padding:0.3rem 0.6rem;border-radius:var(--radius-full);background:var(--card-tint);border:1px solid var(--border-tint);color:var(--primary-blue);font-weight:700;cursor:pointer">Script</button>
+        <button class="ai-tool-btn" data-tool="ideas" style="font-size:0.72rem;padding:0.3rem 0.6rem;border-radius:var(--radius-full);background:var(--card-tint);border:1px solid var(--border-tint);color:var(--primary-blue);font-weight:700;cursor:pointer">Ideas</button>
+        <button class="ai-tool-btn" data-tool="hashtags" style="font-size:0.72rem;padding:0.3rem 0.6rem;border-radius:var(--radius-full);background:var(--card-tint);border:1px solid var(--border-tint);color:var(--primary-blue);font-weight:700;cursor:pointer">Hashtags</button>
+      </div>
+      <div class="ai-input-row">
+        <input type="text" id="ai-input" placeholder="Ask the AI anything…" />
+        <button class="btn btn-primary" id="ai-send" style="padding:0.6rem 1rem;font-size:0.8rem">Send</button>
+      </div>
+      <div id="ai-locked" style="display:none;padding:0.75rem 1rem;border-top:1px solid var(--border-color);font-size:0.82rem;color:var(--primary-blue);text-align:center;font-weight:600">⚡ You've used all 3 AI credits for today. Resets at midnight.</div>
+    </div>
+    <button class="ai-panel-toggle" id="assistant-toggle" aria-label="Open AI Assistant">🤖</button>
+  </div>
+
+  <!-- User dropdown toggle script -->
+  <script>
+    document.getElementById('topbar-user-menu')?.addEventListener('click', () => {
+      const d = document.getElementById('user-dropdown');
+      d.style.display = d.style.display === 'none' ? 'block' : 'none';
+    });
+    document.addEventListener('click', e => {
+      const menu = document.getElementById('topbar-user-menu');
+      const drop = document.getElementById('user-dropdown');
+      if (!menu?.contains(e.target) && !drop?.contains(e.target)) drop && (drop.style.display = 'none');
+    });
+
+    // AI Panel toggle
+    document.getElementById('assistant-toggle')?.addEventListener('click', () => {
+      document.getElementById('ai-panel-body').classList.toggle('open');
+    });
+
+    // Posting calendar click toggle
+    document.getElementById('posting-calendar')?.addEventListener('click', e => {
+      const cell = e.target.closest('.cal-cell');
+      if (!cell) return;
+      const isPosted = cell.classList.toggle('posted');
+      cell.querySelector('.day-content').textContent = isPosted ? '✓ Posted' : cell.dataset.day === 'Sat' || cell.dataset.day === 'Sun' ? 'Rest' : 'Pending';
+    });
+
+    // Checklist progress
+    window.updateChecklist = function(cb) {
+      const all = document.querySelectorAll('.checklist-row input[type=checkbox]');
+      const done = [...all].filter(c => c.checked).length;
+      const bar = document.getElementById('checklist-bar');
+      const badge = document.getElementById('checklist-progress-badge');
+      if (bar) bar.style.width = (done / all.length * 100) + '%';
+      if (badge) badge.textContent = done + ' / ' + all.length + ' done';
+      cb.closest('.checklist-row').classList.toggle('done', cb.checked);
+    };
+
+    // Open AI assistant shortcuts
+    document.getElementById('btn-open-assistant-content')?.addEventListener('click', () => {
+      document.getElementById('ai-panel-body').classList.add('open');
+    });
+  </script>
+
+  <script type="module" src="/assets/js/firebase-config.js"></script>
+  <script type="module" src="/assets/js/auth-guard.js"></script>
+  <script type="module" src="/assets/js/auth.js"></script>
+  <script type="module" src="/assets/js/ai-widget.js"></script>
+  <script type="module" src="/assets/js/community.js"></script>
   <script type="module" src="/assets/js/dashboard.js"></script>
 </body>
 </html>

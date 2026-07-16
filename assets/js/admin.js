@@ -14,10 +14,12 @@ async function loadAssets(){
   const body=document.querySelector('#admin-assets');
   try{
     const snap=await getDocs(collection(db,'contentAssets'));
-    if(snap.empty){body.innerHTML='<tr><td colspan="5">No content assets yet. Add the first lesson above.</td></tr>';return}
+    if(snap.empty){body.innerHTML='<tr><td colspan="5" style="text-align:center;padding:2rem;color:var(--text-muted)">No content assets yet. Add the first lesson above.</td></tr>';return}
     const rows=snap.docs.map(d=>({id:d.id,...d.data()}))
       .sort((a,b)=>(a.category||'').localeCompare(b.category||'')||((a.order||0)-(b.order||0)));
-    body.innerHTML=rows.map(a=>`<tr><td>${esc(a.title)}</td><td>${esc(a.category)}</td><td>${esc(a.type)}</td><td>${esc(a.tierRequired)}</td><td><button class="btn btn-secondary" data-del="${a.id}" style="padding:0.3rem 0.6rem;font-size:0.75rem">Delete</button></td></tr>`).join('');
+    const countBadge=document.getElementById('assets-count-badge');
+    if(countBadge)countBadge.textContent=`${rows.length} assets`;
+    body.innerHTML=rows.map(a=>`<tr><td>${esc(a.title)}</td><td>${esc(a.category)}</td><td>${esc(a.type)}</td><td><span class="tier-badge ${esc(a.tierRequired)}">${esc(a.tierRequired)}</span></td><td><button class="btn btn-secondary" data-del="${a.id}" style="padding:0.3rem 0.7rem;font-size:0.75rem;color:var(--danger);border-color:rgba(220,38,38,.3)">Delete</button></td></tr>`).join('');
     body.querySelectorAll('[data-del]').forEach(b=>b.onclick=async()=>{
       if(!confirm('Delete this content asset?'))return;
       await deleteDoc(doc(db,'contentAssets',b.dataset.del));
@@ -39,16 +41,16 @@ function renderUsersList(filteredUsers){
   body.innerHTML=filteredUsers.map(u=>`
     <tr>
       <td>${esc(u.displayName||'—')}</td>
-      <td>${esc(u.email)}</td>
+      <td class="mono-col">${esc(u.email)}</td>
       <td>
-        <select class="admin-tier-select" data-uid="${u.id}" style="padding:0.2rem 0.5rem;border-radius:6px;border:1px solid var(--line);font-size:0.8rem">
+        <select class="tier-select admin-tier-select ${u.tier==='active'?'active-tier':''}" data-uid="${u.id}">
           <option value="free" ${u.tier==='free'?'selected':''}>Free</option>
           <option value="active" ${u.tier==='active'?'selected':''}>Active</option>
         </select>
       </td>
       <td>${esc(u.country||'—')}</td>
       <td>
-        <button class="btn btn-secondary toggle-admin-role" data-uid="${u.id}" data-role="${u.role||'member'}" style="padding:0.2rem 0.5rem;font-size:0.75rem">
+        <button class="role-btn ${u.role==='admin'?'revoke-admin':'make-admin'} toggle-admin-role" data-uid="${u.id}" data-role="${u.role||'member'}">
           ${u.role==='admin'?'Revoke Admin':'Make Admin'}
         </button>
       </td>
@@ -109,7 +111,9 @@ async function loadUsers(){
     document.getElementById('admin-stat-total').textContent=total;
     document.getElementById('admin-stat-active').textContent=active;
     document.getElementById('admin-stat-active-pct').textContent=`${pct}% conversion`;
-    document.getElementById('admin-stat-mrr').textContent=`₹${active*499}`;
+    document.getElementById('admin-stat-mrr').textContent=`₹${(active*499).toLocaleString('en-IN')}`;
+    const badge=document.getElementById('members-count-badge');
+    if(badge)badge.textContent=`${total} total`;
     
     // Filter and render list
     const searchVal=document.getElementById('admin-user-search')?.value?.trim()?.toLowerCase()||'';
@@ -142,10 +146,10 @@ async function loadAiLog(){
       const date=g.timestamp?.toDate ? g.timestamp.toDate().toLocaleString() : '—';
       return `
         <tr>
-          <td><code style="font-size:0.75rem">${esc(g.uid)}</code></td>
-          <td><span class="eyebrow" style="margin:0">${esc(g.tool)}</span></td>
-          <td>${date}</td>
-          <td>${g.tokenCount||'—'} tokens</td>
+          <td class="mono-col" style="max-width:140px;overflow:hidden;text-overflow:ellipsis">${esc(g.uid)}</td>
+          <td><span class="bento-card-badge">${esc(g.tool)}</span></td>
+          <td class="mono-col">${date}</td>
+          <td class="mono-col">${g.tokenCount||'—'}</td>
         </tr>
       `;
     }).join('');

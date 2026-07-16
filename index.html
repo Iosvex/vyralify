@@ -3,264 +3,417 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vyralify — Build, Grow & Monetise Viral Instagram Pages</title>
+  <title>Vyralify — Build, Grow &amp; Monetise Viral Instagram Pages</title>
   <meta name="description" content="The all-in-one AI-powered platform helping creators launch, grow and monetise profitable faceless Instagram pages. Curriculum, AI creator tools, templates and community — one membership." />
-  <meta property="og:title" content="Vyralify — Build, Grow & Monetise Viral Instagram Pages" />
+  <meta property="og:title" content="Vyralify — Build, Grow &amp; Monetise Viral Instagram Pages" />
   <meta property="og:description" content="Launch, grow and monetise faceless Instagram pages with AI tools, proven frameworks and a creator community." />
   <meta property="og:type" content="website" />
   <link rel="icon" href="/vyralifylogo.jpeg" />
-  <link rel="stylesheet" href="/assets/css/tokens.css" />
-  <link rel="stylesheet" href="/assets/css/base.css" />
-  <link rel="stylesheet" href="/assets/css/landing.css" />
+  <link rel="stylesheet" href="/styles.css" />
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
 
-  <!-- 1 · Top strip (social proof ticker) -->
-  <div class="top-strip">Join 1,000+ creators building faceless Instagram pages with Vyralify</div>
+  <!-- Dynamic Island Navbar -->
+  <nav class="dynamic-island-nav" role="navigation" aria-label="Main">
+    <a class="nav-brand" href="/">Vyral<span>ify</span></a>
+    <div class="nav-links">
+      <a href="#inside">Platform</a>
+      <a href="#proof">Community</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <div style="display:flex;align-items:center;gap:0.6rem">
+      <a href="/login.html" style="font-size:0.85rem;font-weight:600;color:var(--text-body)">Log in</a>
+      <a href="/signup.html" class="btn btn-primary nav-cta">Get Started</a>
+    </div>
+    <!-- Mobile hamburger -->
+    <button class="hamburger" aria-label="Toggle menu" aria-expanded="false" style="display:none">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
 
-  <!-- 2 · Sticky navbar (light) via shared partial -->
-  <div id="nav-slot" class="nav-slot"></div>
+  <!-- Mobile dropdown -->
+  <div class="mobile-dropdown" role="menu">
+    <a href="#inside">Platform</a>
+    <a href="#proof">Community</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#faq">FAQ</a>
+    <a href="/login.html">Log in</a>
+    <a href="/signup.html" class="btn btn-primary nav-cta">Get Started</a>
+  </div>
 
   <main id="main">
-    <!-- 3 · Hero + Trusted By -->
-    <section class="hero">
-      <div class="container hero-grid">
-        <div class="hero-copy">
-          <span class="eyebrow" data-hero>The #1 AI-Powered Platform Built For IG Creators</span>
-          <h1 data-hero>Build, Grow &amp; <span>Monetise</span> Viral Instagram Pages.</h1>
-          <p data-hero>Everything you need to launch a faceless theme page, grow it with AI, and turn followers into income — the curriculum, the tools and the community, in one membership.</p>
-          <div class="hero-actions" data-hero>
-            <a class="btn btn-primary" href="/checkout.html">● Join Vyralify</a>
-            <a class="btn btn-secondary" href="#inside">▶ View Platform</a>
-          </div>
-          <div class="feature-pills" data-hero>
-            <span>✓ AI Powered</span><span>✓ Beginner Friendly</span><span>✓ Weekly Updates</span><span>✓ Community</span>
-          </div>
-          <p class="hero-proof" data-hero>👤👤 Join 1,000+ creators building with Vyralify</p>
+
+    <!-- 1 · Hero -->
+    <section class="section" style="padding-top:clamp(7rem,14vw,10rem);padding-bottom:clamp(4rem,8vw,6rem);background:linear-gradient(180deg,#EFF6FF 0%,#FFFFFF 100%);overflow:hidden;position:relative">
+      <!-- Soft blob -->
+      <div aria-hidden="true" style="position:absolute;top:-8rem;right:-12rem;width:600px;height:600px;background:radial-gradient(circle,rgba(37,99,235,.12) 0%,transparent 70%);border-radius:50%;pointer-events:none"></div>
+      <div class="container" style="text-align:center;max-width:800px">
+        <span class="eyebrow" data-reveal>The AI-Powered Platform for Faceless Instagram Creators</span>
+        <h1 data-reveal style="--i:1;margin-bottom:1.25rem">Build, Grow &amp; <span style="color:var(--primary-blue)">Monetise</span> Viral Instagram Pages.</h1>
+        <p data-reveal style="--i:2;font-size:clamp(1rem,2vw,1.2rem);max-width:600px;margin:0 auto 2rem;color:var(--text-body)">Everything you need to launch a profitable faceless theme page — curriculum, AI creator tools, templates and a live community. One membership. No gatekeeping.</p>
+        <div data-reveal style="--i:3;display:flex;align-items:center;justify-content:center;gap:0.75rem;flex-wrap:wrap">
+          <a href="/signup.html" class="btn btn-primary" style="font-size:1rem;padding:1rem 2rem">Start Building Free →</a>
+          <a href="#inside" class="btn btn-secondary">See What's Inside</a>
         </div>
-        <div class="hero-visual" data-hero>
-          <div class="aura" aria-hidden="true"></div>
-          <canvas id="hero3d" class="hero-canvas" aria-hidden="true"></canvas>
-          <div class="float-chip chip-a" data-parallax="26">✨ AI caption ready</div>
-          <div class="float-chip chip-b" data-parallax="-30"><b>+2,480</b> followers</div>
-          <div class="float-chip chip-c" data-parallax="20"><b>₹40k</b> month</div>
+        <div data-reveal style="--i:4;display:flex;align-items:center;justify-content:center;gap:0.5rem;margin-top:1.5rem;flex-wrap:wrap">
+          <span style="font-size:0.82rem;font-weight:600;color:var(--text-muted)">✓ AI Powered</span>
+          <span style="color:var(--border-color);font-size:1.2rem">·</span>
+          <span style="font-size:0.82rem;font-weight:600;color:var(--text-muted)">✓ Beginner Friendly</span>
+          <span style="color:var(--border-color);font-size:1.2rem">·</span>
+          <span style="font-size:0.82rem;font-weight:600;color:var(--text-muted)">✓ Weekly Updates</span>
+          <span style="color:var(--border-color);font-size:1.2rem">·</span>
+          <span style="font-size:0.82rem;font-weight:600;color:var(--text-muted)">✓ Live Community</span>
         </div>
       </div>
     </section>
 
-    <!-- 4 · Social Proof: page grid + animated stats -->
-    <section class="section" id="proof">
+    <!-- 2 · Scrolling Ticker -->
+    <div class="marquee-container" aria-hidden="true">
+      <div class="marquee-content">
+        <span class="marquee-item">🚀 1,000+ Creators Building</span>
+        <span class="marquee-item">📈 120+ Pages Launched</span>
+        <span class="marquee-item">🤖 10 AI Creator Tools</span>
+        <span class="marquee-item">📦 45+ Templates &amp; Assets</span>
+        <span class="marquee-item">💬 Live Community</span>
+        <span class="marquee-item">📹 500M+ Views Generated</span>
+        <span class="marquee-item">🎯 5 Growth Tracks</span>
+        <span class="marquee-item">⚡ Weekly New Content</span>
+        <!-- Duplicate for seamless loop -->
+        <span class="marquee-item">🚀 1,000+ Creators Building</span>
+        <span class="marquee-item">📈 120+ Pages Launched</span>
+        <span class="marquee-item">🤖 10 AI Creator Tools</span>
+        <span class="marquee-item">📦 45+ Templates &amp; Assets</span>
+        <span class="marquee-item">💬 Live Community</span>
+        <span class="marquee-item">📹 500M+ Views Generated</span>
+        <span class="marquee-item">🎯 5 Growth Tracks</span>
+        <span class="marquee-item">⚡ Weekly New Content</span>
+      </div>
+    </div>
+
+    <!-- 3 · Stats -->
+    <section class="section" id="proof" style="background:var(--bg-secondary)">
       <div class="container">
-        <div class="section-head" data-reveal>
-          <span class="eyebrow">Real creators, real momentum</span>
-          <h2>Pages built with the Vyralify system</h2>
-          <!-- TODO: replace sample handles with real, permissioned page features -->
-          <p>A snapshot of the niches our members are building in right now.</p>
+        <div style="text-align:center;margin-bottom:3rem" data-reveal>
+          <span class="eyebrow">Momentum</span>
+          <h2>Built by creators, for creators</h2>
+          <p>Real numbers from a growing community of faceless page builders.</p>
         </div>
-        <div class="feature-grid">
-          <div class="feature card" data-reveal><b>Wealth</b><strong>@quiet.capital</strong><small>Faceless finance &amp; money mindset</small></div>
-          <div class="feature card" data-reveal><b>Stoicism</b><strong>@daily.discipline</strong><small>Mindset &amp; self-mastery reels</small></div>
-          <div class="feature card" data-reveal><b>Luxury</b><strong>@the.aesthete</strong><small>Aspirational lifestyle theme page</small></div>
-        </div>
-        <div class="stat-grid">
-          <!-- TODO: replace with real verified metrics before launch -->
-          <div class="stat card" data-reveal="scale"><strong data-count="1000">0</strong><small>Creators building</small></div>
-          <div class="stat card" data-reveal="scale"><strong data-count="120">0</strong><small>Pages built</small></div>
-          <div class="stat card" data-reveal="scale"><strong data-count="10">0</strong><small>AI creator tools</small></div>
-          <div class="stat card" data-reveal="scale"><strong data-count="45">0</strong><small>Templates &amp; assets</small></div>
-          <div class="stat card" data-reveal="scale"><strong>500M+</strong><small>Views generated</small></div>
-        </div>
-        <p><small>Community figures, updated monthly.</small></p>
-      </div>
-    </section>
-
-    <!-- 5 · Features: 6 pillars -->
-    <section class="section">
-      <div class="container">
-        <div class="section-head" data-reveal>
-          <span class="eyebrow">Everything in one place</span>
-          <h2>Six pillars that take you from zero to monetised</h2>
-          <p>No more stitching together scattered YouTube videos and Discord tips. Vyralify is the full system.</p>
-        </div>
-        <div class="feature-grid">
-          <article class="feature card" data-reveal><b>Powered by AI Niche Research</b><h3>Build Pages</h3><p>Pick a profitable niche, brand your page, and launch fast with proven frameworks.</p></article>
-          <article class="feature card" data-reveal><b>Powered by AI Growth Insights</b><h3>Growth Systems</h3><p>Understand the algorithm and post with a repeatable calendar that compounds reach.</p></article>
-          <article class="feature card" data-reveal><b>Powered by Caption · Hook · Script AI</b><h3>Viral Content</h3><p>Generate hooks, scripts, captions and hashtags in seconds — never stare at a blank screen again.</p></article>
-          <article class="feature card" data-reveal><b>Powered by AI Offer Generator</b><h3>Monetisation Engine</h3><p>Turn followers into income with digital products, affiliate systems and sponsorship playbooks.</p></article>
-          <article class="feature card" data-reveal><b>Templates &amp; downloads</b><h3>Resource Vault</h3><p>Plug-and-play templates, checklists and swipe files for every stage of your page.</p></article>
-          <article class="feature card" data-reveal><b>Members-only</b><h3>Community</h3><p>Build alongside 1,000+ creators — share wins, get page reviews, and never grow alone.</p></article>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem" data-reveal-stagger>
+          <div class="card tilt-card" style="padding:1.75rem;text-align:center" data-reveal>
+            <div style="font-size:2.5rem;font-weight:800;color:var(--primary-blue);letter-spacing:-0.04em"><strong data-count="1000" data-count-suffix="+">0+</strong></div>
+            <div style="font-size:0.8rem;font-weight:600;color:var(--text-muted);margin-top:0.4rem">Creators building</div>
+          </div>
+          <div class="card tilt-card" style="padding:1.75rem;text-align:center" data-reveal>
+            <div style="font-size:2.5rem;font-weight:800;color:var(--primary-blue);letter-spacing:-0.04em"><strong data-count="120" data-count-suffix="+">0+</strong></div>
+            <div style="font-size:0.8rem;font-weight:600;color:var(--text-muted);margin-top:0.4rem">Pages launched</div>
+          </div>
+          <div class="card tilt-card" style="padding:1.75rem;text-align:center" data-reveal>
+            <div style="font-size:2.5rem;font-weight:800;color:var(--primary-blue);letter-spacing:-0.04em"><strong data-count="10" data-count-suffix="">10</strong></div>
+            <div style="font-size:0.8rem;font-weight:600;color:var(--text-muted);margin-top:0.4rem">AI creator tools</div>
+          </div>
+          <div class="card tilt-card" style="padding:1.75rem;text-align:center" data-reveal>
+            <div style="font-size:2.5rem;font-weight:800;color:var(--primary-blue);letter-spacing:-0.04em"><strong data-count="45" data-count-suffix="+">0+</strong></div>
+            <div style="font-size:0.8rem;font-weight:600;color:var(--text-muted);margin-top:0.4rem">Templates &amp; assets</div>
+          </div>
+          <div class="card tilt-card" style="padding:1.75rem;text-align:center" data-reveal>
+            <div style="font-size:2.5rem;font-weight:800;color:var(--primary-blue);letter-spacing:-0.04em">500M+</div>
+            <div style="font-size:0.8rem;font-weight:600;color:var(--text-muted);margin-top:0.4rem">Views generated</div>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- 6 · Everything Inside: tabbed preview + AI Assistant widget preview -->
+    <!-- 4 · Feature Bento Grid -->
     <section class="section" id="inside">
       <div class="container">
-        <div class="section-head" data-reveal>
+        <div style="text-align:center;margin-bottom:3rem" data-reveal>
+          <span class="eyebrow">Everything in one place</span>
+          <h2>Six pillars from zero to monetised</h2>
+          <p>No scattered videos, no Discord rabbit holes. Vyralify is the complete system.</p>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.25rem">
+          <article class="card tilt-card" style="padding:1.75rem" data-reveal>
+            <div style="font-size:1.5rem;margin-bottom:0.75rem">🧭</div>
+            <div class="eyebrow" style="margin-bottom:0.35rem">AI Niche Research</div>
+            <h3 style="font-size:1.15rem">Build Your Page</h3>
+            <p style="margin-top:0.5rem;font-size:0.9rem">Pick a proven niche, build your brand, and launch your first page in days — not weeks.</p>
+          </article>
+          <article class="card tilt-card" style="padding:1.75rem" data-reveal>
+            <div style="font-size:1.5rem;margin-bottom:0.75rem">📈</div>
+            <div class="eyebrow" style="margin-bottom:0.35rem">Algorithm Mastery</div>
+            <h3 style="font-size:1.15rem">Growth Systems</h3>
+            <p style="margin-top:0.5rem;font-size:0.9rem">Post with a repeatable calendar that compounds reach. Understand what the algorithm rewards.</p>
+          </article>
+          <article class="card tilt-card" style="padding:1.75rem" data-reveal>
+            <div style="font-size:1.5rem;margin-bottom:0.75rem">✍️</div>
+            <div class="eyebrow" style="margin-bottom:0.35rem">AI Hook · Caption · Script</div>
+            <h3 style="font-size:1.15rem">Viral Content</h3>
+            <p style="margin-top:0.5rem;font-size:0.9rem">Generate hooks, scripts, captions and hashtags in seconds. Never stare at a blank screen again.</p>
+          </article>
+          <article class="card tilt-card" style="padding:1.75rem" data-reveal>
+            <div style="font-size:1.5rem;margin-bottom:0.75rem">💰</div>
+            <div class="eyebrow" style="margin-bottom:0.35rem">AI Offer Generator</div>
+            <h3 style="font-size:1.15rem">Monetisation Engine</h3>
+            <p style="margin-top:0.5rem;font-size:0.9rem">Turn followers into income with digital products, affiliate systems and sponsorship playbooks.</p>
+          </article>
+          <article class="card tilt-card" style="padding:1.75rem" data-reveal>
+            <div style="font-size:1.5rem;margin-bottom:0.75rem">📁</div>
+            <div class="eyebrow" style="margin-bottom:0.35rem">Templates &amp; Downloads</div>
+            <h3 style="font-size:1.15rem">Resource Vault</h3>
+            <p style="margin-top:0.5rem;font-size:0.9rem">Plug-and-play checklists, swipe files and templates for every stage of your creator journey.</p>
+          </article>
+          <article class="card tilt-card" style="padding:1.75rem" data-reveal>
+            <div style="font-size:1.5rem;margin-bottom:0.75rem">🤝</div>
+            <div class="eyebrow" style="margin-bottom:0.35rem">Members-Only</div>
+            <h3 style="font-size:1.15rem">Live Community</h3>
+            <p style="margin-top:0.5rem;font-size:0.9rem">Build alongside 1,000+ creators — share wins, get page reviews, and never grow alone.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5 · Inside the Dashboard Tabs -->
+    <section class="section" style="background:var(--bg-secondary)">
+      <div class="container">
+        <div style="text-align:center;margin-bottom:3rem" data-reveal>
           <span class="eyebrow">Inside the dashboard</span>
-          <h2>Everything inside your membership</h2>
-          <p>Five tracks take you the whole way — plus an AI Creator Assistant on tap from anywhere.</p>
+          <h2>Five tracks. One complete system.</h2>
+          <p>Plus an AI Creator Assistant available everywhere in your dashboard.</p>
         </div>
-        <div class="tabs" role="tablist" data-reveal>
-          <button class="tab active" role="tab" aria-selected="true" data-tab="foundation">Foundation</button>
-          <button class="tab" role="tab" aria-selected="false" data-tab="content">Content &amp; Posting</button>
-          <button class="tab" role="tab" aria-selected="false" data-tab="growth">Scaling &amp; Growth</button>
-          <button class="tab" role="tab" aria-selected="false" data-tab="monetisation">Monetisation</button>
-          <button class="tab" role="tab" aria-selected="false" data-tab="community">Community</button>
-        </div>
-        <div class="tab-panel card" data-panel="foundation" data-reveal>
-          <h3>Foundation</h3>
-          <p>Welcome, Choose Your Niche, Build Your First Page, Set Up an Existing Page, Rules &amp; Guidelines. Start from zero or bring the page you already run.</p>
-        </div>
-        <div class="tab-panel card hidden" data-panel="content">
-          <h3>Content &amp; Posting</h3>
-          <p>Viral content strategies, formats, high-retention hooks, a trending audio library, CTA library, template pack — and the AI Content Assistant to produce it all.</p>
-        </div>
-        <div class="tab-panel card hidden" data-panel="growth">
-          <h3>Scaling &amp; Growth</h3>
-          <p>Algorithm guide, posting calendar, multi-page strategy, progress tracker and case studies to turn early traction into real scale.</p>
-        </div>
-        <div class="tab-panel card hidden" data-panel="monetisation">
-          <h3>Monetisation</h3>
-          <p>Digital products, store setup, sales psychology, sales scripts, the affiliate system and a sponsorship guide — your path from followers to income.</p>
-        </div>
-        <div class="tab-panel card hidden" data-panel="community">
-          <h3>Community</h3>
-          <p>Introductions, general chat, networking, wins &amp; milestones and page reviews — a live, members-only community that grows with you.</p>
-        </div>
-
-        <div class="ai-preview card" data-reveal>
-          <span class="eyebrow">AI Creator Assistant</span>
-          <h3>Generate captions, hooks, scripts, ideas &amp; trends — instantly</h3>
-          <div class="feature-pills">
-            <span>Generate Caption</span><span>Generate Hook</span><span>Write Script</span><span>Content Ideas</span><span>Find Trends</span>
+        <div style="background:#fff;border:1px solid var(--border-color);border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-soft)" data-reveal>
+          <!-- Tabs -->
+          <div style="display:flex;gap:0;border-bottom:1px solid var(--border-color);overflow-x:auto" role="tablist">
+            <button class="tab active" role="tab" aria-selected="true" data-tab="foundation" style="padding:1rem 1.25rem;border:none;background:transparent;font-weight:700;font-size:0.85rem;color:var(--primary-blue);border-bottom:2px solid var(--primary-blue);white-space:nowrap;cursor:pointer;transition:all 0.2s;font-family:inherit">Foundation</button>
+            <button class="tab" role="tab" aria-selected="false" data-tab="content" style="padding:1rem 1.25rem;border:none;background:transparent;font-weight:700;font-size:0.85rem;color:var(--text-muted);border-bottom:2px solid transparent;white-space:nowrap;cursor:pointer;transition:all 0.2s;font-family:inherit">Content &amp; Posting</button>
+            <button class="tab" role="tab" aria-selected="false" data-tab="growth" style="padding:1rem 1.25rem;border:none;background:transparent;font-weight:700;font-size:0.85rem;color:var(--text-muted);border-bottom:2px solid transparent;white-space:nowrap;cursor:pointer;transition:all 0.2s;font-family:inherit">Scaling &amp; Growth</button>
+            <button class="tab" role="tab" aria-selected="false" data-tab="monetisation" style="padding:1rem 1.25rem;border:none;background:transparent;font-weight:700;font-size:0.85rem;color:var(--text-muted);border-bottom:2px solid transparent;white-space:nowrap;cursor:pointer;transition:all 0.2s;font-family:inherit">Monetisation</button>
+            <button class="tab" role="tab" aria-selected="false" data-tab="community" style="padding:1rem 1.25rem;border:none;background:transparent;font-weight:700;font-size:0.85rem;color:var(--text-muted);border-bottom:2px solid transparent;white-space:nowrap;cursor:pointer;transition:all 0.2s;font-family:inherit">Community</button>
           </div>
-          <p>Available from anywhere in your dashboard, with memory of every chat so you can build on each answer. <a href="/checkout.html">Join to unlock it →</a></p>
+          <!-- Panels -->
+          <div data-panel="foundation" style="padding:2rem">
+            <h3>Foundation Track</h3>
+            <p style="margin-top:0.5rem;color:var(--text-body)">Welcome, Choose Your Niche, Build Your First Page, Set Up an Existing Page, Rules &amp; Guidelines. Whether you're starting from scratch or bringing a page you already run — the Foundation track gives you the exact playbook.</p>
+          </div>
+          <div data-panel="content" style="padding:2rem" class="hidden">
+            <h3>Content &amp; Posting Track</h3>
+            <p style="margin-top:0.5rem;color:var(--text-body)">Viral content strategies, high-retention hook formulas, a trending audio library, CTA library and a full template pack — plus the AI Content Assistant to produce everything in seconds.</p>
+          </div>
+          <div data-panel="growth" style="padding:2rem" class="hidden">
+            <h3>Scaling &amp; Growth Track</h3>
+            <p style="margin-top:0.5rem;color:var(--text-body)">Algorithm guide, posting calendar, multi-page strategy, progress tracker and case studies — everything you need to turn early traction into real, compounding scale.</p>
+          </div>
+          <div data-panel="monetisation" style="padding:2rem" class="hidden">
+            <h3>Monetisation Track</h3>
+            <p style="margin-top:0.5rem;color:var(--text-body)">Digital products, store setup, sales psychology, sales scripts, the affiliate system and a sponsorship playbook — your complete path from followers to recurring income.</p>
+          </div>
+          <div data-panel="community" style="padding:2rem" class="hidden">
+            <h3>Live Community</h3>
+            <p style="margin-top:0.5rem;color:var(--text-body)">Introductions, general chat, networking, wins &amp; milestones and page reviews — a live, members-only community that grows with you. Ask questions, share results, get feedback.</p>
+          </div>
+          <!-- AI preview strip -->
+          <div style="padding:1.5rem 2rem;background:var(--card-tint);border-top:1px solid var(--border-color)">
+            <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem">
+              <div>
+                <div class="eyebrow" style="margin:0 0 0.3rem">AI Creator Assistant</div>
+                <p style="font-size:0.9rem;margin:0">Generate captions, hooks, scripts &amp; trends — available from any tab. <strong>3 free generations/day.</strong></p>
+              </div>
+              <a href="/signup.html" class="btn btn-primary" style="font-size:0.85rem;padding:0.65rem 1.25rem">Unlock Full Access →</a>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- 7 · How It Works -->
+    <!-- 6 · How It Works -->
     <section class="section">
       <div class="container">
-        <div class="section-head" data-reveal>
+        <div style="text-align:center;margin-bottom:3rem" data-reveal>
           <span class="eyebrow">Your journey</span>
-          <h2>How it works</h2>
+          <h2>From zero to first cheque in 4 steps</h2>
         </div>
-        <div class="steps">
-          <article class="step card" data-reveal><h3>Join</h3><p>Sign up and pick your track — total beginner or existing creator.</p></article>
-          <article class="step card" data-reveal><h3>Launch</h3><p>Choose a niche, brand your page and post your first viral reel.</p></article>
-          <article class="step card" data-reveal><h3>Monetise</h3><p>Add digital products and affiliate offers your audience actually wants.</p></article>
-          <article class="step card" data-reveal><h3>Scale</h3><p>Run multiple pages with AI systems and a repeatable calendar.</p></article>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.25rem">
+          <article class="card" style="padding:1.75rem;text-align:center" data-reveal>
+            <div style="width:44px;height:44px;border-radius:50%;background:var(--card-tint);border:1.5px solid var(--border-tint);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-weight:800;color:var(--primary-blue)">1</div>
+            <h3 style="font-size:1.05rem">Join</h3>
+            <p style="font-size:0.88rem;margin-top:0.4rem">Sign up and pick your starting track — total beginner or existing creator.</p>
+          </article>
+          <article class="card" style="padding:1.75rem;text-align:center" data-reveal>
+            <div style="width:44px;height:44px;border-radius:50%;background:var(--card-tint);border:1.5px solid var(--border-tint);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-weight:800;color:var(--primary-blue)">2</div>
+            <h3 style="font-size:1.05rem">Launch</h3>
+            <p style="font-size:0.88rem;margin-top:0.4rem">Choose a niche, brand your page and post your first viral reel this week.</p>
+          </article>
+          <article class="card" style="padding:1.75rem;text-align:center" data-reveal>
+            <div style="width:44px;height:44px;border-radius:50%;background:var(--card-tint);border:1.5px solid var(--border-tint);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-weight:800;color:var(--primary-blue)">3</div>
+            <h3 style="font-size:1.05rem">Monetise</h3>
+            <p style="font-size:0.88rem;margin-top:0.4rem">Add digital products and affiliate offers your audience actually wants to buy.</p>
+          </article>
+          <article class="card" style="padding:1.75rem;text-align:center" data-reveal>
+            <div style="width:44px;height:44px;border-radius:50%;background:var(--card-tint);border:1.5px solid var(--border-tint);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-weight:800;color:var(--primary-blue)">4</div>
+            <h3 style="font-size:1.05rem">Scale</h3>
+            <p style="font-size:0.88rem;margin-top:0.4rem">Run multiple pages using AI systems and a repeatable posting calendar.</p>
+          </article>
         </div>
       </div>
     </section>
 
-    <!-- 8 · Why Vyralify -->
-    <section class="section">
+    <!-- 7 · Testimonials / Results -->
+    <section class="section" id="results" style="background:var(--bg-secondary)">
       <div class="container">
-        <div class="section-head" data-reveal>
-          <span class="eyebrow">Why Vyralify</span>
-          <h2>Built for creators who treat this like income</h2>
-        </div>
-        <div class="value-grid">
-          <article class="value card" data-reveal><h3>AI does the heavy lifting</h3><p>Ten creator tools turn hours of content work into seconds.</p></article>
-          <article class="value card" data-reveal><h3>Proven frameworks</h3><p>Not theory — the exact systems working faceless pages use today.</p></article>
-          <article class="value card" data-reveal><h3>One dashboard</h3><p>Lessons, templates, trackers, AI and community in a single place.</p></article>
-          <article class="value card" data-reveal><h3>Weekly updates</h3><p>New lessons, templates and trends added every single week.</p></article>
-          <article class="value card" data-reveal><h3>Real community</h3><p>Get page reviews and momentum from creators on the same path.</p></article>
-        </div>
-      </div>
-    </section>
-
-    <!-- 9 · Results & Testimonials -->
-    <section class="section" id="results">
-      <div class="container">
-        <div class="section-head" data-reveal>
+        <div style="text-align:center;margin-bottom:3rem" data-reveal>
           <span class="eyebrow">Results</span>
           <h2>What building with Vyralify looks like</h2>
-          <!-- TODO: replace sample testimonials with real, consented member quotes before launch -->
-          <p>Illustrative member stories — real quotes will replace these at launch.</p>
+          <p style="font-size:0.85rem;color:var(--text-muted)">Illustrative member stories — real quotes will replace these at launch.</p>
         </div>
-        <div class="feature-grid">
-          <article class="feature card" data-reveal><b>Before → After</b><h3>0 → 42k followers</h3><p>A wealth page grown in 90 days using the posting calendar and hook library.</p></article>
-          <article class="feature card" data-reveal><b>Sample story</b><h3>First ₹40k month</h3><p>"The monetisation track gave me a product to sell and the scripts to sell it." — Sample member</p></article>
-          <article class="feature card" data-reveal><b>Sample story</b><h3>3 pages on autopilot</h3><p>"The AI tools mean I can run multiple pages without burning out." — Sample member</p></article>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.25rem">
+          <article class="card" style="padding:1.75rem" data-reveal>
+            <div style="font-size:1.5rem;margin-bottom:0.5rem">⭐️⭐️⭐️⭐️⭐️</div>
+            <p style="font-size:0.95rem;color:var(--text-heading);font-weight:500;margin-bottom:1rem">"The posting calendar and hook library took us from zero to 42k followers in 90 days."</p>
+            <div style="font-size:0.78rem;font-weight:700;color:var(--text-muted)">Wealth Page — Sample member</div>
+          </article>
+          <article class="card" style="padding:1.75rem" data-reveal>
+            <div style="font-size:1.5rem;margin-bottom:0.5rem">⭐️⭐️⭐️⭐️⭐️</div>
+            <p style="font-size:0.95rem;color:var(--text-heading);font-weight:500;margin-bottom:1rem">"The monetisation track gave me a product to sell and the scripts to close it. First ₹40k month."</p>
+            <div style="font-size:0.78rem;font-weight:700;color:var(--text-muted)">Stoicism Page — Sample member</div>
+          </article>
+          <article class="card" style="padding:1.75rem" data-reveal>
+            <div style="font-size:1.5rem;margin-bottom:0.5rem">⭐️⭐️⭐️⭐️⭐️</div>
+            <p style="font-size:0.95rem;color:var(--text-heading);font-weight:500;margin-bottom:1rem">"AI tools mean I can run 3 pages without burning out. It's an actual system, not just tips."</p>
+            <div style="font-size:0.78rem;font-weight:700;color:var(--text-muted)">Luxury Page — Sample member</div>
+          </article>
         </div>
       </div>
     </section>
 
-    <!-- 10 · Pricing -->
+    <!-- 8 · Pricing -->
     <section class="section" id="pricing">
-      <div class="container price-wrap">
-        <div class="section-head" data-reveal style="text-align:center">
+      <div class="container" style="max-width:520px;text-align:center">
+        <div data-reveal>
           <span class="eyebrow">One simple plan</span>
-          <h2>Everything, one membership</h2>
+          <h2>Everything. One membership.</h2>
+          <p>No tiers, no upsells, no hidden charges.</p>
         </div>
-        <div class="pricing card" data-reveal>
-          <div class="aura" aria-hidden="true"></div>
+        <div class="card tilt-card" style="padding:2.25rem;margin-top:2rem;position:relative;overflow:hidden;text-align:left" data-reveal>
+          <!-- Subtle gradient blob -->
+          <div aria-hidden="true" style="position:absolute;top:-4rem;right:-4rem;width:220px;height:220px;background:radial-gradient(circle,rgba(37,99,235,.08) 0%,transparent 70%);border-radius:50%"></div>
           <span class="eyebrow">Vyralify Membership</span>
-          
-          <!-- Dual-Currency Pricing Switch -->
-          <div class="price-toggle-container">
-            <button type="button" class="toggle-btn active" id="toggle-inr">🇮🇳 INR (₹499)</button>
-            <button type="button" class="toggle-btn" id="toggle-usd">🌎 USD (Intl)</button>
+
+          <!-- Currency Toggle -->
+          <div class="price-toggle-container" style="margin-top:1rem">
+            <button type="button" class="toggle-btn active" id="toggle-inr">🇮🇳 INR</button>
+            <button type="button" class="toggle-btn" id="toggle-usd">🌎 USD</button>
           </div>
 
-          <div class="price"><span data-price>₹499</span><small data-price-period>/month</small></div>
-          <p data-price-note>Billed monthly in INR · No hidden charges · Cancel anytime</p>
-          <ul class="checks">
-            <li>Full curriculum across all 5 tracks</li>
-            <li>10 AI creator tools with chat memory</li>
-            <li>Template &amp; resource vault</li>
-            <li>Members-only community &amp; page reviews</li>
-            <li>Weekly new lessons and trends</li>
+          <!-- Price display -->
+          <div style="display:flex;align-items:baseline;gap:0.35rem;margin:1rem 0 0.35rem">
+            <span data-price style="font-size:3.5rem;font-weight:800;color:var(--text-heading);letter-spacing:-0.05em">₹499</span>
+            <span data-price-period style="font-size:1rem;color:var(--text-muted);font-weight:600">/month</span>
+          </div>
+          <p data-price-note style="font-size:0.82rem;color:var(--text-muted);margin-bottom:1.5rem">Billed monthly in INR · No hidden charges · Cancel anytime</p>
+
+          <!-- Feature list -->
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:0.65rem;margin-bottom:2rem">
+            <li style="display:flex;align-items:center;gap:0.7rem;font-size:0.9rem;font-weight:500">
+              <span style="width:20px;height:20px;border-radius:50%;background:var(--card-tint);border:1.5px solid var(--border-tint);display:flex;align-items:center;justify-content:center;font-size:0.7rem;color:var(--primary-blue);flex-shrink:0">✓</span>
+              Full curriculum across all 5 tracks
+            </li>
+            <li style="display:flex;align-items:center;gap:0.7rem;font-size:0.9rem;font-weight:500">
+              <span style="width:20px;height:20px;border-radius:50%;background:var(--card-tint);border:1.5px solid var(--border-tint);display:flex;align-items:center;justify-content:center;font-size:0.7rem;color:var(--primary-blue);flex-shrink:0">✓</span>
+              10 AI creator tools with chat memory
+            </li>
+            <li style="display:flex;align-items:center;gap:0.7rem;font-size:0.9rem;font-weight:500">
+              <span style="width:20px;height:20px;border-radius:50%;background:var(--card-tint);border:1.5px solid var(--border-tint);display:flex;align-items:center;justify-content:center;font-size:0.7rem;color:var(--primary-blue);flex-shrink:0">✓</span>
+              Template &amp; resource vault (45+ files)
+            </li>
+            <li style="display:flex;align-items:center;gap:0.7rem;font-size:0.9rem;font-weight:500">
+              <span style="width:20px;height:20px;border-radius:50%;background:var(--card-tint);border:1.5px solid var(--border-tint);display:flex;align-items:center;justify-content:center;font-size:0.7rem;color:var(--primary-blue);flex-shrink:0">✓</span>
+              Members-only community &amp; page reviews
+            </li>
+            <li style="display:flex;align-items:center;gap:0.7rem;font-size:0.9rem;font-weight:500">
+              <span style="width:20px;height:20px;border-radius:50%;background:var(--card-tint);border:1.5px solid var(--border-tint);display:flex;align-items:center;justify-content:center;font-size:0.7rem;color:var(--primary-blue);flex-shrink:0">✓</span>
+              Weekly new lessons and trend drops
+            </li>
           </ul>
-          <a class="btn btn-primary" id="pricing-cta" href="https://payments.cashfree.com/forms/vyralifyio">Join Vyralify</a>
+          <a class="btn btn-primary" id="pricing-cta" href="https://payments.cashfree.com/forms/vyralifyio" style="width:100%;justify-content:center;font-size:1rem;padding:1rem">Join Vyralify (₹499)</a>
+          <p style="text-align:center;font-size:0.78rem;color:var(--text-muted);margin-top:0.75rem">Cancel anytime · Secure payment</p>
         </div>
       </div>
     </section>
 
-    <!-- 11 · FAQs -->
-    <section class="section" id="faq">
-      <div class="container">
-        <div class="section-head" data-reveal><span class="eyebrow">FAQ</span><h2>Questions, answered</h2></div>
-        <div class="faq" data-reveal>
-          <details><summary>Do I need any followers or experience to start?</summary><p>No. The Foundation track is built for total beginners — you'll launch your first page from scratch.</p></details>
-          <details><summary>What exactly is a faceless Instagram page?</summary><p>A theme page in a niche like wealth, mindset or luxury that grows without ever showing your face.</p></details>
-          <details><summary>What do the AI tools actually do?</summary><p>They generate captions, hooks, scripts, content ideas, hashtags and trend research so you post faster.</p></details>
-          <details><summary>How much time does this take each week?</summary><p>Most members build with a few focused hours a week using the posting calendar and AI tools.</p></details>
-          <details><summary>How do I get paid from a page?</summary><p>The Monetisation track covers digital products, affiliate offers and sponsorships step by step.</p></details>
-          <details><summary>What does it cost?</summary><p><span data-price>$19</span><span data-price-period>/month</span> — see pricing above. Your currency is set automatically.</p></details>
-          <details><summary>Can I cancel anytime?</summary><p>Yes. Manage your membership whenever you like.</p></details>
-          <details><summary>Is there a community?</summary><p>Yes — a live, members-only community with channels for intros, wins, networking and page reviews.</p></details>
-          <details><summary>How often is new content added?</summary><p>Every week: fresh lessons, templates and trend breakdowns.</p></details>
-          <details><summary>Which payment methods are supported?</summary><p>Razorpay for India (₹499/month) and Stripe for the rest of the world ($19/month).</p></details>
+    <!-- 9 · FAQ -->
+    <section class="section" id="faq" style="background:var(--bg-secondary)">
+      <div class="container" style="max-width:680px">
+        <div style="text-align:center;margin-bottom:2.5rem" data-reveal>
+          <span class="eyebrow">FAQ</span>
+          <h2>Questions, answered.</h2>
+        </div>
+        <div class="faq-accordion" data-reveal>
+          <details>
+            <summary>Do I need followers or experience to start?</summary>
+            <p>None whatsoever. The Foundation track is designed for total beginners — you'll launch your first page from scratch inside your first week.</p>
+          </details>
+          <details>
+            <summary>What exactly is a faceless Instagram page?</summary>
+            <p>A theme page in a niche like wealth, mindset or luxury that grows without you ever showing your face. Just curated content, AI-generated captions and proven hooks.</p>
+          </details>
+          <details>
+            <summary>What do the AI tools actually do?</summary>
+            <p>They generate captions, hooks, reel scripts, content ideas, hashtag sets and trend research — so you spend minutes on content, not hours.</p>
+          </details>
+          <details>
+            <summary>How much time does this take each week?</summary>
+            <p>Most members build with a few focused hours per week, using the posting calendar and AI tools to stay consistent without burning out.</p>
+          </details>
+          <details>
+            <summary>How do I get paid from a faceless page?</summary>
+            <p>The Monetisation track covers digital products, affiliate programs and sponsorship outreach step by step — with scripts, templates and case studies.</p>
+          </details>
+          <details>
+            <summary>What does membership cost?</summary>
+            <p><span data-price>₹499</span><span data-price-period>/month</span> for Indian members — your currency is detected automatically. International pricing coming soon.</p>
+          </details>
+          <details>
+            <summary>Can I cancel anytime?</summary>
+            <p>Yes. No lock-ins, no exit fees. Manage your membership whenever you like.</p>
+          </details>
+          <details>
+            <summary>How often is new content added?</summary>
+            <p>Every single week: fresh lessons, new templates and a trend breakdown so your content stays current and relevant.</p>
+          </details>
         </div>
       </div>
     </section>
 
-    <!-- 12 · Final CTA -->
-    <section class="final-cta">
-      <div class="aura" aria-hidden="true"></div>
-      <div class="container" data-reveal>
-        <span class="eyebrow">Start today</span>
-        <h2>Post your first viral reel this week.</h2>
-        <p>Join 1,000+ creators building profitable Instagram pages with Vyralify.</p>
-        <a class="btn btn-primary" href="/checkout.html">Join Vyralify</a>
+    <!-- 10 · Final CTA -->
+    <section class="section" style="background:linear-gradient(135deg,var(--accent-blue) 0%,var(--primary-blue) 100%);text-align:center;position:relative;overflow:hidden">
+      <div aria-hidden="true" style="position:absolute;bottom:-8rem;left:50%;transform:translateX(-50%);width:600px;height:300px;background:rgba(255,255,255,.06);border-radius:50%"></div>
+      <div class="container" style="position:relative;z-index:1" data-reveal>
+        <span class="eyebrow" style="color:rgba(255,255,255,.7)">Start today</span>
+        <h2 style="color:#fff;margin-bottom:0.75rem">Post your first viral reel this week.</h2>
+        <p style="color:rgba(255,255,255,.75);font-size:1.1rem;margin-bottom:2rem">Join 1,000+ creators building profitable Instagram pages with Vyralify.</p>
+        <a href="/signup.html" class="btn" style="background:#fff;color:var(--primary-blue);font-size:1rem;padding:1rem 2.25rem">Join Vyralify →</a>
       </div>
     </section>
+
   </main>
 
-  <!-- 13 · Footer via shared partial -->
-  <div id="footer-slot"></div>
+  <!-- Footer -->
+  <footer style="background:var(--bg-secondary);border-top:1px solid var(--border-color);padding:2.5rem 0;text-align:center">
+    <div class="container">
+      <div style="font-weight:800;font-size:1.1rem;color:var(--text-heading);margin-bottom:0.75rem">Vyral<span style="color:var(--primary-blue)">ify</span></div>
+      <div style="display:flex;justify-content:center;gap:1.5rem;flex-wrap:wrap;margin-bottom:1rem">
+        <a href="/signup.html" style="font-size:0.85rem;color:var(--text-muted);font-weight:600">Sign Up</a>
+        <a href="/login.html" style="font-size:0.85rem;color:var(--text-muted);font-weight:600">Log In</a>
+        <a href="#inside" style="font-size:0.85rem;color:var(--text-muted);font-weight:600">Platform</a>
+        <a href="#pricing" style="font-size:0.85rem;color:var(--text-muted);font-weight:600">Pricing</a>
+        <a href="#faq" style="font-size:0.85rem;color:var(--text-muted);font-weight:600">FAQ</a>
+      </div>
+      <p style="font-size:0.78rem;color:var(--text-muted)">&copy; 2024 Vyralify. All rights reserved.</p>
+    </div>
+  </footer>
 
-  <script type="module" src="/assets/js/smooth-scroll.js"></script>
-  <script type="module" src="/assets/js/gsap-animations.js"></script>
-  <script type="module" src="/assets/js/hero3d.js"></script>
-  <script type="module" src="/assets/js/partials.js"></script>
-  <script type="module" src="/assets/js/landing.js"></script>
+  <script src="/script.js" defer></script>
   <script type="module" src="/assets/js/pricing.js"></script>
 </body>
 </html>

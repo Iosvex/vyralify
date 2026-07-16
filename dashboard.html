@@ -1,1 +1,88 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Dashboard — Vyralify</title><link rel="stylesheet" href="/assets/css/tokens.css"><link rel="stylesheet" href="/assets/css/base.css"><link rel="stylesheet" href="/assets/css/app.css"></head><body><header class="app-nav"><div class="container"><a class="brand" href="/dashboard.html">V<i>Y</i>RAL<i>I</i>FY</a><span id="tier-state" class="eyebrow">Loading…</span><button class="btn btn-secondary" onclick="vyralifyLogout()">Log out</button></div></header><main class="dashboard container"><div class="eyebrow">Welcome back, <span id="member-name">creator</span></div><div class="dashboard-grid"><nav class="side-tabs" aria-label="Dashboard sections"><button class="active" data-category="foundation">Foundation</button><button data-category="content">Content &amp; Posting</button><button data-category="growth">Scaling &amp; Growth</button><button data-category="monetisation">Monetisation</button><button data-category="community">Community</button></nav><section class="dashboard-content card"><h1 id="track-title">Foundation</h1><p>Open the next resource, then come back ready to make something.</p><div id="asset-list" class="asset-list"></div><button id="checkout" class="btn btn-primary">Unlock full access</button></section></div></main><aside id="assistant" class="assistant hidden"><div class="assistant-header"><strong>AI Creator Assistant</strong><button id="assistant-toggle" class="btn btn-secondary">Close</button></div><div class="tool-grid"><button data-tool="caption">Caption</button><button data-tool="hook">Hook</button><button data-tool="script">Script</button><button data-tool="idea">Idea</button><button data-tool="hashtag">Hashtags</button></div><form id="ai-form"><input id="selected-tool" type="hidden" value="caption"><textarea id="ai-prompt" required placeholder="What are you posting about?"></textarea><button class="btn btn-primary">Generate</button></form><div id="ai-output" class="ai-output">Choose a tool and describe your post.</div></aside><button id="assistant-toggle" class="btn btn-primary" style="position:fixed;right:1rem;bottom:1rem;z-index:31">AI Assistant</button><script type="module" src="/assets/js/auth.js"></script><script type="module" src="/assets/js/dashboard.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard — Vyralify</title>
+  <meta name="robots" content="noindex" />
+  <link rel="icon" href="/vyralifylogo.jpeg" />
+  <link rel="stylesheet" href="/assets/css/tokens.css" />
+  <link rel="stylesheet" href="/assets/css/base.css" />
+  <link rel="stylesheet" href="/assets/css/app.css" />
+</head>
+<body class="app-shell">
+  <a class="skip-link" href="#track-title">Skip to content</a>
+
+  <nav class="app-nav">
+    <div class="container">
+      <a class="brand" href="/dashboard.html">V<i>Y</i>RAL<i>I</i>FY</a>
+      <div class="dash-actions">
+        <button id="checkout" class="btn btn-primary hidden">Unlock Full Access</button>
+        <button id="logout" class="btn btn-secondary">Log out</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container dashboard">
+    <header class="dash-head">
+      <div class="greeting">
+        <strong>Welcome, <span id="member-name">…</span></strong>
+        <small id="tier-state">Loading…</small>
+      </div>
+    </header>
+
+    <div class="dashboard-grid">
+      <aside class="side-tabs" aria-label="Dashboard tracks">
+        <button data-category="foundation" class="active">Foundation</button>
+        <button data-category="content">Content &amp; Posting</button>
+        <button data-category="growth">Scaling &amp; Growth</button>
+        <button data-category="monetisation">Monetisation</button>
+        <button data-category="community">Community</button>
+      </aside>
+
+      <section class="dashboard-content card">
+        <h2 id="track-title">Foundation</h2>
+
+        <div id="asset-list" class="asset-list"></div>
+
+        <div id="community-panel" class="community hidden">
+          <div id="chat-channels" role="tablist" aria-label="Community channels"></div>
+          <div class="chat-window card">
+            <h3 id="chat-channel-title">General Chat</h3>
+            <div id="chat-thread" class="chat-thread" aria-live="polite"></div>
+            <form id="chat-form" class="chat-form">
+              <input id="chat-input" type="text" maxlength="1000" placeholder="Message the community…" autocomplete="off" aria-label="Message" />
+              <button class="btn btn-primary" type="submit">Send</button>
+            </form>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- Floating AI Creator Assistant -->
+  <button id="assistant-toggle" class="ai-fab" aria-expanded="false" aria-controls="assistant">✦ AI Assistant</button>
+  <section id="assistant" class="assistant card" aria-label="AI Creator Assistant">
+    <div class="assistant-header">
+      <div>
+        <strong>AI Creator Assistant</strong>
+        <small>Captions · Hooks · Scripts · Ideas · Trends</small>
+      </div>
+      <div style="display:flex;gap:.5rem;align-items:center">
+        <button id="ai-clear" type="button">Clear</button>
+        <button id="assistant-close" class="assistant-close" type="button" aria-label="Close assistant">×</button>
+      </div>
+    </div>
+    <div id="ai-tools" role="tablist" aria-label="AI tools"></div>
+    <div id="ai-thread" class="ai-thread" aria-live="polite"></div>
+    <p id="ai-locked" class="hidden">Unlock the AI Assistant to generate captions, hooks and scripts in seconds. Use “Unlock Full Access” above to upgrade.</p>
+    <form id="ai-form" class="ai-form">
+      <textarea id="ai-prompt" placeholder="Write a scroll-stopping caption for…" aria-label="Your prompt"></textarea>
+      <button class="btn btn-primary" type="submit">Send</button>
+    </form>
+  </section>
+
+  <script type="module" src="/assets/js/smooth-scroll.js"></script>
+  <script type="module" src="/assets/js/dashboard.js"></script>
+</body>
+</html>

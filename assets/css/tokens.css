@@ -1,1 +1,41 @@
-:root{--void:#05070C;--ink-navy:#0B1024;--signal-blue:#2F6BFF;--aura-cyan:#5FA8FF;--paper:#F5F7FB;--slate:#8890A6;--success:#2FD97C;--error:#FF5C5C;--line:rgba(136,144,166,.25);--radius:20px;--font-display:"Clash Display",Impact,sans-serif;--font-body:"General Sans",Arial,sans-serif;--font-mono:"Space Mono",monospace}
+:root{
+  /* Dark navy (dropcourse hero/footer signature) */
+  --void:#060B1A;
+  --ink-navy:#0A1330;
+  --navy-2:#0E1A3F;
+  /* Blue accents */
+  --signal-blue:#2F6BFF;
+  --signal-blue-600:#1E54E6;
+  --aura-cyan:#5FA8FF;
+  /* Light surfaces (blue-white) */
+  --white:#FFFFFF;
+  --paper:#F4F7FE;
+  --paper-2:#EAF0FC;
+  /* Text */
+  --text-dark:#0A1330;
+  --text-muted:#55607A;
+  --slate:#8890A6;
+  /* Status */
+  --success:#1FBE6B;
+  --error:#FF5C5C;
+  /* Lines / shadows */
+  --line:rgba(10,19,48,.10);
+  --line-dark:rgba(255,255,255,.14);
+  --shadow-sm:0 4px 18px rgba(20,40,120,.08);
+  --shadow:0 10px 40px rgba(20,40,120,.10);
+  --shadow-lg:0 30px 80px rgba(47,107,255,.28);
+  --shadow-3d:0 40px 90px -34px rgba(20,40,120,.5);
+  --glass:rgba(255,255,255,.72);
+  --radius:20px;
+  /* Spacing scale */
+  --space-section:clamp(4.5rem,8vw,7.5rem);
+  --space-head:clamp(2.25rem,4vw,3.25rem);
+  --gap:1.25rem;
+  /* Motion */
+  --ease-out:cubic-bezier(.2,.7,.2,1);
+  --ease-spring:cubic-bezier(.34,1.4,.5,1);
+  /* Type */
+  --font-display:"Clash Display",Impact,sans-serif;
+  --font-body:"General Sans",Arial,sans-serif;
+  --font-mono:"Space Mono",monospace;
+}

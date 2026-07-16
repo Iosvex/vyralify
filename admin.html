@@ -1,1 +1,83 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Admin — Vyralify</title><link rel="stylesheet" href="/assets/css/tokens.css"><link rel="stylesheet" href="/assets/css/base.css"><link rel="stylesheet" href="/assets/css/app.css"></head><body data-admin="true"><header class="app-nav"><div class="container"><a class="brand" href="/dashboard.html">V<i>Y</i>RAL<i>I</i>FY / Admin</a><button class="btn btn-secondary" onclick="vyralifyLogout()">Log out</button></div></header><main class="dashboard container"><div class="eyebrow">Admin workspace</div><h1>Content publishing</h1><section class="admin-form card"><label>Title<input id="title" placeholder="Lesson or template title"></label><label>Category<select id="category"><option value="foundation">Foundation</option><option value="content">Content &amp; Posting</option><option value="growth">Scaling &amp; Growth</option><option value="monetisation">Monetisation</option><option value="community">Community</option></select></label><label>Access<select id="tier"><option value="free">Free</option><option value="active">Active members</option></select></label><label>Resource URL<input id="url" type="url" placeholder="https://"></label><button id="publish" class="btn btn-primary">Publish resource</button><p id="admin-status" class="form-error"></p></section><section class="card dashboard-content"><h2>Security note</h2><p>Only an authenticated account whose Firestore user record has <code>role: admin</code> can write content or view the admin page. Payment tiers are server-controlled.</p></section></main><script type="module" src="/assets/js/auth.js"></script><script type="module">import {profileReady} from '/assets/js/auth-guard.js';import {db} from '/assets/js/firebase-config.js';import {addDoc,collection,serverTimestamp} from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';await profileReady;document.querySelector('#publish').onclick=async()=>{const status=document.querySelector('#admin-status');try{await addDoc(collection(db,'contentAssets'),{title:document.querySelector('#title').value,category:document.querySelector('#category').value,tierRequired:document.querySelector('#tier').value,type:'lesson',url:document.querySelector('#url').value,order:Date.now(),createdAt:serverTimestamp(),updatedAt:serverTimestamp()});status.style.color='var(--success)';status.textContent='Published.'}catch{status.textContent='Could not publish this resource.'}}</script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin — Vyralify</title>
+  <meta name="robots" content="noindex" />
+  <link rel="icon" href="/vyralifylogo.jpeg" />
+  <link rel="stylesheet" href="/assets/css/tokens.css" />
+  <link rel="stylesheet" href="/assets/css/base.css" />
+  <link rel="stylesheet" href="/assets/css/app.css" />
+</head>
+<body class="app-shell" data-admin="true">
+  <a class="skip-link" href="#admin-main">Skip to content</a>
+
+  <nav class="app-nav">
+    <div class="container">
+      <a class="brand" href="/admin.html">V<i>Y</i>RAL<i>I</i>FY <span style="color:var(--slate);font-size:.8rem">Admin</span></a>
+      <div class="dash-actions">
+        <a class="btn btn-secondary" href="/dashboard.html">Member view</a>
+      </div>
+    </div>
+  </nav>
+
+  <main id="admin-main" class="container dashboard">
+    <header class="dash-head">
+      <div class="greeting"><strong>Content &amp; members</strong><small>Manage the resource vault and see who has joined.</small></div>
+    </header>
+
+    <section class="dashboard-content card" style="margin-bottom:1rem">
+      <h2>Add a content asset</h2>
+      <form id="admin-asset-form" class="admin-form">
+        <input name="title" type="text" placeholder="Title" required />
+        <select name="category" required>
+          <option value="foundation">Foundation</option>
+          <option value="content">Content &amp; Posting</option>
+          <option value="growth">Scaling &amp; Growth</option>
+          <option value="monetisation">Monetisation</option>
+          <option value="community">Community</option>
+        </select>
+        <select name="type" required>
+          <option value="lesson">Lesson</option>
+          <option value="template">Template</option>
+          <option value="download">Download</option>
+          <option value="video">Video</option>
+          <option value="checklist">Checklist</option>
+        </select>
+        <select name="tierRequired" required>
+          <option value="free">Free tier</option>
+          <option value="active">Active members only</option>
+        </select>
+        <input name="order" type="number" placeholder="Order (e.g. 1)" min="0" />
+        <input name="url" type="url" placeholder="Link (video/download URL, optional)" />
+        <textarea name="body" rows="3" placeholder="Body / notes (optional)"></textarea>
+        <button class="btn btn-primary" type="submit">Publish asset</button>
+        <p id="admin-status" class="eyebrow"></p>
+      </form>
+    </section>
+
+    <section class="dashboard-content card" style="margin-bottom:1rem">
+      <h2>Content assets</h2>
+      <div class="admin-table">
+        <table>
+          <thead><tr><th>Title</th><th>Category</th><th>Type</th><th>Tier</th><th></th></tr></thead>
+          <tbody id="admin-assets"><tr><td colspan="5">Loading…</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="dashboard-content card">
+      <h2>Members</h2>
+      <div class="admin-table">
+        <table>
+          <thead><tr><th>Name</th><th>Email</th><th>Tier</th><th>Country</th></tr></thead>
+          <tbody id="admin-users"><tr><td colspan="4">Loading…</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="/assets/js/admin.js"></script>
+</body>
+</html>

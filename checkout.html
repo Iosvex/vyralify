@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Join Vyralify</title>
-  <meta name="description" content="Create your Vyralify account and start building profitable Instagram pages." />
+  <title>Get access — Vyralify</title>
+  <meta name="description" content="Secure your Vyralify membership. Complete payment, then create your account." />
   <link rel="icon" href="/vyralifylogo.jpeg" />
   <link rel="stylesheet" href="/assets/css/tokens.css" />
   <link rel="stylesheet" href="/assets/css/base.css" />
@@ -14,19 +14,13 @@
   <main class="auth">
     <section class="auth-box card">
       <a class="brand" href="/index.html">V<i>Y</i>RAL<i>I</i>FY</a>
-      <h1 style="font-size:2rem;margin-top:1rem">Create your account</h1>
-      <p id="gate-msg">Verifying your purchase…</p>
+      <h1 style="font-size:2rem;margin-top:1rem">Get your access</h1>
+      <p>Membership is <b data-price>$19</b><span data-price-period>/month</span> — <span data-price-note>billed monthly, cancel anytime</span>. Pay securely, then create your account.</p>
 
-      <form id="signup-form" novalidate hidden>
+      <form id="checkout-form" novalidate>
         <div class="form-row">
-          <label>Name
-            <input type="text" name="name" autocomplete="name" required />
-          </label>
           <label>Email
             <input type="email" name="email" autocomplete="email" required />
-          </label>
-          <label>Password
-            <input type="password" name="password" autocomplete="new-password" minlength="6" required />
           </label>
           <label>Country
             <select name="country" required>
@@ -40,25 +34,17 @@
               <option value="OTHER">Somewhere else ($19/month)</option>
             </select>
           </label>
-          <label>Where are you starting from?
-            <select name="track" required>
-              <option value="" disabled selected>Pick your track</option>
-              <option value="beginner">Total beginner — zero pages yet</option>
-              <option value="existing">I already run 1+ pages</option>
-            </select>
-          </label>
         </div>
         <p class="form-error" role="alert"></p>
-        <button class="btn btn-primary" type="submit" style="width:100%">Create account</button>
+        <button class="btn btn-primary" type="submit" style="width:100%">Continue to secure payment →</button>
       </form>
-
-      <p id="gate-cta" hidden style="margin-top:1.25rem">Haven't purchased yet? <a href="/checkout.html" style="color:var(--aura-cyan)">Get access →</a></p>
 
       <p style="margin-top:1.25rem">Already a member? <a href="/login.html" style="color:var(--aura-cyan)">Log in →</a></p>
     </section>
   </main>
 
   <script type="module" src="/assets/js/smooth-scroll.js"></script>
-  <script type="module" src="/assets/js/auth.js"></script>
+  <script type="module" src="/assets/js/checkout.js"></script>
+  <script type="module" src="/assets/js/pricing.js"></script>
 </body>
 </html>

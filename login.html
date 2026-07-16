@@ -1,1 +1,42 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Log in — Vyralify</title><link rel="stylesheet" href="/assets/css/tokens.css"><link rel="stylesheet" href="/assets/css/base.css"><link rel="stylesheet" href="/assets/css/app.css"></head><body class="auth"><main class="auth-box card"><a class="brand" href="/index.html">V<i>Y</i>RAL<i>I</i>FY</a><h1>Welcome back.</h1><p>Continue building your creator system.</p><form id="login-form"><div class="form-row"><label>Email<input required type="email" name="email" autocomplete="email"></label><label>Password<input required type="password" name="password" autocomplete="current-password"></label></div><p class="form-error" aria-live="polite"></p><button class="btn btn-primary" type="submit">Log in</button></form><p>New here? <a href="/signup.html" style="color:var(--aura-cyan)">Create an account</a></p></main><script type="module" src="/assets/js/auth.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Log in — Vyralify</title>
+  <meta name="description" content="Log in to your Vyralify membership." />
+  <link rel="icon" href="/vyralifylogo.jpeg" />
+  <link rel="stylesheet" href="/assets/css/tokens.css" />
+  <link rel="stylesheet" href="/assets/css/base.css" />
+  <link rel="stylesheet" href="/assets/css/app.css" />
+</head>
+<body>
+  <main class="auth">
+    <section class="auth-box card">
+      <a class="brand" href="/index.html">V<i>Y</i>RAL<i>I</i>FY</a>
+      <h1 style="font-size:2rem;margin-top:1rem">Welcome back</h1>
+      <p>Log in to pick up where you left off.</p>
+
+      <form id="login-form" novalidate>
+        <div class="form-row">
+          <label>Email
+            <input type="email" name="email" autocomplete="email" required />
+          </label>
+          <label>Password
+            <input type="password" name="password" autocomplete="current-password" required />
+          </label>
+        </div>
+        <p class="form-error" role="alert"></p>
+        <button class="btn btn-primary" type="submit" style="width:100%">Log in</button>
+      </form>
+
+      <button id="google-login" class="btn btn-secondary" style="width:100%;margin-top:.75rem">Continue with Google</button>
+
+      <p style="margin-top:1.25rem">New to Vyralify? <a href="/checkout.html" style="color:var(--aura-cyan)">Get access →</a></p>
+    </section>
+  </main>
+
+  <script type="module" src="/assets/js/smooth-scroll.js"></script>
+  <script type="module" src="/assets/js/auth.js"></script>
+</body>
+</html>

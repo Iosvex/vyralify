@@ -132,19 +132,24 @@ export default function AiStudio({ hasAccess, tier }: AiStudioProps) {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-extrabold tracking-tight flex items-center gap-2">
-            <Sparkles className="h-7 w-7 text-blue-600" />
-            AI Studio
-          </h1>
-          <p className="text-zinc-500 dark:text-zinc-400 mt-1">
-            Generate captions, hooks, ideas, and growth plans — powered by AI.
-          </p>
+      <div className="rounded-[1.5rem] border border-zinc-200 bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900 p-6 text-white shadow-[0_24px_80px_-24px_rgba(15,23,42,0.85)]">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <div className="flex items-center gap-2 text-cyan-300">
+              <Sparkles className="h-5 w-5" />
+              <span className="text-xs font-semibold uppercase tracking-[0.28em]">AI Studio</span>
+            </div>
+            <h1 className="mt-3 text-3xl font-extrabold tracking-tight">
+              Generate content at creator speed.
+            </h1>
+            <p className="mt-2 max-w-2xl text-sm text-slate-300">
+              Use NVIDIA and Groq-backed generation to ship hooks, captions, content ideas, planners, and growth insights without leaving the dashboard.
+            </p>
+          </div>
+          <span className="inline-flex rounded-full border border-cyan-400/30 bg-cyan-400/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.24em] text-cyan-200">
+            {tier === "pro" ? "Pro Access" : "Standard Access"}
+          </span>
         </div>
-        <span className="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-blue-50 text-blue-700 dark:bg-blue-950/40 dark:text-blue-400 border border-blue-100 dark:border-blue-900">
-          {tier === "pro" ? "Pro Access" : "Standard Access"}
-        </span>
       </div>
 
       {/* Tool selector tabs */}

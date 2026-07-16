@@ -5,115 +5,45 @@ import { motion } from "framer-motion";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.6, delay: i * 0.15 },
-  }),
+  visible: (i: number) => ({ opacity: 1, y: 0, transition: { duration: 0.6, delay: i * 0.15 } }),
 };
 
-const avatarColors = [
-  "bg-blue-400",
-  "bg-blue-500",
-  "bg-blue-300",
-  "bg-blue-600",
-  "bg-blue-200",
-];
+const avatarColors = ["bg-cyan-400", "bg-sky-500", "bg-indigo-400", "bg-blue-600", "bg-fuchsia-400"];
 
 export default function FinalCta() {
   return (
-    <section className="relative py-24 px-6 overflow-hidden bg-gradient-to-br from-blue-600 via-blue-700 to-blue-900">
-      {/* Floating gradient blobs */}
-      <motion.div
-        animate={{
-          scale: [1, 1.2, 1],
-          opacity: [0.3, 0.5, 0.3],
-        }}
-        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-10 left-10 w-72 h-72 rounded-full bg-blue-400/30 blur-3xl pointer-events-none"
-      />
-      <motion.div
-        animate={{
-          scale: [1, 1.15, 1],
-          opacity: [0.2, 0.4, 0.2],
-        }}
-        transition={{
-          duration: 8,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: 2,
-        }}
-        className="absolute bottom-10 right-10 w-96 h-96 rounded-full bg-blue-300/20 blur-3xl pointer-events-none"
-      />
-      <motion.div
-        animate={{
-          scale: [1, 1.3, 1],
-          opacity: [0.15, 0.3, 0.15],
-        }}
-        transition={{
-          duration: 7,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: 1,
-        }}
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 rounded-full bg-white/10 blur-3xl pointer-events-none"
-      />
+    <section className="relative overflow-hidden bg-[radial-gradient(circle_at_top_left,_rgba(34,211,238,0.2),_transparent_40%),linear-gradient(135deg,_#07111f_0%,_#0f172a_45%,_#111827_100%)] px-6 py-24">
+      <motion.div animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }} className="pointer-events-none absolute left-10 top-10 h-72 w-72 rounded-full bg-cyan-400/25 blur-3xl" />
+      <motion.div animate={{ scale: [1, 1.15, 1], opacity: [0.2, 0.4, 0.2] }} transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 2 }} className="pointer-events-none absolute bottom-10 right-10 h-96 w-96 rounded-full bg-blue-300/20 blur-3xl" />
 
-      <div className="mx-auto max-w-7xl relative z-10">
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.3 }}
-          className="rounded-3xl bg-white/10 backdrop-blur-xl border border-white/20 px-6 sm:px-12 py-16 sm:py-20 text-center"
-        >
-          <motion.h2
-            variants={fadeUp}
-            custom={0}
-            className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight leading-tight"
-          >
-            Start Building Your
+      <div className="relative z-10 mx-auto max-w-7xl">
+        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} className="rounded-[2rem] border border-white/20 bg-white/10 px-6 py-16 text-center backdrop-blur-xl sm:px-12 sm:py-20">
+          <motion.h2 variants={fadeUp} custom={0} className="text-3xl font-extrabold leading-tight tracking-tight text-white sm:text-5xl">
+            Start building your
             <br />
-            Faceless Empire Today
+            faceless empire today.
           </motion.h2>
-
-          <motion.p
-            variants={fadeUp}
-            custom={1}
-            className="mt-5 text-lg text-blue-100 max-w-2xl mx-auto"
-          >
-            Join hundreds of creators who are scaling and monetizing anonymous
-            Instagram channels.
+          <motion.p variants={fadeUp} custom={1} className="mx-auto mt-5 max-w-2xl text-lg text-slate-200">
+            Join creators who are scaling, monetizing, and shipping content with a premium AI growth system.
           </motion.p>
 
           <motion.div variants={fadeUp} custom={2} className="mt-10">
             <a href="#pricing">
-              <button className="inline-flex items-center justify-center bg-white text-blue-600 hover:bg-zinc-100 font-bold px-8 h-12 rounded-full text-sm hover:scale-105 transition-all duration-300 shadow-lg cursor-pointer">
-                Get Started Now →
+              <button className="inline-flex h-12 items-center justify-center rounded-full bg-white px-8 text-sm font-bold text-slate-900 shadow-lg shadow-slate-950/20 transition-all duration-300 hover:scale-105">
+                Get started now →
               </button>
             </a>
           </motion.div>
 
-          {/* Avatar stack */}
-          <motion.div
-            variants={fadeUp}
-            custom={3}
-            className="mt-8 flex items-center justify-center gap-3"
-          >
+          <motion.div variants={fadeUp} custom={3} className="mt-8 flex items-center justify-center gap-3">
             <div className="flex -space-x-3">
               {avatarColors.map((color, index) => (
-                <div
-                  key={index}
-                  className={`w-9 h-9 rounded-full ${color} border-2 border-white/30 flex items-center justify-center`}
-                >
-                  <span className="text-white text-xs font-bold">
-                    {String.fromCharCode(65 + index)}
-                  </span>
+                <div key={index} className={`flex h-9 w-9 items-center justify-center rounded-full border-2 border-white/30 ${color}`}>
+                  <span className="text-xs font-bold text-white">{String.fromCharCode(65 + index)}</span>
                 </div>
               ))}
             </div>
-            <span className="text-sm text-blue-100 font-medium">
-              1,000+ creators joined
-            </span>
+            <span className="text-sm font-medium text-slate-200">1,000+ creators joined</span>
           </motion.div>
         </motion.div>
       </div>

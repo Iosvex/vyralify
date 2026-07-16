@@ -13,71 +13,70 @@ import Testimonials from "@/components/landing/testimonials";
 import PricingSection from "@/components/landing/pricing-section";
 import FaqSection from "@/components/landing/faq-section";
 import FinalCta from "@/components/landing/final-cta";
+import LandingScrollProvider from "@/components/landing/landing-scroll-provider";
 
 export default function LandingPage() {
   return (
-    <SectionFlow
-      heightPerSection={180}
-      restHeight={120}
-      className="bg-[#F5F3EF]"
-    >
-      <Section transition="circular-portal">
-        <HeroSection />
-      </Section>
+    <LandingScrollProvider>
+      <SectionFlow heightPerSection={180} restHeight={120} className="bg-[#07111f]">
+        <Section transition="circular-portal">
+          <HeroSection />
+        </Section>
 
-      <Section transition="spotlight-reveal">
-        <SocialProof />
-      </Section>
+        <Section transition="spotlight-reveal">
+          <SocialProof />
+        </Section>
 
-      <Section transition="wave-reveal">
-        <AiToolsSection />
-      </Section>
+        <Section transition="wave-reveal">
+          <AiToolsSection />
+        </Section>
 
-      <Section transition="card-stack">
-        <HowItWorks />
-      </Section>
+        <Section transition="card-stack">
+          <HowItWorks />
+        </Section>
 
-      <Section transition="circular-portal">
-        <div id="features">
-          <FeaturesSection />
-        </div>
-      </Section>
+        <Section transition="circular-portal">
+          <div id="features">
+            <FeaturesSection />
+          </div>
+        </Section>
 
-      <Section transition="spotlight-reveal">
-        <div id="everything-inside">
-          <EverythingInside />
-        </div>
-      </Section>
+        <Section transition="spotlight-reveal">
+          <div id="everything-inside">
+            <EverythingInside />
+          </div>
+        </Section>
 
-      <Section transition="wave-reveal">
-        <WhyVyralify />
-      </Section>
+        <Section transition="wave-reveal">
+          <WhyVyralify />
+        </Section>
 
-      <Section transition="card-stack">
-        <div id="community">
-          <Community />
-        </div>
-      </Section>
+        <Section transition="card-stack">
+          <div id="community">
+            <Community />
+          </div>
+        </Section>
 
-      <Section transition="circular-portal">
-        <Testimonials />
-      </Section>
+        <Section transition="circular-portal">
+          <Testimonials />
+        </Section>
 
-      <Section transition="spotlight-reveal">
-        <div id="pricing">
-          <PricingSection />
-        </div>
-      </Section>
+        <Section transition="spotlight-reveal">
+          <div id="pricing">
+            <PricingSection />
+          </div>
+        </Section>
 
-      <Section transition="wave-reveal">
-        <div id="faq">
-          <FaqSection />
-        </div>
-      </Section>
+        <Section transition="wave-reveal">
+          <div id="faq">
+            <FaqSection />
+          </div>
+        </Section>
 
-      <Section>
-        <FinalCta />
-      </Section>
-    </SectionFlow>
+        <Section>
+          <FinalCta />
+        </Section>
+      </SectionFlow>
+    </LandingScrollProvider>
   );
 }

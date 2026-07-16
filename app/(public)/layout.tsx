@@ -4,9 +4,9 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { UserProfileProvider, useUserProfile } from "@/components/user-profile-provider";
 import { signInWithGoogle, logOut } from "@/lib/firebase/auth";
-import { Menu, X, ArrowRight, LogOut, LayoutDashboard, Instagram, Twitter, Youtube, Mail } from "lucide-react";
+import { Menu, X, ArrowRight, LogOut, LayoutDashboard, BadgeCheck, Mail, Sparkles, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { TopStrip } from "@/components/landing/top-strip";
+import TopStrip from "@/components/landing/top-strip";
 
 function PublicHeader() {
   const { profile } = useUserProfile();
@@ -292,19 +292,19 @@ function PublicFooter() {
                 href="#"
                 className="flex h-9 w-9 items-center justify-center rounded-lg bg-zinc-800/50 text-zinc-400 hover:bg-blue-600/20 hover:text-blue-400 transition-colors"
               >
-                <Instagram className="h-4 w-4" />
+                <Sparkles className="h-4 w-4" />
               </a>
               <a
                 href="#"
                 className="flex h-9 w-9 items-center justify-center rounded-lg bg-zinc-800/50 text-zinc-400 hover:bg-blue-600/20 hover:text-blue-400 transition-colors"
               >
-                <Twitter className="h-4 w-4" />
+                <Send className="h-4 w-4" />
               </a>
               <a
                 href="#"
                 className="flex h-9 w-9 items-center justify-center rounded-lg bg-zinc-800/50 text-zinc-400 hover:bg-blue-600/20 hover:text-blue-400 transition-colors"
               >
-                <Youtube className="h-4 w-4" />
+                <BadgeCheck className="h-4 w-4" />
               </a>
               <a
                 href="#"

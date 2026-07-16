@@ -20,7 +20,6 @@ import {
   Menu,
   X,
   LogOut,
-  Sparkles,
 } from "lucide-react";
 
 // Dashboard navigation items
@@ -56,13 +55,13 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
   const getHref = (id: string) => `/dashboard?tab=${id}`;
 
   return (
-    <div className="flex h-screen bg-zinc-50 font-sans text-zinc-900 dark:bg-zinc-950 dark:text-zinc-50">
+    <div className="flex h-screen bg-[radial-gradient(circle_at_top_left,_rgba(34,211,238,0.08),_transparent_25%),linear-gradient(135deg,_#f8fbff_0%,_#eef4ff_100%)] font-sans text-zinc-900 dark:bg-zinc-950 dark:text-zinc-50">
       {/* Desktop Sidebar */}
-      <aside className="hidden md:flex md:w-64 md:flex-col border-r border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-900">
+      <aside className="hidden md:flex md:w-64 md:flex-col border-r border-zinc-200 bg-slate-950 text-white dark:border-zinc-800">
         {/* Brand Header */}
-        <div className="flex h-16 items-center justify-between border-b border-zinc-200 px-6 dark:border-zinc-800">
+        <div className="flex h-16 items-center justify-between border-b border-white/10 px-6">
           <div className="flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600 text-white shadow-md shadow-blue-500/20">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-cyan-500 text-white shadow-md shadow-cyan-500/20">
               <span className="font-bold text-lg">V</span>
             </div>
             <span className="font-bold tracking-tight text-lg">Vyralify.io</span>
@@ -87,13 +86,13 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
               <a
                 key={item.id}
                 href={getHref(item.id)}
-                className={`group flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
+                className={`group flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
                   isActive
-                    ? "bg-blue-50 text-blue-600 dark:bg-blue-950/40 dark:text-blue-400"
-                    : "text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800/50 dark:hover:text-zinc-50"
+                    ? "bg-cyan-500/15 text-cyan-300"
+                    : "text-slate-300 hover:bg-white/10 hover:text-white"
                 }`}
               >
-                <Icon className={`h-4 w-4 ${isActive ? "text-blue-600 dark:text-blue-400" : "text-zinc-400 group-hover:text-zinc-500 dark:text-zinc-500"}`} />
+                <Icon className={`h-4 w-4 ${isActive ? "text-cyan-300" : "text-slate-400 group-hover:text-slate-200"}`} />
                 {item.name}
               </a>
             );
@@ -101,22 +100,22 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
         </nav>
 
         {/* Sidebar Footer User Details */}
-        <div className="border-t border-zinc-200 p-4 dark:border-zinc-800">
+        <div className="border-t border-white/10 p-4">
           <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 font-semibold text-sm">
+            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-cyan-500/20 text-sm font-semibold text-cyan-200">
               {profile?.displayName?.charAt(0) || profile?.email?.charAt(0) || "U"}
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-xs font-semibold text-zinc-900 dark:text-zinc-50 truncate">
+              <p className="truncate text-xs font-semibold text-white">
                 {profile?.displayName || "Member"}
               </p>
-              <p className="text-[10px] text-zinc-500 dark:text-zinc-400 truncate">
+              <p className="truncate text-[10px] text-slate-400">
                 {profile?.email}
               </p>
             </div>
             <button
               onClick={handleLogout}
-              className="text-zinc-400 hover:text-red-500 dark:text-zinc-500 dark:hover:text-red-400"
+              className="text-slate-400 hover:text-red-400"
               title="Logout"
             >
               <LogOut className="h-4.5 w-4.5" />
@@ -210,7 +209,7 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
         )}
 
         {/* Page Inner Content */}
-        <main className="flex-1 overflow-y-auto bg-zinc-50 p-6 dark:bg-zinc-950">
+        <main className="flex-1 overflow-y-auto bg-transparent p-6">
           {children}
         </main>
       </div>

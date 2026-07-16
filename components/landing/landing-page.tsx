@@ -12,32 +12,59 @@ import Testimonials from "@/components/landing/testimonials";
 import PricingSection from "@/components/landing/pricing-section";
 import FaqSection from "@/components/landing/faq-section";
 import FinalCta from "@/components/landing/final-cta";
+import { SectionFlow, Section } from "@/components/sectionflow/core/section-flow";
 
 export default function LandingPage() {
   return (
     <main className="bg-[#f5f3ef]">
-      <HeroSection />
-      <SocialProof />
-      <AiToolsSection />
-      <HowItWorks />
-      <div id="features">
-        <FeaturesSection />
-      </div>
-      <div id="everything-inside">
-        <EverythingInside />
-      </div>
-      <WhyVyralify />
-      <div id="community">
-        <Community />
-      </div>
-      <Testimonials />
-      <div id="pricing">
-        <PricingSection />
-      </div>
-      <div id="faq">
-        <FaqSection />
-      </div>
-      <FinalCta />
+      <SectionFlow defaultTransition="circular-portal" className="bg-[#f5f3ef]">
+        <Section transition="circular-portal" className="min-h-0 bg-transparent">
+          <HeroSection />
+        </Section>
+        <Section transition="circular-portal" className="min-h-0 bg-transparent">
+          <SocialProof />
+        </Section>
+        <Section className="min-h-0 bg-transparent">
+          <AiToolsSection />
+        </Section>
+        <Section className="min-h-0 bg-transparent">
+          <HowItWorks />
+        </Section>
+        <Section className="min-h-0 bg-transparent">
+          <div id="features">
+            <FeaturesSection />
+          </div>
+        </Section>
+        <Section className="min-h-0 bg-transparent">
+          <div id="everything-inside">
+            <EverythingInside />
+          </div>
+        </Section>
+        <Section className="min-h-0 bg-transparent">
+          <WhyVyralify />
+        </Section>
+        <Section className="min-h-0 bg-transparent">
+          <div id="community">
+            <Community />
+          </div>
+        </Section>
+        <Section className="min-h-0 bg-transparent">
+          <Testimonials />
+        </Section>
+        <Section className="min-h-0 bg-transparent">
+          <div id="pricing">
+            <PricingSection />
+          </div>
+        </Section>
+        <Section className="min-h-0 bg-transparent">
+          <div id="faq">
+            <FaqSection />
+          </div>
+        </Section>
+        <Section className="min-h-0 bg-transparent">
+          <FinalCta />
+        </Section>
+      </SectionFlow>
     </main>
   );
 }

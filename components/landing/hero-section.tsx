@@ -2,7 +2,9 @@
 
 import { motion } from "framer-motion";
 import { ArrowRight, BarChart3, Play, ShieldCheck, Sparkles } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
+import logo from "@/vyralifylogo.jpeg";
 
 const highlights = [
   { label: "AI Studio", detail: "Five tools that ship fast" },
@@ -19,7 +21,9 @@ export default function HeroSection() {
           <div className="grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr]">
             <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease: "easeOut" }} className="z-10">
               <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-stone-300 bg-stone-100 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.28em] text-stone-700">
-                <Sparkles className="h-3.5 w-3.5" />
+                <div className="relative h-6 w-6 overflow-hidden rounded-full border border-stone-300 bg-white p-0.5">
+                  <Image src={logo} alt="Vyralify logo" fill sizes="24px" className="object-cover" />
+                </div>
                 Premium creator operating system
               </div>
 
@@ -60,8 +64,10 @@ export default function HeroSection() {
                     <p className="text-xs font-semibold uppercase tracking-[0.28em] text-stone-500">Member workspace</p>
                     <h2 className="mt-2 text-2xl font-semibold text-stone-900">From idea to publish-ready content.</h2>
                   </div>
-                  <div className="rounded-2xl border border-stone-300 bg-stone-100 p-3 text-stone-700">
-                    <BarChart3 className="h-5 w-5" />
+                  <div className="rounded-2xl border border-stone-300 bg-stone-100 p-2 text-stone-700 shadow-sm">
+                    <div className="relative h-9 w-9 overflow-hidden rounded-xl border border-stone-200 bg-white">
+                      <Image src={logo} alt="Vyralify logo" fill sizes="36px" className="object-cover" />
+                    </div>
                   </div>
                 </div>
 

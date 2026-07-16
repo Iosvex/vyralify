@@ -1,12 +1,14 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { UserProfileProvider, useUserProfile } from "@/components/user-profile-provider";
 import { signInWithGoogle, logOut } from "@/lib/firebase/auth";
 import { Menu, X, ArrowRight, LogOut, LayoutDashboard, BadgeCheck, Mail, Sparkles, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import TopStrip from "@/components/landing/top-strip";
+import logo from "@/vyralifylogo.jpeg";
 
 function PublicHeader() {
   const { profile } = useUserProfile();
@@ -46,11 +48,11 @@ function PublicHeader() {
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2.5">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600 text-white shadow-md shadow-blue-500/20">
-            <span className="text-sm font-black">V</span>
+          <div className="relative flex h-9 w-9 items-center justify-center overflow-hidden rounded-xl border border-stone-200 bg-white shadow-sm">
+            <Image src={logo} alt="Vyralify logo" width={36} height={36} className="object-cover" />
           </div>
           <span className="text-base font-bold tracking-tight text-zinc-900">
-            Vyralify<span className="text-blue-600">.io</span>
+            Vyralify<span className="text-stone-500">.io</span>
           </span>
         </Link>
 

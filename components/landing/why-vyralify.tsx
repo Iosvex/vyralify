@@ -22,7 +22,7 @@ export default function WhyVyralify() {
     <section className="relative overflow-hidden bg-[linear-gradient(180deg,_#f8fbff_0%,_#eef4ff_100%)] px-6 py-24">
       <div className="mx-auto max-w-7xl">
         <motion.div className="mb-16 text-center" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 0.6 }}>
-          <span className="mb-4 inline-block text-xs font-semibold uppercase tracking-[0.32em] text-cyan-700">Why us</span>
+          <span className="mb-4 inline-block text-xs font-semibold uppercase tracking-[0.32em] text-indigo-600">Why us</span>
           <h2 className="mb-4 text-4xl font-bold text-slate-950 sm:text-5xl">Built different. Built for results.</h2>
           <p className="mx-auto max-w-2xl text-lg text-slate-600">See why creators choose Vyralify over generic courses and scattered tools.</p>
         </motion.div>
@@ -31,7 +31,7 @@ export default function WhyVyralify() {
           {differentiators.map((item) => (
             <motion.div key={item.title} variants={cardVariants} className="group rounded-[1.4rem] border border-slate-200 bg-white/90 p-6 shadow-[0_15px_45px_-24px_rgba(15,23,42,0.45)] transition-all duration-300 hover:-translate-y-1 hover:border-cyan-200">
               <div className="flex items-start gap-4">
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-cyan-50 text-xl">{item.icon}</div>
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-indigo-50 text-xl">{item.icon}</div>
                 <div>
                   <h3 className="mb-1 text-lg font-bold text-slate-900">{item.title}</h3>
                   <p className="text-sm leading-relaxed text-slate-600">{item.description}</p>

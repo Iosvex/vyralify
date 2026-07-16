@@ -51,10 +51,10 @@ const cardVariants = {
 
 export default function FeaturesSection() {
   return (
-    <section className="relative overflow-hidden bg-white px-6 py-24">
+    <section className="relative overflow-hidden bg-white/70 px-6 py-24 backdrop-blur-sm">
       <div className="mx-auto max-w-6xl">
         <div className="mb-16 text-center">
-          <motion.span initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }} className="mb-4 block text-xs font-bold uppercase tracking-[0.32em] text-cyan-700">
+          <motion.span initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }} className="mb-4 block text-xs font-bold uppercase tracking-[0.32em] text-indigo-600">
             Premium vault
           </motion.span>
           <motion.h2 initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.08 }} className="text-3xl font-extrabold tracking-tight text-slate-950 sm:text-4xl lg:text-5xl">
@@ -78,7 +78,7 @@ export default function FeaturesSection() {
                 viewport={{ once: true }}
                 className={`group rounded-[1.6rem] border border-slate-200 bg-gradient-to-br from-slate-50 to-white p-6 shadow-[0_15px_45px_-24px_rgba(15,23,42,0.45)] transition-all duration-300 hover:-translate-y-1 hover:border-cyan-200 hover:shadow-[0_25px_60px_-24px_rgba(34,211,238,0.3)] sm:p-8 ${phase.colSpan ?? ""}`}
               >
-                <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-cyan-50 text-cyan-700 transition-transform duration-300 group-hover:scale-110">
+                <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-indigo-50 text-indigo-700 transition-transform duration-300 group-hover:scale-110">
                   <Icon className="h-6 w-6" />
                 </div>
                 <h3 className="mb-2 text-lg font-bold text-slate-900">{phase.title}</h3>

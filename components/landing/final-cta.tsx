@@ -8,13 +8,13 @@ const fadeUp = {
   visible: (i: number) => ({ opacity: 1, y: 0, transition: { duration: 0.6, delay: i * 0.15 } }),
 };
 
-const avatarColors = ["bg-cyan-400", "bg-sky-500", "bg-indigo-400", "bg-blue-600", "bg-fuchsia-400"];
+const avatarColors = ["bg-indigo-400", "bg-violet-500", "bg-sky-400", "bg-fuchsia-500", "bg-emerald-400"];
 
 export default function FinalCta() {
   return (
-    <section className="relative overflow-hidden bg-[radial-gradient(circle_at_top_left,_rgba(34,211,238,0.2),_transparent_40%),linear-gradient(135deg,_#07111f_0%,_#0f172a_45%,_#111827_100%)] px-6 py-24">
-      <motion.div animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }} className="pointer-events-none absolute left-10 top-10 h-72 w-72 rounded-full bg-cyan-400/25 blur-3xl" />
-      <motion.div animate={{ scale: [1, 1.15, 1], opacity: [0.2, 0.4, 0.2] }} transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 2 }} className="pointer-events-none absolute bottom-10 right-10 h-96 w-96 rounded-full bg-blue-300/20 blur-3xl" />
+    <section className="relative overflow-hidden bg-[radial-gradient(circle_at_top_left,_rgba(79,70,229,0.22),_transparent_40%),linear-gradient(135deg,_#111827_0%,_#1e1b4b_45%,_#312e81_100%)] px-6 py-24">
+      <motion.div animate={{ scale: [1, 1.2, 1], opacity: [0.28, 0.48, 0.28] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }} className="pointer-events-none absolute left-10 top-10 h-72 w-72 rounded-full bg-indigo-400/25 blur-3xl" />
+      <motion.div animate={{ scale: [1, 1.15, 1], opacity: [0.2, 0.4, 0.2] }} transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 2 }} className="pointer-events-none absolute bottom-10 right-10 h-96 w-96 rounded-full bg-fuchsia-300/20 blur-3xl" />
 
       <div className="relative z-10 mx-auto max-w-7xl">
         <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, amount: 0.3 }} className="rounded-[2rem] border border-white/20 bg-white/10 px-6 py-16 text-center backdrop-blur-xl sm:px-12 sm:py-20">

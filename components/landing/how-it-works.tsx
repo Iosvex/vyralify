@@ -44,7 +44,7 @@ export default function HowItWorks() {
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6 }}
         >
-          <span className="inline-block text-xs font-semibold uppercase tracking-widest text-blue-600 mb-4">
+          <span className="inline-block text-xs font-semibold uppercase tracking-widest text-indigo-600 mb-4">
             The Roadmap
           </span>
           <h2 className="text-4xl sm:text-5xl font-bold text-zinc-900">
@@ -72,12 +72,12 @@ export default function HowItWorks() {
                 className="relative bg-white rounded-2xl border border-zinc-100 p-8 text-center hover:shadow-xl hover:scale-[1.02] transition-all duration-300"
               >
                 {/* Large step number */}
-                <span className="block text-6xl font-black text-blue-600/15 leading-none mb-4 select-none">
+                <span className="block text-6xl font-black text-indigo-600/15 leading-none mb-4 select-none">
                   {step.number}
                 </span>
 
                 {/* Icon */}
-                <div className="mx-auto mb-4 w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600">
+                <div className="mx-auto mb-4 w-12 h-12 rounded-xl bg-indigo-50 flex items-center justify-center text-indigo-600">
                   <step.Icon className="w-6 h-6" />
                 </div>
 

@@ -10,7 +10,7 @@ const igCards = [
   { handle: "@mindset.growth", followers: "312K", gradient: "from-emerald-400 to-teal-600" },
   { handle: "@motivation.daily", followers: "456K", gradient: "from-rose-400 to-pink-600" },
   { handle: "@luxury.lifestyle", followers: "523K", gradient: "from-violet-400 to-purple-600" },
-  { handle: "@marketing.hq", followers: "178K", gradient: "from-cyan-400 to-blue-600" },
+  { handle: "@marketing.hq", followers: "178K", gradient: "from-sky-400 to-indigo-600" },
   { handle: "@stoicism.world", followers: "267K", gradient: "from-zinc-500 to-zinc-800" },
   { handle: "@quotes.empire", followers: "891K", gradient: "from-yellow-400 to-amber-600" },
   { handle: "@cars.premium", followers: "345K", gradient: "from-red-400 to-rose-600" },
@@ -98,7 +98,7 @@ export default function SocialProof() {
   const isInView = useInView(statsRef, { once: true, margin: "-100px" });
 
   return (
-    <section className="relative py-24 px-6 overflow-hidden bg-slate-50">
+    <section className="relative py-24 px-6 overflow-hidden bg-white/70 backdrop-blur-sm">
       {/* ── Section header ── */}
       <div className="mx-auto max-w-4xl text-center space-y-4 mb-16 relative z-10">
         <motion.h2
@@ -109,7 +109,7 @@ export default function SocialProof() {
           className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-zinc-900"
         >
           Helping Creators Build The Next Generation Of{" "}
-          <span className="bg-gradient-to-r from-blue-600 to-blue-500 bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-indigo-600 via-violet-600 to-sky-600 bg-clip-text text-transparent">
             Instagram Pages.
           </span>
         </motion.h2>

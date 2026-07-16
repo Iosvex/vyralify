@@ -48,11 +48,9 @@ function PublicHeader() {
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2.5">
-          <div className="relative flex h-9 w-9 items-center justify-center overflow-hidden rounded-xl border border-stone-200 bg-white shadow-sm">
-            <Image src={logo} alt="Vyralify logo" width={36} height={36} className="object-cover" />
-          </div>
+          <Image src={logo} alt="Vyralify logo" width={34} height={34} className="h-8 w-8 rounded-lg object-cover" />
           <span className="text-base font-bold tracking-tight text-zinc-900">
-            Vyralify<span className="text-stone-500">.io</span>
+            Vyralify<span className="text-indigo-600">.io</span>
           </span>
         </Link>
 

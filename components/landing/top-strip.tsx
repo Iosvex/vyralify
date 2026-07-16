@@ -2,28 +2,23 @@
 
 export default function TopStrip() {
   const message =
-    "🚀 1,000+ Creators Already Scaling With Vyralify · Join the #1 AI-Powered Platform for Instagram Creators · 50% Lifetime Recurring Commissions";
+    "🚀 1,000+ Creators Already Scaling With Vyralify · Join the premium AI operating system for modern Instagram brands · 50% lifetime recurring commissions";
 
   return (
-    <div className="relative bg-blue-600 text-white py-2 overflow-hidden">
+    <div className="relative overflow-hidden bg-[linear-gradient(90deg,_#111827_0%,_#312e81_50%,_#4f46e5_100%)] py-2 text-white">
       <div
         className="flex whitespace-nowrap"
         style={{
           animation: "marquee 30s linear infinite",
         }}
       >
-        {/* Duplicate the message several times for seamless loop */}
         {Array.from({ length: 6 }).map((_, i) => (
-          <span
-            key={i}
-            className="text-xs font-medium mx-8 inline-block shrink-0"
-          >
+          <span key={i} className="mx-8 inline-block shrink-0 text-xs font-medium">
             {message}
           </span>
         ))}
       </div>
 
-      {/* Inline keyframes for the marquee animation */}
       <style jsx>{`
         @keyframes marquee {
           0% {

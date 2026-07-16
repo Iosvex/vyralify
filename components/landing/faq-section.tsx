@@ -71,7 +71,7 @@ export default function FaqSection() {
           <motion.p
             variants={fadeUp}
             custom={0}
-            className="text-xs font-semibold uppercase tracking-widest text-blue-600 mb-3"
+            className="text-xs font-semibold uppercase tracking-widest text-indigo-600 mb-3"
           >
             Support
           </motion.p>
@@ -114,12 +114,12 @@ export default function FaqSection() {
                   <div className="flex items-center gap-3">
                     <HelpCircle
                       className={`h-5 w-5 shrink-0 transition-colors duration-300 ${
-                        isOpen ? "text-blue-600" : "text-zinc-400"
+                        isOpen ? "text-indigo-600" : "text-zinc-400"
                       }`}
                     />
                     <span
                       className={`font-semibold text-sm sm:text-base transition-colors duration-300 ${
-                        isOpen ? "text-blue-600" : "text-zinc-900"
+                        isOpen ? "text-indigo-600" : "text-zinc-900"
                       }`}
                     >
                       {faq.q}

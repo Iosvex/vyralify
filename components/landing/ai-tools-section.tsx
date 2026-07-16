@@ -9,7 +9,7 @@ const aiTools = [
     emoji: "✨",
     title: "AI Caption Generator",
     description: "Generate scroll-stopping captions tailored to your niche, tone, and reel format in seconds.",
-    color: "from-cyan-500 to-sky-600",
+    color: "from-indigo-500 to-violet-600",
   },
   {
     icon: Flame,
@@ -48,17 +48,17 @@ const cardVariants = {
 
 export default function AiToolsSection() {
   return (
-    <section id="ai-tools" className="relative overflow-hidden bg-[linear-gradient(180deg,_#f8fbff_0%,_#f3f7ff_100%)] px-6 py-24">
+    <section id="ai-tools" className="relative overflow-hidden px-6 py-24">
       <div className="mx-auto max-w-7xl">
         <div className="mb-16 text-center">
-          <motion.span initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-3 block text-xs font-bold uppercase tracking-[0.32em] text-cyan-700">
+          <motion.span initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-3 block text-xs font-bold uppercase tracking-[0.32em] text-indigo-600">
             AI-Powered Studio
           </motion.span>
           <motion.h2 initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.08 }} className="text-3xl font-extrabold tracking-tight text-slate-950 sm:text-4xl lg:text-5xl">
-            A premium AI studio for creators who want velocity.
+            Calm, premium tools for creators who want velocity.
           </motion.h2>
           <motion.p initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.16 }} className="mx-auto mt-4 max-w-2xl text-sm text-slate-600 sm:text-base">
-            Five powerful AI tools built exclusively for Instagram creators. Unlock full access when you join Vyralify and turn ideas into content faster than ever.
+            Five refined AI tools built for Instagram creators who want less friction and more output.
           </motion.p>
         </div>
 
@@ -74,7 +74,7 @@ export default function AiToolsSection() {
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true }}
-                className={`group relative rounded-[1.6rem] border border-slate-200 bg-white/80 p-6 shadow-[0_15px_45px_-25px_rgba(15,23,42,0.45)] backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-cyan-200 hover:shadow-[0_25px_60px_-24px_rgba(34,211,238,0.4)] sm:p-8 ${isWide ? "lg:col-span-2 lg:flex lg:items-center lg:gap-8" : ""}`}
+                className={`group relative rounded-[1.6rem] border border-slate-200/80 bg-white/80 p-6 shadow-[0_18px_50px_-24px_rgba(15,23,42,0.35)] backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-indigo-200 hover:shadow-[0_30px_70px_-28px_rgba(79,70,229,0.35)] sm:p-8 ${isWide ? "lg:col-span-2 lg:flex lg:items-center lg:gap-8" : ""}`}
               >
                 <div className={`${isWide ? "shrink-0" : ""}`}>
                   <div className={`mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br ${tool.color} text-white transition-transform duration-300 group-hover:scale-110`}>
@@ -87,7 +87,7 @@ export default function AiToolsSection() {
                 </div>
                 <div className={isWide ? "flex-1" : ""}>
                   <p className="text-sm leading-relaxed text-slate-600">{tool.description}</p>
-                  <div className="mt-4 inline-flex items-center gap-1.5 rounded-full bg-cyan-50 px-3 py-1 text-xs font-semibold text-cyan-700">
+                  <div className="mt-4 inline-flex items-center gap-1.5 rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold text-indigo-700">
                     <Lock className="h-3 w-3" />
                     Members only
                   </div>

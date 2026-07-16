@@ -65,7 +65,7 @@ export default function PricingSection() {
   };
 
   return (
-    <section className="relative py-24 px-6 overflow-hidden bg-slate-50">
+    <section className="relative py-24 px-6 overflow-hidden bg-white/70 backdrop-blur-sm">
       <div className="mx-auto max-w-7xl">
         {/* Header */}
         <motion.div
@@ -77,7 +77,7 @@ export default function PricingSection() {
           <motion.p
             variants={fadeUp}
             custom={0}
-            className="text-xs font-semibold uppercase tracking-widest text-blue-600 mb-3"
+            className="text-xs font-semibold uppercase tracking-widest text-indigo-600 mb-3"
           >
             Pricing
           </motion.p>
@@ -107,7 +107,7 @@ export default function PricingSection() {
               onClick={() => setCurrency("USD")}
               className={`px-5 py-2 text-sm font-semibold rounded-full transition-all duration-300 ${
                 currency === "USD"
-                  ? "bg-blue-600 text-white shadow-md"
+                  ? "bg-indigo-600 text-white shadow-md"
                   : "text-zinc-500 hover:text-zinc-700"
               }`}
             >
@@ -117,7 +117,7 @@ export default function PricingSection() {
               onClick={() => setCurrency("INR")}
               className={`px-5 py-2 text-sm font-semibold rounded-full transition-all duration-300 ${
                 currency === "INR"
-                  ? "bg-blue-600 text-white shadow-md"
+                  ? "bg-indigo-600 text-white shadow-md"
                   : "text-zinc-500 hover:text-zinc-700"
               }`}
             >
@@ -154,7 +154,7 @@ export default function PricingSection() {
               <ul className="mt-8 space-y-3">
                 {standardFeatures.map((feature) => (
                   <li key={feature} className="flex items-start gap-3">
-                    <Check className="h-5 w-5 text-blue-600 shrink-0 mt-0.5" />
+                    <Check className="h-5 w-5 text-indigo-600 shrink-0 mt-0.5" />
                     <span className="text-sm text-zinc-700">{feature}</span>
                   </li>
                 ))}
@@ -176,17 +176,17 @@ export default function PricingSection() {
             viewport={{ once: true, amount: 0.3 }}
             variants={fadeUp}
             custom={1}
-            className="relative rounded-2xl border border-blue-500 bg-white p-6 shadow-xl flex flex-col justify-between hover:shadow-2xl hover:scale-[1.02] transition-all duration-300"
+            className="relative rounded-2xl border border-indigo-200 bg-white p-6 shadow-[0_20px_60px_-24px_rgba(79,70,229,0.36)] flex flex-col justify-between hover:shadow-2xl hover:scale-[1.02] transition-all duration-300"
           >
             {/* Popular Badge */}
             <div className="absolute -top-3 right-6">
-              <span className="bg-blue-600 text-white text-xs font-bold uppercase tracking-wider px-4 py-1.5 rounded-full shadow-md">
+              <span className="bg-indigo-600 text-white text-xs font-bold uppercase tracking-wider px-4 py-1.5 rounded-full shadow-md">
                 Popular
               </span>
             </div>
 
             <div>
-              <p className="text-xs font-semibold uppercase tracking-wider text-blue-600">
+              <p className="text-xs font-semibold uppercase tracking-wider text-indigo-600">
                 Pro Membership
               </p>
               <div className="mt-4 flex items-baseline gap-1">
@@ -202,7 +202,7 @@ export default function PricingSection() {
               <ul className="mt-8 space-y-3">
                 {proFeatures.map((feature) => (
                   <li key={feature} className="flex items-start gap-3">
-                    <Check className="h-5 w-5 text-blue-600 shrink-0 mt-0.5" />
+                    <Check className="h-5 w-5 text-indigo-600 shrink-0 mt-0.5" />
                     <span className="text-sm text-zinc-700">{feature}</span>
                   </li>
                 ))}
@@ -211,7 +211,7 @@ export default function PricingSection() {
 
             <button
               onClick={() => handleCheckout("pro")}
-              className="mt-8 w-full rounded-full bg-blue-600 text-white font-bold py-3 text-sm hover:bg-blue-700 shadow-lg shadow-blue-500/20 transition-all duration-300 cursor-pointer"
+              className="mt-8 w-full rounded-full bg-indigo-600 text-white font-bold py-3 text-sm hover:bg-indigo-700 shadow-lg shadow-indigo-500/20 transition-all duration-300 cursor-pointer"
             >
               Choose Pro Access
             </button>

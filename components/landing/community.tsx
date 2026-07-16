@@ -21,7 +21,7 @@ export default function Community() {
     <section className="relative overflow-hidden px-6 py-24">
       <div className="mx-auto max-w-7xl">
         <motion.div className="mb-16 text-center" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 0.6 }}>
-          <span className="mb-4 inline-block text-xs font-semibold uppercase tracking-[0.32em] text-cyan-700">The community</span>
+          <span className="mb-4 inline-block text-xs font-semibold uppercase tracking-[0.32em] text-indigo-600">The community</span>
           <h2 className="mb-4 text-4xl font-bold text-slate-950 sm:text-5xl">Join creators building together.</h2>
           <p className="mx-auto max-w-2xl text-lg text-slate-600">Get feedback, share wins, and learn from the best faceless page operators.</p>
         </motion.div>
@@ -51,7 +51,7 @@ export default function Community() {
           <motion.div className="space-y-4 lg:col-span-2" initial={{ opacity: 0, x: 40 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, margin: "-100px" }} transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}>
             {stats.map((stat, i) => (
               <motion.div key={stat.label} className="flex items-center gap-4 rounded-[1.2rem] border border-slate-200 bg-white/90 p-5 shadow-[0_15px_45px_-24px_rgba(15,23,42,0.45)] transition-all duration-300" initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.3 + i * 0.1, duration: 0.4 }}>
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-cyan-50 text-cyan-700">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-indigo-50 text-indigo-700">
                   <stat.Icon className="h-5 w-5" />
                 </div>
                 <span className="text-base font-semibold text-slate-900">{stat.label}</span>

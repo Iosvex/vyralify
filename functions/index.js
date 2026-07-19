@@ -1,4 +1,4 @@
-const functions=require('firebase-functions/v1');const admin=require('firebase-admin');const Stripe=require('stripe');const Razorpay=require('razorpay');const crypto=require('crypto');admin.initializeApp();const db=admin.firestore();
+const functions=require('firebase-functions/v1');const admin=require('firebase-admin');const Stripe=require('stripe');const Razorpay=require('razorpay');const crypto=require('crypto');const {buildAiPrompt}=require('./aiPrompts');admin.initializeApp();const db=admin.firestore();
 const cors=(res)=>{res.set('Access-Control-Allow-Origin','*');res.set('Access-Control-Allow-Headers','Authorization, Content-Type');res.set('Access-Control-Allow-Methods','POST, OPTIONS')};
 async function identity(req){const h=req.get('Authorization')||'';if(!h.startsWith('Bearer '))throw Error('unauthenticated');return admin.auth().verifyIdToken(h.slice(7))}async function profile(uid){const s=await db.doc(`users/${uid}`).get();return s.data()||{}}function jsonError(res,status){return res.status(status).json({error:'Request could not be completed.'})}
 const emailKey=e=>String(e||'').trim().toLowerCase();async function recordPaid(email,provider,id){const key=emailKey(email);if(!key)return;await db.doc(`paidEmails/${key}`).set({email:key,provider,subscriptionId:id||null,status:'paid',paidAt:admin.firestore.FieldValue.serverTimestamp(),updatedAt:admin.firestore.FieldValue.serverTimestamp()},{merge:true})}
@@ -43,17 +43,20 @@ exports.generateAi=functions.https.onRequest(async(req,res)=>{
     // Use high quality model llama-3.1-70b-versatile
     const model='llama-3.1-70b-versatile';
     
+    // Construct dynamic tool-specific system and user prompts
+    const {systemPrompt, userPrompt} = buildAiPrompt(tool, prompt, { niche: p.niche || 'Instagram Theme Page' });
+    
     const r=await fetch(endpoint,{
       method:'POST',
       headers:{Authorization:`Bearer ${key}`,'Content-Type':'application/json'},
       body:JSON.stringify({
         model,
         messages:[
-          {role:'system',content:`You are Vyralify's creator assistant. Produce a practical ${tool} for an Instagram theme-page creator. Make it engaging, viral, and actionable. Output only the requested content without metadata or conversational filler.`},
-          {role:'user',content:prompt}
+          {role:'system',content:systemPrompt},
+          {role:'user',content:userPrompt}
         ],
         temperature:0.75,
-        max_tokens:800
+        max_tokens:1200
       })
     });
     if(!r.ok) {

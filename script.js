@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initDashboardMockup();
   initScrollReveals();
   initAuthStateAndLiveData();
+  initCookieConsent();
 });
 
 /* ============================================================
@@ -642,3 +643,38 @@ function initAuthStateAndLiveData() {
     }
   });
 }
+
+/* ============================================================
+   13. COOKIE CONSENT PERMISSION BANNER
+   ============================================================ */
+function initCookieConsent() {
+  if (localStorage.getItem('vyralify_cookies') === 'accepted') return;
+
+  const banner = document.createElement('div');
+  banner.className = 'cookie-banner';
+  banner.id = 'cookieBanner';
+  banner.innerHTML = `
+    <div class="cookie-banner-head">
+      <i class="ph-bold ph-cookie"></i>
+      <span>Cookie Preferences &amp; Privacy</span>
+    </div>
+    <p>We use cookies and analytical tokens to optimize performance, remember your membership preferences, and protect authentication security. Read our <a href="/privacy.html">Privacy Policy</a>.</p>
+    <div class="cookie-banner-actions">
+      <button class="cookie-btn-accept" id="acceptAllCookies">Accept All</button>
+      <button class="cookie-btn-essential" id="essentialCookies">Essential Only</button>
+    </div>
+  `;
+  document.body.appendChild(banner);
+
+  setTimeout(() => banner.classList.add('show'), 1200);
+
+  const closeBanner = () => {
+    banner.classList.remove('show');
+    localStorage.setItem('vyralify_cookies', 'accepted');
+    setTimeout(() => banner.remove(), 500);
+  };
+
+  document.getElementById('acceptAllCookies')?.addEventListener('click', closeBanner);
+  document.getElementById('essentialCookies')?.addEventListener('click', closeBanner);
+}
+

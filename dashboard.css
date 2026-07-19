@@ -3,6 +3,18 @@
    Uses design tokens from styles.css
    ============================================ */
 
+:root {
+  --border-color: var(--line, #E8EBF2);
+  --primary-blue: var(--blue, #3355FF);
+  --primary-blue-hover: var(--blue-dark, #1E3AD1);
+  --card-tint: var(--blue-soft, #EEF1FF);
+  --border-tint: rgba(51,85,255,0.2);
+  --text-heading: var(--ink, #0B0D12);
+  --text-body: var(--ink-soft, #5B6472);
+  --text-muted: var(--ink-faint, #9AA2B1);
+  --bg-secondary: var(--bg-soft, #F5F7FC);
+}
+
 /* ---- App Layout ---- */
 .app-page {
   min-height: 100vh;

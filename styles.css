@@ -733,14 +733,16 @@ h1, h2, h3, h4 {
   background: #ffffff;
   color: var(--blue-dark, #1E3AD1);
   font-weight: 700;
-  font-size: 1.08rem;
-  padding: 16px 44px;
+  font-size: 1.05rem;
+  padding: 16px 40px;
   border-radius: 999px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
-  width: min(440px, 92vw);
+  width: auto;
+  min-width: 280px;
+  max-width: calc(100vw - 32px);
   box-shadow: 0 10px 32px rgba(0, 0, 0, 0.28);
   transition: transform 0.25s var(--ease), box-shadow 0.25s;
 }
@@ -750,38 +752,45 @@ h1, h2, h3, h4 {
   color: var(--blue);
 }
 
-/* Trusted Pill — matched width & aesthetic with long CTA button */
+/* Trusted Pill — compact, perfectly fitted social proof pill */
 .trusted-pill {
   display: inline-flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
+  justify-content: center;
+  gap: 10px;
   background: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 999px;
-  padding: 7px 16px 7px 7px;
+  padding: 6px 14px 6px 6px;
   margin: 0 auto 20px;
-  width: min(440px, 92vw);
+  width: auto;
+  max-width: calc(100vw - 32px);
   box-sizing: border-box;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 520px) {
   .btn-hero-pill {
     padding: 14px 28px;
-    font-size: 1rem;
+    font-size: .98rem;
+    min-width: 260px;
   }
   .trusted-pill {
     gap: 6px;
-    padding: 6px 12px 6px 6px;
+    padding: 5px 10px 5px 5px;
+    max-width: calc(100vw - 24px);
+  }
+  .trusted-avatar-img {
+    width: 30px;
+    height: 30px;
   }
   .trusted-text {
-    font-size: .76rem;
+    font-size: .72rem;
   }
   .trusted-verified {
-    font-size: .66rem;
-    padding: 3px 7px;
+    font-size: .62rem;
+    padding: 3px 6px;
   }
 }
 

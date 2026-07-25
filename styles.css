@@ -332,13 +332,13 @@ h1, h2, h3, h4 {
    TOP ANNOUNCEMENT STRIP — MARQUEE STYLE (like Vyral Media)
    ============================================================ */
 .top-strip {
-  background: #000;
-  color: rgba(255,255,255,0.92);
-  font-family: var(--font-mono);
-  font-size: .8rem;
-  letter-spacing: .06em;
-  font-weight: 600;
-  height: 40px;
+  background: var(--hero-bg);
+  color: rgba(255,255,255,0.82);
+  font-family: var(--font-body);
+  font-size: .72rem;
+  letter-spacing: .04em;
+  font-weight: 500;
+  height: 30px;
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -400,16 +400,43 @@ h1, h2, h3, h4 {
   gap: 28px;
 }
 
-/* Logo — Vyralify branded pill icon */
+/* Logo — base styles (text logos on light pages: login, privacy etc.) */
 .logo {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: 1.25rem;
+  font-size: 1.15rem;
   letter-spacing: -.01em;
+  color: var(--ink);
+  flex-shrink: 0;
+  text-decoration: none;
+}
+/* Logo on dark hero/navbar (white text) */
+.navbar .logo, .mobile-nav .logo {
   color: #fff;
+}
+/* When logo contains an img — hide text, show only PNG */
+.logo:has(.logo-img) {
+  font-size: 0;
+  color: transparent;
+  gap: 0;
+}
+.logo-img {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  object-fit: cover;
+  display: block;
+}
+/* logo-dot: small colored dot on text-based logos */
+.logo-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--blue);
+  display: inline-block;
   flex-shrink: 0;
 }
 .logo-icon {
@@ -634,18 +661,20 @@ h1, h2, h3, h4 {
 .badge-pill {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 7px;
   background: rgba(255,255,255,0.1);
   color: rgba(255,255,255,0.95);
   border: 1px solid rgba(255,255,255,0.18);
-  font-size: .82rem;
+  font-size: .76rem;
   font-weight: 600;
-  padding: 9px 20px 9px 16px;
+  padding: 7px 16px 7px 12px;
   border-radius: 999px;
-  margin-bottom: 32px;
+  margin-bottom: 22px;
   position: relative;
   overflow: hidden;
   backdrop-filter: blur(8px);
+  max-width: 92vw;
+  text-align: center;
 }
 .badge-pill::after {
   content: '';
@@ -661,9 +690,9 @@ h1, h2, h3, h4 {
 
 /* Hero headline — white on blue */
 .hero h1 {
-  font-size: clamp(2.8rem, 5.8vw, 5rem);
-  line-height: 1.05;
-  margin-bottom: 24px;
+  font-size: clamp(1.9rem, 5vw, 4.2rem);
+  line-height: 1.08;
+  margin-bottom: 20px;
   color: #fff;
   font-weight: 800;
   letter-spacing: -0.03em;

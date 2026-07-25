@@ -766,7 +766,7 @@ h1, h2, h3, h4 {
   padding: 6px 14px 6px 6px;
   margin: 0 auto 20px;
   width: auto;
-  max-width: calc(100vw - 32px);
+  max-width: calc(100vw - 24px);
   box-sizing: border-box;
 }
 
@@ -774,23 +774,33 @@ h1, h2, h3, h4 {
   .btn-hero-pill {
     padding: 14px 28px;
     font-size: .98rem;
-    min-width: 260px;
+    min-width: 240px;
   }
   .trusted-pill {
     gap: 6px;
-    padding: 5px 10px 5px 5px;
-    max-width: calc(100vw - 24px);
+    padding: 4px 10px 4px 4px;
+    max-width: calc(100vw - 20px);
   }
   .trusted-avatar-img {
-    width: 30px;
-    height: 30px;
+    width: 26px;
+    height: 26px;
+    margin-left: -8px;
+  }
+  .trusted-avatar-img:first-child {
+    margin-left: 0;
   }
   .trusted-text {
-    font-size: .72rem;
+    font-size: .7rem;
   }
   .trusted-verified {
     font-size: .62rem;
-    padding: 3px 6px;
+    padding: 2px 6px;
+  }
+}
+
+@media (max-width: 360px) {
+  .trusted-subtext {
+    display: none;
   }
 }
 

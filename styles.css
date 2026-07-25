@@ -655,6 +655,10 @@ h1, h2, h3, h4 {
   max-width: 860px;
   margin: 0 auto;
   padding: 0 24px 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Trust Badge pill — on blue bg */

@@ -763,36 +763,66 @@ h1, h2, h3, h4 {
   border-color: rgba(255,255,255,0.45);
 }
 
-/* Trusted By — on blue bg */
-.trusted-by {
-  display: flex;
+/* Trusted Pill — pill-shaped social proof like DropCourse */
+.trusted-pill {
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
   gap: 12px;
-  margin-bottom: 52px;
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 999px;
+  padding: 8px 18px 8px 8px;
+  margin-bottom: 44px;
+  max-width: 92vw;
 }
-.avatar-stack { display: flex; }
-.avatar-stack span {
+
+/* Avatar images group */
+.trusted-avatars {
+  display: flex;
+  flex-shrink: 0;
+}
+.trusted-avatar-img {
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  border: 2.5px solid rgba(255,255,255,0.3);
+  object-fit: cover;
+  object-position: top center;
+  border: 2.5px solid rgba(255,255,255,0.45);
   margin-left: -10px;
-  background: linear-gradient(135deg, #4C6FFF, #7B98FF);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-shrink: 0;
+}
+.trusted-avatar-img:first-child { margin-left: 0; }
+
+/* Text */
+.trusted-text {
+  font-size: .85rem;
+  color: rgba(255,255,255,0.9);
+  font-weight: 500;
+  white-space: nowrap;
+}
+.trusted-text strong {
   color: #fff;
+  font-weight: 700;
+}
+
+/* Verified badge */
+.trusted-verified {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(47,174,107,0.18);
+  color: #5AE09A;
+  border: 1px solid rgba(47,174,107,0.35);
+  border-radius: 999px;
   font-size: .72rem;
   font-weight: 700;
-  font-family: var(--font-mono);
+  padding: 4px 10px;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
-.avatar-stack span:first-child { margin-left: 0; }
-.trusted-by p {
-  font-size: .9rem;
-  color: rgba(255,255,255,0.75);
-  font-weight: 500;
-}
+.trusted-verified i { font-size: .9rem; }
 
 /* Feature pills marquee — on blue bg */
 .pills-marquee {

@@ -724,79 +724,106 @@ h1, h2, h3, h4 {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 14px;
-  flex-wrap: wrap;
-  margin-bottom: 44px;
+  margin-bottom: 16px;
+  width: 100%;
 }
-.hero-ctas .btn { padding: 16px 34px; font-size: 1rem; }
 
-/* Primary CTA — white filled on blue bg */
-.hero-ctas .btn-hero-primary {
-  background: #fff;
-  color: var(--hero-bg);
+/* Long Pill CTA Button (Image 3 DropCourse Style) */
+.btn-hero-pill {
+  background: #ffffff;
+  color: var(--blue-dark, #1E3AD1);
   font-weight: 700;
-  border-radius: 10px;
-  padding: 16px 34px;
-  box-shadow: 0 8px 30px rgba(0,0,0,.25);
+  font-size: 1.08rem;
+  padding: 16px 44px;
+  border-radius: 999px;
   display: inline-flex;
   align-items: center;
-  gap: 9px;
-  font-size: 1rem;
-  transition: transform 0.2s var(--ease), box-shadow 0.2s;
+  justify-content: center;
+  gap: 10px;
+  width: min(440px, 92vw);
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.28);
+  transition: transform 0.25s var(--ease), box-shadow 0.25s;
 }
-.hero-ctas .btn-hero-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 14px 40px rgba(0,0,0,.3);
-}
-
-/* Secondary CTA — outlined white */
-.hero-ctas .btn-hero-outline {
-  background: rgba(255,255,255,0.06);
-  color: rgba(255,255,255,0.9);
-  font-weight: 600;
-  border: 1.5px solid rgba(255,255,255,0.25);
-  border-radius: 10px;
-  padding: 16px 28px;
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  font-size: 1rem;
-  backdrop-filter: blur(6px);
-  transition: transform 0.2s var(--ease), background 0.2s, border-color 0.2s;
-}
-.hero-ctas .btn-hero-outline:hover {
-  transform: translateY(-2px);
-  background: rgba(255,255,255,0.12);
-  border-color: rgba(255,255,255,0.45);
+.btn-hero-pill:hover {
+  transform: translateY(-2px) scale(1.01);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.35);
+  color: var(--blue);
 }
 
-/* Trusted Pill — pill-shaped social proof like DropCourse */
+/* Trusted Pill — matched width & aesthetic with long CTA button */
 .trusted-pill {
   display: inline-flex;
   align-items: center;
+  justify-content: space-between;
   gap: 12px;
-  background: rgba(255,255,255,0.1);
+  background: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255,255,255,0.18);
+  border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 999px;
-  padding: 8px 18px 8px 8px;
-  margin-bottom: 24px;
-  max-width: 92vw;
+  padding: 7px 16px 7px 7px;
+  margin: 0 auto 20px;
+  width: min(440px, 92vw);
+  box-sizing: border-box;
 }
+
 @media (max-width: 480px) {
+  .btn-hero-pill {
+    padding: 14px 28px;
+    font-size: 1rem;
+  }
   .trusted-pill {
-    gap: 8px;
-    padding: 7px 14px 7px 7px;
-    flex-wrap: nowrap;
+    gap: 6px;
+    padding: 6px 12px 6px 6px;
   }
   .trusted-text {
-    font-size: .78rem;
+    font-size: .76rem;
   }
   .trusted-verified {
-    font-size: .68rem;
-    padding: 3px 8px;
+    font-size: .66rem;
+    padding: 3px 7px;
   }
+}
+
+/* Trustpilot Rating Row (Image 3 Style) */
+.hero-rating {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 48px;
+  font-family: var(--font-body);
+}
+.hero-rating .rating-word {
+  font-weight: 700;
+  font-size: .95rem;
+  color: #ffffff;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.hero-rating .rating-stars {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+.hero-rating .star-box {
+  width: 20px;
+  height: 20px;
+  background: #00B67A;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: .7rem;
+  border-radius: 2px;
+}
+.hero-rating .rating-brand {
+  font-weight: 700;
+  font-size: .92rem;
+  color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
 }
 
 /* Avatar images group */

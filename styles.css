@@ -424,11 +424,18 @@ h1, h2, h3, h4 {
   gap: 0;
 }
 .logo-img {
-  width: 44px;
-  height: 44px;
-  border-radius: 10px;
-  object-fit: cover;
+  height: 38px;
+  width: auto;
+  max-width: 240px;
+  object-fit: contain;
+  border-radius: 0;
   display: block;
+}
+@media (max-width: 480px) {
+  .logo-img {
+    height: 32px;
+    max-width: 190px;
+  }
 }
 /* logo-dot: small colored dot on text-based logos */
 .logo-dot {

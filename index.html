@@ -23,16 +23,40 @@
   <div id="scrollProgress"></div>
 
   <!-- ============================================================
-       1. TOP STRIP
+       1. TOP STRIP — MARQUEE (Vyral Media Style)
        ============================================================ -->
-  <div class="top-strip">🔥 <span>1,000+ Creators</span> Already Scaling With Vyralify</div>
+  <div class="top-strip">
+    <div class="top-strip-track" id="topStripTrack">
+      <!-- Block 1 -->
+      <div class="top-strip-item">🔥 <span class="highlight">1,000+ Creators</span> already scaling with Vyralify <span class="tag">NEW</span></div>
+      <span class="top-strip-sep">✦</span>
+      <div class="top-strip-item">🚀 AI-Powered Instagram Growth Platform <span class="tag">BETA</span></div>
+      <span class="top-strip-sep">✦</span>
+      <div class="top-strip-item">💰 Members earning <span class="highlight">₹50,000+/month</span> with affiliate tools</div>
+      <span class="top-strip-sep">✦</span>
+      <div class="top-strip-item">⚡ Weekly content drops + AI hooks generator — <span class="highlight">try free today</span></div>
+      <span class="top-strip-sep">✦</span>
+      <!-- Block 2 (duplicate for seamless loop) -->
+      <div class="top-strip-item">🔥 <span class="highlight">1,000+ Creators</span> already scaling with Vyralify <span class="tag">NEW</span></div>
+      <span class="top-strip-sep">✦</span>
+      <div class="top-strip-item">🚀 AI-Powered Instagram Growth Platform <span class="tag">BETA</span></div>
+      <span class="top-strip-sep">✦</span>
+      <div class="top-strip-item">💰 Members earning <span class="highlight">₹50,000+/month</span> with affiliate tools</div>
+      <span class="top-strip-sep">✦</span>
+      <div class="top-strip-item">⚡ Weekly content drops + AI hooks generator — <span class="highlight">try free today</span></div>
+      <span class="top-strip-sep">✦</span>
+    </div>
+  </div>
 
   <!-- ============================================================
        2. NAVBAR
        ============================================================ -->
   <header class="navbar" id="navbar">
     <div class="container nav-inner">
-      <a href="#hero" class="logo"><span class="logo-dot"></span>VYRALIFY</a>
+      <a href="#hero" class="logo">
+        <img src="/vyralifylogo.jpeg" alt="Vyralify" class="logo-img">
+        VYRALIFY
+      </a>
       <nav class="nav-links" id="navLinks">
         <div class="nav-slider-pill" id="navSliderPill"></div>
         <a href="#features" class="nav-link-item">Features</a>
@@ -43,7 +67,7 @@
       </nav>
       <div class="nav-right">
         <a href="/login.html" class="nav-login" id="navAuthLink">Login</a>
-        <a href="#pricing" class="btn btn-primary btn-sm" id="navCtaBtn">Join Vyralify</a>
+        <a href="#pricing" class="btn-nav-cta" id="navCtaBtn">Join Vyralify <i class="ph-bold ph-arrow-right"></i></a>
         <button class="nav-burger" id="burgerBtn" aria-label="Open menu"><i class="ph-bold ph-list"></i></button>
       </div>
     </div>
@@ -52,7 +76,10 @@
   <!-- Mobile Nav Drawer -->
   <div class="mobile-nav" id="mobileNav">
     <div class="mobile-nav-top">
-      <a href="#hero" class="logo"><span class="logo-dot"></span>VYRALIFY</a>
+      <a href="#hero" class="logo">
+        <img src="/vyralifylogo.jpeg" alt="Vyralify" class="logo-img">
+        VYRALIFY
+      </a>
       <button id="closeBurger" aria-label="Close menu"><i class="ph-bold ph-x"></i></button>
     </div>
     <a href="#features">Features</a>
@@ -60,7 +87,7 @@
     <a href="#results">Community</a>
     <a href="#pricing">Pricing</a>
     <a href="#faq">FAQs</a>
-    <a href="#pricing" class="btn btn-primary">Join Vyralify</a>
+    <a href="#pricing" class="mobile-cta">Join Vyralify →</a>
   </div>
 
   <!-- ============================================================
@@ -73,8 +100,8 @@
         <h1 class="reveal">Build, Grow &amp; <span class="grad">Monetise</span> Viral Instagram Pages.</h1>
         <p class="sub reveal">An AI-powered all-in-one platform built to help you launch viral Instagram pages, create high-performing content, master proven growth strategies, and monetise your audience with high-demand digital products.</p>
         <div class="hero-ctas reveal">
-          <a href="#pricing" class="btn btn-primary">Join Vyralify <i class="ph-bold ph-arrow-right shift-right"></i></a>
-          <a href="#everything" class="btn btn-outline"><i class="ph-bold ph-play"></i> View Platform</a>
+          <a href="#pricing" class="btn-hero-primary">Join Vyralify <i class="ph-bold ph-arrow-right shift-right"></i></a>
+          <a href="#everything" class="btn-hero-outline"><i class="ph-bold ph-play"></i> View Platform</a>
         </div>
         <div class="trusted-by reveal">
           <div class="avatar-stack">
@@ -160,6 +187,7 @@
       </div>
     </div>
   </section>
+  <div class="hero-bottom-fade"></div>
 
   <!-- ============================================================
        4. SOCIAL PROOF

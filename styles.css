@@ -332,7 +332,7 @@ h1, h2, h3, h4 {
    TOP ANNOUNCEMENT STRIP — ENERGETIC GROWTH BANNER
    ============================================================ */
 .top-strip {
-  background: linear-gradient(90deg, #0B0D12 0%, #111428 40%, #1a1f3a 60%, #0B0D12 100%);
+  background: linear-gradient(90deg, #07090E 0%, #0F1428 50%, #07090E 100%);
   color: rgba(255,255,255,0.92);
   font-family: var(--font-body);
   font-size: .78rem;
@@ -345,15 +345,8 @@ h1, h2, h3, h4 {
   justify-content: center;
   position: relative;
   z-index: 60;
-  border-bottom: 1px solid rgba(58,90,255,0.15);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
   flex-shrink: 0;
-}
-.top-strip::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg, transparent 0%, rgba(58,90,255,0.08) 50%, transparent 100%);
-  pointer-events: none;
 }
 .top-strip-inner {
   display: flex;
@@ -365,29 +358,32 @@ h1, h2, h3, h4 {
   position: relative;
   z-index: 1;
 }
-.top-strip-logo {
-  width: 20px;
-  height: 20px;
-  border-radius: 4px;
-  object-fit: contain;
+.top-strip-brand {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: .8rem;
+  letter-spacing: .06em;
   flex-shrink: 0;
 }
-.top-strip-text {
-  color: rgba(255,255,255,0.9);
-  font-weight: 400;
-  letter-spacing: .04em;
-  font-size: .78rem;
+.top-strip-brand .brand-vyral {
+  color: #ffffff;
 }
-.top-strip-text strong {
-  color: #fff;
-  font-weight: 700;
+.top-strip-brand .brand-ify {
+  color: #2FAE6B;
+}
+.top-strip-text {
+  color: rgba(255,255,255,0.92);
+  font-weight: 500;
+  letter-spacing: .03em;
+  font-size: .76rem;
+  text-align: center;
 }
 .top-strip-cta {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  background: var(--blue);
-  color: #fff;
+  background: #2FAE6B;
+  color: #ffffff;
   font-size: .7rem;
   font-weight: 700;
   padding: 4px 12px;
@@ -398,17 +394,17 @@ h1, h2, h3, h4 {
   flex-shrink: 0;
 }
 .top-strip-cta:hover {
-  background: var(--blue-dark);
+  background: #25945a;
   transform: translateY(-1px);
 }
 .top-strip-cta i {
-  font-size: .65rem;
+  font-size: .75rem;
 }
 @media (max-width: 600px) {
-  .top-strip { font-size: .7rem; height: 36px; }
+  .top-strip { font-size: .7rem; height: 34px; }
   .top-strip-text { font-size: .68rem; }
-  .top-strip-cta { padding: 3px 10px; font-size: .65rem; }
-  .top-strip-logo { width: 16px; height: 16px; }
+  .top-strip-cta { padding: 3px 9px; font-size: .62rem; }
+  .top-strip-brand { font-size: .72rem; }
 }
 
 /* ============================================================
@@ -597,6 +593,30 @@ h1, h2, h3, h4 {
 }
 
 @media (max-width: 900px) {
+  .navbar {
+    background: transparent;
+    border-bottom: none;
+    box-shadow: none;
+  }
+  .navbar.scrolled {
+    background: rgba(9, 20, 86, 0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .navbar .logo {
+    color: #ffffff;
+  }
+  .navbar .logo-img {
+    filter: none;
+  }
+  .nav-burger {
+    color: #ffffff;
+    border: 1.5px solid rgba(255, 255, 255, 0.18);
+    background: rgba(255, 255, 255, 0.06);
+  }
+  .nav-burger:hover {
+    background: rgba(255, 255, 255, 0.12);
+  }
   .nav-links { display: none; }
   .nav-burger { display: flex; }
   .nav-right .btn-nav-cta { display: none; }
@@ -826,16 +846,48 @@ h1, h2, h3, h4 {
   box-sizing: border-box;
 }
 
-@media (max-width: 520px) {
+@media (max-width: 600px) {
+  .hero {
+    padding-top: 14px;
+  }
+  .hero-inner {
+    padding: 0 16px 36px;
+  }
+  .badge-pill {
+    font-size: .64rem;
+    padding: 4px 12px 4px 10px;
+    margin-bottom: 12px;
+  }
+  .badge-pill i {
+    font-size: .75rem;
+  }
+  .hero h1 {
+    font-size: clamp(2.1rem, 7.8vw, 2.75rem);
+    line-height: 1.08;
+    margin-bottom: 12px;
+  }
+  .hero .sub {
+    font-size: .88rem;
+    line-height: 1.55;
+    margin-bottom: 20px;
+  }
+  .hero-ctas {
+    margin-bottom: 14px;
+  }
   .btn-hero-pill {
-    padding: 16px 36px;
-    font-size: .98rem;
-    min-width: 280px;
+    width: 100%;
+    max-width: 360px;
+    min-width: unset;
+    padding: 16px 20px;
+    font-size: 1rem;
+    box-shadow: 0 8px 28px rgba(0,0,0,0.32);
   }
   .trusted-pill {
-    gap: 6px;
+    width: 78%;
+    max-width: 270px;
     padding: 4px 10px 4px 4px;
-    max-width: calc(100vw - 20px);
+    margin: 0 auto 12px;
+    gap: 6px;
   }
   .trusted-avatar-img {
     width: 24px;
@@ -851,6 +903,22 @@ h1, h2, h3, h4 {
   .trusted-verified {
     font-size: .6rem;
     padding: 2px 6px;
+  }
+  .hero-rating {
+    font-size: .78rem;
+    gap: 6px;
+    margin-bottom: 32px;
+  }
+  .hero-rating .rating-word {
+    font-size: .8rem;
+  }
+  .hero-rating .star-box {
+    width: 16px;
+    height: 16px;
+    font-size: .55rem;
+  }
+  .hero-rating .rating-brand {
+    font-size: .78rem;
   }
 }
 

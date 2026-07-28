@@ -408,18 +408,18 @@ h1, h2, h3, h4 {
 }
 
 /* ============================================================
-   NAVBAR — WHITE BACKGROUND, DARK TEXT
+   NAVBAR — SEAMLESS DARK BACKGROUND
    ============================================================ */
 .navbar {
   position: sticky;
   top: 0;
   z-index: 50;
-  background: #ffffff;
-  border-bottom: 1px solid var(--line);
+  background: var(--hero-bg);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
   transition: box-shadow .3s;
 }
 .navbar.scrolled {
-  box-shadow: 0 4px 24px -6px rgba(0,0,0,.08);
+  box-shadow: 0 8px 32px -8px rgba(0,0,0,.5);
 }
 .nav-inner {
   display: flex;
@@ -439,39 +439,46 @@ h1, h2, h3, h4 {
   font-weight: 800;
   font-size: 1.15rem;
   letter-spacing: -.01em;
-  color: var(--ink);
+  color: #fff;
   flex-shrink: 0;
   text-decoration: none;
 }
-/* Logo on WHITE navbar — dark text */
-.navbar .logo {
-  color: var(--ink);
-}
-/* Darken the logo image for white navbar */
-.navbar .logo-img {
-  filter: brightness(0.15) contrast(1.2);
-}
-.mobile-nav .logo {
+.navbar .logo, .mobile-nav .logo {
   color: #fff;
 }
-/* When logo contains an img — hide text, show only PNG */
+/* When logo contains an img — hide text, show only image */
 .logo:has(.logo-img) {
   font-size: 0;
   color: transparent;
   gap: 0;
 }
 .logo-img {
-  height: 36px;
+  height: 34px;
   width: auto;
-  max-width: 240px;
+  max-width: 220px;
   object-fit: contain;
+  mix-blend-mode: screen; /* Filters out black background color */
   border-radius: 0;
   display: block;
 }
+.top-strip-logo {
+  height: 22px;
+  width: auto;
+  max-width: 140px;
+  object-fit: contain;
+  mix-blend-mode: screen; /* Filters out black background color */
+  border-radius: 0;
+  display: inline-block;
+  vertical-align: middle;
+}
 @media (max-width: 480px) {
   .logo-img {
-    height: 30px;
-    max-width: 190px;
+    height: 28px;
+    max-width: 180px;
+  }
+  .top-strip-logo {
+    height: 18px;
+    max-width: 110px;
   }
 }
 /* logo-dot: small colored dot on text-based logos */
@@ -495,7 +502,7 @@ h1, h2, h3, h4 {
   box-shadow: 0 4px 16px rgba(58,90,255,.45);
 }
 
-/* Center nav links — dark text on white */
+/* Center nav links — white text on dark navbar */
 .nav-links {
   position: relative;
   display: flex;
@@ -509,25 +516,25 @@ h1, h2, h3, h4 {
 .nav-link-item {
   padding: 8px 16px;
   border-radius: 8px;
-  color: var(--ink-soft);
+  color: rgba(255,255,255,0.75);
   transition: color 0.2s, background 0.2s;
   white-space: nowrap;
 }
 .nav-link-item:hover {
-  color: var(--ink);
-  background: var(--bg-soft);
+  color: #fff;
+  background: rgba(255,255,255,0.08);
 }
 .nav-link-item.active {
-  color: var(--ink);
-  background: var(--bg-soft);
+  color: #fff;
+  background: rgba(255,255,255,0.12);
 }
 
-/* Sliding underline — dark on white */
+/* Sliding underline */
 .nav-slider-pill {
   position: absolute;
   bottom: -4px;
   height: 2px;
-  background: var(--blue);
+  background: #ffffff;
   border-radius: 99px;
   transition: left 0.3s var(--ease), width 0.3s var(--ease), opacity 0.2s;
   pointer-events: none;
@@ -544,19 +551,20 @@ h1, h2, h3, h4 {
 .nav-login {
   font-size: .9rem;
   font-weight: 500;
-  color: var(--ink-soft);
+  color: rgba(255,255,255,0.75);
   transition: color .2s;
   padding: 6px 12px;
   border-radius: 8px;
 }
 .nav-login:hover {
-  color: var(--ink);
+  color: #fff;
+  background: rgba(255,255,255,0.08);
 }
 
-/* CTA Button in nav — blue filled on white bg */
+/* CTA Button in nav — white button on dark navbar */
 .btn-nav-cta {
-  background: var(--blue);
-  color: #fff;
+  background: #ffffff;
+  color: var(--hero-bg);
   font-weight: 700;
   font-size: .85rem;
   padding: 10px 22px;
@@ -564,13 +572,12 @@ h1, h2, h3, h4 {
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  transition: transform 0.2s var(--ease), box-shadow 0.2s, background 0.2s;
+  transition: transform 0.2s var(--ease), box-shadow 0.2s;
   white-space: nowrap;
 }
 .btn-nav-cta:hover {
   transform: translateY(-1px);
-  background: var(--blue-dark);
-  box-shadow: 0 8px 24px rgba(58,90,255,.25);
+  box-shadow: 0 8px 24px rgba(255,255,255,.2);
 }
 
 .nav-burger {
@@ -828,22 +835,23 @@ h1, h2, h3, h4 {
   color: var(--blue);
 }
 
-/* Trusted Pill — compact, aligned to CTA width */
+/* Trusted Pill — compact, EVERYTHING strictly enclosed inside pill container */
 .trusted-pill {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  background: rgba(255, 255, 255, 0.06);
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 999px;
-  padding: 5px 14px 5px 5px;
-  margin: 0 auto 12px;
-  width: auto;
-  max-width: 360px;
+  padding: 6px 16px 6px 8px;
+  margin: 0 auto 14px;
+  width: max-content;
+  max-width: min(440px, calc(100vw - 32px));
   box-sizing: border-box;
+  overflow: hidden;
 }
 
 @media (max-width: 600px) {
@@ -883,16 +891,16 @@ h1, h2, h3, h4 {
     box-shadow: 0 8px 28px rgba(0,0,0,0.32);
   }
   .trusted-pill {
-    width: 78%;
-    max-width: 270px;
-    padding: 4px 10px 4px 4px;
-    margin: 0 auto 12px;
     gap: 6px;
+    padding: 5px 12px 5px 6px;
+    width: max-content;
+    max-width: calc(100vw - 24px);
+    margin: 0 auto 12px;
   }
   .trusted-avatar-img {
-    width: 24px;
-    height: 24px;
-    margin-left: -7px;
+    width: 22px;
+    height: 22px;
+    margin-left: -6px;
   }
   .trusted-avatar-img:first-child {
     margin-left: 0;
@@ -902,7 +910,11 @@ h1, h2, h3, h4 {
   }
   .trusted-verified {
     font-size: .6rem;
-    padding: 2px 6px;
+    padding: 2px 7px;
+    gap: 3px;
+  }
+  .trusted-verified i {
+    font-size: .72rem;
   }
   .hero-rating {
     font-size: .78rem;

@@ -457,7 +457,6 @@ h1, h2, h3, h4 {
   width: auto;
   max-width: 220px;
   object-fit: contain;
-  mix-blend-mode: screen; /* Filters out black background color */
   border-radius: 0;
   display: block;
 }
@@ -466,7 +465,6 @@ h1, h2, h3, h4 {
   width: auto;
   max-width: 140px;
   object-fit: contain;
-  mix-blend-mode: screen; /* Filters out black background color */
   border-radius: 0;
   display: inline-block;
   vertical-align: middle;

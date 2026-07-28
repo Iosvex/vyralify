@@ -453,29 +453,30 @@ h1, h2, h3, h4 {
   gap: 0;
 }
 .logo-img {
-  height: 34px;
+  height: 26px;
   width: auto;
-  max-width: 220px;
+  max-width: 210px;
   object-fit: contain;
   border-radius: 0;
   display: block;
 }
 .top-strip-logo {
-  height: 22px;
+  height: 16px;
   width: auto;
-  max-width: 140px;
+  max-width: 130px;
   object-fit: contain;
   border-radius: 0;
   display: inline-block;
   vertical-align: middle;
+  margin-right: 4px;
 }
 @media (max-width: 480px) {
   .logo-img {
-    height: 28px;
-    max-width: 180px;
+    height: 22px;
+    max-width: 175px;
   }
   .top-strip-logo {
-    height: 18px;
+    height: 14px;
     max-width: 110px;
   }
 }

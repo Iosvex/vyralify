@@ -450,20 +450,19 @@ h1, h2, h3, h4 {
 .logo:has(.logo-img) {
   font-size: 0;
   color: transparent;
-  gap: 0;
 }
 .logo-img {
-  height: 26px;
+  height: 32px;
   width: auto;
-  max-width: 210px;
+  max-width: 240px;
   object-fit: contain;
   border-radius: 0;
   display: block;
 }
 .top-strip-logo {
-  height: 16px;
+  height: 18px;
   width: auto;
-  max-width: 130px;
+  max-width: 140px;
   object-fit: contain;
   border-radius: 0;
   display: inline-block;
@@ -472,12 +471,12 @@ h1, h2, h3, h4 {
 }
 @media (max-width: 480px) {
   .logo-img {
-    height: 22px;
-    max-width: 175px;
+    height: 28px;
+    max-width: 200px;
   }
   .top-strip-logo {
-    height: 14px;
-    max-width: 110px;
+    height: 16px;
+    max-width: 120px;
   }
 }
 /* logo-dot: small colored dot on text-based logos */
@@ -583,26 +582,24 @@ h1, h2, h3, h4 {
   display: none;
   width: 40px;
   height: 40px;
-  border-radius: 9px;
-  border: 1.5px solid var(--line);
+  border-radius: 99px;
+  border: 1.5px solid rgba(255,255,255,0.18);
   align-items: center;
   justify-content: center;
   font-size: 1.3rem;
-  color: var(--ink-soft);
-  background: transparent;
+  color: #ffffff;
+  background: rgba(255,255,255,0.06);
   cursor: pointer;
   transition: background .2s, border-color .2s;
 }
 .nav-burger:hover {
-  background: var(--bg-soft);
-  border-color: var(--ink-faint);
+  background: rgba(255,255,255,0.12);
 }
 
 @media (max-width: 900px) {
   .navbar {
-    background: transparent;
-    border-bottom: none;
-    box-shadow: none;
+    background: var(--hero-bg);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
   }
   .navbar.scrolled {
     background: rgba(9, 20, 86, 0.95);
@@ -611,17 +608,6 @@ h1, h2, h3, h4 {
   }
   .navbar .logo {
     color: #ffffff;
-  }
-  .navbar .logo-img {
-    filter: none;
-  }
-  .nav-burger {
-    color: #ffffff;
-    border: 1.5px solid rgba(255, 255, 255, 0.18);
-    background: rgba(255, 255, 255, 0.06);
-  }
-  .nav-burger:hover {
-    background: rgba(255, 255, 255, 0.12);
   }
   .nav-links { display: none; }
   .nav-burger { display: flex; }
@@ -794,13 +780,6 @@ h1, h2, h3, h4 {
   line-height: 1.65;
   color: rgba(255,255,255,.72);
 }
-@media (max-width: 480px) {
-  .hero .sub {
-    font-size: .9rem;
-    line-height: 1.6;
-    margin-bottom: 24px;
-  }
-}
 
 .hero-ctas {
   display: flex;
@@ -855,81 +834,79 @@ h1, h2, h3, h4 {
 
 @media (max-width: 600px) {
   .hero {
-    padding-top: 14px;
+    padding-top: 24px;
   }
   .hero-inner {
-    padding: 0 16px 36px;
+    padding: 0 16px 44px;
   }
   .badge-pill {
-    font-size: .64rem;
-    padding: 4px 12px 4px 10px;
-    margin-bottom: 12px;
+    font-size: .68rem;
+    padding: 5px 14px 5px 10px;
+    margin-bottom: 16px;
   }
   .badge-pill i {
-    font-size: .75rem;
+    font-size: .8rem;
   }
   .hero h1 {
-    font-size: clamp(2.1rem, 7.8vw, 2.75rem);
-    line-height: 1.08;
-    margin-bottom: 12px;
+    font-size: clamp(2.1rem, 7.5vw, 2.8rem);
+    line-height: 1.1;
+    margin-bottom: 16px;
   }
   .hero .sub {
-    font-size: .88rem;
-    line-height: 1.55;
-    margin-bottom: 20px;
+    font-size: .94rem;
+    line-height: 1.6;
+    margin-bottom: 24px;
   }
   .hero-ctas {
-    margin-bottom: 14px;
+    margin-bottom: 16px;
   }
   .btn-hero-pill {
     width: 100%;
     max-width: 360px;
     min-width: unset;
-    padding: 16px 20px;
-    font-size: 1rem;
-    box-shadow: 0 8px 28px rgba(0,0,0,0.32);
+    padding: 16px 24px;
+    font-size: 1.02rem;
   }
   .trusted-pill {
-    gap: 6px;
-    padding: 5px 12px 5px 6px;
+    gap: 8px;
+    padding: 5px 14px 5px 6px;
     width: max-content;
     max-width: calc(100vw - 24px);
-    margin: 0 auto 12px;
+    margin: 0 auto 14px;
   }
   .trusted-avatar-img {
-    width: 22px;
-    height: 22px;
-    margin-left: -6px;
+    width: 26px;
+    height: 26px;
+    margin-left: -7px;
   }
   .trusted-avatar-img:first-child {
     margin-left: 0;
   }
   .trusted-text {
-    font-size: .68rem;
+    font-size: .75rem;
   }
   .trusted-verified {
-    font-size: .6rem;
-    padding: 2px 7px;
-    gap: 3px;
+    font-size: .64rem;
+    padding: 3px 8px;
   }
   .trusted-verified i {
-    font-size: .72rem;
+    font-size: .76rem;
   }
   .hero-rating {
-    font-size: .78rem;
-    gap: 6px;
-    margin-bottom: 32px;
+    font-size: .84rem;
+    gap: 7px;
+    margin-bottom: 40px;
   }
   .hero-rating .rating-word {
-    font-size: .8rem;
+    font-size: .84rem;
   }
   .hero-rating .star-box {
-    width: 16px;
-    height: 16px;
-    font-size: .55rem;
+    width: 17px;
+    height: 17px;
+    font-size: .6rem;
   }
   .hero-rating .rating-brand {
-    font-size: .78rem;
+    font-size: .82rem;
   }
 }
 

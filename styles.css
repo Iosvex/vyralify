@@ -329,78 +329,112 @@ h1, h2, h3, h4 {
 }
 
 /* ============================================================
-   TOP ANNOUNCEMENT STRIP — MARQUEE STYLE (like Vyral Media)
+   TOP ANNOUNCEMENT STRIP — ENERGETIC GROWTH BANNER
    ============================================================ */
 .top-strip {
-  background: var(--hero-bg);
-  color: rgba(255,255,255,0.82);
+  background: linear-gradient(90deg, #0B0D12 0%, #111428 40%, #1a1f3a 60%, #0B0D12 100%);
+  color: rgba(255,255,255,0.92);
   font-family: var(--font-body);
-  font-size: .72rem;
-  letter-spacing: .04em;
+  font-size: .78rem;
+  letter-spacing: .03em;
   font-weight: 500;
-  height: 30px;
+  height: 38px;
   overflow: hidden;
   display: flex;
   align-items: center;
+  justify-content: center;
   position: relative;
   z-index: 60;
-  border-bottom: 1px solid rgba(255,255,255,0.06);
+  border-bottom: 1px solid rgba(58,90,255,0.15);
   flex-shrink: 0;
 }
-.top-strip-track {
-  display: flex;
-  gap: 0;
-  width: max-content;
-  animation: stripScroll 28s linear infinite;
-  white-space: nowrap;
-  align-items: center;
+.top-strip::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(58,90,255,0.08) 50%, transparent 100%);
+  pointer-events: none;
 }
-.top-strip-item {
+.top-strip-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 0 16px;
+  position: relative;
+  z-index: 1;
+}
+.top-strip-logo {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+.top-strip-text {
+  color: rgba(255,255,255,0.9);
+  font-weight: 400;
+  letter-spacing: .04em;
+  font-size: .78rem;
+}
+.top-strip-text strong {
+  color: #fff;
+  font-weight: 700;
+}
+.top-strip-cta {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
-  padding: 0 48px;
-}
-.top-strip-sep {
-  color: rgba(255,255,255,0.3);
-  font-size: 1.1rem;
-  margin: 0 8px;
-}
-.top-strip-item .highlight { color: var(--gold); }
-.top-strip-item .tag {
-  background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.15);
-  padding: 2px 10px;
+  gap: 5px;
+  background: var(--blue);
+  color: #fff;
+  font-size: .7rem;
+  font-weight: 700;
+  padding: 4px 12px;
   border-radius: 99px;
-  font-size: .72rem;
-  color: rgba(255,255,255,0.75);
+  letter-spacing: .03em;
+  white-space: nowrap;
+  transition: background 0.2s, transform 0.2s;
+  flex-shrink: 0;
 }
-@keyframes stripScroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.top-strip-cta:hover {
+  background: var(--blue-dark);
+  transform: translateY(-1px);
+}
+.top-strip-cta i {
+  font-size: .65rem;
+}
+@media (max-width: 600px) {
+  .top-strip { font-size: .7rem; height: 36px; }
+  .top-strip-text { font-size: .68rem; }
+  .top-strip-cta { padding: 3px 10px; font-size: .65rem; }
+  .top-strip-logo { width: 16px; height: 16px; }
+}
 
 /* ============================================================
-   NAVBAR — DROPCOURSE-STYLE BLUE GRID BACKGROUND
+   NAVBAR — WHITE BACKGROUND, DARK TEXT
    ============================================================ */
 .navbar {
   position: sticky;
   top: 0;
   z-index: 50;
-  background: var(--hero-bg);
-  border-bottom: 1px solid rgba(255,255,255,0.08);
+  background: #ffffff;
+  border-bottom: 1px solid var(--line);
   transition: box-shadow .3s;
 }
 .navbar.scrolled {
-  box-shadow: 0 8px 40px -10px rgba(5,13,58,.7);
+  box-shadow: 0 4px 24px -6px rgba(0,0,0,.08);
 }
 .nav-inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 72px;
+  height: 64px;
   position: relative;
   gap: 28px;
 }
 
-/* Logo — base styles (text logos on light pages: login, privacy etc.) */
+/* Logo — base styles */
 .logo {
   display: flex;
   align-items: center;
@@ -413,8 +447,15 @@ h1, h2, h3, h4 {
   flex-shrink: 0;
   text-decoration: none;
 }
-/* Logo on dark hero/navbar (white text) */
-.navbar .logo, .mobile-nav .logo {
+/* Logo on WHITE navbar — dark text */
+.navbar .logo {
+  color: var(--ink);
+}
+/* Darken the logo image for white navbar */
+.navbar .logo-img {
+  filter: brightness(0.15) contrast(1.2);
+}
+.mobile-nav .logo {
   color: #fff;
 }
 /* When logo contains an img — hide text, show only PNG */
@@ -424,7 +465,7 @@ h1, h2, h3, h4 {
   gap: 0;
 }
 .logo-img {
-  height: 38px;
+  height: 36px;
   width: auto;
   max-width: 240px;
   object-fit: contain;
@@ -433,7 +474,7 @@ h1, h2, h3, h4 {
 }
 @media (max-width: 480px) {
   .logo-img {
-    height: 32px;
+    height: 30px;
     max-width: 190px;
   }
 }
@@ -458,13 +499,13 @@ h1, h2, h3, h4 {
   box-shadow: 0 4px 16px rgba(58,90,255,.45);
 }
 
-/* Center nav links */
+/* Center nav links — dark text on white */
 .nav-links {
   position: relative;
   display: flex;
   align-items: center;
   gap: 4px;
-  font-size: .92rem;
+  font-size: .9rem;
   font-weight: 500;
   flex: 1;
   justify-content: center;
@@ -472,25 +513,25 @@ h1, h2, h3, h4 {
 .nav-link-item {
   padding: 8px 16px;
   border-radius: 8px;
-  color: rgba(255,255,255,0.72);
+  color: var(--ink-soft);
   transition: color 0.2s, background 0.2s;
   white-space: nowrap;
 }
 .nav-link-item:hover {
-  color: #fff;
-  background: rgba(255,255,255,0.07);
+  color: var(--ink);
+  background: var(--bg-soft);
 }
 .nav-link-item.active {
-  color: #fff;
-  background: rgba(255,255,255,0.1);
+  color: var(--ink);
+  background: var(--bg-soft);
 }
 
-/* Sliding underline */
+/* Sliding underline — dark on white */
 .nav-slider-pill {
   position: absolute;
   bottom: -4px;
   height: 2px;
-  background: rgba(255,255,255,0.7);
+  background: var(--blue);
   border-radius: 99px;
   transition: left 0.3s var(--ease), width 0.3s var(--ease), opacity 0.2s;
   pointer-events: none;
@@ -505,35 +546,35 @@ h1, h2, h3, h4 {
   flex-shrink: 0;
 }
 .nav-login {
-  font-size: .92rem;
+  font-size: .9rem;
   font-weight: 500;
-  color: rgba(255,255,255,0.72);
+  color: var(--ink-soft);
   transition: color .2s;
   padding: 6px 12px;
   border-radius: 8px;
 }
 .nav-login:hover {
-  color: #fff;
-  background: rgba(255,255,255,0.07);
+  color: var(--ink);
 }
 
-/* CTA Button in nav — white filled */
+/* CTA Button in nav — blue filled on white bg */
 .btn-nav-cta {
-  background: #fff;
-  color: var(--hero-bg);
+  background: var(--blue);
+  color: #fff;
   font-weight: 700;
-  font-size: .88rem;
+  font-size: .85rem;
   padding: 10px 22px;
   border-radius: 8px;
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  transition: transform 0.2s var(--ease), box-shadow 0.2s;
+  transition: transform 0.2s var(--ease), box-shadow 0.2s, background 0.2s;
   white-space: nowrap;
 }
 .btn-nav-cta:hover {
   transform: translateY(-1px);
-  box-shadow: 0 8px 24px rgba(255,255,255,.18);
+  background: var(--blue-dark);
+  box-shadow: 0 8px 24px rgba(58,90,255,.25);
 }
 
 .nav-burger {
@@ -541,18 +582,18 @@ h1, h2, h3, h4 {
   width: 40px;
   height: 40px;
   border-radius: 9px;
-  border: 1.5px solid rgba(255,255,255,0.18);
+  border: 1.5px solid var(--line);
   align-items: center;
   justify-content: center;
   font-size: 1.3rem;
-  color: rgba(255,255,255,0.85);
-  background: rgba(255,255,255,0.04);
+  color: var(--ink-soft);
+  background: transparent;
   cursor: pointer;
   transition: background .2s, border-color .2s;
 }
 .nav-burger:hover {
-  background: rgba(255,255,255,0.10);
-  border-color: rgba(255,255,255,0.35);
+  background: var(--bg-soft);
+  border-color: var(--ink-faint);
 }
 
 @media (max-width: 900px) {
@@ -618,39 +659,40 @@ h1, h2, h3, h4 {
 }
 
 /* ============================================================
-   HERO — DROPCOURSE STYLE DEEP BLUE + GRID BACKGROUND
+   HERO — DEEP BLUE + UNIFORM GRID BACKGROUND
    ============================================================ */
 .hero {
   position: relative;
   background: linear-gradient(180deg, var(--hero-bg) 0%, var(--hero-bg-dark) 100%);
   overflow: hidden;
-  padding-top: 80px;
+  padding-top: 56px;
   padding-bottom: 0;
 }
 
-/* The grid overlay pattern (like dropcourse.com) */
+/* Grid overlay — UNIFORM opacity across entire hero */
 .hero::before {
   content: '';
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px);
+    linear-gradient(rgba(255,255,255,.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.06) 1px, transparent 1px);
   background-size: 60px 60px;
   z-index: 0;
   pointer-events: none;
+  opacity: 1;
 }
 
-/* Radial glow from center */
+/* Subtle radial glow — wider, softer, doesn't mask the grid */
 .hero::after {
   content: '';
   position: absolute;
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: 900px;
-  height: 600px;
-  background: radial-gradient(ellipse at 50% 0%, rgba(58,90,255,.35) 0%, transparent 70%);
+  width: 1400px;
+  height: 900px;
+  background: radial-gradient(ellipse at 50% 30%, rgba(58,90,255,.18) 0%, transparent 70%);
   z-index: 0;
   pointer-events: none;
 }
@@ -661,31 +703,34 @@ h1, h2, h3, h4 {
   text-align: center;
   max-width: 860px;
   margin: 0 auto;
-  padding: 0 24px 60px;
+  padding: 0 24px 56px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 
-/* Trust Badge pill — on blue bg */
+/* Trust Badge pill — compact, tight to heading */
 .badge-pill {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
-  background: rgba(255,255,255,0.1);
-  color: rgba(255,255,255,0.95);
-  border: 1px solid rgba(255,255,255,0.18);
-  font-size: .76rem;
+  gap: 6px;
+  background: rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.92);
+  border: 1px solid rgba(255,255,255,0.15);
+  font-size: .72rem;
   font-weight: 600;
-  padding: 7px 16px 7px 12px;
+  padding: 6px 16px 6px 12px;
   border-radius: 999px;
-  margin-bottom: 22px;
+  margin-bottom: 18px;
   position: relative;
   overflow: hidden;
   backdrop-filter: blur(8px);
   max-width: 92vw;
   text-align: center;
+}
+.badge-pill i {
+  font-size: .82rem;
 }
 .badge-pill::after {
   content: '';
@@ -701,9 +746,9 @@ h1, h2, h3, h4 {
 
 /* Hero headline — white on blue */
 .hero h1 {
-  font-size: clamp(1.9rem, 5vw, 4.2rem);
-  line-height: 1.08;
-  margin-bottom: 20px;
+  font-size: clamp(2.2rem, 5.6vw, 4.4rem);
+  line-height: 1.1;
+  margin-bottom: 18px;
   color: #fff;
   font-weight: 800;
   letter-spacing: -0.03em;
@@ -718,8 +763,8 @@ h1, h2, h3, h4 {
 /* Hero sub — on blue background */
 .hero .sub {
   max-width: 560px;
-  margin: 0 auto 32px;
-  font-size: 1rem;
+  margin: 0 auto 30px;
+  font-size: 1.02rem;
   line-height: 1.65;
   color: rgba(255,255,255,.72);
 }
@@ -739,20 +784,20 @@ h1, h2, h3, h4 {
   width: 100%;
 }
 
-/* Long Pill CTA Button (Image 3 DropCourse Style) */
+/* Long Pill CTA Button — wide, prominent */
 .btn-hero-pill {
   background: #ffffff;
   color: var(--blue-dark, #1E3AD1);
   font-weight: 700;
-  font-size: 1.05rem;
-  padding: 16px 40px;
+  font-size: 1.08rem;
+  padding: 18px 64px;
   border-radius: 999px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
   width: auto;
-  min-width: 280px;
+  min-width: 360px;
   max-width: calc(100vw - 32px);
   box-shadow: 0 10px 32px rgba(0, 0, 0, 0.28);
   transition: transform 0.25s var(--ease), box-shadow 0.25s;
@@ -763,29 +808,29 @@ h1, h2, h3, h4 {
   color: var(--blue);
 }
 
-/* Trusted Pill — compact, perfectly fitted social proof pill */
+/* Trusted Pill — compact, aligned to CTA width */
 .trusted-pill {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  background: rgba(255, 255, 255, 0.08);
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.06);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 999px;
-  padding: 6px 14px 6px 6px;
-  margin: 0 auto 20px;
+  padding: 5px 14px 5px 5px;
+  margin: 0 auto 12px;
   width: auto;
-  max-width: calc(100vw - 24px);
+  max-width: 360px;
   box-sizing: border-box;
 }
 
 @media (max-width: 520px) {
   .btn-hero-pill {
-    padding: 14px 28px;
+    padding: 16px 36px;
     font-size: .98rem;
-    min-width: 240px;
+    min-width: 280px;
   }
   .trusted-pill {
     gap: 6px;
@@ -793,18 +838,18 @@ h1, h2, h3, h4 {
     max-width: calc(100vw - 20px);
   }
   .trusted-avatar-img {
-    width: 26px;
-    height: 26px;
-    margin-left: -8px;
+    width: 24px;
+    height: 24px;
+    margin-left: -7px;
   }
   .trusted-avatar-img:first-child {
     margin-left: 0;
   }
   .trusted-text {
-    font-size: .7rem;
+    font-size: .68rem;
   }
   .trusted-verified {
-    font-size: .62rem;
+    font-size: .6rem;
     padding: 2px 6px;
   }
 }
@@ -815,18 +860,18 @@ h1, h2, h3, h4 {
   }
 }
 
-/* Trustpilot Rating Row (Image 3 Style) */
+/* Trustpilot Rating Row — compact, aligned with CTA width */
 .hero-rating {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 8px;
   margin-bottom: 48px;
   font-family: var(--font-body);
 }
 .hero-rating .rating-word {
   font-weight: 700;
-  font-size: .95rem;
+  font-size: .88rem;
   color: #ffffff;
   text-decoration: underline;
   text-underline-offset: 3px;
@@ -834,48 +879,48 @@ h1, h2, h3, h4 {
 .hero-rating .rating-stars {
   display: flex;
   align-items: center;
-  gap: 3px;
+  gap: 2px;
 }
 .hero-rating .star-box {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   background: #00B67A;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   color: #ffffff;
-  font-size: .7rem;
+  font-size: .64rem;
   border-radius: 2px;
 }
 .hero-rating .rating-brand {
   font-weight: 700;
-  font-size: .92rem;
+  font-size: .85rem;
   color: #ffffff;
   display: inline-flex;
   align-items: center;
   gap: 4px;
 }
 
-/* Avatar images group */
+/* Avatar images group — proportional to CTA */
 .trusted-avatars {
   display: flex;
   flex-shrink: 0;
 }
 .trusted-avatar-img {
-  width: 36px;
-  height: 36px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   object-fit: cover;
   object-position: top center;
-  border: 2.5px solid rgba(255,255,255,0.45);
-  margin-left: -10px;
+  border: 2px solid rgba(255,255,255,0.45);
+  margin-left: -8px;
   flex-shrink: 0;
 }
 .trusted-avatar-img:first-child { margin-left: 0; }
 
 /* Text */
 .trusted-text {
-  font-size: .85rem;
+  font-size: .78rem;
   color: rgba(255,255,255,0.9);
   font-weight: 500;
   white-space: nowrap;
@@ -889,18 +934,18 @@ h1, h2, h3, h4 {
 .trusted-verified {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
+  gap: 4px;
   background: rgba(47,174,107,0.18);
   color: #5AE09A;
   border: 1px solid rgba(47,174,107,0.35);
   border-radius: 999px;
-  font-size: .72rem;
+  font-size: .68rem;
   font-weight: 700;
-  padding: 4px 10px;
+  padding: 3px 9px;
   white-space: nowrap;
   flex-shrink: 0;
 }
-.trusted-verified i { font-size: .9rem; }
+.trusted-verified i { font-size: .82rem; }
 
 /* Feature pills marquee — on blue bg */
 .pills-marquee {
@@ -946,14 +991,6 @@ h1, h2, h3, h4 {
   margin-top: -1px;
 }
 
-/* Logo image in navbar */
-.logo-img {
-  width: 38px;
-  height: 38px;
-  border-radius: 10px;
-  object-fit: cover;
-  display: block;
-}
 
 /* Dashboard Mockup */
 .dash-window {

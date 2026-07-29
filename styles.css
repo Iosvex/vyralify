@@ -46,6 +46,7 @@
 
 html {
   scroll-behavior: auto;
+  overflow-x: hidden;
 }
 
 body {
@@ -55,6 +56,7 @@ body {
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
   position: relative;
+  width: 100%;
 }
 
 img, svg {
@@ -496,26 +498,27 @@ h1, h2, h3, h4 {
   background: rgba(255,255,255,0.08);
 }
 
-/* CTA Button in nav — Green squarish (rounded rectangle 8px) matching Vyral Media reference */
+/* CTA Button in nav — Blue squarish (rounded rectangle 8px), NO lightning symbol */
 .btn-nav-cta {
-  background: #2FAE6B;
+  background: var(--blue, #3355FF);
   color: #ffffff;
   font-weight: 700;
-  font-size: .8rem;
-  padding: 8px 16px;
+  font-size: clamp(0.72rem, 2vw, 0.85rem);
+  padding: clamp(6px, 1.8vw, 10px) clamp(12px, 3vw, 22px);
   border-radius: 8px;
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  transition: transform 0.2s var(--ease), background 0.2s;
+  transition: transform 0.2s var(--ease), background 0.2s, box-shadow 0.2s;
   white-space: nowrap;
 }
 .btn-nav-cta:hover {
-  background: #25945a;
+  background: var(--blue-dark, #1E3AD1);
   transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(51,85,255,.3);
 }
 .btn-nav-cta i {
-  font-size: .75rem;
+  font-size: clamp(0.68rem, 1.8vw, 0.78rem);
 }
 
 .nav-burger {
@@ -615,14 +618,15 @@ h1, h2, h3, h4 {
 }
 
 /* ============================================================
-   HERO — DEEP BLUE + UNIFORM GRID BACKGROUND
+   HERO — DEEP BLUE + UNIFORM GRID BACKGROUND (FLUID RESPONSIVE)
    ============================================================ */
 .hero {
   position: relative;
   background: linear-gradient(180deg, var(--hero-bg) 0%, var(--hero-bg-dark) 100%);
   overflow: hidden;
-  padding-top: 56px;
+  padding-top: clamp(20px, 5vw, 56px);
   padding-bottom: 0;
+  width: 100%;
 }
 
 /* Grid overlay — UNIFORM opacity across entire hero */
@@ -659,14 +663,16 @@ h1, h2, h3, h4 {
   text-align: center;
   max-width: 860px;
   margin: 0 auto;
-  padding: 0 24px 56px;
+  padding: 0 clamp(16px, 4vw, 24px) clamp(36px, 6vw, 56px);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-/* Trust Badge pill — compact, tight to heading */
+/* Trust Badge pill — compact, fluid, tight to heading */
 .badge-pill {
   display: inline-flex;
   align-items: center;
@@ -674,19 +680,20 @@ h1, h2, h3, h4 {
   background: rgba(255,255,255,0.08);
   color: rgba(255,255,255,0.92);
   border: 1px solid rgba(255,255,255,0.15);
-  font-size: .72rem;
+  font-size: clamp(0.64rem, 1.8vw, 0.74rem);
   font-weight: 600;
-  padding: 6px 16px 6px 12px;
+  padding: clamp(4px, 1.2vw, 6px) clamp(10px, 2.5vw, 16px);
   border-radius: 999px;
-  margin-bottom: 18px;
+  margin-bottom: clamp(12px, 2.5vw, 18px);
   position: relative;
   overflow: hidden;
   backdrop-filter: blur(8px);
-  max-width: 92vw;
+  max-width: min(100%, calc(100vw - 24px));
   text-align: center;
+  box-sizing: border-box;
 }
 .badge-pill i {
-  font-size: .82rem;
+  font-size: clamp(0.74rem, 2vw, 0.84rem);
 }
 .badge-pill::after {
   content: '';
@@ -700,14 +707,15 @@ h1, h2, h3, h4 {
 }
 @keyframes shimmer { 0% { left: -60%; } 60%, 100% { left: 130%; } }
 
-/* Hero headline — white on blue */
+/* Hero headline — white on blue, fluid clamp */
 .hero h1 {
-  font-size: clamp(2.2rem, 5.6vw, 4.4rem);
-  line-height: 1.1;
-  margin-bottom: 18px;
+  font-size: clamp(2.1rem, 6.2vw, 4.4rem);
+  line-height: 1.08;
+  margin-bottom: clamp(12px, 2.5vw, 18px);
   color: #fff;
   font-weight: 800;
   letter-spacing: -0.03em;
+  max-width: 100%;
 }
 .hero h1 .grad {
   background: linear-gradient(100deg, #7AA3FF, #A5C1FF);
@@ -716,12 +724,12 @@ h1, h2, h3, h4 {
   color: transparent;
 }
 
-/* Hero sub — on blue background */
+/* Hero sub — fluid clamp */
 .hero .sub {
-  max-width: 560px;
-  margin: 0 auto 30px;
-  font-size: 1.02rem;
-  line-height: 1.65;
+  max-width: min(560px, 100%);
+  margin: 0 auto clamp(20px, 4vw, 30px);
+  font-size: clamp(0.88rem, 2.3vw, 1.05rem);
+  line-height: 1.6;
   color: rgba(255,255,255,.72);
 }
 
@@ -729,27 +737,28 @@ h1, h2, h3, h4 {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 16px;
+  margin-bottom: clamp(14px, 3vw, 18px);
   width: 100%;
 }
 
-/* Long Pill CTA Button — wide, prominent */
+/* Long Pill CTA Button — wide, prominent, fluid */
 .btn-hero-pill {
   background: #ffffff;
   color: var(--blue-dark, #1E3AD1);
   font-weight: 700;
-  font-size: 1.08rem;
-  padding: 18px 64px;
+  font-size: clamp(0.96rem, 2.8vw, 1.08rem);
+  padding: clamp(14px, 3.2vw, 18px) clamp(24px, 7vw, 64px);
   border-radius: 999px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
   width: auto;
-  min-width: 360px;
+  min-width: min(340px, calc(100vw - 32px));
   max-width: calc(100vw - 32px);
   box-shadow: 0 10px 32px rgba(0, 0, 0, 0.28);
   transition: transform 0.25s var(--ease), box-shadow 0.25s;
+  box-sizing: border-box;
 }
 .btn-hero-pill:hover {
   transform: translateY(-2px) scale(1.01);
@@ -757,121 +766,97 @@ h1, h2, h3, h4 {
   color: var(--blue);
 }
 
-/* Trusted Pill — compact, EVERYTHING strictly enclosed inside pill container */
+/* Trusted Pill — FLUID RESPONSIVE, ZERO OVERFLOW ON iOS OR ANY VIEWPORT */
 .trusted-pill {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: clamp(5px, 1.8vw, 10px);
   background: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 999px;
-  padding: 6px 16px 6px 8px;
+  padding: clamp(4px, 1.2vw, 6px) clamp(8px, 2.5vw, 16px) clamp(4px, 1.2vw, 6px) clamp(6px, 1.5vw, 8px);
   margin: 0 auto 14px;
   width: max-content;
-  max-width: min(440px, calc(100vw - 32px));
+  max-width: min(100%, calc(100vw - 24px));
   box-sizing: border-box;
   overflow: hidden;
+  flex-wrap: wrap;
 }
 
-@media (max-width: 600px) {
-  .hero {
-    padding-top: 24px;
-  }
-  .hero-inner {
-    padding: 0 16px 44px;
-  }
-  .badge-pill {
-    font-size: .68rem;
-    padding: 5px 14px 5px 10px;
-    margin-bottom: 16px;
-  }
-  .badge-pill i {
-    font-size: .8rem;
-  }
-  .hero h1 {
-    font-size: clamp(2.1rem, 7.5vw, 2.8rem);
-    line-height: 1.1;
-    margin-bottom: 16px;
-  }
-  .hero .sub {
-    font-size: .94rem;
-    line-height: 1.6;
-    margin-bottom: 24px;
-  }
-  .hero-ctas {
-    margin-bottom: 16px;
-  }
-  .btn-hero-pill {
-    width: 100%;
-    max-width: 360px;
-    min-width: unset;
-    padding: 16px 24px;
-    font-size: 1.02rem;
-  }
-  .trusted-pill {
-    gap: 8px;
-    padding: 5px 14px 5px 6px;
-    width: max-content;
-    max-width: calc(100vw - 24px);
-    margin: 0 auto 14px;
-  }
-  .trusted-avatar-img {
-    width: 26px;
-    height: 26px;
-    margin-left: -7px;
-  }
-  .trusted-avatar-img:first-child {
-    margin-left: 0;
-  }
-  .trusted-text {
-    font-size: .75rem;
-  }
-  .trusted-verified {
-    font-size: .64rem;
-    padding: 3px 8px;
-  }
-  .trusted-verified i {
-    font-size: .76rem;
-  }
-  .hero-rating {
-    font-size: .84rem;
-    gap: 7px;
-    margin-bottom: 40px;
-  }
-  .hero-rating .rating-word {
-    font-size: .84rem;
-  }
-  .hero-rating .star-box {
-    width: 17px;
-    height: 17px;
-    font-size: .6rem;
-  }
-  .hero-rating .rating-brand {
-    font-size: .82rem;
-  }
+.trusted-avatars {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
 }
 
-@media (max-width: 360px) {
-  .trusted-subtext {
-    display: none;
-  }
+.trusted-avatar-img {
+  width: clamp(22px, 5.5vw, 28px);
+  height: clamp(22px, 5.5vw, 28px);
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: top center;
+  border: 2px solid rgba(255, 255, 255, 0.45);
+  margin-left: -7px;
+  flex-shrink: 0;
 }
 
-/* Trustpilot Rating Row — compact, aligned with CTA width */
+.trusted-avatar-img:first-child {
+  margin-left: 0;
+}
+
+.trusted-text {
+  font-size: clamp(0.66rem, 2vw, 0.8rem);
+  color: rgba(255, 255, 255, 0.92);
+  font-weight: 500;
+  white-space: nowrap;
+  flex-shrink: 1;
+  min-width: 0;
+}
+
+.trusted-text strong {
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.trusted-subtext {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.trusted-verified {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  background: rgba(47, 174, 107, 0.18);
+  color: #5AE09A;
+  border: 1px solid rgba(47, 174, 107, 0.35);
+  border-radius: 999px;
+  font-size: clamp(0.58rem, 1.6vw, 0.68rem);
+  font-weight: 700;
+  padding: clamp(2px, 0.6vw, 3px) clamp(6px, 1.5vw, 10px);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.trusted-verified i {
+  font-size: clamp(0.68rem, 1.8vw, 0.78rem);
+}
+
+/* Trustpilot Rating Row — fluid clamp */
 .hero-rating {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  margin-bottom: 48px;
+  gap: clamp(5px, 1.8vw, 8px);
+  margin-bottom: clamp(32px, 5vw, 48px);
   font-family: var(--font-body);
+  font-size: clamp(0.76rem, 2vw, 0.88rem);
+  width: 100%;
 }
 .hero-rating .rating-word {
   font-weight: 700;
-  font-size: .88rem;
+  font-size: clamp(0.76rem, 2vw, 0.88rem);
   color: #ffffff;
   text-decoration: underline;
   text-underline-offset: 3px;
@@ -882,70 +867,25 @@ h1, h2, h3, h4 {
   gap: 2px;
 }
 .hero-rating .star-box {
-  width: 18px;
-  height: 18px;
+  width: clamp(15px, 3.8vw, 18px);
+  height: clamp(15px, 3.8vw, 18px);
   background: #00B67A;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   color: #ffffff;
-  font-size: .64rem;
+  font-size: clamp(0.52rem, 1.4vw, 0.64rem);
   border-radius: 2px;
 }
 .hero-rating .rating-brand {
   font-weight: 700;
-  font-size: .85rem;
+  font-size: clamp(0.76rem, 2vw, 0.85rem);
   color: #ffffff;
   display: inline-flex;
   align-items: center;
   gap: 4px;
 }
 
-/* Avatar images group — proportional to CTA */
-.trusted-avatars {
-  display: flex;
-  flex-shrink: 0;
-}
-.trusted-avatar-img {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  object-fit: cover;
-  object-position: top center;
-  border: 2px solid rgba(255,255,255,0.45);
-  margin-left: -8px;
-  flex-shrink: 0;
-}
-.trusted-avatar-img:first-child { margin-left: 0; }
-
-/* Text */
-.trusted-text {
-  font-size: .78rem;
-  color: rgba(255,255,255,0.9);
-  font-weight: 500;
-  white-space: nowrap;
-}
-.trusted-text strong {
-  color: #fff;
-  font-weight: 700;
-}
-
-/* Verified badge */
-.trusted-verified {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  background: rgba(47,174,107,0.18);
-  color: #5AE09A;
-  border: 1px solid rgba(47,174,107,0.35);
-  border-radius: 999px;
-  font-size: .68rem;
-  font-weight: 700;
-  padding: 3px 9px;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-.trusted-verified i { font-size: .82rem; }
 
 /* Feature pills marquee — on blue bg */
 .pills-marquee {

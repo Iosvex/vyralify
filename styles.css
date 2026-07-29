@@ -337,12 +337,12 @@ h1, h2, h3, h4 {
   background: #090a0f;
   color: rgba(255,255,255,0.92);
   font-family: var(--font-body);
-  font-size: .76rem;
+  font-size: .75rem;
   letter-spacing: .03em;
   font-weight: 500;
+  height: 36px;
   min-height: 36px;
-  height: auto;
-  padding: 8px 16px;
+  padding: 0 16px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -358,22 +358,21 @@ h1, h2, h3, h4 {
   justify-content: center;
   width: 100%;
   max-width: 1200px;
-  position: relative;
-  z-index: 1;
 }
 .top-strip-text {
   color: rgba(255,255,255,0.92);
   font-weight: 500;
   letter-spacing: .03em;
-  font-size: .76rem;
+  font-size: .75rem;
   text-align: center;
-  line-height: 1.3;
+  white-space: nowrap;
 }
 
 @media (max-width: 600px) {
   .top-strip {
+    height: 34px;
     min-height: 34px;
-    padding: 7px 12px;
+    padding: 0 12px;
   }
   .top-strip-text {
     font-size: .7rem;
@@ -381,15 +380,15 @@ h1, h2, h3, h4 {
 }
 
 /* ============================================================
-   NAVBAR — SEAMLESS DARK BACKGROUND
+   NAVBAR — DESKTOP WHITE / MOBILE SEAMLESS DARK
    ============================================================ */
 .navbar {
   position: sticky;
   top: 0;
   z-index: 50;
   background: var(--hero-bg);
-  border-bottom: 1px solid rgba(255,255,255,0.08);
-  transition: box-shadow .3s;
+  border-bottom: none;
+  transition: box-shadow .3s, background .3s;
 }
 .navbar.scrolled {
   box-shadow: 0 8px 32px -8px rgba(0,0,0,.5);
@@ -545,10 +544,36 @@ h1, h2, h3, h4 {
   background: rgba(255,255,255,0.12);
 }
 
+/* Desktop navbar treatment (@media (min-width: 901px)) */
+@media (min-width: 901px) {
+  .navbar {
+    background: #ffffff;
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+  }
+  .navbar .logo {
+    color: #0b0d12;
+  }
+  .nav-link-item {
+    color: rgba(11,13,18,0.75);
+  }
+  .nav-link-item:hover {
+    color: #0b0d12;
+    background: rgba(0,0,0,0.05);
+  }
+  .nav-login {
+    color: rgba(11,13,18,0.75);
+  }
+  .nav-login:hover {
+    color: #0b0d12;
+    background: rgba(0,0,0,0.05);
+  }
+}
+
+/* Mobile navbar treatment (@media (max-width: 900px)) */
 @media (max-width: 900px) {
   .navbar {
     background: var(--hero-bg);
-    border-bottom: 1px solid rgba(255,255,255,0.08);
+    border-bottom: none;
   }
   .nav-inner {
     padding-left: 12px;
@@ -558,7 +583,6 @@ h1, h2, h3, h4 {
   .navbar.scrolled {
     background: rgba(9, 20, 86, 0.95);
     backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   }
   .navbar .logo {
     color: #ffffff;
@@ -630,41 +654,42 @@ h1, h2, h3, h4 {
 }
 
 /* ============================================================
-   HERO — DEEP BLUE + UNIFORM GRID BACKGROUND (FLUID RESPONSIVE)
+   HERO — DEEP BLUE + UNIFORM GRID BACKGROUND (EVEN UNIFORM PATTERN)
    ============================================================ */
 .hero {
   position: relative;
   background: linear-gradient(180deg, var(--hero-bg) 0%, var(--hero-bg-dark) 100%);
   overflow: hidden;
-  padding-top: clamp(18px, 4vw, 48px);
+  padding-top: clamp(16px, 3.5vw, 44px);
   padding-bottom: 0;
   width: 100%;
 }
 
-/* Grid overlay — UNIFORM opacity across entire hero */
+/* Grid overlay — UNIFORM opacity across entire hero top-to-bottom */
 .hero::before {
   content: '';
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(255,255,255,.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,.06) 1px, transparent 1px);
+    linear-gradient(rgba(255,255,255,.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.07) 1px, transparent 1px);
   background-size: 60px 60px;
   z-index: 0;
   pointer-events: none;
   opacity: 1;
 }
 
-/* Subtle radial glow — wider, softer, doesn't mask the grid */
+/* Subtle radial glow — background accent that doesn't mask grid */
 .hero::after {
   content: '';
   position: absolute;
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: 1400px;
-  height: 900px;
-  background: radial-gradient(ellipse at 50% 30%, rgba(58,90,255,.18) 0%, transparent 70%);
+  width: 100%;
+  max-width: 1400px;
+  height: 100%;
+  background: radial-gradient(ellipse at 50% 25%, rgba(58,90,255,.14) 0%, transparent 85%);
   z-index: 0;
   pointer-events: none;
 }
@@ -692,21 +717,21 @@ h1, h2, h3, h4 {
   background: rgba(255,255,255,0.08);
   color: rgba(255,255,255,0.92);
   border: 1px solid rgba(255,255,255,0.15);
-  font-size: clamp(0.58rem, 1.5vw, 0.68rem);
+  font-size: clamp(0.56rem, 1.4vw, 0.66rem);
   font-weight: 600;
-  padding: 4px 12px;
+  padding: 4px 10px;
   border-radius: 999px;
-  margin-bottom: clamp(10px, 2vw, 16px);
+  margin-bottom: clamp(10px, 2vw, 14px);
   position: relative;
   overflow: hidden;
   backdrop-filter: blur(8px);
   max-width: min(100%, calc(100vw - 24px));
   text-align: center;
-  line-height: 1.25;
+  line-height: 1.2;
   box-sizing: border-box;
 }
 .badge-pill i {
-  font-size: clamp(0.68rem, 1.8vw, 0.78rem);
+  font-size: clamp(0.66rem, 1.6vw, 0.76rem);
 }
 .badge-pill::after {
   content: '';
@@ -722,9 +747,9 @@ h1, h2, h3, h4 {
 
 /* Hero headline — white on blue, fluid clamp */
 .hero h1 {
-  font-size: clamp(2.05rem, 6vw, 4.4rem);
+  font-size: clamp(2.15rem, 6.8vw, 4.4rem);
   line-height: 1.08;
-  margin-bottom: clamp(12px, 2.5vw, 18px);
+  margin-bottom: clamp(10px, 2vw, 14px);
   color: #fff;
   font-weight: 800;
   letter-spacing: -0.03em;
@@ -740,7 +765,7 @@ h1, h2, h3, h4 {
 /* Hero sub — fluid clamp */
 .hero .sub {
   max-width: min(560px, 100%);
-  margin: 0 auto clamp(20px, 4vw, 30px);
+  margin: 0 auto clamp(18px, 3.5vw, 26px);
   font-size: clamp(0.88rem, 2.3vw, 1.05rem);
   line-height: 1.6;
   color: rgba(255,255,255,.72);
@@ -752,7 +777,7 @@ h1, h2, h3, h4 {
   justify-content: center;
   margin-bottom: 12px;
   width: 100%;
-  max-width: min(380px, calc(100vw - 32px));
+  max-width: min(420px, calc(100vw - 32px));
 }
 
 /* Rounded Rectangle Hero CTA Button — DropCourse style (12px radius, aligned width) */
@@ -768,7 +793,7 @@ h1, h2, h3, h4 {
   justify-content: center;
   gap: 10px;
   width: 100%;
-  max-width: min(380px, calc(100vw - 32px));
+  max-width: min(420px, calc(100vw - 32px));
   box-shadow: 0 10px 32px rgba(0, 0, 0, 0.28);
   transition: transform 0.25s var(--ease), box-shadow 0.25s;
   box-sizing: border-box;
@@ -779,7 +804,7 @@ h1, h2, h3, h4 {
   color: var(--blue);
 }
 
-/* Trusted Pill — Clean flexbox row, ZERO overlap, flex-wrap fallback */
+/* Trusted Pill — Rounded Rectangle (12px radius) matching CTA width & alignment */
 .trusted-pill {
   display: flex;
   align-items: center;
@@ -793,7 +818,7 @@ h1, h2, h3, h4 {
   padding: 8px 12px;
   margin: 0 auto 12px;
   width: 100%;
-  max-width: min(380px, calc(100vw - 32px));
+  max-width: min(420px, calc(100vw - 32px));
   box-sizing: border-box;
   flex-wrap: wrap;
   position: relative;
@@ -807,8 +832,8 @@ h1, h2, h3, h4 {
 }
 
 .trusted-avatar-img {
-  width: clamp(22px, 5vw, 26px);
-  height: clamp(22px, 5vw, 26px);
+  width: clamp(20px, 4.5vw, 24px);
+  height: clamp(20px, 4.5vw, 24px);
   border-radius: 50%;
   object-fit: cover;
   object-position: top center;
@@ -822,7 +847,7 @@ h1, h2, h3, h4 {
 }
 
 .trusted-text {
-  font-size: clamp(0.65rem, 1.9vw, 0.78rem);
+  font-size: clamp(0.62rem, 1.7vw, 0.74rem);
   color: rgba(255, 255, 255, 0.92);
   font-weight: 500;
   white-space: nowrap;
@@ -847,15 +872,15 @@ h1, h2, h3, h4 {
   color: #5AE09A;
   border: 1px solid rgba(47, 174, 107, 0.35);
   border-radius: 999px;
-  font-size: clamp(0.6rem, 1.6vw, 0.7rem);
+  font-size: clamp(0.56rem, 1.4vw, 0.66rem);
   font-weight: 700;
-  padding: 3px 9px;
+  padding: 3px 8px;
   white-space: nowrap;
   flex-shrink: 0;
   position: relative;
 }
 .trusted-verified i {
-  font-size: clamp(0.7rem, 1.8vw, 0.8rem);
+  font-size: clamp(0.66rem, 1.6vw, 0.76rem);
 }
 
 /* Trustpilot Rating Row — matched width & alignment with CTA stack */
@@ -864,11 +889,11 @@ h1, h2, h3, h4 {
   align-items: center;
   justify-content: center;
   gap: clamp(5px, 1.8vw, 8px);
-  margin-bottom: clamp(32px, 5vw, 48px);
+  margin-bottom: clamp(28px, 4.5vw, 44px);
   font-family: var(--font-body);
   font-size: clamp(0.76rem, 2vw, 0.88rem);
   width: 100%;
-  max-width: min(380px, calc(100vw - 32px));
+  max-width: min(420px, calc(100vw - 32px));
   box-sizing: border-box;
 }
 .hero-rating .rating-word {

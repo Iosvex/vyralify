@@ -329,18 +329,18 @@ h1, h2, h3, h4 {
 }
 
 /* ============================================================
-   TOP ANNOUNCEMENT STRIP — ENERGETIC GROWTH BANNER
+   TOP ANNOUNCEMENT STRIP — PLAIN TEXT ONLY
    ============================================================ */
 .top-strip {
-  background: linear-gradient(90deg, #07090E 0%, #0F1428 50%, #07090E 100%);
+  background: #090a0f;
   color: rgba(255,255,255,0.92);
   font-family: var(--font-body);
-  font-size: .78rem;
+  font-size: .76rem;
   letter-spacing: .03em;
   font-weight: 500;
-  min-height: 38px;
+  min-height: 36px;
   height: auto;
-  padding: 6px 16px;
+  padding: 8px 16px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -354,24 +354,10 @@ h1, h2, h3, h4 {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
   width: 100%;
   max-width: 1200px;
   position: relative;
   z-index: 1;
-}
-.top-strip-brand {
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: .8rem;
-  letter-spacing: .06em;
-  flex-shrink: 0;
-}
-.top-strip-brand .brand-vyral {
-  color: #ffffff;
-}
-.top-strip-brand .brand-ify {
-  color: #2FAE6B;
 }
 .top-strip-text {
   color: rgba(255,255,255,0.92);
@@ -381,63 +367,14 @@ h1, h2, h3, h4 {
   text-align: center;
   line-height: 1.3;
 }
-.top-strip-cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  background: #2FAE6B;
-  color: #ffffff;
-  font-size: .7rem;
-  font-weight: 700;
-  padding: 4px 12px;
-  border-radius: 99px;
-  letter-spacing: .03em;
-  white-space: nowrap;
-  transition: background 0.2s, transform 0.2s;
-  flex-shrink: 0;
-}
-.top-strip-cta:hover {
-  background: #25945a;
-  transform: translateY(-1px);
-}
-.top-strip-cta i {
-  font-size: .75rem;
-}
+
 @media (max-width: 600px) {
   .top-strip {
-    min-height: 36px;
-    height: auto;
-    padding: 6px 12px;
-    font-size: .72rem;
-  }
-  .top-strip-inner {
-    gap: 8px;
-    flex-wrap: nowrap;
-    justify-content: center;
-  }
-  .top-strip-logo, .top-strip-brand {
-    display: none !important;
+    min-height: 34px;
+    padding: 7px 12px;
   }
   .top-strip-text {
-    font-size: .72rem;
-    line-height: 1.25;
-  }
-  .top-strip-cta {
-    padding: 3px 10px;
-    font-size: .66rem;
-  }
-}
-@media (max-width: 380px) {
-  .top-strip-inner {
-    flex-wrap: wrap;
-    gap: 4px 8px;
-  }
-  .top-strip-text {
-    font-size: .68rem;
-  }
-  .top-strip-cta {
-    padding: 2px 8px;
-    font-size: .62rem;
+    font-size: .7rem;
   }
 }
 
@@ -461,7 +398,7 @@ h1, h2, h3, h4 {
   justify-content: space-between;
   height: 64px;
   position: relative;
-  gap: 28px;
+  gap: 20px;
 }
 
 /* Logo — base styles */
@@ -486,48 +423,18 @@ h1, h2, h3, h4 {
   color: transparent;
 }
 .logo-img {
-  height: 32px;
+  height: 28px;
   width: auto;
-  max-width: 240px;
+  max-width: 200px;
   object-fit: contain;
   border-radius: 0;
   display: block;
 }
-.top-strip-logo {
-  height: 18px;
-  width: auto;
-  max-width: 140px;
-  object-fit: contain;
-  border-radius: 0;
-  display: inline-block;
-  vertical-align: middle;
-  margin-right: 4px;
-}
-@media (max-width: 480px) {
+@media (max-width: 600px) {
   .logo-img {
-    height: 28px;
-    max-width: 200px;
+    height: 20px;
+    max-width: 140px;
   }
-}
-/* logo-dot: small colored dot on text-based logos */
-.logo-dot {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  background: var(--blue);
-  display: inline-block;
-  flex-shrink: 0;
-}
-.logo-icon {
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
-  background: linear-gradient(135deg, var(--blue) 0%, #6B84FF 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.2rem;
-  box-shadow: 0 4px 16px rgba(58,90,255,.45);
 }
 
 /* Center nav links — white text on dark navbar */
@@ -573,7 +480,7 @@ h1, h2, h3, h4 {
 .nav-right {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 10px;
   flex-shrink: 0;
 }
 .nav-login {
@@ -589,34 +496,37 @@ h1, h2, h3, h4 {
   background: rgba(255,255,255,0.08);
 }
 
-/* CTA Button in nav — white button on dark navbar */
+/* CTA Button in nav — Green squarish (rounded rectangle 8px) matching Vyral Media reference */
 .btn-nav-cta {
-  background: #ffffff;
-  color: var(--hero-bg);
+  background: #2FAE6B;
+  color: #ffffff;
   font-weight: 700;
-  font-size: .85rem;
-  padding: 10px 22px;
+  font-size: .8rem;
+  padding: 8px 16px;
   border-radius: 8px;
   display: inline-flex;
   align-items: center;
-  gap: 7px;
-  transition: transform 0.2s var(--ease), box-shadow 0.2s;
+  gap: 6px;
+  transition: transform 0.2s var(--ease), background 0.2s;
   white-space: nowrap;
 }
 .btn-nav-cta:hover {
+  background: #25945a;
   transform: translateY(-1px);
-  box-shadow: 0 8px 24px rgba(255,255,255,.2);
+}
+.btn-nav-cta i {
+  font-size: .75rem;
 }
 
 .nav-burger {
   display: none;
-  width: 40px;
-  height: 40px;
-  border-radius: 99px;
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
   border: 1.5px solid rgba(255,255,255,0.18);
   align-items: center;
   justify-content: center;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   color: #ffffff;
   background: rgba(255,255,255,0.06);
   cursor: pointer;
@@ -641,7 +551,11 @@ h1, h2, h3, h4 {
   }
   .nav-links { display: none; }
   .nav-burger { display: flex; }
-  .nav-right .btn-nav-cta { display: none; }
+  .btn-nav-cta {
+    display: inline-flex;
+    padding: 7px 12px;
+    font-size: .75rem;
+  }
   .nav-login { display: none; }
 }
 

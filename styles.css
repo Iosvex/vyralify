@@ -804,23 +804,24 @@ h1, h2, h3, h4 {
   color: var(--blue);
 }
 
-/* Trusted Pill — Rounded Rectangle (12px radius) matching CTA width & alignment */
+/* Trusted Pill — Tight Glass Pill, ALWAYS 1 SINGLE HORIZONTAL LINE (NO WRAP, NO HUGE BOX) */
 .trusted-pill {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: clamp(6px, 2vw, 10px);
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
   background: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.16);
-  border-radius: 12px;
-  padding: 8px 12px;
+  border-radius: 999px;
+  padding: 6px 12px 6px 8px;
   margin: 0 auto 12px;
-  width: 100%;
-  max-width: min(420px, calc(100vw - 32px));
+  width: max-content !important;
+  max-width: calc(100vw - 20px) !important;
   box-sizing: border-box;
-  flex-wrap: wrap;
+  flex-wrap: nowrap !important;
+  white-space: nowrap !important;
   position: relative;
   z-index: 1;
 }
@@ -832,13 +833,13 @@ h1, h2, h3, h4 {
 }
 
 .trusted-avatar-img {
-  width: clamp(20px, 4.5vw, 24px);
-  height: clamp(20px, 4.5vw, 24px);
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
   object-fit: cover;
   object-position: top center;
   border: 2px solid rgba(255, 255, 255, 0.45);
-  margin-left: -7px;
+  margin-left: -6px;
   flex-shrink: 0;
 }
 
@@ -847,12 +848,11 @@ h1, h2, h3, h4 {
 }
 
 .trusted-text {
-  font-size: clamp(0.62rem, 1.7vw, 0.74rem);
+  font-size: 0.68rem;
   color: rgba(255, 255, 255, 0.92);
   font-weight: 500;
-  white-space: nowrap;
+  white-space: nowrap !important;
   flex-shrink: 0;
-  min-width: max-content;
 }
 
 .trusted-text strong {
@@ -872,15 +872,15 @@ h1, h2, h3, h4 {
   color: #5AE09A;
   border: 1px solid rgba(47, 174, 107, 0.35);
   border-radius: 999px;
-  font-size: clamp(0.56rem, 1.4vw, 0.66rem);
+  font-size: 0.62rem;
   font-weight: 700;
-  padding: 3px 8px;
-  white-space: nowrap;
+  padding: 2px 7px;
+  white-space: nowrap !important;
   flex-shrink: 0;
   position: relative;
 }
 .trusted-verified i {
-  font-size: clamp(0.66rem, 1.6vw, 0.76rem);
+  font-size: 0.72rem;
 }
 
 /* Trustpilot Rating Row — matched width & alignment with CTA stack */

@@ -407,7 +407,7 @@ h1, h2, h3, h4 {
 .logo {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   font-family: var(--font-display);
   font-weight: 800;
   font-size: 1.15rem;
@@ -434,8 +434,8 @@ h1, h2, h3, h4 {
 }
 @media (max-width: 600px) {
   .logo-img {
-    height: 20px;
-    max-width: 140px;
+    height: 18px;
+    max-width: 120px;
   }
 }
 
@@ -482,7 +482,7 @@ h1, h2, h3, h4 {
 .nav-right {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   flex-shrink: 0;
 }
 .nav-login {
@@ -498,19 +498,23 @@ h1, h2, h3, h4 {
   background: rgba(255,255,255,0.08);
 }
 
-/* CTA Button in nav — Blue squarish (rounded rectangle 8px), NO lightning symbol */
+/* CTA Button in nav — Blue squarish (rounded rectangle 8px), exact 38px height matching hamburger icon */
 .btn-nav-cta {
   background: var(--blue, #3355FF);
   color: #ffffff;
   font-weight: 700;
-  font-size: clamp(0.72rem, 2vw, 0.85rem);
-  padding: clamp(6px, 1.8vw, 10px) clamp(12px, 3vw, 22px);
+  font-size: clamp(0.72rem, 1.8vw, 0.8rem);
+  height: 38px;
+  padding: 0 14px;
   border-radius: 8px;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 6px;
   transition: transform 0.2s var(--ease), background 0.2s, box-shadow 0.2s;
   white-space: nowrap;
+  box-sizing: border-box;
+  flex-shrink: 0;
 }
 .btn-nav-cta:hover {
   background: var(--blue-dark, #1E3AD1);
@@ -534,6 +538,8 @@ h1, h2, h3, h4 {
   background: rgba(255,255,255,0.06);
   cursor: pointer;
   transition: background .2s, border-color .2s;
+  flex-shrink: 0;
+  box-sizing: border-box;
 }
 .nav-burger:hover {
   background: rgba(255,255,255,0.12);
@@ -543,6 +549,11 @@ h1, h2, h3, h4 {
   .navbar {
     background: var(--hero-bg);
     border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .nav-inner {
+    padding-left: 12px;
+    padding-right: 12px;
+    gap: 8px;
   }
   .navbar.scrolled {
     background: rgba(9, 20, 86, 0.95);
@@ -556,7 +567,8 @@ h1, h2, h3, h4 {
   .nav-burger { display: flex; }
   .btn-nav-cta {
     display: inline-flex;
-    padding: 7px 12px;
+    height: 38px;
+    padding: 0 12px;
     font-size: .75rem;
   }
   .nav-login { display: none; }
@@ -624,7 +636,7 @@ h1, h2, h3, h4 {
   position: relative;
   background: linear-gradient(180deg, var(--hero-bg) 0%, var(--hero-bg-dark) 100%);
   overflow: hidden;
-  padding-top: clamp(20px, 5vw, 56px);
+  padding-top: clamp(18px, 4vw, 48px);
   padding-bottom: 0;
   width: 100%;
 }
@@ -663,7 +675,7 @@ h1, h2, h3, h4 {
   text-align: center;
   max-width: 860px;
   margin: 0 auto;
-  padding: 0 clamp(16px, 4vw, 24px) clamp(36px, 6vw, 56px);
+  padding: 0 clamp(14px, 3.5vw, 24px) clamp(32px, 5vw, 56px);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -672,28 +684,29 @@ h1, h2, h3, h4 {
   box-sizing: border-box;
 }
 
-/* Trust Badge pill — compact, fluid, tight to heading */
+/* Trust Badge pill — compact, ultra-tight line height for Android/mobile */
 .badge-pill {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
   background: rgba(255,255,255,0.08);
   color: rgba(255,255,255,0.92);
   border: 1px solid rgba(255,255,255,0.15);
-  font-size: clamp(0.64rem, 1.8vw, 0.74rem);
+  font-size: clamp(0.58rem, 1.5vw, 0.68rem);
   font-weight: 600;
-  padding: clamp(4px, 1.2vw, 6px) clamp(10px, 2.5vw, 16px);
+  padding: 4px 12px;
   border-radius: 999px;
-  margin-bottom: clamp(12px, 2.5vw, 18px);
+  margin-bottom: clamp(10px, 2vw, 16px);
   position: relative;
   overflow: hidden;
   backdrop-filter: blur(8px);
   max-width: min(100%, calc(100vw - 24px));
   text-align: center;
+  line-height: 1.25;
   box-sizing: border-box;
 }
 .badge-pill i {
-  font-size: clamp(0.74rem, 2vw, 0.84rem);
+  font-size: clamp(0.68rem, 1.8vw, 0.78rem);
 }
 .badge-pill::after {
   content: '';
@@ -709,7 +722,7 @@ h1, h2, h3, h4 {
 
 /* Hero headline — white on blue, fluid clamp */
 .hero h1 {
-  font-size: clamp(2.1rem, 6.2vw, 4.4rem);
+  font-size: clamp(2.05rem, 6vw, 4.4rem);
   line-height: 1.08;
   margin-bottom: clamp(12px, 2.5vw, 18px);
   color: #fff;
@@ -737,25 +750,25 @@ h1, h2, h3, h4 {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: clamp(14px, 3vw, 18px);
+  margin-bottom: 12px;
   width: 100%;
+  max-width: min(380px, calc(100vw - 32px));
 }
 
-/* Long Pill CTA Button — wide, prominent, fluid */
+/* Rounded Rectangle Hero CTA Button — DropCourse style (12px radius, aligned width) */
 .btn-hero-pill {
   background: #ffffff;
   color: var(--blue-dark, #1E3AD1);
   font-weight: 700;
-  font-size: clamp(0.96rem, 2.8vw, 1.08rem);
-  padding: clamp(14px, 3.2vw, 18px) clamp(24px, 7vw, 64px);
-  border-radius: 999px;
+  font-size: clamp(0.96rem, 2.6vw, 1.08rem);
+  padding: 16px 24px;
+  border-radius: 12px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
-  width: auto;
-  min-width: min(340px, calc(100vw - 32px));
-  max-width: calc(100vw - 32px);
+  width: 100%;
+  max-width: min(380px, calc(100vw - 32px));
   box-shadow: 0 10px 32px rgba(0, 0, 0, 0.28);
   transition: transform 0.25s var(--ease), box-shadow 0.25s;
   box-sizing: border-box;
@@ -766,7 +779,7 @@ h1, h2, h3, h4 {
   color: var(--blue);
 }
 
-/* Trusted Pill — FLUID RESPONSIVE, ZERO OVERFLOW ON iOS OR ANY VIEWPORT */
+/* Trusted Pill — Rounded Rectangle (12px radius) matching CTA width & alignment */
 .trusted-pill {
   display: inline-flex;
   align-items: center;
@@ -776,14 +789,14 @@ h1, h2, h3, h4 {
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.16);
-  border-radius: 999px;
-  padding: clamp(4px, 1.2vw, 6px) clamp(8px, 2.5vw, 16px) clamp(4px, 1.2vw, 6px) clamp(6px, 1.5vw, 8px);
-  margin: 0 auto 14px;
-  width: max-content;
-  max-width: min(100%, calc(100vw - 24px));
+  border-radius: 12px;
+  padding: 8px 12px;
+  margin: 0 auto 12px;
+  width: 100%;
+  max-width: min(380px, calc(100vw - 32px));
   box-sizing: border-box;
   overflow: hidden;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
 }
 
 .trusted-avatars {
@@ -793,8 +806,8 @@ h1, h2, h3, h4 {
 }
 
 .trusted-avatar-img {
-  width: clamp(22px, 5.5vw, 28px);
-  height: clamp(22px, 5.5vw, 28px);
+  width: clamp(22px, 5.5vw, 26px);
+  height: clamp(22px, 5.5vw, 26px);
   border-radius: 50%;
   object-fit: cover;
   object-position: top center;
@@ -808,7 +821,7 @@ h1, h2, h3, h4 {
 }
 
 .trusted-text {
-  font-size: clamp(0.66rem, 2vw, 0.8rem);
+  font-size: clamp(0.64rem, 1.8vw, 0.76rem);
   color: rgba(255, 255, 255, 0.92);
   font-weight: 500;
   white-space: nowrap;
@@ -833,9 +846,9 @@ h1, h2, h3, h4 {
   color: #5AE09A;
   border: 1px solid rgba(47, 174, 107, 0.35);
   border-radius: 999px;
-  font-size: clamp(0.58rem, 1.6vw, 0.68rem);
+  font-size: clamp(0.58rem, 1.5vw, 0.68rem);
   font-weight: 700;
-  padding: clamp(2px, 0.6vw, 3px) clamp(6px, 1.5vw, 10px);
+  padding: 3px 8px;
   white-space: nowrap;
   flex-shrink: 0;
 }
@@ -843,7 +856,7 @@ h1, h2, h3, h4 {
   font-size: clamp(0.68rem, 1.8vw, 0.78rem);
 }
 
-/* Trustpilot Rating Row — fluid clamp */
+/* Trustpilot Rating Row — matched width & alignment with CTA stack */
 .hero-rating {
   display: flex;
   align-items: center;
@@ -853,6 +866,8 @@ h1, h2, h3, h4 {
   font-family: var(--font-body);
   font-size: clamp(0.76rem, 2vw, 0.88rem);
   width: 100%;
+  max-width: min(380px, calc(100vw - 32px));
+  box-sizing: border-box;
 }
 .hero-rating .rating-word {
   font-weight: 700;

@@ -1,0 +1,515 @@
+/* ============================================================
+   VYRALIFY ADMIN CONSOLE & INSTAGRAM DIRECT CHAT STYLESHEET
+   ============================================================ */
+
+:root {
+  --admin-bg: #07090E;
+  --admin-card: #0F1424;
+  --admin-card-hover: #151C33;
+  --admin-border: rgba(255, 255, 255, 0.08);
+  --admin-border-glow: rgba(58, 90, 255, 0.3);
+  --admin-text: #FFFFFF;
+  --admin-text-sub: rgba(255, 255, 255, 0.65);
+  --admin-accent: #3A5AFF;
+  --admin-green: #2FAE6B;
+  --admin-danger: #FF4D4D;
+}
+
+/* Base Body & Container */
+body.admin-body {
+  background-color: var(--admin-bg);
+  color: var(--admin-text);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+.admin-layout {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+/* Header / Topbar */
+.admin-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 28px;
+  background: rgba(15, 20, 36, 0.95);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--admin-border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.admin-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'General Sans', 'Inter', sans-serif;
+  font-weight: 800;
+  font-size: 1.15rem;
+  letter-spacing: -.02em;
+  color: #fff;
+  text-decoration: none;
+}
+.admin-brand-badge {
+  background: rgba(58, 90, 255, 0.2);
+  color: #7AA3FF;
+  border: 1px solid rgba(58, 90, 255, 0.4);
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+.admin-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.admin-btn {
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+  border: 1px solid var(--admin-border);
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+}
+.admin-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  transform: translateY(-1px);
+}
+.admin-btn-primary {
+  background: var(--admin-accent);
+  border-color: var(--admin-accent);
+}
+.admin-btn-primary:hover {
+  background: #2847E0;
+}
+
+/* Stats Cards Strip */
+.admin-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.admin-stat-card {
+  background: var(--admin-card);
+  border: 1px solid var(--admin-border);
+  border-radius: 14px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.admin-stat-card:hover {
+  border-color: var(--admin-border-glow);
+  transform: translateY(-2px);
+}
+.admin-stat-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--admin-text-sub);
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+.admin-stat-value {
+  font-family: 'General Sans', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #fff;
+}
+.admin-stat-change {
+  font-size: 0.75rem;
+  color: var(--admin-green);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 600;
+}
+
+/* ============================================================
+   INSTAGRAM DIRECT CHAT INTERFACE — Split Inbox
+   ============================================================ */
+.chat-container-card {
+  background: var(--admin-card);
+  border: 1px solid var(--admin-border);
+  border-radius: 16px;
+  overflow: hidden;
+  height: 680px;
+  display: flex;
+  margin-bottom: 32px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+}
+
+/* Left Conversations Sidebar */
+.chat-sidebar {
+  width: 340px;
+  border-right: 1px solid var(--admin-border);
+  display: flex;
+  flex-direction: column;
+  background: rgba(10, 13, 24, 0.6);
+  flex-shrink: 0;
+}
+.chat-sidebar-header {
+  padding: 18px 20px;
+  border-bottom: 1px solid var(--admin-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.chat-sidebar-title {
+  font-family: 'General Sans', sans-serif;
+  font-weight: 700;
+  font-size: 1.05rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.chat-search-wrap {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--admin-border);
+}
+.chat-search-input {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--admin-border);
+  border-radius: 8px;
+  padding: 9px 12px;
+  color: #fff;
+  font-size: 0.82rem;
+  outline: none;
+  box-sizing: border-box;
+}
+.chat-search-input:focus {
+  border-color: var(--admin-accent);
+}
+
+.chat-threads-list {
+  flex: 1;
+  overflow-y: auto;
+}
+.chat-thread-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  cursor: pointer;
+  transition: background 0.2s;
+  position: relative;
+}
+.chat-thread-item:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+.chat-thread-item.active {
+  background: rgba(58, 90, 255, 0.12);
+  border-left: 3px solid var(--admin-accent);
+}
+.chat-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #3A5AFF 0%, #6B84FF 100%);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+}
+.online-dot {
+  width: 10px;
+  height: 10px;
+  background: var(--admin-green);
+  border: 2px solid var(--admin-card);
+  border-radius: 50%;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+.chat-thread-info {
+  flex: 1;
+  min-width: 0;
+}
+.chat-thread-name {
+  font-weight: 700;
+  font-size: 0.88rem;
+  color: #fff;
+  margin-bottom: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.chat-thread-time {
+  font-size: 0.7rem;
+  color: var(--admin-text-sub);
+  font-weight: 400;
+}
+.chat-thread-preview {
+  font-size: 0.78rem;
+  color: var(--admin-text-sub);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.unread-badge {
+  background: var(--admin-accent);
+  color: #fff;
+  font-size: 0.68rem;
+  font-weight: 700;
+  border-radius: 99px;
+  padding: 2px 7px;
+  margin-left: 6px;
+}
+
+/* Right Active Chat Window */
+.chat-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: var(--admin-card);
+}
+.chat-main-header {
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--admin-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(15, 20, 36, 0.8);
+}
+.chat-header-user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.chat-header-name {
+  font-family: 'General Sans', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  color: #fff;
+}
+.chat-header-status {
+  font-size: 0.74rem;
+  color: var(--admin-green);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Chat Messages Log */
+.chat-messages-log {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  background: radial-gradient(circle at 50% 50%, rgba(58, 90, 255, 0.03) 0%, transparent 80%);
+}
+
+.msg-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  max-width: 70%;
+}
+.msg-row.sent {
+  align-self: flex-end;
+  flex-direction: row-reverse;
+}
+.msg-row.received {
+  align-self: flex-start;
+}
+
+.msg-bubble {
+  padding: 12px 16px;
+  border-radius: 18px;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  word-break: break-word;
+  position: relative;
+}
+.msg-row.sent .msg-bubble {
+  background: linear-gradient(135deg, var(--admin-accent) 0%, #2847E0 100%);
+  color: #fff;
+  border-bottom-right-radius: 4px;
+  box-shadow: 0 4px 14px rgba(58, 90, 255, 0.3);
+}
+.msg-row.received .msg-bubble {
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.95);
+  border-bottom-left-radius: 4px;
+  border: 1px solid var(--admin-border);
+}
+.msg-time {
+  font-size: 0.65rem;
+  color: var(--admin-text-sub);
+  margin-top: 4px;
+  text-align: right;
+}
+.msg-row.received .msg-time {
+  text-align: left;
+}
+
+/* Chat Input Footer */
+.chat-footer {
+  padding: 16px 20px;
+  border-top: 1px solid var(--admin-border);
+  background: rgba(10, 13, 24, 0.8);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.quick-replies {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+.quick-chip {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--admin-border);
+  color: var(--admin-text-sub);
+  font-size: 0.74rem;
+  padding: 4px 10px;
+  border-radius: 99px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+.quick-chip:hover {
+  background: rgba(58, 90, 255, 0.2);
+  color: #fff;
+  border-color: var(--admin-accent);
+}
+.chat-input-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.chat-input {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--admin-border);
+  border-radius: 12px;
+  padding: 12px 16px;
+  color: #fff;
+  font-size: 0.88rem;
+  outline: none;
+  font-family: inherit;
+}
+.chat-input:focus {
+  border-color: var(--admin-accent);
+  background: rgba(255, 255, 255, 0.08);
+}
+.chat-send-btn {
+  background: var(--admin-accent);
+  color: #fff;
+  border: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: transform 0.2s, background 0.2s;
+  flex-shrink: 0;
+}
+.chat-send-btn:hover {
+  background: #2847E0;
+  transform: scale(1.04);
+}
+
+/* Members Table Card */
+.admin-table-card {
+  background: var(--admin-card);
+  border: 1px solid var(--admin-border);
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 32px;
+}
+.admin-table-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+.admin-table-title {
+  font-family: 'General Sans', sans-serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+.admin-table th {
+  padding: 12px 16px;
+  font-size: 0.76rem;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  color: var(--admin-text-sub);
+  border-bottom: 1px solid var(--admin-border);
+}
+.admin-table td {
+  padding: 14px 16px;
+  font-size: 0.86rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  color: rgba(255, 255, 255, 0.9);
+}
+.admin-table tr:hover td {
+  background: rgba(255, 255, 255, 0.02);
+}
+.role-badge {
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.role-badge.pro {
+  background: rgba(58, 90, 255, 0.2);
+  color: #7AA3FF;
+}
+.role-badge.free {
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.6);
+}
+
+@media (max-width: 768px) {
+  .chat-container-card {
+    flex-direction: column;
+    height: 780px;
+  }
+  .chat-sidebar {
+    width: 100%;
+    height: 260px;
+    border-right: none;
+    border-bottom: 1px solid var(--admin-border);
+  }
+  .chat-main {
+    flex: 1;
+  }
+}

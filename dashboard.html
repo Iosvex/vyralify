@@ -349,6 +349,175 @@
     });
   </script>
 
+  <!-- ============================================================
+       CUSTOMER DIRECT SUPPORT CHAT WIDGET (INSTAGRAM STYLE)
+       ============================================================ -->
+  <button class="support-chat-trigger" id="support-chat-trigger" aria-label="Open Direct Support Chat">
+    <i class="ph-bold ph-chats-teardrop" style="font-size: 1.2rem;"></i>
+    <span>Vyralify Support</span>
+  </button>
+
+  <div class="support-chat-drawer" id="support-chat-drawer">
+    <div class="support-drawer-header">
+      <div class="support-drawer-user">
+        <div class="support-drawer-avatar">VA</div>
+        <div>
+          <div class="support-drawer-title">Vyralify Admin <i class="ph-bold ph-seal-check" style="color: #2FAE6B;"></i></div>
+          <div class="support-drawer-sub">● Online • Private 1-on-1 Support</div>
+        </div>
+      </div>
+      <button class="support-close-btn" id="support-close-btn" aria-label="Close Chat"><i class="ph-bold ph-x"></i></button>
+    </div>
+
+    <div class="support-drawer-messages" id="support-drawer-messages">
+      <!-- Customer chat history rendered dynamically -->
+    </div>
+
+    <div class="support-drawer-footer">
+      <input type="text" class="support-input" id="support-chat-input" placeholder="Ask Admin anything..." onkeydown="if(event.key==='Enter') window.VyralifyCustChat.sendMessage()">
+      <button class="support-send-btn" onclick="window.VyralifyCustChat.sendMessage()"><i class="ph-bold ph-paper-plane-tilt"></i></button>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const CHAT_STORAGE_KEY = 'vyralify_chat_threads_v1';
+      const CURRENT_USER_ID = 'user_101'; // Default logged-in customer
+
+      class CustomerChatManager {
+        constructor() {
+          this.userId = CURRENT_USER_ID;
+          this.init();
+        }
+
+        init() {
+          const trigger = document.getElementById('support-chat-trigger');
+          const drawer = document.getElementById('support-chat-drawer');
+          const closeBtn = document.getElementById('support-close-btn');
+
+          trigger?.addEventListener('click', () => {
+            drawer?.classList.toggle('open');
+            this.renderMessages();
+          });
+
+          closeBtn?.addEventListener('click', () => {
+            drawer?.classList.remove('open');
+          });
+
+          window.addEventListener('storage', (e) => {
+            if (e.key === CHAT_STORAGE_KEY) {
+              this.renderMessages();
+            }
+          });
+        }
+
+        getThreads() {
+          try {
+            const stored = localStorage.getItem(CHAT_STORAGE_KEY);
+            if (stored) return JSON.parse(stored);
+          } catch (e) {
+            console.error(e);
+          }
+          return {};
+        }
+
+        saveThreads(threads) {
+          try {
+            localStorage.setItem(CHAT_STORAGE_KEY, JSON.stringify(threads));
+          } catch (e) {
+            console.error(e);
+          }
+        }
+
+        renderMessages() {
+          const logEl = document.getElementById('support-drawer-messages');
+          if (!logEl) return;
+
+          const threads = this.getThreads();
+          const thread = threads[this.userId] || { messages: [] };
+
+          let html = '';
+          if (thread.messages && thread.messages.length > 0) {
+            thread.messages.forEach(msg => {
+              const isCustomer = msg.sender === 'user';
+              html += `
+                <div class="cust-msg-row ${isCustomer ? 'sent' : 'received'}">
+                  <div class="cust-msg-bubble">
+                    ${msg.text}
+                    <div class="cust-msg-time">${msg.time}</div>
+                  </div>
+                </div>
+              `;
+            });
+          } else {
+            html = '<div style="margin:auto;color:rgba(255,255,255,0.6);font-size:0.8rem;text-align:center;">Private chat with Vyralify Admin Support.<br>Ask any questions about curriculum, AI tools, or growth!</div>';
+          }
+
+          logEl.innerHTML = html;
+          logEl.scrollTop = logEl.scrollHeight;
+        }
+
+        sendMessage() {
+          const input = document.getElementById('support-chat-input');
+          const text = input ? input.value.trim() : '';
+          if (!text) return;
+
+          const threads = this.getThreads();
+          if (!threads[this.userId]) {
+            threads[this.userId] = {
+              userId: this.userId,
+              userName: 'Rohan Sharma',
+              userEmail: 'rohan@vyralify.in',
+              userTier: 'Pro Creator',
+              avatar: 'RS',
+              unread: 1,
+              lastMessage: text,
+              lastTime: 'Just now',
+              messages: []
+            };
+          }
+
+          const thread = threads[this.userId];
+          const timeNow = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+          const newMsg = {
+            id: 'm_' + Date.now(),
+            sender: 'user',
+            text: text,
+            time: timeNow
+          };
+
+          thread.messages.push(newMsg);
+          thread.lastMessage = text;
+          thread.lastTime = timeNow;
+          thread.unread = (thread.unread || 0) + 1;
+
+          this.saveThreads(threads);
+          if (input) input.value = '';
+          this.renderMessages();
+
+          // Auto-acknowledgement simulator if Admin is offline
+          setTimeout(() => {
+            const currentThreads = this.getThreads();
+            const activeThread = currentThreads[this.userId];
+            if (activeThread && activeThread.messages.slice(-1)[0]?.sender === 'user') {
+              activeThread.messages.push({
+                id: 'm_auto_' + Date.now(),
+                sender: 'admin',
+                text: 'Thanks for reaching out! Our Admin team has received your message and will reply shortly.',
+                time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+              });
+              activeThread.lastMessage = 'You: Thanks for reaching out! Our Admin team has received your message and will reply shortly.';
+              this.saveThreads(currentThreads);
+              this.renderMessages();
+            }
+          }, 1800);
+        }
+      }
+
+      window.VyralifyCustChat = new CustomerChatManager();
+    })();
+  </script>
+
   <script type="module" src="/assets/js/firebase-config.js"></script>
   <script type="module" src="/assets/js/auth-guard.js"></script>
   <script type="module" src="/assets/js/auth.js"></script>

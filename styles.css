@@ -1543,12 +1543,12 @@ h1, h2, h3, h4 {
     overflow: hidden;
   }
   
-  /* Landscape Tablet Bezel Frame on Mobile (DropCourse Exact Reference 2 Style) */
+  /* Compact Landscape Tablet Bezel Frame on Mobile (DropCourse Exact Image 2 Style) */
   .dash-bezel-frame {
-    padding: 6px;
-    border-radius: 18px;
-    height: 260px;
-    max-height: 260px;
+    padding: 5px;
+    border-radius: 16px;
+    height: 235px;
+    max-height: 235px;
     overflow: hidden;
     position: relative;
     box-shadow: 0 20px 60px -10px rgba(0, 0, 0, 0.55);
@@ -1561,146 +1561,161 @@ h1, h2, h3, h4 {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(to bottom, transparent 20%, rgba(7, 9, 14, 0.6) 65%, rgba(7, 9, 14, 0.98) 100%);
+    background: linear-gradient(to bottom, transparent 25%, rgba(7, 9, 14, 0.5) 60%, rgba(7, 9, 14, 0.98) 100%);
     pointer-events: none;
-    border-radius: 18px;
+    border-radius: 16px;
     z-index: 10;
   }
   
   .dash-window {
-    border-radius: 14px;
+    border-radius: 12px;
     height: 100%;
     overflow: hidden;
     background: #FFFFFF;
   }
 
   .dash-topbar {
-    padding: 10px 14px;
+    padding: 7px 10px;
   }
   .dash-brand-logo {
-    font-size: 0.95rem;
+    font-size: 0.88rem;
   }
   .dash-brand-icon {
-    width: 24px;
-    height: 24px;
-    font-size: 0.82rem;
+    width: 20px;
+    height: 20px;
+    font-size: 0.75rem;
   }
   .dash-user-badge {
-    padding: 3px 10px 3px 6px;
+    padding: 2px 7px;
   }
   .user-name {
-    font-size: 0.76rem;
+    font-size: 0.7rem;
   }
 
   .dash-body {
-    grid-template-columns: 46px 1fr;
+    grid-template-columns: 40px 1fr;
     height: 100%;
     min-height: 100%;
     overflow: hidden;
   }
   .dash-sidebar {
-    padding: 10px 4px;
+    padding: 6px 2px;
     border-right: 1px solid #F3F4F6;
     display: flex;
     flex-direction: column;
     align-items: center;
   }
   .dash-nav-item {
-    padding: 8px 4px;
-    font-size: 0.92rem;
+    padding: 6px 2px;
+    font-size: 0.85rem;
     justify-content: center;
   }
   
   .dash-main {
-    padding: 12px;
-    gap: 10px;
+    padding: 8px;
+    gap: 6px;
     overflow: hidden;
   }
   
-  /* Clean Mobile Hero Banner */
+  /* Compact Dark Hero Banner on Mobile */
   .dash-hero-banner {
-    padding: 12px 14px;
-    border-radius: 12px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-    position: relative;
-    overflow: hidden;
-  }
-  .banner-watermark {
-    font-size: 3rem;
-    right: -5px;
-    bottom: -15px;
-  }
-  .banner-tags {
-    margin-bottom: 2px;
-    gap: 6px;
-  }
-  .tag {
-    font-size: 0.62rem;
-    padding: 2px 7px;
-  }
-  .banner-title {
-    font-size: 1.1rem;
-    margin-bottom: 2px;
-  }
-  .banner-sub {
-    font-size: 0.72rem;
-    margin-bottom: 6px;
-    line-height: 1.35;
-  }
-  .banner-progress-row {
-    font-size: 0.68rem;
-    gap: 8px;
-  }
-  .progress-bar-bg {
-    width: 100px;
-    height: 5px;
-  }
-  .banner-right {
+    padding: 8px 10px;
+    border-radius: 8px;
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 8px;
-    width: 100%;
-    justify-content: flex-start;
-    margin-top: 2px;
+    justify-content: space-between;
+    gap: 6px;
+    position: relative;
+    overflow: hidden;
+    min-height: 72px;
+  }
+  .banner-watermark {
+    font-size: 2.2rem;
+    right: -4px;
+    bottom: -8px;
+    opacity: 0.6;
+  }
+  .banner-tags {
+    margin-bottom: 2px;
+    gap: 4px;
+  }
+  .tag {
+    font-size: 0.54rem;
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+  .banner-title {
+    font-size: 0.92rem;
+    margin-bottom: 1px;
+    line-height: 1.1;
+  }
+  .banner-sub {
+    font-size: 0.6rem;
+    margin-bottom: 3px;
+    line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 155px;
+  }
+  .banner-progress-row {
+    font-size: 0.58rem;
+    gap: 5px;
+  }
+  .progress-bar-bg {
+    width: 60px;
+    height: 4px;
+  }
+  .banner-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+    margin-top: 0;
+    width: auto;
   }
   .btn-launch-course {
-    padding: 7px 12px;
-    font-size: 0.76rem;
-    border-radius: 7px;
+    padding: 4px 8px;
+    font-size: 0.64rem;
+    border-radius: 5px;
+    white-space: nowrap;
   }
   .rebrand-chip {
-    font-size: 0.64rem;
-    padding: 3px 8px;
+    font-size: 0.54rem;
+    padding: 1px 5px;
+    border-radius: 3px;
   }
   
-  /* 2x2 Stat Cards Grid on Mobile (Matching DropCourse Screenshot 2) */
+  /* 4 Stat Cards Row on Mobile (Compact 4-Column Layout matching DropCourse Screenshot 2) */
   .dash-stats-row-4 {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 8px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 4px;
   }
   .stat-box {
-    padding: 8px 10px;
-    border-radius: 10px;
+    padding: 5px 4px;
+    border-radius: 6px;
     background: #FFFFFF;
     border: 1px solid #E5E7EB;
   }
   .stat-head {
-    font-size: 0.68rem;
-    margin-bottom: 2px;
+    font-size: 0.56rem;
+    margin-bottom: 1px;
+  }
+  .stat-dot {
+    font-size: 0.45rem;
   }
   .stat-num {
-    font-size: 1.05rem;
+    font-size: 0.82rem;
     font-weight: 800;
     color: #111827;
     margin-bottom: 1px;
   }
   .stat-change {
-    font-size: 0.62rem;
+    font-size: 0.52rem;
     font-weight: 600;
+    white-space: nowrap;
   }
 
   /* Loved By Pill Mobile Centering */

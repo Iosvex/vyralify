@@ -1522,8 +1522,13 @@ h1, h2, h3, h4 {
    ============================================================ */
 
 @media (max-width: 900px) {
-  .dash-body { grid-template-columns: 1fr; }
-  .dash-sidebar { display: none; }
+  .dash-body { grid-template-columns: 50px 1fr; }
+  .dash-sidebar { padding: 12px 4px; }
+  .dash-nav-text { display: none; }
+  .active-blue-dot { display: none; }
+  .sidebar-collapse-btn { display: none; }
+  .sidebar-bottom-links { display: none; }
+  .dash-nav-item { justify-content: center; padding: 10px 4px; }
   .dash-stats-row-4 { grid-template-columns: repeat(2, 1fr); gap: 10px; }
   .dash-bottom-widgets { grid-template-columns: 1fr; gap: 12px; }
 }

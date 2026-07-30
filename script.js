@@ -503,20 +503,210 @@ function initDashboardMockup() {
     });
   }
 
-  // Sidebar tab switching simulation
+  // Sidebar tab switching & dynamic view rendering
   const sidebarItems = document.querySelectorAll('.dash-nav-item');
   const dashMain = document.querySelector('.dash-main');
 
-  sidebarItems.forEach((item, index) => {
+  const TAB_TEMPLATES = {
+    'dashboard': `
+      <!-- Dark Hero Banner Card -->
+      <div class="dash-hero-banner">
+        <div class="banner-watermark">ECOM PRODIGY</div>
+        <div class="banner-left">
+          <div class="banner-tags">
+            <span class="tag tag-active">● Active course</span>
+            <span class="tag tag-dfy">Done-For-You</span>
+          </div>
+          <h3 class="banner-title">EcomProdigy</h3>
+          <p class="banner-sub">End-to-end Shopify dropshipping curriculum • 12 modules</p>
+          <div class="banner-progress-row">
+            <span>Setup progress</span>
+            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 68%;"></div></div>
+            <span class="pct-text">68%</span>
+          </div>
+        </div>
+        <div class="banner-right">
+          <button class="btn-launch-course">Launch course <i class="ph-bold ph-arrow-up-right"></i></button>
+          <span class="rebrand-chip">Rebrand</span>
+        </div>
+      </div>
+
+      <!-- 4 Stat Metric Cards Row -->
+      <div class="dash-stats-row-4">
+        <div class="stat-box stat-green">
+          <div class="stat-head"><span class="stat-title-wrap"><span class="stat-dot dot-green">●</span> Revenue</span><i class="ph-bold ph-currency-dollar" style="opacity:0.4;"></i></div>
+          <div class="stat-num">$48,240</div>
+          <div class="stat-change green-txt">↗ +24% vs last week</div>
+        </div>
+        <div class="stat-box stat-blue">
+          <div class="stat-head"><span class="stat-title-wrap"><span class="stat-dot dot-blue">●</span> Orders</span><i class="ph-bold ph-shopping-bag" style="opacity:0.4;"></i></div>
+          <div class="stat-num">1,284</div>
+          <div class="stat-change blue-txt">↗ +18% vs last week</div>
+        </div>
+        <div class="stat-box stat-purple">
+          <div class="stat-head"><span class="stat-title-wrap"><span class="stat-dot dot-purple">●</span> Visitors</span><i class="ph-bold ph-eye" style="opacity:0.4;"></i></div>
+          <div class="stat-num">92,418</div>
+          <div class="stat-change purple-txt">↗ +31% vs last week</div>
+        </div>
+        <div class="stat-box stat-orange">
+          <div class="stat-head"><span class="stat-title-wrap"><span class="stat-dot dot-orange">●</span> Conversion</span><i class="ph-bold ph-percent" style="opacity:0.4;"></i></div>
+          <div class="stat-num">6.8%</div>
+          <div class="stat-change orange-txt">↗ +1.2% vs last week</div>
+        </div>
+      </div>
+
+      <!-- Bottom Widgets Row -->
+      <div class="dash-bottom-widgets">
+        <div class="widget-box widget-chart">
+          <div class="widget-head">
+            <div><strong style="font-size:0.86rem; color:#111827;">Revenue</strong><div style="font-size:0.7rem; color:#9CA3AF; font-weight:400;">Last 7 days</div></div>
+            <span class="line-badge">● Live</span>
+          </div>
+          <div class="wave-chart-wrap">
+            <svg viewBox="0 0 400 110" preserveAspectRatio="none" class="chart-svg">
+              <defs><linearGradient id="chartGrad1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2FAE6B" stop-opacity="0.32"/><stop offset="100%" stop-color="#2FAE6B" stop-opacity="0.01"/></linearGradient></defs>
+              <path d="M 0,85 Q 70,65 140,80 T 280,35 T 380,20 L 400,18 L 400,110 L 0,110 Z" fill="url(#chartGrad1)"/>
+              <path d="M 0,85 Q 70,65 140,80 T 280,35 T 380,20 L 400,18" fill="none" stroke="#2FAE6B" stroke-width="2.8" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="chart-days-row"><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span></div>
+        </div>
+
+        <div class="widget-box widget-activity">
+          <div class="widget-head"><span style="font-size:0.84rem; font-weight:700; color:#111827;">Live activity</span><span class="dot-green-pulse">●</span></div>
+          <div class="activity-list">
+            <div class="activity-item"><span class="act-left"><span class="act-icon icon-green"><i class="ph-bold ph-bag"></i></span> New sale</span><strong>$89</strong><small>2s</small></div>
+            <div class="activity-item"><span class="act-left"><span class="act-icon icon-pink"><i class="ph-bold ph-heart"></i></span> Engagement</span><strong>+412</strong><small>8s</small></div>
+            <div class="activity-item"><span class="act-left"><span class="act-icon icon-blue"><i class="ph-bold ph-globe"></i></span> Visitor</span><strong>US</strong><small>11s</small></div>
+            <div class="activity-item"><span class="act-left"><span class="act-icon icon-green"><i class="ph-bold ph-bag"></i></span> New sale</span><strong>$142</strong><small>24s</small></div>
+          </div>
+        </div>
+
+        <div class="widget-box widget-reach">
+          <div class="widget-head" style="font-size:0.84rem; font-weight:700; color:#111827;">Reach</div>
+          <div class="reach-list">
+            <div class="reach-item"><i class="ph-bold ph-instagram-logo" style="color:#E1306C;"></i> <span>312K</span></div>
+            <div class="reach-item"><i class="ph-bold ph-tiktok-logo" style="color:#000000;"></i> <span>2.1M</span></div>
+            <div class="reach-item"><i class="ph-bold ph-youtube-logo" style="color:#FF0000;"></i> <span>148K</span></div>
+          </div>
+        </div>
+      </div>
+    `,
+    'products': `
+      <div style="background:#fff; border:1px solid #E5E7EB; border-radius:14px; padding:20px; text-align:left;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:10px;">
+          <div><h3 style="margin:0; font-size:1.1rem; color:#111827;">Digital Products & Catalog</h3><p style="margin:2px 0 0; font-size:0.78rem; color:#6B7280;">Manage your digital products, ebooks, and video courses.</p></div>
+          <button style="background:#3A5AFF; color:#fff; border:none; padding:8px 14px; border-radius:8px; font-weight:700; font-size:0.8rem; cursor:pointer;">+ Create Product</button>
+        </div>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(190px, 1fr)); gap:12px;">
+          <div style="border:1px solid #E5E7EB; border-radius:10px; padding:14px; background:#FAFAFC;">
+            <div style="font-size:0.7rem; font-weight:700; color:#2FAE6B; text-transform:uppercase;">Ebook / Vault</div>
+            <h4 style="margin:6px 0 4px; font-size:0.92rem; color:#111827;">Instagram Monetisation Vault</h4>
+            <p style="margin:0 0 10px; font-size:0.74rem; color:#6B7280;">50+ Monetisation Templates & Sales Scripts.</p>
+            <div style="display:flex; justify-content:space-between; font-weight:700; font-size:0.84rem; color:#111827;"><span>$49</span><span style="color:#059669;">342 Sales</span></div>
+          </div>
+          <div style="border:1px solid #E5E7EB; border-radius:10px; padding:14px; background:#FAFAFC;">
+            <div style="font-size:0.7rem; font-weight:700; color:#3A5AFF; text-transform:uppercase;">Video Masterclass</div>
+            <h4 style="margin:6px 0 4px; font-size:0.92rem; color:#111827;">Viral Reel Hooks Pack</h4>
+            <p style="margin:0 0 10px; font-size:0.74rem; color:#6B7280;">100+ High-Retention Visual Hook Assets.</p>
+            <div style="display:flex; justify-content:space-between; font-weight:700; font-size:0.84rem; color:#111827;"><span>$29</span><span style="color:#059669;">819 Sales</span></div>
+          </div>
+          <div style="border:1px solid #E5E7EB; border-radius:10px; padding:14px; background:#FAFAFC;">
+            <div style="font-size:0.7rem; font-weight:700; color:#8B5CF6; text-transform:uppercase;">Curriculum</div>
+            <h4 style="margin:6px 0 4px; font-size:0.92rem; color:#111827;">Faceless Creator Blueprint</h4>
+            <p style="margin:0 0 10px; font-size:0.74rem; color:#6B7280;">12-step Faceless Instagram Growth System.</p>
+            <div style="display:flex; justify-content:space-between; font-weight:700; font-size:0.84rem; color:#111827;"><span>$99</span><span style="color:#059669;">124 Sales</span></div>
+          </div>
+        </div>
+      </div>
+    `,
+    'websites': `
+      <div style="background:#fff; border:1px solid #E5E7EB; border-radius:14px; padding:20px; text-align:left;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:10px;">
+          <div><h3 style="margin:0; font-size:1.1rem; color:#111827;">AI Website & Store Builder</h3><p style="margin:2px 0 0; font-size:0.78rem; color:#6B7280;">Live domain: <strong style="color:#3A5AFF;">vyralify.site/creator-page</strong></p></div>
+          <span style="background:#ECFDF5; color:#059669; border:1px solid rgba(5,150,105,0.3); font-size:0.72rem; font-weight:700; padding:4px 10px; border-radius:99px;">● Domain Active</span>
+        </div>
+        <div style="background:#161820; border-radius:10px; padding:24px 16px; color:#fff; text-align:center;">
+          <div style="font-size:1.2rem; font-weight:800; margin-bottom:6px;">Ace's Creator Portal</div>
+          <p style="font-size:0.8rem; color:rgba(255,255,255,0.7); max-width:320px; margin:0 auto 14px;">Build high-converting bio link stores and sell digital products on auto-pilot.</p>
+          <button style="background:#3A5AFF; color:#fff; border:none; padding:8px 16px; border-radius:8px; font-weight:700; font-size:0.8rem; cursor:pointer;">Edit Site Template →</button>
+        </div>
+      </div>
+    `,
+    'marketing': `
+      <div style="background:#fff; border:1px solid #E5E7EB; border-radius:14px; padding:20px; text-align:left;">
+        <h3 style="margin:0 0 4px; font-size:1.1rem; color:#111827;">Organic Reel Growth Engine</h3>
+        <p style="margin:0 0 16px; font-size:0.78rem; color:#6B7280;">Track reel posting schedules, viral hashtags, and trending audio.</p>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:12px;">
+          <div style="border:1px solid #E5E7EB; padding:14px; border-radius:10px; background:#FAFAFC;">
+            <div style="font-size:0.78rem; font-weight:700; color:#111827; margin-bottom:8px;">🔥 Active Hashtag Vault</div>
+            <div style="display:flex; flex-wrap:wrap; gap:6px;">
+              <span style="background:#EFF6FF; color:#2563EB; font-size:0.7rem; padding:3px 8px; border-radius:4px; font-weight:600;">#InstagramGrowth</span>
+              <span style="background:#EFF6FF; color:#2563EB; font-size:0.7rem; padding:3px 8px; border-radius:4px; font-weight:600;">#ReelStrategy</span>
+              <span style="background:#EFF6FF; color:#2563EB; font-size:0.7rem; padding:3px 8px; border-radius:4px; font-weight:600;">#FacelessCreator</span>
+            </div>
+          </div>
+          <div style="border:1px solid #E5E7EB; padding:14px; border-radius:10px; background:#FAFAFC;">
+            <div style="font-size:0.78rem; font-weight:700; color:#111827; margin-bottom:8px;">🎵 Trending Audio Velocity</div>
+            <div style="font-size:0.78rem; color:#059669; font-weight:700;">+420% Viral pace this week</div>
+            <small style="color:#6B7280; font-size:0.7rem;">Updated 15 mins ago</small>
+          </div>
+        </div>
+      </div>
+    `,
+    'payments': `
+      <div style="background:#fff; border:1px solid #E5E7EB; border-radius:14px; padding:20px; text-align:left;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:10px;">
+          <div><h3 style="margin:0; font-size:1.1rem; color:#111827;">Creator Monetisation & Payouts</h3><p style="margin:2px 0 0; font-size:0.78rem; color:#6B7280;">Connected via Stripe Express • Auto-payouts enabled</p></div>
+          <strong style="font-size:1.3rem; color:#059669; font-family:var(--font-display);">$48,240.00</strong>
+        </div>
+        <div style="border:1px solid #E5E7EB; border-radius:10px; padding:14px; background:#FAFAFC;">
+          <div style="font-size:0.78rem; font-weight:700; color:#111827; margin-bottom:8px;">Recent Transactions</div>
+          <div style="display:flex; justify-content:space-between; font-size:0.78rem; padding:6px 0; border-bottom:1px solid #F3F4F6;"><span>EcomProdigy Course Sale</span><strong style="color:#059669;">+$89.00</strong></div>
+          <div style="display:flex; justify-content:space-between; font-size:0.78rem; padding:6px 0; border-bottom:1px solid #F3F4F6;"><span>Viral Reel Hooks Pack</span><strong style="color:#059669;">+$29.00</strong></div>
+          <div style="display:flex; justify-content:space-between; font-size:0.78rem; padding:6px 0;"><span>Weekly Payout Transfer</span><strong style="color:#2563EB;">-$1,240.00</strong></div>
+        </div>
+      </div>
+    `,
+    'manage': `
+      <div style="background:#fff; border:1px solid #E5E7EB; border-radius:14px; padding:20px; text-align:left;">
+        <h3 style="margin:0 0 4px; font-size:1.1rem; color:#111827;">Creator Account & Niche Settings</h3>
+        <p style="margin:0 0 16px; font-size:0.78rem; color:#6B7280;">Manage active Instagram accounts and API integrations.</p>
+        <div style="border:1px solid #E5E7EB; border-radius:10px; padding:14px; background:#FAFAFC;">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+            <div><strong style="font-size:0.86rem; color:#111827;">@faceless.growth</strong><div style="font-size:0.74rem; color:#6B7280;">Niche: Business & Personal Growth • 312K Followers</div></div>
+            <span style="background:#ECFDF5; color:#059669; font-size:0.7rem; font-weight:700; padding:3px 8px; border-radius:4px;">Connected</span>
+          </div>
+        </div>
+      </div>
+    `,
+    'automations': `
+      <div style="background:#fff; border:1px solid #E5E7EB; border-radius:14px; padding:20px; text-align:left;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:10px;">
+          <div><h3 style="margin:0; font-size:1.1rem; color:#111827;">AI DM Auto-Responder & Comment Workflows</h3><p style="margin:2px 0 0; font-size:0.78rem; color:#6B7280;">Automatically send digital product links when users comment on Reels.</p></div>
+          <span style="background:#ECFDF5; color:#059669; font-size:0.72rem; font-weight:700; padding:4px 10px; border-radius:99px;">● 3 Workflows Active</span>
+        </div>
+        <div style="border:1px solid #E5E7EB; border-radius:10px; padding:14px; background:#FAFAFC;">
+          <div style="font-size:0.78rem; font-weight:700; color:#111827;">Keyword Trigger: "VAULT"</div>
+          <p style="font-size:0.75rem; color:#6B7280; margin:4px 0 0;">Auto-sends: "Hey! Here is your link to unlock the Instagram Monetisation Vault: vyralify.site/vault"</p>
+        </div>
+      </div>
+    `
+  };
+
+  sidebarItems.forEach(item => {
     item.addEventListener('click', () => {
       sidebarItems.forEach(i => i.classList.remove('active'));
       item.classList.add('active');
 
-      if (dashMain) {
-        dashMain.style.opacity = '0.4';
+      const tabKey = item.dataset.tab || item.innerText.toLowerCase().trim().replace(/[^a-z]/g, '');
+
+      if (dashMain && TAB_TEMPLATES[tabKey]) {
+        dashMain.style.opacity = '0.3';
         setTimeout(() => {
+          dashMain.innerHTML = TAB_TEMPLATES[tabKey];
           dashMain.style.opacity = '1';
-        }, 150);
+        }, 120);
       }
     });
   });

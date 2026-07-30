@@ -1541,9 +1541,9 @@ h1, h2, h3, h4 {
   /* Outer iPad Bezel Frame with Proportional Height matching 800x480 ratio */
   .dash-bezel-frame {
     width: calc(100vw - 24px);
-    max-width: 500px;
+    max-width: 720px;
     height: calc(12px + (100vw - 36px) * 0.6);
-    max-height: 280px;
+    max-height: 480px;
     padding: 6px;
     border-radius: 18px;
     overflow: hidden;

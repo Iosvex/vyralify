@@ -497,8 +497,8 @@ function initDashboardMockup() {
     const isMobile = window.innerWidth <= 850;
 
     if (isMobile) {
-      // Fallback to viewport calculation if clientWidth is 0 during early layout passes
-      const bezelWidth = bezel.clientWidth || Math.min(500, window.innerWidth - 24);
+      // Fallback to viewport calculation if clientWidth is too small during early layout passes
+      const bezelWidth = bezel.clientWidth > 100 ? bezel.clientWidth : Math.min(720, window.innerWidth - 24);
       const innerWidth = bezelWidth - 12;
       const scaleFactor = innerWidth / 800;
 

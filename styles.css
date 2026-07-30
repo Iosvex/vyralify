@@ -1575,16 +1575,9 @@ h1, h2, h3, h4 {
     z-index: 10;
   }
   
-  /* Native Width Desktop Window Scaled Down via Transform */
+  /* Scaled Native Desktop Dashboard Window (Sized and transformed dynamically via JS script) */
   .dash-window {
-    width: 800px;
-    height: 480px;
     border-radius: 12px;
-    transform: scale(calc((100vw - 36px) / 800));
-    transform-origin: top left;
-    position: absolute;
-    top: 6px;
-    left: 6px;
     pointer-events: auto;
   }
 

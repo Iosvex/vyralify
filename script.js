@@ -490,15 +490,55 @@ function initOvershootCounters() {
 function initDashboardMockup() {
   const dashWrap = document.getElementById('dashWrap');
   const dashWindow = document.getElementById('dashWindow');
+  const bezel = document.querySelector('.dash-bezel-frame');
+
+  function resizeMockup() {
+    if (!bezel || !dashWindow) return;
+    const isMobile = window.innerWidth <= 850;
+
+    if (isMobile) {
+      const bezelWidth = bezel.clientWidth;
+      const innerWidth = bezelWidth - 12;
+      const scaleFactor = innerWidth / 800;
+
+      dashWindow.style.width = '800px';
+      dashWindow.style.height = '480px';
+      dashWindow.style.transform = `scale(${scaleFactor})`;
+      dashWindow.style.transformOrigin = 'top left';
+      dashWindow.style.position = 'absolute';
+      dashWindow.style.left = '6px';
+      dashWindow.style.top = '6px';
+
+      const scaledHeight = 480 * scaleFactor;
+      bezel.style.height = `${scaledHeight + 12}px`;
+    } else {
+      dashWindow.style.width = '';
+      dashWindow.style.height = '';
+      dashWindow.style.transform = '';
+      dashWindow.style.transformOrigin = '';
+      dashWindow.style.position = '';
+      dashWindow.style.left = '';
+      dashWindow.style.top = '';
+      bezel.style.height = '';
+    }
+  }
+
+  window.addEventListener('resize', resizeMockup);
+  // Also call multiple times to guarantee initial rendering
+  resizeMockup();
+  setTimeout(resizeMockup, 50);
+  setTimeout(resizeMockup, 200);
 
   if (dashWrap && dashWindow && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     dashWrap.addEventListener('mousemove', (e) => {
+      if (window.innerWidth <= 850) return;
       const rect = dashWrap.getBoundingClientRect();
       const x = (e.clientX - rect.left) / rect.width - 0.5;
       const y = (e.clientY - rect.top) / rect.height - 0.5;
       dashWindow.style.transform = `rotateY(${x * 6}deg) rotateX(${-y * 6}deg)`;
     });
     dashWrap.addEventListener('mouseleave', () => {
+      if (window.innerWidth <= 850) return;
       dashWindow.style.transform = '';
     });
   }

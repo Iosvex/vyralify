@@ -112,81 +112,83 @@
           </div>
           <span class="rating-brand"><i class="ph-fill ph-star" style="color: #00B67A;"></i> Trustpilot</span>
         </div>
-      </div>
 
-      <!-- Feature Pills Marquee -->
-      <div class="pills-marquee reveal">
-        <div class="pills-track" id="pillsTrack">
-          <span class="pill"><i class="ph-bold ph-check-circle" style="color: var(--green)"></i> AI Powered</span>
-          <span class="pill"><i class="ph-bold ph-check-circle" style="color: var(--green)"></i> Beginner Friendly</span>
-          <span class="pill"><i class="ph-bold ph-check-circle" style="color: var(--green)"></i> Weekly Updates</span>
-          <span class="pill"><i class="ph-bold ph-check-circle" style="color: var(--green)"></i> Active Community</span>
-          <span class="pill"><i class="ph-bold ph-check-circle" style="color: var(--green)"></i> AI Powered</span>
-          <span class="pill"><i class="ph-bold ph-check-circle" style="color: var(--green)"></i> Beginner Friendly</span>
-          <span class="pill"><i class="ph-bold ph-check-circle" style="color: var(--green)"></i> Weekly Updates</span>
-          <span class="pill"><i class="ph-bold ph-check-circle" style="color: var(--green)"></i> Active Community</span>
-        </div>
-      </div>
-
-      <!-- Dashboard Mockup -->
-      <div class="dash-wrap reveal" id="dashWrap">
-        <div class="dash-window" id="dashWindow">
-          <div class="dash-topbar">
-            <div class="dash-dots"><span></span><span></span><span></span></div>
-            <div class="dash-url">app.vyralify.io/dashboard</div>
-            <div class="dash-topbar-icons"><i class="ph-bold ph-bell"></i><i class="ph-bold ph-gear"></i></div>
-          </div>
-          <div class="dash-body">
-            <div class="dash-sidebar">
-              <div class="dash-nav-item active"><i class="ph-bold ph-squares-four"></i> Dashboard</div>
-              <div class="dash-nav-item"><i class="ph-bold ph-graduation-cap"></i> Lessons</div>
-              <div class="dash-nav-item"><i class="ph-bold ph-folder"></i> Resources</div>
-              <div class="dash-nav-item"><i class="ph-bold ph-layout"></i> Templates</div>
-              <div class="dash-nav-item"><i class="ph-bold ph-chart-line-up"></i> Progress</div>
-              <div class="dash-nav-item"><i class="ph-bold ph-currency-dollar"></i> Affiliate Earnings</div>
-              <div class="dash-nav-item"><i class="ph-bold ph-stack"></i> Modules</div>
+        <!-- Dashboard Mockup (Directly below Trustpilot row, matching DropCourse reference) -->
+        <div class="dash-wrap reveal" id="dashWrap">
+          <div class="dash-window" id="dashWindow">
+            <div class="dash-topbar">
+              <div class="dash-dots"><span></span><span></span><span></span></div>
+              <div class="dash-url">app.vyralify.io/dashboard</div>
+              <div class="dash-topbar-icons"><i class="ph-bold ph-bell"></i><i class="ph-bold ph-gear"></i></div>
             </div>
-            <div class="dash-main">
-              <div class="dash-head-row">
-                <h4>Welcome back, Aiden 👋</h4>
-                <span class="dash-streak">🔥 12 day streak</span>
+            <div class="dash-body">
+              <div class="dash-sidebar">
+                <div class="dash-nav-item active"><i class="ph-bold ph-squares-four"></i> Dashboard</div>
+                <div class="dash-nav-item"><i class="ph-bold ph-graduation-cap"></i> Lessons</div>
+                <div class="dash-nav-item"><i class="ph-bold ph-folder"></i> Resources</div>
+                <div class="dash-nav-item"><i class="ph-bold ph-layout"></i> Templates</div>
+                <div class="dash-nav-item"><i class="ph-bold ph-chart-line-up"></i> Progress</div>
+                <div class="dash-nav-item"><i class="ph-bold ph-currency-dollar"></i> Affiliate Earnings</div>
+                <div class="dash-nav-item"><i class="ph-bold ph-stack"></i> Modules</div>
               </div>
-              <div class="dash-grid">
-                <div class="dash-card">
-                  <div class="label">Foundation Progress</div>
-                  <div class="progress-ring">
-                    <svg width="64" height="64"><circle class="bg" cx="32" cy="32" r="26"></circle><circle class="fg" id="ringFg" cx="32" cy="32" r="26"></circle></svg>
-                    <div class="pct" id="ringPct">60%</div>
+              <div class="dash-main">
+                <div class="dash-head-row">
+                  <h4>Welcome back, Aiden 👋</h4>
+                  <span class="dash-streak">🔥 12 day streak</span>
+                </div>
+                <div class="dash-grid">
+                  <div class="dash-card">
+                    <div class="label">Foundation Progress</div>
+                    <div class="progress-ring">
+                      <svg width="64" height="64"><circle class="bg" cx="32" cy="32" r="26"></circle><circle class="fg" id="ringFg" cx="32" cy="32" r="26"></circle></svg>
+                      <div class="pct" id="ringPct">60%</div>
+                    </div>
+                  </div>
+                  <div class="dash-card">
+                    <div class="label">Affiliate Earnings</div>
+                    <div class="big count" id="earningsCount">₹1,400</div>
+                    <div class="spark" id="sparkBars">
+                      <span style="height:30%"></span><span style="height:50%"></span><span style="height:45%"></span><span style="height:70%"></span><span style="height:60%"></span><span style="height:90%"></span>
+                    </div>
+                  </div>
+                  <div class="dash-card">
+                    <div class="label">Active Modules</div>
+                    <div class="module-row"><span>Content</span><div class="bar"><i data-w="82"></i></div></div>
+                    <div class="module-row"><span>Growth</span><div class="bar"><i data-w="64"></i></div></div>
+                    <div class="module-row"><span>Monetise</span><div class="bar"><i data-w="41"></i></div></div>
                   </div>
                 </div>
-                <div class="dash-card">
-                  <div class="label">Affiliate Earnings</div>
-                  <div class="big count" id="earningsCount">₹1,400</div>
-                  <div class="spark" id="sparkBars">
-                    <span style="height:30%"></span><span style="height:50%"></span><span style="height:45%"></span><span style="height:70%"></span><span style="height:60%"></span><span style="height:90%"></span>
-                  </div>
-                </div>
-                <div class="dash-card">
-                  <div class="label">Active Modules</div>
-                  <div class="module-row"><span>Content</span><div class="bar"><i data-w="82"></i></div></div>
-                  <div class="module-row"><span>Growth</span><div class="bar"><i data-w="64"></i></div></div>
-                  <div class="module-row"><span>Monetise</span><div class="bar"><i data-w="41"></i></div></div>
+                <div class="dash-chart-card" id="chartCard">
+                  <b data-h="30"></b><b data-h="45"></b><b data-h="38"></b><b data-h="60"></b><b data-h="52"></b><b data-h="70"></b><b data-h="64"></b><b data-h="80"></b><b data-h="72"></b><b data-h="90"></b><b data-h="84"></b><b data-h="100"></b>
                 </div>
               </div>
-              <div class="dash-chart-card" id="chartCard">
-                <b data-h="30"></b><b data-h="45"></b><b data-h="38"></b><b data-h="60"></b><b data-h="52"></b><b data-h="70"></b><b data-h="64"></b><b data-h="80"></b><b data-h="72"></b><b data-h="90"></b><b data-h="84"></b><b data-h="100"></b>
+            </div>
+            <!-- Floating AI Creator Assistant Widget -->
+            <div class="ai-widget">
+              <div class="ai-widget-head"><i class="ph-bold ph-sparkle"></i> AI Creator Assistant</div>
+              <div class="ai-chip-row">
+                <span class="ai-chip">Generate Captions</span><span class="ai-chip">Generate Hooks</span><span class="ai-chip">Find Trends</span>
               </div>
+              <div class="ai-type-line" id="aiTypeLine"><span class="cursor"></span></div>
             </div>
           </div>
-          <!-- Floating AI Creator Assistant Widget -->
-          <div class="ai-widget">
-            <div class="ai-widget-head"><i class="ph-bold ph-sparkle"></i> AI Creator Assistant</div>
-            <div class="ai-chip-row">
-              <span class="ai-chip">Generate Captions</span><span class="ai-chip">Generate Hooks</span><span class="ai-chip">Find Trends</span>
-            </div>
-            <div class="ai-type-line" id="aiTypeLine"><span class="cursor"></span></div>
+
+          <!-- Loved By Pill Badge -->
+          <div class="loved-by-pill-wrap">
+            <span class="loved-by-pill">
+              <span class="green-dot">●</span> LOVED BY 1,000+ CREATORS
+            </span>
+          </div>
+
+          <!-- 2x2 Feature Pills Grid (Directly below Loved By Pill Badge) -->
+          <div class="feature-pills-2x2 reveal">
+            <div class="pill-2x2"><i class="ph-bold ph-check-circle"></i> AI Powered</div>
+            <div class="pill-2x2"><i class="ph-bold ph-check-circle"></i> Beginner Friendly</div>
+            <div class="pill-2x2"><i class="ph-bold ph-check-circle"></i> Weekly Updates</div>
+            <div class="pill-2x2"><i class="ph-bold ph-check-circle"></i> Active Community</div>
           </div>
         </div>
+
       </div>
     </div>
   </section>

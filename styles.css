@@ -929,30 +929,77 @@ h1, h2, h3, h4 {
 }
 
 
-/* Feature pills marquee — on blue bg */
-.pills-marquee {
-  overflow: hidden;
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
-  margin-bottom: 60px;
-}
-.pills-track {
+/* Loved By Pill Badge (DropCourse Style below Dashboard Mockup) */
+.loved-by-pill-wrap {
   display: flex;
-  gap: 12px;
-  width: max-content;
-  animation: scrollPills 22s linear infinite;
+  justify-content: center;
+  margin-top: 28px;
+  margin-bottom: 24px;
+  width: 100%;
 }
-.pills-track .pill {
-  background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.14);
-  color: rgba(255,255,255,0.85);
+.loved-by-pill {
+  background: rgba(15, 24, 56, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: rgba(255, 255, 255, 0.95);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(0.7rem, 1.8vw, 0.82rem);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 10px 24px;
   border-radius: 999px;
-  padding: 9px 18px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+}
+.loved-by-pill .green-dot {
+  color: #5AE09A;
+  font-size: 0.9rem;
+}
+
+/* 2x2 Feature Pills Grid (Directly below Loved By Pill Badge) */
+.feature-pills-2x2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px 16px;
+  max-width: 440px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 0 16px;
+  box-sizing: border-box;
+}
+.pill-2x2 {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: #ffffff;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: clamp(0.76rem, 2vw, 0.88rem);
+  padding: 12px 18px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: background 0.2s, border-color 0.2s, transform 0.2s;
   white-space: nowrap;
+  box-sizing: border-box;
 }
-.pills-track .pill i {
-  color: #7CE0A8 !important;
+.pill-2x2:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.28);
+  transform: translateY(-1px);
 }
-@keyframes scrollPills { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.pill-2x2 i {
+  color: #5AE09A;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
 
 /* Dashboard mockup wrapper — full width on blue bg */
 .dash-wrap {
@@ -960,7 +1007,7 @@ h1, h2, h3, h4 {
   z-index: 2;
   perspective: 1600px;
   max-width: 1100px;
-  margin: 0 auto;
+  margin: 16px auto 0;
   padding: 0 0 0;
 }
 

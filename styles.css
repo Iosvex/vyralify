@@ -1543,142 +1543,164 @@ h1, h2, h3, h4 {
     overflow: hidden;
   }
   
-  /* Fluid Device-Adaptive Landscape Tablet Card on Mobile (DropCourse Exact Image 2 Style) */
+  /* Landscape Tablet Bezel Frame on Mobile (DropCourse Exact Reference 2 Style) */
   .dash-bezel-frame {
-    padding: clamp(4px, 1.2vw, 8px);
-    border-radius: clamp(14px, 3vw, 20px);
-    height: clamp(235px, 58vw, 300px);
-    max-height: clamp(235px, 58vw, 300px);
+    padding: 6px;
+    border-radius: 18px;
+    height: 260px;
+    max-height: 260px;
     overflow: hidden;
     position: relative;
-    box-shadow: 0 16px 50px -10px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 20px 60px -10px rgba(0, 0, 0, 0.55);
+    background: #161820;
+    border: 1px solid rgba(255, 255, 255, 0.14);
   }
   
-  /* Smooth Bottom Fade Gradient Overlay matching DropCourse Image 2 */
+  /* Smooth Bottom Fade Gradient Overlay matching DropCourse Reference 2 */
   .dash-bezel-frame::after {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(to bottom, transparent 15%, rgba(7, 9, 14, 0.55) 58%, rgba(7, 9, 14, 0.98) 100%);
+    background: linear-gradient(to bottom, transparent 20%, rgba(7, 9, 14, 0.6) 65%, rgba(7, 9, 14, 0.98) 100%);
     pointer-events: none;
-    border-radius: clamp(14px, 3vw, 20px);
+    border-radius: 18px;
     z-index: 10;
   }
   
   .dash-window {
-    border-radius: clamp(10px, 2.2vw, 14px);
+    border-radius: 14px;
     height: 100%;
     overflow: hidden;
+    background: #FFFFFF;
   }
+
   .dash-topbar {
-    padding: clamp(8px, 2vw, 12px) clamp(10px, 2.5vw, 16px);
+    padding: 10px 14px;
   }
   .dash-brand-logo {
-    font-size: clamp(0.9rem, 2.8vw, 1.05rem);
+    font-size: 0.95rem;
   }
   .dash-brand-icon {
-    width: clamp(22px, 5.5vw, 26px);
-    height: clamp(22px, 5.5vw, 26px);
-    font-size: clamp(0.78rem, 2vw, 0.9rem);
+    width: 24px;
+    height: 24px;
+    font-size: 0.82rem;
   }
   .dash-user-badge {
-    padding: 3px clamp(8px, 2vw, 12px);
+    padding: 3px 10px 3px 6px;
   }
   .user-name {
-    font-size: clamp(0.74rem, 2.2vw, 0.82rem);
+    font-size: 0.76rem;
   }
 
   .dash-body {
-    grid-template-columns: clamp(42px, 11vw, 52px) 1fr;
-    min-height: 100%;
+    grid-template-columns: 46px 1fr;
     height: 100%;
+    min-height: 100%;
     overflow: hidden;
   }
   .dash-sidebar {
-    padding: clamp(8px, 2vw, 12px) 2px;
+    padding: 10px 4px;
     border-right: 1px solid #F3F4F6;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
   .dash-nav-item {
-    padding: clamp(6px, 1.8vw, 8px) 2px;
-    font-size: clamp(0.85rem, 2.4vw, 1rem);
+    padding: 8px 4px;
+    font-size: 0.92rem;
+    justify-content: center;
   }
   
   .dash-main {
-    padding: clamp(10px, 2.6vw, 16px);
-    gap: clamp(8px, 2vw, 14px);
+    padding: 12px;
+    gap: 10px;
     overflow: hidden;
   }
   
+  /* Clean Mobile Hero Banner */
   .dash-hero-banner {
-    padding: clamp(12px, 3vw, 18px) clamp(12px, 3.2vw, 20px);
-    border-radius: clamp(10px, 2.2vw, 14px);
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    gap: clamp(10px, 2.5vw, 16px);
+    padding: 12px 14px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    position: relative;
+    overflow: hidden;
   }
   .banner-watermark {
-    font-size: clamp(2.6rem, 7.5vw, 4rem);
+    font-size: 3rem;
     right: -5px;
-    bottom: -10px;
+    bottom: -15px;
   }
   .banner-tags {
-    margin-bottom: 4px;
+    margin-bottom: 2px;
     gap: 6px;
   }
   .tag {
-    font-size: clamp(0.6rem, 1.8vw, 0.68rem);
-    padding: 2px 6px;
-  }
-  .banner-title {
-    font-size: clamp(1.05rem, 3.2vw, 1.25rem);
-    margin-bottom: 3px;
-  }
-  .banner-sub {
-    font-size: clamp(0.68rem, 2vw, 0.76rem);
-    margin-bottom: 8px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: clamp(170px, 45vw, 260px);
-  }
-  .banner-progress-row {
-    font-size: clamp(0.64rem, 1.8vw, 0.72rem);
-  }
-  .progress-bar-bg {
-    width: clamp(80px, 22vw, 130px);
-    height: 5px;
-  }
-  .btn-launch-course {
-    padding: clamp(6px, 1.8vw, 9px) clamp(10px, 2.5vw, 14px);
-    font-size: clamp(0.72rem, 2vw, 0.8rem);
-    border-radius: 6px;
-  }
-  .rebrand-chip {
-    font-size: clamp(0.6rem, 1.8vw, 0.66rem);
+    font-size: 0.62rem;
     padding: 2px 7px;
   }
+  .banner-title {
+    font-size: 1.1rem;
+    margin-bottom: 2px;
+  }
+  .banner-sub {
+    font-size: 0.72rem;
+    margin-bottom: 6px;
+    line-height: 1.35;
+  }
+  .banner-progress-row {
+    font-size: 0.68rem;
+    gap: 8px;
+  }
+  .progress-bar-bg {
+    width: 100px;
+    height: 5px;
+  }
+  .banner-right {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    justify-content: flex-start;
+    margin-top: 2px;
+  }
+  .btn-launch-course {
+    padding: 7px 12px;
+    font-size: 0.76rem;
+    border-radius: 7px;
+  }
+  .rebrand-chip {
+    font-size: 0.64rem;
+    padding: 3px 8px;
+  }
   
+  /* 2x2 Stat Cards Grid on Mobile (Matching DropCourse Screenshot 2) */
   .dash-stats-row-4 {
-    grid-template-columns: repeat(4, 1fr);
-    gap: clamp(4px, 1.5vw, 8px);
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
   }
   .stat-box {
-    padding: clamp(6px, 1.8vw, 10px) clamp(6px, 1.8vw, 10px);
-    border-radius: 8px;
+    padding: 8px 10px;
+    border-radius: 10px;
+    background: #FFFFFF;
+    border: 1px solid #E5E7EB;
   }
   .stat-head {
-    font-size: clamp(0.64rem, 1.8vw, 0.72rem);
+    font-size: 0.68rem;
     margin-bottom: 2px;
   }
   .stat-num {
-    font-size: clamp(0.92rem, 2.8vw, 1.15rem);
+    font-size: 1.05rem;
     font-weight: 800;
+    color: #111827;
     margin-bottom: 1px;
   }
   .stat-change {
-    font-size: clamp(0.58rem, 1.6vw, 0.65rem);
-    white-space: nowrap;
+    font-size: 0.62rem;
+    font-weight: 600;
   }
 
   /* Loved By Pill Mobile Centering */

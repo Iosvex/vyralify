@@ -1521,17 +1521,7 @@ h1, h2, h3, h4 {
    RESPONSIVE MOBILE VIEWPORT (DropCourse Exact Image 2 Style)
    ============================================================ */
 
-@media (max-width: 900px) {
-  .dash-body { grid-template-columns: 50px 1fr; }
-  .dash-sidebar { padding: 12px 4px; }
-  .dash-nav-text { display: none; }
-  .active-blue-dot { display: none; }
-  .sidebar-collapse-btn { display: none; }
-  .sidebar-bottom-links { display: none; }
-  .dash-nav-item { justify-content: center; padding: 10px 4px; }
-  .dash-stats-row-4 { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-  .dash-bottom-widgets { grid-template-columns: 1fr; gap: 12px; }
-}
+/* media queries cleaned up */
 
 /* ============================================================
    RESPONSIVE MOBILE VIEWPORT (DropCourse Exact 1:1 Proportional Scaled iPad Mockup)

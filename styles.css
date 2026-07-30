@@ -1535,7 +1535,8 @@ h1, h2, h3, h4 {
     max-width: 100%;
     box-sizing: border-box;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
   }
   
   /* Outer iPad Bezel Frame with Proportional Height matching 800x480 ratio */

@@ -17,6 +17,321 @@
 
   <!-- Phosphor Icons -->
   <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+
+  <!-- Vyralify Course Widget Styles -->
+  <style>
+    .vf-widget {
+      width: 100%;
+      max-width: 980px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin: 1.5rem auto 2rem;
+    }
+    .vf-banner {
+      position: relative;
+      overflow: hidden;
+      border-radius: 20px;
+      padding: 22px clamp(16px, 3vw, 28px);
+      background: linear-gradient(135deg, #0C2118 0%, #143726 55%, #0C2118 100%);
+      color: #fff;
+      min-height: 150px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .vf-banner .vf-ghost-text {
+      position: absolute;
+      right: -10px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: clamp(2.6rem, 9vw, 5.5rem);
+      font-weight: 800;
+      color: rgba(255, 255, 255, .05);
+      white-space: nowrap;
+      letter-spacing: -.02em;
+      pointer-events: none;
+      line-height: 1;
+    }
+    .vf-banner-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      z-index: 1;
+    }
+    .vf-badges {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .vf-badge {
+      font-size: .7rem;
+      font-weight: 600;
+      padding: 5px 10px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, .1);
+      color: #B9F5D8;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      white-space: nowrap;
+    }
+    .vf-badge.plain {
+      background: rgba(255, 255, 255, .08);
+      color: #fff;
+    }
+    .vf-badge .vf-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #3DDC97;
+    }
+    .vf-banner-actions {
+      display: flex;
+      gap: 8px;
+      z-index: 1;
+    }
+    .vf-btn {
+      font-size: .78rem;
+      font-weight: 600;
+      padding: 9px 14px;
+      border-radius: 10px;
+      white-space: nowrap;
+      min-height: 38px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      border: none;
+      cursor: pointer;
+    }
+    .vf-btn.solid {
+      background: #fff;
+      color: #0C2118;
+    }
+    .vf-btn.ghost {
+      background: rgba(255, 255, 255, .08);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, .15);
+    }
+    .vf-banner-body h2 {
+      font-size: clamp(1.3rem, 4vw, 1.7rem);
+      font-weight: 700;
+      z-index: 1;
+      text-align: left;
+    }
+    .vf-banner-body p {
+      font-size: .85rem;
+      color: #B9C4BE;
+      margin-top: 4px;
+      z-index: 1;
+      max-width: 420px;
+      text-align: left;
+    }
+    .vf-progress {
+      z-index: 1;
+    }
+    .vf-progress-top {
+      display: flex;
+      justify-content: space-between;
+      font-size: .75rem;
+      color: #B9C4BE;
+      margin-bottom: 6px;
+    }
+    .vf-progress-track {
+      height: 6px;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, .12);
+      overflow: hidden;
+    }
+    .vf-progress-fill {
+      height: 100%;
+      background: #3DDC97;
+      border-radius: 6px;
+    }
+    .vf-stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .vf-stat {
+      background: #fff;
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: 0 1px 2px rgba(16, 24, 40, .04);
+      min-width: 0;
+      text-align: left;
+    }
+    .vf-stat-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: .75rem;
+      color: #667085;
+      margin-bottom: 10px;
+    }
+    .vf-stat-label .vf-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .vf-stat-value {
+      font-size: clamp(1.05rem, 3.4vw, 1.35rem);
+      font-weight: 700;
+      color: #101828;
+      white-space: nowrap;
+    }
+    .vf-stat-delta {
+      font-size: .72rem;
+      color: #12B76A;
+      margin-top: 6px;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+    .vf-stat-delta.down {
+      color: #F04438;
+    }
+    .vf-row {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 0.8fr;
+      gap: 12px;
+    }
+    .vf-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: 0 1px 2px rgba(16, 24, 40, .04);
+      min-width: 0;
+      text-align: left;
+    }
+    .vf-card-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    .vf-card-head h4 {
+      font-size: .85rem;
+      font-weight: 600;
+      color: #101828;
+    }
+    .vf-card-head .vf-sub {
+      font-size: .7rem;
+      color: #98A2B3;
+    }
+    .vf-live {
+      font-size: .68rem;
+      color: #12B76A;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-weight: 600;
+    }
+    .vf-live .vf-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #12B76A;
+    }
+    .vf-chart svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .vf-activity-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 0;
+      border-bottom: 1px solid #F2F4F7;
+      font-size: .8rem;
+    }
+    .vf-activity-row:last-child {
+      border-bottom: none;
+    }
+    .vf-icon {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      display: grid;
+      place-items: center;
+      font-size: .7rem;
+    }
+    .vf-activity-row .vf-label {
+      flex: 1;
+      color: #475467;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .vf-activity-row .vf-value {
+      color: #101828;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .vf-activity-row .vf-time {
+      color: #98A2B3;
+      font-size: .7rem;
+      white-space: nowrap;
+    }
+    .vf-reach-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 0;
+      font-size: .8rem;
+      color: #475467;
+    }
+    .vf-reach-row .vf-plat-icon {
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      flex-shrink: 0;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-size: .65rem;
+      font-weight: 700;
+    }
+    .vf-reach-row .vf-val {
+      margin-left: auto;
+      font-weight: 600;
+      color: #101828;
+    }
+    @media (max-width: 900px) {
+      .vf-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .vf-row {
+        grid-template-columns: 1fr;
+      }
+      .vf-banner-top {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .vf-banner-actions {
+        width: 100%;
+      }
+      .vf-banner-actions .vf-btn {
+        flex: 1;
+        justify-content: center;
+      }
+    }
+    @media (max-width: 420px) {
+      .vf-stats {
+        grid-template-columns: 1fr 1fr;
+      }
+      .vf-badge {
+        font-size: .65rem;
+        padding: 4px 8px;
+      }
+    }
+  </style>
 </head>
 <body class="app-page" data-admin="false">
 
@@ -61,6 +376,116 @@
   </div>
 
   <main class="dash-container" id="main">
+
+    <!-- Vyralify Course Widget Component -->
+    <div class="vf-widget">
+      <!-- Banner -->
+      <div class="vf-banner">
+        <span class="vf-ghost-text">VYRALIFY</span>
+        <div class="vf-banner-top">
+          <div class="vf-badges">
+            <span class="vf-badge"><span class="vf-dot"></span>Active plan</span>
+            <span class="vf-badge plain">AI-Powered</span>
+          </div>
+          <div class="vf-banner-actions">
+            <button class="vf-btn ghost" onclick="document.getElementById('assistant-toggle')?.click()">Customize ↗</button>
+            <button class="vf-btn solid" onclick="location.hash='#pricing'">Manage plan ↗</button>
+          </div>
+        </div>
+        <div class="vf-banner-body">
+          <h2>Creator Growth Membership</h2>
+          <p>AI content, analytics & payouts for faceless creators · 4 tools included</p>
+        </div>
+        <div class="vf-progress">
+          <div class="vf-progress-top"><span>Setup progress</span><span id="vf-bind-progress-text">68%</span></div>
+          <div class="vf-progress-track"><div class="vf-progress-fill" id="vf-bind-progress-fill" style="width:68%"></div></div>
+        </div>
+      </div>
+
+      <!-- Stat cards -->
+      <div class="vf-stats">
+        <div class="vf-stat">
+          <div class="vf-stat-label"><span class="vf-dot" style="background:#12B76A"></span>Revenue</div>
+          <div class="vf-stat-value" id="vf-bind-revenue">$48,240</div>
+          <div class="vf-stat-delta" id="vf-bind-revenue-delta">↗ +24% vs last week</div>
+        </div>
+        <div class="vf-stat">
+          <div class="vf-stat-label"><span class="vf-dot" style="background:#2E90FA"></span>Members</div>
+          <div class="vf-stat-value" id="vf-bind-members">1,284</div>
+          <div class="vf-stat-delta" id="vf-bind-members-delta">↗ +18% vs last week</div>
+        </div>
+        <div class="vf-stat">
+          <div class="vf-stat-label"><span class="vf-dot" style="background:#7A5AF8"></span>Visitors</div>
+          <div class="vf-stat-value" id="vf-bind-visitors">92,418</div>
+          <div class="vf-stat-delta" id="vf-bind-visitors-delta">↗ +31% vs last week</div>
+        </div>
+        <div class="vf-stat">
+          <div class="vf-stat-label"><span class="vf-dot" style="background:#F79009"></span>Conversion</div>
+          <div class="vf-stat-value" id="vf-bind-conversion">6.8%</div>
+          <div class="vf-stat-delta" id="vf-bind-conversion-delta">↘ -1.2% vs last week</div>
+        </div>
+      </div>
+
+      <!-- Chart / Activity / Reach -->
+      <div class="vf-row">
+        <div class="vf-card vf-chart">
+          <div class="vf-card-head">
+            <div><h4>Revenue</h4><div class="vf-sub">Last 7 days</div></div>
+            <div class="vf-live"><span class="vf-dot"></span>Live</div>
+          </div>
+          <div id="vf-chart-container">
+            <svg viewBox="0 0 500 160" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="g1" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#12B76A" stop-opacity=".25"/>
+                  <stop offset="100%" stop-color="#12B76A" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <path id="vf-chart-grad" d="M0,120 L83,105 L166,112 L250,80 L333,88 L416,48 L500,35 L500,160 L0,160 Z" fill="url(#g1)"/>
+              <path id="vf-chart-line" d="M0,120 L83,105 L166,112 L250,80 L333,88 L416,48 L500,35" fill="none" stroke="#12B76A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="vf-card">
+          <div class="vf-card-head"><h4>Live activity</h4><div class="vf-live"><span class="vf-dot"></span></div></div>
+          <div id="vf-bind-activity-container">
+            <div class="vf-activity-row">
+              <div class="vf-icon" style="background:#EAFBF3;color:#12B76A">$</div>
+              <span class="vf-label">New sale</span><span class="vf-value">$89</span><span class="vf-time">2s</span>
+            </div>
+            <div class="vf-activity-row">
+              <div class="vf-icon" style="background:#FEECEE;color:#F04438">♥</div>
+              <span class="vf-label">Engagement</span><span class="vf-value">+412</span><span class="vf-time">8s</span>
+            </div>
+            <div class="vf-activity-row">
+              <div class="vf-icon" style="background:#EFF4FF;color:#2E90FA">◎</div>
+              <span class="vf-label">Visitor</span><span class="vf-value">US</span><span class="vf-time">11s</span>
+            </div>
+            <div class="vf-activity-row">
+              <div class="vf-icon" style="background:#EAFBF3;color:#12B76A">$</div>
+              <span class="vf-label">New sale</span><span class="vf-value">$142</span><span class="vf-time">24s</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="vf-card">
+          <div class="vf-card-head"><h4>Reach</h4></div>
+          <div class="vf-reach-row">
+            <div class="vf-plat-icon" style="background:linear-gradient(135deg,#f58529,#dd2a7b,#8134af)">IG</div>
+            <span>Instagram</span><span class="vf-val" id="vf-bind-reach-ig">312K</span>
+          </div>
+          <div class="vf-reach-row">
+            <div class="vf-plat-icon" style="background:#000">TT</div>
+            <span>TikTok</span><span class="vf-val" id="vf-bind-reach-tt">2.1M</span>
+          </div>
+          <div class="vf-reach-row">
+            <div class="vf-plat-icon" style="background:#FF0000">YT</div>
+            <span>YouTube</span><span class="vf-val" id="vf-bind-reach-yt">148K</span>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- Stats Strip -->
     <div class="stats-strip">

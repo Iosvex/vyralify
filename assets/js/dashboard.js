@@ -191,9 +191,97 @@ async function boot(){
   const clicksEl=document.getElementById('aff-clicks');
   const signupsEl=document.getElementById('aff-signups');
   if(clicksEl && signupsEl){
-    // Simulate clicks and signups based on user ID for aesthetics, or keep placeholders
     clicksEl.textContent = (currentProfile.affiliateCode?.charCodeAt(0)||0) * 2;
     signupsEl.textContent = Math.floor((currentProfile.affiliateCode?.charCodeAt(1)||0) / 10);
+  }
+
+  // ---- Bind Course Widget Live Data from Firestore Profile ----
+  const stats = currentProfile.stats || {};
+  
+  // 1. Progress
+  const progressVal = stats.progress !== undefined ? stats.progress : 68;
+  const progressText = document.getElementById('vf-bind-progress-text');
+  const progressFill = document.getElementById('vf-bind-progress-fill');
+  if (progressText) progressText.textContent = `${progressVal}%`;
+  if (progressFill) progressFill.style.width = `${progressVal}%`;
+
+  // 2. Revenue
+  const revVal = stats.revenue !== undefined ? stats.revenue : '$48,240';
+  const revDelta = stats.revenueDelta !== undefined ? stats.revenueDelta : '↗ +24% vs last week';
+  const revEl = document.getElementById('vf-bind-revenue');
+  const revDeltaEl = document.getElementById('vf-bind-revenue-delta');
+  if (revEl) revEl.textContent = revVal;
+  if (revDeltaEl) {
+    revDeltaEl.textContent = revDelta;
+    revDeltaEl.classList.toggle('down', revDelta.includes('↘') || revDelta.includes('-'));
+  }
+
+  // 3. Members
+  const memVal = stats.members !== undefined ? stats.members : '1,284';
+  const memDelta = stats.membersDelta !== undefined ? stats.membersDelta : '↗ +18% vs last week';
+  const memEl = document.getElementById('vf-bind-members');
+  const memDeltaEl = document.getElementById('vf-bind-members-delta');
+  if (memEl) memEl.textContent = memVal;
+  if (memDeltaEl) {
+    memDeltaEl.textContent = memDelta;
+    memDeltaEl.classList.toggle('down', memDelta.includes('↘') || memDelta.includes('-'));
+  }
+
+  // 4. Visitors
+  const visVal = stats.visitors !== undefined ? stats.visitors : '92,418';
+  const visDelta = stats.visitorsDelta !== undefined ? stats.visitorsDelta : '↗ +31% vs last week';
+  const visEl = document.getElementById('vf-bind-visitors');
+  const visDeltaEl = document.getElementById('vf-bind-visitors-delta');
+  if (visEl) visEl.textContent = visVal;
+  if (visDeltaEl) {
+    visDeltaEl.textContent = visDelta;
+    visDeltaEl.classList.toggle('down', visDelta.includes('↘') || visDelta.includes('-'));
+  }
+
+  // 5. Conversion
+  const convVal = stats.conversion !== undefined ? stats.conversion : '6.8%';
+  const convDelta = stats.conversionDelta !== undefined ? stats.conversionDelta : '↘ -1.2% vs last week';
+  const convEl = document.getElementById('vf-bind-conversion');
+  const convDeltaEl = document.getElementById('vf-bind-conversion-delta');
+  if (convEl) convEl.textContent = convVal;
+  if (convDeltaEl) {
+    convDeltaEl.textContent = convDelta;
+    convDeltaEl.classList.toggle('down', convDelta.includes('↘') || convDelta.includes('-'));
+  }
+
+  // 6. Chart paths
+  const chartPathVal = stats.chartPath || 'M0,120 L83,105 L166,112 L250,80 L333,88 L416,48 L500,35';
+  const chartGradVal = stats.chartGrad || 'M0,120 L83,105 L166,112 L250,80 L333,88 L416,48 L500,35 L500,160 L0,160 Z';
+  const chartLineEl = document.getElementById('vf-chart-line');
+  const chartGradEl = document.getElementById('vf-chart-grad');
+  if (chartLineEl) chartLineEl.setAttribute('d', chartPathVal);
+  if (chartGradEl) chartGradEl.setAttribute('d', chartGradVal);
+
+  // 7. Reach numbers
+  const reachVal = stats.reach || { ig: '312K', tt: '2.1M', yt: '148K' };
+  const reachIg = document.getElementById('vf-bind-reach-ig');
+  const reachTt = document.getElementById('vf-bind-reach-tt');
+  const reachYt = document.getElementById('vf-bind-reach-yt');
+  if (reachIg) reachIg.textContent = reachVal.ig || '0';
+  if (reachTt) reachTt.textContent = reachVal.tt || '0';
+  if (reachYt) reachYt.textContent = reachVal.yt || '0';
+
+  // 8. Activity log rows
+  const activityContainer = document.getElementById('vf-bind-activity-container');
+  if (activityContainer && stats.activity && stats.activity.length > 0) {
+    activityContainer.innerHTML = stats.activity.map(act => {
+      let bg = '#EAFBF3', col = '#12B76A', iconText = '$';
+      if (act.type === 'engagement') { bg = '#FEECEE'; col = '#F04438'; iconText = '♥'; }
+      if (act.type === 'visitor') { bg = '#EFF4FF'; col = '#2E90FA'; iconText = '◎'; }
+      return `
+        <div class="vf-activity-row">
+          <div class="vf-icon" style="background:${bg};color:${col}">${iconText}</div>
+          <span class="vf-label">${esc(act.label)}</span>
+          <span class="vf-value">${esc(act.value)}</span>
+          <span class="vf-time">${esc(act.time)}</span>
+        </div>
+      `;
+    }).join('');
   }
 
   document.querySelectorAll('[data-category]').forEach(b=>b.onclick=()=>selectCategory(b.dataset.category));

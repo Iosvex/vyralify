@@ -113,64 +113,149 @@
           <span class="rating-brand"><i class="ph-fill ph-star" style="color: #00B67A;"></i> Trustpilot</span>
         </div>
 
-        <!-- Dashboard Mockup (Directly below Trustpilot row, matching DropCourse reference) -->
+        <!-- Dashboard Mockup (Exact DropCourse Reference Layout with Vyralify Branding) -->
         <div class="dash-wrap reveal" id="dashWrap">
           <div class="dash-window" id="dashWindow">
+            
+            <!-- Topbar -->
             <div class="dash-topbar">
-              <div class="dash-dots"><span></span><span></span><span></span></div>
-              <div class="dash-url">app.vyralify.io/dashboard</div>
-              <div class="dash-topbar-icons"><i class="ph-bold ph-bell"></i><i class="ph-bold ph-gear"></i></div>
+              <div class="dash-brand-wrap">
+                <span class="dash-brand-logo">VYRALIFY</span>
+              </div>
+              <div class="dash-user-badge">
+                <span class="user-avatar-circle"></span>
+                <span class="user-name">Ace</span>
+              </div>
             </div>
+
+            <!-- Body Grid -->
             <div class="dash-body">
+              
+              <!-- Left Sidebar -->
               <div class="dash-sidebar">
                 <div class="dash-nav-item active"><i class="ph-bold ph-squares-four"></i> Dashboard</div>
-                <div class="dash-nav-item"><i class="ph-bold ph-graduation-cap"></i> Lessons</div>
-                <div class="dash-nav-item"><i class="ph-bold ph-folder"></i> Resources</div>
-                <div class="dash-nav-item"><i class="ph-bold ph-layout"></i> Templates</div>
-                <div class="dash-nav-item"><i class="ph-bold ph-chart-line-up"></i> Progress</div>
-                <div class="dash-nav-item"><i class="ph-bold ph-currency-dollar"></i> Affiliate Earnings</div>
-                <div class="dash-nav-item"><i class="ph-bold ph-stack"></i> Modules</div>
+                <div class="dash-nav-item"><i class="ph-bold ph-package"></i> Products</div>
+                <div class="dash-nav-item"><i class="ph-bold ph-globe-hemisphere-west"></i> Websites</div>
+                <div class="dash-nav-item"><i class="ph-bold ph-chart-line-up"></i> Marketing</div>
+                <div class="dash-nav-item"><i class="ph-bold ph-credit-card"></i> Payments</div>
+                <div class="dash-nav-item"><i class="ph-bold ph-gear"></i> Manage</div>
+                <div class="dash-nav-item"><i class="ph-bold ph-lightning"></i> Automations</div>
               </div>
+
+              <!-- Main Dashboard Area -->
               <div class="dash-main">
-                <div class="dash-head-row">
-                  <h4>Welcome back, Aiden 👋</h4>
-                  <span class="dash-streak">🔥 12 day streak</span>
-                </div>
-                <div class="dash-grid">
-                  <div class="dash-card">
-                    <div class="label">Foundation Progress</div>
-                    <div class="progress-ring">
-                      <svg width="64" height="64"><circle class="bg" cx="32" cy="32" r="26"></circle><circle class="fg" id="ringFg" cx="32" cy="32" r="26"></circle></svg>
-                      <div class="pct" id="ringPct">60%</div>
+                
+                <!-- Dark Hero Banner Card (DropCourse EcomProdigy style) -->
+                <div class="dash-hero-banner">
+                  <div class="banner-left">
+                    <div class="banner-tags">
+                      <span class="tag tag-active">● Active course</span>
+                      <span class="tag tag-dfy">Done-For-You</span>
+                    </div>
+                    <h3 class="banner-title">VIRAL PRODIGY</h3>
+                    <p class="banner-sub">End-to-end Instagram growth &amp; monetisation curriculum • 12 modules...</p>
+                    <div class="banner-progress-row">
+                      <span>Setup progress</span>
+                      <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 88%;"></div></div>
+                      <span class="pct-text">88%</span>
                     </div>
                   </div>
-                  <div class="dash-card">
-                    <div class="label">Affiliate Earnings</div>
-                    <div class="big count" id="earningsCount">₹1,400</div>
-                    <div class="spark" id="sparkBars">
-                      <span style="height:30%"></span><span style="height:50%"></span><span style="height:45%"></span><span style="height:70%"></span><span style="height:60%"></span><span style="height:90%"></span>
+                  <div class="banner-right">
+                    <button class="btn-launch-course">Launch course →</button>
+                    <span class="rebrand-chip">Rebrand</span>
+                  </div>
+                </div>
+
+                <!-- 4 Stat Metric Cards Row -->
+                <div class="dash-stats-row-4">
+                  <div class="stat-box">
+                    <div class="stat-head"><span>Revenue</span><i class="ph-bold ph-arrows-out-simple"></i></div>
+                    <div class="stat-num">$48,240</div>
+                    <div class="stat-change positive">↑ +36% vs last week</div>
+                  </div>
+                  <div class="stat-box">
+                    <div class="stat-head"><span>Orders</span><i class="ph-bold ph-arrows-out-simple"></i></div>
+                    <div class="stat-num">1,284</div>
+                    <div class="stat-change positive">↑ +18% vs last week</div>
+                  </div>
+                  <div class="stat-box">
+                    <div class="stat-head"><span>Visitors</span><i class="ph-bold ph-arrows-out-simple"></i></div>
+                    <div class="stat-num">92,418</div>
+                    <div class="stat-change positive">↑ +25% vs last week</div>
+                  </div>
+                  <div class="stat-box">
+                    <div class="stat-head"><span>Conversion</span><i class="ph-bold ph-percent"></i></div>
+                    <div class="stat-num">6.8%</div>
+                    <div class="stat-change positive">↑ +1.2% vs last week</div>
+                  </div>
+                </div>
+
+                <!-- Bottom Widgets Row: Revenue Wave Chart + Live Activity + Reach -->
+                <div class="dash-bottom-widgets">
+                  
+                  <!-- Left Chart Widget -->
+                  <div class="widget-box widget-chart">
+                    <div class="widget-head">
+                      <span>Revenue <small>Last 7 days</small></span>
+                      <span class="line-badge">● Line</span>
+                    </div>
+                    <div class="wave-chart-wrap">
+                      <svg viewBox="0 0 400 120" preserveAspectRatio="none" class="chart-svg">
+                        <defs>
+                          <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stop-color="#2FAE6B" stop-opacity="0.35"/>
+                            <stop offset="100%" stop-color="#2FAE6B" stop-opacity="0"/>
+                          </linearGradient>
+                        </defs>
+                        <path d="M 0,90 Q 60,70 120,85 T 240,40 T 360,25 L 400,20 L 400,120 L 0,120 Z" fill="url(#chartGrad)"/>
+                        <path d="M 0,90 Q 60,70 120,85 T 240,40 T 360,25 L 400,20" fill="none" stroke="#2FAE6B" stroke-width="3" stroke-linecap="round"/>
+                      </svg>
                     </div>
                   </div>
-                  <div class="dash-card">
-                    <div class="label">Active Modules</div>
-                    <div class="module-row"><span>Content</span><div class="bar"><i data-w="82"></i></div></div>
-                    <div class="module-row"><span>Growth</span><div class="bar"><i data-w="64"></i></div></div>
-                    <div class="module-row"><span>Monetise</span><div class="bar"><i data-w="41"></i></div></div>
+
+                  <!-- Live Activity Widget -->
+                  <div class="widget-box widget-activity">
+                    <div class="widget-head">Live activity</div>
+                    <div class="activity-list">
+                      <div class="activity-item">
+                        <span><i class="ph-bold ph-shopping-cart" style="color:#2FAE6B;"></i> Reel sale</span>
+                        <strong>$509</strong>
+                        <small>2s</small>
+                      </div>
+                      <div class="activity-item">
+                        <span><i class="ph-bold ph-sparkle" style="color:#3A5AFF;"></i> Engagement</span>
+                        <strong>+412</strong>
+                        <small>1m</small>
+                      </div>
+                      <div class="activity-item">
+                        <span><i class="ph-bold ph-eye" style="color:#2FAE6B;"></i> Visitor</span>
+                        <strong>18</strong>
+                        <small>3m</small>
+                      </div>
+                      <div class="activity-item">
+                        <span><i class="ph-bold ph-bag" style="color:#2FAE6B;"></i> New sale</span>
+                        <strong>$122</strong>
+                        <small>7m</small>
+                      </div>
+                    </div>
                   </div>
+
+                  <!-- Reach Widget -->
+                  <div class="widget-box widget-reach">
+                    <div class="widget-head">Reach</div>
+                    <div class="reach-list">
+                      <div class="reach-item"><i class="ph-bold ph-instagram-logo" style="color:#E1306C;"></i> <span>212K</span></div>
+                      <div class="reach-item"><i class="ph-bold ph-tiktok-logo" style="color:#000;"></i> <span>9.8M</span></div>
+                      <div class="reach-item"><i class="ph-bold ph-youtube-logo" style="color:#FF0000;"></i> <span>150K</span></div>
+                    </div>
+                  </div>
+
                 </div>
-                <div class="dash-chart-card" id="chartCard">
-                  <b data-h="30"></b><b data-h="45"></b><b data-h="38"></b><b data-h="60"></b><b data-h="52"></b><b data-h="70"></b><b data-h="64"></b><b data-h="80"></b><b data-h="72"></b><b data-h="90"></b><b data-h="84"></b><b data-h="100"></b>
-                </div>
+
               </div>
+
             </div>
-            <!-- Floating AI Creator Assistant Widget -->
-            <div class="ai-widget">
-              <div class="ai-widget-head"><i class="ph-bold ph-sparkle"></i> AI Creator Assistant</div>
-              <div class="ai-chip-row">
-                <span class="ai-chip">Generate Captions</span><span class="ai-chip">Generate Hooks</span><span class="ai-chip">Find Trends</span>
-              </div>
-              <div class="ai-type-line" id="aiTypeLine"><span class="cursor"></span></div>
-            </div>
+
           </div>
 
           <!-- Loved By Pill Badge -->

@@ -1533,190 +1533,116 @@ h1, h2, h3, h4 {
   .dash-bottom-widgets { grid-template-columns: 1fr; gap: 12px; }
 }
 
-@media (max-width: 600px) {
+/* ============================================================
+   RESPONSIVE MOBILE VIEWPORT (DropCourse Exact 1:1 Proportional Scaled iPad Mockup)
+   ============================================================ */
+
+@media (max-width: 850px) {
   .dash-wrap {
     margin: 16px auto 0;
-    padding: 0 4px;
+    padding: 0;
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
-    overflow: hidden;
+    display: flex;
+    justify-content: center;
   }
   
-  /* Compact Landscape Tablet Bezel Frame on Mobile (DropCourse Exact Image 2 Style) */
+  /* Outer iPad Bezel Frame with Proportional Height matching 800x480 ratio */
   .dash-bezel-frame {
-    padding: 5px;
-    border-radius: 16px;
-    height: 235px;
-    max-height: 235px;
+    width: calc(100vw - 24px);
+    max-width: 500px;
+    height: calc(12px + (100vw - 36px) * 0.6);
+    max-height: 280px;
+    padding: 6px;
+    border-radius: 18px;
     overflow: hidden;
     position: relative;
     box-shadow: 0 20px 60px -10px rgba(0, 0, 0, 0.55);
     background: #161820;
     border: 1px solid rgba(255, 255, 255, 0.14);
+    box-sizing: border-box;
   }
   
-  /* Smooth Bottom Fade Gradient Overlay matching DropCourse Reference 2 */
+  /* Smooth Bottom Fade Gradient Overlay matching DropCourse Screenshot */
   .dash-bezel-frame::after {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(to bottom, transparent 25%, rgba(7, 9, 14, 0.5) 60%, rgba(7, 9, 14, 0.98) 100%);
+    background: linear-gradient(to bottom, transparent 20%, rgba(7, 9, 14, 0.5) 60%, rgba(7, 9, 14, 0.98) 100%);
     pointer-events: none;
-    border-radius: 16px;
+    border-radius: 18px;
     z-index: 10;
   }
   
+  /* Native Width Desktop Window Scaled Down via Transform */
   .dash-window {
+    width: 800px;
+    height: 480px;
     border-radius: 12px;
-    height: 100%;
-    overflow: hidden;
-    background: #FFFFFF;
+    transform: scale(calc((100vw - 36px) / 800));
+    transform-origin: top left;
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    pointer-events: auto;
   }
 
-  .dash-topbar {
-    padding: 7px 10px;
-  }
-  .dash-brand-logo {
-    font-size: 0.88rem;
-  }
-  .dash-brand-icon {
-    width: 20px;
-    height: 20px;
-    font-size: 0.75rem;
-  }
-  .dash-user-badge {
-    padding: 2px 7px;
-  }
-  .user-name {
-    font-size: 0.7rem;
-  }
-
+  /* Reset all desktop sub-element overrides so layout matches desktop 1:1 */
   .dash-body {
-    grid-template-columns: 40px 1fr;
-    height: 100%;
-    min-height: 100%;
-    overflow: hidden;
+    grid-template-columns: 195px 1fr !important;
+    min-height: 440px !important;
+    height: auto !important;
+    display: grid !important;
   }
   .dash-sidebar {
-    padding: 6px 2px;
-    border-right: 1px solid #F3F4F6;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    display: flex !important;
+    padding: 16px 12px !important;
   }
-  .dash-nav-item {
-    padding: 6px 2px;
-    font-size: 0.85rem;
-    justify-content: center;
+  .sidebar-main-links {
+    display: flex !important;
   }
-  
+  .dash-nav-text {
+    display: inline !important;
+  }
+  .active-blue-dot {
+    display: inline !important;
+  }
+  .sidebar-bottom-links {
+    display: flex !important;
+  }
   .dash-main {
-    padding: 8px;
-    gap: 6px;
-    overflow: hidden;
+    padding: 18px 22px !important;
+    gap: 16px !important;
+    display: flex !important;
   }
-  
-  /* Compact Dark Hero Banner on Mobile */
   .dash-hero-banner {
-    padding: 8px 10px;
-    border-radius: 8px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    gap: 6px;
-    position: relative;
-    overflow: hidden;
-    min-height: 72px;
+    padding: 20px 24px !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    display: flex !important;
   }
   .banner-watermark {
-    font-size: 2.2rem;
-    right: -4px;
-    bottom: -8px;
-    opacity: 0.6;
-  }
-  .banner-tags {
-    margin-bottom: 2px;
-    gap: 4px;
-  }
-  .tag {
-    font-size: 0.54rem;
-    padding: 1px 5px;
-    border-radius: 3px;
-  }
-  .banner-title {
-    font-size: 0.92rem;
-    margin-bottom: 1px;
-    line-height: 1.1;
+    font-size: 4.8rem !important;
+    right: -10px !important;
+    bottom: -25px !important;
   }
   .banner-sub {
-    font-size: 0.6rem;
-    margin-bottom: 3px;
-    line-height: 1.2;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 155px;
+    max-width: none !important;
+    white-space: normal !important;
   }
-  .banner-progress-row {
-    font-size: 0.58rem;
-    gap: 5px;
-  }
-  .progress-bar-bg {
-    width: 60px;
-    height: 4px;
-  }
-  .banner-right {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 4px;
-    margin-top: 0;
-    width: auto;
-  }
-  .btn-launch-course {
-    padding: 4px 8px;
-    font-size: 0.64rem;
-    border-radius: 5px;
-    white-space: nowrap;
-  }
-  .rebrand-chip {
-    font-size: 0.54rem;
-    padding: 1px 5px;
-    border-radius: 3px;
-  }
-  
-  /* 4 Stat Cards Row on Mobile (Compact 4-Column Layout matching DropCourse Screenshot 2) */
   .dash-stats-row-4 {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 4px;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 12px !important;
+    display: grid !important;
   }
   .stat-box {
-    padding: 5px 4px;
-    border-radius: 6px;
-    background: #FFFFFF;
-    border: 1px solid #E5E7EB;
-  }
-  .stat-head {
-    font-size: 0.56rem;
-    margin-bottom: 1px;
-  }
-  .stat-dot {
-    font-size: 0.45rem;
+    padding: 12px 14px !important;
   }
   .stat-num {
-    font-size: 0.82rem;
-    font-weight: 800;
-    color: #111827;
-    margin-bottom: 1px;
+    font-size: 1.25rem !important;
   }
-  .stat-change {
-    font-size: 0.52rem;
-    font-weight: 600;
-    white-space: nowrap;
-  }
+}
 
   /* Loved By Pill Mobile Centering */
   .loved-by-pill-wrap {

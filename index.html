@@ -354,88 +354,93 @@
   <div class="hero-bottom-fade"></div>
 
   <!-- ============================================================
-       4. SOCIAL PROOF (BENTO GRID WITH AI AVATARS & CENTER BADGE)
+       4. SOCIAL PROOF (STITCH / FRAMER-GRADE BENTO GRID)
        ============================================================ -->
   <style>
     .sp-section {
       position: relative;
       background: #07090E;
       color: #FFFFFF;
-      padding: 90px 0 100px;
+      padding: 100px 0 110px;
       overflow: hidden;
       border-top: 1px solid rgba(255, 255, 255, 0.08);
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
     .sp-container {
-      max-width: 1040px;
+      max-width: 1080px;
       margin: 0 auto;
-      padding: 0 20px;
+      padding: 0 24px;
       position: relative;
       z-index: 2;
     }
     .sp-head {
       text-align: center;
-      max-width: 720px;
-      margin: 0 auto 48px;
+      max-width: 740px;
+      margin: 0 auto 56px;
     }
     .sp-eyebrow {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      padding: 6px 16px;
+      gap: 7px;
+      padding: 7px 18px;
       border-radius: 99px;
-      background: rgba(58, 90, 255, 0.14);
-      border: 1px solid rgba(58, 90, 255, 0.3);
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.32);
       color: #38BDF8;
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       font-weight: 700;
-      letter-spacing: 0.06em;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
-      margin-bottom: 16px;
+      margin-bottom: 18px;
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.18);
     }
     .sp-title {
       font-family: var(--font-display);
-      font-size: clamp(1.7rem, 4vw, 2.5rem);
+      font-size: clamp(1.8rem, 4.2vw, 2.75rem);
       font-weight: 800;
       color: #FFFFFF;
-      line-height: 1.25;
-      letter-spacing: -0.03em;
-      margin-bottom: 14px;
+      line-height: 1.2;
+      letter-spacing: -0.035em;
+      margin-bottom: 16px;
+    }
+    .sp-title span {
+      background: linear-gradient(135deg, #38BDF8 0%, #818CF8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
     .sp-sub {
-      font-size: clamp(0.9rem, 2vw, 1.02rem);
+      font-size: clamp(0.95rem, 2vw, 1.06rem);
       color: #94A3B8;
-      line-height: 1.6;
+      line-height: 1.65;
     }
 
-    /* Bento Grid Wrapper & Floating Vignette Container */
+    /* Bento Stage Container */
     .sp-bento-stage {
       position: relative;
-      max-width: 900px;
-      margin: 0 auto 60px;
-      border-radius: 32px;
-      background: linear-gradient(155deg, #0A0D18 0%, #131828 100%);
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      padding: 36px 24px;
-      box-shadow: 0 45px 120px -20px rgba(0, 0, 0, 0.9), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+      max-width: 960px;
+      margin: 0 auto 64px;
+      border-radius: 36px;
+      background: linear-gradient(165deg, rgba(14, 18, 29, 0.95) 0%, rgba(7, 9, 14, 0.98) 100%);
+      border: 1.5px solid rgba(255, 255, 255, 0.12);
+      padding: 40px 28px;
+      box-shadow: 0 50px 140px -20px rgba(0, 0, 0, 0.95), inset 0 1px 0 rgba(255, 255, 255, 0.2);
       overflow: hidden;
     }
 
-    /* Edge Vignette Mask Overlay */
     .sp-bento-stage::after {
       content: '';
       position: absolute;
       inset: 0;
-      background: radial-gradient(circle at center, transparent 40%, rgba(7, 9, 14, 0.75) 100%);
+      background: radial-gradient(circle at center, transparent 35%, rgba(7, 9, 14, 0.8) 100%);
       pointer-events: none;
       z-index: 10;
     }
 
-    /* 3-Column Bento Grid */
+    /* 3-Column Bento Grid Layout */
     .sp-bento-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
+      gap: 20px;
       position: relative;
       z-index: 2;
     }
@@ -443,184 +448,190 @@
     .sp-bento-col {
       display: flex;
       flex-direction: column;
-      gap: 18px;
+      gap: 20px;
     }
 
     .sp-col-up {
-      animation: spFloatUp 22s ease-in-out infinite alternate;
+      animation: spFloatUp 24s ease-in-out infinite alternate;
     }
     .sp-col-down {
-      animation: spFloatDown 26s ease-in-out infinite alternate;
+      animation: spFloatDown 28s ease-in-out infinite alternate;
     }
 
     @keyframes spFloatUp {
       0% { transform: translateY(0); }
-      100% { transform: translateY(-30px); }
+      100% { transform: translateY(-28px); }
     }
     @keyframes spFloatDown {
-      0% { transform: translateY(-25px); }
-      100% { transform: translateY(5px); }
+      0% { transform: translateY(-24px); }
+      100% { transform: translateY(6px); }
     }
 
     .sp-bento-stage:hover .sp-bento-col {
       animation-play-state: paused;
     }
 
-    /* Tile Card */
+    /* High-Gloss Tile Card */
     .sp-tile {
       position: relative;
       aspect-ratio: 1 / 1;
-      border-radius: 22px;
+      border-radius: 26px;
       overflow: hidden;
-      border: 1.5px solid rgba(255, 255, 255, 0.15);
+      border: 1.5px solid rgba(255, 255, 255, 0.14);
       background: #0E121D;
-      box-shadow: 0 14px 35px rgba(0, 0, 0, 0.6);
-      transition: transform 0.35s ease, border-color 0.35s;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7);
+      transition: transform 0.35s ease, border-color 0.35s, box-shadow 0.35s;
+    }
+    .sp-tile:hover {
+      border-color: rgba(56, 189, 248, 0.45);
+      box-shadow: 0 20px 50px rgba(56, 189, 248, 0.2);
     }
     .sp-tile img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transition: transform 0.45s ease;
+      transition: transform 0.5s ease;
     }
     .sp-tile:hover img {
-      transform: scale(1.06);
+      transform: scale(1.08);
     }
     .sp-tile-overlay {
       position: absolute;
       inset: 0;
-      background: linear-gradient(to top, rgba(7, 9, 14, 0.95) 0%, rgba(7, 9, 14, 0.35) 60%, transparent 100%);
+      background: linear-gradient(to top, rgba(7, 9, 14, 0.96) 0%, rgba(7, 9, 14, 0.4) 55%, transparent 100%);
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
-      padding: 14px;
+      padding: 16px;
     }
     .sp-tile-handle {
       font-family: var(--font-display);
       font-weight: 700;
-      font-size: clamp(0.78rem, 1.8vw, 0.92rem);
+      font-size: clamp(0.82rem, 1.8vw, 0.96rem);
       color: #FFFFFF;
       display: flex;
       align-items: center;
-      gap: 5px;
+      gap: 6px;
     }
     .sp-tile-handle i {
       color: #38BDF8;
-      font-size: 0.95rem;
+      font-size: 1rem;
     }
     .sp-tile-meta {
-      font-size: 0.72rem;
+      font-size: 0.75rem;
+      font-weight: 500;
       color: #94A3B8;
-      margin-top: 2px;
+      margin-top: 3px;
     }
 
-    /* Center Overlapping 3D Stat Badge */
+    /* Central Overlapping 3D Counter Badge */
     .sp-center-badge {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 165px;
-      height: 165px;
-      background: rgba(14, 18, 28, 0.94);
-      border: 1.5px solid rgba(255, 255, 255, 0.24);
-      border-radius: 32px;
+      width: 175px;
+      height: 175px;
+      background: rgba(14, 18, 29, 0.95);
+      border: 1.5px solid rgba(56, 189, 248, 0.4);
+      border-radius: 36px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       z-index: 25;
-      box-shadow: 0 35px 90px rgba(0, 0, 0, 0.95), 0 0 50px rgba(58, 90, 255, 0.3);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
+      box-shadow: 0 40px 100px rgba(0, 0, 0, 0.95), 0 0 60px rgba(56, 189, 248, 0.35);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
       text-align: center;
     }
     .sp-badge-icon {
-      width: 38px;
-      height: 38px;
-      border-radius: 12px;
-      background: linear-gradient(135deg, var(--blue) 0%, #1E3AD1 100%);
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #38BDF8 0%, #1D4ED8 100%);
       color: #FFFFFF;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.25rem;
-      margin-bottom: 6px;
-      box-shadow: 0 6px 18px rgba(58, 90, 255, 0.45);
+      font-size: 1.35rem;
+      margin-bottom: 8px;
+      box-shadow: 0 8px 22px rgba(56, 189, 248, 0.5);
     }
     .sp-badge-num {
       font-family: var(--font-display);
       font-weight: 900;
-      font-size: 2.7rem;
+      font-size: 2.85rem;
       color: #FFFFFF;
       line-height: 1;
       letter-spacing: -0.04em;
+      text-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
     }
     .sp-badge-num span {
-      color: var(--blue);
+      color: #38BDF8;
     }
     .sp-badge-lbl {
       font-size: 0.78rem;
       font-weight: 700;
       color: #94A3B8;
       text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-top: 4px;
+      letter-spacing: 0.09em;
+      margin-top: 5px;
     }
 
-    /* Detailed 5 Statistics Cards Below */
+    /* 5 Statistics Metric Cards Below */
     .sp-stats-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-      gap: 18px;
-      margin-top: 48px;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-top: 52px;
     }
     .sp-stat-card {
       background: #0C101A;
       border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: var(--radius-md);
-      padding: 26px 20px;
-      transition: transform 0.3s var(--ease-spring), box-shadow 0.3s, border-color 0.3s;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      border-radius: var(--radius-lg);
+      padding: 28px 22px;
+      transition: transform 0.35s var(--ease-spring), box-shadow 0.35s, border-color 0.35s;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.5);
     }
     .sp-stat-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6);
-      border-color: rgba(56, 189, 248, 0.4);
+      transform: translateY(-5px);
+      box-shadow: 0 24px 50px rgba(0, 0, 0, 0.7);
+      border-color: rgba(56, 189, 248, 0.45);
     }
     .sp-stat-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 14px;
+      margin-bottom: 16px;
     }
     .sp-stat-icon {
-      width: 42px;
-      height: 42px;
-      border-radius: 12px;
-      background: rgba(58, 90, 255, 0.18);
-      border: 1px solid rgba(58, 90, 255, 0.35);
+      width: 44px;
+      height: 44px;
+      border-radius: 13px;
+      background: rgba(56, 189, 248, 0.16);
+      border: 1px solid rgba(56, 189, 248, 0.35);
       color: #38BDF8;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.3rem;
+      font-size: 1.35rem;
     }
     .sp-stat-num {
       font-family: var(--font-display);
       font-weight: 900;
-      font-size: 1.7rem;
+      font-size: 1.8rem;
       color: #38BDF8;
       letter-spacing: -0.02em;
     }
     .sp-stat-card h4 {
-      font-size: 1.08rem;
+      font-size: 1.1rem;
       font-weight: 700;
       color: #FFFFFF;
       margin-bottom: 6px;
     }
     .sp-stat-card p {
-      font-size: 0.86rem;
+      font-size: 0.88rem;
       color: #94A3B8;
       line-height: 1.55;
     }
@@ -630,11 +641,11 @@
         grid-template-columns: repeat(2, 1fr);
       }
       .sp-center-badge {
-        width: 130px;
-        height: 130px;
+        width: 140px;
+        height: 140px;
       }
       .sp-badge-num {
-        font-size: 2.1rem;
+        font-size: 2.2rem;
       }
       .sp-stats-grid {
         grid-template-columns: 1fr;
@@ -648,7 +659,7 @@
       <!-- Section Head -->
       <div class="sp-head text-center">
         <span class="sp-eyebrow"><i class="ph-bold ph-seal-check"></i> Social Proof</span>
-        <h2 class="sp-title reveal">Helping Creators Build The Next Generation Of Instagram Pages.</h2>
+        <h2 class="sp-title reveal">Helping Creators Build The <span>Next Generation</span> Of Instagram Pages.</h2>
         <p class="sp-sub reveal">Vyralify combines AI-powered tools with proven strategies from experienced creators to help you build high-performing Instagram pages, generate millions of organic views, and monetise your audience.</p>
       </div>
 
@@ -658,7 +669,7 @@
           <!-- Rendered dynamically by script using AI avatars array -->
         </div>
 
-        <!-- Center Overlapping Stat Badge -->
+        <!-- Center Overlapping 3D Stat Badge -->
         <div class="sp-center-badge">
           <div class="sp-badge-icon"><i class="ph-bold ph-sparkle"></i></div>
           <div class="sp-badge-num">120<span>+</span></div>
@@ -714,7 +725,7 @@
         </div>
       </div>
 
-      <p class="closing-line reveal" style="text-align: center; margin-top: 52px; font-family: var(--font-display); font-size: 1.25rem; font-weight: 500; color: #FFFFFF; max-width: 600px; margin-inline: auto;">The next successful Instagram page could be yours. Start building today with Vyralify.</p>
+      <p class="closing-line reveal" style="text-align: center; margin-top: 56px; font-family: var(--font-display); font-size: 1.25rem; font-weight: 500; color: #FFFFFF; max-width: 600px; margin-inline: auto;">The next successful Instagram page could be yours. Start building today with Vyralify.</p>
     </div>
   </section>
 

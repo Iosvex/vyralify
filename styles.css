@@ -1858,25 +1858,287 @@ h4 {
 }
 
 /* ============================================================
-   SOCIAL PROOF SECTION
+   ANIMATED INSTAGRAM SHOWCASE & SOCIAL PROOF SECTION
    ============================================================ */
-.proof {
+.proof { position: relative; overflow: hidden; }
+.proof-bg { position: absolute; inset: 0; z-index: 0; opacity: .55; -webkit-mask-image: radial-gradient(ellipse at center, #000 40%, transparent 78%); }
+.proof-content { position: relative; z-index: 2; }
+
+/* Showcase Container (Matching Reference Design) */
+.ig-showcase-container {
+  margin: 36px auto 48px;
+  max-width: 720px;
+  width: 100%;
+}
+.ig-showcase-card {
   position: relative;
+  background: linear-gradient(145deg, #07090E 0%, #111522 100%);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 32px;
+  padding: 36px 20px 28px;
   overflow: hidden;
+  box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.75), inset 0 1px 0 rgba(255, 255, 255, 0.18);
 }
 
-.proof-bg {
+.ig-showcase-header {
+  text-align: center;
+  margin-bottom: 28px;
+  padding: 0 16px;
+}
+.ig-showcase-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 4vw, 2.1rem);
+  font-weight: 800;
+  color: #FFFFFF;
+  letter-spacing: -.03em;
+  margin-bottom: 8px;
+}
+.ig-showcase-sub {
+  font-size: 0.92rem;
+  color: #94A3B8;
+  max-width: 440px;
+  margin: 0 auto;
+  line-height: 1.5;
+}
+
+/* 3-Column Animated Visual Cards Grid (Matching Reference Screenshot) */
+.ig-cards-grid-wrapper {
+  position: relative;
+  height: 420px;
+  overflow: hidden;
+  border-radius: 24px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  padding: 0 16px;
+  mask-image: linear-gradient(to bottom, transparent, #000 12%, #000 88%, transparent);
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 12%, #000 88%, transparent);
+}
+
+.ig-card-col {
+  overflow: hidden;
+  height: 100%;
+  position: relative;
+}
+
+.ig-card-track {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.col-up .ig-card-track {
+  animation: colScrollUp 28s linear infinite;
+}
+
+.col-down .ig-card-track {
+  animation: colScrollDown 32s linear infinite;
+}
+
+.ig-cards-grid-wrapper:hover .ig-card-track {
+  animation-play-state: paused;
+}
+
+@keyframes colScrollUp {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-50%); }
+}
+
+@keyframes colScrollDown {
+  0% { transform: translateY(-50%); }
+  100% { transform: translateY(0); }
+}
+
+/* Large Visual Card Tile */
+.ig-theme-card {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: #111520;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+  transition: transform 0.3s ease, border-color 0.3s;
+}
+
+.ig-theme-card.dummy-placeholder {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  pointer-events: none;
+}
+
+.ig-theme-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.ig-theme-card:hover img {
+  transform: scale(1.05);
+}
+
+.ig-card-overlay {
   position: absolute;
   inset: 0;
-  z-index: 0;
-  opacity: .55;
-  -webkit-mask-image: radial-gradient(ellipse at center, #000 40%, transparent 78%);
+  background: linear-gradient(to top, rgba(9, 11, 16, 0.92) 0%, rgba(9, 11, 16, 0.3) 60%, transparent 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 12px 14px;
+  color: #ffffff;
 }
 
-.proof-content {
-  position: relative;
-  z-index: 2;
+.ig-card-handle {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(0.78rem, 1.8vw, 0.92rem);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
+
+.ig-card-handle i {
+  color: #38BDF8;
+  font-size: 0.95rem;
+}
+
+.ig-card-meta {
+  font-size: 0.72rem;
+  color: #94A3B8;
+  margin-top: 2px;
+}
+
+/* Central Floating 3D Badge Overlay (1:1 Reference Match) */
+.ig-center-3d-badge {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 155px;
+  height: 155px;
+  background: rgba(13, 17, 26, 0.94);
+  border: 1.5px solid rgba(255, 255, 255, 0.22);
+  border-radius: 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 25;
+  box-shadow: 0 35px 70px rgba(0, 0, 0, 0.85), 0 0 40px rgba(56, 189, 248, 0.2);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  text-align: center;
+}
+
+.badge-brand-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--blue) 0%, #1E3AD1 100%);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  margin-bottom: 6px;
+  box-shadow: 0 4px 12px rgba(58, 90, 255, 0.4);
+}
+
+.badge-main-number {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 2.6rem;
+  color: #FFFFFF;
+  line-height: 1;
+  letter-spacing: -.04em;
+}
+
+.badge-main-number span {
+  color: var(--blue);
+}
+
+.badge-main-label {
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: #94A3B8;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  margin-top: 4px;
+}
+
+/* Detailed Statistics Cards Grid */
+.stats-cards-wrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 18px;
+  margin-top: 44px;
+}
+.stat-detail-card {
+  background: #FFFFFF;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 24px 20px;
+  transition: transform 0.3s var(--ease-spring), box-shadow 0.3s;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+.stat-detail-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.08);
+  border-color: rgba(58, 90, 255, 0.3);
+}
+.stat-detail-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.stat-detail-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: var(--blue-soft);
+  color: var(--blue);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+}
+.stat-detail-number {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.6rem;
+  color: var(--ink);
+  letter-spacing: -.02em;
+}
+.stat-detail-card h4 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+.stat-detail-card p {
+  font-size: 0.86rem;
+  color: var(--ink-soft);
+  line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+  .ig-center-3d-badge {
+    width: 120px;
+    height: 120px;
+  }
+  .badge-main-number {
+    font-size: 2rem;
+  }
+  .stats-cards-wrapper {
+    grid-template-columns: 1fr;
+  }
+}
+.closing-line { text-align: center; margin-top: 48px; font-family: var(--font-display); font-size: 1.3rem; font-weight: 500; color: var(--ink); max-width: 600px; margin-inline: auto; }
 
 .stats-grid {
   display: grid;

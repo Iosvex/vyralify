@@ -354,226 +354,408 @@
   <div class="hero-bottom-fade"></div>
 
   <!-- ============================================================
-       4. SOCIAL PROOF
+       4. SOCIAL PROOF (BENTO GRID WITH AI AVATARS & CENTER BADGE)
        ============================================================ -->
-  <section class="section proof" id="proof">
-    <div class="container proof-content">
-      <div class="section-head text-center">
-        <span class="eyebrow">Social Proof</span>
-        <h2 class="h2 reveal">Helping Creators Build The Next Generation Of Instagram Pages.</h2>
-        <p class="sub reveal">Vyralify combines AI-powered tools with proven strategies from experienced creators to help you build high-performing Instagram pages, generate millions of organic views, and monetise your audience.</p>
+  <style>
+    .sp-section {
+      position: relative;
+      background: #07090E;
+      color: #FFFFFF;
+      padding: 90px 0 100px;
+      overflow: hidden;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .sp-container {
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 0 20px;
+      position: relative;
+      z-index: 2;
+    }
+    .sp-head {
+      text-align: center;
+      max-width: 720px;
+      margin: 0 auto 48px;
+    }
+    .sp-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 16px;
+      border-radius: 99px;
+      background: rgba(58, 90, 255, 0.14);
+      border: 1px solid rgba(58, 90, 255, 0.3);
+      color: #38BDF8;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .sp-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.7rem, 4vw, 2.5rem);
+      font-weight: 800;
+      color: #FFFFFF;
+      line-height: 1.25;
+      letter-spacing: -0.03em;
+      margin-bottom: 14px;
+    }
+    .sp-sub {
+      font-size: clamp(0.9rem, 2vw, 1.02rem);
+      color: #94A3B8;
+      line-height: 1.6;
+    }
+
+    /* Bento Grid Wrapper & Floating Vignette Container */
+    .sp-bento-stage {
+      position: relative;
+      max-width: 900px;
+      margin: 0 auto 60px;
+      border-radius: 32px;
+      background: linear-gradient(155deg, #0A0D18 0%, #131828 100%);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      padding: 36px 24px;
+      box-shadow: 0 45px 120px -20px rgba(0, 0, 0, 0.9), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+      overflow: hidden;
+    }
+
+    /* Edge Vignette Mask Overlay */
+    .sp-bento-stage::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at center, transparent 40%, rgba(7, 9, 14, 0.75) 100%);
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    /* 3-Column Bento Grid */
+    .sp-bento-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .sp-bento-col {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .sp-col-up {
+      animation: spFloatUp 22s ease-in-out infinite alternate;
+    }
+    .sp-col-down {
+      animation: spFloatDown 26s ease-in-out infinite alternate;
+    }
+
+    @keyframes spFloatUp {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-30px); }
+    }
+    @keyframes spFloatDown {
+      0% { transform: translateY(-25px); }
+      100% { transform: translateY(5px); }
+    }
+
+    .sp-bento-stage:hover .sp-bento-col {
+      animation-play-state: paused;
+    }
+
+    /* Tile Card */
+    .sp-tile {
+      position: relative;
+      aspect-ratio: 1 / 1;
+      border-radius: 22px;
+      overflow: hidden;
+      border: 1.5px solid rgba(255, 255, 255, 0.15);
+      background: #0E121D;
+      box-shadow: 0 14px 35px rgba(0, 0, 0, 0.6);
+      transition: transform 0.35s ease, border-color 0.35s;
+    }
+    .sp-tile img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.45s ease;
+    }
+    .sp-tile:hover img {
+      transform: scale(1.06);
+    }
+    .sp-tile-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(7, 9, 14, 0.95) 0%, rgba(7, 9, 14, 0.35) 60%, transparent 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 14px;
+    }
+    .sp-tile-handle {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(0.78rem, 1.8vw, 0.92rem);
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .sp-tile-handle i {
+      color: #38BDF8;
+      font-size: 0.95rem;
+    }
+    .sp-tile-meta {
+      font-size: 0.72rem;
+      color: #94A3B8;
+      margin-top: 2px;
+    }
+
+    /* Center Overlapping 3D Stat Badge */
+    .sp-center-badge {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 165px;
+      height: 165px;
+      background: rgba(14, 18, 28, 0.94);
+      border: 1.5px solid rgba(255, 255, 255, 0.24);
+      border-radius: 32px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 25;
+      box-shadow: 0 35px 90px rgba(0, 0, 0, 0.95), 0 0 50px rgba(58, 90, 255, 0.3);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      text-align: center;
+    }
+    .sp-badge-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--blue) 0%, #1E3AD1 100%);
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      margin-bottom: 6px;
+      box-shadow: 0 6px 18px rgba(58, 90, 255, 0.45);
+    }
+    .sp-badge-num {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 2.7rem;
+      color: #FFFFFF;
+      line-height: 1;
+      letter-spacing: -0.04em;
+    }
+    .sp-badge-num span {
+      color: var(--blue);
+    }
+    .sp-badge-lbl {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #94A3B8;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-top: 4px;
+    }
+
+    /* Detailed 5 Statistics Cards Below */
+    .sp-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 18px;
+      margin-top: 48px;
+    }
+    .sp-stat-card {
+      background: #0C101A;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: var(--radius-md);
+      padding: 26px 20px;
+      transition: transform 0.3s var(--ease-spring), box-shadow 0.3s, border-color 0.3s;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    }
+    .sp-stat-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6);
+      border-color: rgba(56, 189, 248, 0.4);
+    }
+    .sp-stat-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+    .sp-stat-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: rgba(58, 90, 255, 0.18);
+      border: 1px solid rgba(58, 90, 255, 0.35);
+      color: #38BDF8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+    }
+    .sp-stat-num {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 1.7rem;
+      color: #38BDF8;
+      letter-spacing: -0.02em;
+    }
+    .sp-stat-card h4 {
+      font-size: 1.08rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      margin-bottom: 6px;
+    }
+    .sp-stat-card p {
+      font-size: 0.86rem;
+      color: #94A3B8;
+      line-height: 1.55;
+    }
+
+    @media (max-width: 768px) {
+      .sp-bento-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .sp-center-badge {
+        width: 130px;
+        height: 130px;
+      }
+      .sp-badge-num {
+        font-size: 2.1rem;
+      }
+      .sp-stats-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+
+  <section class="sp-section" id="proof">
+    <div class="sp-container">
+      
+      <!-- Section Head -->
+      <div class="sp-head text-center">
+        <span class="sp-eyebrow"><i class="ph-bold ph-seal-check"></i> Social Proof</span>
+        <h2 class="sp-title reveal">Helping Creators Build The Next Generation Of Instagram Pages.</h2>
+        <p class="sp-sub reveal">Vyralify combines AI-powered tools with proven strategies from experienced creators to help you build high-performing Instagram pages, generate millions of organic views, and monetise your audience.</p>
       </div>
 
-      <!-- ANIMATED INSTAGRAM THEME PAGES SHOWCASE GRID (Clean 1:1 Design) -->
-      <div class="ig-showcase-container reveal">
-        <div class="ig-showcase-card">
+      <!-- Bento Grid Stage -->
+      <div class="sp-bento-stage reveal">
+        <div class="sp-bento-grid" id="sp-bento-grid">
+          <!-- Rendered dynamically by script using AI avatars array -->
+        </div>
 
-          <!-- Top Banner Text inside Card -->
-          <div class="ig-showcase-header">
-            <h3 class="ig-showcase-title">Join 120+ Profitable Theme Pages</h3>
-            <p class="ig-showcase-sub">Verified theme pages win 30% more organic views and gain brand trust</p>
-          </div>
-
-          <!-- 3-Column Animated Grid with Large Square Visual Cards -->
-          <div class="ig-cards-grid-wrapper">
-
-            <!-- Column 1 (Scrolls Up) -->
-            <div class="ig-card-col col-up">
-              <div class="ig-card-track">
-                <!-- Card 1 -->
-                <div class="ig-theme-card">
-                  <img src="/assets/img/ig_wealth.png" alt="Wealth Theme Page">
-                  <div class="ig-card-overlay">
-                    <span class="ig-card-handle">@wealth.blueprint <i class="ph-bold ph-seal-check"></i></span>
-                    <span class="ig-card-meta">142K Followers</span>
-                  </div>
-                </div>
-                <!-- Card 2 -->
-                <div class="ig-theme-card">
-                  <img src="/assets/img/ig_stoicism.png" alt="Stoicism Theme Page">
-                  <div class="ig-card-overlay">
-                    <span class="ig-card-handle">@stoic.empire <i class="ph-bold ph-seal-check"></i></span>
-                    <span class="ig-card-meta">89K Followers</span>
-                  </div>
-                </div>
-                <!-- Card 3 -->
-                <div class="ig-theme-card">
-                  <img src="/assets/img/ig_luxury.png" alt="Luxury Theme Page">
-                  <div class="ig-card-overlay">
-                    <span class="ig-card-handle">@luxury.aesthetics <i class="ph-bold ph-seal-check"></i></span>
-                    <span class="ig-card-meta">210K Followers</span>
-                  </div>
-                </div>
-                <!-- Loop repeats for smooth marquee -->
-                <div class="ig-theme-card">
-                  <img src="/assets/img/ig_wealth.png" alt="Wealth Theme Page">
-                  <div class="ig-card-overlay">
-                    <span class="ig-card-handle">@wealth.blueprint <i class="ph-bold ph-seal-check"></i></span>
-                    <span class="ig-card-meta">142K Followers</span>
-                  </div>
-                </div>
-                <div class="ig-theme-card">
-                  <img src="/assets/img/ig_stoicism.png" alt="Stoicism Theme Page">
-                  <div class="ig-card-overlay">
-                    <span class="ig-card-handle">@stoic.empire <i class="ph-bold ph-seal-check"></i></span>
-                    <span class="ig-card-meta">89K Followers</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Column 2 (Scrolls Down - Center Column) -->
-            <div class="ig-card-col col-down">
-              <div class="ig-card-track">
-                <!-- Card 4 -->
-                <div class="ig-theme-card">
-                  <img src="/assets/img/ig_motivation.png" alt="Motivation Theme Page">
-                  <div class="ig-card-overlay">
-                    <span class="ig-card-handle">@motivation.daily <i class="ph-bold ph-seal-check"></i></span>
-                    <span class="ig-card-meta">350K Followers</span>
-                  </div>
-                </div>
-                <!-- Card 5 -->
-                <div class="ig-theme-card">
-                  <img src="/assets/img/avatar1.png" alt="Cars Theme Page">
-                  <div class="ig-card-overlay">
-                    <span class="ig-card-handle">@exotic.cars.hub <i class="ph-bold ph-seal-check"></i></span>
-                    <span class="ig-card-meta">175K Followers</span>
-                  </div>
-                </div>
-                <!-- Card 6 -->
-                <div class="ig-theme-card">
-                  <img src="/assets/img/avatar2.png" alt="Marketing Theme Page">
-                  <div class="ig-card-overlay">
-                    <span class="ig-card-handle">@marketing.hacks <i class="ph-bold ph-seal-check"></i></span>
-                    <span class="ig-card-meta">95K Followers</span>
-                  </div>
-                </div>
-                <!-- Loop repeats for smooth marquee -->
-                <div class="ig-theme-card">
-                  <img src="/assets/img/ig_motivation.png" alt="Motivation Theme Page">
-                  <div class="ig-card-overlay">
-                    <span class="ig-card-handle">@motivation.daily <i class="ph-bold ph-seal-check"></i></span>
-                    <span class="ig-card-meta">350K Followers</span>
-                  </div>
-                </div>
-                <div class="ig-theme-card">
-                  <img src="/assets/img/avatar1.png" alt="Cars Theme Page">
-                  <div class="ig-card-overlay">
-                    <span class="ig-card-handle">@exotic.cars.hub <i class="ph-bold ph-seal-check"></i></span>
-                    <span class="ig-card-meta">175K Followers</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Column 3 (Scrolls Up) -->
-            <div class="ig-card-col col-up">
-              <div class="ig-card-track">
-                <!-- Card 7 -->
-                <div class="ig-theme-card">
-                  <img src="/assets/img/avatar3.png" alt="Quotes Theme Page">
-                  <div class="ig-card-overlay">
-                    <span class="ig-card-handle">@quotes.empire <i class="ph-bold ph-seal-check"></i></span>
-                    <span class="ig-card-meta">410K Followers</span>
-                  </div>
-                </div>
-                <!-- Card 8 -->
-                <div class="ig-theme-card">
-                  <img src="/assets/img/ig_wealth.png" alt="Finance Theme Page">
-                  <div class="ig-card-overlay">
-                    <span class="ig-card-handle">@finance.freedom <i class="ph-bold ph-seal-check"></i></span>
-                    <span class="ig-card-meta">128K Followers</span>
-                  </div>
-                </div>
-                <!-- Card 9 -->
-                <div class="ig-theme-card">
-                  <img src="/assets/img/ig_stoicism.png" alt="Stoic Mindset Page">
-                  <div class="ig-card-overlay">
-                    <span class="ig-card-handle">@ancient.mindset <i class="ph-bold ph-seal-check"></i></span>
-                    <span class="ig-card-meta">67K Followers</span>
-                  </div>
-                </div>
-                <!-- Loop repeats for smooth marquee -->
-                <div class="ig-theme-card">
-                  <img src="/assets/img/avatar3.png" alt="Quotes Theme Page">
-                  <div class="ig-card-overlay">
-                    <span class="ig-card-handle">@quotes.empire <i class="ph-bold ph-seal-check"></i></span>
-                    <span class="ig-card-meta">410K Followers</span>
-                  </div>
-                </div>
-                <div class="ig-theme-card">
-                  <img src="/assets/img/ig_wealth.png" alt="Finance Theme Page">
-                  <div class="ig-card-overlay">
-                    <span class="ig-card-handle">@finance.freedom <i class="ph-bold ph-seal-check"></i></span>
-                    <span class="ig-card-meta">128K Followers</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Central Floating 3D Badge Overlay (Matching Reference Screenshot) -->
-            <div class="ig-center-3d-badge">
-              <div class="badge-brand-icon"><i class="ph-bold ph-sparkle"></i></div>
-              <div class="badge-main-number">120<span>+</span></div>
-              <div class="badge-main-label">Pages Built</div>
-            </div>
-
-          </div>
+        <!-- Center Overlapping Stat Badge -->
+        <div class="sp-center-badge">
+          <div class="sp-badge-icon"><i class="ph-bold ph-sparkle"></i></div>
+          <div class="sp-badge-num">120<span>+</span></div>
+          <div class="sp-badge-lbl">Pages Built</div>
         </div>
       </div>
 
-      <!-- STATISTICS DETAILED CARDS GRID -->
-      <div class="stats-cards-wrapper reveal">
-        <div class="stat-detail-card">
-          <div class="stat-detail-header">
-            <span class="stat-detail-icon"><div class="stat-detail-icon-inner"><i class="ph-bold ph-file-text"></i></div></span>
-            <div class="stat-detail-number">120+</div>
+      <!-- 5 Statistics Cards Below -->
+      <div class="sp-stats-grid reveal">
+        <div class="sp-stat-card">
+          <div class="sp-stat-header">
+            <span class="sp-stat-icon"><i class="ph-bold ph-file-text"></i></span>
+            <div class="sp-stat-num">120+</div>
           </div>
           <h4>Pages Built</h4>
           <p>Creators have launched over 120 Instagram pages using Vyralify systems.</p>
         </div>
 
-        <div class="stat-detail-card">
-          <div class="stat-detail-header">
-            <span class="stat-detail-icon"><div class="stat-detail-icon-inner"><i class="ph-bold ph-rocket-launch"></i></div></span>
-            <div class="stat-detail-number">83</div>
+        <div class="sp-stat-card">
+          <div class="sp-stat-header">
+            <span class="sp-stat-icon"><i class="ph-bold ph-rocket-launch"></i></span>
+            <div class="sp-stat-num">83</div>
           </div>
           <h4>Active Pages</h4>
           <p>Pages consistently posting and growing using our frameworks.</p>
         </div>
 
-        <div class="stat-detail-card">
-          <div class="stat-detail-header">
-            <span class="stat-detail-icon"><div class="stat-detail-icon-inner"><i class="ph-bold ph-eye"></i></div></span>
-            <div class="stat-detail-number">500M+</div>
+        <div class="sp-stat-card">
+          <div class="sp-stat-header">
+            <span class="sp-stat-icon"><i class="ph-bold ph-eye"></i></span>
+            <div class="sp-stat-num">500M+</div>
           </div>
           <h4>Views Generated</h4>
           <p>Organic reach generated across our Instagram pages.</p>
         </div>
 
-        <div class="stat-detail-card">
-          <div class="stat-detail-header">
-            <span class="stat-detail-icon"><div class="stat-detail-icon-inner"><i class="ph-bold ph-currency-dollar"></i></div></span>
-            <div class="stat-detail-number">$10,000+</div>
+        <div class="sp-stat-card">
+          <div class="sp-stat-header">
+            <span class="sp-stat-icon"><i class="ph-bold ph-currency-dollar"></i></span>
+            <div class="sp-stat-num">$10,000+</div>
           </div>
           <h4>Revenue Generated</h4>
           <p>Generated through digital products, affiliates and monetisation strategies.</p>
         </div>
 
-        <div class="stat-detail-card">
-          <div class="stat-detail-header">
-            <span class="stat-detail-icon"><div class="stat-detail-icon-inner"><i class="ph-bold ph-shopping-bag"></i></div></span>
-            <div class="stat-detail-number">1,500+</div>
+        <div class="sp-stat-card">
+          <div class="sp-stat-header">
+            <span class="sp-stat-icon"><i class="ph-bold ph-shopping-bag"></i></span>
+            <div class="sp-stat-num">1,500+</div>
           </div>
           <h4>Digital Product Sales</h4>
           <p>Successfully sold through Instagram pages.</p>
         </div>
       </div>
 
-      <p class="closing-line reveal" style="margin-top: 40px;">The next successful Instagram page could be yours. Start building today with Vyralify.</p>
+      <p class="closing-line reveal" style="text-align: center; margin-top: 52px; font-family: var(--font-display); font-size: 1.25rem; font-weight: 500; color: #FFFFFF; max-width: 600px; margin-inline: auto;">The next successful Instagram page could be yours. Start building today with Vyralify.</p>
     </div>
   </section>
+
+  <script>
+    (function () {
+      const pages = [
+        { handle: '@wealth.blueprint', followers: '142K Followers', img: '/assets/img/ig-avatars/wealth.png' },
+        { handle: '@stoic.empire', followers: '89K Followers', img: '/assets/img/ig-avatars/stoicism.png' },
+        { handle: '@luxury.aesthetics', followers: '210K Followers', img: '/assets/img/ig-avatars/luxury.png' },
+        { handle: '@motivation.daily', followers: '350K Followers', img: '/assets/img/ig-avatars/motivation.png' },
+        { handle: '@exotic.cars.hub', followers: '175K Followers', img: '/assets/img/ig-avatars/cars.png' },
+        { handle: '@finance.freedom', followers: '128K Followers', img: '/assets/img/ig-avatars/finance.png' }
+      ];
+
+      const grid = document.getElementById('sp-bento-grid');
+      if (!grid) return;
+
+      // Group into 3 animated floating columns
+      const cols = [[pages[0], pages[1]], [pages[2], pages[3]], [pages[4], pages[5]]];
+      let html = '';
+
+      cols.forEach((colPages, idx) => {
+        const isUp = idx % 2 === 0;
+        html += `<div class="sp-bento-col ${isUp ? 'sp-col-up' : 'sp-col-down'}">`;
+        colPages.forEach(p => {
+          html += `
+            <div class="sp-tile">
+              <img src="${p.img}" alt="${p.handle}" loading="lazy">
+              <div class="sp-tile-overlay">
+                <span class="sp-tile-handle">${p.handle} <i class="ph-bold ph-seal-check"></i></span>
+                <span class="sp-tile-meta">${p.followers}</span>
+              </div>
+            </div>
+          `;
+        });
+        html += `</div>`;
+      });
+
+      grid.innerHTML = html;
+    })();
+  </script>
 
   <!-- ============================================================
        5. FEATURES

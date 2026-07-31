@@ -1,15 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Creator Dashboard — Vyralify</title>
-  <meta name="description" content="Vyralify Member Workspace. Access your curriculum, AI creator tools, growth analytics, and private community.">
+  <meta name="description"
+    content="Vyralify Member Workspace. Access your curriculum, AI creator tools, growth analytics, and private community.">
 
   <!-- Fonts & Styles -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet">
   <link href="https://api.fontshare.com/v2/css?f[]=general-sans@500,600,700&display=swap" rel="stylesheet">
   <link rel="icon" href="/vyralifylogo.jpeg">
   <link rel="stylesheet" href="/styles.css">
@@ -28,6 +32,7 @@
       gap: 14px;
       margin: 1.5rem auto 2rem;
     }
+
     .vf-banner {
       position: relative;
       overflow: hidden;
@@ -41,6 +46,7 @@
       justify-content: space-between;
       gap: 16px;
     }
+
     .vf-banner .vf-ghost-text {
       position: absolute;
       right: -10px;
@@ -54,6 +60,7 @@
       pointer-events: none;
       line-height: 1;
     }
+
     .vf-banner-top {
       display: flex;
       align-items: flex-start;
@@ -62,11 +69,13 @@
       flex-wrap: wrap;
       z-index: 1;
     }
+
     .vf-badges {
       display: flex;
       gap: 8px;
       flex-wrap: wrap;
     }
+
     .vf-badge {
       font-size: .7rem;
       font-weight: 600;
@@ -79,21 +88,25 @@
       gap: 5px;
       white-space: nowrap;
     }
+
     .vf-badge.plain {
       background: rgba(255, 255, 255, .08);
       color: #fff;
     }
+
     .vf-badge .vf-dot {
       width: 6px;
       height: 6px;
       border-radius: 50%;
       background: #3DDC97;
     }
+
     .vf-banner-actions {
       display: flex;
       gap: 8px;
       z-index: 1;
     }
+
     .vf-btn {
       font-size: .78rem;
       font-weight: 600;
@@ -107,21 +120,25 @@
       border: none;
       cursor: pointer;
     }
+
     .vf-btn.solid {
       background: #fff;
       color: #0C2118;
     }
+
     .vf-btn.ghost {
       background: rgba(255, 255, 255, .08);
       color: #fff;
       border: 1px solid rgba(255, 255, 255, .15);
     }
+
     .vf-banner-body h2 {
       font-size: clamp(1.3rem, 4vw, 1.7rem);
       font-weight: 700;
       z-index: 1;
       text-align: left;
     }
+
     .vf-banner-body p {
       font-size: .85rem;
       color: #B9C4BE;
@@ -130,9 +147,11 @@
       max-width: 420px;
       text-align: left;
     }
+
     .vf-progress {
       z-index: 1;
     }
+
     .vf-progress-top {
       display: flex;
       justify-content: space-between;
@@ -140,22 +159,26 @@
       color: #B9C4BE;
       margin-bottom: 6px;
     }
+
     .vf-progress-track {
       height: 6px;
       border-radius: 6px;
       background: rgba(255, 255, 255, .12);
       overflow: hidden;
     }
+
     .vf-progress-fill {
       height: 100%;
       background: #3DDC97;
       border-radius: 6px;
     }
+
     .vf-stats {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 12px;
     }
+
     .vf-stat {
       background: #fff;
       border-radius: 16px;
@@ -164,6 +187,7 @@
       min-width: 0;
       text-align: left;
     }
+
     .vf-stat-label {
       display: flex;
       align-items: center;
@@ -172,18 +196,21 @@
       color: #667085;
       margin-bottom: 10px;
     }
+
     .vf-stat-label .vf-dot {
       width: 6px;
       height: 6px;
       border-radius: 50%;
       flex-shrink: 0;
     }
+
     .vf-stat-value {
       font-size: clamp(1.05rem, 3.4vw, 1.35rem);
       font-weight: 700;
       color: #101828;
       white-space: nowrap;
     }
+
     .vf-stat-delta {
       font-size: .72rem;
       color: #12B76A;
@@ -192,14 +219,17 @@
       align-items: center;
       gap: 3px;
     }
+
     .vf-stat-delta.down {
       color: #F04438;
     }
+
     .vf-row {
       display: grid;
       grid-template-columns: 1.5fr 1fr 0.8fr;
       gap: 12px;
     }
+
     .vf-card {
       background: #fff;
       border-radius: 16px;
@@ -208,21 +238,25 @@
       min-width: 0;
       text-align: left;
     }
+
     .vf-card-head {
       display: flex;
       align-items: center;
       justify-content: space-between;
       margin-bottom: 12px;
     }
+
     .vf-card-head h4 {
       font-size: .85rem;
       font-weight: 600;
       color: #101828;
     }
+
     .vf-card-head .vf-sub {
       font-size: .7rem;
       color: #98A2B3;
     }
+
     .vf-live {
       font-size: .68rem;
       color: #12B76A;
@@ -231,17 +265,20 @@
       gap: 4px;
       font-weight: 600;
     }
+
     .vf-live .vf-dot {
       width: 5px;
       height: 5px;
       border-radius: 50%;
       background: #12B76A;
     }
+
     .vf-chart svg {
       width: 100%;
       height: auto;
       display: block;
     }
+
     .vf-activity-row {
       display: flex;
       align-items: center;
@@ -250,9 +287,11 @@
       border-bottom: 1px solid #F2F4F7;
       font-size: .8rem;
     }
+
     .vf-activity-row:last-child {
       border-bottom: none;
     }
+
     .vf-icon {
       width: 26px;
       height: 26px;
@@ -262,6 +301,7 @@
       place-items: center;
       font-size: .7rem;
     }
+
     .vf-activity-row .vf-label {
       flex: 1;
       color: #475467;
@@ -269,16 +309,19 @@
       text-overflow: ellipsis;
       white-space: nowrap;
     }
+
     .vf-activity-row .vf-value {
       color: #101828;
       font-weight: 600;
       white-space: nowrap;
     }
+
     .vf-activity-row .vf-time {
       color: #98A2B3;
       font-size: .7rem;
       white-space: nowrap;
     }
+
     .vf-reach-row {
       display: flex;
       align-items: center;
@@ -287,6 +330,7 @@
       font-size: .8rem;
       color: #475467;
     }
+
     .vf-reach-row .vf-plat-icon {
       width: 22px;
       height: 22px;
@@ -298,34 +342,42 @@
       font-size: .65rem;
       font-weight: 700;
     }
+
     .vf-reach-row .vf-val {
       margin-left: auto;
       font-weight: 600;
       color: #101828;
     }
+
     @media (max-width: 900px) {
       .vf-stats {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
+
       .vf-row {
         grid-template-columns: 1fr;
       }
+
       .vf-banner-top {
         flex-direction: column;
         align-items: stretch;
       }
+
       .vf-banner-actions {
         width: 100%;
       }
+
       .vf-banner-actions .vf-btn {
         flex: 1;
         justify-content: center;
       }
     }
+
     @media (max-width: 420px) {
       .vf-stats {
         grid-template-columns: 1fr 1fr;
       }
+
       .vf-badge {
         font-size: .65rem;
         padding: 4px 8px;
@@ -333,6 +385,7 @@
     }
   </style>
 </head>
+
 <body class="app-page" data-admin="false">
 
   <!-- Top Fixed Scroll Progress Indicator -->
@@ -341,7 +394,7 @@
   <!-- App Top Bar -->
   <header class="app-topbar">
     <a class="topbar-brand" href="/index.html"><span class="logo-dot"></span>VYRALIFY</a>
-    
+
     <nav class="topbar-nav-links" aria-label="Dashboard">
       <a href="#" data-category="foundation" class="active">Foundation</a>
       <a href="#" data-category="content">Content &amp; Reels</a>
@@ -349,30 +402,40 @@
       <a href="#" data-category="monetisation">Monetisation</a>
       <a href="#" data-category="community">Community</a>
     </nav>
-    
+
     <div class="topbar-context">
       <div class="topbar-credits">
         <i class="ph-bold ph-sparkle"></i>
         <span id="stat-credits">3 / 3</span>
         <span style="font-size:0.72rem;opacity:.7">AI credits</span>
       </div>
-      
+
       <div class="topbar-user" id="topbar-user-menu" role="button" tabindex="0" aria-haspopup="true">
         <div class="avatar" id="user-avatar">PRO</div>
-        <span id="member-name" style="max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Active Creator</span>
+        <span id="member-name" style="max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Active
+          Creator</span>
         <i class="ph-bold ph-caret-down" style="font-size:0.8rem;"></i>
       </div>
     </div>
   </header>
 
   <!-- User dropdown -->
-  <div id="user-dropdown" style="display:none; position:fixed; top:80px; right:calc((100% - min(95%,1200px))/2 + 16px); background:#fff; border:1px solid var(--line); border-radius:var(--radius-md); box-shadow:var(--shadow-lg); padding:1rem; z-index:200; min-width:200px;">
-    <div style="font-size:0.78rem; font-weight:700; color:var(--blue); padding:0.2rem 0.4rem; text-transform:uppercase; letter-spacing:.05em;" id="tier-state"><i class="ph-bold ph-seal-check"></i> Active Member</div>
+  <div id="user-dropdown"
+    style="display:none; position:fixed; top:80px; right:calc((100% - min(95%,1200px))/2 + 16px); background:#fff; border:1px solid var(--line); border-radius:var(--radius-md); box-shadow:var(--shadow-lg); padding:1rem; z-index:200; min-width:200px;">
+    <div
+      style="font-size:0.78rem; font-weight:700; color:var(--blue); padding:0.2rem 0.4rem; text-transform:uppercase; letter-spacing:.05em;"
+      id="tier-state"><i class="ph-bold ph-seal-check"></i> Active Member</div>
     <div style="height:1px; background:var(--line); margin:0.6rem 0;"></div>
-    <a href="/index.html" style="display:block; padding:0.4rem 0.4rem; font-size:0.88rem; font-weight:500; color:var(--ink-soft);"><i class="ph-bold ph-house"></i> Landing Page</a>
-    <a href="/blog.html" style="display:block; padding:0.4rem 0.4rem; font-size:0.88rem; font-weight:500; color:var(--ink-soft);"><i class="ph-bold ph-book-open"></i> Growth Blog</a>
+    <a href="/index.html"
+      style="display:block; padding:0.4rem 0.4rem; font-size:0.88rem; font-weight:500; color:var(--ink-soft);"><i
+        class="ph-bold ph-house"></i> Landing Page</a>
+    <a href="/blog.html"
+      style="display:block; padding:0.4rem 0.4rem; font-size:0.88rem; font-weight:500; color:var(--ink-soft);"><i
+        class="ph-bold ph-book-open"></i> Growth Blog</a>
     <div style="height:1px; background:var(--line); margin:0.6rem 0;"></div>
-    <button onclick="vyralifyLogout()" style="width:100%; text-align:left; padding:0.4rem 0.4rem; border-radius:6px; font-size:0.88rem; font-weight:600; color:var(--danger); cursor:pointer; border:none; background:transparent; font-family:inherit;"><i class="ph-bold ph-sign-out"></i> Sign Out</button>
+    <button onclick="vyralifyLogout()"
+      style="width:100%; text-align:left; padding:0.4rem 0.4rem; border-radius:6px; font-size:0.88rem; font-weight:600; color:var(--danger); cursor:pointer; border:none; background:transparent; font-family:inherit;"><i
+        class="ph-bold ph-sign-out"></i> Sign Out</button>
   </div>
 
   <main class="dash-container" id="main">
@@ -388,7 +451,8 @@
             <span class="vf-badge plain">AI-Powered</span>
           </div>
           <div class="vf-banner-actions">
-            <button class="vf-btn ghost" onclick="document.getElementById('assistant-toggle')?.click()">Customize ↗</button>
+            <button class="vf-btn ghost" onclick="document.getElementById('assistant-toggle')?.click()">Customize
+              ↗</button>
             <button class="vf-btn solid" onclick="location.hash='#pricing'">Manage plan ↗</button>
           </div>
         </div>
@@ -398,7 +462,9 @@
         </div>
         <div class="vf-progress">
           <div class="vf-progress-top"><span>Setup progress</span><span id="vf-bind-progress-text">68%</span></div>
-          <div class="vf-progress-track"><div class="vf-progress-fill" id="vf-bind-progress-fill" style="width:68%"></div></div>
+          <div class="vf-progress-track">
+            <div class="vf-progress-fill" id="vf-bind-progress-fill" style="width:68%"></div>
+          </div>
         </div>
       </div>
 
@@ -430,25 +496,33 @@
       <div class="vf-row">
         <div class="vf-card vf-chart">
           <div class="vf-card-head">
-            <div><h4>Revenue</h4><div class="vf-sub">Last 7 days</div></div>
+            <div>
+              <h4>Revenue</h4>
+              <div class="vf-sub">Last 7 days</div>
+            </div>
             <div class="vf-live"><span class="vf-dot"></span>Live</div>
           </div>
           <div id="vf-chart-container">
             <svg viewBox="0 0 500 160" preserveAspectRatio="none">
               <defs>
                 <linearGradient id="g1" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stop-color="#12B76A" stop-opacity=".25"/>
-                  <stop offset="100%" stop-color="#12B76A" stop-opacity="0"/>
+                  <stop offset="0%" stop-color="#12B76A" stop-opacity=".25" />
+                  <stop offset="100%" stop-color="#12B76A" stop-opacity="0" />
                 </linearGradient>
               </defs>
-              <path id="vf-chart-grad" d="M0,120 L83,105 L166,112 L250,80 L333,88 L416,48 L500,35 L500,160 L0,160 Z" fill="url(#g1)"/>
-              <path id="vf-chart-line" d="M0,120 L83,105 L166,112 L250,80 L333,88 L416,48 L500,35" fill="none" stroke="#12B76A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path id="vf-chart-grad" d="M0,120 L83,105 L166,112 L250,80 L333,88 L416,48 L500,35 L500,160 L0,160 Z"
+                fill="url(#g1)" />
+              <path id="vf-chart-line" d="M0,120 L83,105 L166,112 L250,80 L333,88 L416,48 L500,35" fill="none"
+                stroke="#12B76A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
           </div>
         </div>
 
         <div class="vf-card">
-          <div class="vf-card-head"><h4>Live activity</h4><div class="vf-live"><span class="vf-dot"></span></div></div>
+          <div class="vf-card-head">
+            <h4>Live activity</h4>
+            <div class="vf-live"><span class="vf-dot"></span></div>
+          </div>
           <div id="vf-bind-activity-container">
             <div class="vf-activity-row">
               <div class="vf-icon" style="background:#EAFBF3;color:#12B76A">$</div>
@@ -470,7 +544,9 @@
         </div>
 
         <div class="vf-card">
-          <div class="vf-card-head"><h4>Reach</h4></div>
+          <div class="vf-card-head">
+            <h4>Reach</h4>
+          </div>
           <div class="vf-reach-row">
             <div class="vf-plat-icon" style="background:linear-gradient(135deg,#f58529,#dd2a7b,#8134af)">IG</div>
             <span>Instagram</span><span class="vf-val" id="vf-bind-reach-ig">312K</span>
@@ -513,20 +589,29 @@
 
     <!-- Track Tabs -->
     <div class="track-tabs" role="tablist" id="track-tabs">
-      <button class="track-tab active" role="tab" aria-selected="true" data-category="foundation"><i class="ph-bold ph-compass"></i> 1. Foundation</button>
-      <button class="track-tab" role="tab" aria-selected="false" data-category="content"><i class="ph-bold ph-video-camera"></i> 2. Content &amp; Reels</button>
-      <button class="track-tab" role="tab" aria-selected="false" data-category="growth"><i class="ph-bold ph-chart-line-up"></i> 3. Growth &amp; Scale</button>
-      <button class="track-tab" role="tab" aria-selected="false" data-category="monetisation"><i class="ph-bold ph-currency-dollar"></i> 4. Monetisation</button>
-      <button class="track-tab" role="tab" aria-selected="false" data-category="community"><i class="ph-bold ph-users-three"></i> 5. Community</button>
+      <button class="track-tab active" role="tab" aria-selected="true" data-category="foundation"><i
+          class="ph-bold ph-compass"></i> 1. Foundation</button>
+      <button class="track-tab" role="tab" aria-selected="false" data-category="content"><i
+          class="ph-bold ph-video-camera"></i> 2. Content &amp; Reels</button>
+      <button class="track-tab" role="tab" aria-selected="false" data-category="growth"><i
+          class="ph-bold ph-chart-line-up"></i> 3. Growth &amp; Scale</button>
+      <button class="track-tab" role="tab" aria-selected="false" data-category="monetisation"><i
+          class="ph-bold ph-currency-dollar"></i> 4. Monetisation</button>
+      <button class="track-tab" role="tab" aria-selected="false" data-category="community"><i
+          class="ph-bold ph-users-three"></i> 5. Community</button>
     </div>
 
     <!-- Track Title -->
-    <div style="margin-bottom:1.5rem; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:0.75rem;">
+    <div
+      style="margin-bottom:1.5rem; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:0.75rem;">
       <div>
-        <h2 id="track-title" style="font-size:1.6rem; margin:0; font-family:var(--font-display);">1. Foundation &amp; Setup Module</h2>
-        <p style="font-size:0.9rem; color:var(--ink-soft); margin-top:4px;">Master page setup, niche research, and visual branding to launch correctly.</p>
+        <h2 id="track-title" style="font-size:1.6rem; margin:0; font-family:var(--font-display);">1. Foundation &amp;
+          Setup Module</h2>
+        <p style="font-size:0.9rem; color:var(--ink-soft); margin-top:4px;">Master page setup, niche research, and
+          visual branding to launch correctly.</p>
       </div>
-      <button id="btn-open-assistant" class="btn btn-primary btn-sm"><i class="ph-bold ph-sparkle"></i> Launch AI Creator Assistant</button>
+      <button id="btn-open-assistant" class="btn btn-primary btn-sm"><i class="ph-bold ph-sparkle"></i> Launch AI
+        Creator Assistant</button>
     </div>
 
     <!-- FOUNDATION TOOLS -->
@@ -543,11 +628,16 @@
             <div class="progress-bar-fill" id="checklist-bar" style="width:0%"></div>
           </div>
           <div class="checklist">
-            <label class="checklist-row"><input type="checkbox" onchange="updateChecklist(this)"> Select a high-RPM niche (Wealth, Stoicism, Luxury, or AI Tech)</label>
-            <label class="checklist-row"><input type="checkbox" onchange="updateChecklist(this)"> Create your faceless Instagram account &amp; craft an authority bio</label>
-            <label class="checklist-row"><input type="checkbox" onchange="updateChecklist(this)"> Publish your first 3 Reels using the 3-second hook library</label>
-            <label class="checklist-row"><input type="checkbox" onchange="updateChecklist(this)"> Set up your digital store bio link (Beacons / Stan Store)</label>
-            <label class="checklist-row"><input type="checkbox" onchange="updateChecklist(this)"> Join the creator community chat &amp; introduce your page handle</label>
+            <label class="checklist-row"><input type="checkbox" onchange="updateChecklist(this)"> Select a high-RPM
+              niche (Wealth, Stoicism, Luxury, or AI Tech)</label>
+            <label class="checklist-row"><input type="checkbox" onchange="updateChecklist(this)"> Create your faceless
+              Instagram account &amp; craft an authority bio</label>
+            <label class="checklist-row"><input type="checkbox" onchange="updateChecklist(this)"> Publish your first 3
+              Reels using the 3-second hook library</label>
+            <label class="checklist-row"><input type="checkbox" onchange="updateChecklist(this)"> Set up your digital
+              store bio link (Beacons / Stan Store)</label>
+            <label class="checklist-row"><input type="checkbox" onchange="updateChecklist(this)"> Join the creator
+              community chat &amp; introduce your page handle</label>
           </div>
         </div>
 
@@ -563,7 +653,8 @@
             <button class="niche-btn" data-niche-select="luxury">✨ Luxury &amp; Lifestyle</button>
           </div>
           <div class="niche-details-box" id="niche-details">
-            <span style="color:var(--ink-soft); font-size:0.88rem;">Select a niche above to view topic ideas, top reel hooks, and recommended tags.</span>
+            <span style="color:var(--ink-soft); font-size:0.88rem;">Select a niche above to view topic ideas, top reel
+              hooks, and recommended tags.</span>
           </div>
         </div>
 
@@ -581,9 +672,11 @@
             <span class="bento-card-badge">Score Your Hook</span>
           </div>
           <div class="hook-input-group">
-            <textarea id="hook-input" placeholder="Paste your reel hook text here... e.g. &quot;Stop scrolling if you want to build a faceless page in 2026...&quot;"></textarea>
+            <textarea id="hook-input"
+              placeholder="Paste your reel hook text here... e.g. &quot;Stop scrolling if you want to build a faceless page in 2026...&quot;"></textarea>
           </div>
-          <button id="btn-analyze-hook" class="btn btn-primary" style="font-size:0.875rem; padding:0.65rem 1.25rem;">Analyze Hook Virality →</button>
+          <button id="btn-analyze-hook" class="btn btn-primary"
+            style="font-size:0.875rem; padding:0.65rem 1.25rem;">Analyze Hook Virality →</button>
           <div class="hook-score-display" id="hook-result" style="margin-top:1rem;"></div>
         </div>
 
@@ -593,8 +686,10 @@
             <span class="bento-card-title"><i class="ph-bold ph-sparkle"></i> AI Content Automation</span>
             <span class="bento-card-badge success"><span id="stat-credits-content">3</span> / 3 Credits Left</span>
           </div>
-          <p style="font-size:0.88rem; color:var(--ink-soft); margin-bottom:1rem;">Generate viral captions, hooks, 15-second reel scripts, hashtag stacks, and content calendars powered by Groq LLM.</p>
-          <button id="btn-open-assistant-content" class="btn btn-primary" style="width:100%; justify-content:center; font-size:0.875rem;">Open AI Assistant →</button>
+          <p style="font-size:0.88rem; color:var(--ink-soft); margin-bottom:1rem;">Generate viral captions, hooks,
+            15-second reel scripts, hashtag stacks, and content calendars powered by Groq LLM.</p>
+          <button id="btn-open-assistant-content" class="btn btn-primary"
+            style="width:100%; justify-content:center; font-size:0.875rem;">Open AI Assistant →</button>
         </div>
 
       </div>
@@ -610,15 +705,23 @@
             <span class="bento-card-title"><i class="ph-bold ph-calendar"></i> Weekly Reels Consistency Tracker</span>
             <span class="bento-card-badge">This Week</span>
           </div>
-          <p style="font-size:0.88rem; color:var(--ink-soft); margin-bottom:0.75rem;">Click a day to mark your reel posted. Consistency triggers the algorithm — target 5+ reels per week.</p>
+          <p style="font-size:0.88rem; color:var(--ink-soft); margin-bottom:0.75rem;">Click a day to mark your reel
+            posted. Consistency triggers the algorithm — target 5+ reels per week.</p>
           <div class="cal-grid" id="posting-calendar">
-            <div class="cal-cell" data-day="Mon"><span class="day-label">Mon</span><span class="day-content">Reel 1</span></div>
-            <div class="cal-cell posted" data-day="Tue"><span class="day-label">Tue</span><span class="day-content">✓ Posted</span></div>
-            <div class="cal-cell" data-day="Wed"><span class="day-label">Wed</span><span class="day-content">Reel 3</span></div>
-            <div class="cal-cell posted" data-day="Thu"><span class="day-label">Thu</span><span class="day-content">✓ Posted</span></div>
-            <div class="cal-cell" data-day="Fri"><span class="day-label">Fri</span><span class="day-content">Reel 5</span></div>
-            <div class="cal-cell" data-day="Sat"><span class="day-label">Sat</span><span class="day-content">Rest</span></div>
-            <div class="cal-cell" data-day="Sun"><span class="day-label">Sun</span><span class="day-content">Rest</span></div>
+            <div class="cal-cell" data-day="Mon"><span class="day-label">Mon</span><span class="day-content">Reel
+                1</span></div>
+            <div class="cal-cell posted" data-day="Tue"><span class="day-label">Tue</span><span class="day-content">✓
+                Posted</span></div>
+            <div class="cal-cell" data-day="Wed"><span class="day-label">Wed</span><span class="day-content">Reel
+                3</span></div>
+            <div class="cal-cell posted" data-day="Thu"><span class="day-label">Thu</span><span class="day-content">✓
+                Posted</span></div>
+            <div class="cal-cell" data-day="Fri"><span class="day-label">Fri</span><span class="day-content">Reel
+                5</span></div>
+            <div class="cal-cell" data-day="Sat"><span class="day-label">Sat</span><span class="day-content">Rest</span>
+            </div>
+            <div class="cal-cell" data-day="Sun"><span class="day-label">Sun</span><span class="day-content">Rest</span>
+            </div>
           </div>
         </div>
 
@@ -628,9 +731,11 @@
             <span class="bento-card-title"><i class="ph-bold ph-trend-up"></i> Algorithm Growth Checklist</span>
           </div>
           <div class="checklist">
-            <label class="checklist-row"><input type="checkbox"> Post during peak audience hours (7-9 AM, 7-9 PM)</label>
+            <label class="checklist-row"><input type="checkbox"> Post during peak audience hours (7-9 AM, 7-9
+              PM)</label>
             <label class="checklist-row"><input type="checkbox"> Use 3-5 hyper-targeted SEO hashtags</label>
-            <label class="checklist-row"><input type="checkbox"> Reply to all comments within the first 60 minutes</label>
+            <label class="checklist-row"><input type="checkbox"> Reply to all comments within the first 60
+              minutes</label>
             <label class="checklist-row"><input type="checkbox"> Batch-create 7 reels on Sunday to avoid burnout</label>
           </div>
         </div>
@@ -645,17 +750,21 @@
         <!-- Affiliate Link Generator -->
         <div class="bento-card bento-wide">
           <div class="bento-card-header">
-            <span class="bento-card-title"><i class="ph-bold ph-currency-dollar"></i> Vyralify 40% Affiliate Referral Link</span>
+            <span class="bento-card-title"><i class="ph-bold ph-currency-dollar"></i> Vyralify 40% Affiliate Referral
+              Link</span>
             <span class="bento-card-badge success">40% Commission</span>
           </div>
-          <p style="font-size:0.88rem; color:var(--ink-soft); margin-bottom:1rem;">Share your custom referral link in your Instagram bio and stories. Earn recurring monthly payouts for every creator who joins.</p>
-          
+          <p style="font-size:0.88rem; color:var(--ink-soft); margin-bottom:1rem;">Share your custom referral link in
+            your Instagram bio and stories. Earn recurring monthly payouts for every creator who joins.</p>
+
           <div class="ref-link-box">
-            <code id="affiliate-link-display">https://vyralify.in/index.html?ref=<span id="affiliate-code">MEMBER</span></code>
+            <code
+              id="affiliate-link-display">https://vyralify.in/index.html?ref=<span id="affiliate-code">MEMBER</span></code>
             <button class="btn-copy" id="btn-copy-affiliate">Copy Link</button>
           </div>
-          <span id="copy-status" class="hidden" style="font-size:0.8rem; font-weight:700; color:var(--green);">✓ Copied to clipboard!</span>
-          
+          <span id="copy-status" class="hidden" style="font-size:0.8rem; font-weight:700; color:var(--green);">✓ Copied
+            to clipboard!</span>
+
           <div class="aff-stats" style="margin-top:1.25rem;">
             <div class="aff-stat">
               <strong id="aff-clicks">142</strong>
@@ -699,7 +808,8 @@
         <div class="chat-thread" id="chat-thread"></div>
         <div class="chat-input-row">
           <input type="text" id="chat-input" placeholder="Share a win, ask a question, or introduce your page..." />
-          <button class="btn btn-primary" id="chat-send" style="font-size:0.85rem; padding:0.6rem 1.2rem;">Post Message</button>
+          <button class="btn btn-primary" id="chat-send" style="font-size:0.85rem; padding:0.6rem 1.2rem;">Post
+            Message</button>
         </div>
       </div>
     </div>
@@ -714,7 +824,8 @@
     <div class="ai-panel-body" id="ai-panel-body">
       <div class="ai-panel-head">
         <strong><i class="ph-bold ph-sparkle"></i> AI Creator Assistant</strong>
-        <button onclick="document.getElementById('ai-panel-body').classList.remove('open')" style="background:none; border:none; font-size:1.2rem; cursor:pointer; color:var(--ink-soft);">✕</button>
+        <button onclick="document.getElementById('ai-panel-body').classList.remove('open')"
+          style="background:none; border:none; font-size:1.2rem; cursor:pointer; color:var(--ink-soft);">✕</button>
       </div>
       <div class="ai-messages" id="ai-chat"></div>
       <div style="padding:0.65rem 1rem; border-top:1px solid var(--line); display:flex; flex-wrap:wrap; gap:0.35rem;">
@@ -728,9 +839,12 @@
         <input type="text" id="ai-input" placeholder="Ask AI assistant for captions, hooks, scripts..." />
         <button class="btn btn-primary" id="ai-send" style="padding:0.6rem 1rem; font-size:0.8rem;">Send</button>
       </div>
-      <div id="ai-locked" style="display:none; padding:0.75rem 1rem; border-top:1px solid var(--line); font-size:0.82rem; color:var(--blue); text-align:center; font-weight:600;">⚡ Daily limit of 3 AI generations reached. Resets at midnight.</div>
+      <div id="ai-locked"
+        style="display:none; padding:0.75rem 1rem; border-top:1px solid var(--line); font-size:0.82rem; color:var(--blue); text-align:center; font-weight:600;">
+        ⚡ Daily limit of 3 AI generations reached. Resets at midnight.</div>
     </div>
-    <button class="ai-panel-toggle" id="assistant-toggle" aria-label="Open AI Assistant"><i class="ph-bold ph-sparkle"></i></button>
+    <button class="ai-panel-toggle" id="assistant-toggle" aria-label="Open AI Assistant"><i
+        class="ph-bold ph-sparkle"></i></button>
   </div>
 
   <!-- User dropdown toggle script -->
@@ -756,7 +870,7 @@
       cell.querySelector('.day-content').textContent = isPosted ? '✓ Posted' : cell.dataset.day === 'Sat' || cell.dataset.day === 'Sun' ? 'Rest' : 'Pending';
     });
 
-    window.updateChecklist = function(cb) {
+    window.updateChecklist = function (cb) {
       const all = document.querySelectorAll('.checklist-row input[type=checkbox]');
       const done = [...all].filter(c => c.checked).length;
       const bar = document.getElementById('checklist-bar');
@@ -787,11 +901,13 @@
       <div class="support-drawer-user">
         <div class="support-drawer-avatar">VA</div>
         <div>
-          <div class="support-drawer-title">Vyralify Admin <i class="ph-bold ph-seal-check" style="color: #2FAE6B;"></i></div>
+          <div class="support-drawer-title">Vyralify Admin <i class="ph-bold ph-seal-check" style="color: #2FAE6B;"></i>
+          </div>
           <div class="support-drawer-sub">● Online • Private 1-on-1 Support</div>
         </div>
       </div>
-      <button class="support-close-btn" id="support-close-btn" aria-label="Close Chat"><i class="ph-bold ph-x"></i></button>
+      <button class="support-close-btn" id="support-close-btn" aria-label="Close Chat"><i
+          class="ph-bold ph-x"></i></button>
     </div>
 
     <div class="support-drawer-messages" id="support-drawer-messages">
@@ -799,8 +915,10 @@
     </div>
 
     <div class="support-drawer-footer">
-      <input type="text" class="support-input" id="support-chat-input" placeholder="Ask Admin anything..." onkeydown="if(event.key==='Enter') window.VyralifyCustChat.sendMessage()">
-      <button class="support-send-btn" onclick="window.VyralifyCustChat.sendMessage()"><i class="ph-bold ph-paper-plane-tilt"></i></button>
+      <input type="text" class="support-input" id="support-chat-input" placeholder="Ask Admin anything..."
+        onkeydown="if(event.key==='Enter') window.VyralifyCustChat.sendMessage()">
+      <button class="support-send-btn" onclick="window.VyralifyCustChat.sendMessage()"><i
+          class="ph-bold ph-paper-plane-tilt"></i></button>
     </div>
   </div>
 
@@ -950,4 +1068,5 @@
   <script type="module" src="/assets/js/community.js"></script>
   <script type="module" src="/assets/js/dashboard.js"></script>
 </body>
+
 </html>

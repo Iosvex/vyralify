@@ -1,150 +1,218 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vyralify — Admin Control Console & Direct Chat</title>
+  <title>Admin — Vyralify</title>
   <link rel="icon" href="/vyralifylogo.jpeg" />
-  
-  <!-- Fonts & Icons -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link href="https://api.fontshare.com/v2/css?f[]=general-sans@500,600,700,800&display=swap" rel="stylesheet">
-  <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
-  
   <link rel="stylesheet" href="/styles.css" />
-  <link rel="stylesheet" href="/admin.css" />
+  <link rel="stylesheet" href="/dashboard.css" />
 </head>
-<body class="admin-body">
 
-  <!-- Admin Topbar -->
-  <header class="admin-topbar">
-    <a href="/admin.html" class="admin-brand">
-      <span class="logo-dot"></span> VYRALIFY
-      <span class="admin-brand-badge">ADMIN CONTROL</span>
-    </a>
-    <div class="admin-actions">
-      <a href="/dashboard.html" class="admin-btn"><i class="ph-bold ph-layout"></i> Member View</a>
-      <a href="/index.html" class="admin-btn"><i class="ph-bold ph-house"></i> Landing Page</a>
+<body class="app-page" data-admin="true">
+
+  <!-- Admin App Top Bar -->
+  <header class="app-topbar">
+    <a class="topbar-brand" href="/">Vyral<span>ify</span></a>
+    <div style="display:flex;align-items:center;gap:0.5rem">
+      <span class="admin-topbar-badge">Admin Console</span>
+    </div>
+    <div class="topbar-context">
+      <a href="/dashboard.html" class="btn btn-secondary" style="font-size:0.8rem;padding:0.45rem 0.9rem">Member
+        View</a>
+      <button onclick="vyralifyLogout()" class="btn btn-secondary"
+        style="font-size:0.8rem;padding:0.45rem 0.9rem;color:var(--danger);border-color:rgba(220,38,38,.3)">Sign
+        Out</button>
     </div>
   </header>
 
-  <main class="admin-layout">
+  <main class="dash-container" id="main">
 
-    <!-- Header Section -->
-    <div style="margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
-      <div>
-        <h1 style="font-family: 'General Sans', sans-serif; font-weight: 800; font-size: 1.8rem; margin: 0 0 4px 0;">Admin Overview &amp; Direct Messaging</h1>
-        <p style="color: var(--admin-text-sub); font-size: 0.88rem; margin: 0;">Manage creators, monitor platform metrics, and answer private support chats in real-time.</p>
-      </div>
-      <button class="admin-btn admin-btn-primary" onclick="window.VyralifyAdmin.refreshData()"><i class="ph-bold ph-arrows-clockwise"></i> Refresh Stats</button>
+    <!-- Page header -->
+    <div style="margin-bottom:1.75rem">
+      <h1 style="font-size:1.75rem;margin-bottom:0.3rem">Admin Control Centre</h1>
+      <p style="color:var(--text-muted);font-size:0.9rem">Manage members, content assets, and monitor platform activity.
+      </p>
     </div>
 
-    <!-- Stats Cards Strip -->
-    <div class="admin-stats-grid">
-      <div class="admin-stat-card">
-        <div class="admin-stat-label">Total Creators</div>
-        <div class="admin-stat-value" id="stat-total-members">1,248</div>
-        <div class="admin-stat-change"><i class="ph-bold ph-trend-up"></i> +12% this week</div>
+    <!-- Platform Stats Bar -->
+    <div class="stats-strip" style="margin-bottom:2rem">
+      <div class="stat-card">
+        <div class="stat-label">Total Members</div>
+        <div class="stat-value" id="admin-stat-total">—</div>
+        <div class="stat-meta">Registered users</div>
       </div>
-      <div class="admin-stat-card">
-        <div class="admin-stat-label">Active Pro Subscribers</div>
-        <div class="admin-stat-value" id="stat-active-pro">892</div>
-        <div class="admin-stat-change"><i class="ph-bold ph-seal-check"></i> 71.4% conversion</div>
+      <div class="stat-card highlight">
+        <div class="stat-label">Active Premium</div>
+        <div class="stat-value" id="admin-stat-active">—</div>
+        <div class="stat-meta" id="admin-stat-active-pct">0% conversion</div>
       </div>
-      <div class="admin-stat-card">
-        <div class="admin-stat-label">Total Support Messages</div>
-        <div class="admin-stat-value" id="stat-total-messages">342</div>
-        <div class="admin-stat-change"><i class="ph-bold ph-chat-circle-dots"></i> Active Memory</div>
+      <div class="stat-card">
+        <div class="stat-label">AI Generations</div>
+        <div class="stat-value" id="admin-stat-ai">—</div>
+        <div class="stat-meta">All time</div>
       </div>
-      <div class="admin-stat-card">
-        <div class="admin-stat-label">Estimated Monthly Revenue</div>
-        <div class="admin-stat-value" id="stat-est-mrr">₹4,45,108</div>
-        <div class="admin-stat-change"><i class="ph-bold ph-currency-inr"></i> Active MRR</div>
+      <div class="stat-card">
+        <div class="stat-label">Est. MRR</div>
+        <div class="stat-value" id="admin-stat-mrr">—</div>
+        <div class="stat-meta">Active × ₹499</div>
       </div>
     </div>
 
-    <!-- ============================================================
-         INSTAGRAM DIRECT CHAT INTERFACE ("Vyralify Direct")
-         ============================================================ -->
-    <div class="chat-container-card">
-      
-      <!-- Left Sidebar Conversations List -->
-      <div class="chat-sidebar">
-        <div class="chat-sidebar-header">
-          <div class="chat-sidebar-title"><i class="ph-bold ph-chats" style="color: var(--admin-accent);"></i> Vyralify Direct</div>
-          <span style="font-size: 0.72rem; color: var(--admin-green); font-weight: 700;">● Admin Online</span>
+    <div class="bento-grid" style="align-items:start">
+
+      <!-- Members Management -->
+      <div class="bento-card bento-full">
+        <div class="bento-card-header" style="margin-bottom:1.25rem">
+          <span class="bento-card-title">👥 Members</span>
+          <span class="bento-card-badge" id="members-count-badge">Loading…</span>
         </div>
-        <div class="chat-search-wrap">
-          <input type="text" class="chat-search-input" id="chat-search" placeholder="🔍 Search customer chats..." onkeyup="window.VyralifyAdmin.filterChats(this.value)">
+        <div class="admin-search-row">
+          <input type="search" class="admin-search-input" id="admin-user-search"
+            placeholder="🔍 Search by name or email…" autocomplete="off" />
         </div>
-        <div class="chat-threads-list" id="chat-threads-container">
-          <!-- Rendered dynamically by admin.js -->
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Tier</th>
+                <th>Country</th>
+                <th>Role</th>
+              </tr>
+            </thead>
+            <tbody id="admin-users">
+              <tr>
+                <td colspan="5" style="text-align:center;color:var(--text-muted);padding:2rem">Loading members…</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
 
-      <!-- Right Active Chat Window -->
-      <div class="chat-main">
-        <div class="chat-main-header">
-          <div class="chat-header-user">
-            <div class="chat-avatar" id="active-chat-avatar">RS</div>
-            <div>
-              <div class="chat-header-name" id="active-chat-name">Rohan Sharma</div>
-              <div class="chat-header-status" id="active-chat-status">● Active Creator • Private 1-on-1 Support</div>
+      <!-- Recent AI Activity Log -->
+      <div class="bento-card bento-full">
+        <div class="bento-card-header" style="margin-bottom:1.25rem">
+          <span class="bento-card-title">⚡ Recent AI Activity</span>
+          <span class="bento-card-badge">Last 20 generations</span>
+        </div>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>User ID</th>
+                <th>Tool</th>
+                <th>Timestamp</th>
+                <th>Tokens</th>
+              </tr>
+            </thead>
+            <tbody id="admin-ai-log">
+              <tr>
+                <td colspan="4" style="text-align:center;color:var(--text-muted);padding:2rem">Loading activity log…
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Add Content Asset Form -->
+      <div class="bento-card bento-full">
+        <div class="bento-card-header" style="margin-bottom:1.25rem">
+          <span class="bento-card-title">📦 Publish Content Asset</span>
+          <span class="bento-card-badge">Add to vault</span>
+        </div>
+        <form id="admin-asset-form">
+          <div class="admin-form-grid">
+            <div class="form-group">
+              <label for="asset-title">Title</label>
+              <input id="asset-title" type="text" name="title" placeholder="Lesson or resource name" required />
+            </div>
+            <div class="form-group">
+              <label for="asset-category">Track</label>
+              <select id="asset-category" name="category" required>
+                <option value="">Select track…</option>
+                <option value="foundation">Foundation</option>
+                <option value="content">Content &amp; Posting</option>
+                <option value="growth">Scaling &amp; Growth</option>
+                <option value="monetisation">Monetisation</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="asset-type">Type</label>
+              <select id="asset-type" name="type">
+                <option value="Lesson">Lesson</option>
+                <option value="Template">Template</option>
+                <option value="Checklist">Checklist</option>
+                <option value="Swipe File">Swipe File</option>
+                <option value="Video">Video</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="asset-tier">Tier Required</label>
+              <select id="asset-tier" name="tierRequired">
+                <option value="free">Free</option>
+                <option value="active">Active (Premium)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="asset-order">Sort Order</label>
+              <input id="asset-order" type="number" name="order" placeholder="1" min="0" />
+            </div>
+            <div class="form-group">
+              <label for="asset-url">Resource URL</label>
+              <input id="asset-url" type="url" name="url" placeholder="https://…" />
             </div>
           </div>
-          <div style="display: flex; gap: 8px;">
-            <button class="admin-btn" style="font-size: 0.75rem; padding: 6px 12px;" onclick="window.VyralifyAdmin.clearActiveChat()"><i class="ph-bold ph-trash"></i> Clear Chat</button>
+          <div class="form-group" style="margin-top:0.75rem">
+            <label for="asset-body">Description (optional)</label>
+            <textarea id="asset-body" name="body" rows="3"
+              style="padding:0.65rem 0.85rem;border:1px solid var(--border-color);border-radius:10px;background:var(--bg-secondary);width:100%;font-size:0.875rem;resize:vertical;transition:border-color 0.2s,box-shadow 0.2s;font-family:inherit"
+              placeholder="Brief description of the content…"></textarea>
           </div>
-        </div>
+          <div style="margin-top:1rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+            <button type="submit" class="btn btn-primary" style="font-size:0.875rem;padding:0.7rem 1.5rem">Publish
+              Asset</button>
+            <span class="form-status-msg" id="admin-status"></span>
+          </div>
+        </form>
+      </div>
 
-        <!-- Chat Messages Log -->
-        <div class="chat-messages-log" id="chat-messages-log">
-          <!-- Rendered dynamically by admin.js -->
+      <!-- Existing Content Assets Table -->
+      <div class="bento-card bento-full">
+        <div class="bento-card-header" style="margin-bottom:1.25rem">
+          <span class="bento-card-title">📚 Content Vault</span>
+          <span class="bento-card-badge" id="assets-count-badge">Loading…</span>
         </div>
-
-        <!-- Chat Footer & Quick Templates -->
-        <div class="chat-footer">
-          <div class="quick-replies">
-            <span class="quick-chip" onclick="window.VyralifyAdmin.useQuickReply('Welcome to Vyralify! How can we help scale your Instagram page today?')">👋 Welcome Msg</span>
-            <span class="quick-chip" onclick="window.VyralifyAdmin.useQuickReply('Your AI Creator Credits have been refreshed! Try Module 2 tools.')">⚡ Refreshed Credits</span>
-            <span class="quick-chip" onclick="window.VyralifyAdmin.useQuickReply('Check out Module 4 for Monetisation & Brand Deals curriculum.')">💰 Monetisation Modules</span>
-            <span class="quick-chip" onclick="window.VyralifyAdmin.useQuickReply('Great progress! Keep posting consistently with viral hooks.')">🚀 Keep Growing</span>
-          </div>
-          <div class="chat-input-row">
-            <input type="text" class="chat-input" id="admin-chat-input" placeholder="Type a private message to customer..." onkeydown="if(event.key==='Enter') window.VyralifyAdmin.sendMessage()">
-            <button class="chat-send-btn" onclick="window.VyralifyAdmin.sendMessage()"><i class="ph-bold ph-paper-plane-tilt"></i></button>
-          </div>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Track</th>
+                <th>Type</th>
+                <th>Tier</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="admin-assets">
+              <tr>
+                <td colspan="5" style="text-align:center;color:var(--text-muted);padding:2rem">Loading assets…</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
-    </div>
 
-    <!-- Registered Members Table -->
-    <div class="admin-table-card">
-      <div class="admin-table-header">
-        <div class="admin-table-title"><i class="ph-bold ph-users-three" style="color: var(--admin-accent);"></i> Registered Creators</div>
-        <input type="text" class="chat-search-input" style="width: 240px;" placeholder="Filter members..." onkeyup="window.VyralifyAdmin.filterMembers(this.value)">
-      </div>
-      <table class="admin-table">
-        <thead>
-          <tr>
-            <th>Creator Name</th>
-            <th>Email</th>
-            <th>Tier Status</th>
-            <th>Reel Views</th>
-            <th>Direct Chat Action</th>
-          </tr>
-        </thead>
-        <tbody id="admin-members-tbody">
-          <!-- Rendered dynamically by admin.js -->
-        </tbody>
-      </table>
     </div>
-
   </main>
 
-  <!-- Admin Control Logic Engine -->
-  <script src="/admin.js"></script>
+  <script type="module" src="/assets/js/firebase-config.js"></script>
+  <script type="module" src="/assets/js/auth-guard.js"></script>
+  <script type="module" src="/assets/js/auth.js"></script>
+  <script type="module" src="/assets/js/admin.js"></script>
 </body>
+
 </html>

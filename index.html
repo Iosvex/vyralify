@@ -411,32 +411,19 @@
       line-height: 1.65;
     }
 
-    /* Bento Stage Container */
+    /* Bento Stage Container - Minimal, Clean, Dark */
     .sp-bento-stage {
       position: relative;
       max-width: 960px;
-      height: 520px;
+      height: 480px;
       margin: 0 auto 56px;
-      border-radius: 28px;
+      border-radius: 24px;
       background: #0B0E17;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-top: 2px solid rgba(255, 255, 255, 0.45);
-      padding: 24px 20px;
-      box-shadow: 0 -4px 24px rgba(58, 90, 255, 0.25), 0 30px 90px -20px rgba(0, 0, 0, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 20px;
+      box-shadow: 0 25px 70px -15px rgba(0, 0, 0, 0.8);
       overflow: hidden;
-    }
-
-    /* Glowing Top Highlight Line (Matching Reference Photo 1) */
-    .sp-top-glow-line {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, transparent 0%, rgba(56, 189, 248, 0.8) 25%, #FFFFFF 50%, rgba(56, 189, 248, 0.8) 75%, transparent 100%);
-      box-shadow: 0 0 16px 2px rgba(56, 189, 248, 0.6);
-      z-index: 15;
-      pointer-events: none;
     }
 
     /* Top & Bottom Smooth Gradient Fade Masks */
@@ -625,56 +612,75 @@
 
     @media (max-width: 640px) {
       .sp-section {
-        padding: 60px 0 70px;
+        padding: 50px 0 60px;
       }
       .sp-container {
         padding: 0 16px;
       }
       .sp-bento-stage {
-        height: 580px;
-        padding: 16px 10px;
+        height: 380px;
+        padding: 12px 10px;
         border-radius: 20px;
-        margin-bottom: 36px;
+        margin-bottom: 32px;
       }
       .sp-bento-grid {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 10px;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
       }
       .sp-bento-col {
-        gap: 10px;
+        gap: 12px;
+      }
+      .sp-bento-col:nth-child(3) {
+        display: none;
       }
       .sp-tile {
-        border-radius: 14px;
+        border-radius: 16px;
       }
       .sp-tile-overlay {
-        padding: 10px 8px;
+        padding: 12px 10px;
       }
       .sp-tile-handle {
-        font-size: 0.72rem;
-        gap: 3px;
+        font-size: 0.85rem;
+        gap: 4px;
       }
       .sp-tile-handle i {
-        font-size: 0.8rem;
+        font-size: 0.9rem;
       }
       .sp-tile-meta {
-        font-size: 0.65rem;
+        font-size: 0.72rem;
+        margin-top: 2px;
       }
       .sp-stats-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 12px;
+        margin-top: 36px;
       }
       .sp-stat-card {
-        padding: 18px 14px;
-        border-radius: 14px;
+        padding: 16px 14px;
+        border-radius: 16px;
+        background: #0E121D;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      .sp-stat-header {
+        margin-bottom: 10px;
+      }
+      .sp-stat-icon {
+        width: 36px;
+        height: 36px;
+        font-size: 1.1rem;
+        border-radius: 10px;
       }
       .sp-stat-num {
-        font-size: 1.35rem;
+        font-size: 1.4rem;
+        font-weight: 900;
       }
       .sp-stat-card h4 {
         font-size: 0.92rem;
+        margin-bottom: 4px;
       }
       .sp-stat-card p {
-        font-size: 0.78rem;
+        font-size: 0.76rem;
+        line-height: 1.45;
       }
     }
   </style>
@@ -691,7 +697,6 @@
 
       <!-- Bento Grid Stage (No overlapping center element) -->
       <div class="sp-bento-stage reveal">
-        <div class="sp-top-glow-line"></div>
         <div class="sp-bento-grid" id="sp-bento-grid">
           <!-- Rendered dynamically by script with seamless vertical marquee animation -->
         </div>

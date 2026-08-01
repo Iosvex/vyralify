@@ -1969,11 +1969,11 @@ h4 {
 
 @keyframes colScrollUp {
   0% { transform: translateY(0); }
-  100% { transform: translateY(-50%); }
+  100% { transform: translateY(calc(-50% - 9px)); }
 }
 
 @keyframes colScrollDown {
-  0% { transform: translateY(-50%); }
+  0% { transform: translateY(calc(-50% - 9px)); }
   100% { transform: translateY(0); }
 }
 

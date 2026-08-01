@@ -1898,15 +1898,29 @@ h4 {
   position: relative;
   background: linear-gradient(155deg, #0B0E17 0%, #151A29 100%);
   border: 1px solid rgba(255, 255, 255, 0.16);
+  border-top: 2px solid rgba(255, 255, 255, 0.45);
   border-radius: 36px;
-  padding: 60px 28px 40px;
+  padding: 50px 24px 36px;
   overflow: hidden;
-  box-shadow: 0 50px 130px -20px rgba(0, 0, 0, 0.95), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  box-shadow: 0 -4px 24px rgba(58, 90, 255, 0.25), 0 50px 130px -20px rgba(0, 0, 0, 0.95), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.ig-showcase-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent 0%, rgba(56, 189, 248, 0.8) 25%, #FFFFFF 50%, rgba(56, 189, 248, 0.8) 75%, transparent 100%);
+  box-shadow: 0 0 16px 2px rgba(56, 189, 248, 0.6);
+  z-index: 10;
+  pointer-events: none;
 }
 
 .ig-showcase-header {
   text-align: center;
-  margin-bottom: 36px;
+  margin-bottom: 32px;
   padding: 0 20px;
   position: relative;
   z-index: 5;
@@ -1932,15 +1946,15 @@ h4 {
 /* 3-Column Animated Visual Cards Grid */
 .ig-cards-grid-wrapper {
   position: relative;
-  height: 440px;
+  height: 520px;
   overflow: hidden;
   border-radius: 24px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 18px;
+  gap: 16px;
   padding: 0 8px;
-  mask-image: linear-gradient(to bottom, transparent 0%, #000 12%, #000 88%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 12%, #000 88%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 10%, #000 90%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 10%, #000 90%, transparent 100%);
 }
 
 .ig-card-col {
@@ -2149,12 +2163,14 @@ h4 {
 }
 
 @media (max-width: 768px) {
-  .ig-center-3d-badge {
-    width: 120px;
-    height: 120px;
+  .ig-showcase-card {
+    padding: 32px 14px 24px;
+    border-radius: 24px;
   }
-  .badge-main-number {
-    font-size: 2rem;
+  .ig-cards-grid-wrapper {
+    height: 580px;
+    gap: 12px;
+    padding: 0 4px;
   }
   .stats-cards-wrapper {
     grid-template-columns: 1fr;

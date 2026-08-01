@@ -420,9 +420,23 @@
       border-radius: 28px;
       background: #0B0E17;
       border: 1px solid rgba(255, 255, 255, 0.12);
+      border-top: 2px solid rgba(255, 255, 255, 0.45);
       padding: 24px 20px;
-      box-shadow: 0 30px 90px -20px rgba(0, 0, 0, 0.9);
+      box-shadow: 0 -4px 24px rgba(58, 90, 255, 0.25), 0 30px 90px -20px rgba(0, 0, 0, 0.9);
       overflow: hidden;
+    }
+
+    /* Glowing Top Highlight Line (Matching Reference Photo 1) */
+    .sp-top-glow-line {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent 0%, rgba(56, 189, 248, 0.8) 25%, #FFFFFF 50%, rgba(56, 189, 248, 0.8) 75%, transparent 100%);
+      box-shadow: 0 0 16px 2px rgba(56, 189, 248, 0.6);
+      z-index: 15;
+      pointer-events: none;
     }
 
     /* Top & Bottom Smooth Gradient Fade Masks */
@@ -617,7 +631,7 @@
         padding: 0 16px;
       }
       .sp-bento-stage {
-        height: 440px;
+        height: 580px;
         padding: 16px 10px;
         border-radius: 20px;
         margin-bottom: 36px;
@@ -677,6 +691,7 @@
 
       <!-- Bento Grid Stage (No overlapping center element) -->
       <div class="sp-bento-stage reveal">
+        <div class="sp-top-glow-line"></div>
         <div class="sp-bento-grid" id="sp-bento-grid">
           <!-- Rendered dynamically by script with seamless vertical marquee animation -->
         </div>

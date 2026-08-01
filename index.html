@@ -46,6 +46,7 @@
       </a>
       <nav class="nav-links" id="navLinks">
         <div class="nav-slider-pill" id="navSliderPill"></div>
+        <a href="#how-it-works" class="nav-link-item">How It Works</a>
         <a href="#features" class="nav-link-item">Features</a>
         <a href="#everything" class="nav-link-item">Everything Inside</a>
         <a href="#results" class="nav-link-item">Community</a>
@@ -68,6 +69,7 @@
       </a>
       <button id="closeBurger" aria-label="Close menu"><i class="ph-bold ph-x"></i></button>
     </div>
+    <a href="#how-it-works">How It Works</a>
     <a href="#features">Features</a>
     <a href="#everything">Everything Inside</a>
     <a href="#results">Community</a>
@@ -796,6 +798,548 @@
       grid.innerHTML = html;
     })();
   </script>
+
+  <!-- ============================================================
+       SECTION 7 — HOW IT WORKS
+       ============================================================ -->
+  <style>
+    .hiw-section {
+      position: relative;
+      background: #07090F;
+      color: #FFFFFF;
+      padding: 95px 0 105px;
+      overflow: hidden;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .hiw-container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 20px;
+      position: relative;
+      z-index: 2;
+    }
+    .hiw-head {
+      text-align: center;
+      max-width: 680px;
+      margin: 0 auto 56px;
+    }
+    .hiw-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 18px;
+      border-radius: 99px;
+      background: rgba(58, 90, 255, 0.14);
+      border: 1px solid rgba(58, 90, 255, 0.3);
+      color: #6E8BFF;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+    .hiw-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.85rem, 4.2vw, 2.85rem);
+      font-weight: 800;
+      color: #FFFFFF;
+      line-height: 1.2;
+      letter-spacing: -0.035em;
+      margin-bottom: 16px;
+    }
+    .hiw-title span {
+      color: #6E8BFF;
+    }
+    .hiw-sub {
+      font-size: clamp(0.95rem, 2vw, 1.06rem);
+      color: #94A3B8;
+      line-height: 1.65;
+    }
+
+    /* Step Cards Stack */
+    .hiw-steps-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 36px;
+    }
+
+    .hiw-step-card {
+      background: #0E121D;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 24px;
+      padding: 36px 32px;
+      box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.7);
+      transition: border-color 0.3s ease, transform 0.3s ease;
+    }
+    .hiw-step-card:hover {
+      border-color: rgba(58, 90, 255, 0.35);
+    }
+
+    /* Pill & Header Badge */
+    .hiw-step-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .hiw-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 99px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #FFFFFF;
+    }
+    .hiw-badge-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border-radius: 99px;
+      background: rgba(34, 197, 94, 0.12);
+      border: 1px solid rgba(34, 197, 94, 0.3);
+      color: #4ADE80;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .hiw-badge-status::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #4ADE80;
+      box-shadow: 0 0 8px #4ADE80;
+    }
+
+    .hiw-step-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.4rem, 3vw, 1.85rem);
+      font-weight: 800;
+      color: #FFFFFF;
+      margin-bottom: 24px;
+      letter-spacing: -0.02em;
+    }
+
+    /* Visual Card Container */
+    .hiw-visual-box {
+      background: #090C15;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 18px;
+      padding: 24px;
+      margin-bottom: 24px;
+      overflow: hidden;
+    }
+
+    /* Step 1 Visual Elements */
+    .hiw-v1-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    .hiw-v1-item {
+      background: #131724;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      padding: 16px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .hiw-v1-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: rgba(58, 90, 255, 0.16);
+      color: #6E8BFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+    }
+    .hiw-v1-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #FFFFFF;
+    }
+    .hiw-v1-tag {
+      font-size: 0.7rem;
+      color: #94A3B8;
+    }
+
+    /* Step 2 Visual Elements */
+    .hiw-v2-flex {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .hiw-v2-profile {
+      flex: 1;
+      min-width: 240px;
+      background: #131724;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 18px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .hiw-v2-avatar {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #3A5AFF;
+    }
+    .hiw-v2-pinfo h5 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .hiw-v2-pinfo p {
+      font-size: 0.75rem;
+      color: #94A3B8;
+      margin-top: 2px;
+    }
+    .hiw-v2-statbox {
+      flex: 1;
+      min-width: 200px;
+      background: #131724;
+      border: 1px solid rgba(34, 197, 94, 0.25);
+      border-radius: 16px;
+      padding: 18px;
+      text-align: center;
+    }
+    .hiw-v2-snum {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: #4ADE80;
+    }
+    .hiw-v2-slbl {
+      font-size: 0.76rem;
+      color: #94A3B8;
+      margin-top: 4px;
+    }
+
+    /* Step 3 Visual Elements */
+    .hiw-v3-box {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .hiw-v3-notif {
+      background: #131724;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .hiw-v3-nicon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: rgba(234, 179, 8, 0.14);
+      color: #EAB308;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+    }
+    .hiw-v3-ntitle {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #FFFFFF;
+    }
+    .hiw-v3-nsub {
+      font-size: 0.74rem;
+      color: #94A3B8;
+    }
+
+    /* Step 4 Visual Elements */
+    .hiw-v4-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+    .hiw-v4-card {
+      background: #131724;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .hiw-v4-val {
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      font-weight: 900;
+      color: #38BDF8;
+    }
+    .hiw-v4-lbl {
+      font-size: 0.78rem;
+      color: #94A3B8;
+    }
+
+    .hiw-step-text {
+      font-size: 0.95rem;
+      color: #CBD5E1;
+      line-height: 1.65;
+    }
+
+    /* Process Strip at Bottom */
+    .hiw-process-strip {
+      margin-top: 56px;
+      background: #0E121D;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 24px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      overflow-x: auto;
+    }
+    .hiw-strip-step {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    .hiw-strip-num {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(58, 90, 255, 0.16);
+      border: 1px solid rgba(58, 90, 255, 0.35);
+      color: #6E8BFF;
+      font-size: 0.85rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .hiw-strip-lbl {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      white-space: nowrap;
+    }
+    .hiw-strip-arrow {
+      color: #475569;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 640px) {
+      .hiw-section {
+        padding: 60px 0 70px;
+      }
+      .hiw-step-card {
+        padding: 24px 18px;
+        border-radius: 18px;
+      }
+      .hiw-v1-grid {
+        grid-template-columns: 1fr;
+      }
+      .hiw-v4-grid {
+        grid-template-columns: 1fr;
+      }
+      .hiw-process-strip {
+        padding: 18px 14px;
+        gap: 8px;
+      }
+      .hiw-strip-lbl {
+        font-size: 0.78rem;
+      }
+    }
+  </style>
+
+  <section class="hiw-section" id="how-it-works">
+    <div class="hiw-container">
+      
+      <!-- Section Head -->
+      <div class="hiw-head text-center">
+        <span class="hiw-eyebrow"><i class="ph-bold ph-rocket-launch"></i> Simple Process</span>
+        <h2 class="hiw-title reveal">From Zero To Profitable. <span>Here's How It Works.</span></h2>
+        <p class="hiw-sub reveal">A simple 4-step roadmap to go from launching your first Instagram page to building a real online business.</p>
+      </div>
+
+      <!-- 4 Step Cards -->
+      <div class="hiw-steps-stack">
+
+        <!-- Step 1 -->
+        <div class="hiw-step-card reveal">
+          <div class="hiw-step-header">
+            <span class="hiw-pill"><i class="ph-bold ph-rocket"></i> Step 1 — Join Vyralify</span>
+            <span class="hiw-badge-status">Instant Access</span>
+          </div>
+          <h3 class="hiw-step-title">Step 1: Join Vyralify</h3>
+
+          <!-- Step 1 Visual Mockup -->
+          <div class="hiw-visual-box">
+            <div class="hiw-v1-grid">
+              <div class="hiw-v1-item">
+                <div class="hiw-v1-icon"><i class="ph-bold ph-sparkle"></i></div>
+                <div class="hiw-v1-title">AI Tool Suite</div>
+                <div class="hiw-v1-tag">Niche & Bio Generator Ready</div>
+              </div>
+              <div class="hiw-v1-item">
+                <div class="hiw-v1-icon"><i class="ph-bold ph-folder-star"></i></div>
+                <div class="hiw-v1-title">10K+ Content Bank</div>
+                <div class="hiw-v1-tag">100% Resell Rights</div>
+              </div>
+              <div class="hiw-v1-item">
+                <div class="hiw-v1-icon"><i class="ph-bold ph-book-bookmark"></i></div>
+                <div class="hiw-v1-title">Creator Roadmap</div>
+                <div class="hiw-v1-tag">Step-by-Step Training</div>
+              </div>
+            </div>
+          </div>
+
+          <p class="hiw-step-text">Get instant access to the complete platform — AI tools, proven frameworks, resources and everything you need to get started the right way.</p>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="hiw-step-card reveal">
+          <div class="hiw-step-header">
+            <span class="hiw-pill"><i class="ph-bold ph-device-mobile"></i> Step 2 — Build & Launch Your Page</span>
+            <span class="hiw-badge-status">AI Powered</span>
+          </div>
+          <h3 class="hiw-step-title">Step 2: Build & Launch Your Page</h3>
+
+          <!-- Step 2 Visual Mockup -->
+          <div class="hiw-visual-box">
+            <div class="hiw-v2-flex">
+              <div class="hiw-v2-profile">
+                <img src="assets/img/ig-avatars/wealth.png" alt="Profile" class="hiw-v2-avatar">
+                <div class="hiw-v2-pinfo">
+                  <h5>@wealth.blueprint <i class="ph-bold ph-seal-check" style="color: #3B82F6;"></i></h5>
+                  <p>Digital Creator • 142K Followers</p>
+                </div>
+              </div>
+              <div class="hiw-v2-statbox">
+                <div class="hiw-v2-snum">+18,420</div>
+                <div class="hiw-v2-slbl">Organic Views Today 📈</div>
+              </div>
+            </div>
+          </div>
+
+          <p class="hiw-step-text">Pick your niche, set up your Instagram page professionally, and start posting high-performing content using our AI-powered content system. Your page goes live. Views start coming in.</p>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="hiw-step-card reveal">
+          <div class="hiw-step-header">
+            <span class="hiw-pill"><i class="ph-bold ph-users-three"></i> Step 3 — Build An Audience</span>
+            <span class="hiw-badge-status">Viral System</span>
+          </div>
+          <h3 class="hiw-step-title">Step 3: Build An Audience</h3>
+
+          <!-- Step 3 Visual Mockup -->
+          <div class="hiw-visual-box">
+            <div class="hiw-v3-box">
+              <div class="hiw-v3-notif">
+                <div class="hiw-v3-nicon"><i class="ph-bold ph-flame"></i></div>
+                <div>
+                  <div class="hiw-v3-ntitle">Viral Reel Notification</div>
+                  <div class="hiw-v3-nsub">Your Reel `@motivation.daily` reached 1.2M accounts this week</div>
+                </div>
+              </div>
+              <div class="hiw-v3-notif">
+                <div class="hiw-v3-nicon" style="background: rgba(58, 90, 255, 0.16); color: #6E8BFF;"><i class="ph-bold ph-chart-line-up"></i></div>
+                <div>
+                  <div class="hiw-v3-ntitle">Audience Growth Spike</div>
+                  <div class="hiw-v3-nsub">+89,400 new engaged followers gained in 30 days</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <p class="hiw-step-text">Use our proven growth strategies, posting systems and viral content frameworks to build a real, engaged audience that actually converts. No guessing. Just a system that works.</p>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="hiw-step-card reveal">
+          <div class="hiw-step-header">
+            <span class="hiw-pill"><i class="ph-bold ph-currency-dollar"></i> Step 4 — Monetise Your Audience</span>
+            <span class="hiw-badge-status">Multiple Income Streams</span>
+          </div>
+          <h3 class="hiw-step-title">Step 4: Monetise Your Audience</h3>
+
+          <!-- Step 4 Visual Mockup -->
+          <div class="hiw-visual-box">
+            <div class="hiw-v4-grid">
+              <div class="hiw-v4-card">
+                <div class="hiw-v4-val">$4,250 / mo</div>
+                <div class="hiw-v4-lbl">Digital Product Sales 📦</div>
+              </div>
+              <div class="hiw-v4-card">
+                <div class="hiw-v4-val">$2,890 / mo</div>
+                <div class="hiw-v4-lbl">Affiliate Commissions 💸</div>
+              </div>
+              <div class="hiw-v4-card">
+                <div class="hiw-v4-val">$1,800 / mo</div>
+                <div class="hiw-v4-lbl">Brand Sponsorships 🤝</div>
+              </div>
+              <div class="hiw-v4-card">
+                <div class="hiw-v4-val">3 Active Pages</div>
+                <div class="hiw-v4-lbl">Multi-Stream Scaling 🚀</div>
+              </div>
+            </div>
+          </div>
+
+          <p class="hiw-step-text">Once your audience is growing — turn it into income. Sell digital products, earn affiliate commissions, land sponsorships, and expand to multiple pages for multiple income streams.</p>
+        </div>
+
+      </div>
+
+      <!-- Process Strip at Bottom -->
+      <div class="hiw-process-strip reveal">
+        <div class="hiw-strip-step">
+          <div class="hiw-strip-num">1</div>
+          <div class="hiw-strip-lbl">Join Vyralify</div>
+        </div>
+        <i class="ph-bold ph-caret-right hiw-strip-arrow"></i>
+        <div class="hiw-strip-step">
+          <div class="hiw-strip-num">2</div>
+          <div class="hiw-strip-lbl">Build Your Page</div>
+        </div>
+        <i class="ph-bold ph-caret-right hiw-strip-arrow"></i>
+        <div class="hiw-strip-step">
+          <div class="hiw-strip-num">3</div>
+          <div class="hiw-strip-lbl">Build Audience</div>
+        </div>
+        <i class="ph-bold ph-caret-right hiw-strip-arrow"></i>
+        <div class="hiw-strip-step">
+          <div class="hiw-strip-num">4</div>
+          <div class="hiw-strip-lbl">Monetise It</div>
+        </div>
+        <i class="ph-bold ph-caret-right hiw-strip-arrow"></i>
+        <div class="hiw-strip-step">
+          <div class="hiw-strip-num">5</div>
+          <div class="hiw-strip-lbl">Scale Further</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
 
   <!-- ============================================================
        5. FEATURES

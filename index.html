@@ -930,176 +930,27 @@
       letter-spacing: -0.02em;
     }
 
-    /* Visual Card Container */
+    /* Visual Card Container with High-Res 3D Graphic Showcase */
     .hiw-visual-box {
-      background: #F8FAFC;
-      border: 1px solid #E2E8F0;
-      border-radius: 18px;
-      padding: 24px;
+      background: #0B0E17;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 8px;
       margin-bottom: 24px;
       overflow: hidden;
+      box-shadow: 0 16px 40px rgba(15, 23, 42, 0.12);
     }
 
-    /* Step 1 Visual Elements */
-    .hiw-v1-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-    }
-    .hiw-v1-item {
-      background: #FFFFFF;
-      border: 1px solid #E2E8F0;
+    .hiw-banner-img {
+      width: 100%;
+      height: auto;
+      display: block;
       border-radius: 14px;
-      padding: 16px 14px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03);
-    }
-    .hiw-v1-icon {
-      width: 34px;
-      height: 34px;
-      border-radius: 10px;
-      background: #EFF6FF;
-      color: #2563EB;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.1rem;
-    }
-    .hiw-v1-title {
-      font-size: 0.85rem;
-      font-weight: 700;
-      color: #0F172A;
-    }
-    .hiw-v1-tag {
-      font-size: 0.7rem;
-      color: #64748B;
-    }
-
-    /* Step 2 Visual Elements */
-    .hiw-v2-flex {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
-    .hiw-v2-profile {
-      flex: 1;
-      min-width: 240px;
-      background: #FFFFFF;
-      border: 1px solid #E2E8F0;
-      border-radius: 16px;
-      padding: 18px;
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03);
-    }
-    .hiw-v2-avatar {
-      width: 52px;
-      height: 52px;
-      border-radius: 50%;
       object-fit: cover;
-      border: 2px solid #2563EB;
+      transition: transform 0.4s ease;
     }
-    .hiw-v2-pinfo h5 {
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: #0F172A;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-    .hiw-v2-pinfo p {
-      font-size: 0.75rem;
-      color: #64748B;
-      margin-top: 2px;
-    }
-    .hiw-v2-statbox {
-      flex: 1;
-      min-width: 200px;
-      background: #F0FDF4;
-      border: 1px solid #BBF7D0;
-      border-radius: 16px;
-      padding: 18px;
-      text-align: center;
-    }
-    .hiw-v2-snum {
-      font-family: var(--font-display);
-      font-size: 1.6rem;
-      font-weight: 900;
-      color: #16A34A;
-    }
-    .hiw-v2-slbl {
-      font-size: 0.76rem;
-      color: #15803D;
-      font-weight: 600;
-      margin-top: 4px;
-    }
-
-    /* Step 3 Visual Elements */
-    .hiw-v3-box {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-    .hiw-v3-notif {
-      background: #FFFFFF;
-      border: 1px solid #E2E8F0;
-      border-radius: 12px;
-      padding: 14px 16px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03);
-    }
-    .hiw-v3-nicon {
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
-      background: #FEF9C3;
-      color: #CA8A04;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.1rem;
-    }
-    .hiw-v3-ntitle {
-      font-size: 0.85rem;
-      font-weight: 700;
-      color: #0F172A;
-    }
-    .hiw-v3-nsub {
-      font-size: 0.74rem;
-      color: #64748B;
-    }
-
-    /* Step 4 Visual Elements */
-    .hiw-v4-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-    }
-    .hiw-v4-card {
-      background: #FFFFFF;
-      border: 1px solid #E2E8F0;
-      border-radius: 14px;
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03);
-    }
-    .hiw-v4-val {
-      font-family: var(--font-display);
-      font-size: 1.35rem;
-      font-weight: 900;
-      color: #2563EB;
-    }
-    .hiw-v4-lbl {
-      font-size: 0.78rem;
-      color: #64748B;
+    .hiw-visual-box:hover .hiw-banner-img {
+      transform: scale(1.015);
     }
 
     .hiw-step-text {
@@ -1194,89 +1045,51 @@
         <!-- Step 1 -->
         <div class="hiw-step-card reveal">
           <div class="hiw-step-header">
-            <span class="hiw-pill"><i class="ph-bold ph-rocket"></i> Step 1 — Join Vyralify</span>
-            <span class="hiw-badge-status">Instant Access</span>
+            <span class="hiw-pill"><i class="ph-bold ph-rocket"></i> Product Library • Instant access</span>
+            <span class="hiw-badge-status">Step 1</span>
           </div>
-          <h3 class="hiw-step-title">Step 1: Join Vyralify</h3>
+          <h3 class="hiw-step-title">Step 1: Plug in a Product</h3>
 
-          <!-- Step 1 Visual Mockup -->
+          <!-- Step 1 Visual Banner Image -->
           <div class="hiw-visual-box">
-            <div class="hiw-v1-grid">
-              <div class="hiw-v1-item">
-                <div class="hiw-v1-icon"><i class="ph-bold ph-sparkle"></i></div>
-                <div class="hiw-v1-title">AI Tool Suite</div>
-                <div class="hiw-v1-tag">Niche & Bio Generator Ready</div>
-              </div>
-              <div class="hiw-v1-item">
-                <div class="hiw-v1-icon"><i class="ph-bold ph-folder-star"></i></div>
-                <div class="hiw-v1-title">10K+ Content Bank</div>
-                <div class="hiw-v1-tag">100% Resell Rights</div>
-              </div>
-              <div class="hiw-v1-item">
-                <div class="hiw-v1-icon"><i class="ph-bold ph-book-bookmark"></i></div>
-                <div class="hiw-v1-title">Creator Roadmap</div>
-                <div class="hiw-v1-tag">Step-by-Step Training</div>
-              </div>
-            </div>
+            <img src="assets/img/hiw_step1_banner_1785611670904.png" alt="10K+ Premium Products Library" class="hiw-banner-img" loading="lazy">
           </div>
 
-          <p class="hiw-step-text">Get instant access to the complete platform — AI tools, proven frameworks, resources and everything you need to get started the right way.</p>
+          <p class="hiw-step-text">Use our free <strong>AI market-research tool</strong> to find a winning product from <strong>10K+</strong> done-for-you digital products & <strong>1000+</strong> courses. Then sell through ready-made landing pages and a free store — full resell rights, keep <strong>100%</strong> on every sale.</p>
         </div>
 
         <!-- Step 2 -->
         <div class="hiw-step-card reveal">
           <div class="hiw-step-header">
-            <span class="hiw-pill"><i class="ph-bold ph-device-mobile"></i> Step 2 — Build & Launch Your Page</span>
-            <span class="hiw-badge-status">AI Powered</span>
+            <span class="hiw-pill"><i class="ph-bold ph-film-strip"></i> Content Library • Instant access</span>
+            <span class="hiw-badge-status">Step 2</span>
           </div>
-          <h3 class="hiw-step-title">Step 2: Build & Launch Your Page</h3>
+          <h3 class="hiw-step-title">Step 2: Post Viral Content</h3>
 
-          <!-- Step 2 Visual Mockup -->
+          <!-- Step 2 Visual Reel Grid Showcase -->
           <div class="hiw-visual-box">
-            <div class="hiw-v2-flex">
-              <div class="hiw-v2-profile">
-                <img src="assets/img/ig-avatars/wealth.png" alt="Profile" class="hiw-v2-avatar">
-                <div class="hiw-v2-pinfo">
-                  <h5>@wealth.blueprint <i class="ph-bold ph-seal-check" style="color: #2563EB;"></i></h5>
-                  <p>Digital Creator • 142K Followers</p>
-                </div>
-              </div>
-              <div class="hiw-v2-statbox">
-                <div class="hiw-v2-snum">+18,420</div>
-                <div class="hiw-v2-slbl">Organic Views Today 📈</div>
-              </div>
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; max-height: 280px; overflow: hidden; border-radius: 12px;">
+              <img src="assets/img/ig_wealth.png" style="width:100%; height:280px; object-fit:cover; border-radius:10px;" alt="Reel 1">
+              <img src="assets/img/ig_stoicism.png" style="width:100%; height:280px; object-fit:cover; border-radius:10px;" alt="Reel 2">
+              <img src="assets/img/ig_luxury.png" style="width:100%; height:280px; object-fit:cover; border-radius:10px;" alt="Reel 3">
+              <img src="assets/img/ig_motivation.png" style="width:100%; height:280px; object-fit:cover; border-radius:10px;" alt="Reel 4">
             </div>
           </div>
 
-          <p class="hiw-step-text">Pick your niche, set up your Instagram page professionally, and start posting high-performing content using our AI-powered content system. Your page goes live. Views start coming in.</p>
+          <p class="hiw-step-text">Create a new IG account & start posting these <strong>15K+</strong> ready-made viral marketing content — no face, no filming, no editing. Just download & post.</p>
         </div>
 
         <!-- Step 3 -->
         <div class="hiw-step-card reveal">
           <div class="hiw-step-header">
-            <span class="hiw-pill"><i class="ph-bold ph-users-three"></i> Step 3 — Build An Audience</span>
-            <span class="hiw-badge-status">Viral System</span>
+            <span class="hiw-pill"><i class="ph-bold ph-users-three"></i> Audience Growth • Real IG Pages</span>
+            <span class="hiw-badge-status">Step 3</span>
           </div>
           <h3 class="hiw-step-title">Step 3: Build An Audience</h3>
 
-          <!-- Step 3 Visual Mockup -->
+          <!-- Step 3 Visual Banner Image -->
           <div class="hiw-visual-box">
-            <div class="hiw-v3-box">
-              <div class="hiw-v3-notif">
-                <div class="hiw-v3-nicon"><i class="ph-bold ph-flame"></i></div>
-                <div>
-                  <div class="hiw-v3-ntitle">Viral Reel Notification</div>
-                  <div class="hiw-v3-nsub">Your Reel `@motivation.daily` reached 1.2M accounts this week</div>
-                </div>
-              </div>
-              <div class="hiw-v3-notif">
-                <div class="hiw-v3-nicon" style="background: #EFF6FF; color: #2563EB;"><i class="ph-bold ph-chart-line-up"></i></div>
-                <div>
-                  <div class="hiw-v3-ntitle">Audience Growth Spike</div>
-                  <div class="hiw-v3-nsub">+89,400 new engaged followers gained in 30 days</div>
-                </div>
-              </div>
-            </div>
+            <img src="assets/img/hiw_step3_growth_1785611737240.png" alt="Verified Student Theme Pages" class="hiw-banner-img" loading="lazy">
           </div>
 
           <p class="hiw-step-text">Use our proven growth strategies, posting systems and viral content frameworks to build a real, engaged audience that actually converts. No guessing. Just a system that works.</p>
@@ -1285,34 +1098,17 @@
         <!-- Step 4 -->
         <div class="hiw-step-card reveal">
           <div class="hiw-step-header">
-            <span class="hiw-pill"><i class="ph-bold ph-currency-dollar"></i> Step 4 — Monetise Your Audience</span>
-            <span class="hiw-badge-status">Multiple Income Streams</span>
+            <span class="hiw-pill"><i class="ph-bold ph-currency-dollar"></i> Start Earning • Quick Setup</span>
+            <span class="hiw-badge-status">Step 4</span>
           </div>
-          <h3 class="hiw-step-title">Step 4: Monetise Your Audience</h3>
+          <h3 class="hiw-step-title">Step 4: Sales While You Sleep</h3>
 
-          <!-- Step 4 Visual Mockup -->
+          <!-- Step 4 Visual Banner Image -->
           <div class="hiw-visual-box">
-            <div class="hiw-v4-grid">
-              <div class="hiw-v4-card">
-                <div class="hiw-v4-val">$4,250 / mo</div>
-                <div class="hiw-v4-lbl">Digital Product Sales 📦</div>
-              </div>
-              <div class="hiw-v4-card">
-                <div class="hiw-v4-val">$2,890 / mo</div>
-                <div class="hiw-v4-lbl">Affiliate Commissions 💸</div>
-              </div>
-              <div class="hiw-v4-card">
-                <div class="hiw-v4-val">$1,800 / mo</div>
-                <div class="hiw-v4-lbl">Brand Sponsorships 🤝</div>
-              </div>
-              <div class="hiw-v4-card">
-                <div class="hiw-v4-val">3 Active Pages</div>
-                <div class="hiw-v4-lbl">Multi-Stream Scaling 🚀</div>
-              </div>
-            </div>
+            <img src="assets/img/hiw_step4_sales_1785611768510.png" alt="Wake Up to Sales Notifications" class="hiw-banner-img" loading="lazy">
           </div>
 
-          <p class="hiw-step-text">Once your audience is growing — turn it into income. Sell digital products, earn affiliate commissions, land sponsorships, and expand to multiple pages for multiple income streams.</p>
+          <p class="hiw-step-text">Your reels pull <strong>free Organic traffic</strong>; your page <strong>sells on autopilot</strong>. And it doesn't stop at digital products — as you grow, so do your income streams: <strong>brand deals, paid promos, affiliate offers</strong>, and more. Multiple ways to get paid, all from one faceless page.</p>
         </div>
 
       </div>

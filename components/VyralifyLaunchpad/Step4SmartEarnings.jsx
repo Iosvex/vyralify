@@ -6,15 +6,15 @@ export const Step4SmartEarnings = () => {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
         {/* Left Text */}
         <div className="lg:col-span-5 space-y-4">
-          {/* Squircle Icon Badge & Status Pill */}
-          <div className="flex items-center gap-3 flex-wrap">
-            <div className="inline-flex items-center gap-2">
-              <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-indigo-600 to-blue-500 text-white flex items-center justify-center shadow-sm">
+          {/* Squircle Icon Badge & Status Pill (Same Row Compact Layout) */}
+          <div className="flex items-center justify-between gap-2">
+            <div className="inline-flex items-center gap-2 min-w-0">
+              <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-indigo-600 to-blue-500 text-white flex items-center justify-center shadow-sm shrink-0">
                 <i className="ph-bold ph-lightning text-base" />
               </div>
-              <span className="font-extrabold text-slate-900 text-base md:text-lg tracking-tight">Start Earning</span>
+              <span className="font-extrabold text-slate-900 text-base md:text-lg tracking-tight truncate">Start Earning</span>
             </div>
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#ECFDF5] border border-[#A7F3D0] text-[#059669] text-xs font-semibold">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#ECFDF5] border border-[#A7F3D0] text-[#059669] text-xs font-semibold shrink-0">
               <span className="w-2 h-2 rounded-full bg-[#10B981] animate-pulse" /> Quick Setup
             </span>
           </div>
@@ -24,7 +24,7 @@ export const Step4SmartEarnings = () => {
             <span className="font-medium text-slate-500">Step 3:</span> <span className="font-black text-slate-900">Sales While You Sleep</span>
           </h3>
           <p className="text-slate-600 text-sm md:text-base leading-relaxed">
-            Your reels pull <strong className="text-slate-900 font-bold">free Organic traffic</strong>; your page <strong class="text-slate-900 font-bold">sells on autopilot</strong>. And it doesn't stop at digital products — as you grow, so do your income streams: <strong className="text-slate-900 font-bold">brand deals, paid promos, affiliate offers</strong>, and more. Multiple ways to get paid, all from one faceless page.
+            Your reels pull <strong className="text-slate-900 font-bold">free Organic traffic</strong>; your page <strong class="text-slate-900 font-bold">sells on autopilot</strong>. And it doesn't stop at digital products — as you grow, so do your income streams: <strong class="text-slate-900 font-bold">brand deals, paid promos, affiliate offers</strong>, and more. Multiple ways to get paid, all from one faceless page.
           </p>
         </div>
 

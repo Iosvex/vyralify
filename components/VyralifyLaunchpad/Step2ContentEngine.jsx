@@ -13,15 +13,15 @@ export const Step2ContentEngine = () => {
 
         {/* Right Text */}
         <div className="lg:col-span-5 space-y-4 order-1 lg:order-2">
-          {/* Squircle Icon Badge & Status Pill */}
-          <div className="flex items-center gap-3 flex-wrap">
-            <div className="inline-flex items-center gap-2">
-              <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-500 text-white flex items-center justify-center shadow-sm">
+          {/* Squircle Icon Badge & Status Pill (Same Row Compact Layout) */}
+          <div className="flex items-center justify-between gap-2">
+            <div className="inline-flex items-center gap-2 min-w-0">
+              <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-500 text-white flex items-center justify-center shadow-sm shrink-0">
                 <i className="ph-bold ph-video-camera text-base" />
               </div>
-              <span className="font-extrabold text-slate-900 text-base md:text-lg tracking-tight">Content Library</span>
+              <span className="font-extrabold text-slate-900 text-base md:text-lg tracking-tight truncate">Content Library</span>
             </div>
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#ECFDF5] border border-[#A7F3D0] text-[#059669] text-xs font-semibold">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#ECFDF5] border border-[#A7F3D0] text-[#059669] text-xs font-semibold shrink-0">
               <span className="w-2 h-2 rounded-full bg-[#10B981] animate-pulse" /> Instant access
             </span>
           </div>

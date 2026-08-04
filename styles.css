@@ -2500,18 +2500,19 @@ h4 {
 
 .why-card-v2 {
   padding: 36px 32px;
-  background: var(--card-bg, #ffffff);
-  border: 1px solid var(--border-color, rgba(226, 232, 240, 0.8));
-  border-radius: var(--radius-lg, 20px);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
   display: flex;
   flex-direction: column;
   gap: 14px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease);
 }
 
 .why-card-v2:hover {
   transform: translateY(-4px);
-  box-shadow: 0 20px 40px -15px rgba(51, 85, 255, 0.12);
+  box-shadow: var(--shadow-md);
+  border-color: rgba(58, 90, 255, 0.3);
 }
 
 .why-badge {
@@ -2520,68 +2521,72 @@ h4 {
   gap: 8px;
   padding: 6px 14px;
   border-radius: 100px;
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 0.85rem;
-  background: rgba(51, 85, 255, 0.08);
-  color: var(--blue, #3355FF);
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 0.8rem;
+  letter-spacing: 0.02em;
+  background: var(--blue-soft);
+  color: var(--blue);
   width: fit-content;
 }
 
 .why-badge.badge-gold {
-  background: rgba(245, 158, 11, 0.1);
+  background: rgba(232, 180, 92, 0.12);
   color: #D97706;
 }
 
 .why-badge.badge-blue {
-  background: rgba(16, 185, 129, 0.1);
-  color: #059669;
+  background: rgba(47, 174, 107, 0.12);
+  color: var(--green);
 }
 
 .why-badge.badge-purple {
-  background: rgba(147, 51, 234, 0.1);
+  background: rgba(124, 58, 237, 0.12);
   color: #7C3AED;
 }
 
 .why-card-v2 h3 {
   font-size: 1.25rem;
   font-family: var(--font-display);
-  font-weight: 700;
-  color: var(--ink, #0F172A);
+  font-weight: 600;
+  color: var(--ink);
   margin: 0;
   line-height: 1.35;
+  letter-spacing: -0.02em;
 }
 
 .why-card-v2 p {
   font-size: 0.95rem;
-  color: var(--ink-soft, #475569);
-  line-height: 1.6;
+  font-family: var(--font-body);
+  color: var(--ink-soft);
+  line-height: 1.65;
   margin: 0;
 }
 
 /* Comparison Section */
 .why-comparison {
   margin-top: 50px;
-  background: #ffffff;
-  border: 1px solid rgba(226, 232, 240, 0.8);
-  border-radius: var(--radius-lg, 24px);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
   overflow: hidden;
-  box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.08);
+  box-shadow: var(--shadow-md);
 }
 
 .comparison-head {
   padding: 36px 36px 20px;
   text-align: center;
-  background: linear-gradient(180deg, #F8FAFC 0%, #FFFFFF 100%);
-  border-bottom: 1px solid rgba(241, 245, 249, 1);
+  background: linear-gradient(180deg, var(--bg-soft) 0%, var(--bg) 100%);
+  border-bottom: 1px solid var(--line);
 }
 
 .comparison-title {
   font-family: var(--font-display);
   font-size: 1.35rem;
-  font-weight: 700;
-  color: var(--ink, #0F172A);
+  font-weight: 600;
+  color: var(--ink);
   margin: 0;
+  letter-spacing: -0.02em;
 }
 
 .comparison-table-wrapper {
@@ -2605,25 +2610,26 @@ h4 {
 }
 
 .comp-header .col-user {
-  color: #64748B;
+  color: var(--ink-soft);
 }
 
 .comp-header .col-creator {
-  color: var(--blue, #3355FF);
+  color: var(--blue);
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
 .comp-tag {
-  font-size: 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
   padding: 3px 10px;
   border-radius: 100px;
-  background: rgba(51, 85, 255, 0.1);
-  color: var(--blue, #3355FF);
-  font-weight: 700;
+  background: var(--blue-soft);
+  color: var(--blue);
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.08em;
 }
 
 .comp-row {
@@ -2631,45 +2637,46 @@ h4 {
   grid-template-columns: 1fr 1fr;
   gap: 16px;
   padding: 14px 20px;
-  border-radius: 12px;
-  background: #F8FAFC;
-  transition: background 0.2s ease;
+  border-radius: var(--radius-sm);
+  background: var(--bg-soft);
+  transition: background 0.2s var(--ease);
 }
 
 .comp-row:hover {
-  background: #F1F5F9;
+  background: #EEF2F7;
 }
 
 .comp-col {
   display: flex;
   align-items: center;
   gap: 10px;
+  font-family: var(--font-body);
   font-size: 0.95rem;
   font-weight: 500;
 }
 
 .comp-col.col-user {
-  color: #64748B;
+  color: var(--ink-soft);
 }
 
 .comp-col.col-creator {
-  color: #0F172A;
+  color: var(--ink);
   font-weight: 600;
 }
 
 .icon-bad {
-  color: #94A3B8;
+  color: var(--ink-faint);
   font-size: 1.1rem;
 }
 
 .icon-good {
-  color: #10B981;
+  color: var(--green);
   font-size: 1.15rem;
 }
 
 /* Full Width Bottom Banner */
 .comp-footer-banner {
-  background: var(--ink, #0B0E14);
+  background: var(--ink);
   color: #ffffff;
   padding: 36px 44px;
   text-align: center;
@@ -2677,11 +2684,11 @@ h4 {
 
 .banner-tag {
   display: inline-block;
-  font-family: var(--font-display);
-  font-size: 0.9rem;
-  font-weight: 700;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 0.12em;
   color: #38BDF8;
   margin-bottom: 8px;
 }
@@ -2691,11 +2698,12 @@ h4 {
   font-size: 1.25rem;
   font-weight: 600;
   line-height: 1.5;
+  letter-spacing: -0.01em;
 }
 
 .banner-text span {
-  color: var(--gold, #F59E0B);
-  font-weight: 800;
+  color: var(--gold);
+  font-weight: 700;
   margin: 0 4px;
 }
 
@@ -2711,7 +2719,7 @@ h4 {
 
   .comp-col.col-creator {
     padding-bottom: 8px;
-    border-bottom: 1px dashed #CBD5E1;
+    border-bottom: 1px dashed var(--line);
   }
 
   .comparison-head, .comparison-table-wrapper, .comp-footer-banner {

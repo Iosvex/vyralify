@@ -2489,77 +2489,237 @@ h4 {
 }
 
 /* ============================================================
-   WHY VYRALIFY
+   WHY VYRALIFY (V2 - ENHANCED VALUE CARDS & COMPARISON TABLE)
    ============================================================ */
-.why-grid {
+.why-grid-v2 {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  margin-bottom: 50px;
 }
 
-.why-card {
-  padding: 30px;
+.why-card-v2 {
+  padding: 36px 32px;
+  background: var(--card-bg, #ffffff);
+  border: 1px solid var(--border-color, rgba(226, 232, 240, 0.8));
+  border-radius: var(--radius-lg, 20px);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.why-card .top {
+.why-card-v2:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px -15px rgba(51, 85, 255, 0.12);
+}
+
+.why-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 100px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.85rem;
+  background: rgba(51, 85, 255, 0.08);
+  color: var(--blue, #3355FF);
+  width: fit-content;
+}
+
+.why-badge.badge-gold {
+  background: rgba(245, 158, 11, 0.1);
+  color: #D97706;
+}
+
+.why-badge.badge-blue {
+  background: rgba(16, 185, 129, 0.1);
+  color: #059669;
+}
+
+.why-badge.badge-purple {
+  background: rgba(147, 51, 234, 0.1);
+  color: #7C3AED;
+}
+
+.why-card-v2 h3 {
+  font-size: 1.25rem;
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--ink, #0F172A);
+  margin: 0;
+  line-height: 1.35;
+}
+
+.why-card-v2 p {
+  font-size: 0.95rem;
+  color: var(--ink-soft, #475569);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Comparison Section */
+.why-comparison {
+  margin-top: 50px;
+  background: #ffffff;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  border-radius: var(--radius-lg, 24px);
+  overflow: hidden;
+  box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.08);
+}
+
+.comparison-head {
+  padding: 36px 36px 20px;
+  text-align: center;
+  background: linear-gradient(180deg, #F8FAFC 0%, #FFFFFF 100%);
+  border-bottom: 1px solid rgba(241, 245, 249, 1);
+}
+
+.comparison-title {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--ink, #0F172A);
+  margin: 0;
+}
+
+.comparison-table-wrapper {
+  padding: 24px 36px 36px;
+}
+
+.comparison-table {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.comp-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  padding: 14px 20px;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.comp-header .col-user {
+  color: #64748B;
+}
+
+.comp-header .col-creator {
+  color: var(--blue, #3355FF);
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 14px;
+  justify-content: space-between;
 }
 
-.why-card .top i.main {
-  color: var(--blue);
-  font-size: 1.4rem;
+.comp-tag {
+  font-size: 0.75rem;
+  padding: 3px 10px;
+  border-radius: 100px;
+  background: rgba(51, 85, 255, 0.1);
+  color: var(--blue, #3355FF);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-.why-card h3 {
-  font-size: 1.05rem;
+.comp-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  padding: 14px 20px;
+  border-radius: 12px;
+  background: #F8FAFC;
+  transition: background 0.2s ease;
 }
 
-.why-card .check-line {
+.comp-row:hover {
+  background: #F1F5F9;
+}
+
+.comp-col {
   display: flex;
-  align-items: flex-start;
-  gap: 9px;
-  font-size: .9rem;
-  color: var(--ink-soft);
-  line-height: 1.55;
-}
-
-.why-card .check-line i {
-  color: var(--green);
-  margin-top: 2px;
-  flex-shrink: 0;
-  font-size: 1.1rem;
-}
-
-.why-banner {
-  margin-top: 36px;
-  background: var(--ink);
-  color: #fff;
-  border-radius: var(--radius-lg);
-  padding: 38px 44px;
-  text-align: center;
-  font-family: var(--font-display);
-  font-size: 1.2rem;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.95rem;
   font-weight: 500;
-  line-height: 1.55;
 }
 
-.why-banner b {
-  color: var(--gold);
+.comp-col.col-user {
+  color: #64748B;
+}
+
+.comp-col.col-creator {
+  color: #0F172A;
   font-weight: 600;
 }
 
-@media (max-width: 900px) {
-  .why-grid {
-    grid-template-columns: 1fr 1fr;
-  }
+.icon-bad {
+  color: #94A3B8;
+  font-size: 1.1rem;
 }
 
-@media (max-width: 640px) {
-  .why-grid {
+.icon-good {
+  color: #10B981;
+  font-size: 1.15rem;
+}
+
+/* Full Width Bottom Banner */
+.comp-footer-banner {
+  background: var(--ink, #0B0E14);
+  color: #ffffff;
+  padding: 36px 44px;
+  text-align: center;
+}
+
+.banner-tag {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #38BDF8;
+  margin-bottom: 8px;
+}
+
+.banner-text {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.banner-text span {
+  color: var(--gold, #F59E0B);
+  font-weight: 800;
+  margin: 0 4px;
+}
+
+@media (max-width: 768px) {
+  .why-grid-v2 {
     grid-template-columns: 1fr;
+  }
+  
+  .comp-header, .comp-row {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .comp-col.col-creator {
+    padding-bottom: 8px;
+    border-bottom: 1px dashed #CBD5E1;
+  }
+
+  .comparison-head, .comparison-table-wrapper, .comp-footer-banner {
+    padding: 24px 20px;
+  }
+
+  .banner-text {
+    font-size: 1.05rem;
   }
 }
 

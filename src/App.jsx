@@ -1,11 +1,15 @@
 import React from 'react';
 import { ThemeProvider } from './context/ThemeContext';
+import TopStrip from './components/TopStrip';
 import DynamicIslandNavbar from './components/DynamicIslandNavbar';
 import Hero from './components/Hero';
-import { CaseStudyFlipStack } from './components/ui/case-study-flip-stack';
 import SocialProof from './components/SocialProof';
 import Features from './components/Features';
 import ClipAndEarn from './components/ClipAndEarn';
+import { CaseStudyFlipStack } from './components/ui/case-study-flip-stack';
+import Pricing from './components/Pricing';
+import FAQ from './components/FAQ';
+import Footer from './components/Footer';
 import { useGsapScrollParallax } from './hooks/useGsapScrollParallax';
 
 export default function App() {
@@ -15,24 +19,27 @@ export default function App() {
   return (
     <ThemeProvider>
       <div className="min-h-screen bg-white dark:bg-black text-neutral-900 dark:text-white flex flex-col font-sans selection:bg-[#D1FE17] selection:text-black transition-colors duration-200">
+        {/* TOP ANNOUNCEMENT BAR */}
+        <TopStrip />
+
         {/* DYNAMIC ISLAND FLOATING NAVBAR */}
         <DynamicIslandNavbar />
 
-        {/* PAGE CONTENT: 1 TOPIC PER VIEWPORT/SECTION */}
+        {/* PAGE CONTENT */}
         <main className="flex-1">
-          {/* TOPIC 1: HERO VALUE PROPOSITION (100dvh Full Viewport) */}
+          {/* SECTION 1: HERO (BUILD. GROW. MONETIZE. with PixelCanvas animation) */}
           <Hero />
 
-          {/* TOPIC 2: AUDITED ESCROW LEDGER & TRUST (AreaChart + Stat Cards + Live Settlement) */}
+          {/* SECTION 2: SOCIAL PROOF & COMMUNITY MARQUEE */}
           <SocialProof />
 
-          {/* TOPIC 3: 10-SYSTEM CORE ARCHITECTURE */}
+          {/* SECTION 3: FEATURES (WHAT'S INSIDE — 3x2 Locked Grid) */}
           <Features />
 
-          {/* TOPIC 4: CLIPPING BOUNTY PROTOCOL & INCOME CALCULATOR */}
+          {/* SECTION 4: CLIP & GET PAID (Discover | Post | Earn Interactive System) */}
           <ClipAndEarn />
 
-          {/* TOPIC 5: EDITORIAL CASE STUDIES (Moved after 3-4 pages as requested) */}
+          {/* SECTION 5: VERIFIED CREATOR CASE STUDIES */}
           <section id="case-studies" className="relative bg-black border-t border-neutral-200 dark:border-[#1C1C20] overflow-hidden">
             <CaseStudyFlipStack 
               hint="Scroll Down to Flip"
@@ -40,7 +47,16 @@ export default function App() {
               endLabel="Ready to Build Your Empire?"
             />
           </section>
+
+          {/* SECTION 6: PRICING (Free vs. Pro with Billing Toggle) */}
+          <Pricing />
+
+          {/* SECTION 7: FAQ (11 Accordion Questions) */}
+          <FAQ />
         </main>
+
+        {/* SECTION 8: FINAL CTA & 5-COLUMN FOOTER */}
+        <Footer />
       </div>
     </ThemeProvider>
   );

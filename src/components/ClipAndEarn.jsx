@@ -1,309 +1,501 @@
 import React, { useState } from 'react';
-import { motion } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
 import { 
-  Coins, 
+  Flame, 
   ArrowRight, 
-  Sparkles, 
+  Play, 
+  Search, 
+  UploadCloud, 
+  DollarSign, 
   CheckCircle2, 
+  Sliders, 
+  Layers, 
+  Film, 
   TrendingUp, 
-  Download, 
-  Share2, 
-  Wallet, 
   Clock, 
-  Zap, 
-  Layers
+  Check, 
+  ChevronRight,
+  Sparkles,
+  ExternalLink,
+  ShieldCheck
 } from 'lucide-react';
 
 export default function ClipAndEarn() {
-  // Views in thousands (e.g. 500 = 500,000 views)
-  const [viewsInK, setViewsInK] = useState(750);
-  const rewardRate = 150; // ₹150 per 1,000 views
-
-  const totalViews = viewsInK * 1000;
-  const estimatedEarnings = (viewsInK * rewardRate).toLocaleString('en-IN');
-
-  const steps = [
-    {
-      step: "01",
-      title: "Claim Active Bounty",
-      desc: "Browse verified brand campaigns. Pick high-yield founder interviews and product launches with escrow-locked pools.",
-      icon: Layers,
-    },
-    {
-      step: "02",
-      title: "Source 4K Raw Cut",
-      desc: "Download timestamped podcast footage, B-roll clips, and lossless audio directly from the Vyralify media vault.",
-      icon: Download,
-    },
-    {
-      step: "03",
-      title: "Inject Viral AI Hooks",
-      desc: "Use our Hook Engine to generate 94%+ retention openers and animated captions in under 60 seconds.",
-      icon: Sparkles,
-    },
-    {
-      step: "04",
-      title: "Post & Auto-Verify",
-      desc: "Publish to Instagram Reels and YouTube Shorts. Our API tracker automatically logs verified organic views in real time.",
-      icon: Share2,
-    },
-    {
-      step: "05",
-      title: "Instant 1-Click Payout",
-      desc: "Earnings credit directly to your Vyralify Wallet. Withdraw to UPI, IMPS, or Stripe with 0% platform take rate.",
-      icon: Wallet,
-    }
-  ];
-
-  const activeBounties = [
-    {
-      brand: "Superhuman AI",
-      category: "AI & Automation",
-      pool: "₹3,50,000",
-      rate: "₹160 / 1K",
-      slots: "14 slots left",
-      badge: "High RPM"
-    },
-    {
-      brand: "FinFlow Wealth",
-      category: "Personal Finance",
-      pool: "₹5,00,000",
-      rate: "₹180 / 1K",
-      slots: "8 slots left",
-      badge: "Priority Escrow"
-    },
-    {
-      brand: "ZeroToScale Founders",
-      category: "Startup Interviews",
-      pool: "₹2,50,000",
-      rate: "₹140 / 1K",
-      slots: "21 slots left",
-      badge: "Beginner Friendly"
-    }
-  ];
+  const [activeTab, setActiveTab] = useState('discover'); // 'discover' | 'post' | 'earn'
 
   return (
-    <section id="clip-and-earn" className="relative py-12 sm:py-16 bg-white dark:bg-black text-neutral-900 dark:text-white border-t border-neutral-200 dark:border-[#1C1C20] transition-colors duration-200 overflow-hidden">
+    <section id="clip-and-earn" className="relative py-20 bg-white dark:bg-black text-neutral-900 dark:text-white border-t border-neutral-200 dark:border-[#1C1C20] transition-colors duration-200 overflow-hidden">
       
-      {/* Background glow */}
-      <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[600px] h-[350px] bg-[#D1FE17]/[0.02] blur-[150px] rounded-full pointer-events-none -z-10" />
+      {/* Subtle background glow */}
+      <div className="absolute top-1/3 left-1/4 w-[500px] h-[350px] bg-[#D1FE17]/[0.025] blur-[140px] rounded-full pointer-events-none -z-10" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Section Header (Compact, Calibrated 1-Topic Hierarchy) */}
-        <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-neutral-100 dark:bg-[#121214] border border-neutral-300 dark:border-[#242426] text-neutral-700 dark:text-neutral-300 text-[11px] font-mono font-medium tracking-wider uppercase mb-3 sm:mb-4">
+        {/* SECTION HEADER */}
+        <div className="text-center max-w-3xl mx-auto mb-12">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-neutral-100 dark:bg-[#121214] border border-neutral-300 dark:border-[#242426] text-neutral-700 dark:text-neutral-300 text-[11px] font-mono font-medium tracking-wider uppercase mb-4">
             <span className="w-1.5 h-1.5 rounded-full bg-[#D1FE17]" />
-            <span>CLIPPING BOUNTY PROTOCOL // 04</span>
+            <span>CLIP & GET PAID</span>
           </div>
 
-          <h2 className="text-2xl sm:text-4xl lg:text-5xl font-display font-bold text-neutral-900 dark:text-white tracking-tight leading-tight mb-3">
-            Can I make money here? <br />
-            <span className="text-black dark:text-white">The Clip-to-Cash Engine.</span>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-neutral-900 dark:text-white tracking-tight leading-tight mb-4">
+            Get Paid to Clip. It's That Simple.
           </h2>
 
-          <p className="text-neutral-600 dark:text-neutral-400 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto">
-            You don't need a following, personal brand, or camera. Clip verified founder podcasts, post on faceless pages, and get automated cash deposited per 1,000 views.
+          <p className="text-neutral-600 dark:text-neutral-400 text-base sm:text-lg leading-relaxed max-w-2xl mx-auto mb-8 font-normal">
+            Find paid clipping opportunities, create clips, publish them, and earn from the views you generate.
           </p>
+
+          <div className="flex flex-wrap items-center justify-center gap-3.5">
+            <a
+              href="#pricing"
+              className="px-6 py-3 rounded-full bg-[#D1FE17] text-black font-semibold text-sm hover:bg-[#bbf00e] transition-all duration-200 shadow-sm hover:shadow-md flex items-center gap-2"
+            >
+              <span>Start Free</span>
+              <ArrowRight className="w-4 h-4" />
+            </a>
+            <a
+              href="#campaigns"
+              className="px-6 py-3 rounded-full bg-neutral-100 dark:bg-neutral-900 hover:bg-neutral-200 dark:hover:bg-neutral-800 text-neutral-800 dark:text-neutral-200 border border-neutral-300 dark:border-neutral-800 font-semibold text-sm transition-all duration-200 flex items-center gap-2"
+            >
+              <span>Browse Campaigns</span>
+              <ArrowRight className="w-4 h-4" />
+            </a>
+          </div>
         </div>
 
-        {/* Skiper UI Interactive Earnings Calculator */}
-        <div className="rounded-3xl p-5 sm:p-8 lg:p-10 bg-neutral-50 dark:bg-[#0B0B0D] border border-neutral-200 dark:border-[#202025] shadow-2xl mb-10 relative overflow-hidden">
-          
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-            
-            {/* Left Column: Interactive Slider Controls */}
-            <div className="lg:col-span-7 space-y-6 text-left">
-              <div>
-                <span className="text-xs font-mono uppercase text-neutral-500 tracking-wider">Live Bounty Calculator</span>
-                <h3 className="text-2xl sm:text-3xl font-display font-bold text-neutral-900 dark:text-white mt-1">
-                  Simulate Your Monthly Clipping Income
-                </h3>
-                <p className="text-xs sm:text-sm text-neutral-500 dark:text-neutral-400 mt-2">
-                  Drag the slider to project your earnings based on average verified Reels & Shorts views.
-                </p>
-              </div>
+        {/* 01 — MAIN INTERACTIVE TABBED ELEMENT: DISCOVER → POST → EARN */}
+        <div className="max-w-5xl mx-auto mb-20 rounded-2xl bg-neutral-50 dark:bg-[#0B0B0D] border border-neutral-200 dark:border-[#202025] shadow-xl overflow-hidden">
+          {/* Tabs Bar */}
+          <div className="flex items-center border-b border-neutral-200 dark:border-[#202025] bg-neutral-100/70 dark:bg-[#0F0F12]">
+            <button
+              onClick={() => setActiveTab('discover')}
+              className={`flex-1 py-4 px-6 text-center font-display font-bold text-sm sm:text-base transition-all relative flex items-center justify-center gap-2 cursor-pointer ${
+                activeTab === 'discover'
+                  ? 'text-black dark:text-white bg-white dark:bg-[#0B0B0D]'
+                  : 'text-neutral-500 hover:text-black dark:hover:text-neutral-300'
+              }`}
+            >
+              <Search className="w-4 h-4 text-[#D1FE17]" />
+              <span>Discover</span>
+              {activeTab === 'discover' && (
+                <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#D1FE17]" />
+              )}
+            </button>
 
-              {/* Slider Component */}
-              <div className="p-6 rounded-2xl bg-white dark:bg-[#121216] border border-neutral-200 dark:border-[#1F1F24] shadow-xs space-y-4">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-mono text-neutral-500 uppercase">Monthly Views</span>
-                  <span className="text-lg sm:text-xl font-bold font-display text-neutral-900 dark:text-white">
-                    {(totalViews).toLocaleString('en-IN')} Views
-                  </span>
-                </div>
+            <button
+              onClick={() => setActiveTab('post')}
+              className={`flex-1 py-4 px-6 text-center font-display font-bold text-sm sm:text-base transition-all relative flex items-center justify-center gap-2 cursor-pointer ${
+                activeTab === 'post'
+                  ? 'text-black dark:text-white bg-white dark:bg-[#0B0B0D]'
+                  : 'text-neutral-500 hover:text-black dark:hover:text-neutral-300'
+              }`}
+            >
+              <Film className="w-4 h-4 text-[#D1FE17]" />
+              <span>Post</span>
+              {activeTab === 'post' && (
+                <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#D1FE17]" />
+              )}
+            </button>
 
-                {/* Range Slider Styled with Tailwind */}
-                <input
-                  type="range"
-                  min="50"
-                  max="3000"
-                  step="50"
-                  value={viewsInK}
-                  onChange={(e) => setViewsInK(Number(e.target.value))}
-                  className="w-full h-2 bg-neutral-200 dark:bg-[#202026] rounded-lg appearance-none cursor-pointer accent-black dark:accent-[#D1FE17]"
-                />
+            <button
+              onClick={() => setActiveTab('earn')}
+              className={`flex-1 py-4 px-6 text-center font-display font-bold text-sm sm:text-base transition-all relative flex items-center justify-center gap-2 cursor-pointer ${
+                activeTab === 'earn'
+                  ? 'text-black dark:text-white bg-white dark:bg-[#0B0B0D]'
+                  : 'text-neutral-500 hover:text-black dark:hover:text-neutral-300'
+              }`}
+            >
+              <DollarSign className="w-4 h-4 text-[#D1FE17]" />
+              <span>Earn</span>
+              {activeTab === 'earn' && (
+                <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#D1FE17]" />
+              )}
+            </button>
+          </div>
 
-                <div className="flex justify-between text-[11px] font-mono text-neutral-400">
-                  <span>50k Views</span>
-                  <span>1.5M Views</span>
-                  <span>3.0M+ Views</span>
-                </div>
-              </div>
-
-              {/* Benchmark stats */}
-              <div className="grid grid-cols-2 gap-3 text-xs font-mono">
-                <div className="p-3 rounded-xl bg-white dark:bg-[#121216] border border-neutral-200 dark:border-[#1F1F24]">
-                  <span className="text-neutral-500 text-[10px]">Guaranteed Base Rate</span>
-                  <div className="text-black dark:text-[#D1FE17] font-bold text-sm mt-0.5">₹150.00 / 1K</div>
-                </div>
-                <div className="p-3 rounded-xl bg-white dark:bg-[#121216] border border-neutral-200 dark:border-[#1F1F24]">
-                  <span className="text-neutral-500 text-[10px]">Payout Settlement</span>
-                  <div className="text-neutral-900 dark:text-white font-bold text-sm mt-0.5">Instant Automated</div>
-                </div>
-              </div>
-            </div>
-
-            {/* Right Column: Dynamic Projected Earnings Display */}
-            <div className="lg:col-span-5 rounded-2xl p-6 sm:p-8 bg-black text-white border border-[#222228] shadow-xl flex flex-col justify-between text-left">
-              <div>
-                <div className="flex items-center justify-between border-b border-neutral-800 pb-3 mb-6">
-                  <span className="text-xs font-mono uppercase text-neutral-400">Estimated Cashout</span>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#D1FE17]/15 text-[#D1FE17] font-bold">
-                    0% TAKE RATE
-                  </span>
-                </div>
-
-                <div className="space-y-1">
-                  <div className="text-xs font-mono text-neutral-400">Projected Monthly Earnings</div>
-                  <div className="text-4xl sm:text-5xl font-display font-bold text-[#D1FE17] tracking-tight">
-                    ₹{estimatedEarnings}
-                  </div>
-                  <div className="text-xs text-neutral-400 pt-1">
-                    Deposited directly to your bank account / UPI ID.
-                  </div>
-                </div>
-
-                <div className="mt-6 p-3.5 rounded-xl bg-[#121216] border border-[#222228] space-y-2 text-xs">
-                  <div className="flex items-center justify-between text-neutral-400">
-                    <span>Average clips needed:</span>
-                    <span className="text-white font-mono font-semibold">{Math.ceil(viewsInK / 75)} clips/mo</span>
-                  </div>
-                  <div className="flex items-center justify-between text-neutral-400">
-                    <span>Avg time required:</span>
-                    <span className="text-white font-mono font-semibold">45 min / day</span>
-                  </div>
-                  <div className="flex items-center justify-between text-neutral-400">
-                    <span>Escrow status:</span>
-                    <span className="text-[#D1FE17] font-mono font-semibold flex items-center gap-1">
-                      <CheckCircle2 className="w-3.5 h-3.5" /> 100% Guaranteed
+          {/* Tab Content Panels */}
+          <div className="p-6 sm:p-8">
+            <AnimatePresence mode="wait">
+              {activeTab === 'discover' && (
+                <motion.div
+                  key="discover"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.25 }}
+                  className="space-y-6"
+                >
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                    <div>
+                      <h3 className="text-xl sm:text-2xl font-display font-bold text-neutral-900 dark:text-white">
+                        Find Content. Find Opportunities.
+                      </h3>
+                      <p className="text-sm text-neutral-500 dark:text-neutral-400">
+                        Vyralify connects you with verified campaigns that pay for organic reach.
+                      </p>
+                    </div>
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#D1FE17]/15 border border-[#D1FE17]/40 text-black dark:text-[#D1FE17] text-xs font-mono font-semibold self-start sm:self-auto">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#D1FE17] animate-ping" />
+                      18 Active Campaigns
                     </span>
                   </div>
-                </div>
-              </div>
 
-              <a
-                href="#pricing"
-                className="w-full mt-6 py-3.5 rounded-xl bg-[#D1FE17] text-black font-semibold text-sm flex items-center justify-center gap-2 hover:bg-[#BBF00E] transition-all font-display group"
-              >
-                <span>Join Live Bounty Pool Now</span>
-                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-              </a>
-            </div>
+                  {/* Mock Discovery Feed Table / Cards */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="p-4 rounded-xl bg-neutral-100 dark:bg-neutral-900/90 border border-neutral-200 dark:border-neutral-800 flex flex-col justify-between">
+                      <div className="flex items-start justify-between gap-3 mb-3">
+                        <div className="flex items-center gap-3">
+                          <div className="w-12 h-12 rounded-lg bg-neutral-800 flex items-center justify-center text-white/70 font-mono font-bold text-sm shrink-0">
+                            FH
+                          </div>
+                          <div>
+                            <div className="flex items-center gap-1.5">
+                              <span className="font-bold text-sm text-neutral-900 dark:text-white">FinFlow Wealth</span>
+                              <span className="px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-[10px] font-mono">Trending</span>
+                            </div>
+                            <div className="text-xs text-neutral-500">How Micro-SaaS Scale Fast</div>
+                          </div>
+                        </div>
+                        <span className="text-xs font-mono font-bold text-emerald-600 dark:text-[#D1FE17] bg-[#D1FE17]/10 px-2 py-0.5 rounded">
+                          $5 / 1K
+                        </span>
+                      </div>
 
-          </div>
+                      <div className="grid grid-cols-3 gap-2 py-2 border-t border-neutral-200 dark:border-neutral-800/60 text-center font-mono text-[11px] mb-3">
+                        <div>
+                          <div className="text-neutral-400 text-[10px]">Pool Remaining</div>
+                          <div className="font-bold text-neutral-800 dark:text-neutral-200">$4,200</div>
+                        </div>
+                        <div>
+                          <div className="text-neutral-400 text-[10px]">Clippers</div>
+                          <div className="font-bold text-neutral-800 dark:text-neutral-200">42 active</div>
+                        </div>
+                        <div>
+                          <div className="text-neutral-400 text-[10px]">Views Generated</div>
+                          <div className="font-bold text-neutral-800 dark:text-neutral-200">1.8M</div>
+                        </div>
+                      </div>
 
-        </div>
+                      <button className="w-full py-2 rounded-lg bg-[#D1FE17] hover:bg-[#bbf00e] text-black font-semibold text-xs transition-colors flex items-center justify-center gap-1.5">
+                        <span>Clip Now</span>
+                        <ArrowRight className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
 
-        {/* 5-Step Workflow Cards */}
-        <div className="mb-16">
-          <div className="text-center max-w-xl mx-auto mb-10">
-            <h3 className="text-2xl sm:text-3xl font-display font-bold text-neutral-900 dark:text-white">
-              The 5-Step Execution Loop
-            </h3>
-            <p className="text-xs sm:text-sm text-neutral-500 mt-1">
-              Zero cold outreach. Zero manual negotiations. Strictly performance-based.
-            </p>
-          </div>
+                    <div className="p-4 rounded-xl bg-neutral-100 dark:bg-neutral-900/90 border border-neutral-200 dark:border-neutral-800 flex flex-col justify-between">
+                      <div className="flex items-start justify-between gap-3 mb-3">
+                        <div className="flex items-center gap-3">
+                          <div className="w-12 h-12 rounded-lg bg-neutral-800 flex items-center justify-center text-white/70 font-mono font-bold text-sm shrink-0">
+                            SH
+                          </div>
+                          <div>
+                            <div className="flex items-center gap-1.5">
+                              <span className="font-bold text-sm text-neutral-900 dark:text-white">Superhuman AI</span>
+                              <span className="px-1.5 py-0.5 rounded bg-blue-500/20 text-blue-400 text-[10px] font-mono">New</span>
+                            </div>
+                            <div className="text-xs text-neutral-500">Autonomous Workflow Suite</div>
+                          </div>
+                        </div>
+                        <span className="text-xs font-mono font-bold text-emerald-600 dark:text-[#D1FE17] bg-[#D1FE17]/10 px-2 py-0.5 rounded">
+                          $4.5 / 1K
+                        </span>
+                      </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-            {steps.map((item, idx) => {
-              const Icon = item.icon;
-              return (
-                <div 
-                  key={idx}
-                  className="p-5 rounded-2xl bg-neutral-50 dark:bg-[#0B0B0D] border border-neutral-200 dark:border-[#202025] flex flex-col justify-between text-left shadow-xs hover:border-neutral-300 dark:hover:border-[#33333A] transition-all"
+                      <div className="grid grid-cols-3 gap-2 py-2 border-t border-neutral-200 dark:border-neutral-800/60 text-center font-mono text-[11px] mb-3">
+                        <div>
+                          <div className="text-neutral-400 text-[10px]">Pool Remaining</div>
+                          <div className="font-bold text-neutral-800 dark:text-neutral-200">$6,800</div>
+                        </div>
+                        <div>
+                          <div className="text-neutral-400 text-[10px]">Clippers</div>
+                          <div className="font-bold text-neutral-800 dark:text-neutral-200">28 active</div>
+                        </div>
+                        <div>
+                          <div className="text-neutral-400 text-[10px]">Views Generated</div>
+                          <div className="font-bold text-neutral-800 dark:text-neutral-200">920K</div>
+                        </div>
+                      </div>
+
+                      <button className="w-full py-2 rounded-lg bg-[#D1FE17] hover:bg-[#bbf00e] text-black font-semibold text-xs transition-colors flex items-center justify-center gap-1.5">
+                        <span>Clip Now</span>
+                        <ArrowRight className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+
+              {activeTab === 'post' && (
+                <motion.div
+                  key="post"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.25 }}
+                  className="space-y-6"
                 >
                   <div>
-                    <div className="flex items-center justify-between mb-4">
-                      <span className="font-mono text-xs font-bold text-black dark:text-[#D1FE17]">{item.step}</span>
-                      <div className="w-7 h-7 rounded-lg bg-neutral-200 dark:bg-[#16161B] flex items-center justify-center text-neutral-800 dark:text-neutral-200">
-                        <Icon className="w-3.5 h-3.5" />
+                    <h3 className="text-xl sm:text-2xl font-display font-bold text-neutral-900 dark:text-white">
+                      Create Your Clip. Post It.
+                    </h3>
+                    <p className="text-sm text-neutral-500 dark:text-neutral-400">
+                      The whole clipping workflow happens inside Vyralify — trim, hook, caption, submit.
+                    </p>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="p-4 rounded-xl bg-neutral-100 dark:bg-neutral-900/90 border border-neutral-200 dark:border-neutral-800">
+                      <div className="text-xs font-mono text-neutral-400 uppercase mb-2">1. Selected Cut</div>
+                      <div className="aspect-[9/12] rounded-lg bg-neutral-800 relative flex items-center justify-center text-white/60 mb-2">
+                        <Play className="w-8 h-8 fill-white/60 text-white/60" />
+                        <div className="absolute bottom-2 left-2 right-2 px-2 py-1 rounded bg-black/70 font-mono text-[10px] text-[#D1FE17] flex justify-between">
+                          <span>00:14</span>
+                          <span>00:42 (28s)</span>
+                        </div>
+                      </div>
+                      <div className="text-xs font-medium text-neutral-800 dark:text-neutral-200 truncate">
+                        Ep. 42 FinFlow Masterclass
                       </div>
                     </div>
-                    <h4 className="text-sm font-bold font-display text-neutral-900 dark:text-white mb-2">{item.title}</h4>
-                    <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">{item.desc}</p>
+
+                    <div className="p-4 rounded-xl bg-neutral-100 dark:bg-neutral-900/90 border border-neutral-200 dark:border-neutral-800 flex flex-col justify-between">
+                      <div>
+                        <div className="text-xs font-mono text-neutral-400 uppercase mb-2">2. Hook & Captions</div>
+                        <div className="p-3 rounded-lg bg-neutral-200/60 dark:bg-neutral-800 text-xs font-medium text-neutral-800 dark:text-neutral-200 mb-3">
+                          "Nobody realizes this secret when investing in early-stage SaaS..."
+                        </div>
+                        <div className="space-y-1.5 text-xs text-neutral-500 font-mono">
+                          <div className="flex items-center gap-1.5 text-emerald-500">
+                            <Check className="w-3.5 h-3.5" />
+                            <span>Brand watermark included</span>
+                          </div>
+                          <div className="flex items-center gap-1.5 text-emerald-500">
+                            <Check className="w-3.5 h-3.5" />
+                            <span>High-retention font synced</span>
+                          </div>
+                          <div className="flex items-center gap-1.5 text-emerald-500">
+                            <Check className="w-3.5 h-3.5" />
+                            <span>Audio bitrate certified</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="text-[11px] text-neutral-400 pt-2 border-t border-neutral-200 dark:border-neutral-800 font-mono">
+                        Platform: Instagram Reels & Shorts
+                      </div>
+                    </div>
+
+                    <div className="p-4 rounded-xl bg-neutral-100 dark:bg-neutral-900/90 border border-neutral-200 dark:border-neutral-800 flex flex-col justify-between">
+                      <div>
+                        <div className="text-xs font-mono text-neutral-400 uppercase mb-2">3. Submission Link</div>
+                        <div className="p-2.5 rounded bg-neutral-200/70 dark:bg-neutral-800/80 font-mono text-xs text-neutral-700 dark:text-neutral-300 break-all mb-3">
+                          instagram.com/reel/C89xK20...
+                        </div>
+                        <div className="flex items-center gap-2 text-xs text-neutral-600 dark:text-neutral-400">
+                          <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                          <span>Status: Ready for verification</span>
+                        </div>
+                      </div>
+
+                      <button className="w-full py-2.5 rounded-lg bg-[#D1FE17] text-black font-semibold text-xs hover:bg-[#bbf00e] transition-colors flex items-center justify-center gap-1.5">
+                        <UploadCloud className="w-4 h-4" />
+                        <span>Submit Clip</span>
+                      </button>
+                    </div>
                   </div>
-                </div>
-              );
-            })}
+                </motion.div>
+              )}
+
+              {activeTab === 'earn' && (
+                <motion.div
+                  key="earn"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.25 }}
+                  className="space-y-6"
+                >
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                    <div>
+                      <h3 className="text-xl sm:text-2xl font-display font-bold text-neutral-900 dark:text-white">
+                        Track Every View. Track Every Dollar.
+                      </h3>
+                      <p className="text-sm text-neutral-500 dark:text-neutral-400">
+                        Real-time audit ledger logging verified views and instantaneous wallet credits.
+                      </p>
+                    </div>
+                    <div className="px-3 py-1.5 rounded-lg bg-emerald-500/15 border border-emerald-500/40 text-emerald-400 font-mono font-bold text-xs self-start sm:self-auto">
+                      Available to Withdraw: $182.42
+                    </div>
+                  </div>
+
+                  <div className="p-4 sm:p-5 rounded-xl bg-neutral-100 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800">
+                    <div className="flex items-center justify-between pb-3 border-b border-neutral-200 dark:border-neutral-800">
+                      <div className="flex items-center gap-2">
+                        <span className="font-bold text-sm text-neutral-900 dark:text-white">Your Submitted Clip</span>
+                        <span className="text-xs text-neutral-500 font-mono">@finflow_clips</span>
+                      </div>
+                      <span className="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-xs font-mono font-semibold">
+                        Verified
+                      </span>
+                    </div>
+
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 my-4 font-mono">
+                      <div>
+                        <div className="text-xs text-neutral-400">Total Views</div>
+                        <div className="text-lg font-bold text-neutral-900 dark:text-white">48,290</div>
+                      </div>
+                      <div>
+                        <div className="text-xs text-neutral-400">Verified Views</div>
+                        <div className="text-lg font-bold text-emerald-600 dark:text-emerald-400">44,820</div>
+                      </div>
+                      <div>
+                        <div className="text-xs text-neutral-400">Reward Rate</div>
+                        <div className="text-lg font-bold text-neutral-900 dark:text-white">$5 / 1K</div>
+                      </div>
+                      <div>
+                        <div className="text-xs text-neutral-400">Net Earned</div>
+                        <div className="text-lg font-bold text-[#D1FE17] bg-black px-2 py-0.5 rounded inline-block">
+                          +$44.82
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center justify-between pt-3 border-t border-neutral-200 dark:border-neutral-800 text-xs">
+                      <span className="text-neutral-500 font-mono">Payout Route: UPI / Stripe (0% Take Rate)</span>
+                      <button className="font-semibold text-black dark:text-[#D1FE17] hover:underline flex items-center gap-1">
+                        <span>Withdraw to Wallet</span>
+                        <ArrowRight className="w-3 h-3" />
+                      </button>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         </div>
 
-        {/* Active Live Campaigns Available Right Now */}
-        <div className="rounded-2xl p-6 sm:p-8 bg-neutral-50 dark:bg-[#0B0B0D] border border-neutral-200 dark:border-[#202025]">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 border-b border-neutral-200 dark:border-[#1C1C20] pb-4">
+        {/* 02 — CLIPPING SYSTEM PROMOTIONAL CARDS (4 Cards Only About Clipping) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+          {/* Card 01: 🔎 DISCOVER MORE */}
+          <div className="p-6 rounded-2xl bg-neutral-50 dark:bg-[#0B0B0D] border border-neutral-200 dark:border-[#202025] hover:border-neutral-400 dark:hover:border-neutral-700 transition-all flex flex-col justify-between shadow-sm">
             <div>
-              <h4 className="text-lg font-bold font-display text-neutral-900 dark:text-white">
-                Live Escrow Bounties Available Today
+              <div className="w-9 h-9 rounded-lg bg-neutral-200 dark:bg-neutral-800 text-black dark:text-[#D1FE17] flex items-center justify-center font-bold text-base mb-4">
+                🔎
+              </div>
+              <h4 className="font-display font-bold text-base text-neutral-900 dark:text-white mb-2">
+                A Feed Built for Clippers.
               </h4>
-              <p className="text-xs text-neutral-500 mt-0.5">
-                Funded by verified companies. Payouts reserved in smart escrow.
+              <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed mb-4">
+                Stop hunting for opportunities. Discover campaigns and content worth clipping in one place.
               </p>
             </div>
-            <span className="text-xs font-mono text-black dark:text-[#D1FE17] font-semibold flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
-              3 Verified Campaigns Open
-            </span>
+            <div className="p-2.5 rounded-lg bg-neutral-200/50 dark:bg-neutral-900 font-mono text-[10px] space-y-1 text-neutral-600 dark:text-neutral-400">
+              <div className="flex justify-between"><span>🔥 Trending</span> <strong className="text-neutral-900 dark:text-white">Active</strong></div>
+              <div className="flex justify-between"><span>💎 Highest Reward</span> <strong className="text-emerald-500">$6/1K</strong></div>
+              <div className="flex justify-between"><span>⚡ For You</span> <strong className="text-neutral-900 dark:text-white">Matched</strong></div>
+            </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {activeBounties.map((bounty, i) => (
-              <div 
-                key={i} 
-                className="p-4 rounded-xl bg-white dark:bg-[#121216] border border-neutral-200 dark:border-[#202025] flex flex-col justify-between text-left"
-              >
-                <div>
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-neutral-100 dark:bg-[#1C1C22] text-neutral-700 dark:text-neutral-300">
-                      {bounty.category}
-                    </span>
-                    <span className="text-[10px] font-mono text-black dark:text-[#D1FE17] font-semibold">
-                      {bounty.badge}
-                    </span>
-                  </div>
-                  <h5 className="font-semibold text-sm text-neutral-900 dark:text-white">{bounty.brand}</h5>
-                  <div className="mt-3 grid grid-cols-2 gap-2 text-xs font-mono">
-                    <div>
-                      <span className="text-[10px] text-neutral-500">Pool</span>
-                      <div className="font-bold text-neutral-900 dark:text-white">{bounty.pool}</div>
-                    </div>
-                    <div>
-                      <span className="text-[10px] text-neutral-500">Rate</span>
-                      <div className="font-bold text-black dark:text-[#D1FE17]">{bounty.rate}</div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="mt-4 pt-3 border-t border-neutral-100 dark:border-white/5 flex items-center justify-between text-xs">
-                  <span className="text-[11px] text-neutral-500 font-mono">{bounty.slots}</span>
-                  <a href="#pricing" className="text-black dark:text-[#D1FE17] font-semibold hover:underline flex items-center gap-1">
-                    Apply <ArrowRight className="w-3 h-3" />
-                  </a>
-                </div>
+          {/* Card 02: 🎬 CLIP FASTER */}
+          <div className="p-6 rounded-2xl bg-neutral-50 dark:bg-[#0B0B0D] border border-neutral-200 dark:border-[#202025] hover:border-neutral-400 dark:hover:border-neutral-700 transition-all flex flex-col justify-between shadow-sm">
+            <div>
+              <div className="w-9 h-9 rounded-lg bg-neutral-200 dark:bg-neutral-800 text-black dark:text-[#D1FE17] flex items-center justify-center font-bold text-base mb-4">
+                🎬
               </div>
-            ))}
+              <h4 className="font-display font-bold text-base text-neutral-900 dark:text-white mb-2">
+                Everything You Need to Create.
+              </h4>
+              <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed mb-4">
+                Find the content, choose the moment, create your clip, and get it ready to post — without jumping between tools.
+              </p>
+            </div>
+            <div className="p-2.5 rounded-lg bg-neutral-200/50 dark:bg-neutral-900 font-mono text-[10px] text-center text-neutral-500 dark:text-neutral-400">
+              <span className="text-[#D1FE17] font-semibold">Trim</span> → Captions → Hook → <span className="text-white font-semibold">Submit</span>
+            </div>
           </div>
+
+          {/* Card 03: 📊 TRACK PERFORMANCE */}
+          <div className="p-6 rounded-2xl bg-neutral-50 dark:bg-[#0B0B0D] border border-neutral-200 dark:border-[#202025] hover:border-neutral-400 dark:hover:border-neutral-700 transition-all flex flex-col justify-between shadow-sm">
+            <div>
+              <div className="w-9 h-9 rounded-lg bg-neutral-200 dark:bg-neutral-800 text-black dark:text-[#D1FE17] flex items-center justify-center font-bold text-base mb-4">
+                📊
+              </div>
+              <h4 className="font-display font-bold text-base text-neutral-900 dark:text-white mb-2">
+                Know Which Clips Are Winning.
+              </h4>
+              <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed mb-4">
+                Track views, engagement and eligible performance across every clip and campaign you're part of.
+              </p>
+            </div>
+            <div className="p-2.5 rounded-lg bg-neutral-200/50 dark:bg-neutral-900 font-mono text-[10px] space-y-1 text-neutral-600 dark:text-neutral-400">
+              <div className="flex justify-between"><span>Clip #01</span> <strong className="text-neutral-900 dark:text-white">182K views</strong></div>
+              <div className="flex justify-between"><span>Clip #02</span> <strong className="text-neutral-900 dark:text-white">94K views</strong></div>
+              <div className="flex justify-between border-t border-neutral-300 dark:border-neutral-800 pt-1 font-bold text-emerald-500">
+                <span>Total</span> <span>337K views</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Card 04: 💸 GET PAID */}
+          <div className="p-6 rounded-2xl bg-neutral-50 dark:bg-[#0B0B0D] border border-neutral-200 dark:border-[#D1FE17]/40 hover:border-[#D1FE17] transition-all flex flex-col justify-between shadow-sm">
+            <div>
+              <div className="w-9 h-9 rounded-lg bg-[#D1FE17]/20 text-black dark:text-[#D1FE17] flex items-center justify-center font-bold text-base mb-4">
+                💸
+              </div>
+              <h4 className="font-display font-bold text-base text-neutral-900 dark:text-white mb-2">
+                Turn Your Views Into Earnings.
+              </h4>
+              <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed mb-4">
+                See your eligible views, campaign rewards and earnings as your clips perform.
+              </p>
+            </div>
+            <div className="p-2.5 rounded-lg bg-neutral-900 text-white font-mono text-[11px] flex items-center justify-between">
+              <div>
+                <div className="text-[9px] text-neutral-400">182,420 Verified</div>
+                <div className="text-sm font-bold text-[#D1FE17]">$182.42</div>
+              </div>
+              <span className="text-[10px] bg-neutral-800 px-2 py-1 rounded text-neutral-300">
+                View Earnings →
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* 03 — CLOSING LINE: DISCOVER → CLIP → POST → TRACK → EARN */}
+        <div className="text-center py-6 border-y border-neutral-200 dark:border-[#1E1E24] mb-12">
+          <p className="text-sm sm:text-base font-display font-medium text-neutral-600 dark:text-neutral-400 mb-3">
+            Everything you need to clip, track and earn.
+          </p>
+          <div className="inline-flex flex-wrap items-center justify-center gap-2 sm:gap-3 text-xs sm:text-sm font-mono font-bold text-neutral-900 dark:text-white">
+            <span className="px-2.5 py-1 rounded bg-neutral-100 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800">DISCOVER</span>
+            <span className="text-neutral-400">→</span>
+            <span className="px-2.5 py-1 rounded bg-neutral-100 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800">CLIP</span>
+            <span className="text-neutral-400">→</span>
+            <span className="px-2.5 py-1 rounded bg-neutral-100 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800">POST</span>
+            <span className="text-neutral-400">→</span>
+            <span className="px-2.5 py-1 rounded bg-neutral-100 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800">TRACK</span>
+            <span className="text-neutral-400">→</span>
+            <span className="px-2.5 py-1 rounded bg-[#D1FE17] text-black font-bold">EARN</span>
+          </div>
+        </div>
+
+        {/* 04 — FINAL CTA */}
+        <div className="text-center max-w-xl mx-auto">
+          <h3 className="text-xl sm:text-2xl font-display font-bold text-neutral-900 dark:text-white mb-2">
+            Ready to start clipping?
+          </h3>
+          <p className="text-sm text-neutral-600 dark:text-neutral-400 mb-5">
+            Find your next opportunity and turn your views into earnings.
+          </p>
+          <a
+            href="#campaigns"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#D1FE17] hover:bg-[#bbf00e] text-black font-semibold text-sm transition-all shadow-sm hover:shadow-md"
+          >
+            <span>Browse Campaigns</span>
+            <ArrowRight className="w-4 h-4" />
+          </a>
         </div>
 
       </div>

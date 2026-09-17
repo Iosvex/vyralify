@@ -59,21 +59,53 @@ export default function SocialProof() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Section Header (Compact, Calibrated 1-Topic Hierarchy) */}
+        {/* Section Header (Locked from Specification Doc) */}
         <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-neutral-100 dark:bg-[#121214] border border-neutral-300 dark:border-[#242426] text-neutral-700 dark:text-neutral-300 text-[11px] font-mono font-medium tracking-wider uppercase mb-3 sm:mb-4">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-neutral-100 dark:bg-[#121214] border border-neutral-300 dark:border-[#242426] text-neutral-700 dark:text-[#D1FE17] text-[11px] font-mono font-bold tracking-wider uppercase mb-3 sm:mb-4">
             <span className="w-1.5 h-1.5 rounded-full bg-[#D1FE17] animate-pulse" />
-            <span>VERIFIED TRUST PROTOCOL // 02</span>
+            <span>TRUSTED BY THE COMMUNITY</span>
           </div>
 
-          <h2 className="text-2xl sm:text-4xl lg:text-5xl font-display font-bold text-neutral-900 dark:text-white tracking-tight leading-tight mb-3">
-            Can I trust it? <br />
-            <span className="text-black dark:text-white">Look at the ledger.</span>
+          <h2 className="text-2xl sm:text-4xl lg:text-5xl font-display font-bold text-neutral-900 dark:text-white tracking-tight leading-tight">
+            Creators, Clippers &amp; Brands — Building With Vyralify
           </h2>
+        </div>
 
-          <p className="text-neutral-600 dark:text-neutral-400 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto">
-            Zero vanity metrics. Institutional-grade escrow settlement infrastructure engineered for elite short-form creators, clippers, and media agencies.
-          </p>
+        {/* CREATOR / BRAND HANDLE MARQUEE (Locked from Master Doc) */}
+        <div className="mb-10 overflow-hidden">
+          <div className="text-[11px] font-mono text-neutral-500 uppercase tracking-widest text-center mb-3">
+            Building with Vyralify
+          </div>
+          <div className="flex gap-3 animate-marquee whitespace-nowrap">
+            {[
+              { handle: "@speedcuts", role: "Clipper", metric: "4.2M views verified", badge: "#1 Rank" },
+              { handle: "FinFlow Wealth", role: "Brand", metric: "12 active campaigns", badge: "Escrow Locked" },
+              { handle: "@rohan_edits", role: "Creator", metric: "₹3,84,200 in sales", badge: "+42% Conv" },
+              { handle: "Superhuman AI", role: "Brand", metric: "8 live sprints", badge: "High RPM" },
+              { handle: "@apex_clips", role: "Clipper", metric: "31.4M reach", badge: "Verified" },
+              { handle: "@priya_media", role: "Creator", metric: "182K views", badge: "Growth Node" },
+              { handle: "ZeroToScale", role: "Brand", metric: "21 active clippers", badge: "Automated" },
+              { handle: "@zenith_vfx", role: "Clipper", metric: "₹46,500 payout", badge: "Instant UPI" }
+            ].map((card, idx) => (
+              <div 
+                key={idx} 
+                className="inline-flex items-center gap-3 px-4 py-2.5 rounded-xl bg-neutral-100 dark:bg-[#0D0F14] border border-neutral-200 dark:border-white/[0.08] shrink-0 hover:border-[#D1FE17]/50 transition-colors"
+              >
+                <div className="w-7 h-7 rounded-full bg-neutral-200 dark:bg-neutral-800 flex items-center justify-center text-xs font-bold text-neutral-900 dark:text-white">
+                  {card.handle.slice(1, 3).toUpperCase()}
+                </div>
+                <div className="text-left">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-bold text-neutral-900 dark:text-white">{card.handle}</span>
+                    <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-neutral-200 dark:bg-white/10 text-neutral-600 dark:text-neutral-400 font-semibold">
+                      {card.role}
+                    </span>
+                  </div>
+                  <span className="text-[11px] font-mono text-[#D1FE17] font-semibold">{card.metric}</span>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* BKLIT 3-CARD STATISTICAL DATA ROW (@bklit/stat-card-area-01, line-01, choropleth-01) */}

@@ -1,16 +1,201 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    function signedIn() { return request.auth != null; }
-    function isAdmin() { return signedIn() && (request.auth.token.email == 'support@vyralify.in' || request.auth.token.email == 'vyralify.io@gmail.com' || (exists(/databases/$(database)/documents/users/$(request.auth.uid)) && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin')); }
-    function validInitialProfile() { return request.resource.data.role == 'member' && request.resource.data.tier == 'free' && request.resource.data.keys().hasOnly(['email','displayName','role','tier','country','currency','billingProvider','onboardingTrack','createdAt','updatedAt']) && request.resource.data.currency in ['INR','USD'] && request.resource.data.billingProvider in ['razorpay','stripe']; }
-    match /users/{uid} { allow get: if signedIn() && (request.auth.uid == uid || isAdmin()); allow list: if isAdmin(); allow create: if signedIn() && request.auth.uid == uid && validInitialProfile(); allow update: if isAdmin() || (signedIn() && request.auth.uid == uid && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['displayName','country','currency','billingProvider','onboardingTrack','updatedAt']) && request.resource.data.role == resource.data.role && request.resource.data.tier == resource.data.tier && request.resource.data.subscriptionId == resource.data.subscriptionId && request.resource.data.subscriptionStatus == resource.data.subscriptionStatus); allow delete: if isAdmin(); }
-    match /contentAssets/{document} { allow read: if true; allow write: if isAdmin(); }
-    match /orders/{id} { allow get: if signedIn() && (resource.data.uid == request.auth.uid || isAdmin()); allow list: if isAdmin(); allow write: if false; }
-    match /paidEmails/{key} { allow read: if isAdmin(); allow write: if false; }
-    match /aiGenerations/{id} { allow read, write: if isAdmin(); }
-    match /affiliates/{id} { allow get: if signedIn() && (resource.data.ownerUid == request.auth.uid || isAdmin()); allow list, write: if isAdmin(); }
-    function validPost() { return request.resource.data.uid == request.auth.uid && request.resource.data.keys().hasOnly(['uid','displayName','channel','body','createdAt']) && request.resource.data.channel in ['introductions','general','networking','wins','reviews'] && request.resource.data.body is string && request.resource.data.body.size() > 0 && request.resource.data.body.size() <= 1000 && request.resource.data.displayName is string && request.resource.data.displayName.size() <= 80; }
-    match /communityPosts/{id} { allow read: if signedIn(); allow create: if signedIn() && validPost(); allow update, delete: if signedIn() && resource.data.uid == request.auth.uid; }
+
+    // Helper functions
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isUser(uid) {
+      return signedIn() && request.auth.uid == uid;
+    }
+
+    function isAdmin() {
+      return signedIn() && (
+        request.auth.token.email == 'support@vyralify.in' ||
+        request.auth.token.email == 'vyralify.io@gmail.com' ||
+        (exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin')
+      );
+    }
+
+    // 1. User Profiles
+    match /users/{uid} {
+      allow get: if isUser(uid) || isAdmin();
+      allow list: if isAdmin();
+      allow create: if isUser(uid);
+      allow update: if isUser(uid) || isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    // 2. Business Activities Feed
+    match /businessActivities/{id} {
+      allow read: if signedIn() && (resource.data.uid == request.auth.uid || isAdmin());
+      allow write: if signedIn() && (request.resource.data.uid == request.auth.uid || isAdmin());
+    }
+
+    // 3. Products (Digital, SaaS, Communities)
+    match /products/{id} {
+      allow get: if true;
+      allow list: if true;
+      allow create: if signedIn() && request.resource.data.sellerUid == request.auth.uid;
+      allow update, delete: if signedIn() && (resource.data.sellerUid == request.auth.uid || isAdmin());
+    }
+
+    // Services
+    match /services/{id} {
+      allow read: if true;
+      allow create: if signedIn() && request.resource.data.sellerUid == request.auth.uid;
+      allow update, delete: if signedIn() && (resource.data.sellerUid == request.auth.uid || isAdmin());
+    }
+
+    // Creator Stores
+    match /stores/{uid} {
+      allow read: if true;
+      allow write: if isUser(uid) || isAdmin();
+    }
+
+    // Link-in-Bio Pages
+    match /linkPages/{uid} {
+      allow read: if true;
+      allow write: if isUser(uid) || isAdmin();
+    }
+
+    // Orders & Customers
+    match /orders/{id} {
+      allow get: if signedIn() && (resource.data.sellerUid == request.auth.uid || resource.data.buyerUid == request.auth.uid || isAdmin());
+      allow list: if signedIn() && (resource.data.sellerUid == request.auth.uid || isAdmin());
+      allow write: if isAdmin();
+    }
+
+    match /customers/{id} {
+      allow read, write: if signedIn() && (resource.data.sellerUid == request.auth.uid || isAdmin());
+    }
+
+    match /refundRequests/{id} {
+      allow read, write: if signedIn() && (resource.data.sellerUid == request.auth.uid || isAdmin());
+    }
+
+    match /businessTemplates/{id} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // 4. Instagram Pages & Growth Ops
+    match /instagramPages/{id} {
+      allow read, write: if signedIn() && (resource.data.ownerUid == request.auth.uid || request.resource.data.ownerUid == request.auth.uid || isAdmin());
+    }
+
+    match /scheduledPosts/{id} {
+      allow read, write: if signedIn() && (resource.data.ownerUid == request.auth.uid || request.resource.data.ownerUid == request.auth.uid || isAdmin());
+    }
+
+    match /dmTemplates/{id} {
+      allow read, write: if signedIn() && (resource.data.ownerUid == request.auth.uid || request.resource.data.ownerUid == request.auth.uid || isAdmin());
+    }
+
+    match /growthGoals/{id} {
+      allow read, write: if signedIn() && (resource.data.ownerUid == request.auth.uid || request.resource.data.ownerUid == request.auth.uid || isAdmin());
+    }
+
+    match /competitorWatch/{id} {
+      allow read, write: if signedIn() && (resource.data.ownerUid == request.auth.uid || request.resource.data.ownerUid == request.auth.uid || isAdmin());
+    }
+
+    // 5. Discover & Create Intelligence
+    match /nicheIntelligence/{id} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /viralPageDatabase/{id} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /trendingAudio/{id} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /assetLibrary/{id} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /contentIntelligenceReports/{id} {
+      allow read, write: if signedIn();
+    }
+
+    // 6. Vyralify Campaigns & Earnings
+    match /campaigns/{id} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /campaignSubmissions/{id} {
+      allow read: if signedIn() && (resource.data.creatorUid == request.auth.uid || isAdmin());
+      allow create: if signedIn() && request.resource.data.creatorUid == request.auth.uid;
+      allow update: if signedIn() && (resource.data.creatorUid == request.auth.uid || isAdmin());
+      allow delete: if isAdmin();
+    }
+
+    match /creatorEarnings/{uid} {
+      allow get: if isUser(uid) || isAdmin();
+      allow list, write: if isAdmin();
+    }
+
+    match /payoutRequests/{id} {
+      allow read: if signedIn() && (resource.data.creatorUid == request.auth.uid || isAdmin());
+      allow create: if signedIn() && request.resource.data.creatorUid == request.auth.uid;
+      allow update, delete: if isAdmin();
+    }
+
+    // 7. Vyralify University & Roadmaps
+    match /universityModules/{id} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /userLessonProgress/{id} {
+      allow read, write: if signedIn() && (resource.data.uid == request.auth.uid || request.resource.data.uid == request.auth.uid || isAdmin());
+    }
+
+    match /userRoadmaps/{uid} {
+      allow read, write: if isUser(uid) || isAdmin();
+    }
+
+    // AI & Affiliates
+    match /aiConversations/{id} {
+      allow read, write: if signedIn() && (resource.data.uid == request.auth.uid || request.resource.data.uid == request.auth.uid || isAdmin());
+    }
+
+    match /aiGenerations/{id} {
+      allow read, write: if signedIn() && (resource.data.uid == request.auth.uid || request.resource.data.uid == request.auth.uid || isAdmin());
+    }
+
+    match /affiliates/{code} {
+      allow get: if true;
+      allow list, write: if isAdmin() || (signedIn() && resource.data.ownerUid == request.auth.uid);
+    }
+
+    // Community & Page Reviews
+    match /communityPosts/{id} {
+      allow read: if true;
+      allow create: if signedIn() && request.resource.data.uid == request.auth.uid;
+      allow update, delete: if signedIn() && (resource.data.uid == request.auth.uid || isAdmin());
+
+      match /comments/{cid} {
+        allow read: if true;
+        allow write: if signedIn();
+      }
+    }
+
+    // Wallet Transactions Ledger
+    match /walletTransactions/{id} {
+      allow read: if signedIn() && (resource.data.uid == request.auth.uid || isAdmin());
+      allow write: if signedIn() && (request.resource.data.uid == request.auth.uid || isAdmin());
+    }
   }
 }

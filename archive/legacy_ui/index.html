@@ -1,0 +1,2011 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Vyralify — Build, Grow &amp; Monetise Viral Instagram Pages</title>
+  <meta name="description"
+    content="The AI-powered platform helping creators build, grow and monetise viral Instagram pages with curriculum, AI creator tools, templates, and community.">
+
+  <!-- Fonts & Styles -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <link href="https://api.fontshare.com/v2/css?f[]=general-sans@500,600,700&display=swap" rel="stylesheet">
+  <link rel="icon" href="/vyralifylogo.jpeg">
+  <link rel="stylesheet" href="/styles.css">
+
+  <!-- Tailwind CSS CDN for Vyralify Launchpad Components -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              blue: '#5B5BFF',
+              purple: '#7C3AED'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Icon Upgrade: Phosphor Icons (Bold Weight Across Entire Site) -->
+  <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+</head>
+
+<body>
+
+  <!-- Top Fixed Scroll Progress Indicator -->
+  <div id="scrollProgress"></div>
+
+  <!-- ============================================================
+       1. TOP STRIP — PLAIN TEXT ANNOUNCEMENT
+       ============================================================ -->
+  <div class="top-strip">
+    <div class="top-strip-inner">
+      <span class="top-strip-text">1,000+ Creators Already Scaling With Vyralify</span>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       2. NAVBAR — SEAMLESS DARK NAVBAR
+       ============================================================ -->
+  <header class="navbar" id="navbar">
+    <div class="container nav-inner">
+      <a href="#hero" class="logo">
+        <img src="/vyralifylogo.png" alt="Vyralify" class="logo-img">
+      </a>
+      <nav class="nav-links" id="navLinks">
+        <div class="nav-slider-pill" id="navSliderPill"></div>
+        <a href="#how-it-works" class="nav-link-item">How It Works</a>
+        <a href="#features" class="nav-link-item">Features</a>
+        <a href="#everything" class="nav-link-item">Everything Inside</a>
+        <a href="#results" class="nav-link-item">Community</a>
+        <a href="#pricing" class="nav-link-item">Pricing</a>
+        <a href="#faq" class="nav-link-item">FAQs</a>
+      </nav>
+      <div class="nav-right">
+        <a href="/login.html" class="nav-login" id="navAuthLink">Login</a>
+        <a href="#pricing" class="btn-nav-cta" id="navCtaBtn">Join Vyralify <i class="ph-bold ph-arrow-right"></i></a>
+        <button class="nav-burger" id="burgerBtn" aria-label="Open menu"><i class="ph-bold ph-list"></i></button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Nav Drawer -->
+  <div class="mobile-nav" id="mobileNav">
+    <div class="mobile-nav-top">
+      <a href="#hero" class="logo">
+        <img src="/vyralifylogo.png" alt="Vyralify" class="logo-img">
+      </a>
+      <button id="closeBurger" aria-label="Close menu"><i class="ph-bold ph-x"></i></button>
+    </div>
+    <a href="#how-it-works">How It Works</a>
+    <a href="#features">Features</a>
+    <a href="#everything">Everything Inside</a>
+    <a href="#results">Community</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#faq">FAQs</a>
+    <a href="/login.html">Login</a>
+    <a href="#pricing" class="mobile-cta">Join Vyralify →</a>
+  </div>
+
+  <!-- ============================================================
+       3. HERO
+       ============================================================ -->
+  <section class="hero" id="hero">
+    <div class="container">
+      <div class="hero-inner">
+        <span class="badge-pill reveal"><i class="ph-bold ph-sparkle"></i> The #1 AI-Powered Platform Built For
+          Instagram Creators</span>
+        <h1 class="reveal">Build, Grow &amp; <span class="grad">Monetise</span> Viral Instagram Pages.</h1>
+        <p class="sub reveal">Launch viral Instagram pages, master AI-powered growth strategies, and monetise your
+          audience — all in one place.</p>
+
+        <!-- DropCourse Style Long Pill CTA Button -->
+        <div class="hero-ctas reveal">
+          <a href="#pricing" class="btn-hero-pill">Join Vyralify <i class="ph-bold ph-arrow-right shift-right"></i></a>
+        </div>
+
+        <!-- Social Proof Pill (Matched size to CTA) -->
+        <div class="trusted-pill reveal">
+          <div class="trusted-avatars">
+            <img src="/assets/img/avatar1.png" alt="Creator 1" class="trusted-avatar-img">
+            <img src="/assets/img/avatar2.png" alt="Creator 2" class="trusted-avatar-img">
+            <img src="/assets/img/avatar3.png" alt="Creator 3" class="trusted-avatar-img">
+          </div>
+          <div class="trusted-text">
+            <strong>$250,000+</strong> <span class="trusted-subtext">Creator Revenue</span>
+          </div>
+          <span class="trusted-verified"><i class="ph-bold ph-seal-check"></i> Verified</span>
+        </div>
+
+        <!-- Trustpilot Excellent Rating Row -->
+        <div class="hero-rating reveal">
+          <span class="rating-word">Excellent</span>
+          <div class="rating-stars">
+            <span class="star-box"><i class="ph-fill ph-star"></i></span>
+            <span class="star-box"><i class="ph-fill ph-star"></i></span>
+            <span class="star-box"><i class="ph-fill ph-star"></i></span>
+            <span class="star-box"><i class="ph-fill ph-star"></i></span>
+            <span class="star-box"><i class="ph-fill ph-star"></i></span>
+          </div>
+          <span class="rating-brand"><i class="ph-fill ph-star" style="color: #00B67A;"></i> Trustpilot</span>
+        </div>
+
+        <!-- Dashboard Mockup (1:1 Exact DropCourse Reference Layout with Vyralify Branding) -->
+        <div class="dash-wrap reveal" id="dashWrap">
+          <div class="dash-bezel-frame">
+            <div class="dash-window" id="dashWindow">
+
+              <!-- Topbar -->
+              <div class="dash-topbar">
+                <div class="dash-brand-wrap">
+                  <div class="dash-brand-icon"><i class="ph-bold ph-graduation-cap"></i></div>
+                  <span class="dash-brand-logo">Vyralify</span>
+                </div>
+                <div class="dash-topbar-right">
+                  <span class="topbar-bell-btn"><i class="ph-bold ph-bell"></i><span class="bell-dot"></span></span>
+                  <div class="dash-user-badge">
+                    <span class="user-avatar-circle"><img src="/assets/img/avatar1.png" alt="Ace"></span>
+                    <span class="user-name">Ace</span>
+                    <i class="ph-bold ph-caret-down" style="font-size:0.7rem; opacity:0.6;"></i>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Body Grid -->
+              <div class="dash-body">
+
+                <!-- Left Sidebar -->
+                <div class="dash-sidebar">
+                  <div class="sidebar-main-links">
+                    <div class="dash-nav-item active" data-tab="dashboard">
+                      <span><i class="ph-bold ph-squares-four"></i> <span class="dash-nav-text">Dashboard</span></span>
+                      <span class="active-blue-dot">●</span>
+                    </div>
+                    <div class="dash-nav-item" data-tab="products"><span><i class="ph-bold ph-package"></i> <span
+                          class="dash-nav-text">Products</span></span></div>
+                    <div class="dash-nav-item" data-tab="websites"><span><i
+                          class="ph-bold ph-globe-hemisphere-west"></i> <span
+                          class="dash-nav-text">Websites</span></span></div>
+                    <div class="dash-nav-item" data-tab="marketing"><span><i class="ph-bold ph-chart-line-up"></i> <span
+                          class="dash-nav-text">Marketing</span></span></div>
+                    <div class="dash-nav-item" data-tab="payments"><span><i class="ph-bold ph-credit-card"></i> <span
+                          class="dash-nav-text">Payments</span></span></div>
+                    <div class="dash-nav-item" data-tab="manage"><span><i class="ph-bold ph-gear"></i> <span
+                          class="dash-nav-text">Manage</span></span></div>
+                    <div class="dash-nav-item" data-tab="automations"><span><i class="ph-bold ph-lightning"></i> <span
+                          class="dash-nav-text">Automations</span></span></div>
+                  </div>
+
+                  <!-- Sidebar Bottom Links -->
+                  <div class="sidebar-bottom-links">
+                    <div class="dash-nav-item sub-nav" data-tab="community"><i class="ph-bold ph-users-three"></i>
+                      <div class="dash-nav-text"><strong>Community</strong><small>Connect &amp; grow</small></div>
+                    </div>
+                    <div class="dash-nav-item sub-nav" data-tab="guide"><i class="ph-bold ph-book-open"></i>
+                      <div class="dash-nav-text"><strong>A-Z Guide</strong><small>Step-by-step</small></div>
+                    </div>
+                  </div>
+
+                  <!-- Sidebar Collapse Circle -->
+                  <div class="sidebar-collapse-btn"><i class="ph-bold ph-caret-left"></i></div>
+                </div>
+
+                <!-- Main Dashboard Area -->
+                <div class="dash-main">
+
+                  <!-- Dark Hero Banner Card (DropCourse EcomProdigy style) -->
+                  <div class="dash-hero-banner">
+                    <!-- Giant Watermark Background Text -->
+                    <div class="banner-watermark">ECOM PRODIGY</div>
+
+                    <div class="banner-left">
+                      <div class="banner-tags">
+                        <span class="tag tag-active">● Active course</span>
+                        <span class="tag tag-dfy">Done-For-You</span>
+                      </div>
+                      <h3 class="banner-title">EcomProdigy</h3>
+                      <p class="banner-sub">End-to-end Shopify dropshipping curriculum • 12 modules</p>
+                      <div class="banner-progress-row">
+                        <span>Setup progress</span>
+                        <div class="progress-bar-bg">
+                          <div class="progress-bar-fill" style="width: 68%;"></div>
+                        </div>
+                        <span class="pct-text">68%</span>
+                      </div>
+                    </div>
+                    <div class="banner-right">
+                      <button class="btn-launch-course">Launch course <i class="ph-bold ph-arrow-up-right"></i></button>
+                      <span class="rebrand-chip">Rebrand</span>
+                    </div>
+                  </div>
+
+                  <!-- 4 Stat Metric Cards Row (Matched Colors & Badges) -->
+                  <div class="dash-stats-row-4">
+                    <div class="stat-box stat-green">
+                      <div class="stat-head">
+                        <span class="stat-title-wrap"><span class="stat-dot dot-green">●</span> Revenue</span>
+                        <i class="ph-bold ph-currency-dollar" style="opacity:0.4;"></i>
+                      </div>
+                      <div class="stat-num">$48,240</div>
+                      <div class="stat-change green-txt">↗ +24% vs last week</div>
+                    </div>
+                    <div class="stat-box stat-blue">
+                      <div class="stat-head">
+                        <span class="stat-title-wrap"><span class="stat-dot dot-blue">●</span> Orders</span>
+                        <i class="ph-bold ph-shopping-bag" style="opacity:0.4;"></i>
+                      </div>
+                      <div class="stat-num">1,284</div>
+                      <div class="stat-change blue-txt">↗ +18% vs last week</div>
+                    </div>
+                    <div class="stat-box stat-purple">
+                      <div class="stat-head">
+                        <span class="stat-title-wrap"><span class="stat-dot dot-purple">●</span> Visitors</span>
+                        <i class="ph-bold ph-eye" style="opacity:0.4;"></i>
+                      </div>
+                      <div class="stat-num">92,418</div>
+                      <div class="stat-change purple-txt">↗ +31% vs last week</div>
+                    </div>
+                    <div class="stat-box stat-orange">
+                      <div class="stat-head">
+                        <span class="stat-title-wrap"><span class="stat-dot dot-orange">●</span> Conversion</span>
+                        <i class="ph-bold ph-percent" style="opacity:0.4;"></i>
+                      </div>
+                      <div class="stat-num">6.8%</div>
+                      <div class="stat-change orange-txt">↗ +1.2% vs last week</div>
+                    </div>
+                  </div>
+
+                  <!-- Bottom Widgets Row: Revenue Wave Chart + Live Activity + Reach -->
+                  <div class="dash-bottom-widgets">
+
+                    <!-- Left Chart Widget -->
+                    <div class="widget-box widget-chart">
+                      <div class="widget-head">
+                        <div>
+                          <strong style="font-size:0.86rem; color:#111827;">Revenue</strong>
+                          <div style="font-size:0.7rem; color:#9CA3AF; font-weight:400;">Last 7 days</div>
+                        </div>
+                        <span class="line-badge">● Live</span>
+                      </div>
+                      <div class="wave-chart-wrap">
+                        <svg viewBox="0 0 400 110" preserveAspectRatio="none" class="chart-svg">
+                          <defs>
+                            <linearGradient id="chartGrad1" x1="0" y1="0" x2="0" y2="1">
+                              <stop offset="0%" stop-color="#2FAE6B" stop-opacity="0.32" />
+                              <stop offset="100%" stop-color="#2FAE6B" stop-opacity="0.01" />
+                            </linearGradient>
+                          </defs>
+                          <path d="M 0,85 Q 70,65 140,80 T 280,35 T 380,20 L 400,18 L 400,110 L 0,110 Z"
+                            fill="url(#chartGrad1)" />
+                          <path d="M 0,85 Q 70,65 140,80 T 280,35 T 380,20 L 400,18" fill="none" stroke="#2FAE6B"
+                            stroke-width="2.8" stroke-linecap="round" />
+                        </svg>
+                      </div>
+                      <div class="chart-days-row">
+                        <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+                      </div>
+                    </div>
+
+                    <!-- Live Activity Widget -->
+                    <div class="widget-box widget-activity">
+                      <div class="widget-head">
+                        <span style="font-size:0.84rem; font-weight:700; color:#111827;">Live activity</span>
+                        <span class="dot-green-pulse">●</span>
+                      </div>
+                      <div class="activity-list">
+                        <div class="activity-item">
+                          <span class="act-left"><span class="act-icon icon-green"><i class="ph-bold ph-bag"></i></span>
+                            New sale</span>
+                          <strong>$89</strong>
+                          <small>2s</small>
+                        </div>
+                        <div class="activity-item">
+                          <span class="act-left"><span class="act-icon icon-pink"><i
+                                class="ph-bold ph-heart"></i></span> Engagement</span>
+                          <strong>+412</strong>
+                          <small>8s</small>
+                        </div>
+                        <div class="activity-item">
+                          <span class="act-left"><span class="act-icon icon-blue"><i
+                                class="ph-bold ph-globe"></i></span> Visitor</span>
+                          <strong>US</strong>
+                          <small>11s</small>
+                        </div>
+                        <div class="activity-item">
+                          <span class="act-left"><span class="act-icon icon-green"><i class="ph-bold ph-bag"></i></span>
+                            New sale</span>
+                          <strong>$142</strong>
+                          <small>24s</small>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Reach Widget -->
+                    <div class="widget-box widget-reach">
+                      <div class="widget-head" style="font-size:0.84rem; font-weight:700; color:#111827;">Reach</div>
+                      <div class="reach-list">
+                        <div class="reach-item"><i class="ph-bold ph-instagram-logo" style="color:#E1306C;"></i>
+                          <span>312K</span></div>
+                        <div class="reach-item"><i class="ph-bold ph-tiktok-logo" style="color:#000000;"></i>
+                          <span>2.1M</span></div>
+                        <div class="reach-item"><i class="ph-bold ph-youtube-logo" style="color:#FF0000;"></i>
+                          <span>148K</span></div>
+                      </div>
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Loved By Pill Badge -->
+          <div class="loved-by-pill-wrap">
+            <span class="loved-by-pill">
+              <span class="green-dot">●</span> LOVED BY 1,000+ CREATORS
+            </span>
+          </div>
+
+          <!-- 2x2 Feature Pills Grid (Directly below Loved By Pill Badge) -->
+          <div class="feature-pills-2x2 reveal">
+            <div class="pill-2x2"><i class="ph-bold ph-check-circle"></i> AI Powered</div>
+            <div class="pill-2x2"><i class="ph-bold ph-check-circle"></i> Beginner Friendly</div>
+            <div class="pill-2x2"><i class="ph-bold ph-check-circle"></i> Weekly Updates</div>
+            <div class="pill-2x2"><i class="ph-bold ph-check-circle"></i> Active Community</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+  <div class="hero-bottom-fade"></div>
+
+  <!-- ============================================================
+       4. SOCIAL PROOF (CUSTOM ANIMATED & MOBILE-OPTIMIZED)
+       ============================================================ -->
+  <style>
+    .sp-section {
+      position: relative;
+      background: #090C15;
+      color: #FFFFFF;
+      padding: 90px 0 100px;
+      overflow: hidden;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .sp-container {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 20px;
+      position: relative;
+      z-index: 2;
+    }
+    .sp-head {
+      text-align: center;
+      max-width: 740px;
+      margin: 0 auto 48px;
+    }
+    .sp-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 18px;
+      border-radius: 99px;
+      background: rgba(58, 90, 255, 0.14);
+      border: 1px solid rgba(58, 90, 255, 0.3);
+      color: #6E8BFF;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+    .sp-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 4.2vw, 2.75rem);
+      font-weight: 800;
+      color: #FFFFFF;
+      line-height: 1.2;
+      letter-spacing: -0.035em;
+      margin-bottom: 16px;
+    }
+    .sp-title span {
+      color: #6E8BFF;
+    }
+    .sp-sub {
+      font-size: clamp(0.95rem, 2vw, 1.06rem);
+      color: #94A3B8;
+      line-height: 1.65;
+    }
+
+    /* Bento Stage Container - Minimal, Clean, Dark */
+    .sp-bento-stage {
+      position: relative;
+      max-width: 960px;
+      height: 480px;
+      margin: 0 auto 56px;
+      border-radius: 24px;
+      background: #0B0E17;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 20px;
+      box-shadow: 0 25px 70px -15px rgba(0, 0, 0, 0.8);
+      overflow: hidden;
+    }
+
+    /* Top & Bottom Smooth Gradient Fade Masks */
+    .sp-bento-stage::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 64px;
+      background: linear-gradient(to bottom, #0B0E17 0%, rgba(11, 14, 23, 0.7) 60%, transparent 100%);
+      z-index: 10;
+      pointer-events: none;
+    }
+    .sp-bento-stage::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 64px;
+      background: linear-gradient(to top, #0B0E17 0%, rgba(11, 14, 23, 0.7) 60%, transparent 100%);
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    /* 3-Column Bento Grid Layout */
+    .sp-bento-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      position: relative;
+      z-index: 2;
+      height: 100%;
+    }
+
+    .sp-bento-col {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      will-change: transform;
+    }
+
+    .sp-col-up {
+      animation: spMarqueeUp 22s linear infinite;
+    }
+    .sp-col-down {
+      animation: spMarqueeDown 26s linear infinite;
+    }
+
+    @keyframes spMarqueeUp {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(calc(-50% - 9px)); }
+    }
+    @keyframes spMarqueeDown {
+      0% { transform: translateY(calc(-50% - 9px)); }
+      100% { transform: translateY(0); }
+    }
+
+    .sp-bento-stage:hover .sp-bento-col {
+      animation-play-state: paused;
+    }
+
+    /* High-Gloss Tile Card */
+    .sp-tile {
+      position: relative;
+      aspect-ratio: 1 / 1;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: #141927;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.35s, box-shadow 0.35s;
+      flex-shrink: 0;
+    }
+    .sp-tile:hover {
+      transform: translateY(-4px) scale(1.02);
+      border-color: rgba(58, 90, 255, 0.6);
+      box-shadow: 0 16px 35px rgba(58, 90, 255, 0.25);
+    }
+    .sp-tile img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    .sp-tile:hover img {
+      transform: scale(1.08);
+    }
+    .sp-tile-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(9, 12, 21, 0.96) 0%, rgba(9, 12, 21, 0.35) 55%, transparent 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 16px;
+    }
+    .sp-tile-handle {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(0.85rem, 1.8vw, 0.96rem);
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      letter-spacing: -0.01em;
+    }
+    .sp-tile-handle i {
+      color: #3B82F6;
+      font-size: 1rem;
+    }
+    .sp-tile-meta {
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: #94A3B8;
+      margin-top: 3px;
+    }
+
+    /* 5 Statistics Metric Cards Below (Mobile Optimized Grid) */
+    .sp-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      margin-top: 52px;
+    }
+    .sp-stat-card {
+      background: #0E121D;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: var(--radius-lg);
+      padding: 22px 20px;
+      transition: transform 0.35s var(--ease-spring), border-color 0.35s, box-shadow 0.35s;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    }
+    .sp-stat-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(58, 90, 255, 0.45);
+      box-shadow: 0 16px 36px rgba(58, 90, 255, 0.15);
+    }
+    .sp-stat-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+    .sp-stat-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: rgba(58, 90, 255, 0.16);
+      border: 1px solid rgba(58, 90, 255, 0.3);
+      color: #6E8BFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+    }
+    .sp-stat-num {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 1.7rem;
+      color: #FFFFFF;
+      letter-spacing: -0.02em;
+    }
+    .sp-stat-card h4 {
+      font-size: 1.02rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      margin-bottom: 5px;
+    }
+    .sp-stat-card p {
+      font-size: 0.84rem;
+      color: #94A3B8;
+      line-height: 1.5;
+    }
+
+    /* Mobile & Tablet Responsive Optimizations */
+    @media (max-width: 900px) {
+      .sp-stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .sp-stat-card.sp-span-full {
+        grid-column: span 2;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .sp-section {
+        padding: 50px 0 60px;
+      }
+      .sp-container {
+        padding: 0 16px;
+      }
+      .sp-bento-stage {
+        height: 380px;
+        padding: 12px 10px;
+        border-radius: 20px;
+        margin-bottom: 32px;
+      }
+      .sp-bento-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+      }
+      .sp-bento-col {
+        gap: 12px;
+      }
+      .sp-bento-col:nth-child(3) {
+        display: none;
+      }
+      .sp-tile {
+        border-radius: 16px;
+      }
+      .sp-tile-overlay {
+        padding: 12px 10px;
+      }
+      .sp-tile-handle {
+        font-size: 0.85rem;
+        gap: 4px;
+      }
+      .sp-tile-handle i {
+        font-size: 0.9rem;
+      }
+      .sp-tile-meta {
+        font-size: 0.72rem;
+        margin-top: 2px;
+      }
+      .sp-stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        margin-top: 36px;
+      }
+      .sp-stat-card {
+        padding: 16px 14px;
+        border-radius: 16px;
+        background: #0E121D;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      .sp-stat-header {
+        margin-bottom: 10px;
+      }
+      .sp-stat-icon {
+        width: 36px;
+        height: 36px;
+        font-size: 1.1rem;
+        border-radius: 10px;
+      }
+      .sp-stat-num {
+        font-size: 1.4rem;
+        font-weight: 900;
+      }
+      .sp-stat-card h4 {
+        font-size: 0.92rem;
+        margin-bottom: 4px;
+      }
+      .sp-stat-card p {
+        font-size: 0.76rem;
+        line-height: 1.45;
+      }
+    }
+  </style>
+
+  <section class="sp-section" id="proof">
+    <div class="sp-container">
+      
+      <!-- Section Head -->
+      <div class="sp-head text-center">
+        <span class="sp-eyebrow"><i class="ph-bold ph-seal-check"></i> Social Proof</span>
+        <h2 class="sp-title reveal">Helping Creators Build The <span>Next Generation</span> Of Instagram Pages.</h2>
+        <p class="sp-sub reveal">Vyralify combines AI-powered tools with proven strategies from experienced creators to help you build high-performing Instagram pages, generate millions of organic views, and monetise your audience.</p>
+      </div>
+
+      <!-- Bento Grid Stage (No overlapping center element) -->
+      <div class="sp-bento-stage reveal">
+        <div class="sp-bento-grid" id="sp-bento-grid">
+          <!-- Rendered dynamically by script with seamless vertical marquee animation -->
+        </div>
+      </div>
+
+      <!-- 5 Statistics Cards Below -->
+      <div class="sp-stats-grid reveal">
+        <div class="sp-stat-card">
+          <div class="sp-stat-header">
+            <span class="sp-stat-icon"><i class="ph-bold ph-file-text"></i></span>
+            <div class="sp-stat-num">120+</div>
+          </div>
+          <h4>Pages Built</h4>
+          <p>Creators have launched over 120 Instagram pages using Vyralify systems.</p>
+        </div>
+
+        <div class="sp-stat-card">
+          <div class="sp-stat-header">
+            <span class="sp-stat-icon"><i class="ph-bold ph-rocket-launch"></i></span>
+            <div class="sp-stat-num">83</div>
+          </div>
+          <h4>Active Pages</h4>
+          <p>Pages consistently posting and growing using our frameworks.</p>
+        </div>
+
+        <div class="sp-stat-card">
+          <div class="sp-stat-header">
+            <span class="sp-stat-icon"><i class="ph-bold ph-eye"></i></span>
+            <div class="sp-stat-num">500M+</div>
+          </div>
+          <h4>Views Generated</h4>
+          <p>Organic reach generated across our Instagram pages.</p>
+        </div>
+
+        <div class="sp-stat-card">
+          <div class="sp-stat-header">
+            <span class="sp-stat-icon"><i class="ph-bold ph-currency-dollar"></i></span>
+            <div class="sp-stat-num">$10,000+</div>
+          </div>
+          <h4>Revenue Generated</h4>
+          <p>Generated through digital products, affiliates and monetisation strategies.</p>
+        </div>
+
+        <div class="sp-stat-card sp-span-full">
+          <div class="sp-stat-header">
+            <span class="sp-stat-icon"><i class="ph-bold ph-shopping-bag"></i></span>
+            <div class="sp-stat-num">1,500+</div>
+          </div>
+          <h4>Digital Product Sales</h4>
+          <p>Successfully sold through Instagram pages.</p>
+        </div>
+      </div>
+
+      <p class="closing-line reveal" style="text-align: center; margin-top: 48px; font-family: var(--font-display); font-size: 1.2rem; font-weight: 500; color: #FFFFFF; max-width: 600px; margin-inline: auto;">The next successful Instagram page could be yours. Start building today with Vyralify.</p>
+    </div>
+  </section>
+
+  <script>
+    (function () {
+      const pages = [
+        { handle: '@wealth.blueprint', followers: '142K Followers', img: 'assets/img/ig-avatars/wealth.png' },
+        { handle: '@stoic.empire', followers: '89K Followers', img: 'assets/img/ig-avatars/stoicism.png' },
+        { handle: '@luxury.aesthetics', followers: '210K Followers', img: 'assets/img/ig-avatars/luxury.png' },
+        { handle: '@motivation.daily', followers: '350K Followers', img: 'assets/img/ig-avatars/motivation.png' },
+        { handle: '@exotic.cars.hub', followers: '175K Followers', img: 'assets/img/ig-avatars/cars.png' },
+        { handle: '@finance.freedom', followers: '128K Followers', img: 'assets/img/ig-avatars/finance.png' }
+      ];
+
+      const grid = document.getElementById('sp-bento-grid');
+      if (!grid) return;
+
+      // Group into 3 vertical columns with duplicated cards for continuous infinite scroll
+      const cols = [
+        [pages[0], pages[1], pages[0], pages[1]],
+        [pages[2], pages[3], pages[2], pages[3]],
+        [pages[4], pages[5], pages[4], pages[5]]
+      ];
+      let html = '';
+
+      cols.forEach((colPages, idx) => {
+        const isUp = idx % 2 === 0;
+        html += `<div class="sp-bento-col ${isUp ? 'sp-col-up' : 'sp-col-down'}">`;
+        colPages.forEach(p => {
+          html += `
+            <div class="sp-tile">
+              <img src="${p.img}" alt="${p.handle}" loading="lazy">
+              <div class="sp-tile-overlay">
+                <span class="sp-tile-handle">${p.handle} <i class="ph-bold ph-seal-check"></i></span>
+                <span class="sp-tile-meta">${p.followers}</span>
+              </div>
+            </div>
+          `;
+        });
+        html += `</div>`;
+      });
+
+      grid.innerHTML = html;
+    })();
+  </script>
+
+  <!-- ============================================================
+       SECTION 7 — VYRALIFY LAUNCHPAD (COMPACT SAME-ROW BADGES)
+       ============================================================ -->
+  <section class="relative bg-white py-16 md:py-24 overflow-hidden font-sans border-y border-slate-200/80" id="how-it-works">
+    <!-- Background Gradient Accent Blobs -->
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-gradient-to-b from-indigo-50/60 via-purple-50/30 to-transparent pointer-events-none -z-10"></div>
+
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+      
+      <!-- Section Header -->
+      <div class="text-center max-w-3xl mx-auto space-y-2">
+        <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-600 text-xs font-bold uppercase tracking-wider">
+          <i class="ph-bold ph-rocket-launch"></i> VYRALIFY LAUNCHPAD
+        </span>
+        <h2 class="text-3xl sm:text-4xl md:text-5xl font-black text-slate-900 tracking-tight leading-tight">
+          Let the <span class="bg-gradient-to-r from-[#2563EB] via-indigo-600 to-[#7C3AED] bg-clip-text text-transparent">3-Step System</span> fix it.
+        </h2>
+      </div>
+
+      <!-- 4 Cards Stack -->
+      <div class="space-y-10 md:space-y-12">
+
+        <!-- ==================== STEP 1 ==================== -->
+        <div class="bg-white rounded-[28px] border border-slate-200/80 p-6 md:p-10 shadow-[0_10px_35px_rgba(15,23,42,0.04)] hover:shadow-[0_20px_45px_rgba(37,99,235,0.08)] transition-all duration-300 reveal">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            <!-- Left Text -->
+            <div class="lg:col-span-5 space-y-4">
+              <!-- Squircle Icon Badge & Status Pill (Same Row Compact Layout) -->
+              <div class="flex items-center justify-between gap-2">
+                <div class="inline-flex items-center gap-2 min-w-0">
+                  <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-rose-500 to-orange-500 text-white flex items-center justify-center shadow-sm shrink-0">
+                    <i class="ph-bold ph-rocket-launch text-base"></i>
+                  </div>
+                  <span class="font-extrabold text-slate-900 text-base md:text-lg tracking-tight truncate">Product Library</span>
+                </div>
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#ECFDF5] border border-[#A7F3D0] text-[#059669] text-xs font-semibold shrink-0">
+                  <span class="w-2 h-2 rounded-full bg-[#10B981] animate-pulse"></span> Instant access
+                </span>
+              </div>
+
+              <!-- Title & Description -->
+              <h3 class="font-sans text-2xl md:text-3xl lg:text-[34px] text-slate-900 tracking-tight leading-tight">
+                <span class="font-medium text-slate-500">Step 1:</span> <span class="font-black text-slate-900">Plug in a Product</span>
+              </h3>
+              <p class="text-slate-600 text-sm md:text-base leading-relaxed">
+                Use our free <strong class="text-slate-900 font-bold">AI market-research tool</strong> to find a winning product from <strong class="text-slate-900 font-bold">10K+</strong> done-for-you digital products &amp; <strong class="text-slate-900 font-bold">1000+</strong> courses. Then sell through ready-made landing pages and a free store — full resell rights, keep <strong class="text-slate-900 font-bold">100%</strong> on every sale.
+              </p>
+            </div>
+
+            <!-- Right Graphic Card -->
+            <div class="lg:col-span-7">
+              <div class="relative rounded-3xl overflow-hidden shadow-2xl border border-indigo-500/20 group">
+                <img src="assets/img/step1_canva.png" alt="10K+ Premium Products Library" class="w-full h-auto object-cover rounded-3xl transform transition-transform duration-500 group-hover:scale-[1.02]" loading="lazy">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ==================== STEP 2 ==================== -->
+        <div class="bg-white rounded-[28px] border border-slate-200/80 p-6 md:p-10 shadow-[0_10px_35px_rgba(15,23,42,0.04)] hover:shadow-[0_20px_45px_rgba(37,99,235,0.08)] transition-all duration-300 reveal">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            <!-- Left Graphic Card (Visual on LEFT) -->
+            <div class="lg:col-span-7 order-2 lg:order-1">
+              <div class="relative rounded-3xl overflow-hidden shadow-2xl border border-purple-500/20 group">
+                <img src="assets/img/step2_canva.jpg" alt="Content Library - Post Viral Content" class="w-full h-auto object-cover rounded-3xl transform transition-transform duration-500 group-hover:scale-[1.02]" loading="lazy">
+              </div>
+            </div>
+
+            <!-- Right Text -->
+            <div class="lg:col-span-5 space-y-4 order-1 lg:order-2">
+              <!-- Squircle Icon Badge & Status Pill (Same Row Compact Layout) -->
+              <div class="flex items-center justify-between gap-2">
+                <div class="inline-flex items-center gap-2 min-w-0">
+                  <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-500 text-white flex items-center justify-center shadow-sm shrink-0">
+                    <i class="ph-bold ph-video-camera text-base"></i>
+                  </div>
+                  <span class="font-extrabold text-slate-900 text-base md:text-lg tracking-tight truncate">Content Library</span>
+                </div>
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#ECFDF5] border border-[#A7F3D0] text-[#059669] text-xs font-semibold shrink-0">
+                  <span class="w-2 h-2 rounded-full bg-[#10B981] animate-pulse"></span> Instant access
+                </span>
+              </div>
+
+              <!-- Title & Description -->
+              <h3 class="font-sans text-2xl md:text-3xl lg:text-[34px] text-slate-900 tracking-tight leading-tight">
+                <span class="font-medium text-slate-500">Step 2:</span> <span class="font-black text-slate-900">Post Viral Content</span>
+              </h3>
+              <p class="text-slate-600 text-sm md:text-base leading-relaxed">
+                Create a new IG account &amp; start posting these <strong class="text-slate-900 font-bold">15K+</strong> ready-made viral marketing content — no face, no filming, no editing. Just download &amp; post.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- ==================== STEP 3: STUDENTS PAGES ==================== -->
+        <div class="space-y-4 text-center reveal">
+          <h4 class="text-slate-900 text-base md:text-lg font-extrabold tracking-tight">Our Students Pages using this same content library</h4>
+
+          <div class="relative rounded-3xl overflow-hidden shadow-2xl border border-indigo-500/20 group">
+            <img src="assets/img/step3_canva.jpg" alt="Our Student Pages using this same content library" class="w-full h-auto object-cover rounded-3xl transform transition-transform duration-500 group-hover:scale-[1.01]" loading="lazy">
+          </div>
+        </div>
+
+        <!-- ==================== STEP 4: SALES WHILE YOU SLEEP ==================== -->
+        <div class="bg-white rounded-[28px] border border-slate-200/80 p-6 md:p-10 shadow-[0_10px_35px_rgba(15,23,42,0.04)] hover:shadow-[0_20px_45px_rgba(37,99,235,0.08)] transition-all duration-300 reveal">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            <!-- Left Text -->
+            <div class="lg:col-span-5 space-y-4">
+              <!-- Squircle Icon Badge & Status Pill (Same Row Compact Layout) -->
+              <div class="flex items-center justify-between gap-2">
+                <div class="inline-flex items-center gap-2 min-w-0">
+                  <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-indigo-600 to-blue-500 text-white flex items-center justify-center shadow-sm shrink-0">
+                    <i class="ph-bold ph-lightning text-base"></i>
+                  </div>
+                  <span class="font-extrabold text-slate-900 text-base md:text-lg tracking-tight truncate">Start Earning</span>
+                </div>
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#ECFDF5] border border-[#A7F3D0] text-[#059669] text-xs font-semibold shrink-0">
+                  <span class="w-2 h-2 rounded-full bg-[#10B981] animate-pulse"></span> Quick Setup
+                </span>
+              </div>
+
+              <!-- Title & Description -->
+              <h3 class="font-sans text-2xl md:text-3xl lg:text-[34px] text-slate-900 tracking-tight leading-tight">
+                <span class="font-medium text-slate-500">Step 3:</span> <span class="font-black text-slate-900">Sales While You Sleep</span>
+              </h3>
+              <p class="text-slate-600 text-sm md:text-base leading-relaxed">
+                Your reels pull <strong class="text-slate-900 font-bold">free Organic traffic</strong>; your page <strong class="text-slate-900 font-bold">sells on autopilot</strong>. And it doesn't stop at digital products — as you grow, so do your income streams: <strong class="text-slate-900 font-bold">brand deals, paid promos, affiliate offers</strong>, and more. Multiple ways to get paid, all from one faceless page.
+              </p>
+            </div>
+
+            <!-- Right Graphic Card -->
+            <div class="lg:col-span-7">
+              <div class="relative rounded-3xl overflow-hidden shadow-2xl border border-indigo-500/20 group">
+                <img src="assets/img/step4_canva.jpg" alt="Wake Up to these Notifications" class="w-full h-auto object-cover rounded-3xl transform transition-transform duration-500 group-hover:scale-[1.02]" loading="lazy">
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SECTION 5 — FEATURES & EVERYTHING INSIDE
+       ============================================================ -->
+  <section class="relative bg-[#F8FAFC] py-16 md:py-24 font-sans overflow-hidden border-y border-slate-200/80" id="features">
+    <!-- Soft Background Radial Accents -->
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[500px] bg-gradient-to-b from-blue-50/80 via-indigo-50/40 to-transparent pointer-events-none -z-10"></div>
+
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+
+      <!-- Section Header -->
+      <div class="text-center max-w-3xl mx-auto space-y-3">
+        <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-100/70 border border-blue-200 text-blue-700 text-xs font-extrabold tracking-wider uppercase">
+          <i class="ph-bold ph-cube"></i> EVERYTHING INSIDE
+        </span>
+        <h2 class="text-3xl sm:text-4xl md:text-5xl font-black text-slate-900 tracking-tight leading-tight">
+          Everything <span class="bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 bg-clip-text text-transparent">Inside Vyralify.</span>
+        </h2>
+        <p class="text-slate-600 text-sm sm:text-base font-semibold leading-relaxed max-w-xl mx-auto">
+          One membership. Complete access.<br class="hidden sm:inline">
+          Here's exactly what you unlock the moment you join.
+        </p>
+      </div>
+
+      <!-- 7 Cards Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-8">
+
+        <!-- ==================== CARD 01 ==================== -->
+        <div class="bg-white rounded-3xl p-5 sm:p-8 border border-slate-200/90 shadow-[0_4px_20px_rgba(15,23,42,0.03)] hover:shadow-[0_12px_35px_rgba(37,99,235,0.08)] transition-all duration-300 flex flex-col justify-between reveal">
+          <div>
+            <!-- Top Row: Card ICON - Heading - Pill Text (without icon) -->
+            <div class="flex items-start justify-between gap-2.5 sm:gap-3">
+              <div class="flex items-center gap-2.5 sm:gap-3 min-w-0">
+                <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-blue-50 border border-blue-100 text-blue-600 flex items-center justify-center font-bold text-lg sm:text-xl shrink-0">
+                  <i class="ph-bold ph-robot"></i>
+                </div>
+                <h3 class="text-slate-900 font-extrabold text-base sm:text-lg md:text-xl tracking-tight leading-snug">Vyralify AI Assistant</h3>
+              </div>
+              <span class="px-2.5 py-1 rounded-full bg-blue-50 border border-blue-200/80 text-blue-600 text-[11px] sm:text-xs font-extrabold shrink-0 mt-0.5 whitespace-nowrap">
+                24/7 AI Mentor
+              </span>
+            </div>
+
+            <!-- Horizontal Divider Line -->
+            <div class="w-full h-px bg-slate-100 my-3.5 sm:my-4"></div>
+
+            <!-- Short Description -->
+            <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-4">
+              Get AI-powered mentorship from a system that knows Instagram theme pages inside out. Ask questions, generate content, and level up faster.
+            </p>
+          </div>
+
+          <!-- Includes List -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm text-slate-700 font-semibold pt-2">
+            <div class="flex items-center gap-1.5"><i class="ph-fill ph-check-circle text-blue-600 text-sm shrink-0"></i> <span>24/7 AI Chat Mentor</span></div>
+            <div class="flex items-center gap-1.5"><i class="ph-fill ph-check-circle text-blue-600 text-sm shrink-0"></i> <span>Content Generator</span></div>
+            <div class="flex items-center gap-1.5"><i class="ph-fill ph-check-circle text-blue-600 text-sm shrink-0"></i> <span>Strategy Advisor</span></div>
+            <div class="flex items-center gap-1.5"><i class="ph-fill ph-check-circle text-blue-600 text-sm shrink-0"></i> <span>Niche Idea Finder</span></div>
+          </div>
+        </div>
+
+        <!-- ==================== CARD 02 ==================== -->
+        <div class="bg-white rounded-3xl p-5 sm:p-8 border border-slate-200/90 shadow-[0_4px_20px_rgba(15,23,42,0.03)] hover:shadow-[0_12px_35px_rgba(37,99,235,0.08)] transition-all duration-300 flex flex-col justify-between reveal">
+          <div>
+            <!-- Top Row: Card ICON - Heading - Pill Text (without icon) -->
+            <div class="flex items-start justify-between gap-2.5 sm:gap-3">
+              <div class="flex items-center gap-2.5 sm:gap-3 min-w-0">
+                <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-blue-50 border border-blue-100 text-blue-600 flex items-center justify-center font-bold text-lg sm:text-xl shrink-0">
+                  <i class="ph-bold ph-device-mobile"></i>
+                </div>
+                <h3 class="text-slate-900 font-extrabold text-base sm:text-lg md:text-xl tracking-tight leading-snug">Build Pages</h3>
+              </div>
+              <span class="px-2.5 py-1 rounded-full bg-blue-50 border border-blue-200/80 text-blue-600 text-[11px] sm:text-xs font-extrabold shrink-0 mt-0.5 whitespace-nowrap">
+                Step-by-Step System
+              </span>
+            </div>
+
+            <!-- Horizontal Divider Line -->
+            <div class="w-full h-px bg-slate-100 my-3.5 sm:my-4"></div>
+
+            <!-- Short Description -->
+            <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-4">
+              Launch professional Instagram pages built to scale from day one using proven frameworks and profile setup systems.
+            </p>
+          </div>
+
+          <!-- Includes List -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm text-slate-700 font-semibold pt-2">
+            <div class="flex items-center gap-1.5"><i class="ph-fill ph-check-circle text-blue-600 text-sm shrink-0"></i> <span>Page Setup Blueprint</span></div>
+            <div class="flex items-center gap-1.5"><i class="ph-fill ph-check-circle text-blue-600 text-sm shrink-0"></i> <span>Niche Selection</span></div>
+            <div class="flex items-center gap-1.5"><i class="ph-fill ph-check-circle text-blue-600 text-sm shrink-0"></i> <span>Profile Optimisation</span></div>
+            <div class="flex items-center gap-1.5"><i class="ph-fill ph-check-circle text-blue-600 text-sm shrink-0"></i> <span>Scaling Roadmap</span></div>
+          </div>
+        </div>
+
+        <!-- ==================== CARD 03 ==================== -->
+        <div class="bg-white rounded-3xl p-5 sm:p-8 border border-slate-200/90 shadow-[0_4px_20px_rgba(15,23,42,0.03)] hover:shadow-[0_12px_35px_rgba(37,99,235,0.08)] transition-all duration-300 flex flex-col justify-between reveal">
+          <div>
+            <!-- Top Row: Card ICON - Heading - Pill Text (without icon) -->
+            <div class="flex items-start justify-between gap-2.5 sm:gap-3">
+              <div class="flex items-center gap-2.5 sm:gap-3 min-w-0">
+                <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-blue-50 border border-blue-100 text-blue-600 flex items-center justify-center font-bold text-lg sm:text-xl shrink-0">
+                  <i class="ph-bold ph-film-strip"></i>
+                </div>
+                <h3 class="text-slate-900 font-extrabold text-base sm:text-lg md:text-xl tracking-tight leading-snug">Viral Content Library</h3>
+              </div>
+              <span class="px-2.5 py-1 rounded-full bg-blue-50 border border-blue-200/80 text-blue-600 text-[11px] sm:text-xs font-extrabold shrink-0 mt-0.5 whitespace-nowrap">
+                20 Million+ Views
+              </span>
+            </div>
+
+            <!-- Horizontal Divider Line -->
+            <div class="w-full h-px bg-slate-100 my-3.5 sm:my-4"></div>
+
+            <!-- Short Description -->
+            <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-4">
+              Access curated viral content, hooks, and trending audio handpicked by professionals. No guessing—just post what works.
+            </p>
+          </div>
+
+          <!-- Includes List -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm text-slate-700 font-semibold pt-2">
+            <div class="flex items-center gap-1.5"><i class="ph-fill ph-check-circle text-blue-600 text-sm shrink-0"></i> <span>Hooks Library</span></div>
+            <div class="flex items-center gap-1.5"><i class="ph-fill ph-check-circle text-blue-600 text-sm shrink-0"></i> <span>Trending Audio Drops</span></div>
+            <div class="flex items-center gap-1.5"><i class="ph-fill ph-check-circle text-blue-600 text-sm shrink-0"></i> <span>CTA Library</span></div>
+            <div class="flex items-center gap-1.5"><i class="ph-fill ph-check-circle text-blue-600 text-sm shrink-0"></i> <span>Content Templates</span></div>
+          </div>
+        </div>
+
+        <!-- ==================== CARD 04 ==================== -->
+        <div class="bg-white rounded-3xl p-5 sm:p-8 border border-slate-200/90 shadow-[0_4px_20px_rgba(15,23,42,0.03)] hover:shadow-[0_12px_35px_rgba(37,99,235,0.08)] transition-all duration-300 flex flex-col justify-between reveal">
+          <div>
+            <!-- Top Row: Card ICON - Heading - Pill Text (without icon) -->
+            <div class="flex items-start justify-between gap-2.5 sm:gap-3">
+              <div class="flex items-center gap-2.5 sm:gap-3 min-w-0">
+                <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-blue-50 border border-blue-100 text-blue-600 flex items-center justify-center font-bold text-lg sm:text-xl shrink-0">
+                  <i class="ph-bold ph-chart-line-up"></i>
+                </div>
+                <h3 class="text-slate-900 font-extrabold text-base sm:text-lg md:text-xl tracking-tight leading-snug">Posting &amp; Growth Strategies</h3>
+              </div>
+              <span class="px-2.5 py-1 rounded-full bg-blue-50 border border-blue-200/80 text-blue-600 text-[11px] sm:text-xs font-extrabold shrink-0 mt-0.5 whitespace-nowrap">
+                Algorithm Mastery
+              </span>
+            </div>
+
+            <!-- Horizontal Divider Line -->
+            <div class="w-full h-px bg-slate-100 my-3.5 sm:my-4"></div>
+
+            <!-- Short Description -->
+            <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-4">
+              Get insider growth strategies, posting schedules, and real case studies from pages that have scaled effortlessly.
+            </p>
+          </div>
+
+          <!-- Includes List -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm text-slate-700 font-semibold pt-2">
+            <div class="flex items-center gap-1.5"><i class="ph-fill ph-check-circle text-blue-600 text-sm shrink-0"></i> <span>Algorithm Mastery</span></div>
+            <div class="flex items-center gap-1.5"><i class="ph-fill ph-check-circle text-blue-600 text-sm shrink-0"></i> <span>Posting Systems</span></div>
+            <div class="flex items-center gap-1.5"><i class="ph-fill ph-check-circle text-blue-600 text-sm shrink-0"></i> <span>Multi-Page Growth</span></div>
+            <div class="flex items-center gap-1.5"><i class="ph-fill ph-check-circle text-blue-600 text-sm shrink-0"></i> <span>Real Case Studies</span></div>
+          </div>
+        </div>
+
+        <!-- ==================== CARD 05 ==================== -->
+        <div class="bg-white rounded-3xl p-5 sm:p-8 border border-slate-200/90 shadow-[0_4px_20px_rgba(15,23,42,0.03)] hover:shadow-[0_12px_35px_rgba(37,99,235,0.08)] transition-all duration-300 flex flex-col justify-between reveal">
+          <div>
+            <!-- Top Row: Card ICON - Heading - Pill Text (without icon) -->
+            <div class="flex items-start justify-between gap-2.5 sm:gap-3">
+              <div class="flex items-center gap-2.5 sm:gap-3 min-w-0">
+                <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-blue-50 border border-blue-100 text-blue-600 flex items-center justify-center font-bold text-lg sm:text-xl shrink-0">
+                  <i class="ph-bold ph-package"></i>
+                </div>
+                <h3 class="text-slate-900 font-extrabold text-base sm:text-lg md:text-xl tracking-tight leading-snug">Digital Product Library</h3>
+              </div>
+              <span class="px-2.5 py-1 rounded-full bg-amber-50 border border-amber-200/80 text-amber-700 text-[11px] sm:text-xs font-extrabold shrink-0 mt-0.5 whitespace-nowrap">
+                10K+ Products
+              </span>
+            </div>
+
+            <!-- Horizontal Divider Line -->
+            <div class="w-full h-px bg-slate-100 my-3.5 sm:my-4"></div>
+
+            <!-- Short Description -->
+            <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-4">
+              Ready-made digital products to sell instantly with full resell rights. Pick a product, set up store, and start earning.
+            </p>
+          </div>
+
+          <!-- Includes List -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm text-slate-700 font-semibold pt-2">
+            <div class="flex items-center gap-1.5"><i class="ph-fill ph-check-circle text-blue-600 text-sm shrink-0"></i> <span>Done-For-You Products</span></div>
+            <div class="flex items-center gap-1.5"><i class="ph-fill ph-check-circle text-blue-600 text-sm shrink-0"></i> <span>Store Setup Guide</span></div>
+            <div class="flex items-center gap-1.5"><i class="ph-fill ph-check-circle text-blue-600 text-sm shrink-0"></i> <span>Sales Scripts Pack</span></div>
+            <div class="flex items-center gap-1.5"><i class="ph-fill ph-check-circle text-blue-600 text-sm shrink-0"></i> <span>Affiliate System</span></div>
+          </div>
+        </div>
+
+        <!-- ==================== CARD 06 ==================== -->
+        <div class="bg-white rounded-3xl p-5 sm:p-8 border border-slate-200/90 shadow-[0_4px_20px_rgba(15,23,42,0.03)] hover:shadow-[0_12px_35px_rgba(37,99,235,0.08)] transition-all duration-300 flex flex-col justify-between reveal">
+          <div>
+            <!-- Top Row: Card ICON - Heading - Pill Text (without icon) -->
+            <div class="flex items-start justify-between gap-2.5 sm:gap-3">
+              <div class="flex items-center gap-2.5 sm:gap-3 min-w-0">
+                <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-blue-50 border border-blue-100 text-blue-600 flex items-center justify-center font-bold text-lg sm:text-xl shrink-0">
+                  <i class="ph-bold ph-currency-dollar"></i>
+                </div>
+                <h3 class="text-slate-900 font-extrabold text-base sm:text-lg md:text-xl tracking-tight leading-snug">Monetisation</h3>
+              </div>
+              <span class="px-2.5 py-1 rounded-full bg-emerald-50 border border-emerald-200/80 text-emerald-700 text-[11px] sm:text-xs font-extrabold shrink-0 mt-0.5 whitespace-nowrap">
+                $9,878+ Revenue
+              </span>
+            </div>
+
+            <!-- Horizontal Divider Line -->
+            <div class="w-full h-px bg-slate-100 my-3.5 sm:my-4"></div>
+
+            <!-- Short Description -->
+            <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-4">
+              Turn audience attention into recurring income with proven sales frameworks, sponsorships, and affiliate channels.
+            </p>
+          </div>
+
+          <!-- Includes List -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm text-slate-700 font-semibold pt-2">
+            <div class="flex items-center gap-1.5"><i class="ph-fill ph-check-circle text-blue-600 text-sm shrink-0"></i> <span>Monetisation Playbooks</span></div>
+            <div class="flex items-center gap-1.5"><i class="ph-fill ph-check-circle text-blue-600 text-sm shrink-0"></i> <span>Sponsorship Deals</span></div>
+            <div class="flex items-center gap-1.5"><i class="ph-fill ph-check-circle text-blue-600 text-sm shrink-0"></i> <span>Affiliate Tracking</span></div>
+          </div>
+        </div>
+
+        <!-- ==================== CARD 07 — FULL WIDTH CARD ==================== -->
+        <div class="lg:col-span-2 bg-white rounded-3xl p-5 sm:p-8 border border-slate-200/90 shadow-[0_4px_20px_rgba(15,23,42,0.03)] hover:shadow-[0_12px_35px_rgba(37,99,235,0.08)] transition-all duration-300 reveal">
+          <div>
+            <!-- Top Row: Card ICON - Heading - Pill Text (without icon) -->
+            <div class="flex items-start justify-between gap-2.5 sm:gap-3">
+              <div class="flex items-center gap-2.5 sm:gap-3 min-w-0">
+                <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-blue-50 border border-blue-100 text-blue-600 flex items-center justify-center font-bold text-lg sm:text-xl shrink-0">
+                  <i class="ph-bold ph-users-three"></i>
+                </div>
+                <h3 class="text-slate-900 font-extrabold text-base sm:text-lg md:text-xl tracking-tight leading-snug">Private Community</h3>
+              </div>
+              <span class="px-2.5 py-1 rounded-full bg-indigo-50 border border-indigo-200/80 text-indigo-600 text-[11px] sm:text-xs font-extrabold shrink-0 mt-0.5 whitespace-nowrap">
+                Real Students • Real Results
+              </span>
+            </div>
+
+            <!-- Horizontal Divider Line -->
+            <div class="w-full h-px bg-slate-100 my-3.5 sm:my-4"></div>
+
+            <!-- Short Description -->
+            <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-4">
+              Join a network of like-minded creators building Instagram pages. Find business partners, share wins, and grow together.
+            </p>
+
+            <!-- Includes List -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 text-xs sm:text-sm text-slate-700 font-semibold pt-1">
+              <div class="flex items-center gap-1.5"><i class="ph-fill ph-check-circle text-blue-600 text-sm shrink-0"></i> <span>Networking &amp; Partners</span></div>
+              <div class="flex items-center gap-1.5"><i class="ph-fill ph-check-circle text-blue-600 text-sm shrink-0"></i> <span>Wins &amp; Milestones</span></div>
+              <div class="flex items-center gap-1.5"><i class="ph-fill ph-check-circle text-blue-600 text-sm shrink-0"></i> <span>Page Reviews</span></div>
+              <div class="flex items-center gap-1.5"><i class="ph-fill ph-check-circle text-blue-600 text-sm shrink-0"></i> <span>General Chat</span></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ==================== CTA BUTTONS ROW ==================== -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-3xl mx-auto pt-4 reveal">
+        <!-- Join Vyralify Primary Button -->
+        <a href="#pricing" class="rounded-2xl bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 hover:from-blue-700 hover:to-indigo-700 text-white p-4 sm:p-5 flex items-center justify-center gap-4 shadow-xl shadow-blue-500/25 hover:shadow-blue-500/40 hover:scale-[1.02] transition-all duration-300 group">
+          <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center text-white shrink-0 group-hover:scale-110 transition-transform">
+            <i class="ph-bold ph-rocket-launch text-xl"></i>
+          </div>
+          <div class="text-left">
+            <div class="font-extrabold text-base sm:text-lg tracking-tight">Join Vyralify</div>
+            <div class="text-blue-100 text-xs font-semibold">Start Your Journey Today</div>
+          </div>
+        </a>
+
+        <!-- View Pricing Secondary Button -->
+        <a href="#pricing" class="rounded-2xl bg-white border-2 border-blue-600 text-blue-600 p-4 sm:p-5 flex items-center justify-center gap-4 shadow-md hover:bg-blue-50/60 hover:scale-[1.02] transition-all duration-300 group">
+          <div class="w-10 h-10 rounded-xl bg-blue-50 border border-blue-200 flex items-center justify-center text-blue-600 shrink-0 group-hover:scale-110 transition-transform">
+            <i class="ph-bold ph-play-circle text-xl"></i>
+          </div>
+          <div class="text-left">
+            <div class="font-extrabold text-base sm:text-lg text-blue-600 tracking-tight">View Pricing</div>
+            <div class="text-slate-500 text-xs font-semibold">Choose Your Plan</div>
+          </div>
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================================================
+       7. HOW IT WORKS
+       ============================================================ -->
+  <section class="section section-soft" id="how-it-works">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Roadmap</span>
+        <h2 class="h2 reveal">Your Journey Starts Here.</h2>
+        <p class="sub reveal">Follow a proven roadmap designed to help you go from your first Instagram page to building
+          a profitable online business.</p>
+      </div>
+
+      <div class="steps">
+        <div class="step reveal">
+          <div class="step-num">01</div>
+          <div class="step-body">
+            <h3><i class="ph-bold ph-user-plus"></i> Step 1 — Join Vyralify</h3>
+            <p>Unlock instant access to the complete platform, including AI tools, lessons, resources and proven growth
+              systems.</p>
+            <div class="step-visual"><i class="ph-bold ph-shield-check"></i> Instant Membership Access Granted</div>
+          </div>
+        </div>
+        <div class="step reveal">
+          <div class="step-num">02</div>
+          <div class="step-body">
+            <h3><i class="ph-bold ph-rocket-launch"></i> Step 2 — Launch Your Page</h3>
+            <p>Choose your niche, build your Instagram page, and start creating high-performing content with AI-powered
+              assistance.</p>
+            <div class="step-visual"><i class="ph-bold ph-sparkle"></i> AI Niche &amp; Bio Framework Activated</div>
+          </div>
+        </div>
+        <div class="step reveal">
+          <div class="step-num">03</div>
+          <div class="step-body">
+            <h3><i class="ph-bold ph-currency-dollar"></i> Step 3 — Monetise Your Audience</h3>
+            <p>Turn your followers into customers using digital products, affiliate marketing, sponsorships and proven
+              conversion strategies.</p>
+            <div class="step-visual"><i class="ph-bold ph-shopping-bag"></i> Digital Store &amp; Affiliate Link Live
+            </div>
+          </div>
+        </div>
+        <div class="step reveal">
+          <div class="step-num">04</div>
+          <div class="step-body">
+            <h3><i class="ph-bold ph-chart-line-up"></i> Step 4 — Scale Your Business</h3>
+            <p>Expand with advanced growth systems, AI-powered workflows, multiple Instagram pages and a thriving
+              creator community.</p>
+            <div class="step-visual"><i class="ph-bold ph-trend-up"></i> Multi-Page Portfolio Engine Online</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       8. WHY VYRALIFY
+       ============================================================ -->
+  <section class="section" id="why">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Why Vyralify</span>
+        <h2 class="h2 reveal">Turn Instagram Into A Real Business.</h2>
+        <p class="sub reveal">More than just growing followers—Vyralify helps you build valuable digital assets that generate traffic, attract customers and unlock multiple income streams.</p>
+      </div>
+
+      <div class="why-grid-v2">
+        <!-- Card 1 -->
+        <div class="card why-card-v2 reveal">
+          <div class="why-badge">
+            <i class="ph-bold ph-rocket-launch"></i> 20 Million+ Views
+          </div>
+          <h3>Reach Millions Organically.</h3>
+          <p>Build Instagram pages that consistently reach new audiences using proven viral content systems, AI-powered insights, and strategies designed to maximise organic reach without relying on paid ads.</p>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="card why-card-v2 reveal">
+          <div class="why-badge badge-gold">
+            <i class="ph-bold ph-currency-dollar"></i> $9,878+ Revenue
+          </div>
+          <h3>Turn Attention Into Income.</h3>
+          <p>Monetise your audience with high-demand digital products, affiliate marketing, sponsorships, and proven sales systems designed to help you generate real revenue from your Instagram pages.</p>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="card why-card-v2 reveal">
+          <div class="why-badge badge-blue">
+            <i class="ph-bold ph-chart-line-up"></i> Multiple Income Streams
+          </div>
+          <h3>Build Once. Earn From Multiple Sources.</h3>
+          <p>Scale beyond a single page by building multiple Instagram assets, expanding into new niches, selling different products, and creating several income streams that grow together over time.</p>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="card why-card-v2 reveal">
+          <div class="why-badge badge-purple">
+            <i class="ph-bold ph-robot"></i> AI-Powered Mentorship
+          </div>
+          <h3>Your Personal Instagram Growth Mentor.</h3>
+          <p>Get 24/7 guidance from an AI trained specifically for Instagram theme pages. Whether you need help choosing a niche, creating viral content, solving growth challenges, or improving monetisation, your AI mentor is always ready to help you make smarter decisions and move faster.</p>
+        </div>
+      </div>
+
+      <!-- Comparison Section -->
+      <div class="why-comparison reveal">
+        <div class="comparison-head">
+          <h3 class="comparison-title">The decisions you make today determine where you'll be tomorrow.</h3>
+        </div>
+
+        <div class="comparison-table-wrapper">
+          <div class="comparison-table">
+            <div class="comp-header">
+              <div class="comp-col col-user">Average User</div>
+              <div class="comp-col col-creator">Vyralify Creator <span class="comp-tag">Winner</span></div>
+            </div>
+
+            <div class="comp-row">
+              <div class="comp-col col-user"><i class="ph-bold ph-x-circle icon-bad"></i> Scrolls Instagram</div>
+              <div class="comp-col col-creator"><i class="ph-bold ph-check-circle icon-good"></i> Owns Instagram pages</div>
+            </div>
+            <div class="comp-row">
+              <div class="comp-col col-user"><i class="ph-bold ph-x-circle icon-bad"></i> Watches viral content</div>
+              <div class="comp-col col-creator"><i class="ph-bold ph-check-circle icon-good"></i> Creates viral content</div>
+            </div>
+            <div class="comp-row">
+              <div class="comp-col col-user"><i class="ph-bold ph-x-circle icon-bad"></i> Likes products</div>
+              <div class="comp-col col-creator"><i class="ph-bold ph-check-circle icon-good"></i> Sells products</div>
+            </div>
+            <div class="comp-row">
+              <div class="comp-col col-user"><i class="ph-bold ph-x-circle icon-bad"></i> Consumes information</div>
+              <div class="comp-col col-creator"><i class="ph-bold ph-check-circle icon-good"></i> Builds digital assets</div>
+            </div>
+            <div class="comp-row">
+              <div class="comp-col col-user"><i class="ph-bold ph-x-circle icon-bad"></i> One income source</div>
+              <div class="comp-col col-creator"><i class="ph-bold ph-check-circle icon-good"></i> Multiple income streams</div>
+            </div>
+            <div class="comp-row">
+              <div class="comp-col col-user"><i class="ph-bold ph-x-circle icon-bad"></i> Waits for opportunities</div>
+              <div class="comp-col col-creator"><i class="ph-bold ph-check-circle icon-good"></i> Creates opportunities</div>
+            </div>
+            <div class="comp-row">
+              <div class="comp-col col-user"><i class="ph-bold ph-x-circle icon-bad"></i> Follows creators</div>
+              <div class="comp-col col-creator"><i class="ph-bold ph-check-circle icon-good"></i> Becomes the creator</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Full Width Bottom Banner -->
+        <div class="comp-footer-banner">
+          <div class="banner-tag">The choice is simple.</div>
+          <div class="banner-text">Keep consuming content… <span>OR</span> start building assets that can generate income for years.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       9. RESULTS & TESTIMONIALS (DRAG-TO-SCROLL CAROUSELS)
+       ============================================================ -->
+  <section class="section section-soft" id="results">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Results</span>
+        <h2 class="h2 reveal">See How Creators Are Winning With Vyralify.</h2>
+        <p class="sub reveal">Real creators building high-performing Instagram pages, generating millions of views and
+          turning audiences into profitable online businesses.</p>
+      </div>
+
+      <!-- Success Stories Carousel -->
+      <div class="carousel-wrapper reveal">
+        <div class="scroller" id="successScroller">
+          <div class="card success-card">
+            <div class="row">
+              <div class="av"></div>
+              <div class="handle">@wealthpage</div>
+            </div>
+            <div class="metrics">
+              <div><b>68K</b><span>Followers</span></div>
+              <div><b>30M+</b><span>Views</span></div>
+            </div>
+            <p>“Started from zero and launched my first digital product in week 3. Reached 68k followers organically!”
+            </p>
+          </div>
+          <div class="card success-card">
+            <div class="row">
+              <div class="av" style="background:linear-gradient(135deg,#3355FF,#7CE0A8)"></div>
+              <div class="handle">@mindset.nexus</div>
+            </div>
+            <div class="metrics">
+              <div><b>140K</b><span>Followers</span></div>
+              <div><b>85M+</b><span>Views</span></div>
+            </div>
+            <p>“The AI caption &amp; hook generator saves me hours daily. My reels consistency went 10x!”</p>
+          </div>
+          <div class="card success-card">
+            <div class="row">
+              <div class="av" style="background:linear-gradient(135deg,#E8B45C,#3355FF)"></div>
+              <div class="handle">@faceless.hustle</div>
+            </div>
+            <div class="metrics">
+              <div><b>42K</b><span>Followers</span></div>
+              <div><b>18M+</b><span>Views</span></div>
+            </div>
+            <p>“Made over $2,400 in affiliate commissions using the Vyralify referral link system.”</p>
+          </div>
+          <div class="card success-card">
+            <div class="row">
+              <div class="av" style="background:linear-gradient(135deg,#B084FF,#1E3AD1)"></div>
+              <div class="handle">@business.edge</div>
+            </div>
+            <div class="metrics">
+              <div><b>95K</b><span>Followers</span></div>
+              <div><b>50M+</b><span>Views</span></div>
+            </div>
+            <p>“The step-by-step curriculum gave me clarity. I went from zero income to consistent digital sales.”</p>
+          </div>
+        </div>
+        <div class="carousel-progress-track">
+          <div class="carousel-progress-fill"></div>
+        </div>
+        <div class="scroll-controls">
+          <button class="scroll-btn prev" aria-label="Previous"><i class="ph-bold ph-caret-left"></i></button>
+          <button class="scroll-btn next" aria-label="Next"><i class="ph-bold ph-caret-right"></i></button>
+        </div>
+      </div>
+
+      <!-- Before & After Comparison -->
+      <div class="ba-row reveal">
+        <div class="card ba-card before">
+          <div class="tag">Before Vyralify</div>
+          <ul>
+            <li>❌ 0 Followers</li>
+            <li>❌ No Clear Direction</li>
+            <li>❌ Hours Spent Editing</li>
+            <li>❌ $0 Income Generated</li>
+          </ul>
+        </div>
+        <div class="ba-arrow"><i class="ph-bold ph-arrow-right"></i></div>
+        <div class="card ba-card after">
+          <div class="tag">After Vyralify</div>
+          <ul>
+            <li>✅ 50K+ Organic Followers</li>
+            <li>✅ Millions of Reels Views</li>
+            <li>✅ AI Workflows in Minutes</li>
+            <li>✅ Recurring Digital Product Sales</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Testimonials Carousel -->
+      <div class="carousel-wrapper reveal" style="margin-top: 56px;">
+        <div class="scroller" id="testiScroller">
+          <div class="card testi-card">
+            <div class="stars"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i
+                class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i></div>
+            <p>“Vyralify gave me a clear roadmap instead of wasting months on random YouTube videos. Worth every single
+              penny!”</p>
+            <div class="who">— Marcus K.</div>
+          </div>
+          <div class="card testi-card">
+            <div class="stars"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i
+                class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i></div>
+            <p>“The AI tools coupled with the community support are unmatched. Got my page verified and monetization
+              unlocked in 30 days.”</p>
+            <div class="who">— Sarah T.</div>
+          </div>
+          <div class="card testi-card">
+            <div class="stars"><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i
+                class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i><i class="ph-fill ph-star"></i></div>
+            <p>“Best creator investment I’ve made. The affiliate system alone paid back my membership multi-fold.”</p>
+            <div class="who">— David L.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       10. PRICING
+       ============================================================ -->
+  <section class="section" id="pricing">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Pricing</span>
+        <h2 class="h2 reveal">One Plan. Everything Included.</h2>
+        <p class="sub reveal">Everything you need to build, manage and monetise a successful Instagram page business.
+          All inside one AI-powered platform.</p>
+        <!-- Dual Currency Toggle -->
+        <div
+          style="display:inline-flex; gap:6px; background:var(--bg-soft); padding:4px; border-radius:99px; border:1px solid var(--line); margin-top:20px;">
+          <button id="toggle-inr" class="tab-btn active" style="padding:7px 18px; font-size:.82rem;">INR (₹499)</button>
+          <button id="toggle-usd" class="tab-btn" style="padding:7px 18px; font-size:.82rem;">USD ($19)</button>
+        </div>
+      </div>
+
+      <div class="card pricing-card reveal">
+        <div class="price-head">
+          <i class="ph-bold ph-rocket-launch"></i>
+          <span>VYRALIFY MEMBERSHIP</span>
+        </div>
+        <div class="price-value">
+          <span class="amt" data-price>₹499</span>
+          <span class="per" data-price-period>/month</span>
+        </div>
+        <div class="price-sub">Full Access To Vyralify Platform, AI Tools &amp; Creator Community</div>
+
+        <!-- Expandable "What's Included" Accordion -->
+        <div class="incl-toggle" id="inclToggle">
+          <span>What's Included In Membership</span>
+          <i class="ph-bold ph-caret-down"></i>
+        </div>
+        <div class="incl-body" id="inclBody">
+          <div class="incl-item">
+            <i class="ph-bold ph-sparkle"></i>
+            <div>
+              <b>AI Creator Tools</b>
+              <span>AI-powered captions, hooks, scripts, content ideas, niche research, and hashtags.</span>
+            </div>
+          </div>
+          <div class="incl-item">
+            <i class="ph-bold ph-graduation-cap"></i>
+            <div>
+              <b>Complete Curriculum</b>
+              <span>Step-by-step learning modules covering Foundation, Content, Growth, and Monetisation.</span>
+            </div>
+          </div>
+          <div class="incl-item">
+            <i class="ph-bold ph-folder-open"></i>
+            <div>
+              <b>Resource Vault &amp; Templates</b>
+              <span>Ready-to-use hooks, audio lists, CTA frameworks, email sequences, and checklists.</span>
+            </div>
+          </div>
+          <div class="incl-item">
+            <i class="ph-bold ph-currency-dollar"></i>
+            <div>
+              <b>40% Affiliate Program</b>
+              <span>Earn recurring monthly commissions by referring new creators to Vyralify.</span>
+            </div>
+          </div>
+          <div class="incl-item">
+            <i class="ph-bold ph-users-three"></i>
+            <div>
+              <b>Private Creator Community</b>
+              <span>Network with ambitious creators, share wins, and request live page reviews.</span>
+            </div>
+          </div>
+        </div>
+
+        <a href="https://payments.cashfree.com/forms/vyralifyio" id="pricing-cta" class="btn btn-primary">Join Vyralify
+          (₹499) <i class="ph-bold ph-arrow-right shift-right"></i></a>
+        <div class="price-note" data-price-note>Billed monthly in INR · No hidden charges · Cancel anytime</div>
+
+        <div class="trust-icons">
+          <span><i class="ph-bold ph-lock-key"></i> Secure Checkout</span>
+          <span><i class="ph-bold ph-lightning"></i> Instant Access</span>
+          <span><i class="ph-bold ph-shield-check"></i> Cancel Anytime</span>
+        </div>
+      </div>
+
+      <p class="bottom-note">No hidden fees. No upsells. One membership unlocks the complete Vyralify platform,
+        including all current features and future updates released during your active membership.</p>
+      <a href="#faq" class="faq-link">Questions? Check our FAQs ↓</a>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       11. FAQS (SPRING ACCORDIONS)
+       ============================================================ -->
+  <section class="section section-soft" id="faq">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">FAQs</span>
+        <h2 class="h2 reveal">Everything You Need To Know Before Joining.</h2>
+      </div>
+
+      <div class="faq-list">
+        <div class="faq-item">
+          <div class="faq-header">
+            <span>1. What is Vyralify?</span>
+            <i class="ph-bold ph-caret-down"></i>
+          </div>
+          <div class="faq-body">
+            <div class="faq-content">Vyralify is an AI-powered membership platform that helps creators build, grow and
+              monetise Instagram pages through proven systems, creator tools, premium resources and practical learning.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-header">
+            <span>2. Who is Vyralify for?</span>
+            <i class="ph-bold ph-caret-down"></i>
+          </div>
+          <div class="faq-body">
+            <div class="faq-content">Vyralify is designed for beginners starting their first Instagram page, creators looking to grow faster, and anyone wanting to turn Instagram pages into digital revenue streams.</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ANIMATED INSTAGRAM THEME PAGES SHOWCASE GRID -->
+      <div class="ig-showcase-container reveal">
+        <div class="ig-showcase-card">
+
+          <!-- Top Banner Text inside Card -->
+          <div class="ig-showcase-header">
+            <h3 class="ig-showcase-title">Join 120+ Profitable Theme Pages</h3>
+            <p class="ig-showcase-sub">Verified theme pages win 30% more organic views and gain brand trust</p>
+          </div>
+
+          <!-- 3-Column Animated Grid with Large Square Visual Cards -->
+          <div class="ig-cards-grid-wrapper">
+
+            <!-- Column 1 (Scrolls Up) -->
+            <div class="ig-card-col col-up">
+              <div class="ig-card-track">
+                <!-- Card 1 -->
+                <div class="ig-theme-card">
+                  <img src="assets/img/ig_wealth.png" alt="Wealth Theme Page">
+                  <div class="ig-card-overlay">
+                    <span class="ig-card-handle">@wealth.blueprint <i class="ph-bold ph-seal-check"></i></span>
+                    <span class="ig-card-meta">142K Followers</span>
+                  </div>
+                </div>
+                <!-- Card 2 -->
+                <div class="ig-theme-card">
+                  <img src="assets/img/ig_stoicism.png" alt="Stoicism Theme Page">
+                  <div class="ig-card-overlay">
+                    <span class="ig-card-handle">@stoic.empire <i class="ph-bold ph-seal-check"></i></span>
+                    <span class="ig-card-meta">89K Followers</span>
+                  </div>
+                </div>
+                <!-- Card 3 -->
+                <div class="ig-theme-card">
+                  <img src="assets/img/ig_luxury.png" alt="Luxury Theme Page">
+                  <div class="ig-card-overlay">
+                    <span class="ig-card-handle">@luxury.aesthetics <i class="ph-bold ph-seal-check"></i></span>
+                    <span class="ig-card-meta">210K Followers</span>
+                  </div>
+                </div>
+                <!-- Loop repeats -->
+                <div class="ig-theme-card">
+                  <img src="assets/img/ig_wealth.png" alt="Wealth Theme Page">
+                  <div class="ig-card-overlay">
+                    <span class="ig-card-handle">@wealth.blueprint <i class="ph-bold ph-seal-check"></i></span>
+                    <span class="ig-card-meta">142K Followers</span>
+                  </div>
+                </div>
+                <div class="ig-theme-card">
+                  <img src="assets/img/ig_stoicism.png" alt="Stoicism Theme Page">
+                  <div class="ig-card-overlay">
+                    <span class="ig-card-handle">@stoic.empire <i class="ph-bold ph-seal-check"></i></span>
+                    <span class="ig-card-meta">89K Followers</span>
+                  </div>
+                </div>
+                <div class="ig-theme-card">
+                  <img src="assets/img/ig_luxury.png" alt="Luxury Theme Page">
+                  <div class="ig-card-overlay">
+                    <span class="ig-card-handle">@luxury.aesthetics <i class="ph-bold ph-seal-check"></i></span>
+                    <span class="ig-card-meta">210K Followers</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Column 2 (Scrolls Down - Center Column) -->
+            <div class="ig-card-col col-down">
+              <div class="ig-card-track">
+                <!-- Card 4 -->
+                <div class="ig-theme-card">
+                  <img src="assets/img/ig_motivation.png" alt="Motivation Theme Page">
+                  <div class="ig-card-overlay">
+                    <span class="ig-card-handle">@motivation.daily <i class="ph-bold ph-seal-check"></i></span>
+                    <span class="ig-card-meta">350K Followers</span>
+                  </div>
+                </div>
+                <!-- Card 5 -->
+                <div class="ig-theme-card">
+                  <img src="assets/img/avatar1.png" alt="Cars Theme Page">
+                  <div class="ig-card-overlay">
+                    <span class="ig-card-handle">@exotic.cars.hub <i class="ph-bold ph-seal-check"></i></span>
+                    <span class="ig-card-meta">175K Followers</span>
+                  </div>
+                </div>
+                <!-- Card 6 -->
+                <div class="ig-theme-card">
+                  <img src="assets/img/ig_wealth.png" alt="Finance Theme Page">
+                  <div class="ig-card-overlay">
+                    <span class="ig-card-handle">@finance.freedom <i class="ph-bold ph-seal-check"></i></span>
+                    <span class="ig-card-meta">128K Followers</span>
+                  </div>
+                </div>
+                <!-- Loop repeats -->
+                <div class="ig-theme-card">
+                  <img src="assets/img/ig_motivation.png" alt="Motivation Theme Page">
+                  <div class="ig-card-overlay">
+                    <span class="ig-card-handle">@motivation.daily <i class="ph-bold ph-seal-check"></i></span>
+                    <span class="ig-card-meta">350K Followers</span>
+                  </div>
+                </div>
+                <div class="ig-theme-card">
+                  <img src="assets/img/avatar1.png" alt="Cars Theme Page">
+                  <div class="ig-card-overlay">
+                    <span class="ig-card-handle">@exotic.cars.hub <i class="ph-bold ph-seal-check"></i></span>
+                    <span class="ig-card-meta">175K Followers</span>
+                  </div>
+                </div>
+                <div class="ig-theme-card">
+                  <img src="assets/img/ig_wealth.png" alt="Finance Theme Page">
+                  <div class="ig-card-overlay">
+                    <span class="ig-card-handle">@finance.freedom <i class="ph-bold ph-seal-check"></i></span>
+                    <span class="ig-card-meta">128K Followers</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Column 3 (Scrolls Up) -->
+            <div class="ig-card-col col-up">
+              <div class="ig-card-track">
+                <!-- Card 7 -->
+                <div class="ig-theme-card">
+                  <img src="assets/img/avatar2.png" alt="Marketing Theme Page">
+                  <div class="ig-card-overlay">
+                    <span class="ig-card-handle">@marketing.hacks <i class="ph-bold ph-seal-check"></i></span>
+                    <span class="ig-card-meta">95K Followers</span>
+                  </div>
+                </div>
+                <!-- Card 8 -->
+                <div class="ig-theme-card">
+                  <img src="assets/img/avatar3.png" alt="Quotes Theme Page">
+                  <div class="ig-card-overlay">
+                    <span class="ig-card-handle">@quotes.empire <i class="ph-bold ph-seal-check"></i></span>
+                    <span class="ig-card-meta">410K Followers</span>
+                  </div>
+                </div>
+                <!-- Card 9 -->
+                <div class="ig-theme-card">
+                  <img src="assets/img/ig_luxury.png" alt="Luxury Theme Page">
+                  <div class="ig-card-overlay">
+                    <span class="ig-card-handle">@luxury.aesthetics <i class="ph-bold ph-seal-check"></i></span>
+                    <span class="ig-card-meta">210K Followers</span>
+                  </div>
+                </div>
+                <!-- Loop repeats -->
+                <div class="ig-theme-card">
+                  <img src="assets/img/avatar2.png" alt="Marketing Theme Page">
+                  <div class="ig-card-overlay">
+                    <span class="ig-card-handle">@marketing.hacks <i class="ph-bold ph-seal-check"></i></span>
+                    <span class="ig-card-meta">95K Followers</span>
+                  </div>
+                </div>
+                <div class="ig-theme-card">
+                  <img src="assets/img/avatar3.png" alt="Quotes Theme Page">
+                  <div class="ig-card-overlay">
+                    <span class="ig-card-handle">@quotes.empire <i class="ph-bold ph-seal-check"></i></span>
+                    <span class="ig-card-meta">410K Followers</span>
+                  </div>
+                </div>
+                <div class="ig-theme-card">
+                  <img src="assets/img/ig_luxury.png" alt="Luxury Theme Page">
+                  <div class="ig-card-overlay">
+                    <span class="ig-card-handle">@luxury.aesthetics <i class="ph-bold ph-seal-check"></i></span>
+                    <span class="ig-card-meta">210K Followers</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-header">
+            <span>3. Do I need any previous experience?</span>
+            <i class="ph-bold ph-caret-down"></i>
+          </div>
+          <div class="faq-body">
+            <div class="faq-content">No. Whether you're starting from scratch or already running Instagram pages, the
+              platform is structured to guide you step by step from foundation to monetisation.</div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-header">
+            <span>4. What do I get after joining?</span>
+            <i class="ph-bold ph-caret-down"></i>
+          </div>
+          <div class="faq-body">
+            <div class="faq-content">You'll get instant access to the complete Vyralify platform, including AI creator
+              tools, learning modules, templates, growth systems, monetisation resources and the private community.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-header">
+            <span>5. How does the AI work?</span>
+            <i class="ph-bold ph-caret-down"></i>
+          </div>
+          <div class="faq-body">
+            <div class="faq-content">Our AI tools help you generate captions, hooks, content ideas, scripts, hashtags
+              and more, making content creation faster and easier. Signed-in members get 3 daily AI credits.</div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-header">
+            <span>6. How can I make money with Vyralify?</span>
+            <i class="ph-bold ph-caret-down"></i>
+          </div>
+          <div class="faq-body">
+            <div class="faq-content">The platform teaches multiple monetisation methods, including digital products,
+              affiliate marketing, sponsorships and other proven conversion strategies for Instagram creators.</div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-header">
+            <span>7. Are new updates included?</span>
+            <i class="ph-bold ph-caret-down"></i>
+          </div>
+          <div class="faq-body">
+            <div class="faq-content">Yes. Your membership includes access to new lessons, features, templates and
+              platform improvements released while your membership is active.</div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-header">
+            <span>8. Is there an affiliate program?</span>
+            <i class="ph-bold ph-caret-down"></i>
+          </div>
+          <div class="faq-body">
+            <div class="faq-content">Yes. Every member gets access to the Vyralify Affiliate Program, where you can earn
+              40% recurring commissions by referring new members using your unique link.</div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-header">
+            <span>9. How do I access the platform?</span>
+            <i class="ph-bold ph-caret-down"></i>
+          </div>
+          <div class="faq-body">
+            <div class="faq-content">After completing your purchase, you'll create your account and instantly access
+              your personal Vyralify member dashboard.</div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-header">
+            <span>10. Can I cancel my membership anytime?</span>
+            <i class="ph-bold ph-caret-down"></i>
+          </div>
+          <div class="faq-body">
+            <div class="faq-content">Yes. You can manage or cancel your membership at any time with zero hassle or
+              cancellation fees.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-cta">
+        <p>Still have questions? We're here to help.</p>
+        <a href="mailto:support@vyralify.in" class="btn btn-outline">Contact Us <i
+            class="ph-bold ph-envelope-simple"></i></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       12. FINAL CTA
+       ============================================================ -->
+  <section class="section final-cta" id="final-cta">
+    <div class="final-cta-bg"></div>
+    <div class="container">
+      <h2 class="h2 reveal">Ready To Build Your Next Successful Instagram Business?</h2>
+      <p class="sub reveal">Join thousands of creators using AI-powered tools, proven systems and premium resources to
+        scale and monetise Instagram pages.</p>
+      <div class="hero-ctas reveal">
+        <a href="#pricing" class="btn btn-primary">Join Vyralify <i class="ph-bold ph-arrow-right shift-right"></i></a>
+        <a href="#everything" class="btn btn-outline"><i class="ph-bold ph-eye"></i> Explore Platform</a>
+      </div>
+      <div class="final-trust reveal">
+        <span><i class="ph-bold ph-check"></i> Instant Access</span>
+        <span><i class="ph-bold ph-check"></i> AI-Powered Platform</span>
+        <span><i class="ph-bold ph-check"></i> Weekly Updates</span>
+        <span><i class="ph-bold ph-check"></i> Secure Checkout</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       13. FOOTER
+       ============================================================ -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="#hero" class="logo"><img src="/vyralifylogo.png" alt="Vyralify" class="logo-img"></a>
+          <p>The all-in-one AI-powered platform helping creators launch, grow and monetise high-performing Instagram
+            pages.</p>
+          <div class="footer-social">
+            <a href="https://instagram.com" target="_blank" rel="noopener" aria-label="Instagram"><i
+                class="ph-bold ph-instagram-logo"></i></a>
+            <a href="https://twitter.com" target="_blank" rel="noopener" aria-label="Twitter"><i
+                class="ph-bold ph-twitter-logo"></i></a>
+            <a href="https://youtube.com" target="_blank" rel="noopener" aria-label="YouTube"><i
+                class="ph-bold ph-youtube-logo"></i></a>
+            <a href="https://discord.com" target="_blank" rel="noopener" aria-label="Discord"><i
+                class="ph-bold ph-discord-logo"></i></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Product</h4>
+          <ul>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#everything">Curriculum</a></li>
+            <li><a href="#pricing">Pricing</a></li>
+            <li><a href="/dashboard.html">Member Dashboard</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="/blog.html">Creator Growth Blog</a></li>
+            <li><a href="#everything">Resource Vault</a></li>
+            <li><a href="#faq">FAQs</a></li>
+            <li><a href="/login.html">Member Login</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Legal &amp; Policy</h4>
+          <ul>
+            <li><a href="/privacy.html">Privacy Policy</a></li>
+            <li><a href="/refunds.html">Refund Policy</a></li>
+            <li><a href="#pricing">Affiliate Program</a></li>
+            <li><a href="mailto:support@vyralify.in">Contact Us</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Vyralify. All rights reserved.</span>
+        <span>Built for creator growth.</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script type="module" src="/script.js"></script>
+  <script type="module" src="/assets/js/pricing.js"></script>
+</body>
+
+</html>

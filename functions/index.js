@@ -1,137 +1,182 @@
-const functions=require('firebase-functions/v1');const admin=require('firebase-admin');const Stripe=require('stripe');const Razorpay=require('razorpay');const crypto=require('crypto');const {buildAiPrompt}=require('./aiPrompts');admin.initializeApp();const db=admin.firestore();
-const cors=(res)=>{res.set('Access-Control-Allow-Origin','*');res.set('Access-Control-Allow-Headers','Authorization, Content-Type');res.set('Access-Control-Allow-Methods','POST, OPTIONS')};
-async function identity(req){const h=req.get('Authorization')||'';if(!h.startsWith('Bearer '))throw Error('unauthenticated');return admin.auth().verifyIdToken(h.slice(7))}async function profile(uid){const s=await db.doc(`users/${uid}`).get();return s.data()||{}}function jsonError(res,status){return res.status(status).json({error:'Request could not be completed.'})}
-const emailKey=e=>String(e||'').trim().toLowerCase();async function recordPaid(email,provider,id){const key=emailKey(email);if(!key)return;await db.doc(`paidEmails/${key}`).set({email:key,provider,subscriptionId:id||null,status:'paid',paidAt:admin.firestore.FieldValue.serverTimestamp(),updatedAt:admin.firestore.FieldValue.serverTimestamp()},{merge:true})}
+const functions = require('firebase-functions/v1');
+const express = require('express');
+const cors = require('cors');
+const compression = require('compression');
+const { db, admin, serverTimestamp } = require('./src/config/firebase');
+const apiRouter = require('./src/routes/apiRouter');
+const logger = require('./src/utils/logger');
+const { globalLimiter } = require('./src/middleware/rateLimiter');
+const timeoutHandler = require('./src/middleware/timeoutHandler');
+const idempotencyMiddleware = require('./src/middleware/idempotency');
+const { notFoundHandler, globalErrorHandler } = require('./src/middleware/errorHandler');
 
-exports.onUserCreate=functions.auth.user().onCreate(async user=>{
-  const ref=db.doc(`users/${user.uid}`);
-  // Since anyone who signs up paid via Cashfree, they get active (premium) tier directly.
-  await ref.set({
-    email:user.email||'',
-    displayName:user.displayName||'',
-    role:'member',
-    tier:'active',
-    country:'',
-    currency:'INR',
-    billingProvider:'cashfree',
-    subscriptionId:null,
-    subscriptionStatus:'active',
-    affiliateCode:user.uid.slice(0,8).toUpperCase(),
-    referredBy:null,
-    onboardingTrack:null,
-    aiUsage:{count:0,resetAt:admin.firestore.Timestamp.fromDate(new Date(Date.now()+86400000))},
-    createdAt:admin.firestore.FieldValue.serverTimestamp(),
-    updatedAt:admin.firestore.FieldValue.serverTimestamp()
-  },{merge:true});
-  await db.doc(`affiliates/${user.uid.slice(0,8).toUpperCase()}`).set({ownerUid:user.uid,clicks:0,signups:0,conversions:0,createdAt:admin.firestore.FieldValue.serverTimestamp()});
-});
+// Initialize Express API App
+const app = express();
 
-exports.generateAi=functions.https.onRequest(async(req,res)=>{
-  cors(res);
-  if(req.method==='OPTIONS')return res.status(204).send('');
-  if(req.method!=='POST')return jsonError(res,405);
-  try{
-    const token=await identity(req),p=await profile(token.uid),tool=String(req.body.tool||''),prompt=String(req.body.prompt||'').trim().slice(0,4000);
-    if(p.tier!=='active'||!prompt)return jsonError(res,403);
-    const now=Date.now(),usage=p.aiUsage||{},reset=usage.resetAt?.toMillis?.()||0,count=reset>now?(usage.count||0):0;
-    if(count>=3)return res.status(429).json({error:'Daily limit of 3 AI generations reached.'});
-    
-    const key=process.env.GROQ_API_KEY;
-    if(!key)return jsonError(res,503);
-    
-    const endpoint='https://api.groq.com/openai/v1/chat/completions';
-    // Use high quality model llama-3.1-70b-versatile
-    const model='llama-3.1-70b-versatile';
-    
-    // Construct dynamic tool-specific system and user prompts
-    const {systemPrompt, userPrompt} = buildAiPrompt(tool, prompt, { niche: p.niche || 'Instagram Theme Page' });
-    
-    const r=await fetch(endpoint,{
-      method:'POST',
-      headers:{Authorization:`Bearer ${key}`,'Content-Type':'application/json'},
-      body:JSON.stringify({
-        model,
-        messages:[
-          {role:'system',content:systemPrompt},
-          {role:'user',content:userPrompt}
-        ],
-        temperature:0.75,
-        max_tokens:1200
-      })
-    });
-    if(!r.ok) {
-      console.error('Groq provider error:', await r.text());
-      throw Error('provider');
+// 1. Response Compression (Item 14: Compress Files)
+app.use(compression({ threshold: 1024 }));
+
+// 2. CORS
+app.use(cors({ origin: true }));
+
+// 3. Request Logging (Item 18: Error & Event Logging)
+app.use(logger.requestLogger);
+
+// 4. Rate Limiting (Items 1 & 2: Rate Limiting & API Limits)
+app.use(globalLimiter);
+
+// 5. Upload Size Limits (Item 15: Limit Upload Size)
+app.use(express.json({ limit: '2mb' }));
+app.use(express.urlencoded({ extended: true, limit: '2mb' }));
+
+// 6. Request Timeout (Item 8: Handle API Timeouts)
+app.use(timeoutHandler(25000));
+
+// 7. Idempotency (Items 9 & 10: Prevent Duplicate Subs & Payments)
+app.use(idempotencyMiddleware);
+
+// Item 17: Deep Uptime Monitoring & Health Check
+app.get('/health', async (req, res) => {
+  const startDb = Date.now();
+  let dbStatus = 'healthy';
+  let dbLatencyMs = 0;
+
+  try {
+    // Quick ping to Firestore to verify connectivity
+    await db.collection('nicheIntelligence').limit(1).get();
+    dbLatencyMs = Date.now() - startDb;
+  } catch (err) {
+    dbStatus = 'degraded';
+    dbLatencyMs = Date.now() - startDb;
+    logger.error('Health check DB ping failed:', { error: err.message });
+  }
+
+  const memory = process.memoryUsage();
+
+  return res.json({
+    status: dbStatus === 'healthy' ? 'ok' : 'degraded',
+    platform: 'Vyralify 2026 Production Core',
+    timestamp: new Date().toISOString(),
+    uptimeSeconds: Math.floor(process.uptime()),
+    database: {
+      status: dbStatus,
+      latencyMs: dbLatencyMs
+    },
+    system: {
+      nodeVersion: process.version,
+      memoryRssMb: Math.round(memory.rss / (1024 * 1024)),
+      heapUsedMb: Math.round(memory.heapUsed / (1024 * 1024))
     }
-    const data=await r.json(),output=data.choices?.[0]?.message?.content;
-    if(!output)throw Error('empty');
-    
-    await db.doc(`users/${token.uid}`).update({
-      'aiUsage.count':count+1,
-      'aiUsage.resetAt':admin.firestore.Timestamp.fromDate(new Date(reset>now?reset:now+86400000)),
-      updatedAt:admin.firestore.FieldValue.serverTimestamp()
-    });
-    await db.collection('aiGenerations').add({
-      uid:token.uid,
-      tool,
-      timestamp:admin.firestore.FieldValue.serverTimestamp(),
-      tokenCount:data.usage?.total_tokens||null
-    });
-    return res.json({output})
-  }catch(e){
-    console.error('generateAi',e.message);
-    return jsonError(res,e.message==='unauthenticated'?401:500)
-  }
+  });
 });
 
-exports.createCheckout=functions.https.onRequest(async(req,res)=>{
-  cors(res);
-  if(req.method==='OPTIONS')return res.status(204).send('');
-  if(req.method!=='POST')return jsonError(res,405);
-  // Replaced by Cashfree hosted payment form.
-  return res.json({url:'https://payments.cashfree.com/forms/vyralifyio'});
+// Mount Central Router
+app.use('/api', apiRouter);
+app.use('/', apiRouter);
+
+// Error Handling (Items 4 & 7: Error Handling & Failed Requests)
+app.use(notFoundHandler);
+app.use(globalErrorHandler);
+
+// Export Cloud Function HTTPS API
+exports.api = functions.https.onRequest(app);
+
+// Auth Trigger: Initialize user ecosystem profile upon signup
+exports.onUserCreate = functions.auth.user().onCreate(async (user) => {
+  const uid = user.uid;
+  const affiliateCode = uid.slice(0, 8).toUpperCase();
+  const slug = uid.slice(0, 8).toLowerCase();
+
+  const batch = db.batch();
+
+  // 1. User Profile Document with Spending Cap quota (Item 3)
+  const userRef = db.doc(`users/${uid}`);
+  batch.set(userRef, {
+    email: user.email || '',
+    displayName: user.displayName || 'Vyralify Creator',
+    role: 'member',
+    tier: 'active',
+    country: 'IN',
+    currency: 'INR',
+    billingProvider: 'cashfree',
+    subscriptionStatus: 'active',
+    affiliateCode,
+    referredBy: null,
+    onboardingTrack: 'beginner',
+    aiUsage: {
+      dailyCount: 0,
+      dailyLimit: 25, // Item 3: Spending Cap on daily generations
+      resetAt: admin.firestore.Timestamp.fromDate(new Date(Date.now() + 86400000))
+    },
+    createdAt: serverTimestamp(),
+    updatedAt: serverTimestamp()
+  }, { merge: true });
+
+  // 2. Affiliate Document
+  const affRef = db.doc(`affiliates/${affiliateCode}`);
+  batch.set(affRef, {
+    ownerUid: uid,
+    clicks: 0,
+    signups: 0,
+    conversions: 0,
+    createdAt: serverTimestamp()
+  });
+
+  // 3. Creator Store Infrastructure Initial State
+  const storeRef = db.doc(`stores/${uid}`);
+  batch.set(storeRef, {
+    sellerUid: uid,
+    storeName: `${user.displayName || 'Creator'}'s Store`,
+    slug,
+    bio: 'Official digital store, tools, and creator vault.',
+    brandColor: '#FF5722',
+    isPublished: false,
+    createdAt: serverTimestamp(),
+    updatedAt: serverTimestamp()
+  });
+
+  // 4. Link-in-Bio Initial State
+  const linkRef = db.doc(`linkPages/${uid}`);
+  batch.set(linkRef, {
+    ownerUid: uid,
+    slug,
+    title: user.displayName || 'My Links',
+    bio: 'Follow my content & check out my store 👇',
+    theme: 'dark-glass',
+    links: [],
+    totalClicks: 0,
+    createdAt: serverTimestamp(),
+    updatedAt: serverTimestamp()
+  });
+
+  // 5. Creator Earnings Ledger
+  const earningsRef = db.doc(`creatorEarnings/${uid}`);
+  batch.set(earningsRef, {
+    creatorUid: uid,
+    totalEarned: 0,
+    pending: 0,
+    approved: 0,
+    payable: 0,
+    paid: 0,
+    currency: 'INR',
+    updatedAt: serverTimestamp()
+  });
+
+  await batch.commit();
+  console.log(`Successfully initialized Vyralify ecosystem state for user: ${uid}`);
 });
 
-exports.startCheckout=functions.https.onRequest(async(req,res)=>{
-  cors(res);
-  if(req.method==='OPTIONS')return res.status(204).send('');
-  if(req.method!=='POST')return jsonError(res,405);
-  // Replaced by Cashfree hosted payment form.
-  return res.json({url:'https://payments.cashfree.com/forms/vyralifyio'});
+// Backwards compatibility functions
+exports.generateAi = functions.https.onRequest(async (req, res) => {
+  return app(req, res);
 });
 
-exports.verifyAccess=functions.https.onRequest(async(req,res)=>{
-  cors(res);
-  if(req.method==='OPTIONS')return res.status(204).send('');
-  // All signups are allowed, so verifyAccess always returns ok:true
-  const q=req.method==='POST'?(req.body||{}):(req.query||{});
-  const email=emailKey(q.email||'');
-  return res.json({ok:true,email:email||'paid@vyralify.io'});
+exports.createCheckout = functions.https.onRequest(async (req, res) => {
+  res.set('Access-Control-Allow-Origin', '*');
+  return res.json({ url: 'https://payments.cashfree.com/forms/vyralifyio' });
 });
 
-exports.completeSignup=functions.https.onRequest(async(req,res)=>{
-  cors(res);
-  if(req.method==='OPTIONS')return res.status(204).send('');
-  if(req.method!=='POST')return jsonError(res,405);
-  try{
-    const token=await identity(req);
-    const name=String(req.body.name||'').slice(0,80),country=String(req.body.country||'').toUpperCase().slice(0,4),track=['beginner','existing'].includes(req.body.track)?req.body.track:null;
-    const india=country==='IN';
-    await db.doc(`users/${token.uid}`).set({
-      displayName:name,
-      country,
-      currency:india?'INR':'USD',
-      billingProvider:'cashfree',
-      onboardingTrack:track,
-      tier:'active',
-      subscriptionStatus:'active',
-      subscriptionId:null,
-      updatedAt:admin.firestore.FieldValue.serverTimestamp()
-    },{merge:true});
-    return res.json({ok:true,active:true})
-  }catch(e){
-    console.error('completeSignup',e.message);
-    return jsonError(res,e.message==='unauthenticated'?401:500)
-  }
+exports.completeSignup = functions.https.onRequest(async (req, res) => {
+  res.set('Access-Control-Allow-Origin', '*');
+  return res.json({ ok: true, active: true });
 });
-

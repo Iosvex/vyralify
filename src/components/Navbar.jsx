@@ -116,25 +116,25 @@ export default function Navbar() {
               <AnimatePresence>
                 {solutionsOpen && (
                   <motion.div
-                    initial={{ opacity: 0, y: 10, scale: 0.98 }}
+                    initial={{ opacity: 0, y: 8, scale: 0.98 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 8, scale: 0.98 }}
-                    transition={{ duration: 0.18, ease: "easeOut" }}
-                    className="absolute top-full left-0 mt-2 p-6 sm:p-7 rounded-[26px] bg-white text-black shadow-[0_25px_60px_rgba(0,0,0,0.35),0_0_1px_rgba(0,0,0,0.15)] z-50 border border-neutral-100 w-[680px] select-none"
+                    exit={{ opacity: 0, y: 6, scale: 0.98 }}
+                    transition={{ duration: 0.16, ease: "easeOut" }}
+                    className="absolute top-full left-0 mt-2.5 p-6 sm:p-7 rounded-[26px] bg-white text-black shadow-[0_25px_70px_rgba(0,0,0,0.4),0_0_1px_rgba(0,0,0,0.15)] z-50 border border-neutral-100/80 w-[780px] select-none before:absolute before:-top-3 before:left-0 before:w-full before:h-3"
                   >
-                    <div className="grid grid-cols-12 gap-6 items-stretch">
+                    <div className="flex items-stretch gap-8">
                       
-                      {/* Left: Featured Visual Box */}
-                      <div className="col-span-5 bg-[#F6F7F9] rounded-2xl p-4.5 flex flex-col justify-between border border-neutral-200/50">
+                      {/* Left: Featured Visual Box (260px fixed width) */}
+                      <div className="w-[260px] shrink-0 bg-[#F6F7F9] rounded-2xl p-5 flex flex-col justify-between border border-neutral-200/50">
                         {/* Mini Feature Card */}
                         <div>
-                          <div className="bg-white rounded-xl p-3 shadow-xs border border-neutral-200/60 mb-3.5">
+                          <div className="bg-white rounded-xl p-3.5 shadow-xs border border-neutral-200/60 mb-3.5">
                             <div className="flex items-center justify-between gap-2 mb-2.5">
                               <div className="flex items-center gap-2">
                                 <div className="w-5 h-5 rounded bg-black flex items-center justify-center text-white">
                                   <Play className="w-2.5 h-2.5 fill-white" />
                                 </div>
-                                <div className="w-12 h-1.5 bg-neutral-200 rounded-full" />
+                                <div className="w-14 h-1.5 bg-neutral-200 rounded-full" />
                               </div>
                               <span className="px-1.5 py-0.5 rounded bg-[#D1FE17] text-black font-extrabold text-[9px] font-mono tracking-wider">
                                 LINK
@@ -167,12 +167,12 @@ export default function Navbar() {
                         </a>
                       </div>
 
-                      {/* Middle: BY USE CASE */}
-                      <div className="col-span-3.5 flex flex-col">
-                        <div className="text-[10px] font-mono font-bold tracking-widest text-neutral-400 uppercase mb-4">
+                      {/* Middle: BY USE CASE (200px fixed width, no-wrap) */}
+                      <div className="w-[200px] shrink-0 flex flex-col">
+                        <div className="text-[11px] font-mono font-bold tracking-wider text-neutral-400 uppercase mb-4 whitespace-nowrap">
                           BY USE CASE
                         </div>
-                        <div className="space-y-3.5">
+                        <div className="space-y-4">
                           {useCases.map((item, idx) => {
                             const Icon = item.icon;
                             return (
@@ -180,22 +180,22 @@ export default function Navbar() {
                                 key={idx}
                                 href={item.href}
                                 onClick={() => setSolutionsOpen(false)}
-                                className="flex items-center gap-2.5 text-xs font-semibold text-neutral-800 hover:text-black transition-colors group cursor-pointer"
+                                className="flex items-center gap-3 text-sm font-semibold text-neutral-800 hover:text-black transition-colors group cursor-pointer whitespace-nowrap"
                               >
-                                <Icon className="w-4 h-4 text-neutral-700 group-hover:text-black group-hover:scale-110 transition-transform shrink-0" />
-                                <span className="tracking-tight">{item.title}</span>
+                                <Icon className="w-4 h-4 text-neutral-600 group-hover:text-black group-hover:scale-110 transition-transform shrink-0" />
+                                <span>{item.title}</span>
                               </a>
                             );
                           })}
                         </div>
                       </div>
 
-                      {/* Right: BY CREATOR TYPE */}
-                      <div className="col-span-3.5 flex flex-col">
-                        <div className="text-[10px] font-mono font-bold tracking-widest text-neutral-400 uppercase mb-4">
+                      {/* Right: BY CREATOR TYPE (200px fixed width, no-wrap) */}
+                      <div className="w-[200px] shrink-0 flex flex-col">
+                        <div className="text-[11px] font-mono font-bold tracking-wider text-neutral-400 uppercase mb-4 whitespace-nowrap">
                           BY CREATOR TYPE
                         </div>
-                        <div className="space-y-3.5">
+                        <div className="space-y-4">
                           {creatorTypes.map((item, idx) => {
                             const Icon = item.icon;
                             return (
@@ -203,10 +203,10 @@ export default function Navbar() {
                                 key={idx}
                                 href={item.href}
                                 onClick={() => setSolutionsOpen(false)}
-                                className="flex items-center gap-2.5 text-xs font-semibold text-neutral-800 hover:text-black transition-colors group cursor-pointer"
+                                className="flex items-center gap-3 text-sm font-semibold text-neutral-800 hover:text-black transition-colors group cursor-pointer whitespace-nowrap"
                               >
-                                <Icon className="w-4 h-4 text-neutral-700 group-hover:text-black group-hover:scale-110 transition-transform shrink-0" />
-                                <span className="tracking-tight">{item.title}</span>
+                                <Icon className="w-4 h-4 text-neutral-600 group-hover:text-black group-hover:scale-110 transition-transform shrink-0" />
+                                <span>{item.title}</span>
                               </a>
                             );
                           })}

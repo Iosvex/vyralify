@@ -135,25 +135,32 @@ export default function Hero() {
                 
                 {/* Top Section: Notch + Status Bar + Header */}
                 <div className="shrink-0 bg-white">
-                  {/* Dynamic Island Notch */}
-                  <div className="w-26 h-5.5 bg-black rounded-full mx-auto mt-2 flex items-center justify-between px-2.5 z-20">
-                    <div className="w-2.5 h-2.5 rounded-full bg-[#0D0D11]" />
-                    <div className="w-2 h-2 rounded-full bg-[#14142B] border border-blue-900/40" />
-                  </div>
+                  {/* iOS Status Bar with Centered Dynamic Island Pill */}
+                  <div className="relative pt-2.5 pb-2 px-6 flex items-center justify-between text-[11px] font-semibold text-black tracking-tight select-none">
+                    {/* Time */}
+                    <span className="z-10 font-bold">9:41</span>
 
-                  {/* Status Bar */}
-                  <div className="px-6 pt-1 pb-1.5 flex items-center justify-between text-[11px] font-semibold text-black tracking-tight">
-                    <span>9:41</span>
-                    <div className="flex items-center gap-1.5">
+                    {/* Real iOS Dynamic Island Pill */}
+                    <div className="absolute left-1/2 -translate-x-1/2 top-2.5 w-[86px] h-[22px] bg-black rounded-full flex items-center justify-end pr-2 z-20 shadow-xs">
+                      {/* Front camera reflection */}
+                      <div className="w-2 h-2 rounded-full bg-[#111118] border border-blue-950/40 flex items-center justify-center">
+                        <div className="w-0.5 h-0.5 rounded-full bg-blue-500/40" />
+                      </div>
+                    </div>
+
+                    {/* Status Icons */}
+                    <div className="flex items-center gap-1.5 z-10">
+                      {/* Signal Bars */}
                       <div className="flex items-end gap-0.5 h-2.5">
                         <span className="w-0.5 h-1 bg-black rounded-full" />
                         <span className="w-0.5 h-1.5 bg-black rounded-full" />
                         <span className="w-0.5 h-2 bg-black rounded-full" />
                         <span className="w-0.5 h-2.5 bg-black rounded-full" />
                       </div>
-                      <span className="text-[10px]">5G</span>
-                      <div className="w-5 h-2.5 border border-black rounded-xs p-0.5 flex items-center">
-                        <div className="w-full h-full bg-black rounded-2xs" />
+                      <span className="text-[10px] font-bold">5G</span>
+                      {/* Battery */}
+                      <div className="w-5 h-2.5 border border-black rounded-[3px] p-0.5 flex items-center">
+                        <div className="w-full h-full bg-black rounded-[1px]" />
                       </div>
                     </div>
                   </div>

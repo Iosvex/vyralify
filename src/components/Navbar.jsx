@@ -57,13 +57,8 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16 sm:h-20 gap-4">
           
           {/* LEFT: [Vyralify] Brand Logo */}
-          <a href="#" className="flex items-center gap-2.5 focus:outline-none group shrink-0">
-            <div className="w-7 h-7 rounded-lg bg-[#D1FE17] flex items-center justify-center text-black font-extrabold text-sm shadow-sm group-hover:scale-105 transition-transform">
-              V
-            </div>
-            <span className="font-display font-bold text-xl sm:text-2xl tracking-tight text-white group-hover:text-neutral-100 transition-colors">
-              Vyralify
-            </span>
+          <a href="#" className="font-display font-bold text-2xl tracking-tight text-white focus:outline-none hover:opacity-90 transition-opacity">
+            Vyralify
           </a>
 
           {/* CENTER: Product ▾ | Creators | Brands | Pricing */}
@@ -146,14 +141,26 @@ export default function Navbar() {
             </a>
           </nav>
 
-          {/* RIGHT: [Get Started →] (Solid Vyralify Green, no login clutter) */}
-          <div className="hidden md:flex items-center gap-4">
+          {/* RIGHT: Language Toggle, Login, [Get Started] */}
+          <div className="hidden md:flex items-center gap-6">
+            <div className="flex items-center gap-1.5 text-xs text-neutral-300 hover:text-white cursor-pointer transition-colors font-medium">
+              <span>🌐</span>
+              <span>EN</span>
+              <ChevronDown className="w-3 h-3 text-neutral-400" />
+            </div>
+
+            <a
+              href="#login"
+              className="text-sm font-medium text-neutral-300 hover:text-white transition-colors"
+            >
+              Login
+            </a>
+
             <a
               href="#pricing"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold bg-[#D1FE17] text-black hover:bg-[#bbf00e] active:scale-[0.98] transition-all shadow-sm hover:shadow-[0_0_20px_rgba(209,254,23,0.3)]"
+              className="inline-flex items-center justify-center px-5 py-2.5 rounded-lg text-sm font-bold bg-[#D1FE17] text-black hover:bg-[#bbf00e] active:scale-[0.98] transition-all shadow-sm"
             >
-              <span>Get Started</span>
-              <ArrowRight className="w-4 h-4" />
+              Get Started
             </a>
           </div>
 

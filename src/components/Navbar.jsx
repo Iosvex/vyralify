@@ -1,175 +1,245 @@
-import React, { useState } from 'react';
-import { Menu, X, ChevronDown, Coins } from 'lucide-react';
-import { ThemeToggleButton2 } from './ui/theme-toggle';
-import { useTheme } from '../context/ThemeContext';
+import React, { useState, useRef, useEffect } from 'react';
+import { ChevronDown, ArrowRight, Menu, X } from 'lucide-react';
+import { AnimatePresence, motion } from 'motion/react';
 
 export default function Navbar() {
-  const { isDark } = useTheme();
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [systemsDropdownOpen, setSystemsDropdownOpen] = useState(false);
+  const [productOpen, setProductOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const dropdownRef = useRef(null);
 
-  const systemsList = [
+  // Close dropdown on outside click
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setProductOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const productList = [
     {
-      title: "AI Viral Hook Engine",
-      desc: "Generate 9-second hooks and viral retention frameworks.",
-      tag: "GPT-4o",
+      icon: "🤖",
+      title: "VYRALIFY AI",
+      desc: "Your 24/7 growth co-pilot for viral Instagram reach",
       href: "#features"
     },
     {
-      title: "Clip-to-Cash Bounties",
-      desc: "Clip high-performing founder podcasts and earn per 1,000 views.",
-      tag: "Active Pool",
+      icon: "🔎",
+      title: "DISCOVER",
+      desc: "Find trending formats, viral hooks & winning niches",
+      href: "#features"
+    },
+    {
+      icon: "✍️",
+      title: "CREATE",
+      desc: "Generate scripts, hooks, and content in seconds",
+      href: "#features"
+    },
+    {
+      icon: "📊",
+      title: "SCALE",
+      desc: "Growth intelligence and automated next moves",
+      href: "#features"
+    },
+    {
+      icon: "💰",
+      title: "MONETIZE",
+      desc: "Clipping campaigns, store & digital products",
       href: "#clip-and-earn"
-    },
-    {
-      title: "High-RPM Niche Radar",
-      desc: "150+ profitable creator niches with estimated RPM & monetization angles.",
-      tag: "Radar",
-      href: "#features"
-    },
-    {
-      title: "Vyralify University",
-      desc: "Masterclasses on editing, viral psychology, and monetization.",
-      tag: "24 Modules",
-      href: "#everything-inside"
-    },
-    {
-      title: "Brand Deal Marketplace",
-      desc: "Direct brand matchmaking for sponsorship deals and retainers.",
-      tag: "Zero Fee",
-      href: "#features"
     }
   ];
 
   return (
-    <header className="sticky top-0 z-40 w-full bg-white/95 dark:bg-black/95 backdrop-blur-md border-b border-neutral-200 dark:border-[#1A1A1A] transition-colors duration-200">
+    <header className="sticky top-0 z-40 w-full bg-black/95 backdrop-blur-md border-b border-[#1C1C20] transition-colors duration-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 sm:h-20 gap-4">
           
-          {/* Brand Logo & Wordmark (Mockup style: Vyral + ify in volt green) */}
-          <a href="#" className="flex items-center gap-2 focus:outline-none group">
-            <span className="font-display font-bold text-2xl tracking-tight text-neutral-900 dark:text-white">
-              Vyral<span className="text-[#D1FE17]">ify</span>
+          {/* LEFT: [Vyralify] Brand Logo */}
+          <a href="#" className="flex items-center gap-2.5 focus:outline-none group shrink-0">
+            <div className="w-7 h-7 rounded-lg bg-[#D1FE17] flex items-center justify-center text-black font-extrabold text-sm shadow-sm group-hover:scale-105 transition-transform">
+              V
+            </div>
+            <span className="font-display font-bold text-xl sm:text-2xl tracking-tight text-white group-hover:text-neutral-100 transition-colors">
+              Vyralify
             </span>
           </a>
 
-          {/* Desktop Nav Items (Exact items from mockup: Platform, Features, Pricing) */}
-          <nav className="hidden md:flex items-center gap-9">
+          {/* CENTER: Product ▾ | Creators | Brands | Pricing */}
+          <nav className="hidden md:flex items-center gap-8 text-sm font-medium">
+            {/* Product Dropdown */}
+            <div className="relative" ref={dropdownRef}>
+              <button
+                onClick={() => setProductOpen(!productOpen)}
+                onMouseEnter={() => setProductOpen(true)}
+                className={`flex items-center gap-1.5 transition-colors cursor-pointer py-2 ${
+                  productOpen ? 'text-[#D1FE17]' : 'text-neutral-300 hover:text-[#D1FE17]'
+                }`}
+              >
+                <span>Product</span>
+                <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${productOpen ? 'rotate-180 text-[#D1FE17]' : 'text-neutral-400'}`} />
+              </button>
+
+              <AnimatePresence>
+                {productOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 8, scale: 0.98 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 6, scale: 0.98 }}
+                    transition={{ duration: 0.18 }}
+                    onMouseLeave={() => setProductOpen(false)}
+                    className="absolute top-full left-0 mt-1 w-80 p-2.5 rounded-2xl bg-[#0B0B0E] border border-[#24242A] shadow-2xl shadow-black/80 z-50 backdrop-blur-xl"
+                  >
+                    <div className="px-3 py-1.5 text-[10px] font-mono uppercase tracking-wider text-neutral-500 font-bold">
+                      Products
+                    </div>
+                    <div className="space-y-1">
+                      {productList.map((item, idx) => (
+                        <a
+                          key={idx}
+                          href={item.href}
+                          onClick={() => setProductOpen(false)}
+                          className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-neutral-900/90 transition-all group"
+                        >
+                          <span className="text-lg shrink-0 mt-0.5 group-hover:scale-110 transition-transform">
+                            {item.icon}
+                          </span>
+                          <div>
+                            <div className="text-xs font-bold text-white group-hover:text-[#D1FE17] transition-colors flex items-center gap-1">
+                              <span>{item.title}</span>
+                            </div>
+                            <p className="text-[11px] text-neutral-400 leading-snug mt-0.5">
+                              {item.desc}
+                            </p>
+                          </div>
+                        </a>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
+            {/* Creators Link */}
             <a
-              href="#features"
-              className="text-sm font-medium text-neutral-400 hover:text-white transition-colors"
+              href="#clip-and-earn"
+              className="text-neutral-300 hover:text-[#D1FE17] transition-colors"
             >
-              Platform
+              Creators
             </a>
 
+            {/* Brands Link */}
             <a
               href="#features"
-              className="text-sm font-medium text-neutral-400 hover:text-white transition-colors"
+              className="text-neutral-300 hover:text-[#D1FE17] transition-colors"
             >
-              Features
+              Brands
             </a>
 
+            {/* Pricing Link */}
             <a
               href="#pricing"
-              className="text-sm font-medium text-neutral-400 hover:text-white transition-colors"
+              className="text-neutral-300 hover:text-[#D1FE17] transition-colors"
             >
               Pricing
             </a>
           </nav>
 
-          {/* Right Action Buttons */}
-          <div className="flex items-center gap-4">
-            {/* Animated Skiper UI Theme Toggle Button */}
-            <ThemeToggleButton2 className="w-8 h-8" />
-
-            <a
-              href="/login"
-              className="text-sm font-medium text-neutral-300 hover:text-white transition-colors"
-            >
-              Login
-            </a>
-
-            {/* Exact Mockup Pill Button: GET STARTED */}
+          {/* RIGHT: [Get Started →] (Solid Vyralify Green, no login clutter) */}
+          <div className="hidden md:flex items-center gap-4">
             <a
               href="#pricing"
-              className="inline-flex items-center justify-center px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider bg-[#D1FE17] text-black hover:bg-[#BBF00E] active:scale-[0.98] transition-all font-display shadow-[0_0_20px_rgba(209,254,23,0.3)]"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold bg-[#D1FE17] text-black hover:bg-[#bbf00e] active:scale-[0.98] transition-all shadow-sm hover:shadow-[0_0_20px_rgba(209,254,23,0.3)]"
             >
-              GET STARTED
+              <span>Get Started</span>
+              <ArrowRight className="w-4 h-4" />
             </a>
+          </div>
 
-            {/* Mobile menu trigger */}
+          {/* MOBILE MENU TOGGLE */}
+          <div className="flex md:hidden items-center gap-3">
+            <a
+              href="#pricing"
+              className="px-3.5 py-1.5 rounded-full text-xs font-semibold bg-[#D1FE17] text-black hover:bg-[#bbf00e] transition-colors"
+            >
+              Get Started
+            </a>
             <button
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="lg:hidden p-2 text-neutral-600 hover:text-black dark:text-neutral-400 dark:hover:text-white transition-colors"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="p-2 rounded-lg text-white hover:text-[#D1FE17] hover:bg-neutral-900 transition-colors"
               aria-label="Toggle Menu"
             >
-              {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
-        </div>
 
-        {/* Mobile Navigation Drawer */}
-        {isMobileMenuOpen && (
-          <div className="lg:hidden py-4 border-t border-neutral-200 dark:border-[#1F1F23]">
-            <div className="flex flex-col gap-2">
-              <a
-                href="#features"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="px-3 py-2 text-sm text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-[#111111] rounded-lg"
-              >
-                Systems
-              </a>
-              <a
-                href="#how-it-works"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="px-3 py-2 text-sm text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-[#111111] rounded-lg"
-              >
-                How It Works
-              </a>
+        </div>
+      </div>
+
+      {/* MOBILE DRAWER */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            className="md:hidden border-t border-[#1C1C20] bg-black px-4 py-6 space-y-4"
+          >
+            <div className="text-xs font-mono uppercase tracking-wider text-neutral-500 font-bold px-2">
+              Products
+            </div>
+            <div className="grid grid-cols-1 gap-2">
+              {productList.map((item, idx) => (
+                <a
+                  key={idx}
+                  href={item.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center gap-3 p-2 rounded-lg text-sm text-neutral-300 hover:text-[#D1FE17] hover:bg-neutral-900 transition-colors"
+                >
+                  <span>{item.icon}</span>
+                  <span className="font-semibold">{item.title}</span>
+                </a>
+              ))}
+            </div>
+
+            <div className="pt-4 border-t border-neutral-800 space-y-3 px-2">
               <a
                 href="#clip-and-earn"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="px-3 py-2 text-sm text-[#D1FE17] hover:bg-neutral-100 dark:hover:bg-[#111111] rounded-lg flex items-center justify-between"
+                onClick={() => setMobileMenuOpen(false)}
+                className="block text-sm font-medium text-neutral-300 hover:text-[#D1FE17]"
               >
-                <span>Clip & Earn</span>
-                <span className="text-[10px] bg-[#D1FE17]/10 px-2 py-0.5 rounded border border-[#D1FE17]/20 text-[#D1FE17]">
-                  ₹150/1K
-                </span>
+                Creators
               </a>
               <a
-                href="#results"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="px-3 py-2 text-sm text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-[#111111] rounded-lg"
+                href="#features"
+                onClick={() => setMobileMenuOpen(false)}
+                className="block text-sm font-medium text-neutral-300 hover:text-[#D1FE17]"
               >
-                Results
+                Brands
               </a>
               <a
                 href="#pricing"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="px-3 py-2 text-sm text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-[#111111] rounded-lg"
+                onClick={() => setMobileMenuOpen(false)}
+                className="block text-sm font-medium text-neutral-300 hover:text-[#D1FE17]"
               >
                 Pricing
               </a>
-              <a
-                href="#faq"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="px-3 py-2 text-sm text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-[#111111] rounded-lg"
-              >
-                FAQ
-              </a>
-              <div className="mt-2 pt-2 border-t border-neutral-200 dark:border-[#1F1F23] flex items-center justify-between px-3">
-                <a
-                  href="/login"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="text-sm font-medium text-neutral-700 dark:text-neutral-300 hover:text-black dark:hover:text-white"
-                >
-                  Login
-                </a>
-              </div>
             </div>
-          </div>
+
+            <div className="pt-2">
+              <a
+                href="#pricing"
+                onClick={() => setMobileMenuOpen(false)}
+                className="w-full py-3 rounded-full bg-[#D1FE17] text-black font-bold text-sm flex items-center justify-center gap-2"
+              >
+                <span>Get Started</span>
+                <ArrowRight className="w-4 h-4" />
+              </a>
+            </div>
+          </motion.div>
         )}
-      </div>
+      </AnimatePresence>
     </header>
   );
 }

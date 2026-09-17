@@ -1,7 +1,7 @@
 import React from 'react';
 import { ThemeProvider } from './context/ThemeContext';
 import TopStrip from './components/TopStrip';
-import DynamicIslandNavbar from './components/DynamicIslandNavbar';
+import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import SocialProof from './components/SocialProof';
 import Features from './components/Features';
@@ -22,8 +22,8 @@ export default function App() {
         {/* TOP ANNOUNCEMENT BAR */}
         <TopStrip />
 
-        {/* DYNAMIC ISLAND FLOATING NAVBAR */}
-        <DynamicIslandNavbar />
+        {/* LOCKED TOP NAVBAR */}
+        <Navbar />
 
         {/* PAGE CONTENT */}
         <main className="flex-1">

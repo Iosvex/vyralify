@@ -42,11 +42,8 @@ export default function Hero() {
       {/* Subtle vignette gradient */}
       <div className="absolute inset-0 z-[1] bg-gradient-to-b from-black/50 via-transparent to-black pointer-events-none" />
 
-      {/* Top clearance for floating island navbar */}
-      <div className="h-20 sm:h-24 shrink-0" />
-
       {/* 2. HERO CORE CONTENT (Exact locked copy from master specification) */}
-      <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center pointer-events-none my-auto py-4 sm:py-6">
+      <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center pointer-events-none my-auto pt-8 sm:pt-12 pb-6">
         
         {/* Eyebrow: BUILD. GROW. MONETIZE. */}
         <motion.div 

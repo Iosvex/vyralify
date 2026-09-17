@@ -55,7 +55,7 @@
   }
 
   body {
-    font-family: 'Clash Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
     font-weight: 400;
     line-height: 1.6;
     background-color: var(--bg-page);
@@ -66,57 +66,57 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
-  /* CreatorFlow Typography Hierarchy:
-     - Hero Headline: 700/800 (Extrabold, tight modern SaaS display, letter-spacing: -0.035em)
-     - Major Headings (h1, h2, h3): 700 (Bold, letter-spacing: -0.025em)
-     - Subheadings / Card Titles: 600 (Semibold, letter-spacing: -0.015em)
-     - Buttons / Badges / Labels: 600 (Semibold)
-     - Navigation / Supporting UI: 500 (Medium)
-     - Body Copy / Descriptions: 400 (Regular, line-height: 1.6)
+  /* Typography Hierarchy:
+     - Main Headline (h1): Neue Montreal Bold / Neue Haas Grotesk Display Pro (Bold, tight kerning: -0.04em)
+     - Major Headings (h2, h3): Neue Montreal / Neue Haas Grotesk Display Pro (Bold)
+     - Subheadings / Card Titles: Inter / Neue Haas Grotesk
+     - Buttons / Badges / Labels: Inter (Bold) / Neue Haas Grotesk Bold
+     - Navigation / Supporting UI: Inter (Medium)
+     - Body Copy / Descriptions: Inter (Regular, line-height: 1.6) / SF Pro Text
   */
   h1, .hero-title {
-    font-family: 'Clash Grotesk', -apple-system, BlinkMacSystemFont, sans-serif !important;
-    letter-spacing: -0.035em;
+    font-family: 'PP Neue Montreal', 'Neue Montreal', 'Neue Haas Grotesk Display Pro', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    letter-spacing: -0.04em;
     font-weight: 700;
-    line-height: 1.05;
+    line-height: 1.02;
   }
 
   h2, h3, .section-title {
-    font-family: 'Clash Grotesk', -apple-system, BlinkMacSystemFont, sans-serif !important;
-    letter-spacing: -0.025em;
+    font-family: 'PP Neue Montreal', 'Neue Montreal', 'Neue Haas Grotesk Display Pro', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    letter-spacing: -0.03em;
     font-weight: 700;
     line-height: 1.15;
   }
 
   h4, h5, h6, .card-title {
-    font-family: 'Clash Grotesk', -apple-system, BlinkMacSystemFont, sans-serif !important;
+    font-family: 'PP Neue Montreal', 'Neue Montreal', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     letter-spacing: -0.015em;
     font-weight: 600;
   }
 
   p, .body-text, .description {
-    font-family: 'Clash Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
     font-weight: 400;
     line-height: 1.6;
     letter-spacing: -0.01em;
   }
 
   button, .btn {
-    font-family: 'Clash Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: 'Inter', 'Neue Haas Grotesk Display Pro', -apple-system, BlinkMacSystemFont, sans-serif;
     font-weight: 600;
   }
 
   .nav-item, .nav-link {
-    font-family: 'Clash Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     font-weight: 500;
   }
 
   .font-display {
-    font-family: 'Clash Grotesk', -apple-system, BlinkMacSystemFont, sans-serif !important;
+    font-family: 'PP Neue Montreal', 'Neue Montreal', 'Neue Haas Grotesk Display Pro', 'Inter', sans-serif;
   }
 
   .font-script {
-    font-family: 'Caveat', cursive, sans-serif !important;
+    font-family: 'Caveat', cursive, sans-serif;
     font-style: normal;
   }
 }

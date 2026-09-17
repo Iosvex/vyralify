@@ -44,39 +44,39 @@ export default function Hero() {
           
           {/* LEFT COLUMN: HEROIC PUNCHY COPY (Exact CreatorFlow Scale) */}
           <div className="lg:col-span-7 flex flex-col justify-center text-left">
-            {/* Eyebrow: INSTAGRAM DM AUTOMATION */}
+            {/* Eyebrow: Inter (Medium) All-caps with extra letter-spacing */}
             <motion.div
               initial={{ opacity: 0, y: -8 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.35 }}
-              className="text-xs lg:text-[13px] font-mono font-bold uppercase tracking-[0.2em] text-neutral-400 mb-4 xl:mb-6"
+              className="text-xs lg:text-[13px] font-inter font-medium uppercase tracking-[0.24em] text-neutral-400 mb-4 xl:mb-6"
             >
               INSTAGRAM DM AUTOMATION
             </motion.div>
 
-            {/* Headline: Huge, tight, modern display typography */}
+            {/* Headline: Neue Montreal Bold / Neue Haas Grotesk Display (Bold) with tight kerning */}
             <motion.h1 
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.45, delay: 0.08 }}
-              className="text-5xl sm:text-6xl md:text-7xl lg:text-[72px] xl:text-[82px] 2xl:text-[88px] font-display font-extrabold text-white tracking-[-0.04em] leading-[0.98] mb-5 xl:mb-6"
+              className="text-5xl sm:text-6xl md:text-7xl lg:text-[72px] xl:text-[82px] 2xl:text-[88px] font-headline font-bold text-white tracking-[-0.04em] leading-[0.98] mb-5 xl:mb-6"
             >
               More clicks,<br className="hidden sm:inline" />
               {' '}leads, and sales<br className="hidden sm:inline" />
               {' '}from Instagram
             </motion.h1>
 
-            {/* Subtitle */}
+            {/* Body Text: Inter (Regular) / SF Pro Text */}
             <motion.p 
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.45, delay: 0.16 }}
-              className="text-neutral-400 text-base sm:text-lg lg:text-[18px] leading-[1.48] max-w-[540px] mb-6 xl:mb-8 font-normal"
+              className="text-neutral-400 font-inter font-normal text-base sm:text-lg lg:text-[18px] leading-[1.5] max-w-[540px] mb-6 xl:mb-8"
             >
               Instagram DM automation that turns comments, story replies, and DMs into instant links, captured emails, and sales, on autopilot. Set it up once, it runs on every post, reel or story.
             </motion.p>
 
-            {/* CTA Button: Get Started Free */}
+            {/* Button Text: Inter (Bold) / Neue Haas Grotesk Bold */}
             <motion.div 
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
@@ -85,13 +85,13 @@ export default function Hero() {
             >
               <a
                 href="#pricing"
-                className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 rounded-xl bg-[#D1FE17] hover:bg-[#bbf00e] text-black font-display font-bold text-base transition-all duration-200 shadow-[0_0_25px_rgba(209,254,23,0.3)] hover:scale-[1.02] active:scale-[0.98]"
+                className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 rounded-xl bg-[#D1FE17] hover:bg-[#bbf00e] text-black font-inter font-bold text-base tracking-tight transition-all duration-200 shadow-[0_0_25px_rgba(209,254,23,0.3)] hover:scale-[1.02] active:scale-[0.98]"
               >
                 Get Started Free
               </a>
             </motion.div>
 
-            {/* Trust Social Proof: [avatars] [20K+] Loved by creators, brands and agencies */}
+            {/* Bottom Text: Inter (Medium) */}
             <motion.div 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -107,11 +107,11 @@ export default function Hero() {
                     className="inline-block h-8 w-8 rounded-full ring-2 ring-black object-cover"
                   />
                 ))}
-                <div className="inline-flex items-center justify-center h-8 w-8 rounded-full bg-[#1F1F24] ring-2 ring-black text-[10px] font-bold text-white">
+                <div className="inline-flex items-center justify-center h-8 w-8 rounded-full bg-[#1F1F24] ring-2 ring-black font-inter font-bold text-[10px] text-white">
                   20K+
                 </div>
               </div>
-              <span className="text-xs sm:text-sm text-neutral-400 font-medium">
+              <span className="text-xs sm:text-[13px] font-inter font-medium uppercase tracking-[0.16em] text-neutral-400">
                 Loved by creators, brands and agencies
               </span>
             </motion.div>

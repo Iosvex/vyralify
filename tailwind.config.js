@@ -8,8 +8,10 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['"Clash Grotesk"', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'sans-serif'],
-        display: ['"Clash Grotesk"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+        headline: ['"PP Neue Montreal"', '"Neue Montreal"', '"Neue Haas Grotesk Display Pro"', '"Neue Haas Grotesk"', 'Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+        display: ['"PP Neue Montreal"', '"Neue Montreal"', '"Neue Haas Grotesk Display Pro"', '"Clash Grotesk"', 'Inter', 'sans-serif'],
+        inter: ['"Inter"', '-apple-system', 'BlinkMacSystemFont', '"SF Pro Text"', 'sans-serif'],
+        sans: ['"Inter"', '-apple-system', 'BlinkMacSystemFont', '"SF Pro Text"', 'sans-serif'],
         mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
         script: ['"Caveat"', 'cursive', 'sans-serif'],
       },

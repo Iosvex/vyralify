@@ -16,7 +16,6 @@ import {
   StatCardLine, 
   StatCardChoropleth 
 } from './charts/BklitStatCards';
-import { CaseStudyFlipStack } from './ui/case-study-flip-stack';
 import { curveMonotoneX } from '@visx/curve';
 
 export default function SocialProof() {
@@ -53,26 +52,26 @@ export default function SocialProof() {
   ];
 
   return (
-    <section id="social-proof" className="relative py-20 lg:py-28 bg-white dark:bg-black text-neutral-900 dark:text-white border-t border-neutral-200 dark:border-[#1C1C20] transition-colors duration-200 overflow-x-clip">
+    <section id="social-proof" className="relative py-12 sm:py-16 bg-white dark:bg-black text-neutral-900 dark:text-white border-t border-neutral-200 dark:border-[#1C1C20] transition-colors duration-200 overflow-x-clip">
       
       {/* Background ambient lighting */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-[#D1FE17]/[0.02] blur-[160px] rounded-full pointer-events-none -z-10" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-neutral-100 dark:bg-[#121214] border border-neutral-300 dark:border-[#242426] text-neutral-700 dark:text-neutral-300 text-xs font-mono font-medium tracking-wider uppercase mb-5">
+        {/* Section Header (Compact, Calibrated 1-Topic Hierarchy) */}
+        <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-10">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-neutral-100 dark:bg-[#121214] border border-neutral-300 dark:border-[#242426] text-neutral-700 dark:text-neutral-300 text-[11px] font-mono font-medium tracking-wider uppercase mb-3 sm:mb-4">
             <span className="w-1.5 h-1.5 rounded-full bg-[#D1FE17] animate-pulse" />
-            <span>VERIFIED TRUST PROTOCOL // 04</span>
+            <span>VERIFIED TRUST PROTOCOL // 03</span>
           </div>
 
-          <h2 className="text-3xl sm:text-5xl lg:text-6xl font-display font-bold text-neutral-900 dark:text-white tracking-tight leading-tight mb-5">
+          <h2 className="text-2xl sm:text-4xl lg:text-5xl font-display font-bold text-neutral-900 dark:text-white tracking-tight leading-tight mb-3">
             Can I trust it? <br />
             <span className="text-black dark:text-white">Look at the ledger.</span>
           </h2>
 
-          <p className="text-neutral-600 dark:text-neutral-400 text-base sm:text-lg leading-relaxed">
+          <p className="text-neutral-600 dark:text-neutral-400 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto">
             Zero vanity metrics. Institutional-grade escrow settlement infrastructure engineered for elite short-form creators, clippers, and media agencies.
           </p>
         </div>
@@ -223,15 +222,6 @@ export default function SocialProof() {
               </span>
             </div>
           </div>
-        </div>
-
-        {/* EDITORIAL SCROLL-DRIVEN CASE STUDY FLIP STACK (@componentry/case-study-flip-stack) */}
-        <div className="mt-8 mb-4 -mx-4 sm:-mx-6 lg:-mx-8">
-          <CaseStudyFlipStack 
-            hint="Scroll Down to Flip"
-            heading="Verified Creator Case Studies."
-            endLabel="The Ledger Never Lies."
-          />
         </div>
 
         {/* Live Automated Settlement Stream & Verified Trust Ratings */}

@@ -2,6 +2,7 @@ import React from 'react';
 import { ThemeProvider } from './context/ThemeContext';
 import DynamicIslandNavbar from './components/DynamicIslandNavbar';
 import Hero from './components/Hero';
+import { CaseStudyFlipStack } from './components/ui/case-study-flip-stack';
 import SocialProof from './components/SocialProof';
 import Features from './components/Features';
 import ClipAndEarn from './components/ClipAndEarn';
@@ -17,18 +18,27 @@ export default function App() {
         {/* DYNAMIC ISLAND FLOATING NAVBAR */}
         <DynamicIslandNavbar />
 
-        {/* PAGE CONTENT */}
+        {/* PAGE CONTENT: 1 TOPIC PER VIEWPORT/SECTION */}
         <main className="flex-1">
-          {/* 3. HERO */}
+          {/* TOPIC 1: HERO VALUE PROPOSITION (100dvh Full Viewport) */}
           <Hero />
 
-          {/* 4. SOCIAL PROOF */}
+          {/* TOPIC 2: EDITORIAL CASE STUDIES (1 Full Card per Viewport Flip Stack) */}
+          <section id="case-studies" className="relative bg-black border-t border-neutral-200 dark:border-[#1C1C20] overflow-hidden">
+            <CaseStudyFlipStack 
+              hint="Scroll Down to Flip"
+              heading="Verified Creator Case Studies."
+              endLabel="The Ledger Never Lies."
+            />
+          </section>
+
+          {/* TOPIC 3: AUDITED ESCROW LEDGER & TRUST */}
           <SocialProof />
 
-          {/* 5. FEATURES */}
+          {/* TOPIC 4: 10-SYSTEM CORE ARCHITECTURE */}
           <Features />
 
-          {/* 6. CLIP & GET PAID */}
+          {/* TOPIC 5: CLIPPING BOUNTY PROTOCOL */}
           <ClipAndEarn />
         </main>
       </div>

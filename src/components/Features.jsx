@@ -46,26 +46,26 @@ export default function Features() {
   ];
 
   return (
-    <section id="features" className="relative py-20 lg:py-28 bg-white dark:bg-black text-neutral-900 dark:text-white border-t border-neutral-200 dark:border-[#1C1C20] transition-colors duration-200 overflow-hidden">
+    <section id="features" className="relative py-12 sm:py-16 bg-white dark:bg-black text-neutral-900 dark:text-white border-t border-neutral-200 dark:border-[#1C1C20] transition-colors duration-200 overflow-hidden">
       
       {/* Background ambient subtle glow */}
       <div className="absolute top-1/3 right-1/4 w-[600px] h-[350px] bg-[#D1FE17]/[0.02] blur-[150px] rounded-full pointer-events-none -z-10" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-14">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-neutral-100 dark:bg-[#121214] border border-neutral-300 dark:border-[#242426] text-neutral-700 dark:text-neutral-300 text-xs font-mono font-medium tracking-wider uppercase mb-5">
+        {/* Section Header (Compact, Calibrated 1-Topic Hierarchy) */}
+        <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-10">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-neutral-100 dark:bg-[#121214] border border-neutral-300 dark:border-[#242426] text-neutral-700 dark:text-neutral-300 text-[11px] font-mono font-medium tracking-wider uppercase mb-3 sm:mb-4">
             <span className="w-1.5 h-1.5 rounded-full bg-[#D1FE17]" />
-            <span>10-SYSTEM CORE ARCHITECTURE // 05</span>
+            <span>10-SYSTEM CORE ARCHITECTURE // 04</span>
           </div>
 
-          <h2 className="text-3xl sm:text-5xl lg:text-6xl font-display font-bold text-neutral-900 dark:text-white tracking-tight leading-tight mb-5">
+          <h2 className="text-2xl sm:text-4xl lg:text-5xl font-display font-bold text-neutral-900 dark:text-white tracking-tight leading-tight mb-3">
             What can it do? <br />
             <span className="text-black dark:text-white">Automate your entire empire.</span>
           </h2>
 
-          <p className="text-neutral-600 dark:text-neutral-400 text-base sm:text-lg leading-relaxed mb-8">
+          <p className="text-neutral-600 dark:text-neutral-400 text-sm sm:text-base leading-relaxed mb-6 max-w-2xl mx-auto">
             Engineered from our locked 10-system master architecture: hook generation, audience arbitrage, high-RPM niche radar, and automated bounty payouts.
           </p>
 

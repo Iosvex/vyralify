@@ -83,32 +83,32 @@ export default function ClipAndEarn() {
   ];
 
   return (
-    <section id="clip-and-earn" className="relative py-20 lg:py-28 bg-white dark:bg-black text-neutral-900 dark:text-white border-t border-neutral-200 dark:border-[#1C1C20] transition-colors duration-200 overflow-hidden">
+    <section id="clip-and-earn" className="relative py-12 sm:py-16 bg-white dark:bg-black text-neutral-900 dark:text-white border-t border-neutral-200 dark:border-[#1C1C20] transition-colors duration-200 overflow-hidden">
       
       {/* Background glow */}
       <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[600px] h-[350px] bg-[#D1FE17]/[0.02] blur-[150px] rounded-full pointer-events-none -z-10" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-neutral-100 dark:bg-[#121214] border border-neutral-300 dark:border-[#242426] text-neutral-700 dark:text-neutral-300 text-xs font-mono font-medium tracking-wider uppercase mb-5">
+        {/* Section Header (Compact, Calibrated 1-Topic Hierarchy) */}
+        <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-10">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-neutral-100 dark:bg-[#121214] border border-neutral-300 dark:border-[#242426] text-neutral-700 dark:text-neutral-300 text-[11px] font-mono font-medium tracking-wider uppercase mb-3 sm:mb-4">
             <span className="w-1.5 h-1.5 rounded-full bg-[#D1FE17]" />
-            <span>CLIPPING BOUNTY PROTOCOL // 06</span>
+            <span>CLIPPING BOUNTY PROTOCOL // 05</span>
           </div>
 
-          <h2 className="text-3xl sm:text-5xl lg:text-6xl font-display font-bold text-neutral-900 dark:text-white tracking-tight leading-tight mb-5">
+          <h2 className="text-2xl sm:text-4xl lg:text-5xl font-display font-bold text-neutral-900 dark:text-white tracking-tight leading-tight mb-3">
             Can I make money here? <br />
             <span className="text-black dark:text-white">The Clip-to-Cash Engine.</span>
           </h2>
 
-          <p className="text-neutral-600 dark:text-neutral-400 text-base sm:text-lg leading-relaxed">
+          <p className="text-neutral-600 dark:text-neutral-400 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto">
             You don't need a following, personal brand, or camera. Clip verified founder podcasts, post on faceless pages, and get automated cash deposited per 1,000 views.
           </p>
         </div>
 
         {/* Skiper UI Interactive Earnings Calculator */}
-        <div className="rounded-3xl p-6 sm:p-10 lg:p-12 bg-neutral-50 dark:bg-[#0B0B0D] border border-neutral-200 dark:border-[#202025] shadow-2xl mb-16 relative overflow-hidden">
+        <div className="rounded-3xl p-5 sm:p-8 lg:p-10 bg-neutral-50 dark:bg-[#0B0B0D] border border-neutral-200 dark:border-[#202025] shadow-2xl mb-10 relative overflow-hidden">
           
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             

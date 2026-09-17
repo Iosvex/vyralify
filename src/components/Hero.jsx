@@ -22,7 +22,7 @@ export default function Hero() {
   return (
     <section 
       id="hero-section" 
-      className="relative w-full h-full flex items-center justify-center bg-black text-white overflow-hidden select-none"
+      className="relative w-full min-h-full lg:h-full flex flex-col justify-center bg-black text-white select-none overflow-x-hidden"
     >
       {/* 1. INTERACTIVE PIXEL CANVAS BACKGROUND (Preserved animation) */}
       <div className="absolute inset-0 z-0 pointer-events-none">
@@ -38,9 +38,9 @@ export default function Hero() {
       {/* Subtle vignette gradient */}
       <div className="absolute inset-0 z-[1] bg-gradient-to-b from-black/40 via-transparent to-black pointer-events-none" />
 
-      {/* MAIN 2-COLUMN HERO CONTAINER: CALIBRATED TO 100% VIEWPORT */}
-      <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 w-full py-2 sm:py-4 flex items-center justify-center">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center w-full">
+      {/* MAIN 2-COLUMN HERO CONTAINER: RESPONSIVE ON MOBILE & 100% VIEWPORT ON DESKTOP */}
+      <div className="relative z-10 max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 w-full pt-8 pb-14 sm:py-10 lg:py-2 flex items-center justify-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 items-center w-full">
           
           {/* LEFT COLUMN: PUNCHY COPY & CTAs */}
           <div className="lg:col-span-7 flex flex-col justify-center text-left">
@@ -54,16 +54,16 @@ export default function Hero() {
               INSTAGRAM DM AUTOMATION
             </motion.div>
 
-            {/* Headline: Scaled responsively to fit 100% viewport */}
+            {/* Headline: Responsive typography (natural wrap on mobile, structured on desktop) */}
             <motion.h1 
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.45, delay: 0.08 }}
-              className="text-4xl sm:text-5xl lg:text-[54px] xl:text-[62px] font-display font-extrabold text-white tracking-[-0.04em] leading-[1.04] mb-3 lg:mb-4"
+              className="text-[34px] sm:text-4xl md:text-5xl lg:text-[54px] xl:text-[62px] font-display font-extrabold text-white tracking-[-0.035em] leading-[1.08] sm:leading-[1.04] mb-3 sm:mb-4"
             >
-              More clicks,<br />
-              leads, and sales<br />
-              from Instagram
+              More clicks,<br className="hidden sm:inline" />
+              {' '}leads, and sales<br className="hidden sm:inline" />
+              {' '}from Instagram
             </motion.h1>
 
             {/* Subtitle */}
@@ -76,7 +76,7 @@ export default function Hero() {
               Instagram DM automation that turns comments, story replies, and DMs into instant links, captured emails, and sales, on autopilot. Set it up once, it runs on every post, reel or story.
             </motion.p>
 
-            {/* CTA Button: Get Started Free */}
+            {/* CTA Button: Get Started Free (full-width on phone, button on tablet/desktop) */}
             <motion.div 
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
@@ -85,7 +85,7 @@ export default function Hero() {
             >
               <a
                 href="#pricing"
-                className="inline-flex items-center justify-center px-7 py-3.5 rounded-xl bg-[#D1FE17] hover:bg-[#bbf00e] text-black font-display font-bold text-sm sm:text-base transition-all duration-200 shadow-[0_0_25px_rgba(209,254,23,0.3)] hover:scale-[1.02] active:scale-[0.98]"
+                className="w-full sm:w-auto inline-flex items-center justify-center px-7 py-3.5 rounded-xl bg-[#D1FE17] hover:bg-[#bbf00e] text-black font-display font-bold text-sm sm:text-base transition-all duration-200 shadow-[0_0_25px_rgba(209,254,23,0.3)] hover:scale-[1.02] active:scale-[0.98]"
               >
                 Get Started Free
               </a>
@@ -96,9 +96,9 @@ export default function Hero() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.45, delay: 0.32 }}
-              className="flex items-center gap-2.5"
+              className="flex items-center gap-2.5 mb-8 lg:mb-0"
             >
-              <div className="flex -space-x-2 overflow-hidden">
+              <div className="flex -space-x-2 overflow-hidden shrink-0">
                 {avatars.map((img, idx) => (
                   <img
                     key={idx}
@@ -117,18 +117,18 @@ export default function Hero() {
             </motion.div>
           </div>
 
-          {/* RIGHT COLUMN: IPHONE 16 PRO INSTAGRAM DM AUTOMATION MOCKUP (Calibrated 100vh height) */}
-          <div className="lg:col-span-5 relative flex items-center justify-center">
+          {/* RIGHT COLUMN: IPHONE 16 PRO INSTAGRAM DM AUTOMATION MOCKUP */}
+          <div className="lg:col-span-5 relative flex items-center justify-center w-full">
             
             {/* Ambient warm / volt glow behind phone */}
             <div className="absolute -left-6 top-1/2 -translate-y-1/2 w-[280px] h-[280px] bg-[#D1FE17]/15 blur-[90px] rounded-full pointer-events-none" />
 
-            {/* Phone Outer Shell (Height scaled to viewport) */}
+            {/* Phone Outer Shell (Responsive width on mobile, constrained height on desktop) */}
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 15 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.15 }}
-              className="h-[min(510px,calc(100vh-140px))] aspect-[9/18.8] max-w-full rounded-[44px] p-2.5 sm:p-3 bg-gradient-to-b from-[#2A2A30] via-[#141416] to-[#0A0A0C] shadow-[0_25px_60px_rgba(0,0,0,0.85),0_0_30px_rgba(209,254,23,0.08)] border border-[#303038] relative z-10"
+              className="w-[280px] sm:w-[320px] lg:w-auto lg:h-[min(510px,calc(100vh-140px))] aspect-[9/18.8] max-w-full rounded-[44px] p-2.5 sm:p-3 bg-gradient-to-b from-[#2A2A30] via-[#141416] to-[#0A0A0C] shadow-[0_25px_60px_rgba(0,0,0,0.85),0_0_30px_rgba(209,254,23,0.08)] border border-[#303038] relative z-10 mx-auto"
             >
               {/* Phone Inner Screen (White Background) */}
               <div className="h-full w-full rounded-[34px] bg-white text-black overflow-hidden flex flex-col relative select-none shadow-inner">

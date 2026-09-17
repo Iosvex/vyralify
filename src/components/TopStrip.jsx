@@ -7,7 +7,7 @@ export default function TopStrip() {
   if (!isVisible) return null;
 
   return (
-    <aside aria-label="Announcement" className="relative z-50 bg-[#070908] border-b border-white/[0.08] text-xs text-neutral-300 py-2 px-4 transition-all">
+    <aside aria-label="Announcement" className="relative z-50 bg-[#070908] border-b border-white/[0.08] text-[11px] sm:text-xs text-neutral-300 py-1.5 px-4 transition-all shrink-0">
       <div className="max-w-7xl mx-auto flex items-center justify-between gap-3">
         
         {/* Centered Announcement Message */}

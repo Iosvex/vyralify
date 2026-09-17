@@ -23,23 +23,23 @@ export default function App() {
           {/* TOPIC 1: HERO VALUE PROPOSITION (100dvh Full Viewport) */}
           <Hero />
 
-          {/* TOPIC 2: EDITORIAL CASE STUDIES (1 Full Card per Viewport Flip Stack) */}
+          {/* TOPIC 2: AUDITED ESCROW LEDGER & TRUST (AreaChart + Stat Cards + Live Settlement) */}
+          <SocialProof />
+
+          {/* TOPIC 3: 10-SYSTEM CORE ARCHITECTURE */}
+          <Features />
+
+          {/* TOPIC 4: CLIPPING BOUNTY PROTOCOL & INCOME CALCULATOR */}
+          <ClipAndEarn />
+
+          {/* TOPIC 5: EDITORIAL CASE STUDIES (Moved after 3-4 pages as requested) */}
           <section id="case-studies" className="relative bg-black border-t border-neutral-200 dark:border-[#1C1C20] overflow-hidden">
             <CaseStudyFlipStack 
               hint="Scroll Down to Flip"
               heading="Verified Creator Case Studies."
-              endLabel="The Ledger Never Lies."
+              endLabel="Ready to Build Your Empire?"
             />
           </section>
-
-          {/* TOPIC 3: AUDITED ESCROW LEDGER & TRUST */}
-          <SocialProof />
-
-          {/* TOPIC 4: 10-SYSTEM CORE ARCHITECTURE */}
-          <Features />
-
-          {/* TOPIC 5: CLIPPING BOUNTY PROTOCOL */}
-          <ClipAndEarn />
         </main>
       </div>
     </ThemeProvider>

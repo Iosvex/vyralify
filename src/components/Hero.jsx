@@ -64,10 +64,10 @@ export default function Hero() {
           </motion.a>
 
           <a
-            href="#case-studies"
+            href="#social-proof"
             className="inline-flex items-center gap-1.5 text-xs font-medium text-neutral-400 hover:text-white px-4 py-2 transition-colors cursor-pointer"
           >
-            <span>Explore Case Studies</span>
+            <span>Explore Live Ledger</span>
             <ArrowRight className="w-3.5 h-3.5 text-[#D1FE17]" />
           </a>
         </div>
@@ -102,10 +102,10 @@ export default function Hero() {
           </div>
 
           <a 
-            href="#case-studies" 
+            href="#social-proof" 
             className="hidden lg:flex items-center gap-1 text-[11px] text-neutral-400 hover:text-white transition-colors"
           >
-            <span>Scroll</span>
+            <span>Ledger</span>
             <ChevronDown className="w-3.5 h-3.5 text-[#D1FE17] animate-bounce" />
           </a>
         </div>

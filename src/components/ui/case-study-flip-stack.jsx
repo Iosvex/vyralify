@@ -285,19 +285,27 @@ export function CaseStudyFlipStack({
         </div>
       </div>
 
-      {/* CLOSING STAMP: Appears immediately after unpinning with ZERO blank space */}
-      <div className="relative z-10 py-10 sm:py-14 px-5 sm:px-10 border-t border-[#1C1C20] bg-black text-center">
+      {/* CLOSING CALL TO ACTION: Appears cleanly after unpinning with direct conversion button */}
+      <div className="relative z-10 py-12 sm:py-16 px-5 sm:px-10 border-t border-[#1C1C20] bg-black text-center">
         <div className="max-w-2xl mx-auto">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#11190B] border border-[#273B17] text-[#D1FE17] text-xs font-mono mb-3">
             <span className="w-1.5 h-1.5 rounded-full bg-[#D1FE17] animate-pulse" />
-            <span>AUDITED ESCROW LEDGER</span>
+            <span>SCALE YOUR CREATOR REVENUE</span>
           </div>
-          <h3 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold tracking-tight text-white">
+          <h3 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold tracking-tight text-white mb-3">
             {endLabel}
           </h3>
-          <p className="text-neutral-400 font-mono text-xs uppercase tracking-widest mt-2">
-            ● Verified On-Chain &amp; Bank Settlement Across 1,480+ Creators
+          <p className="text-neutral-400 font-normal text-sm sm:text-base leading-relaxed mb-6">
+            Join 4,890+ short-form clippers, theme pages, and digital product operators turning organic attention into recurring cashflow.
           </p>
+          <div className="flex items-center justify-center gap-3">
+            <a
+              href="#pricing"
+              className="inline-flex items-center justify-center px-8 py-3.5 rounded-full text-xs sm:text-sm font-semibold uppercase tracking-wider bg-[#D1FE17] text-black hover:bg-[#BBF00E] transition-all font-sans shadow-lg shadow-[#D1FE17]/15 cursor-pointer"
+            >
+              CREATE ACCOUNT NOW
+            </a>
+          </div>
         </div>
       </div>
     </div>

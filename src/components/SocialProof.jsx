@@ -63,7 +63,7 @@ export default function SocialProof() {
         <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-10">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-neutral-100 dark:bg-[#121214] border border-neutral-300 dark:border-[#242426] text-neutral-700 dark:text-neutral-300 text-[11px] font-mono font-medium tracking-wider uppercase mb-3 sm:mb-4">
             <span className="w-1.5 h-1.5 rounded-full bg-[#D1FE17] animate-pulse" />
-            <span>VERIFIED TRUST PROTOCOL // 03</span>
+            <span>VERIFIED TRUST PROTOCOL // 02</span>
           </div>
 
           <h2 className="text-2xl sm:text-4xl lg:text-5xl font-display font-bold text-neutral-900 dark:text-white tracking-tight leading-tight mb-3">

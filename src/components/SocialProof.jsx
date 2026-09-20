@@ -120,8 +120,8 @@ export default function SocialProof() {
         
         {/* 1. EYEBROW & 2. HEADING (PDF Page 4 - No Subheading) */}
         <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-neutral-100 border border-neutral-300 text-neutral-700 text-xs font-mono font-bold tracking-[0.2em] uppercase mb-4 shadow-2xs">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#3CEB75]" />
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#EAF7EE] border border-[#DCFCE7] text-[#16A34A] text-xs font-inter font-semibold tracking-wide uppercase mb-5 shadow-2xs">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#16A34A]" />
             <span>TRUSTED BY THE COMMUNITY</span>
           </div>
 

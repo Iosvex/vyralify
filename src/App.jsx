@@ -5,6 +5,7 @@ import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import SocialProof from './components/SocialProof';
 import Features from './components/Features';
+import ClipAndEarn from './components/ClipAndEarn';
 
 export default function App() {
   return (
@@ -14,7 +15,7 @@ export default function App() {
           {/* TOP NAVBAR (PDF Page 1) */}
           <Navbar />
 
-          {/* MAIN CONTAINER: PAGES 1–10 CONTENT */}
+          {/* MAIN CONTAINER: PAGES 1–20+ CONTENT */}
           <main className="flex-1 flex flex-col justify-start w-full relative">
             {/* HERO SECTION + 3D DASHBOARD (PDF Pages 2 & 3) */}
             <Hero />
@@ -22,8 +23,11 @@ export default function App() {
             {/* SOCIAL PROOF & METRICS (PDF Pages 4, 5, 6, 7) */}
             <SocialProof />
 
-            {/* WHAT'S INSIDE / FEATURES 3x2 GRID (PDF Pages 7, 8, 9, 10) */}
+            {/* WHAT'S INSIDE / FEATURES 3x2 GRID (PDF Pages 7, 8, 9, 10, 18) */}
             <Features />
+
+            {/* CLIP & GET PAID (PDF Pages 18, 19, 20, 21, 22) */}
+            <ClipAndEarn />
           </main>
         </div>
       </LanguageProvider>

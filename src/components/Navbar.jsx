@@ -79,14 +79,13 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-14 sm:h-16 gap-4">
           
-          {/* LEFT: [Vyralify] Brand Logo (White logo/text with solid green V badge) */}
-          <a href="#" className="flex items-center gap-2.5 group focus:outline-none shrink-0">
-            <div className="w-8 h-8 rounded-lg bg-[#D1FE17] text-black font-black flex items-center justify-center text-lg tracking-tighter shadow-[0_0_16px_rgba(209,254,23,0.35)] group-hover:scale-105 transition-transform">
-              V
-            </div>
-            <span className="font-headline font-bold text-2xl tracking-tight text-white group-hover:text-neutral-200 transition-colors">
-              Vyralify
-            </span>
+          {/* LEFT: [Vyralify] Official Brand Logo */}
+          <a href="#" className="flex items-center focus:outline-none shrink-0 group py-1">
+            <img 
+              src="/vyralify-logo.png" 
+              alt="Vyralify" 
+              className="h-7 sm:h-8 w-auto object-contain hover:opacity-90 transition-opacity" 
+            />
           </a>
 
           {/* CENTER: Minimal, spacious layout (Product ▾ | Creators | Brands | Pricing) */}

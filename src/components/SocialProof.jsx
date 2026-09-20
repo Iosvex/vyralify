@@ -1,306 +1,224 @@
-import React, { useState, useMemo } from 'react';
-import { motion } from 'motion/react';
-import { 
-  Lock,
-  Star
-} from 'lucide-react';
-import { 
-  AreaChart, 
-  Grid, 
-  Area, 
-  XAxis, 
-  ChartTooltip 
-} from './charts/AreaChart';
-import { 
-  StatCardArea, 
-  StatCardLine, 
-  StatCardChoropleth 
-} from './charts/BklitStatCards';
-import { curveMonotoneX } from '@visx/curve';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, useInView } from 'motion/react';
+import { ArrowRight, CheckCircle2 } from 'lucide-react';
+
+function CountUpMetric({ value, label, suffix = "" }) {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-50px" });
+  const [displayValue, setDisplayValue] = useState(0);
+
+  // Extract number from string (e.g. "900M+" -> 900, "$500K+" -> 500, "10K+" -> 10, "1M+" -> 1)
+  const numericMatch = value.match(/\d+/);
+  const targetNumber = numericMatch ? parseInt(numericMatch[0], 10) : 0;
+  const prefix = value.startsWith('$') ? '$' : '';
+  const valueSuffix = value.replace(/[\$\d]/g, '');
+
+  useEffect(() => {
+    if (!isInView || targetNumber === 0) return;
+
+    let start = 0;
+    const duration = 1600; // ms
+    const startTime = performance.now();
+
+    const animate = (currentTime) => {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      // Ease out cubic
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const current = Math.floor(eased * targetNumber);
+      setDisplayValue(current);
+
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      } else {
+        setDisplayValue(targetNumber);
+      }
+    };
+
+    requestAnimationFrame(animate);
+  }, [isInView, targetNumber]);
+
+  return (
+    <div ref={ref} className="flex flex-col items-center text-center p-6 sm:p-8 rounded-2xl bg-white border border-neutral-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:border-neutral-300 transition-all">
+      <div className="text-3xl sm:text-4xl lg:text-5xl font-headline font-bold text-neutral-900 tracking-tight mb-2">
+        {prefix}{isInView ? displayValue : 0}{valueSuffix}
+      </div>
+      <div className="text-xs sm:text-sm font-inter font-medium text-neutral-500 uppercase tracking-wider">
+        {label}
+      </div>
+    </div>
+  );
+}
 
 export default function SocialProof() {
-  const [showRevenue, setShowRevenue] = useState(true);
-  const [showCosts, setShowCosts] = useState(true);
-  const [autoPlay, setAutoPlay] = useState(true);
+  const avatars = [
+    "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&auto=format&fit=crop&q=80",
+    "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&auto=format&fit=crop&q=80",
+    "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=120&auto=format&fit=crop&q=80",
+    "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=120&auto=format&fit=crop&q=80",
+    "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=120&auto=format&fit=crop&q=80"
+  ];
 
-  // Compounding 30-day ledger curve with authentic creator economy growth
-  const chartData = useMemo(() => Array.from({ length: 30 }, (_, i) => {
-    const day = i + 1;
-    // Compounding growth curve: starting at ~$24K and scaling up to ~$148K with realistic volatility
-    const growthFactor = Math.pow(day / 30, 1.45);
-    const baseRevenue = 22000 + growthFactor * 122000;
-    const revNoise = Math.sin(day * 1.5) * 4500 + Math.cos(day * 2.7) * 2200;
-    const revenue = Math.round(baseRevenue + revNoise);
-
-    // Lean platform escrow costs: $7,500 -> $17,200
-    const baseCost = 7500 + (day / 30) * 9700;
-    const costNoise = Math.cos(day * 1.3) * 600;
-    const costs = Math.round(baseCost + costNoise);
-
-    return {
-      date: new Date(2024, 0, day),
-      revenue,
-      costs,
-    };
-  }), []);
-
-  const livePayouts = [
-    { creator: "@arjun_vfx", amount: "₹42,500.00", campaign: "PodClip Alpha", time: "2m ago", tx: "0x8f...4e21" },
-    { creator: "@neha_reels", amount: "₹89,100.00", campaign: "SaaS Launch Bounty", time: "8m ago", tx: "0x3c...19a0" },
-    { creator: "@karan_media", amount: "₹1,20,000.00", campaign: "FinTech 1M Sprint", time: "14m ago", tx: "0x7d...88b2" },
-    { creator: "@priya_shorts", amount: "₹65,400.00", campaign: "Founder Series #04", time: "22m ago", tx: "0x1a...90f4" },
+  // Marquee Cards from PDF Pages 4 & 5
+  const marqueeCards = [
+    {
+      avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80",
+      handle: "@pagehandle",
+      category: "Creator",
+      result: "$4,120 in sales"
+    },
+    {
+      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80",
+      handle: "@clipperhandle",
+      category: "Clipper",
+      result: "254K views"
+    },
+    {
+      avatar: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=100&auto=format&fit=crop&q=80",
+      handle: "Brand Name",
+      category: "Brand",
+      result: "12 campaigns"
+    },
+    {
+      avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&auto=format&fit=crop&q=80",
+      handle: "@creatorhandle",
+      category: "Creator",
+      result: "$2,840 earned"
+    },
+    {
+      avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&auto=format&fit=crop&q=80",
+      handle: "@apex_cuts",
+      category: "Clipper",
+      result: "1.4M views"
+    },
+    {
+      avatar: "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=100&auto=format&fit=crop&q=80",
+      handle: "FinFlow Health",
+      category: "Brand",
+      result: "8 live sprints"
+    },
+    {
+      avatar: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=100&auto=format&fit=crop&q=80",
+      handle: "@mindset_daily",
+      category: "Creator",
+      result: "$6,950 in sales"
+    },
+    {
+      avatar: "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=100&auto=format&fit=crop&q=80",
+      handle: "@reels_wizard",
+      category: "Clipper",
+      result: "890K views"
+    }
   ];
 
   return (
-    <section id="social-proof" className="relative py-12 sm:py-16 bg-white dark:bg-black text-neutral-900 dark:text-white border-t border-neutral-200 dark:border-[#1C1C20] transition-colors duration-200 overflow-x-clip">
-      
-      {/* Background ambient lighting */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-[#D1FE17]/[0.02] blur-[160px] rounded-full pointer-events-none -z-10" />
-
+    <section 
+      id="creators" 
+      className="relative w-full py-20 sm:py-28 bg-[#FAFAFA] text-neutral-900 border-t border-neutral-200 select-none overflow-hidden"
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Section Header (Locked from Specification Doc) */}
-        <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-10">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-neutral-100 dark:bg-[#121214] border border-neutral-300 dark:border-[#242426] text-neutral-700 dark:text-[#D1FE17] text-[11px] font-mono font-bold tracking-wider uppercase mb-3 sm:mb-4">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#D1FE17] animate-pulse" />
+        {/* 1. EYEBROW & 2. HEADING (PDF Page 4 - No Subheading) */}
+        <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-neutral-100 border border-neutral-300 text-neutral-700 text-xs font-mono font-bold tracking-[0.2em] uppercase mb-4 shadow-2xs">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#3CEB75]" />
             <span>TRUSTED BY THE COMMUNITY</span>
           </div>
 
-          <h2 className="text-2xl sm:text-4xl lg:text-5xl font-display font-bold text-neutral-900 dark:text-white tracking-tight leading-tight">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-headline font-bold text-neutral-900 tracking-tight leading-tight">
             Creators, Clippers &amp; Brands — Building With Vyralify
           </h2>
         </div>
 
-        {/* CREATOR / BRAND HANDLE MARQUEE (Locked from Master Doc) */}
-        <div className="mb-10 overflow-hidden">
-          <div className="text-[11px] font-mono text-neutral-500 uppercase tracking-widest text-center mb-3">
+        {/* 3. CREATOR / BRAND HANDLE MARQUEE (PDF Page 4 & 5) */}
+        <div className="mb-16 sm:mb-20">
+          <div className="text-[11px] font-mono font-bold text-neutral-400 uppercase tracking-widest text-center mb-4">
             Building with Vyralify
           </div>
-          <div className="flex gap-3 animate-marquee whitespace-nowrap">
-            {[
-              { handle: "@speedcuts", role: "Clipper", metric: "4.2M views verified", badge: "#1 Rank" },
-              { handle: "FinFlow Wealth", role: "Brand", metric: "12 active campaigns", badge: "Escrow Locked" },
-              { handle: "@rohan_edits", role: "Creator", metric: "₹3,84,200 in sales", badge: "+42% Conv" },
-              { handle: "Superhuman AI", role: "Brand", metric: "8 live sprints", badge: "High RPM" },
-              { handle: "@apex_clips", role: "Clipper", metric: "31.4M reach", badge: "Verified" },
-              { handle: "@priya_media", role: "Creator", metric: "182K views", badge: "Growth Node" },
-              { handle: "ZeroToScale", role: "Brand", metric: "21 active clippers", badge: "Automated" },
-              { handle: "@zenith_vfx", role: "Clipper", metric: "₹46,500 payout", badge: "Instant UPI" }
-            ].map((card, idx) => (
-              <div 
-                key={idx} 
-                className="inline-flex items-center gap-3 px-4 py-2.5 rounded-xl bg-neutral-100 dark:bg-[#0D0F14] border border-neutral-200 dark:border-white/[0.08] shrink-0 hover:border-[#D1FE17]/50 transition-colors"
-              >
-                <div className="w-7 h-7 rounded-full bg-neutral-200 dark:bg-neutral-800 flex items-center justify-center text-xs font-bold text-neutral-900 dark:text-white">
-                  {card.handle.slice(1, 3).toUpperCase()}
-                </div>
-                <div className="text-left">
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs font-bold text-neutral-900 dark:text-white">{card.handle}</span>
-                    <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-neutral-200 dark:bg-white/10 text-neutral-600 dark:text-neutral-400 font-semibold">
-                      {card.role}
-                    </span>
+
+          <div className="relative w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
+            <div className="flex gap-4 animate-marquee whitespace-nowrap py-2">
+              {[...marqueeCards, ...marqueeCards].map((card, idx) => (
+                <div 
+                  key={idx}
+                  className="inline-flex items-center gap-3.5 px-4 py-3 rounded-2xl bg-white border border-neutral-200/90 shadow-[0_2px_12px_rgba(0,0,0,0.04)] shrink-0 hover:border-neutral-400 hover:shadow-md transition-all cursor-pointer"
+                >
+                  {/* PFP / Avatar */}
+                  <img 
+                    src={card.avatar} 
+                    alt={card.handle} 
+                    className="w-9 h-9 rounded-full object-cover ring-1 ring-neutral-200"
+                  />
+
+                  {/* Handle + Category Chip */}
+                  <div className="text-left">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-bold text-neutral-900 font-headline">
+                        {card.handle}
+                      </span>
+                      <span className={`text-[10px] font-mono px-2 py-0.5 rounded-full font-semibold border ${
+                        card.category === 'Creator'
+                          ? 'bg-purple-50 text-purple-700 border-purple-200'
+                          : card.category === 'Clipper'
+                          ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                          : 'bg-blue-50 text-blue-700 border-blue-200'
+                      }`}>
+                        {card.category}
+                      </span>
+                    </div>
+
+                    {/* Real result / activity */}
+                    <div className="text-[11px] font-inter font-medium text-neutral-500 mt-0.5">
+                      {card.result}
+                    </div>
                   </div>
-                  <span className="text-[11px] font-mono text-[#D1FE17] font-semibold">{card.metric}</span>
                 </div>
-              </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* 4. METRICS (PDF Page 5 & 6: 4 Metrics with viewport count-up) */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-16 sm:mb-20">
+          <CountUpMetric value="900M+" label="Combined Views" />
+          <CountUpMetric value="10K+" label="Creators" />
+          <CountUpMetric value="$500K+" label="Creator Earnings" />
+          <CountUpMetric value="1M+" label="Pieces of Content" />
+        </div>
+
+        {/* 5. CTA BLOCK (PDF Page 6 - Consistent with Hero) */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-6">
+          <a
+            href="#pricing"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-2xl text-base font-inter font-bold bg-[#3CEB75] hover:bg-[#34D368] text-black active:scale-[0.98] transition-all duration-150 shadow-[0_0_25px_rgba(60,235,117,0.35)] cursor-pointer"
+          >
+            <span>Start Free</span>
+            <ArrowRight className="w-4 h-4" />
+          </a>
+
+          <a
+            href="#clip-and-earn"
+            className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 rounded-2xl text-base font-inter font-medium bg-white hover:bg-neutral-100 text-neutral-900 border border-neutral-300 hover:border-neutral-400 transition-all duration-150 cursor-pointer shadow-2xs"
+          >
+            Browse Campaigns
+          </a>
+        </div>
+
+        {/* 6. TRUST BAR (PDF Page 6 - 5 Overlapping avatars + text) */}
+        <div className="flex items-center justify-center gap-3">
+          <div className="flex -space-x-2 overflow-hidden shrink-0">
+            {avatars.map((img, idx) => (
+              <img
+                key={idx}
+                src={img}
+                alt="Creator avatar"
+                className="inline-block h-7 w-7 rounded-full ring-2 ring-white object-cover"
+              />
             ))}
           </div>
-        </div>
-
-        {/* BKLIT 3-CARD STATISTICAL DATA ROW (@bklit/stat-card-area-01, line-01, choropleth-01) */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
-          <StatCardArea
-            title="Total Creator Volume"
-            value="$128,450.00"
-            subtitle="Verified net payout this cycle"
-            trend={24.8}
-          />
-          <StatCardLine
-            title="Active Creator Sync"
-            value="4,890 Active"
-            subtitle="Real-time synchronized clippers"
-            trend={14.2}
-          />
-          <StatCardChoropleth
-            title="Unique Global Reach"
-            value="14.2M Reach"
-            subtitle="Tri-platform organic views tracked"
-            trend={31.4}
-          />
-        </div>
-
-        {/* INTERACTIVE BKLIT AREA CHART: REVENUE VS COSTS VELOCITY */}
-        <div className="rounded-2xl p-5 sm:p-8 bg-[#0B0C10] border border-[#1A1C24] shadow-xl mb-12 relative overflow-hidden">
-          {/* Top specular glow line */}
-          <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#D1FE17]/50 to-transparent" />
-
-          {/* Chart Header Console */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 border-b border-[#1A1C24] mb-6">
-            <div>
-              <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-neutral-400 mb-1">
-                <Lock className="w-3.5 h-3.5 text-[#D1FE17]" />
-                <span>Audited Escrow Velocity // 30-Day Cycle</span>
-              </div>
-              <h3 className="text-xl sm:text-2xl font-display font-bold text-white tracking-tight">
-                Creator Revenue vs. Campaign Costs
-              </h3>
-            </div>
-
-            {/* Interactive Series Toggles & Segment Reset */}
-            <div className="flex flex-wrap items-center gap-2 text-xs font-mono">
-              <button
-                type="button"
-                onClick={() => setShowRevenue(!showRevenue)}
-                className={`px-3 py-1.5 rounded-lg border transition-all flex items-center gap-2 cursor-pointer ${
-                  showRevenue 
-                    ? 'bg-[#14230E] border-[#223B17] text-[#D1FE17] font-semibold' 
-                    : 'bg-[#12131A] border-[#202330] text-neutral-500'
-                }`}
-              >
-                <span className={`w-2 h-2 rounded-full ${showRevenue ? 'bg-[#D1FE17]' : 'bg-neutral-600'}`} />
-                <span>Revenue</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setShowCosts(!showCosts)}
-                className={`px-3 py-1.5 rounded-lg border transition-all flex items-center gap-2 cursor-pointer ${
-                  showCosts 
-                    ? 'bg-[#181A24] border-[#2B2F42] text-white font-semibold' 
-                    : 'bg-[#12131A] border-[#202330] text-neutral-500'
-                }`}
-              >
-                <span className={`w-2 h-2 rounded-full ${showCosts ? 'bg-white' : 'bg-neutral-600'}`} />
-                <span>Costs</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setAutoPlay(!autoPlay)}
-                className={`px-3 py-1.5 rounded-lg border transition-all flex items-center gap-2 cursor-pointer ${
-                  autoPlay 
-                    ? 'bg-[#12200D] border-[#223B17] text-[#D1FE17]' 
-                    : 'bg-[#12131A] border-[#202330] text-neutral-400 hover:text-white'
-                }`}
-                title="Toggle automated telemetry scanning"
-              >
-                <span className={`w-1.5 h-1.5 rounded-full ${autoPlay ? 'bg-[#D1FE17] animate-pulse' : 'bg-neutral-600'}`} />
-                <span>{autoPlay ? 'Auto-Scan: ON' : 'Auto: PAUSED'}</span>
-              </button>
-
-              <div className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#10121A] border border-[#1E212E] text-neutral-400 text-[11px]">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                <span>Latency: 14ms</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Area Chart Component with @visx/curve MonotoneX */}
-          <div className="w-full relative">
-            <AreaChart 
-              aspectRatio="4 / 1" 
-              data={chartData} 
-              autoPlay={autoPlay}
-            >
-              <Grid horizontal />
-              {showRevenue && (
-                <Area 
-                  curve={curveMonotoneX} 
-                  dataKey="revenue" 
-                  fill="var(--chart-line-primary, #D1FE17)" 
-                  fillOpacity={0.20} 
-                  stroke="#D1FE17"
-                  strokeWidth={2} 
-                />
-              )}
-              {showCosts && (
-                <Area 
-                  curve={curveMonotoneX} 
-                  dataKey="costs" 
-                  fill="var(--chart-line-secondary, #FFFFFF)" 
-                  fillOpacity={0.08} 
-                  stroke="#9CA3AF"
-                  strokeWidth={1.5} 
-                />
-              )}
-              <XAxis />
-              <ChartTooltip />
-            </AreaChart>
-          </div>
-
-          {/* Clean Institutional Telemetry Ledger Status Bar */}
-          <div className="mt-5 pt-4 border-t border-[#161822] grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs font-mono">
-            <div className="flex flex-col gap-0.5">
-              <span className="text-neutral-500 text-[10px] uppercase tracking-wider">30D Cumulative Ledger</span>
-              <span className="text-white font-bold text-sm">
-                $2,842,900 <span className="text-[#D1FE17] text-xs font-normal">+28.4%</span>
-              </span>
-            </div>
-            <div className="flex flex-col gap-0.5">
-              <span className="text-neutral-500 text-[10px] uppercase tracking-wider">Avg Clipper RPM</span>
-              <span className="text-white font-bold text-sm">
-                $8.40 <span className="text-neutral-400 text-xs font-normal">/ 1k views</span>
-              </span>
-            </div>
-            <div className="flex flex-col gap-0.5">
-              <span className="text-neutral-500 text-[10px] uppercase tracking-wider">Escrow Settlement</span>
-              <span className="text-emerald-400 font-bold text-sm">&lt; 90 seconds</span>
-            </div>
-            <div className="flex flex-col gap-0.5">
-              <span className="text-neutral-500 text-[10px] uppercase tracking-wider">Counterparty Risk</span>
-              <span className="text-[#D1FE17] font-bold text-sm">
-                0.00% <span className="text-neutral-500 text-[10px] font-normal">(Smart Escrow)</span>
-              </span>
-            </div>
-          </div>
-        </div>
-
-        {/* Live Automated Settlement Stream & Verified Trust Ratings */}
-        <div className="rounded-2xl p-6 sm:p-8 bg-neutral-50 dark:bg-[#0B0C10] border border-neutral-200 dark:border-[#1C1F2B] shadow-xl">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 border-b border-neutral-200 dark:border-[#1A1C24] pb-4">
-            <div className="flex items-center gap-2.5">
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
-              <div>
-                <h4 className="text-base font-semibold text-neutral-900 dark:text-white">Live Automated Settlement Stream</h4>
-                <p className="text-xs font-mono text-neutral-500">Autonomous smart contract distribution nodes</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-3">
-              <div className="flex items-center gap-1 text-[#D1FE17]">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-3.5 h-3.5 fill-current" />
-                ))}
-              </div>
-              <span className="text-xs font-mono text-neutral-400">
-                <strong className="text-neutral-900 dark:text-white">4.96 / 5.0</strong> (1,480+ clippers)
-              </span>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {livePayouts.map((item, idx) => (
-              <div 
-                key={idx} 
-                className="p-4 rounded-xl bg-white dark:bg-[#12141C] border border-neutral-200 dark:border-[#202330] flex flex-col justify-between shadow-xs transition-all hover:border-[#D1FE17]/40"
-              >
-                <div>
-                  <div className="flex items-center justify-between gap-1 mb-1.5">
-                    <span className="text-xs font-bold text-neutral-900 dark:text-white">{item.creator}</span>
-                    <span className="text-[10px] font-mono text-emerald-400 font-semibold">{item.time}</span>
-                  </div>
-                  <div className="text-[11px] text-neutral-400 font-mono mb-3 truncate">
-                    {item.campaign}
-                  </div>
-                </div>
-
-                <div className="pt-2 border-t border-neutral-100 dark:border-[#1A1D27] flex items-center justify-between">
-                  <span className="text-sm font-bold font-mono text-black dark:text-[#D1FE17]">{item.amount}</span>
-                  <span className="text-[9px] font-mono text-neutral-500">{item.tx}</span>
-                </div>
-              </div>
-            ))}
-          </div>
+          <span className="text-xs sm:text-sm font-inter font-medium text-neutral-500">
+            Loved by creators, brands and agencies
+          </span>
         </div>
 
       </div>

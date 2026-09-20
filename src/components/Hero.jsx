@@ -3,23 +3,13 @@ import { motion } from 'motion/react';
 import { PixelCanvas } from './ui/pixel-canvas';
 import { 
   ArrowRight, 
+  Home, 
   Sparkles, 
+  Megaphone, 
+  BarChart2, 
+  Wallet, 
   Search, 
-  Plus, 
-  Bell, 
-  TrendingUp, 
-  DollarSign, 
-  CheckCircle2, 
-  Film, 
-  Play, 
-  Target, 
-  BarChart3,
-  Home,
-  Settings,
-  Layers,
-  Zap,
-  Flame,
-  ArrowUpRight
+  TrendingUp 
 } from 'lucide-react';
 
 export default function Hero() {
@@ -33,7 +23,7 @@ export default function Hero() {
   return (
     <section 
       id="hero-section" 
-      className="relative w-full min-h-screen flex flex-col justify-start bg-black text-white select-none overflow-x-hidden pt-10 sm:pt-14 lg:pt-16 pb-20"
+      className="relative w-full min-h-screen flex flex-col justify-start bg-black text-white select-none overflow-x-hidden pt-8 sm:pt-12 lg:pt-16 pb-24"
     >
       {/* 1. INTERACTIVE PIXEL CANVAS BACKGROUND */}
       <div className="absolute inset-0 z-0 pointer-events-none">
@@ -41,98 +31,95 @@ export default function Hero() {
           gap={10}
           speed={0.02}
           variant="glow"
-          colors={["#D1FE17", "#A3E635", "#38bdf8"]}
-          className="w-full h-full opacity-35"
+          colors={["#3CEB75", "#D1FE17", "#38bdf8"]}
+          className="w-full h-full opacity-30"
         />
       </div>
 
       {/* Subtle vignette gradient */}
       <div className="absolute inset-0 z-[1] bg-gradient-to-b from-black/50 via-transparent to-black pointer-events-none" />
 
-      {/* 2. HERO COPY & CTAs (Exact PDF Page 2) */}
-      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center">
+      {/* 2. HERO COPY & CTAs (Exact PDF Page 2 & User Image) */}
+      <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center">
         
         {/* Eyebrow: BUILD. GROW. MONETIZE. */}
         <motion.div
-          initial={{ opacity: 0, y: -10 }}
+          initial={{ opacity: 0, y: -8 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
-          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#11190C] border border-[#2B471C] text-[#D1FE17] text-xs font-mono font-bold tracking-[0.24em] uppercase mb-5 sm:mb-6 shadow-[0_0_18px_rgba(209,254,23,0.18)]"
+          transition={{ duration: 0.35 }}
+          className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#11190C] border border-[#2B471C] text-[#3CEB75] text-xs font-mono font-bold tracking-[0.24em] uppercase mb-5 shadow-[0_0_15px_rgba(60,235,117,0.18)]"
         >
-          <span className="w-1.5 h-1.5 rounded-full bg-[#D1FE17] animate-pulse" />
+          <span className="w-1.5 h-1.5 rounded-full bg-[#3CEB75] animate-pulse" />
           <span>BUILD. GROW. MONETIZE.</span>
         </motion.div>
 
         {/* Heading: Everything You Need to Build, Grow & Monetize Your Instagram Business */}
         <motion.h1 
-          initial={{ opacity: 0, y: 12 }}
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.45, delay: 0.08 }}
-          className="text-4xl sm:text-5xl md:text-6xl lg:text-[68px] xl:text-[74px] font-headline font-bold tracking-[-0.035em] leading-[1.06] text-white max-w-5xl mx-auto mb-5 sm:mb-6"
+          className="text-4xl sm:text-5xl md:text-6xl lg:text-[66px] font-headline font-bold tracking-[-0.035em] leading-[1.08] text-white max-w-4xl mx-auto mb-5"
         >
           Everything You Need to<br className="hidden sm:inline" />
           {' '}
-          <span className="text-[#D1FE17] inline-block drop-shadow-[0_0_25px_rgba(209,254,23,0.25)]">
+          <span className="text-[#3CEB75] drop-shadow-[0_0_25px_rgba(60,235,117,0.25)]">
             Build, Grow &amp; Monetize Your Instagram Business
           </span>
         </motion.h1>
 
-        {/* Subheading (Exact copy from PDF Page 2) */}
+        {/* Subheading */}
         <motion.p 
-          initial={{ opacity: 0, y: 12 }}
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.45, delay: 0.16 }}
-          className="text-neutral-300 sm:text-neutral-400 font-inter font-normal text-base sm:text-lg lg:text-[18px] leading-relaxed max-w-3xl mx-auto mb-8 sm:mb-9"
+          transition={{ duration: 0.45, delay: 0.15 }}
+          className="text-neutral-400 font-inter font-normal text-base sm:text-lg leading-relaxed max-w-2xl mx-auto mb-8"
         >
           Build and grow your Instagram with Vyralify AI — discover what to post, create
           content that performs, join paid campaigns to clip and earn, and turn your attention
           into revenue.
         </motion.p>
 
-        {/* CTAs: Start Free → & Browse Campaigns (Exact PDF Page 2) */}
+        {/* CTAs: Start Free → & Browse Campaigns */}
         <motion.div 
-          initial={{ opacity: 0, y: 12 }}
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.45, delay: 0.22 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-3.5 sm:gap-4 w-full sm:w-auto mb-7 sm:mb-8"
+          className="flex flex-col sm:flex-row items-center justify-center gap-3.5 sm:gap-4 w-full sm:w-auto mb-7"
         >
-          {/* Primary CTA: Start Free → */}
+          {/* Primary CTA */}
           <a
             href="#pricing"
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl text-base font-inter font-bold bg-[#D1FE17] text-black hover:bg-[#bbf00e] active:scale-[0.98] transition-all duration-150 shadow-[0_0_28px_rgba(209,254,23,0.35)] hover:shadow-[0_0_40px_rgba(209,254,23,0.55)] cursor-pointer"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-2xl text-base font-inter font-bold bg-[#3CEB75] hover:bg-[#34D368] text-black active:scale-[0.98] transition-all duration-150 shadow-[0_0_25px_rgba(60,235,117,0.35)] hover:shadow-[0_0_35px_rgba(60,235,117,0.5)] cursor-pointer"
           >
             <span>Start Free</span>
             <ArrowRight className="w-4 h-4" />
           </a>
 
-          {/* Secondary CTA: Browse Campaigns */}
+          {/* Secondary CTA */}
           <a
             href="#clip-and-earn"
-            className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 rounded-xl text-base font-inter font-semibold bg-[#121216] hover:bg-neutral-800 text-white border border-[#2B2B36] hover:border-neutral-500 transition-all duration-150 cursor-pointer"
+            className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 rounded-2xl text-base font-inter font-medium bg-black hover:bg-neutral-900 text-white border border-[#2B2B33] hover:border-neutral-500 transition-all duration-150 cursor-pointer"
           >
             Browse Campaigns
           </a>
         </motion.div>
 
-        {/* Below CTA: [PFPs] Loved by creators, brands and agencies (Exact PDF Page 2) */}
+        {/* Below CTA: [PFPs] Loved by creators, brands and agencies */}
         <motion.div 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.45, delay: 0.3 }}
-          className="flex items-center justify-center gap-3 mb-12 sm:mb-16"
+          transition={{ duration: 0.45, delay: 0.28 }}
+          className="flex items-center justify-center gap-3 mb-10 sm:mb-12"
         >
-          <div className="flex -space-x-2.5 overflow-hidden shrink-0">
+          <div className="flex -space-x-2 overflow-hidden shrink-0">
             {avatars.map((img, idx) => (
               <img
                 key={idx}
                 src={img}
                 alt="Creator avatar"
-                className="inline-block h-8 w-8 rounded-full ring-2 ring-black object-cover"
+                className="inline-block h-7 w-7 rounded-full ring-2 ring-black object-cover"
               />
             ))}
-            <div className="inline-flex items-center justify-center h-8 w-8 rounded-full bg-[#1F1F24] ring-2 ring-black font-inter font-bold text-[10px] text-white">
-              10K+
-            </div>
           </div>
           <span className="text-xs sm:text-sm font-inter font-medium text-neutral-400">
             Loved by creators, brands and agencies
@@ -141,270 +128,234 @@ export default function Hero() {
 
       </div>
 
-      {/* 3. MAIN VISUAL: REAL VYRALIFY DASHBOARD MOCKUP (Exact PDF Page 3) */}
-      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+      {/* 3. MAIN VISUAL: EXACT VYRALIFY DASHBOARD MOCKUP (PDF Page 3 & User Screenshot) */}
+      <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 w-full flex flex-col items-center">
         
-        {/* Ambient volt glow behind dashboard */}
-        <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-[650px] sm:w-[850px] h-[350px] bg-[#D1FE17]/12 blur-[130px] rounded-full pointer-events-none" />
+        {/* Soft emerald/green glow aura behind dashboard */}
+        <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-[720px] h-[260px] bg-[#3CEB75]/15 blur-[120px] rounded-full pointer-events-none" />
 
-        {/* Dashboard Outer Container */}
+        {/* Dashboard Frame (Exact match to screenshot) */}
         <motion.div
-          initial={{ opacity: 0, y: 35, scale: 0.97 }}
+          initial={{ opacity: 0, y: 25, scale: 0.98 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="relative rounded-[22px] sm:rounded-[26px] p-2 sm:p-3.5 bg-gradient-to-b from-[#2A2A32] via-[#16161A] to-[#0A0A0C] border border-[#2E2E38] shadow-[0_30px_90px_rgba(0,0,0,0.95),0_0_45px_rgba(209,254,23,0.09)] backdrop-blur-2xl overflow-hidden"
+          transition={{ duration: 0.55, delay: 0.2 }}
+          className="relative w-full rounded-[28px] p-5 sm:p-6 bg-[#0B0C0E]/95 border border-white/[0.08] shadow-[0_30px_90px_rgba(0,0,0,0.95),0_0_50px_rgba(60,235,117,0.08)] backdrop-blur-2xl text-left select-none overflow-hidden"
         >
-          
-          {/* Dashboard Window Header (Browser Bar) */}
-          <div className="flex items-center justify-between px-3 sm:px-4 py-2 border-b border-[#22222A] bg-[#0E0E12]/80 rounded-t-[18px]">
-            <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#FF5F56]" />
-              <span className="w-2.5 h-2.5 rounded-full bg-[#FFBD2E]" />
-              <span className="w-2.5 h-2.5 rounded-full bg-[#27C93F]" />
-              <span className="text-[11px] font-mono text-neutral-500 ml-2 hidden sm:inline">
-                app.vyralify.in/dashboard
-              </span>
-            </div>
+          <div className="flex flex-col md:flex-row gap-5 lg:gap-7 items-stretch">
             
-            {/* Live Sync Status */}
-            <div className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[10px] font-mono">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              <span>LIVE ECOSYSTEM SYNC</span>
-            </div>
-          </div>
-
-          {/* Dashboard Inner Canvas */}
-          <div className="bg-[#09090C] rounded-b-[18px] p-3 sm:p-5 sm:flex gap-5 text-left">
-            
-            {/* LEFT MINI SIDEBAR */}
-            <div className="hidden md:flex flex-col justify-between w-44 shrink-0 border-r border-[#1C1C22] pr-4">
-              <div className="space-y-4">
+            {/* LEFT SIDEBAR */}
+            <div className="w-full md:w-36 lg:w-40 shrink-0 flex md:flex-col justify-between border-b md:border-b-0 md:border-r border-white/[0.06] pb-4 md:pb-0 md:pr-4">
+              <div className="space-y-4 w-full">
                 {/* Logo */}
-                <div className="flex items-center gap-2 px-2 py-1">
-                  <div className="w-6 h-6 rounded-md bg-[#D1FE17] text-black font-black flex items-center justify-center text-xs">
-                    V
-                  </div>
-                  <span className="font-headline font-bold text-sm text-white">Vyralify</span>
+                <div className="flex items-center gap-1.5 px-1 py-0.5">
+                  <span className="font-headline font-bold text-base text-white tracking-tight">
+                    Vyralify
+                  </span>
                 </div>
 
                 {/* Nav Links */}
-                <div className="space-y-1 text-xs">
-                  <div className="flex items-center gap-2.5 px-2.5 py-2 rounded-lg bg-neutral-800 text-[#D1FE17] font-semibold">
-                    <Home className="w-3.5 h-3.5" />
-                    <span>Home</span>
+                <div className="flex flex-wrap md:flex-col gap-1 text-xs">
+                  {/* Home (Active) */}
+                  <div className="flex items-center gap-2.5 px-3 py-1.5 rounded-xl bg-[#16181D] text-white font-medium shadow-xs">
+                    <span className="text-[#3CEB75] text-sm">🏠</span>
+                    <span className="text-xs">Home</span>
                   </div>
-                  <div className="flex items-center justify-between px-2.5 py-2 rounded-lg text-neutral-400 hover:text-white transition-colors cursor-pointer">
-                    <div className="flex items-center gap-2.5">
-                      <Target className="w-3.5 h-3.5" />
-                      <span>Campaigns</span>
-                    </div>
-                    <span className="px-1.5 py-0.2 rounded-full bg-[#D1FE17] text-black font-mono font-bold text-[9px]">12</span>
-                  </div>
-                  <div className="flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-neutral-400 hover:text-white transition-colors cursor-pointer">
-                    <BarChart3 className="w-3.5 h-3.5" />
-                    <span>Analytics</span>
-                  </div>
-                  <div className="flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-neutral-400 hover:text-white transition-colors cursor-pointer">
-                    <Sparkles className="w-3.5 h-3.5 text-[#D1FE17]" />
-                    <span>Vyralify AI</span>
-                  </div>
-                </div>
-              </div>
 
-              {/* User badge */}
-              <div className="pt-4 border-t border-[#1C1C22] flex items-center gap-2.5 px-2">
-                <div className="w-7 h-7 rounded-full bg-gradient-to-tr from-[#D1FE17] to-emerald-500 p-0.5">
-                  <div className="w-full h-full rounded-full bg-neutral-900 flex items-center justify-center text-[10px] font-bold text-white">
-                    AH
+                  {/* AI Assistant */}
+                  <div className="flex items-center gap-2.5 px-3 py-1.5 rounded-xl text-neutral-400 hover:text-white hover:bg-white/[0.04] transition-colors cursor-pointer">
+                    <Sparkles className="w-3.5 h-3.5 text-neutral-400" />
+                    <span className="text-xs">AI Assistant</span>
                   </div>
-                </div>
-                <div className="overflow-hidden">
-                  <div className="text-xs font-bold text-white truncate">Ahmad M.</div>
-                  <div className="text-[10px] text-neutral-500 truncate">Pro Creator</div>
+
+                  {/* Campaigns */}
+                  <div className="flex items-center gap-2.5 px-3 py-1.5 rounded-xl text-neutral-400 hover:text-white hover:bg-white/[0.04] transition-colors cursor-pointer">
+                    <Megaphone className="w-3.5 h-3.5 text-neutral-400" />
+                    <span className="text-xs">Campaigns</span>
+                  </div>
+
+                  {/* Analytics */}
+                  <div className="flex items-center gap-2.5 px-3 py-1.5 rounded-xl text-neutral-400 hover:text-white hover:bg-white/[0.04] transition-colors cursor-pointer">
+                    <BarChart2 className="w-3.5 h-3.5 text-neutral-400" />
+                    <span className="text-xs">Analytics</span>
+                  </div>
+
+                  {/* Earnings */}
+                  <div className="flex items-center gap-2.5 px-3 py-1.5 rounded-xl text-neutral-400 hover:text-white hover:bg-white/[0.04] transition-colors cursor-pointer">
+                    <Wallet className="w-3.5 h-3.5 text-neutral-400" />
+                    <span className="text-xs">Earnings</span>
+                  </div>
                 </div>
               </div>
             </div>
 
-            {/* MAIN DASHBOARD CONTENT AREA */}
-            <div className="flex-1 space-y-4">
+            {/* MAIN CONTENT AREA */}
+            <div className="flex-1 flex flex-col justify-between space-y-4">
               
-              {/* Dashboard Top Header Bar (Greeting + Action) */}
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[#1C1C22]">
+              {/* TOP HEADER: Greeting + Create button + Avatar */}
+              <div className="flex items-center justify-between gap-3">
                 <div>
-                  <div className="flex items-center gap-2">
-                    <h2 className="text-base sm:text-lg font-headline font-bold text-white tracking-tight">
-                      Good morning, Ahmad 👋
-                    </h2>
-                    <span className="hidden sm:inline-block px-2 py-0.5 rounded-md bg-[#16220E] text-[#D1FE17] text-[10px] font-mono font-bold border border-[#2B471C]">
-                      Top 2% Creator
-                    </span>
-                  </div>
-                  <p className="text-xs text-neutral-400 font-inter">
-                    Let's create something viral today.
+                  <h3 className="text-sm sm:text-base font-headline font-bold text-white tracking-tight flex items-center gap-1.5">
+                    <span>Good morning, Ahmad</span>
+                    <span>👋</span>
+                  </h3>
+                  <p className="text-[11px] text-neutral-400 font-inter">
+                    Let's make something viral today.
                   </p>
                 </div>
 
-                <div className="flex items-center gap-2.5 self-start sm:self-auto">
-                  <div className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#141418] border border-[#22222A] text-xs text-neutral-400 w-52">
-                    <Search className="w-3.5 h-3.5 text-neutral-500" />
-                    <span>Search campaigns...</span>
-                    <span className="ml-auto text-[10px] font-mono text-neutral-600 bg-neutral-800 px-1 rounded">⌘K</span>
+                <div className="flex items-center gap-2.5">
+                  {/* Search/Create pill */}
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#16181D] border border-white/[0.06] text-[11px] text-neutral-300 hover:text-white transition-colors cursor-pointer">
+                    <Search className="w-3 h-3 text-neutral-400" />
+                    <span className="font-medium">Create</span>
                   </div>
-                  <button 
-                    type="button"
-                    className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-[#D1FE17] text-black font-inter font-bold text-xs hover:bg-[#bbf00e] transition-colors cursor-pointer shadow-sm"
-                  >
-                    <Plus className="w-3.5 h-3.5" />
-                    <span>Create</span>
-                  </button>
-                  <div className="w-8 h-8 rounded-lg bg-[#141418] border border-[#22222A] flex items-center justify-center text-neutral-400 relative">
-                    <Bell className="w-3.5 h-3.5" />
-                    <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-[#D1FE17]" />
-                  </div>
+
+                  {/* Avatar */}
+                  <img
+                    src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=120&auto=format&fit=crop&q=80"
+                    alt="Ahmad"
+                    className="w-7 h-7 rounded-full object-cover ring-1 ring-white/10"
+                  />
                 </div>
               </div>
 
-              {/* 3 CORE STAT CARDS (Page 3 Mockup) */}
+              {/* THREE MAIN FEATURE CARDS (Exact match to screenshot) */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 
                 {/* CARD 1: Vyralify AI */}
-                <div className="p-3.5 rounded-xl bg-[#111115] border border-[#22222A] hover:border-[#D1FE17]/40 transition-colors relative group">
-                  <div className="flex items-center justify-between mb-2">
-                    <div className="flex items-center gap-1.5 text-neutral-400 text-xs font-semibold">
-                      <Sparkles className="w-3.5 h-3.5 text-[#D1FE17]" />
-                      <span>Vyralify AI</span>
+                <div className="rounded-2xl bg-[#121317] border border-white/[0.05] p-3.5 flex flex-col justify-between hover:border-[#3CEB75]/30 transition-colors group cursor-pointer">
+                  <div>
+                    <div className="flex items-center gap-2.5 mb-3">
+                      {/* Green glowing square icon */}
+                      <div className="w-8 h-8 rounded-xl bg-[#16291C] border border-[#23502C] flex items-center justify-center text-[#3CEB75] shadow-[0_0_12px_rgba(60,235,117,0.25)] shrink-0">
+                        <span className="text-sm font-black">✦</span>
+                      </div>
+                      <div>
+                        <div className="text-xs font-bold text-white group-hover:text-[#3CEB75] transition-colors leading-tight">
+                          Vyralify AI
+                        </div>
+                        <div className="text-[10px] text-neutral-400 leading-tight">
+                          Get viral content ideas
+                        </div>
+                      </div>
                     </div>
-                    <span className="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-purple-500/10 text-purple-400 border border-purple-500/20">
-                      Co-Pilot
-                    </span>
                   </div>
-                  <div className="text-xs font-bold text-white mb-1 group-hover:text-[#D1FE17] transition-colors line-clamp-1">
-                    Next Recommended Reel 🔥
-                  </div>
-                  <div className="text-[11px] text-neutral-400 leading-snug mb-3">
-                    "Storytelling Reels outperforming by 48%. Try this hook variation..."
-                  </div>
-                  <div className="flex items-center justify-between pt-2 border-t border-neutral-800/60">
-                    <span className="text-[10px] text-[#D1FE17] font-semibold flex items-center gap-1">
-                      <span>Generate Script</span>
-                      <ArrowUpRight className="w-3 h-3" />
-                    </span>
-                    <span className="text-[10px] font-mono text-neutral-500">94% Fit</span>
+
+                  <div className="flex items-center justify-between pt-1 text-[10px] text-neutral-400 group-hover:text-white">
+                    <span>Get viral content</span>
+                    <span className="text-neutral-500 group-hover:text-[#3CEB75] transition-colors">→</span>
                   </div>
                 </div>
 
                 {/* CARD 2: Active Campaigns */}
-                <div className="p-3.5 rounded-xl bg-[#111115] border border-[#22222A] hover:border-[#D1FE17]/40 transition-colors relative group">
-                  <div className="flex items-center justify-between mb-2">
-                    <div className="flex items-center gap-1.5 text-neutral-400 text-xs font-semibold">
-                      <Target className="w-3.5 h-3.5 text-emerald-400" />
-                      <span>Active Campaigns</span>
+                <div className="rounded-2xl bg-[#121317] border border-white/[0.05] p-3.5 flex flex-col justify-between hover:border-[#3CEB75]/30 transition-colors group cursor-pointer">
+                  <div>
+                    <div className="text-xs text-neutral-300 font-medium mb-1">
+                      Active Campaigns
                     </div>
-                    <span className="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                      Clipping
-                    </span>
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <div className="text-xl font-headline font-bold text-white leading-none">
+                          12
+                        </div>
+                        <div className="text-[10px] text-neutral-500 mt-0.5">
+                          Offers
+                        </div>
+                      </div>
+
+                      {/* 2 Overlapping creator avatars */}
+                      <div className="flex -space-x-1.5 overflow-hidden">
+                        <img 
+                          src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&auto=format&fit=crop&q=80" 
+                          alt="Campaign creator" 
+                          className="w-7 h-7 rounded-lg object-cover ring-1 ring-black"
+                        />
+                        <img 
+                          src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&auto=format&fit=crop&q=80" 
+                          alt="Campaign creator" 
+                          className="w-7 h-7 rounded-lg object-cover ring-1 ring-black"
+                        />
+                      </div>
+                    </div>
                   </div>
-                  <div className="text-2xl font-headline font-bold text-white mb-0.5 flex items-baseline gap-2">
-                    <span>12</span>
-                    <span className="text-[11px] font-normal text-neutral-400">4 brand offers</span>
-                  </div>
-                  <div className="text-[11px] text-neutral-400 mb-3 truncate">
-                    Nike ($8/1K) · Spotify ($10/1K) · Gymshark
-                  </div>
-                  <div className="flex items-center justify-between pt-2 border-t border-neutral-800/60">
-                    <span className="text-[10px] text-[#D1FE17] font-semibold flex items-center gap-1">
-                      <span>Clip &amp; Earn</span>
-                      <ArrowUpRight className="w-3 h-3" />
-                    </span>
-                    <span className="text-[10px] font-mono text-emerald-400 font-bold">$5-$12/1K</span>
+
+                  <div className="flex justify-end pt-1">
+                    <span className="text-neutral-500 group-hover:text-[#3CEB75] text-[10px] transition-colors">→</span>
                   </div>
                 </div>
 
                 {/* CARD 3: Total Earnings */}
-                <div className="p-3.5 rounded-xl bg-[#111115] border border-[#22222A] hover:border-[#D1FE17]/40 transition-colors relative group">
-                  <div className="flex items-center justify-between mb-2">
-                    <div className="flex items-center gap-1.5 text-neutral-400 text-xs font-semibold">
-                      <DollarSign className="w-3.5 h-3.5 text-[#D1FE17]" />
-                      <span>Total Earnings</span>
-                    </div>
-                    <span className="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-[#D1FE17]/10 text-[#D1FE17] border border-[#D1FE17]/30">
-                      +28.4%
-                    </span>
-                  </div>
-                  <div className="text-2xl font-headline font-bold text-white mb-0.5 flex items-baseline gap-2">
-                    <span>$1,240</span>
-                    <span className="text-[10px] font-mono text-neutral-400 font-normal">this month</span>
-                  </div>
-                  <div className="text-[11px] text-neutral-400 mb-3 truncate">
-                    182,420 Verified Views tracked
-                  </div>
-                  <div className="flex items-center justify-between pt-2 border-t border-neutral-800/60">
-                    <span className="text-[10px] text-emerald-400 font-semibold flex items-center gap-1">
-                      <CheckCircle2 className="w-3 h-3" />
-                      <span>Ready for Payout</span>
-                    </span>
-                    <span className="text-[10px] font-mono text-neutral-500">Auto-payout</span>
-                  </div>
-                </div>
-
-              </div>
-
-              {/* LOWER LIVE ACTIVITY BAR IN MOCKUP */}
-              <div className="p-3.5 rounded-xl bg-[#111115] border border-[#22222A] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-neutral-900 border border-neutral-800 flex items-center justify-center text-[#D1FE17]">
-                    <Film className="w-4 h-4" />
-                  </div>
+                <div className="rounded-2xl bg-[#121317] border border-white/[0.05] p-3.5 flex flex-col justify-between hover:border-[#3CEB75]/30 transition-colors group cursor-pointer">
                   <div>
-                    <div className="text-xs font-bold text-white flex items-center gap-2">
-                      <span>Nike Spring Launch · Clip #04</span>
-                      <span className="px-1.5 py-0.2 rounded bg-emerald-500/10 text-emerald-400 font-mono text-[9px] font-bold">
-                        Verified
-                      </span>
+                    <div className="text-xs text-neutral-300 font-medium mb-1">
+                      Total Earnings
                     </div>
-                    <div className="text-[10px] text-neutral-400 font-mono">
-                      48,290 Views generated · Earned +$48.20
+                    <div className="flex items-end justify-between">
+                      <div>
+                        <div className="text-xl font-headline font-bold text-white leading-none">
+                          $1,240
+                        </div>
+                        <div className="text-[10px] text-[#3CEB75] font-semibold flex items-center gap-0.5 mt-1">
+                          <span>↑</span>
+                          <span>28%</span>
+                        </div>
+                      </div>
+
+                      {/* 5 Ascending glowing green vertical bars */}
+                      <div className="flex items-end gap-1 h-8">
+                        <div className="w-1.5 h-2 bg-[#257A3E] rounded-t-xs" />
+                        <div className="w-1.5 h-3.5 bg-[#2E994E] rounded-t-xs" />
+                        <div className="w-1.5 h-5 bg-[#36B85E] rounded-t-xs" />
+                        <div className="w-1.5 h-6.5 bg-[#3CEB75] rounded-t-xs shadow-[0_0_6px_rgba(60,235,117,0.4)]" />
+                        <div className="w-1.5 h-8 bg-[#3CEB75] rounded-t-xs shadow-[0_0_8px_rgba(60,235,117,0.6)]" />
+                      </div>
                     </div>
                   </div>
+
+                  <div className="h-0.5" />
                 </div>
 
-                <div className="flex items-center gap-3 self-end sm:self-center">
-                  <span className="text-[11px] text-neutral-400 font-inter">Live campaign progress</span>
-                  <div className="w-28 sm:w-36 h-2 bg-neutral-800 rounded-full overflow-hidden">
-                    <div className="h-full bg-gradient-to-r from-[#D1FE17] to-emerald-400 rounded-full w-[76%]" />
-                  </div>
-                  <span className="text-xs font-mono font-bold text-[#D1FE17]">76%</span>
-                </div>
               </div>
 
             </div>
 
           </div>
-
         </motion.div>
 
-        {/* 4. ANNOTATED THREE FEATURE CALLOUTS (Direct from PDF Page 3) */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-6 sm:pt-8 text-center max-w-4xl mx-auto">
+        {/* 4. HANDWRITTEN SCRIPT ANNOTATIONS WITH CURVED ARROWS (Exact match to screenshot) */}
+        <div className="w-full grid grid-cols-3 pt-6 sm:pt-8 text-neutral-400 select-none">
           
-          {/* Callout 1: Create with AI */}
-          <div className="flex items-center justify-center gap-2 p-3 rounded-xl bg-[#0F0F14]/90 border border-neutral-800/80 text-xs font-inter font-semibold text-neutral-300 shadow-sm hover:border-[#D1FE17]/50 hover:text-white transition-colors">
-            <span className="w-2 h-2 rounded-full bg-purple-400 animate-pulse" />
-            <span className="text-[#D1FE17]">Create with AI</span>
-            <span className="text-neutral-500">↗</span>
+          {/* Annotation 1: Create with AI */}
+          <div className="flex flex-col items-center">
+            {/* Curved arrow pointing up-right */}
+            <svg width="40" height="34" viewBox="0 0 40 34" fill="none" className="text-neutral-500 mb-1">
+              <path d="M12 30 C15 14, 25 8, 33 6 M26 4 L34 6 L29 12" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            <span className="font-script text-neutral-300 text-lg sm:text-xl leading-tight text-center">
+              Create<br />with AI
+            </span>
           </div>
 
-          {/* Callout 2: Join campaigns & clip */}
-          <div className="flex items-center justify-center gap-2 p-3 rounded-xl bg-[#0F0F14]/90 border border-neutral-800/80 text-xs font-inter font-semibold text-neutral-300 shadow-sm hover:border-[#D1FE17]/50 hover:text-white transition-colors">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span className="text-[#D1FE17]">Join campaigns &amp; clip</span>
-            <span className="text-neutral-500">↗</span>
+          {/* Annotation 2: Join campaigns & clip */}
+          <div className="flex flex-col items-center">
+            {/* Curved arrow pointing up */}
+            <svg width="28" height="34" viewBox="0 0 28 34" fill="none" className="text-neutral-500 mb-1">
+              <path d="M14 30 C12 18, 16 12, 14 5 M9 10 L14 4 L19 10" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            <span className="font-script text-neutral-300 text-lg sm:text-xl leading-tight text-center">
+              Join campaigns<br />&amp; clip
+            </span>
           </div>
 
-          {/* Callout 3: Track your earnings */}
-          <div className="flex items-center justify-center gap-2 p-3 rounded-xl bg-[#0F0F14]/90 border border-neutral-800/80 text-xs font-inter font-semibold text-neutral-300 shadow-sm hover:border-[#D1FE17]/50 hover:text-white transition-colors">
-            <span className="w-2 h-2 rounded-full bg-[#D1FE17] animate-pulse" />
-            <span className="text-[#D1FE17]">Track your earnings</span>
-            <span className="text-neutral-500">↗</span>
+          {/* Annotation 3: Track your earnings */}
+          <div className="flex flex-col items-center">
+            {/* Curved arrow pointing up-left */}
+            <svg width="40" height="34" viewBox="0 0 40 34" fill="none" className="text-neutral-500 mb-1">
+              <path d="M28 30 C25 14, 15 8, 7 6 M14 4 L6 6 L11 12" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            <span className="font-script text-neutral-300 text-lg sm:text-xl leading-tight text-center">
+              Track<br />your earnings
+            </span>
           </div>
 
         </div>

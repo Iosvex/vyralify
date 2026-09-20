@@ -3,61 +3,68 @@ import {
   ChevronDown, 
   ArrowRight, 
   Menu, 
-  X, 
-  Globe, 
-  Check,
-  Play,
-  MessageSquare,
-  Send,
-  Mail,
-  CornerDownLeft,
-  Video,
-  Link2,
-  GraduationCap,
-  Calendar
+  X 
 } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
 
 export default function Navbar() {
-  const [solutionsOpen, setSolutionsOpen] = useState(false);
+  const [productOpen, setProductOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [langOpen, setLangOpen] = useState(false);
-  const [selectedLang, setSelectedLang] = useState({ code: 'EN', name: 'English', flag: '🇬🇧' });
 
   const dropdownRef = useRef(null);
-  const langRef = useRef(null);
   const timeoutRef = useRef(null);
 
-  const languages = [
-    { code: 'EN', name: 'English', flag: '🇬🇧' },
-    { code: 'HI', name: 'हिन्दी (Hindi)', flag: '🇮🇳' },
-    { code: 'ES', name: 'Español', flag: '🇪🇸' },
-    { code: 'FR', name: 'Français', flag: '🇫🇷' },
-    { code: 'DE', name: 'Deutsch', flag: '🇩🇪' },
-    { code: 'PT', name: 'Português', flag: '🇧🇷' },
-    { code: 'AR', name: 'العربية', flag: '🇦🇪' }
+  // Products per Page 1 specifications
+  const products = [
+    {
+      emoji: "🤖",
+      title: "VYRALIFY AI",
+      desc: "24/7 AI growth co-pilot & viral scripting",
+      href: "#features"
+    },
+    {
+      emoji: "🔎",
+      title: "DISCOVER",
+      desc: "Viral content feeds, trending hooks & formats",
+      href: "#features"
+    },
+    {
+      emoji: "✍️",
+      title: "CREATE",
+      desc: "Instant script, hook & caption generation",
+      href: "#features"
+    },
+    {
+      emoji: "📊",
+      title: "SCALE",
+      desc: "Growth intelligence & performance tracking",
+      href: "#features"
+    },
+    {
+      emoji: "💰",
+      title: "MONETIZE",
+      desc: "Brand clipping campaigns & digital store",
+      href: "#clip-and-earn"
+    }
   ];
 
-  // Handle smooth hover open/close
+  // Smooth hover handlers for dropdown
   const handleMouseEnter = () => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    setSolutionsOpen(true);
+    setProductOpen(true);
   };
 
   const handleMouseLeave = () => {
     timeoutRef.current = setTimeout(() => {
-      setSolutionsOpen(false);
+      setProductOpen(false);
     }, 150);
   };
 
-  // Close dropdowns on outside click
+  // Close dropdown on outside click
   useEffect(() => {
     function handleClickOutside(event) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setSolutionsOpen(false);
-      }
-      if (langRef.current && !langRef.current.contains(event.target)) {
-        setLangOpen(false);
+        setProductOpen(false);
       }
     }
     document.addEventListener('mousedown', handleClickOutside);
@@ -67,34 +74,25 @@ export default function Navbar() {
     };
   }, []);
 
-  const useCases = [
-    { title: "Comment-to-DM", icon: MessageSquare, href: "#features" },
-    { title: "Auto-Send Links", icon: Send, href: "#features" },
-    { title: "Lead Capture", icon: Mail, href: "#features" },
-    { title: "Story Replies", icon: CornerDownLeft, href: "#features" }
-  ];
-
-  const creatorTypes = [
-    { title: "Content Creators", icon: Video, href: "#features" },
-    { title: "Affiliate Creators", icon: Link2, href: "#clip-and-earn" },
-    { title: "Coaches & Educators", icon: GraduationCap, href: "#features" },
-    { title: "Service Businesses", icon: Calendar, href: "#features" }
-  ];
-
   return (
-    <header className="sticky top-0 z-40 w-full bg-black/95 backdrop-blur-md border-b border-[#1C1C20] transition-colors duration-200 shrink-0">
+    <header className="sticky top-0 z-40 w-full bg-black/95 backdrop-blur-md border-b border-[#1C1C20] transition-colors duration-200 shrink-0 select-none">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-14 sm:h-16 gap-4">
           
-          {/* LEFT: [Vyralify] Brand Logo */}
-          <a href="#" className="font-display font-bold text-2xl tracking-tight text-white focus:outline-none hover:opacity-90 transition-opacity shrink-0">
-            Vyralify
+          {/* LEFT: [Vyralify] Brand Logo (White logo/text with solid green V badge) */}
+          <a href="#" className="flex items-center gap-2.5 group focus:outline-none shrink-0">
+            <div className="w-8 h-8 rounded-lg bg-[#D1FE17] text-black font-black flex items-center justify-center text-lg tracking-tighter shadow-[0_0_16px_rgba(209,254,23,0.35)] group-hover:scale-105 transition-transform">
+              V
+            </div>
+            <span className="font-headline font-bold text-2xl tracking-tight text-white group-hover:text-neutral-200 transition-colors">
+              Vyralify
+            </span>
           </a>
 
-          {/* CENTER: Solutions ▾ | Agencies | Pricing | Resources */}
-          <nav className="hidden md:flex items-center gap-8 text-sm font-medium">
+          {/* CENTER: Minimal, spacious layout (Product ▾ | Creators | Brands | Pricing) */}
+          <nav className="hidden md:flex items-center gap-8 lg:gap-10 text-sm font-medium">
             
-            {/* Solutions Dropdown Trigger */}
+            {/* Product Dropdown Trigger */}
             <div 
               className="relative" 
               ref={dropdownRef}
@@ -103,198 +101,54 @@ export default function Navbar() {
             >
               <button
                 type="button"
-                onClick={() => setSolutionsOpen(!solutionsOpen)}
-                className={`flex items-center gap-1.5 transition-colors cursor-pointer py-2 ${
-                  solutionsOpen ? 'text-white' : 'text-neutral-300 hover:text-white'
+                onClick={() => setProductOpen(!productOpen)}
+                className={`flex items-center gap-1.5 transition-colors cursor-pointer py-2 font-inter font-medium text-sm ${
+                  productOpen ? 'text-[#D1FE17]' : 'text-neutral-300 hover:text-[#D1FE17]'
                 }`}
+                aria-expanded={productOpen}
               >
-                <span>Solutions</span>
-                <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${solutionsOpen ? 'rotate-180 text-white' : 'text-neutral-400'}`} />
+                <span>Product</span>
+                <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${productOpen ? 'rotate-180 text-[#D1FE17]' : 'text-neutral-400'}`} />
               </button>
 
-              {/* MINIMAL WHITE MEGA DROPDOWN (Exact CreatorFlow Reference) */}
+              {/* PRODUCT DROPDOWN (Clean dark minimal aesthetic per Page 1) */}
               <AnimatePresence>
-                {solutionsOpen && (
+                {productOpen && (
                   <motion.div
                     initial={{ opacity: 0, y: 8, scale: 0.98 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 6, scale: 0.98 }}
                     transition={{ duration: 0.16, ease: "easeOut" }}
-                    className="absolute top-full left-0 mt-2.5 p-6 sm:p-7 rounded-[26px] bg-white text-black shadow-[0_25px_70px_rgba(0,0,0,0.4),0_0_1px_rgba(0,0,0,0.15)] z-50 border border-neutral-100/80 w-[780px] select-none before:absolute before:-top-3 before:left-0 before:w-full before:h-3"
+                    className="absolute top-full left-1/2 -translate-x-1/2 mt-2.5 p-3 rounded-2xl bg-[#0D0D10]/98 text-white shadow-[0_25px_70px_rgba(0,0,0,0.9),0_0_30px_rgba(209,254,23,0.08)] z-50 border border-[#24242A] w-[350px] select-none backdrop-blur-xl before:absolute before:-top-3 before:left-0 before:w-full before:h-3"
                   >
-                    <div className="flex items-stretch gap-8">
-                      
-                      {/* Left: Featured Visual Box (260px fixed width) */}
-                      <div className="w-[260px] shrink-0 bg-[#F6F7F9] rounded-2xl p-5 flex flex-col justify-between border border-neutral-200/50">
-                        {/* Mini Feature Card */}
-                        <div>
-                          <div className="bg-white rounded-xl p-3.5 shadow-xs border border-neutral-200/60 mb-3.5">
-                            <div className="flex items-center justify-between gap-2 mb-2.5">
-                              <div className="flex items-center gap-2">
-                                <div className="w-5 h-5 rounded bg-black flex items-center justify-center text-white">
-                                  <Play className="w-2.5 h-2.5 fill-white" />
-                                </div>
-                                <div className="w-14 h-1.5 bg-neutral-200 rounded-full" />
-                              </div>
-                              <span className="px-1.5 py-0.5 rounded bg-[#D1FE17] text-black font-extrabold text-[9px] font-mono tracking-wider">
-                                LINK
-                              </span>
-                            </div>
+                    <div className="px-3 pt-1 pb-2 text-[10px] font-mono uppercase tracking-widest text-neutral-400 font-bold flex items-center justify-between border-b border-neutral-800/80 mb-2">
+                      <span>PRODUCTS</span>
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#D1FE17] animate-pulse" />
+                    </div>
 
-                            <div className="flex justify-end">
-                              <div className="bg-black text-white text-[10px] font-semibold px-2.5 py-1 rounded-full inline-flex items-center gap-1 shadow-sm">
-                                <span>yourshop.link</span>
-                                <ArrowRight className="w-2.5 h-2.5" />
+                    <div className="space-y-1">
+                      {products.map((item, idx) => (
+                        <a
+                          key={idx}
+                          href={item.href}
+                          onClick={() => setProductOpen(false)}
+                          className="group flex items-center justify-between p-2.5 rounded-xl hover:bg-neutral-900/90 transition-all duration-150 border border-transparent hover:border-neutral-800 cursor-pointer"
+                        >
+                          <div className="flex items-center gap-3">
+                            <span className="w-9 h-9 rounded-lg bg-neutral-900 border border-neutral-800 flex items-center justify-center text-base group-hover:scale-110 group-hover:border-[#D1FE17]/50 group-hover:bg-neutral-850 transition-all shrink-0">
+                              {item.emoji}
+                            </span>
+                            <div>
+                              <div className="font-headline font-bold text-sm text-white group-hover:text-[#D1FE17] transition-colors tracking-tight">
+                                {item.title}
+                              </div>
+                              <div className="text-[11px] text-neutral-400 font-inter font-normal leading-tight mt-0.5">
+                                {item.desc}
                               </div>
                             </div>
                           </div>
-
-                          <h4 className="font-display font-bold text-sm text-neutral-900 leading-snug mb-1">
-                            Comment to DM, automatically
-                          </h4>
-                          <p className="text-xs text-neutral-500 leading-relaxed font-normal">
-                            See how a single reel turns into emails and sales, automatically.
-                          </p>
-                        </div>
-
-                        <a 
-                          href="#features" 
-                          onClick={() => setSolutionsOpen(false)}
-                          className="inline-flex items-center gap-1 text-xs font-bold text-neutral-900 hover:text-black mt-4 hover:underline"
-                        >
-                          <span>Watch it work</span>
-                          <ArrowRight className="w-3 h-3" />
+                          <ArrowRight className="w-3.5 h-3.5 text-neutral-500 group-hover:text-[#D1FE17] group-hover:translate-x-0.5 transition-all opacity-0 group-hover:opacity-100 shrink-0" />
                         </a>
-                      </div>
-
-                      {/* Middle: BY USE CASE (200px fixed width, no-wrap) */}
-                      <div className="w-[200px] shrink-0 flex flex-col">
-                        <div className="text-[11px] font-mono font-bold tracking-wider text-neutral-400 uppercase mb-4 whitespace-nowrap">
-                          BY USE CASE
-                        </div>
-                        <div className="space-y-4">
-                          {useCases.map((item, idx) => {
-                            const Icon = item.icon;
-                            return (
-                              <a
-                                key={idx}
-                                href={item.href}
-                                onClick={() => setSolutionsOpen(false)}
-                                className="flex items-center gap-3 text-sm font-semibold text-neutral-800 hover:text-black transition-colors group cursor-pointer whitespace-nowrap"
-                              >
-                                <Icon className="w-4 h-4 text-neutral-600 group-hover:text-black group-hover:scale-110 transition-transform shrink-0" />
-                                <span>{item.title}</span>
-                              </a>
-                            );
-                          })}
-                        </div>
-                      </div>
-
-                      {/* Right: BY CREATOR TYPE (200px fixed width, no-wrap) */}
-                      <div className="w-[200px] shrink-0 flex flex-col">
-                        <div className="text-[11px] font-mono font-bold tracking-wider text-neutral-400 uppercase mb-4 whitespace-nowrap">
-                          BY CREATOR TYPE
-                        </div>
-                        <div className="space-y-4">
-                          {creatorTypes.map((item, idx) => {
-                            const Icon = item.icon;
-                            return (
-                              <a
-                                key={idx}
-                                href={item.href}
-                                onClick={() => setSolutionsOpen(false)}
-                                className="flex items-center gap-3 text-sm font-semibold text-neutral-800 hover:text-black transition-colors group cursor-pointer whitespace-nowrap"
-                              >
-                                <Icon className="w-4 h-4 text-neutral-600 group-hover:text-black group-hover:scale-110 transition-transform shrink-0" />
-                                <span>{item.title}</span>
-                              </a>
-                            );
-                          })}
-                        </div>
-                      </div>
-
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-
-            {/* Agencies Link */}
-            <a
-              href="#clip-and-earn"
-              className="text-neutral-300 hover:text-white transition-colors"
-            >
-              Agencies
-            </a>
-
-            {/* Pricing Link */}
-            <a
-              href="#pricing"
-              className="text-neutral-300 hover:text-white transition-colors"
-            >
-              Pricing
-            </a>
-
-            {/* Resources Link */}
-            <a
-              href="#resources"
-              className="text-neutral-300 hover:text-white transition-colors"
-            >
-              Resources
-            </a>
-          </nav>
-
-          {/* RIGHT: Language Toggle, Login, [Get Started] */}
-          <div className="hidden md:flex items-center gap-6">
-            
-            {/* Interactive Language Selector Dropdown */}
-            <div className="relative" ref={langRef}>
-              <button
-                type="button"
-                onClick={() => setLangOpen(!langOpen)}
-                className="flex items-center gap-1.5 text-xs text-neutral-300 hover:text-white cursor-pointer transition-colors font-medium py-1.5 px-2 rounded-lg hover:bg-neutral-900"
-                aria-label="Select language"
-              >
-                <Globe className="w-3.5 h-3.5 text-neutral-400" />
-                <span>{selectedLang.code}</span>
-                <ChevronDown className={`w-3 h-3 text-neutral-400 transition-transform duration-200 ${langOpen ? 'rotate-180 text-white' : ''}`} />
-              </button>
-
-              <AnimatePresence>
-                {langOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 6, scale: 0.96 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 4, scale: 0.96 }}
-                    transition={{ duration: 0.15 }}
-                    className="absolute right-0 top-full mt-2 w-44 p-1.5 rounded-xl bg-[#0F0F12] border border-[#24242A] shadow-2xl shadow-black/90 z-50 backdrop-blur-xl"
-                  >
-                    <div className="px-2.5 py-1 text-[10px] font-mono uppercase tracking-wider text-neutral-500 font-bold">
-                      Language
-                    </div>
-                    <div className="space-y-0.5">
-                      {languages.map((lang) => (
-                        <button
-                          key={lang.code}
-                          type="button"
-                          onClick={() => {
-                            setSelectedLang(lang);
-                            setLangOpen(false);
-                          }}
-                          className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs transition-colors cursor-pointer text-left ${
-                            selectedLang.code === lang.code
-                              ? 'bg-neutral-800 text-[#D1FE17] font-semibold'
-                              : 'text-neutral-300 hover:bg-neutral-900 hover:text-white'
-                          }`}
-                        >
-                          <div className="flex items-center gap-2">
-                            <span>{lang.flag}</span>
-                            <span>{lang.name}</span>
-                          </div>
-                          {selectedLang.code === lang.code && (
-                            <Check className="w-3.5 h-3.5 text-[#D1FE17]" />
-                          )}
-                        </button>
                       ))}
                     </div>
                   </motion.div>
@@ -302,20 +156,39 @@ export default function Navbar() {
               </AnimatePresence>
             </div>
 
-            {/* Login Link */}
+            {/* Creators Link */}
             <a
-              href="#login"
-              className="text-sm font-medium text-neutral-300 hover:text-white transition-colors"
+              href="#creators"
+              className="font-inter font-medium text-sm text-neutral-300 hover:text-[#D1FE17] transition-colors duration-150"
             >
-              Login
+              Creators
             </a>
 
-            {/* Get Started Button (Solid volt green) */}
+            {/* Brands Link */}
+            <a
+              href="#brands"
+              className="font-inter font-medium text-sm text-neutral-300 hover:text-[#D1FE17] transition-colors duration-150"
+            >
+              Brands
+            </a>
+
+            {/* Pricing Link */}
             <a
               href="#pricing"
-              className="inline-flex items-center justify-center px-5 py-2.5 rounded-lg text-sm font-bold bg-[#D1FE17] text-black hover:bg-[#bbf00e] active:scale-[0.98] transition-all shadow-sm"
+              className="font-inter font-medium text-sm text-neutral-300 hover:text-[#D1FE17] transition-colors duration-150"
             >
-              Get Started
+              Pricing
+            </a>
+          </nav>
+
+          {/* RIGHT: [Get Started →] (Solid Vyralify Green; No Login in main navbar) */}
+          <div className="hidden md:flex items-center">
+            <a
+              href="#pricing"
+              className="inline-flex items-center justify-center gap-1.5 px-5 py-2.5 rounded-xl text-sm font-inter font-bold bg-[#D1FE17] text-black hover:bg-[#bbf00e] active:scale-[0.98] transition-all duration-150 shadow-[0_0_20px_rgba(209,254,23,0.25)] hover:shadow-[0_0_30px_rgba(209,254,23,0.45)]"
+            >
+              <span>Get Started</span>
+              <ArrowRight className="w-4 h-4" />
             </a>
           </div>
 
@@ -323,16 +196,17 @@ export default function Navbar() {
           <div className="flex md:hidden items-center gap-2.5">
             <a
               href="#pricing"
-              className="px-3 py-1.5 rounded-lg text-xs font-bold bg-[#D1FE17] text-black hover:bg-[#bbf00e] transition-colors"
+              className="inline-flex items-center gap-1 px-3.5 py-1.5 rounded-lg text-xs font-inter font-bold bg-[#D1FE17] text-black hover:bg-[#bbf00e] transition-colors"
             >
-              Get Started
+              <span>Get Started</span>
+              <ArrowRight className="w-3 h-3" />
             </a>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="p-1.5 rounded-lg text-white hover:text-[#D1FE17] hover:bg-neutral-900 transition-colors"
               aria-label="Toggle Menu"
             >
-              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5 text-white" />}
             </button>
           </div>
 
@@ -346,84 +220,73 @@ export default function Navbar() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden border-t border-[#1C1C20] bg-black px-4 py-6 space-y-4"
+            className="md:hidden border-t border-[#1C1C20] bg-black px-4 py-5 space-y-4"
           >
-            <div className="text-xs font-mono uppercase tracking-wider text-neutral-500 font-bold px-2">
-              Solutions
+            {/* Products header */}
+            <div className="text-[10px] font-mono uppercase tracking-wider text-neutral-400 font-bold px-2">
+              PRODUCTS
             </div>
-            <div className="grid grid-cols-1 gap-1.5">
-              {[...useCases, ...creatorTypes].map((item, idx) => {
-                const Icon = item.icon;
-                return (
-                  <a
-                    key={idx}
-                    href={item.href}
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center gap-2.5 p-2 rounded-lg text-xs font-semibold text-neutral-300 hover:text-white hover:bg-neutral-900 transition-colors"
-                  >
-                    <Icon className="w-3.5 h-3.5 text-neutral-400" />
-                    <span>{item.title}</span>
-                  </a>
-                );
-              })}
+            <div className="grid grid-cols-1 gap-1">
+              {products.map((item, idx) => (
+                <a
+                  key={idx}
+                  href={item.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center gap-3 p-2.5 rounded-lg text-xs font-semibold text-neutral-300 hover:text-[#D1FE17] hover:bg-neutral-900 transition-colors"
+                >
+                  <span className="w-7 h-7 rounded-md bg-neutral-900 flex items-center justify-center text-sm border border-neutral-800">
+                    {item.emoji}
+                  </span>
+                  <div>
+                    <div className="text-white text-xs font-bold">{item.title}</div>
+                    <div className="text-[10px] text-neutral-500 font-normal">{item.desc}</div>
+                  </div>
+                </a>
+              ))}
             </div>
 
-            <div className="pt-3 border-t border-neutral-800 space-y-2.5 px-2">
+            {/* Standard Nav links */}
+            <div className="pt-3 border-t border-neutral-800 space-y-2 px-2">
               <a
-                href="#clip-and-earn"
+                href="#creators"
                 onClick={() => setMobileMenuOpen(false)}
-                className="block text-xs font-semibold text-neutral-300 hover:text-white"
+                className="block text-sm font-semibold text-neutral-300 hover:text-[#D1FE17]"
               >
-                Agencies
+                Creators
+              </a>
+              <a
+                href="#brands"
+                onClick={() => setMobileMenuOpen(false)}
+                className="block text-sm font-semibold text-neutral-300 hover:text-[#D1FE17]"
+              >
+                Brands
               </a>
               <a
                 href="#pricing"
                 onClick={() => setMobileMenuOpen(false)}
-                className="block text-xs font-semibold text-neutral-300 hover:text-white"
+                className="block text-sm font-semibold text-neutral-300 hover:text-[#D1FE17]"
               >
                 Pricing
               </a>
+            </div>
+
+            {/* Login kept inside menu per Page 1 spec */}
+            <div className="pt-3 border-t border-neutral-800 px-2">
               <a
-                href="#resources"
+                href="#login"
                 onClick={() => setMobileMenuOpen(false)}
-                className="block text-xs font-semibold text-neutral-300 hover:text-white"
+                className="block text-xs font-medium text-neutral-400 hover:text-white"
               >
-                Resources
+                Already have an account? <span className="text-[#D1FE17] underline underline-offset-2">Log in</span>
               </a>
             </div>
 
-            {/* Mobile Language Selector */}
-            <div className="pt-3 border-t border-neutral-800 px-2">
-              <div className="text-xs font-mono uppercase tracking-wider text-neutral-500 font-bold mb-2">
-                Language
-              </div>
-              <div className="grid grid-cols-2 gap-1.5">
-                {languages.slice(0, 4).map((lang) => (
-                  <button
-                    key={lang.code}
-                    type="button"
-                    onClick={() => {
-                      setSelectedLang(lang);
-                      setMobileMenuOpen(false);
-                    }}
-                    className={`flex items-center gap-2 p-2 rounded-lg text-xs ${
-                      selectedLang.code === lang.code
-                        ? 'bg-neutral-800 text-[#D1FE17] font-semibold'
-                        : 'text-neutral-300 hover:bg-neutral-900'
-                    }`}
-                  >
-                    <span>{lang.flag}</span>
-                    <span>{lang.code}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
-
+            {/* Full width CTA */}
             <div className="pt-2">
               <a
                 href="#pricing"
                 onClick={() => setMobileMenuOpen(false)}
-                className="w-full py-3 rounded-lg bg-[#D1FE17] text-black font-bold text-sm flex items-center justify-center gap-2"
+                className="w-full py-3 rounded-xl bg-[#D1FE17] text-black font-bold text-sm flex items-center justify-center gap-2 shadow-lg shadow-[#D1FE17]/20"
               >
                 <span>Get Started</span>
                 <ArrowRight className="w-4 h-4" />

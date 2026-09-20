@@ -179,46 +179,11 @@ export default function SocialProof() {
         </div>
 
         {/* 4. METRICS (PDF Page 5 & 6: 4 Metrics with viewport count-up) */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-16 sm:mb-20">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           <CountUpMetric value="900M+" label="Combined Views" />
           <CountUpMetric value="10K+" label="Creators" />
           <CountUpMetric value="$500K+" label="Creator Earnings" />
           <CountUpMetric value="1M+" label="Pieces of Content" />
-        </div>
-
-        {/* 5. CTA BLOCK (PDF Page 6 - Consistent with Hero) */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-6">
-          <a
-            href="#pricing"
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-2xl text-base font-inter font-bold bg-[#3CEB75] hover:bg-[#34D368] text-black active:scale-[0.98] transition-all duration-150 shadow-[0_0_25px_rgba(60,235,117,0.35)] cursor-pointer"
-          >
-            <span>Start Free</span>
-            <ArrowRight className="w-4 h-4" />
-          </a>
-
-          <a
-            href="#clip-and-earn"
-            className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 rounded-2xl text-base font-inter font-medium bg-white hover:bg-neutral-100 text-neutral-900 border border-neutral-300 hover:border-neutral-400 transition-all duration-150 cursor-pointer shadow-2xs"
-          >
-            Browse Campaigns
-          </a>
-        </div>
-
-        {/* 6. TRUST BAR (PDF Page 6 - 5 Overlapping avatars + text) */}
-        <div className="flex items-center justify-center gap-3">
-          <div className="flex -space-x-2 overflow-hidden shrink-0">
-            {avatars.map((img, idx) => (
-              <img
-                key={idx}
-                src={img}
-                alt="Creator avatar"
-                className="inline-block h-7 w-7 rounded-full ring-2 ring-white object-cover"
-              />
-            ))}
-          </div>
-          <span className="text-xs sm:text-sm font-inter font-medium text-neutral-500">
-            Loved by creators, brands and agencies
-          </span>
         </div>
 
       </div>

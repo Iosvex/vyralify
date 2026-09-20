@@ -8,12 +8,12 @@ export default function App() {
   return (
     <ThemeProvider>
       <LanguageProvider>
-        <div className="min-h-screen lg:h-screen lg:max-h-screen w-full overflow-x-hidden overflow-y-auto lg:overflow-hidden bg-black text-white flex flex-col justify-between font-sans selection:bg-[#D1FE17] selection:text-black">
-          {/* TOP NAVBAR (CreatorFlow style) */}
+        <div className="min-h-screen w-full overflow-x-hidden bg-black text-white flex flex-col font-sans selection:bg-[#D1FE17] selection:text-black">
+          {/* TOP NAVBAR (PDF Page 1) */}
           <Navbar />
 
-          {/* MAIN: HERO SECTION (Desktop 100vh locked, Mobile smoothly scrollable) */}
-          <main className="flex-1 flex flex-col justify-center w-full relative overflow-y-auto lg:overflow-hidden">
+          {/* MAIN: HERO SECTION + DASHBOARD MOCKUP (PDF Page 2 & 3) */}
+          <main className="flex-1 flex flex-col justify-start w-full relative">
             <Hero />
           </main>
         </div>

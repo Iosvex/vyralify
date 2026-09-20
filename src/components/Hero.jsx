@@ -1,5 +1,5 @@
-import React from 'react';
-import { motion } from 'motion/react';
+import React, { useRef } from 'react';
+import { motion, useScroll, useTransform, useSpring } from 'motion/react';
 import { PixelCanvas } from './ui/pixel-canvas';
 import { 
   ArrowRight, 
@@ -11,6 +11,22 @@ import {
 } from 'lucide-react';
 
 export default function Hero() {
+  const heroRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"]
+  });
+
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 90,
+    damping: 25,
+    restDelta: 0.001
+  });
+
+  // As user scrolls, the dashboard dynamically responds with subtle 3D tilt unroll
+  const scrollRotateX = useTransform(smoothProgress, [0, 0.7], [12, 2]);
+  const scrollScale = useTransform(smoothProgress, [0, 0.7], [1, 1.025]);
+
   const avatars = [
     "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&auto=format&fit=crop&q=80",
     "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&auto=format&fit=crop&q=80",
@@ -21,6 +37,7 @@ export default function Hero() {
   return (
     <section 
       id="hero-section" 
+      ref={heroRef}
       className="relative w-full min-h-screen flex flex-col justify-start bg-black text-white select-none overflow-x-hidden pt-8 sm:pt-12 lg:pt-16 pb-24"
     >
       {/* 1. INTERACTIVE PIXEL CANVAS BACKGROUND */}
@@ -137,14 +154,16 @@ export default function Hero() {
           className="w-full max-w-[880px] mx-auto"
           style={{ perspective: '1200px' }}
         >
-          {/* Tilted Dashboard Frame */}
+          {/* Tilted Dashboard Frame with Dynamic Scroll Physics */}
           <motion.div
-            initial={{ opacity: 0, y: 35, rotateX: 18 }}
-            animate={{ opacity: 1, y: 0, rotateX: 12 }}
+            initial={{ opacity: 0, y: 35 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
             style={{ 
               transformStyle: 'preserve-3d',
-              transformOrigin: 'top center'
+              transformOrigin: 'top center',
+              rotateX: scrollRotateX,
+              scale: scrollScale,
             }}
             className="relative w-full rounded-[26px] sm:rounded-[30px] p-4 sm:p-6 bg-[#0B0C0E]/95 border border-white/[0.08] border-t-[#3CEB75]/40 shadow-[0_30px_90px_rgba(0,0,0,0.95),0_0_60px_rgba(60,235,117,0.08)] backdrop-blur-2xl text-left select-none overflow-hidden"
           >

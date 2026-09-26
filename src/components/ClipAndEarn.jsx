@@ -35,7 +35,7 @@ export default function ClipAndEarn() {
       budgetRemaining: "$4,250",
       viewsGenerated: "850K",
       clippers: "48",
-      tag: "Trending 🔥"
+      tag: "Trending"
     },
     {
       id: 2,
@@ -59,7 +59,7 @@ export default function ClipAndEarn() {
       budgetRemaining: "$2,900",
       viewsGenerated: "640K",
       clippers: "32",
-      tag: "New ⚡"
+      tag: "New"
     }
   ];
 
@@ -111,7 +111,7 @@ export default function ClipAndEarn() {
           </div>
         </div>
 
-        {/* 01 — MAIN INTERACTIVE ELEMENT: DISCOVER → POST → EARN (PDF Page 19 & 20) */}
+        {/* 01 - MAIN INTERACTIVE ELEMENT: DISCOVER → POST → EARN (PDF Page 19 & 20) */}
         <div className="max-w-5xl mx-auto mb-24 rounded-3xl bg-white border border-neutral-200/90 shadow-[0_4px_30px_rgba(0,0,0,0.04)] overflow-hidden">
           
           {/* Tabs Navigation Bar */}
@@ -270,7 +270,7 @@ export default function ClipAndEarn() {
                       Create Your Clip. Post It.
                     </h3>
                     <p className="text-sm text-neutral-500 font-inter mt-1">
-                      The whole clipping workflow happens right here — select your moment, trim, hook, and submit.
+                      The whole clipping workflow happens right here: select your moment, trim, hook, and submit.
                     </p>
                   </div>
 
@@ -443,10 +443,10 @@ export default function ClipAndEarn() {
           </div>
         </div>
 
-        {/* 02 — CLIPPING SYSTEM PROMOTIONAL CARDS (PDF Pages 21 & 22) */}
+        {/* 02 - CLIPPING SYSTEM PROMOTIONAL CARDS (PDF Pages 21 & 22) */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
           
-          {/* CARD 01 — DISCOVER MORE */}
+          {/* CARD 01 - DISCOVER MORE */}
           <div className="rounded-3xl bg-white border border-neutral-200/90 p-6 shadow-xs hover:shadow-lg transition-all flex flex-col justify-between">
             <div>
               <div className="flex items-center gap-2 mb-3">
@@ -471,7 +471,7 @@ export default function ClipAndEarn() {
             <div className="bg-neutral-50 p-3.5 rounded-2xl border border-neutral-100 space-y-2">
               <div className="text-[10px] font-mono uppercase font-bold text-neutral-400">Curated Feed Filters</div>
               <div className="flex flex-wrap gap-1.5 text-xs font-medium">
-                <span className="px-2.5 py-1 rounded-lg bg-white border border-neutral-200 text-neutral-800">🔥 Trending</span>
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white border border-neutral-200 text-neutral-800"><Flame className="w-3.5 h-3.5 text-amber-500" /> Trending</span>
                 <span className="px-2.5 py-1 rounded-lg bg-emerald-50 border border-emerald-200 text-[#16A34A] font-bold">Recommended</span>
                 <span className="px-2.5 py-1 rounded-lg bg-white border border-neutral-200 text-neutral-800">Highest Reward</span>
                 <span className="px-2.5 py-1 rounded-lg bg-white border border-neutral-200 text-neutral-800">New</span>
@@ -480,7 +480,7 @@ export default function ClipAndEarn() {
             </div>
           </div>
 
-          {/* CARD 02 — CLIP FASTER */}
+          {/* CARD 02 - CLIP FASTER */}
           <div className="rounded-3xl bg-white border border-neutral-200/90 p-6 shadow-xs hover:shadow-lg transition-all flex flex-col justify-between">
             <div>
               <div className="flex items-center gap-2 mb-3">
@@ -497,7 +497,7 @@ export default function ClipAndEarn() {
               </h3>
 
               <p className="text-neutral-500 font-inter text-sm leading-relaxed mb-5">
-                Find the content, choose the moment, create your clip, and get it ready to post — without jumping between tools.
+                Find the content, choose the moment, create your clip, and get it ready to post without jumping between tools.
               </p>
             </div>
 
@@ -520,7 +520,7 @@ export default function ClipAndEarn() {
             </div>
           </div>
 
-          {/* CARD 03 — TRACK PERFORMANCE */}
+          {/* CARD 03 - TRACK PERFORMANCE */}
           <div className="rounded-3xl bg-white border border-neutral-200/90 p-6 shadow-xs hover:shadow-lg transition-all flex flex-col justify-between">
             <div>
               <div className="flex items-center gap-2 mb-3">

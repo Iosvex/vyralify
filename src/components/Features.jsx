@@ -10,7 +10,28 @@ import {
   TrendingUp,
   Search,
   Filter,
-  Plus
+  Plus,
+  Compass,
+  BarChart2,
+  PenTool,
+  Wallet,
+  Zap,
+  Target,
+  Folder,
+  Trophy,
+  BookOpen,
+  Smartphone,
+  FileText,
+  Calendar,
+  Bot,
+  Settings,
+  Database,
+  ShoppingBag,
+  Package,
+  ShoppingCart,
+  Users,
+  Share2,
+  Rocket
 } from 'lucide-react';
 
 export default function Features() {
@@ -21,14 +42,14 @@ export default function Features() {
       tagline: 'Chat. Plan. Grow.',
       audience: 'For Everyone',
       audienceBadgeClass: 'bg-[#EAF7EE] text-[#16A34A] border-[#DCFCE7]',
-      description: 'Your 24/7 growth co-pilot — tells you what to post, why content worked or flopped, and what to do next.',
+      description: 'Your 24/7 growth co-pilot: tells you what to post, why content worked or flopped, and what to do next.',
       renderMockup: () => (
         <div className="h-full w-full flex text-[10px] text-white font-inter select-none">
           {/* Mini Sidebar */}
           <div className="w-24 shrink-0 border-r border-white/[0.08] pr-2 flex flex-col justify-between py-0.5">
             <div className="space-y-2">
               <div className="flex items-center gap-1 text-[#3CEB75] font-bold text-[10px]">
-                <span>✦</span>
+                <Sparkles className="w-2.5 h-2.5 text-[#3CEB75]" />
                 <span className="text-white text-[9px]">Vyralify AI</span>
               </div>
               <div className="px-2 py-1 rounded-md bg-[#3CEB75] text-black font-bold text-[9px] flex items-center justify-center gap-1 shadow-xs cursor-pointer">
@@ -36,14 +57,14 @@ export default function Features() {
                 <span>New Chat</span>
               </div>
               <div className="space-y-1 text-neutral-400 text-[9px]">
-                <div className="flex items-center gap-1 hover:text-white cursor-pointer">🔎 Discover</div>
-                <div className="flex items-center gap-1 hover:text-white cursor-pointer">📊 Analyze</div>
-                <div className="flex items-center gap-1 hover:text-white cursor-pointer">✍️ Create</div>
-                <div className="flex items-center gap-1 hover:text-white cursor-pointer">💰 Monetize</div>
+                <div className="flex items-center gap-1.5 hover:text-white cursor-pointer"><Compass className="w-2.5 h-2.5" /> Discover</div>
+                <div className="flex items-center gap-1.5 hover:text-white cursor-pointer"><BarChart2 className="w-2.5 h-2.5" /> Analyze</div>
+                <div className="flex items-center gap-1.5 hover:text-white cursor-pointer"><PenTool className="w-2.5 h-2.5" /> Create</div>
+                <div className="flex items-center gap-1.5 hover:text-white cursor-pointer"><Wallet className="w-2.5 h-2.5" /> Monetize</div>
               </div>
             </div>
             <div className="text-[8px] text-neutral-400 hover:text-white flex items-center gap-1 cursor-pointer">
-              <span>⚡ Upgrade</span>
+              <span className="flex items-center gap-1"><Zap className="w-2.5 h-2.5 text-amber-400" /> Upgrade</span>
             </div>
           </div>
 
@@ -110,13 +131,13 @@ export default function Features() {
                 <span>Vyralify</span>
               </div>
               <div className="px-1.5 py-1 rounded-md bg-[#3CEB75]/15 text-[#3CEB75] font-bold text-[9px] flex items-center gap-1">
-                <span>🎯 Campaigns</span>
+                <span className="flex items-center gap-1"><Target className="w-2.5 h-2.5 text-[#3CEB75]" /> Campaigns</span>
               </div>
               <div className="space-y-1 text-neutral-400 text-[9px]">
-                <div className="hover:text-white cursor-pointer">📁 My Submissions</div>
-                <div className="hover:text-white cursor-pointer">💰 Earnings</div>
-                <div className="hover:text-white cursor-pointer">🏆 Leaderboard</div>
-                <div className="hover:text-white cursor-pointer">📖 Resources</div>
+                <div className="flex items-center gap-1 hover:text-white cursor-pointer"><Folder className="w-2.5 h-2.5" /> Submissions</div>
+                <div className="flex items-center gap-1 hover:text-white cursor-pointer"><Wallet className="w-2.5 h-2.5" /> Earnings</div>
+                <div className="flex items-center gap-1 hover:text-white cursor-pointer"><Trophy className="w-2.5 h-2.5" /> Leaderboard</div>
+                <div className="flex items-center gap-1 hover:text-white cursor-pointer"><BookOpen className="w-2.5 h-2.5" /> Resources</div>
               </div>
             </div>
           </div>
@@ -142,7 +163,7 @@ export default function Features() {
               <div className="bg-[#141620] border border-white/[0.06] rounded-xl p-1.5 flex flex-col justify-between">
                 <div>
                   <span className="inline-block px-1 py-0.2 rounded bg-amber-500/20 text-amber-300 text-[7px] font-bold mb-1">
-                    🔥 Trending
+                    <Flame className="w-2 h-2 text-amber-400 inline mr-0.5" /> Trending
                   </span>
                   <div className="font-bold text-[9px] text-white leading-tight">Nike</div>
                   <div className="text-[8px] text-neutral-400 truncate">Motivation Reels</div>
@@ -184,7 +205,7 @@ export default function Features() {
       tagline: 'Launch. Optimize. Scale.',
       audience: 'For Beginners',
       audienceBadgeClass: 'bg-[#EAF7EE] text-[#16A34A] border-[#DCFCE7]',
-      description: 'Launch a faceless page from scratch or optimize an existing one — niche, setup, scheduling, all handled.',
+      description: 'Launch a faceless page from scratch or optimize an existing one: niche, setup, scheduling, all handled.',
       renderMockup: () => (
         <div className="h-full w-full flex text-[10px] text-white font-inter select-none">
           {/* Mini Sidebar */}
@@ -194,13 +215,13 @@ export default function Features() {
                 <span>Vyralify</span>
               </div>
               <div className="px-1.5 py-1 rounded-md bg-[#3CEB75]/15 text-[#3CEB75] font-bold text-[9px] flex items-center gap-1">
-                <span>📱 Create Page</span>
+                <span className="flex items-center gap-1"><Smartphone className="w-2.5 h-2.5 text-[#3CEB75]" /> Create Page</span>
               </div>
               <div className="space-y-1 text-neutral-400 text-[9px]">
-                <div className="hover:text-white cursor-pointer">📄 My Pages</div>
-                <div className="hover:text-white cursor-pointer">📅 Content Planner</div>
-                <div className="hover:text-white cursor-pointer">🤖 Auto Post</div>
-                <div className="hover:text-white cursor-pointer">⚙️ Settings</div>
+                <div className="flex items-center gap-1 hover:text-white cursor-pointer"><FileText className="w-2.5 h-2.5" /> My Pages</div>
+                <div className="flex items-center gap-1 hover:text-white cursor-pointer"><Calendar className="w-2.5 h-2.5" /> Planner</div>
+                <div className="flex items-center gap-1 hover:text-white cursor-pointer"><Bot className="w-2.5 h-2.5" /> Auto Post</div>
+                <div className="flex items-center gap-1 hover:text-white cursor-pointer"><Settings className="w-2.5 h-2.5" /> Settings</div>
               </div>
             </div>
           </div>
@@ -255,7 +276,7 @@ export default function Features() {
       tagline: 'Find Trends. Create Content.',
       audience: 'For Creators',
       audienceBadgeClass: 'bg-[#FEFCE8] text-[#CA8A04] border-[#FEF08A]',
-      description: 'Find trending formats, viral hooks, and winning niches — then generate scripts, captions, and content in seconds.',
+      description: 'Find trending formats, viral hooks, and winning niches: then generate scripts, captions, and content in seconds.',
       renderMockup: () => (
         <div className="h-full w-full flex text-[10px] text-white font-inter select-none">
           {/* Mini Sidebar */}
@@ -265,13 +286,13 @@ export default function Features() {
                 <span>Vyralify</span>
               </div>
               <div className="px-1.5 py-1 rounded-md bg-[#3CEB75]/15 text-[#3CEB75] font-bold text-[9px] flex items-center gap-1">
-                <span>🔍 Discover</span>
+                <span className="flex items-center gap-1"><Search className="w-2.5 h-2.5 text-[#3CEB75]" /> Discover</span>
               </div>
               <div className="space-y-1 text-neutral-400 text-[9px]">
-                <div className="hover:text-white cursor-pointer">🔥 Trending</div>
-                <div className="hover:text-white cursor-pointer">📦 Viral Database</div>
-                <div className="hover:text-white cursor-pointer">🤖 AI Generator</div>
-                <div className="hover:text-white cursor-pointer">🔖 Saved</div>
+                <div className="hover:text-white cursor-pointer"><Flame className="w-2 h-2 text-amber-400 inline mr-0.5" /> Trending</div>
+                <div className="flex items-center gap-1 hover:text-white cursor-pointer"><Database className="w-2.5 h-2.5" /> Viral DB</div>
+                <div className="flex items-center gap-1 hover:text-white cursor-pointer"><Sparkles className="w-2.5 h-2.5" /> Generator</div>
+                <div className="flex items-center gap-1 hover:text-white cursor-pointer"><Bookmark className="w-2.5 h-2.5" /> Saved</div>
               </div>
             </div>
           </div>
@@ -345,13 +366,13 @@ export default function Features() {
                 <span>Vyralify</span>
               </div>
               <div className="px-1.5 py-1 rounded-md bg-[#3CEB75]/15 text-[#3CEB75] font-bold text-[9px] flex items-center gap-1">
-                <span>🛍️ Store</span>
+                <span className="flex items-center gap-1"><ShoppingBag className="w-2.5 h-2.5 text-[#3CEB75]" /> Store</span>
               </div>
               <div className="space-y-1 text-neutral-400 text-[9px]">
-                <div className="hover:text-white cursor-pointer">📦 Products</div>
-                <div className="hover:text-white cursor-pointer">🛒 Orders</div>
-                <div className="hover:text-white cursor-pointer">👥 Customers</div>
-                <div className="hover:text-white cursor-pointer">🤝 Affiliate</div>
+                <div className="flex items-center gap-1 hover:text-white cursor-pointer"><Package className="w-2.5 h-2.5" /> Products</div>
+                <div className="flex items-center gap-1 hover:text-white cursor-pointer"><ShoppingCart className="w-2.5 h-2.5" /> Orders</div>
+                <div className="flex items-center gap-1 hover:text-white cursor-pointer"><Users className="w-2.5 h-2.5" /> Customers</div>
+                <div className="flex items-center gap-1 hover:text-white cursor-pointer"><Share2 className="w-2.5 h-2.5" /> Affiliate</div>
               </div>
             </div>
           </div>
@@ -402,7 +423,7 @@ export default function Features() {
       tagline: 'Track. Understand. Grow.',
       audience: 'For Everyone',
       audienceBadgeClass: 'bg-[#FEFCE8] text-[#CA8A04] border-[#FEF08A]',
-      description: "Track performance, spot what's working, and get AI-recommended next moves — automatically.",
+      description: "Track performance, spot what's working, and get AI-recommended next moves, automatically.",
       renderMockup: () => (
         <div className="h-full w-full flex text-[10px] text-white font-inter select-none">
           {/* Mini Sidebar */}
@@ -412,13 +433,13 @@ export default function Features() {
                 <span>Vyralify</span>
               </div>
               <div className="px-1.5 py-1 rounded-md bg-[#3CEB75]/15 text-[#3CEB75] font-bold text-[9px] flex items-center gap-1">
-                <span>📊 Analytics</span>
+                <span className="flex items-center gap-1"><BarChart2 className="w-2.5 h-2.5 text-[#3CEB75]" /> Analytics</span>
               </div>
               <div className="space-y-1 text-neutral-400 text-[9px]">
-                <div className="hover:text-white cursor-pointer">📈 Content</div>
-                <div className="hover:text-white cursor-pointer">👥 Audience</div>
-                <div className="hover:text-white cursor-pointer">🚀 Growth</div>
-                <div className="hover:text-white cursor-pointer">🤖 AI Insights</div>
+                <div className="flex items-center gap-1 hover:text-white cursor-pointer"><TrendingUp className="w-2.5 h-2.5" /> Content</div>
+                <div className="flex items-center gap-1 hover:text-white cursor-pointer"><Users className="w-2.5 h-2.5" /> Audience</div>
+                <div className="flex items-center gap-1 hover:text-white cursor-pointer"><Rocket className="w-2.5 h-2.5" /> Growth</div>
+                <div className="flex items-center gap-1 hover:text-white cursor-pointer"><Sparkles className="w-2.5 h-2.5" /> Insights</div>
               </div>
             </div>
           </div>
@@ -463,8 +484,8 @@ export default function Features() {
               <div>
                 <div className="text-[7px] text-neutral-400 font-bold uppercase">Why this Reel worked</div>
                 <div className="text-[#3CEB75] text-[7px] flex items-center gap-1">
-                  <span>✓ Strong hook</span>
-                  <span>✓ High retention</span>
+                  <span className="flex items-center gap-1"><Check className="w-2.5 h-2.5 text-[#3CEB75]" /> Strong hook</span>
+                  <span className="flex items-center gap-1"><Check className="w-2.5 h-2.5 text-[#3CEB75]" /> High retention</span>
                 </div>
               </div>
               <button className="px-2 py-0.5 rounded bg-[#3CEB75] text-black font-bold text-[8px]">
@@ -501,7 +522,7 @@ export default function Features() {
 
           {/* Subheading */}
           <p className="text-neutral-500 font-inter text-base sm:text-lg leading-relaxed max-w-2xl mx-auto font-normal">
-            From building your first page to discovering clipping opportunities and getting paid — every tool lives right here.
+            From building your first page to discovering clipping opportunities and getting paid, every tool lives right here.
           </p>
         </div>
 

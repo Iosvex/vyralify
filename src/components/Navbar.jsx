@@ -3,7 +3,12 @@ import {
   ChevronDown, 
   ArrowRight, 
   Menu, 
-  X 
+  X,
+  Sparkles,
+  Compass,
+  PenTool,
+  BarChart3,
+  Wallet
 } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
 
@@ -14,36 +19,36 @@ export default function Navbar() {
   const dropdownRef = useRef(null);
   const timeoutRef = useRef(null);
 
-  // Products per Page 1 specifications
+  // Products per Page 1 specifications with professional SVG vector icons
   const products = [
     {
-      emoji: "🤖",
+      icon: Sparkles,
       title: "VYRALIFY AI",
-      desc: "24/7 AI growth co-pilot & viral scripting",
+      desc: "24/7 AI growth co-pilot and viral scripting",
       href: "#features"
     },
     {
-      emoji: "🔎",
+      icon: Compass,
       title: "DISCOVER",
-      desc: "Viral content feeds, trending hooks & formats",
+      desc: "Viral content feeds, trending hooks and formats",
       href: "#features"
     },
     {
-      emoji: "✍️",
+      icon: PenTool,
       title: "CREATE",
-      desc: "Instant script, hook & caption generation",
+      desc: "Instant script, hook and caption generation",
       href: "#features"
     },
     {
-      emoji: "📊",
+      icon: BarChart3,
       title: "SCALE",
-      desc: "Growth intelligence & performance tracking",
+      desc: "Growth intelligence and performance tracking",
       href: "#features"
     },
     {
-      emoji: "💰",
+      icon: Wallet,
       title: "MONETIZE",
-      desc: "Brand clipping campaigns & digital store",
+      desc: "Brand clipping campaigns and digital store",
       href: "#clip-and-earn"
     }
   ];
@@ -126,29 +131,32 @@ export default function Navbar() {
                     </div>
 
                     <div className="space-y-1">
-                      {products.map((item, idx) => (
-                        <a
-                          key={idx}
-                          href={item.href}
-                          onClick={() => setProductOpen(false)}
-                          className="group flex items-center justify-between p-2.5 rounded-xl hover:bg-neutral-900/90 transition-all duration-150 border border-transparent hover:border-neutral-800 cursor-pointer"
-                        >
-                          <div className="flex items-center gap-3">
-                            <span className="w-9 h-9 rounded-lg bg-neutral-900 border border-neutral-800 flex items-center justify-center text-base group-hover:scale-110 group-hover:border-[#3CEB75]/50 group-hover:bg-neutral-850 transition-all shrink-0">
-                              {item.emoji}
-                            </span>
-                            <div>
-                              <div className="font-headline font-bold text-sm text-white group-hover:text-[#3CEB75] transition-colors tracking-tight">
-                                {item.title}
-                              </div>
-                              <div className="text-[11px] text-neutral-400 font-inter font-normal leading-tight mt-0.5">
-                                {item.desc}
+                      {products.map((item, idx) => {
+                        const IconComponent = item.icon;
+                        return (
+                          <a
+                            key={idx}
+                            href={item.href}
+                            onClick={() => setProductOpen(false)}
+                            className="group flex items-center justify-between p-2.5 rounded-xl hover:bg-neutral-900/90 transition-all duration-150 border border-transparent hover:border-neutral-800 cursor-pointer"
+                          >
+                            <div className="flex items-center gap-3">
+                              <span className="w-9 h-9 rounded-xl bg-neutral-900 border border-neutral-800 flex items-center justify-center text-[#3CEB75] group-hover:scale-110 group-hover:border-[#3CEB75]/50 group-hover:bg-[#3CEB75]/10 transition-all shrink-0">
+                                <IconComponent className="w-4 h-4 text-[#3CEB75]" />
+                              </span>
+                              <div>
+                                <div className="font-headline font-bold text-sm text-white group-hover:text-[#3CEB75] transition-colors tracking-tight">
+                                  {item.title}
+                                </div>
+                                <div className="text-[11px] text-neutral-400 font-inter font-normal leading-tight mt-0.5">
+                                  {item.desc}
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          <ArrowRight className="w-3.5 h-3.5 text-neutral-500 group-hover:text-[#3CEB75] group-hover:translate-x-0.5 transition-all opacity-0 group-hover:opacity-100 shrink-0" />
-                        </a>
-                      ))}
+                            <ArrowRight className="w-3.5 h-3.5 text-neutral-500 group-hover:text-[#3CEB75] group-hover:translate-x-0.5 transition-all opacity-0 group-hover:opacity-100 shrink-0" />
+                          </a>
+                        );
+                      })}
                     </div>
                   </motion.div>
                 )}
@@ -226,22 +234,25 @@ export default function Navbar() {
               PRODUCTS
             </div>
             <div className="grid grid-cols-1 gap-1">
-              {products.map((item, idx) => (
-                <a
-                  key={idx}
-                  href={item.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center gap-3 p-2.5 rounded-lg text-xs font-semibold text-neutral-300 hover:text-[#3CEB75] hover:bg-neutral-900 transition-colors"
-                >
-                  <span className="w-7 h-7 rounded-md bg-neutral-900 flex items-center justify-center text-sm border border-neutral-800">
-                    {item.emoji}
-                  </span>
-                  <div>
-                    <div className="text-white text-xs font-bold">{item.title}</div>
-                    <div className="text-[10px] text-neutral-500 font-normal">{item.desc}</div>
-                  </div>
-                </a>
-              ))}
+              {products.map((item, idx) => {
+                const IconComponent = item.icon;
+                return (
+                  <a
+                    key={idx}
+                    href={item.href}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="flex items-center gap-3 p-2.5 rounded-lg text-xs font-semibold text-neutral-300 hover:text-[#3CEB75] hover:bg-neutral-900 transition-colors"
+                  >
+                    <span className="w-7 h-7 rounded-md bg-neutral-900 flex items-center justify-center text-[#3CEB75] border border-neutral-800">
+                      <IconComponent className="w-3.5 h-3.5 text-[#3CEB75]" />
+                    </span>
+                    <div>
+                      <div className="text-white text-xs font-bold">{item.title}</div>
+                      <div className="text-[10px] text-neutral-500 font-normal">{item.desc}</div>
+                    </div>
+                  </a>
+                );
+              })}
             </div>
 
             {/* Standard Nav links */}

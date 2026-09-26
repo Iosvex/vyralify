@@ -7,7 +7,8 @@ import {
   Sparkles, 
   Megaphone, 
   BarChart2, 
-  Wallet 
+  Wallet,
+  Home
 } from 'lucide-react';
 
 export default function Hero() {
@@ -82,14 +83,14 @@ export default function Hero() {
           </span>
         </motion.h1>
 
-        {/* Subheading (Exact copy from PDF Page 2) */}
+        {/* Subheading (Exact copy from PDF Page 2 - Clean, human copy) */}
         <motion.p 
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.45, delay: 0.15 }}
           className="text-neutral-400 font-inter font-normal text-base sm:text-lg leading-relaxed max-w-2xl mx-auto mb-8"
         >
-          Build and grow your Instagram with Vyralify AI — discover what to post, create
+          Build and grow your Instagram with Vyralify AI: discover what to post, create
           content that performs, join paid campaigns to clip and earn, and turn your attention
           into revenue.
         </motion.p>
@@ -185,7 +186,7 @@ export default function Hero() {
                   <div className="flex flex-wrap md:flex-col gap-1 text-xs">
                     {/* Home (Active) */}
                     <div className="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-[#181A20] text-white font-medium shadow-xs">
-                      <span className="text-[#3CEB75] text-sm">🏠</span>
+                      <Home className="w-3.5 h-3.5 text-[#3CEB75]" />
                       <span className="text-xs">Home</span>
                     </div>
 
@@ -224,7 +225,6 @@ export default function Hero() {
                   <div>
                     <h3 className="text-sm sm:text-base font-headline font-bold text-white tracking-tight flex items-center gap-1.5">
                       <span>Good morning, Ahmad</span>
-                      <span>👋</span>
                     </h3>
                     <p className="text-[11px] text-neutral-400 font-inter">
                       Let's make something viral today.
@@ -232,8 +232,8 @@ export default function Hero() {
                   </div>
 
                   <div className="flex items-center gap-2.5">
-                    {/* Search/Create Pill */}
-                    <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#181A20] border border-white/[0.08] text-[11px] text-neutral-300 hover:text-white transition-colors cursor-pointer">
+                    {/* Search/Create Button */}
+                    <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#181A20] border border-white/[0.08] text-[11px] text-neutral-300 hover:text-white transition-colors cursor-pointer">
                       <Search className="w-3 h-3 text-neutral-400" />
                       <span className="font-medium">Create</span>
                     </div>
@@ -256,7 +256,7 @@ export default function Hero() {
                       <div className="flex items-center gap-2.5 mb-3">
                         {/* Green Glowing Square Icon */}
                         <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#1B3A23] to-[#0E2214] border border-[#2B6038] flex items-center justify-center text-[#3CEB75] shadow-[0_0_14px_rgba(60,235,117,0.3)] shrink-0">
-                          <span className="text-base font-black">✦</span>
+                          <Sparkles className="w-4 h-4 text-[#3CEB75]" />
                         </div>
                         <div>
                           <div className="text-xs font-bold text-white group-hover:text-[#3CEB75] transition-colors leading-tight">

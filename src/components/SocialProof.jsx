@@ -126,7 +126,7 @@ export default function SocialProof() {
           </div>
 
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-headline font-bold text-neutral-900 tracking-tight leading-tight">
-            Creators, Clippers &amp; Brands — Building With Vyralify
+            Creators, Clippers &amp; Brands: Building With Vyralify
           </h2>
         </div>
 
@@ -158,7 +158,7 @@ export default function SocialProof() {
                       </span>
                       <span className={`text-[10px] font-mono px-2 py-0.5 rounded-full font-semibold border ${
                         card.category === 'Creator'
-                          ? 'bg-purple-50 text-purple-700 border-purple-200'
+                          ? 'bg-neutral-100 text-neutral-800 border-neutral-300'
                           : card.category === 'Clipper'
                           ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
                           : 'bg-blue-50 text-blue-700 border-blue-200'

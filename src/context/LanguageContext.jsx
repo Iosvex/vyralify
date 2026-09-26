@@ -48,7 +48,7 @@ export const translations = {
       phone: {
         status: "Active now",
         userMsg1: "LINK please!",
-        botMsg1: "Hey! Thanks for commenting 🙌 Here's the link you asked for:",
+        botMsg1: "Hey! Thanks for commenting! Here's the link you asked for:",
         botButton: "Shop Now →",
         userMsg2: "Omg that was instant, thank you!",
         inputPlaceholder: "Message..."
@@ -92,7 +92,7 @@ export const translations = {
       phone: {
         status: "अभी सक्रिय",
         userMsg1: "LINK please!",
-        botMsg1: "नमस्ते! कमेंट करने के लिए शुक्रिया 🙌 यह रहा आपका मांगा हुआ लिंक:",
+        botMsg1: "नमस्ते! कमेंट करने के लिए शुक्रिया! यह रहा आपका मांगा हुआ लिंक:",
         botButton: "अभी खरीदें →",
         userMsg2: "अरे वाह यह तो तुरंत आ गया, बहुत धन्यवाद!",
         inputPlaceholder: "संदेश लिखें..."
@@ -136,7 +136,7 @@ export const translations = {
       phone: {
         status: "Activo ahora",
         userMsg1: "¡LINK por favor!",
-        botMsg1: "¡Hola! Gracias por comentar 🙌 Aquí está el enlace que pediste:",
+        botMsg1: "¡Hola! Gracias por comentar! Aquí está el enlace que pediste:",
         botButton: "Comprar Ahora →",
         userMsg2: "¡Guau, fue instantáneo, muchas gracias!",
         inputPlaceholder: "Mensaje..."
@@ -180,7 +180,7 @@ export const translations = {
       phone: {
         status: "En ligne",
         userMsg1: "LIEN s'il vous plaît !",
-        botMsg1: "Salut ! Merci pour ton commentaire 🙌 Voici le lien demandé :",
+        botMsg1: "Salut ! Merci pour ton commentaire! Voici le lien demandé :",
         botButton: "Acheter →",
         userMsg2: "Incroyable, c'était instantané, merci !",
         inputPlaceholder: "Message..."
@@ -224,7 +224,7 @@ export const translations = {
       phone: {
         status: "Jetzt aktiv",
         userMsg1: "LINK bitte!",
-        botMsg1: "Hey! Danke für deinen Kommentar 🙌 Hier ist dein gewünschter Link:",
+        botMsg1: "Hey! Danke für deinen Kommentar! Hier ist dein gewünschter Link:",
         botButton: "Jetzt shoppen →",
         userMsg2: "Wahnsinn, das ging sofort, vielen Dank!",
         inputPlaceholder: "Nachricht..."
@@ -268,7 +268,7 @@ export const translations = {
       phone: {
         status: "Ativo agora",
         userMsg1: "LINK por favor!",
-        botMsg1: "Olá! Obrigado por comentar 🙌 Aqui está o link solicitado:",
+        botMsg1: "Olá! Obrigado por comentar! Aqui está o link solicitado:",
         botButton: "Comprar Agora →",
         userMsg2: "Nossa, foi instantâneo, muito obrigado!",
         inputPlaceholder: "Mensagem..."
@@ -312,7 +312,7 @@ export const translations = {
       phone: {
         status: "نشط الآن",
         userMsg1: "الرابط من فضلك!",
-        botMsg1: "أهلاً بك! شكراً لتعليقك 🙌 إليك الرابط الذي طلبته:",
+        botMsg1: "أهلاً بك! شكراً لتعليقك! إليك الرابط الذي طلبته:",
         botButton: "تسوق الآن ←",
         userMsg2: "رائع! وصل فوراً، شكراً جزيلاً لك!",
         inputPlaceholder: "رسالة..."

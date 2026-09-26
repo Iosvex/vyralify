@@ -25,7 +25,7 @@ export default function Pricing() {
           </h2>
 
           <p className="text-neutral-600 dark:text-neutral-400 text-base sm:text-lg leading-relaxed max-w-2xl mx-auto mb-8 font-normal">
-            Clipping and campaigns are free — always. Upgrade only when you're ready to scale your AI, growth and business tools.
+            Clipping and campaigns are free: always. Upgrade only when you're ready to scale your AI, growth and business tools.
           </p>
 
           {/* BILLING TOGGLE */}
@@ -133,7 +133,7 @@ export default function Pricing() {
                 <span className="text-xs font-mono font-bold uppercase tracking-wider text-[#D1FE17]">
                   PRO
                 </span>
-                <span className="text-xl">💎</span>
+                <Gem className="w-5 h-5 text-[#D1FE17]" />
               </div>
 
               <div className="mb-4">

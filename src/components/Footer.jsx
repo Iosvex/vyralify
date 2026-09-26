@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ArrowRight } from 'lucide-react';
+import LegalModal from './LegalModal';
 
 export default function Footer() {
+  const [legalModal, setLegalModal] = useState({ isOpen: false, tab: 'terms' });
+
   return (
     <footer className="relative bg-black text-white border-t border-[#1C1C20] overflow-hidden">
       
@@ -11,7 +14,7 @@ export default function Footer() {
 
         <div className="max-w-4xl mx-auto text-center relative z-10">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#121214] border border-[#242426] text-neutral-300 text-[11px] font-mono font-medium tracking-wider uppercase mb-4">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#D1FE17]" />
+            <span className="w-1.5 h-1.5 rounded-xl bg-[#D1FE17]" />
             <span>GET STARTED</span>
           </div>
 
@@ -20,20 +23,20 @@ export default function Footer() {
           </h2>
 
           <p className="text-neutral-400 text-base sm:text-lg leading-relaxed max-w-2xl mx-auto mb-8 font-normal">
-            Build a page, grow with AI, or start clipping for pay — no experience, no page, and no cost to begin.
+            Build a page, grow with AI, or start clipping for pay: no experience, no page, and no cost to begin.
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-3.5 mb-6">
             <a
               href="#pricing"
-              className="px-7 py-3.5 rounded-full bg-[#D1FE17] text-black font-semibold text-sm hover:bg-[#bbf00e] transition-all shadow-md hover:shadow-lg flex items-center gap-2"
+              className="px-7 py-3.5 rounded-xl bg-[#D1FE17] text-black font-semibold text-sm hover:bg-[#bbf00e] transition-all shadow-md hover:shadow-lg flex items-center gap-2"
             >
               <span>Start Free</span>
               <ArrowRight className="w-4 h-4" />
             </a>
             <a
               href="#clip-and-earn"
-              className="px-7 py-3.5 rounded-full bg-[#121215] hover:bg-[#1E1E24] text-white border border-[#24242A] font-semibold text-sm transition-all flex items-center gap-2"
+              className="px-7 py-3.5 rounded-xl bg-[#121215] hover:bg-[#1E1E24] text-white border border-[#24242A] font-semibold text-sm transition-all flex items-center gap-2"
             >
               <span>Browse Campaigns</span>
               <ArrowRight className="w-4 h-4" />
@@ -50,7 +53,7 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12">
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 lg:gap-12 mb-16">
           
-          {/* Column 1 — Brand */}
+          {/* Column 1 - Brand */}
           <div className="col-span-2 md:col-span-3 lg:col-span-1">
             <div className="flex items-center gap-2 mb-3">
               <div className="w-6 h-6 rounded-lg bg-[#D1FE17] flex items-center justify-center text-black font-bold text-xs">
@@ -90,7 +93,7 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Column 2 — Product */}
+          {/* Column 2 - Product */}
           <div>
             <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-neutral-300 mb-4">
               Product
@@ -104,7 +107,7 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Column 3 — Company */}
+          {/* Column 3 - Company */}
           <div>
             <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-neutral-300 mb-4">
               Company
@@ -118,7 +121,7 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Column 4 — Resources */}
+          {/* Column 4 - Resources */}
           <div>
             <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-neutral-300 mb-4">
               Resources
@@ -131,16 +134,44 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Column 5 — Legal */}
+          {/* Column 5 - Legal */}
           <div>
             <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-neutral-300 mb-4">
               Legal
             </h4>
             <ul className="space-y-2.5 text-xs text-neutral-400">
-              <li><a href="#terms" className="hover:text-[#D1FE17] transition-colors">Terms of Service</a></li>
-              <li><a href="#privacy" className="hover:text-[#D1FE17] transition-colors">Privacy Policy</a></li>
-              <li><a href="#refund" className="hover:text-[#D1FE17] transition-colors">Refund Policy</a></li>
-              <li><a href="#cookies" className="hover:text-[#D1FE17] transition-colors">Cookie Policy</a></li>
+              <li>
+                <button 
+                  onClick={() => setLegalModal({ isOpen: true, tab: 'terms' })} 
+                  className="hover:text-[#D1FE17] transition-colors text-left cursor-pointer"
+                >
+                  Terms of Service
+                </button>
+              </li>
+              <li>
+                <button 
+                  onClick={() => setLegalModal({ isOpen: true, tab: 'privacy' })} 
+                  className="hover:text-[#D1FE17] transition-colors text-left cursor-pointer"
+                >
+                  Privacy Policy
+                </button>
+              </li>
+              <li>
+                <button 
+                  onClick={() => setLegalModal({ isOpen: true, tab: 'refund' })} 
+                  className="hover:text-[#D1FE17] transition-colors text-left cursor-pointer"
+                >
+                  Refund Policy
+                </button>
+              </li>
+              <li>
+                <button 
+                  onClick={() => setLegalModal({ isOpen: true, tab: 'cookies' })} 
+                  className="hover:text-[#D1FE17] transition-colors text-left cursor-pointer"
+                >
+                  Cookie Policy
+                </button>
+              </li>
             </ul>
           </div>
 
@@ -164,6 +195,13 @@ export default function Footer() {
         </div>
 
       </div>
+
+      {/* Interactive Comprehensive Legal Center Modal */}
+      <LegalModal
+        isOpen={legalModal.isOpen}
+        onClose={() => setLegalModal(prev => ({ ...prev, isOpen: false }))}
+        initialTab={legalModal.tab}
+      />
     </footer>
   );
 }

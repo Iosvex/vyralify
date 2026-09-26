@@ -8,6 +8,9 @@ import Hero from './components/Hero';
 import SocialProof from './components/SocialProof';
 import Features from './components/Features';
 import ClipAndEarn from './components/ClipAndEarn';
+import Pricing from './components/Pricing';
+import FAQ from './components/FAQ';
+import Footer from './components/Footer';
 
 export default function App() {
   const { scrollYProgress } = useScroll();
@@ -88,7 +91,16 @@ export default function App() {
 
             {/* CLIP & GET PAID (PDF Pages 18, 19, 20, 21, 22) */}
             <ClipAndEarn />
+
+            {/* PRICING PLANS (PDF Pages 34 & 35) */}
+            <Pricing />
+
+            {/* FREQUENTLY ASKED QUESTIONS (PDF Pages 36 & 37) */}
+            <FAQ />
           </main>
+
+          {/* FINAL CTA & FOOTER WITH LEGAL LINKS & DISCLAIMER (PDF Pages 38, 39, 40) */}
+          <Footer />
         </div>
       </LanguageProvider>
     </ThemeProvider>

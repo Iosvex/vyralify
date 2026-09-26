@@ -8,7 +8,7 @@ export default function FAQ() {
   const faqs = [
     {
       question: "What is Vyralify?",
-      answer: "Vyralify is an all-in-one platform for building, growing, and monetizing your content presence. Discover viral content, create with AI, manage your pages, track performance, find campaigns, clip content, and earn — all from one place."
+      answer: "Vyralify is an all-in-one platform for building, growing, and monetizing your content presence. Discover viral content, create with AI, manage your pages, track performance, find campaigns, clip content, and earn: all from one place."
     },
     {
       question: "Do I need an Instagram page to use Vyralify?",
@@ -16,7 +16,7 @@ export default function FAQ() {
     },
     {
       question: "Can I use Vyralify just for clipping and campaigns?",
-      answer: "Yes. Discover campaigns, find content worth clipping, create and publish your clips, submit them, and track your performance and earnings — without needing to build your own page."
+      answer: "Yes. Discover campaigns, find content worth clipping, create and publish your clips, submit them, and track your performance and earnings without needing to build your own page."
     },
     {
       question: "Is clipping free?",
@@ -126,7 +126,7 @@ export default function FAQ() {
           </p>
           <a
             href="mailto:support@vyralify.in"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-black text-white dark:bg-white dark:text-black font-semibold text-xs hover:bg-neutral-800 dark:hover:bg-neutral-200 transition-colors"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-black text-white dark:bg-white dark:text-black font-semibold text-xs hover:bg-neutral-800 dark:hover:bg-neutral-200 transition-colors"
           >
             <span>Contact Support</span>
             <ArrowRight className="w-3.5 h-3.5" />

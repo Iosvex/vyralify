@@ -1,11 +1,26 @@
 const admin = require('firebase-admin');
+const path = require('path');
+const fs = require('fs');
 
-process.env.GCLOUD_PROJECT = process.env.GCLOUD_PROJECT || 'vyralify-io';
+const serviceAccountPath = path.join(__dirname, '../../serviceAccountKey.json');
 
 if (!admin.apps.length) {
-  admin.initializeApp({
-    projectId: process.env.GCLOUD_PROJECT
-  });
+  if (fs.existsSync(serviceAccountPath)) {
+    try {
+      const serviceAccount = require(serviceAccountPath);
+      admin.initializeApp({
+        credential: admin.credential.cert(serviceAccount),
+        projectId: serviceAccount.project_id || 'vyralifyai'
+      });
+    } catch (e) {
+      console.warn('Failed to load serviceAccountKey.json, using default init:', e.message);
+      admin.initializeApp({ projectId: process.env.GCLOUD_PROJECT || 'vyralifyai' });
+    }
+  } else {
+    admin.initializeApp({
+      projectId: process.env.GCLOUD_PROJECT || 'vyralifyai'
+    });
+  }
 }
 
 const db = admin.firestore();

@@ -84,23 +84,33 @@ service cloud.firestore {
 
     // 4. Instagram Pages & Growth Ops
     match /instagramPages/{id} {
-      allow read, write: if signedIn() && (resource.data.ownerUid == request.auth.uid || request.resource.data.ownerUid == request.auth.uid || isAdmin());
+      allow read: if signedIn() && (resource.data.ownerUid == request.auth.uid || isAdmin());
+      allow create: if signedIn() && (request.resource.data.ownerUid == request.auth.uid || isAdmin());
+      allow update, delete: if signedIn() && (resource.data.ownerUid == request.auth.uid || isAdmin());
     }
 
     match /scheduledPosts/{id} {
-      allow read, write: if signedIn() && (resource.data.ownerUid == request.auth.uid || request.resource.data.ownerUid == request.auth.uid || isAdmin());
+      allow read: if signedIn() && (resource.data.ownerUid == request.auth.uid || isAdmin());
+      allow create: if signedIn() && (request.resource.data.ownerUid == request.auth.uid || isAdmin());
+      allow update, delete: if signedIn() && (resource.data.ownerUid == request.auth.uid || isAdmin());
     }
 
     match /dmTemplates/{id} {
-      allow read, write: if signedIn() && (resource.data.ownerUid == request.auth.uid || request.resource.data.ownerUid == request.auth.uid || isAdmin());
+      allow read: if signedIn() && (resource.data.ownerUid == request.auth.uid || isAdmin());
+      allow create: if signedIn() && (request.resource.data.ownerUid == request.auth.uid || isAdmin());
+      allow update, delete: if signedIn() && (resource.data.ownerUid == request.auth.uid || isAdmin());
     }
 
     match /growthGoals/{id} {
-      allow read, write: if signedIn() && (resource.data.ownerUid == request.auth.uid || request.resource.data.ownerUid == request.auth.uid || isAdmin());
+      allow read: if signedIn() && (resource.data.ownerUid == request.auth.uid || isAdmin());
+      allow create: if signedIn() && (request.resource.data.ownerUid == request.auth.uid || isAdmin());
+      allow update, delete: if signedIn() && (resource.data.ownerUid == request.auth.uid || isAdmin());
     }
 
     match /competitorWatch/{id} {
-      allow read, write: if signedIn() && (resource.data.ownerUid == request.auth.uid || request.resource.data.ownerUid == request.auth.uid || isAdmin());
+      allow read: if signedIn() && (resource.data.ownerUid == request.auth.uid || isAdmin());
+      allow create: if signedIn() && (request.resource.data.ownerUid == request.auth.uid || isAdmin());
+      allow update, delete: if signedIn() && (resource.data.ownerUid == request.auth.uid || isAdmin());
     }
 
     // 5. Discover & Create Intelligence

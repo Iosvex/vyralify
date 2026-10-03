@@ -1,11 +1,5 @@
-@font-face {
-  font-family: 'Clash Grotesk';
-  src: url('/fonts/ClashGrotesk-Variable.woff2') format('woff2-variations'),
-       url('/fonts/ClashGrotesk-Variable.woff2') format('woff2');
-  font-weight: 200 800;
-  font-style: normal;
-  font-display: swap;
-}
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+@import url('https://api.fontshare.com/v2/css?f[]=general-sans@500,600,700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -13,21 +7,25 @@
 
 @layer base {
   :root {
-    --bg-page: #FFFFFF;
-    --text-primary: #09090B;
-    --text-muted: #71717A;
-    --border-subtle: #E4E4E7;
-    --card-bg: #F8FAFC;
-    --accent-green: #D1FE17;
-    --accent-hover: #BBF00E;
+    --bg-page: #F8FAFC;
+    --text-primary: #0B0D12;
+    --text-muted: #5B6472;
+    --border-subtle: #E2E8F0;
+    --card-bg: #FFFFFF;
+    --brand-green: #16A34A;
+    --brand-green-hover: #15803D;
+    --brand-green-tint: #DCFCE7;
   }
 
   html.dark {
-    --bg-page: #000000;
+    --bg-page: #08090C;
     --text-primary: #FFFFFF;
-    --text-muted: #A1A1AA;
-    --border-subtle: #1F1F23;
-    --card-bg: #0A0A0A;
+    --text-muted: #9CA3AF;
+    --border-subtle: rgba(255, 255, 255, 0.08);
+    --card-bg: #0C0D12;
+    --brand-green: #10B981;
+    --brand-green-hover: #059669;
+    --brand-green-tint: rgba(16, 185, 129, 0.15);
   }
 
   html.lenis, html.lenis body {
@@ -51,13 +49,13 @@
   }
 
   html {
-    transition: background-color 0.25s ease, color 0.25s ease;
+    transition: background-color 0.2s ease, color 0.2s ease;
   }
 
   body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+    font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     font-weight: 400;
-    line-height: 1.6;
+    line-height: 1.5;
     background-color: var(--bg-page);
     color: var(--text-primary);
     overflow-x: clip;
@@ -66,115 +64,72 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
-  /* Typography Hierarchy:
-     - Main Headline (h1): Neue Montreal Bold / Neue Haas Grotesk Display Pro (Bold, tight kerning: -0.04em)
-     - Major Headings (h2, h3): Neue Montreal / Neue Haas Grotesk Display Pro (Bold)
-     - Subheadings / Card Titles: Inter / Neue Haas Grotesk
-     - Buttons / Badges / Labels: Inter (Bold) / Neue Haas Grotesk Bold
-     - Navigation / Supporting UI: Inter (Medium)
-     - Body Copy / Descriptions: Inter (Regular, line-height: 1.6) / SF Pro Text
-  */
   h1, .hero-title {
-    font-family: 'PP Neue Montreal', 'Neue Montreal', 'Neue Haas Grotesk Display Pro', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    letter-spacing: -0.04em;
-    font-weight: 700;
-    line-height: 1.02;
-  }
-
-  h2, h3, .section-title {
-    font-family: 'PP Neue Montreal', 'Neue Montreal', 'Neue Haas Grotesk Display Pro', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: 'General Sans', 'Plus Jakarta Sans', -apple-system, sans-serif;
     letter-spacing: -0.03em;
     font-weight: 700;
     line-height: 1.15;
   }
 
+  h2, h3, .section-title {
+    font-family: 'General Sans', 'Plus Jakarta Sans', -apple-system, sans-serif;
+    letter-spacing: -0.025em;
+    font-weight: 600;
+    line-height: 1.25;
+  }
+
   h4, h5, h6, .card-title {
-    font-family: 'PP Neue Montreal', 'Neue Montreal', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    letter-spacing: -0.015em;
+    font-family: 'General Sans', 'Plus Jakarta Sans', -apple-system, sans-serif;
+    letter-spacing: -0.02em;
     font-weight: 600;
   }
 
   p, .body-text, .description {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+    font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, sans-serif;
     font-weight: 400;
     line-height: 1.6;
     letter-spacing: -0.01em;
   }
 
   button, .btn {
-    font-family: 'Inter', 'Neue Haas Grotesk Display Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: 'Plus Jakarta Sans', 'General Sans', sans-serif;
     font-weight: 600;
+    letter-spacing: -0.01em;
   }
 
   .nav-item, .nav-link {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: 'Plus Jakarta Sans', 'General Sans', sans-serif;
     font-weight: 500;
   }
 
-  .font-display {
-    font-family: 'PP Neue Montreal', 'Neue Montreal', 'Neue Haas Grotesk Display Pro', 'Inter', sans-serif;
-  }
-
-  .font-script {
-    font-family: 'Caveat', cursive, sans-serif;
-    font-style: normal;
+  .font-mono, code, kbd {
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
   }
 }
 
-/* Custom crisp scrollbar */
+/* Custom crisp minimal scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
-}
-html.dark ::-webkit-scrollbar-track {
-  background: #000000;
-}
-html.dark ::-webkit-scrollbar-thumb {
-  background: #242424;
-  border-radius: 9999px;
+  width: 5px;
+  height: 5px;
 }
 ::-webkit-scrollbar-track {
-  background: #F1F5F9;
+  background: #F8FAFC;
 }
 ::-webkit-scrollbar-thumb {
   background: #CBD5E1;
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #D1FE17;
+  background: #94A3B8;
 }
 
-/* CreatorFlow-style clean cards and buttons */
-.cf-card {
-  background: var(--card-bg);
-  border: 1px solid var(--border-subtle);
-  border-radius: 16px;
+html.dark ::-webkit-scrollbar-track {
+  background: #08090C;
 }
-
-.btn-volt {
-  background-color: #D1FE17;
-  color: #000000;
-  font-family: 'Clash Grotesk', sans-serif;
-  font-weight: 600;
-  transition: background-color 0.2s ease, transform 0.1s ease;
+html.dark ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 9999px;
 }
-
-.btn-volt:hover {
-  background-color: #BBF00E;
+html.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.25);
 }
-
-/* Marquee infinite scroll animation */
-@keyframes marquee {
-  0% { transform: translateX(0%); }
-  100% { transform: translateX(-50%); }
-}
-
-.animate-marquee {
-  display: flex;
-  width: max-content;
-  animation: marquee 30s linear infinite;
-}
-
-.animate-marquee:hover {
-  animation-play-state: paused;
-}
-

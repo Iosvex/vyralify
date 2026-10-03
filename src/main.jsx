@@ -20,17 +20,29 @@ class ErrorBoundary extends React.Component {
   render() {
     if (this.state.hasError) {
       return (
-        <div style={{ padding: 40, background: '#000', color: '#fff', fontFamily: 'monospace', minHeight: '100vh' }}>
-          <h2 style={{ color: '#D1FE17', fontSize: 24, marginBottom: 16 }}>⚠️ Application Error</h2>
-          <pre style={{ background: '#111', padding: 20, borderRadius: 8, overflowX: 'auto', color: '#ef4444' }}>
-            {this.state.error?.toString()}
-          </pre>
-          <button 
-            onClick={() => window.location.reload()} 
-            style={{ marginTop: 20, padding: '10px 20px', background: '#D1FE17', color: '#000', border: 'none', borderRadius: 20, fontWeight: 'bold', cursor: 'pointer' }}
-          >
-            Reload Page
-          </button>
+        <div style={{ padding: 40, background: '#F8FAFC', color: '#0B0D12', fontFamily: "'Plus Jakarta Sans', sans-serif", minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+          <div style={{ maxWidth: 560, width: '100%', background: '#FFFFFF', border: '1px solid #E2E8F0', borderRadius: 16, padding: 32, boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }}>
+            <h2 style={{ color: '#0B0D12', fontSize: 20, fontWeight: 700, marginBottom: 8, display: 'flex', alignItems: 'center', gap: 8 }}>
+              <span>⚠️</span>
+              <span>Application Notice</span>
+            </h2>
+            <p style={{ color: '#64748B', fontSize: 13, marginBottom: 16 }}>
+              A client-side runtime exception occurred. Click below to reload the workspace.
+            </p>
+            <pre style={{ background: '#F1F5F9', border: '1px solid #E2E8F0', padding: 14, borderRadius: 10, overflowX: 'auto', color: '#DC2626', fontSize: 12, fontFamily: "'JetBrains Mono', monospace" }}>
+              {this.state.error?.toString()}
+            </pre>
+            <button 
+              onClick={() => {
+                localStorage.removeItem('vyralify-theme');
+                localStorage.setItem('vyralify-theme-v3', 'light');
+                window.location.reload();
+              }} 
+              style={{ marginTop: 20, padding: '10px 20px', background: '#16A34A', color: '#FFFFFF', border: 'none', borderRadius: 10, fontWeight: 600, fontSize: 13, cursor: 'pointer' }}
+            >
+              Reload Workspace
+            </button>
+          </div>
         </div>
       );
     }

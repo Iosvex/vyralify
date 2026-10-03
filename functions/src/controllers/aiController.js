@@ -5,35 +5,89 @@ const { buildAiPrompt } = require('../../aiPrompts');
  * Executes an LLM completion using Groq (llama-3.1-70b-versatile) or graceful fallback.
  */
 async function callLlm(messages, maxTokens = 1200, temperature = 0.7) {
-  const apiKey = process.env.GROQ_API_KEY;
-  if (!apiKey) {
-    // If Groq key not configured in environment, generate intelligent structured response
-    const lastUserMsg = messages.filter(m => m.role === 'user').pop()?.content || '';
-    return generateFallbackCoPilotResponse(lastUserMsg);
+  const apiKey = process.env.GROQ_API_KEY || '';
+  const geminiKey = process.env.GEMINI_API_KEY || '';
+
+  // 1. Try Groq Primary (gpt-oss-120b)
+  if (apiKey) {
+    try {
+      const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${apiKey}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          model: 'openai/gpt-oss-120b',
+          messages,
+          temperature,
+          max_tokens: maxTokens
+        })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        const content = data.choices?.[0]?.message?.content;
+        if (content) return content;
+      }
+    } catch (e) {
+      console.warn('Groq primary model failed, trying fallback:', e.message);
+    }
+
+    // 2. Try Groq Compact (gpt-oss-20b)
+    try {
+      const response2 = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${apiKey}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          model: 'openai/gpt-oss-20b',
+          messages,
+          temperature,
+          max_tokens: maxTokens
+        })
+      });
+
+      if (response2.ok) {
+        const data2 = await response2.json();
+        const content2 = data2.choices?.[0]?.message?.content;
+        if (content2) return content2;
+      }
+    } catch (e2) {
+      console.warn('Groq secondary model failed:', e2.message);
+    }
   }
 
-  const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${apiKey}`,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      model: 'llama-3.1-70b-versatile',
-      messages,
-      temperature,
-      max_tokens: maxTokens
-    })
-  });
+  // 3. Try Google Gemini API
+  if (geminiKey) {
+    try {
+      const fullText = messages.map(m => `[${m.role.toUpperCase()}]: ${m.content}`).join('\n\n');
+      const geminiRes = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${geminiKey}`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: fullText }] }]
+          })
+        }
+      );
 
-  if (!response.ok) {
-    const errText = await response.text();
-    console.error('Groq API error:', errText);
-    throw new Error(`LLM provider error: ${response.status}`);
+      if (geminiRes.ok) {
+        const gemData = await geminiRes.json();
+        const gemText = gemData.candidates?.[0]?.content?.parts?.[0]?.text;
+        if (gemText) return gemText;
+      }
+    } catch (gemErr) {
+      console.warn('Gemini fallback failed in Cloud Function:', gemErr.message);
+    }
   }
 
-  const data = await response.json();
-  return data.choices?.[0]?.message?.content || 'Unable to generate response.';
+  // Fallback heuristic intelligence if all networks fail
+  const lastUserMsg = messages.filter(m => m.role === 'user').pop()?.content || '';
+  return generateFallbackCoPilotResponse(lastUserMsg);
 }
 
 /**

@@ -5,9 +5,14 @@ const ThemeContext = createContext();
 export function ThemeProvider({ children }) {
   const [theme, setTheme] = useState(() => {
     if (typeof window !== 'undefined') {
-      return localStorage.getItem('vyralify-theme') || 'dark';
+      const saved = localStorage.getItem('vyralify-theme-v3');
+      if (saved) return saved;
+      // Clear legacy dark mode preference so OG White & Green is active
+      localStorage.removeItem('vyralify-theme');
+      localStorage.setItem('vyralify-theme-v3', 'light');
+      return 'light';
     }
-    return 'dark';
+    return 'light';
   });
 
   useEffect(() => {
@@ -19,7 +24,7 @@ export function ThemeProvider({ children }) {
       root.classList.remove('dark');
       root.style.colorScheme = 'light';
     }
-    localStorage.setItem('vyralify-theme', theme);
+    localStorage.setItem('vyralify-theme-v3', theme);
   }, [theme]);
 
   const toggleTheme = () => {

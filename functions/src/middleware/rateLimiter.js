@@ -11,6 +11,7 @@ const globalLimiter = rateLimit({
   max: 150,
   standardHeaders: true,
   legacyHeaders: false,
+  validate: false,
   message: {
     success: false,
     error: 'Too many requests. Please try again later.',
@@ -25,7 +26,8 @@ const aiLimiter = rateLimit({
   max: 12,
   standardHeaders: true,
   legacyHeaders: false,
-  keyGenerator: (req) => (req.user ? req.user.uid : req.ip),
+  validate: false,
+  keyGenerator: (req) => (req.user ? req.user.uid : (req.ip || 'global_user')),
   message: {
     success: false,
     error: 'AI generation rate limit reached. Please wait a minute before requesting another prompt.',
@@ -40,7 +42,8 @@ const authCheckoutLimiter = rateLimit({
   max: 25,
   standardHeaders: true,
   legacyHeaders: false,
-  keyGenerator: (req) => (req.user ? req.user.uid : req.ip),
+  validate: false,
+  keyGenerator: (req) => (req.user ? req.user.uid : (req.ip || 'global_user')),
   message: {
     success: false,
     error: 'Too many checkout or withdrawal requests. Please try again in 15 minutes.',

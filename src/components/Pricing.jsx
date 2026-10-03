@@ -2,6 +2,16 @@ import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { Check, ArrowRight, Sparkles } from 'lucide-react';
 
+function GemIcon({ className = "w-5 h-5" }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M6 3h12l4 6-10 13L2 9Z" />
+      <path d="M11 3 8 9l4 13 4-13-3-6" />
+      <path d="M2 9h20" />
+    </svg>
+  );
+}
+
 export default function Pricing() {
   const [billingCycle, setBillingCycle] = useState('monthly'); // 'monthly' | 'yearly'
 
@@ -133,7 +143,7 @@ export default function Pricing() {
                 <span className="text-xs font-mono font-bold uppercase tracking-wider text-[#D1FE17]">
                   PRO
                 </span>
-                <Gem className="w-5 h-5 text-[#D1FE17]" />
+                <GemIcon className="w-5 h-5 text-[#D1FE17]" />
               </div>
 
               <div className="mb-4">

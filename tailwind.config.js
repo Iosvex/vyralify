@@ -8,28 +8,21 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        headline: ['"PP Neue Montreal"', '"Neue Montreal"', '"Neue Haas Grotesk Display Pro"', '"Neue Haas Grotesk"', 'Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
-        display: ['"PP Neue Montreal"', '"Neue Montreal"', '"Neue Haas Grotesk Display Pro"', '"Clash Grotesk"', 'Inter', 'sans-serif'],
-        inter: ['"Inter"', '-apple-system', 'BlinkMacSystemFont', '"SF Pro Text"', 'sans-serif'],
-        sans: ['"Inter"', '-apple-system', 'BlinkMacSystemFont', '"SF Pro Text"', 'sans-serif'],
-        mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
-        script: ['"Caveat"', 'cursive', 'sans-serif'],
+        headline: ['"General Sans"', '"Plus Jakarta Sans"', '-apple-system', 'sans-serif'],
+        display: ['"General Sans"', '"Plus Jakarta Sans"', '-apple-system', 'sans-serif'],
+        sans: ['"Plus Jakarta Sans"', '"Inter"', '-apple-system', 'sans-serif'],
+        inter: ['"Inter"', '-apple-system', 'sans-serif'],
+        mono: ['"JetBrains Mono"', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
       },
       colors: {
         black: '#000000',
         dark: {
-          950: '#000000',
-          900: '#0A0A0A',
-          850: '#111111',
-          800: '#181818',
-          700: '#242424',
+          950: '#08090C',
+          900: '#0C0D12',
+          850: '#111319',
+          800: '#181A22',
+          700: '#262933',
         },
-        volt: {
-          DEFAULT: '#D1FE17',
-          hover: '#BBF00E',
-          dim: 'rgba(209, 254, 23, 0.12)',
-          border: 'rgba(209, 254, 23, 0.3)',
-        }
       },
     },
   },

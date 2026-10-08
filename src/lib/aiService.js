@@ -3,23 +3,54 @@
  * Powered by Groq (LLaMA-3 / GPT-OSS) and Google Gemini with live API keys.
  */
 
-const GROQ_API_KEY = import.meta.env.VITE_GROQ_API_KEY || import.meta.env.GROQ_API_KEY || '';
-const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY || import.meta.env.GEMINI_API_KEY || '';
+const GROQ_API_KEY = (typeof import.meta !== 'undefined' && (import.meta.env?.VITE_GROQ_API_KEY || import.meta.env?.GROQ_API_KEY)) || 
+  (typeof process !== 'undefined' ? (process.env?.VITE_GROQ_API_KEY || process.env?.GROQ_API_KEY) : '') || '';
+
+const GEMINI_API_KEY = (typeof import.meta !== 'undefined' && (import.meta.env?.VITE_GEMINI_API_KEY || import.meta.env?.GEMINI_API_KEY)) || 
+  (typeof process !== 'undefined' ? (process.env?.VITE_GEMINI_API_KEY || process.env?.GEMINI_API_KEY) : '') || '';
 
 /**
  * Call Groq Live API with model fallback
  */
-export async function callRealAi({ prompt, systemPrompt, maxTokens = 1000, temperature = 0.7 }) {
+export async function callRealAi({ prompt, systemPrompt, maxTokens = 1200, temperature = 0.7 }) {
   const messages = [];
   if (systemPrompt) {
     messages.push({ role: 'system', content: systemPrompt });
   }
   messages.push({ role: 'user', content: prompt });
 
-  // 1. Try Groq (Ultra-fast low latency)
+  // 1. Try Groq with ultra-fast direct model (qwen/qwen3.8-27b, 200ms latency)
   if (GROQ_API_KEY) {
+    // Primary: qwen/qwen3.8-27b (Fastest, zero reasoning lag, guaranteed content)
     try {
       const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${GROQ_API_KEY}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          model: 'qwen/qwen3.8-27b',
+          messages,
+          temperature,
+          max_tokens: maxTokens
+        })
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        const content = data.choices?.[0]?.message?.content;
+        if (content && content.trim()) {
+          return { text: content.trim(), provider: 'groq:qwen3.8-27b' };
+        }
+      }
+    } catch (e) {
+      console.warn('Groq primary model failed:', e.message);
+    }
+
+    // Secondary: openai/gpt-oss-120b (Check both content & reasoning)
+    try {
+      const res2 = await fetch('https://api.groq.com/openai/v1/chat/completions', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${GROQ_API_KEY}`,
@@ -33,35 +64,13 @@ export async function callRealAi({ prompt, systemPrompt, maxTokens = 1000, tempe
         })
       });
 
-      if (res.ok) {
-        const data = await res.json();
-        const content = data.choices?.[0]?.message?.content;
-        if (content) return { text: content, provider: 'groq:gpt-oss-120b' };
-      }
-    } catch (e) {
-      console.warn('Groq primary model failed, trying fallback model:', e.message);
-    }
-
-    // Try Groq compact model
-    try {
-      const res2 = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${GROQ_API_KEY}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          model: 'openai/gpt-oss-20b',
-          messages,
-          temperature,
-          max_tokens: maxTokens
-        })
-      });
-
       if (res2.ok) {
         const data2 = await res2.json();
-        const content2 = data2.choices?.[0]?.message?.content;
-        if (content2) return { text: content2, provider: 'groq:gpt-oss-20b' };
+        const msg = data2.choices?.[0]?.message;
+        const text = msg?.content || msg?.reasoning;
+        if (text && text.trim()) {
+          return { text: text.trim(), provider: 'groq:gpt-oss-120b' };
+        }
       }
     } catch (e2) {
       console.warn('Groq secondary model failed:', e2.message);
@@ -91,7 +100,7 @@ export async function callRealAi({ prompt, systemPrompt, maxTokens = 1000, tempe
       if (geminiRes.ok) {
         const gemData = await geminiRes.json();
         const gemText = gemData.candidates?.[0]?.content?.parts?.[0]?.text;
-        if (gemText) return { text: gemText, provider: 'google:gemini-flash' };
+        if (gemText && gemText.trim()) return { text: gemText.trim(), provider: 'google:gemini-flash' };
       }
     } catch (gemErr) {
       console.warn('Gemini fallback failed:', gemErr.message);

@@ -10,6 +10,7 @@ import PageBuilder from './components/dashboard/PageBuilder';
 import AIAssistant from './components/dashboard/AIAssistant';
 import DiscoverCreate from './components/dashboard/DiscoverCreate';
 import InstagramAutomation from './components/dashboard/InstagramAutomation';
+import StoreCommerce from './components/dashboard/StoreCommerce';
 import PlaceholderModule from './components/dashboard/PlaceholderModule';
 import OnboardingWizard from './components/onboarding/OnboardingWizard';
 import AuthModal from './components/auth/AuthModal';
@@ -124,6 +125,8 @@ function WorkspaceRouter() {
           <DiscoverCreate onNavigate={(mod) => setActiveModule(mod)} />
         ) : activeModule === 'automation' ? (
           <InstagramAutomation onNavigate={(mod) => setActiveModule(mod)} />
+        ) : activeModule === 'store' ? (
+          <StoreCommerce onNavigate={(mod) => setActiveModule(mod)} />
         ) : (
           <PlaceholderModule moduleId={activeModule} onNavigate={(mod) => setActiveModule(mod)} />
         )}

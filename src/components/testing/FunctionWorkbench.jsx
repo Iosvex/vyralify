@@ -20,6 +20,7 @@ import {
 
 import { 
   callRealAi, 
+  askUniversalCopilot,
   generateLiveViralHooks, 
   generateFullReelScript, 
   generateLiveBios, 
@@ -382,6 +383,9 @@ export default function FunctionWorkbench({ onToggleFullUi }) {
 
   // Form input local states with crisp defaults
   const [aiInputs, setAiInputs] = useState({
+    copilotQuestion: 'Bhai mere faceless page pe 200 views pe reel atak rahi hai, exactly bata kya karu?',
+    copilotNiche: 'Theme Pages & Faceless Reels',
+    copilotHandle: 'thegrowthhustle',
     hooksNiche: 'Finance & Wealth',
     hooksTopic: 'Index Funds vs Real Estate',
     scriptHook: 'Stop saving money in a traditional bank in 2026',
@@ -449,7 +453,7 @@ export default function FunctionWorkbench({ onToggleFullUi }) {
 
   // All 9 Tabs with compact, punchy labels so ALL fit cleanly on screen without horizontal cut-off
   const tabs = [
-    { id: 'ai', label: '⚡ AI Engine', count: '7', icon: Sparkles },
+    { id: 'ai', label: '⚡ AI Engine', count: '8', icon: Sparkles },
     { id: 'instagram', label: '📱 Instagram & Meta', count: '3', icon: Smartphone },
     { id: 'page', label: '🚀 Bio Page', count: '3', icon: Rocket },
     { id: 'store', label: '🛍️ Store & Products', count: '3', icon: ShoppingBag },
@@ -517,9 +521,54 @@ export default function FunctionWorkbench({ onToggleFullUi }) {
         {/* ============================================================== */}
         {activeTab === 'ai' && (
           <div className="space-y-4">
-            {/* 1. Viral Hooks */}
+            {/* 1. Universal Multilingual Co-Pilot */}
             <FunctionCard
-              title="1. Generate 5 High-Retention Viral Hooks"
+              title="1. Universal Multilingual Co-Pilot (Ask Any Prompt in Any Language)"
+              functionName="askUniversalCopilot"
+              description="Answers ANY question in ANY language (Hindi, Hinglish, English, Spanish, etc.) with deep 2026 creator intelligence."
+              inputs={
+                <>
+                  <div className="md:col-span-2">
+                    <label className="text-xs font-semibold text-neutral-200 block mb-1.5">Question / Prompt (Any Language):</label>
+                    <textarea
+                      rows={2}
+                      value={aiInputs.copilotQuestion}
+                      onChange={(e) => setAiInputs({ ...aiInputs, copilotQuestion: e.target.value })}
+                      placeholder="e.g. Bhai mere faceless page pe 200 views pe reel atak rahi hai, exactly bata kya karu?"
+                      className="w-full bg-[#12141C] border border-white/10 rounded-lg px-3.5 py-2.5 text-sm font-medium text-white focus:outline-none focus:border-emerald-500"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-xs font-semibold text-neutral-200 block mb-1.5">Niche:</label>
+                    <input
+                      type="text"
+                      value={aiInputs.copilotNiche}
+                      onChange={(e) => setAiInputs({ ...aiInputs, copilotNiche: e.target.value })}
+                      className="w-full bg-[#12141C] border border-white/10 rounded-lg px-3.5 py-2.5 text-sm font-medium text-white focus:outline-none focus:border-emerald-500"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-xs font-semibold text-neutral-200 block mb-1.5">Creator Handle:</label>
+                    <input
+                      type="text"
+                      value={aiInputs.copilotHandle}
+                      onChange={(e) => setAiInputs({ ...aiInputs, copilotHandle: e.target.value })}
+                      className="w-full bg-[#12141C] border border-white/10 rounded-lg px-3.5 py-2.5 text-sm font-medium text-white focus:outline-none focus:border-emerald-500"
+                    />
+                  </div>
+                </>
+              }
+              onRun={() => runTest('universal_copilot', () => askUniversalCopilot({ 
+                question: aiInputs.copilotQuestion, 
+                niche: aiInputs.copilotNiche, 
+                handle: aiInputs.copilotHandle 
+              }))}
+              {...(states['universal_copilot'] || {})}
+            />
+
+            {/* 2. Viral Hooks */}
+            <FunctionCard
+              title="2. Generate 5 High-Retention Viral Hooks"
               functionName="generateLiveViralHooks"
               description="Generates 5 pattern-interrupt viral reel hooks categorized by psychological archetype."
               inputs={
@@ -548,9 +597,9 @@ export default function FunctionWorkbench({ onToggleFullUi }) {
               {...(states['viral_hooks'] || {})}
             />
 
-            {/* 2. Full Reel Script */}
+            {/* 3. Full Reel Script */}
             <FunctionCard
-              title="2. Generate End-to-End Viral Reel Script"
+              title="3. Generate End-to-End Viral Reel Script"
               functionName="generateFullReelScript"
               description="Generates scene-by-scene script with visual framing, spoken audio, and CTA triggers."
               inputs={
@@ -579,9 +628,9 @@ export default function FunctionWorkbench({ onToggleFullUi }) {
               {...(states['reel_script'] || {})}
             />
 
-            {/* 3. Bio Generator */}
+            {/* 4. Bio Generator */}
             <FunctionCard
-              title="3. Generate 3 High-Converting Instagram Bios"
+              title="4. Generate 3 High-Converting Instagram Bios"
               functionName="generateLiveBios"
               description="Generates 3 distinct bios strictly under 150 characters with CTA trigger."
               inputs={
@@ -610,9 +659,9 @@ export default function FunctionWorkbench({ onToggleFullUi }) {
               {...(states['gen_bios'] || {})}
             />
 
-            {/* 4. Bio Audit */}
+            {/* 5. Bio Audit */}
             <FunctionCard
-              title="4. Live Profile Bio Audit"
+              title="5. Live Profile Bio Audit"
               functionName="auditLiveBio"
               description="Scores bio conversion health, spots gaps, and provides 2 improved propositions."
               inputs={
@@ -641,9 +690,9 @@ export default function FunctionWorkbench({ onToggleFullUi }) {
               {...(states['audit_bio'] || {})}
             />
 
-            {/* 5. Positioning Statement */}
+            {/* 6. Positioning Statement */}
             <FunctionCard
-              title="5. Authority Positioning Statement Generator"
+              title="6. Authority Positioning Statement Generator"
               functionName="generatePositioningStatement"
               description="Generates outcome-driven and contrarian authority positioning statements."
               inputs={
@@ -672,9 +721,9 @@ export default function FunctionWorkbench({ onToggleFullUi }) {
               {...(states['positioning'] || {})}
             />
 
-            {/* 6. 30-Day Plan */}
+            {/* 7. 30-Day Plan */}
             <FunctionCard
-              title="6. 7-Day Content Planner Generator"
+              title="7. 7-Day Content Planner Generator"
               functionName="generateAi30DayPlan"
               description="Builds an actionable daily posting schedule with pillars, hooks, and optimal time slots."
               inputs={
@@ -692,9 +741,9 @@ export default function FunctionWorkbench({ onToggleFullUi }) {
               {...(states['plan_gen'] || {})}
             />
 
-            {/* 7. Raw Prompt */}
+            {/* 8. Raw Prompt */}
             <FunctionCard
-              title="7. Raw Custom LLM Execution Test"
+              title="8. Raw Custom LLM Execution Test"
               functionName="callRealAi"
               description="Directly executes any custom prompt against Groq and Gemini live APIs."
               inputs={

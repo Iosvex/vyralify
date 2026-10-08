@@ -11,6 +11,7 @@ import AIAssistant from './components/dashboard/AIAssistant';
 import DiscoverCreate from './components/dashboard/DiscoverCreate';
 import InstagramAutomation from './components/dashboard/InstagramAutomation';
 import StoreCommerce from './components/dashboard/StoreCommerce';
+import AccountSettings from './components/dashboard/AccountSettings';
 import PlaceholderModule from './components/dashboard/PlaceholderModule';
 import OnboardingWizard from './components/onboarding/OnboardingWizard';
 import AuthModal from './components/auth/AuthModal';
@@ -127,6 +128,8 @@ function WorkspaceRouter() {
           <InstagramAutomation onNavigate={(mod) => setActiveModule(mod)} />
         ) : activeModule === 'store' ? (
           <StoreCommerce onNavigate={(mod) => setActiveModule(mod)} />
+        ) : activeModule === 'settings' ? (
+          <AccountSettings onNavigate={(mod) => setActiveModule(mod)} />
         ) : (
           <PlaceholderModule moduleId={activeModule} onNavigate={(mod) => setActiveModule(mod)} />
         )}

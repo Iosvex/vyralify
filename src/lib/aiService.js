@@ -444,3 +444,136 @@ ${media ? '5. The creator has uploaded a media screenshot/image. Critically diss
     provider: 'local:vyralify-intelligence'
   };
 }
+
+/**
+ * Generate Full Viral Reel Script with Hook, Retention Framework, CTA, and Caption (Phase 5)
+ */
+export async function generateFullReelScript({ niche, subNiche, topic, hookType = 'contrarian', targetGoal = 'leads' }) {
+  const prompt = `You are Vyralify's Elite Viral Video Producer and Instagram Scriptwriter.
+Generate an end-to-end viral Reel script for:
+- Niche: ${niche} (${subNiche || 'General'})
+- Specific Topic: ${topic || 'The #1 mistake beginners make'}
+- Hook Archetype: ${hookType} (contrarian, negative_framing, curiosity_gap, case_study)
+- Primary Objective: ${targetGoal} (dm_leads, viral_reach, product_sales)
+
+Format response as strictly valid JSON:
+{
+  "title": "Short Punchy Title",
+  "estimatedDuration": "32 seconds",
+  "hook": {
+    "visualFraming": "Describe camera angle, lighting, motion interrupt (0-1.5s)",
+    "textOnScreen": "Punchy 5-7 words capitalized",
+    "spokenAudio": "Exact opening spoken sentence (0-3s)"
+  },
+  "scenes": [
+    {
+      "time": "0:03 - 0:09",
+      "visual": "B-roll or gestures description",
+      "script": "Agitate the common problem or mistake",
+      "pacing": "Fast cut"
+    },
+    {
+      "time": "0:09 - 0:22",
+      "visual": "Demonstration, screen recording, or 3-step proof",
+      "script": "The contrarian mechanism or breakthrough solution",
+      "pacing": "High-density value"
+    },
+    {
+      "time": "0:22 - 0:32",
+      "visual": "Point down towards caption or DM interface",
+      "script": "Clear Call-To-Action trigger",
+      "pacing": "Direct conviction"
+    }
+  ],
+  "ctaTrigger": {
+    "keyword": "BLUEPRINT",
+    "delivery": "Comment 'BLUEPRINT' and our automation will DM you the system."
+  },
+  "caption": "High-converting 3-line Instagram caption with relevant tags."
+}
+Return only valid JSON.`;
+
+  const res = await callRealAi({ prompt, temperature: 0.65 });
+  try {
+    const cleaned = res.text.replace(/```json/g, '').replace(/```/g, '').trim();
+    const parsed = JSON.parse(cleaned);
+    return { ...parsed, provider: res.provider };
+  } catch (e) {
+    return {
+      title: `${topic || 'Viral System'} (${subNiche || niche})`,
+      estimatedDuration: "30 seconds",
+      hook: {
+        visualFraming: "Snap zoom onto face with bold text overlay and black-and-white flash",
+        textOnScreen: "STOP DOING THIS IN 2026",
+        spokenAudio: `If you are still trying to grow in ${subNiche || niche} using 2024 methods, here is why you are invisible.`
+      },
+      scenes: [
+        {
+          time: "0:03 - 0:08",
+          visual: "Rapid head turn + screenshot of low engagement chart",
+          script: `99% of creators focus on vanity views instead of high-retention retention loops.`,
+          pacing: "Rapid cut"
+        },
+        {
+          time: "0:08 - 0:22",
+          visual: "3-step bullet graphic popping onto screen with sound effect",
+          script: `Here is the 3-step flywheel top 1% pages use: Step 1: Polarizing opening. Step 2: High-density proof. Step 3: Automated DM trigger.`,
+          pacing: "High-density value"
+        },
+        {
+          time: "0:22 - 0:30",
+          visual: "Direct eye contact, hand pointing towards comment bar",
+          script: `Comment 'SYSTEM' below and I will send you the exact template in your DMs right now.`,
+          pacing: "Direct conviction"
+        }
+      ],
+      ctaTrigger: {
+        keyword: "SYSTEM",
+        delivery: "Comment 'SYSTEM' below for instant DM delivery."
+      },
+      caption: `The game changed. If you are not using automated retention loops in ${subNiche || niche}, you are working 10x harder for 10% of the results.\n\nDrop "SYSTEM" in the comments to unlock the full breakdown.\n\n#${(subNiche || niche).replace(/\s+/g, '').toLowerCase()} #creatorgrowth #instagramautomation`,
+      provider: res.provider || 'local:fallback'
+    };
+  }
+}
+
+/**
+ * Generate 30-Day Content Planner Concepts (Phase 5)
+ */
+export async function generateAi30DayPlan({ niche, subNiche, daysCount = 7 }) {
+  const prompt = `Generate a ${daysCount}-day Instagram content calendar for:
+- Niche: ${niche}
+- Sub-Niche: ${subNiche || 'General'}
+
+Return JSON:
+{
+  "calendar": [
+    {
+      "day": 1,
+      "format": "Reels",
+      "pillar": "Authority Breakdown",
+      "hook": "The contrarian truth about...",
+      "timeSlot": "18:30 IST",
+      "targetGoal": "Viral Reach"
+    }
+  ]
+}
+Return only valid JSON.`;
+
+  const res = await callRealAi({ prompt, temperature: 0.6 });
+  try {
+    const cleaned = res.text.replace(/```json/g, '').replace(/```/g, '').trim();
+    const parsed = JSON.parse(cleaned);
+    return parsed.calendar || [];
+  } catch (e) {
+    return Array.from({ length: daysCount }).map((_, i) => ({
+      day: i + 1,
+      format: i % 3 === 0 ? "Carousel" : "Reels",
+      pillar: i % 2 === 0 ? "Contrarian Take" : "Tactical Blueprint",
+      hook: `Day ${i + 1}: How top creators dominate ${subNiche || niche} in 2026`,
+      timeSlot: i % 2 === 0 ? "18:00 IST" : "21:00 IST",
+      targetGoal: i % 4 === 0 ? "DM Lead Capture" : "Mass Retention"
+    }));
+  }
+}
+

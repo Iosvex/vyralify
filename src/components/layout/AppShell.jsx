@@ -15,7 +15,9 @@ import {
   ExternalLink,
   Layers,
   Zap,
-  Crown
+  Crown,
+  Mail,
+  AlertCircle
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { usePage } from '../../context/PageContext';
@@ -26,8 +28,10 @@ import GlobalSearchModal from '../common/GlobalSearchModal';
 import ConnectAccountModal from '../common/ConnectAccountModal';
 
 export default function AppShell({ activeModule, onSelectModule, children }) {
-  const { user, tier, aiCredits, logout } = useAuth();
+  const { user, tier, aiCredits, logout, sendVerificationLink, markEmailAsVerified } = useAuth();
   const { pages, activePage, switchPage, canAddMorePages, getPageLimit } = usePage();
+  const [resendStatus, setResendStatus] = useState('');
+
   const { openUpgradeModal } = usePlanGating();
   const { notifications, unreadCount, markAsRead, markAllAsRead } = useNotifications();
 
@@ -407,10 +411,41 @@ export default function AppShell({ activeModule, onSelectModule, children }) {
           </div>
         </header>
 
+        {/* EMAIL VERIFICATION NOTICE BANNER (Global Foundation Checklist item) */}
+        {user && user.emailVerified === false && (
+          <div className="bg-amber-500/10 border-b border-amber-500/20 px-4 py-2 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-amber-200">
+            <div className="flex items-center gap-2">
+              <AlertCircle className="w-4 h-4 text-amber-400 shrink-0" />
+              <span>
+                Please verify your email address <strong className="font-semibold text-white">({user.email})</strong> to secure your account.
+              </span>
+            </div>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={async () => {
+                  await sendVerificationLink();
+                  setResendStatus('Verification link sent!');
+                  setTimeout(() => setResendStatus(''), 4000);
+                }}
+                className="px-2.5 py-1 rounded-md bg-amber-500/20 hover:bg-amber-500/30 text-amber-100 font-semibold cursor-pointer transition-colors"
+              >
+                {resendStatus || 'Resend Email'}
+              </button>
+              <button
+                onClick={() => markEmailAsVerified()}
+                className="px-2.5 py-1 rounded-md bg-white/10 hover:bg-white/20 text-white font-semibold cursor-pointer transition-colors"
+              >
+                I've Verified
+              </button>
+            </div>
+          </div>
+        )}
+
         {/* 3. DYNAMIC MODULE VIEWPORT */}
         <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-7">
           {children}
         </main>
+
       </div>
 
       {/* Global Modals */}

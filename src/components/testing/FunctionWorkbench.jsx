@@ -15,8 +15,11 @@ import {
   AlertCircle, 
   Clock, 
   RefreshCw,
-  LayoutDashboard
+  LayoutDashboard,
+  Bot,
+  ShieldCheck
 } from 'lucide-react';
+
 
 import { 
   callRealAi, 
@@ -434,10 +437,11 @@ export default function FunctionWorkbench({ onToggleFullUi }) {
     scriptText: 'Stop scrolling. If you want to make $10k/month without showing your face, here is the exact 3-step flywheel.'
   });
 
-  const [campaignInputs, setCampaignInputs] = useState({
-    campaignId: 'camp_vyralify_launch',
-    reelUrl: 'https://instagram.com/reel/C7x9abc123',
-    viewsCount: '48,500'
+  const [autoInputs, setAutoInputs] = useState({
+    keyword: 'BLUEPRINT',
+    postUrl: 'https://instagram.com/reel/C89xYz123',
+    replyComment: 'Sent to your DM! Check your requests 📥',
+    replyDm: 'Hey {username}! Here is your private blueprint link: https://vyralify.in/blueprint'
   });
 
   const [walletInputs, setWalletInputs] = useState({
@@ -458,11 +462,12 @@ export default function FunctionWorkbench({ onToggleFullUi }) {
     { id: 'page', label: '🚀 Bio Page', count: '3', icon: Rocket },
     { id: 'store', label: '🛍️ Store & Products', count: '3', icon: ShoppingBag },
     { id: 'radar', label: '🔍 Viral Radar', count: '3', icon: Search },
-    { id: 'marketplace', label: '💼 Brand Marketplace', count: '2', icon: Briefcase },
+    { id: 'automation', label: '🤖 DM Automation', count: '3', icon: Bot },
     { id: 'wallet', label: '💰 Wallet & Payouts', count: '2', icon: Wallet },
     { id: 'university', label: '🎓 University', count: '1', icon: GraduationCap },
     { id: 'diagnostics', label: '🩺 Diagnostics', count: '4', icon: Activity }
   ];
+
 
   return (
     <div className="min-h-screen w-full bg-[#08090C] text-neutral-100 flex flex-col font-sans select-none antialiased">
@@ -1181,77 +1186,101 @@ export default function FunctionWorkbench({ onToggleFullUi }) {
         )}
 
         {/* ============================================================== */}
-        {/* TAB 6: BRAND MARKETPLACE */}
+        {/* TAB 6: INSTAGRAM DM AUTOMATION (Section 9 Checklist) */}
         {/* ============================================================== */}
-        {activeTab === 'marketplace' && (
+        {activeTab === 'automation' && (
           <div className="space-y-4">
-            {/* 1. List Campaigns */}
+            {/* 1. Comment-to-DM Trigger */}
             <FunctionCard
-              title="1. List Active Brand Campaigns"
-              functionName="listAvailableCampaigns"
-              description="Queries available brand sponsorships, CPM pools, and clipping deals open for creators."
-              inputs={null}
-              onRun={() => runTest('list_camps', async () => {
-                await new Promise(r => setTimeout(r, 200));
-                return [
-                  {
-                    id: 'camp_saas_boost',
-                    brand: 'SaaSFlow AI',
-                    type: 'Clipping / Per View Pool',
-                    payoutRate: '₹40 per 1,000 views',
-                    budgetRemaining: '₹45,000'
-                  },
-                  {
-                    id: 'camp_crypto_mastery',
-                    brand: 'BitVault',
-                    type: 'Fixed Dedicated Post',
-                    payoutRate: '₹12,000 fixed',
-                    spotsLeft: 3
-                  }
-                ];
-              })}
-              {...(states['list_camps'] || {})}
-            />
-
-            {/* 2. Submit Clip Proof */}
-            <FunctionCard
-              title="2. Submit Clip URL for Verification"
-              functionName="submitClipVerification"
-              description="Submits an Instagram Reel URL for anti-fraud view verification and payout credit."
+              title="1. Trigger Comment-to-DM Auto-Responder"
+              functionName="triggerCommentAutoResponder"
+              description="Simulates Instagram webhook when follower leaves a keyword comment, sends personalized DM link and rotates public replies."
               inputs={
                 <>
                   <div>
-                    <label className="text-xs font-semibold text-neutral-200 block mb-1.5">Reel URL:</label>
+                    <label className="text-xs font-semibold text-neutral-200 block mb-1.5">Trigger Keyword:</label>
                     <input
                       type="text"
-                      value={campaignInputs.reelUrl}
-                      onChange={(e) => setCampaignInputs({ ...campaignInputs, reelUrl: e.target.value })}
-                      className="w-full bg-[#12141C] border border-white/10 rounded-lg px-3.5 py-2.5 text-sm font-medium text-white focus:outline-none focus:border-emerald-500"
+                      value={autoInputs.keyword}
+                      onChange={(e) => setAutoInputs({ ...autoInputs, keyword: e.target.value })}
+                      className="w-full bg-[#12141C] border border-white/10 rounded-lg px-3.5 py-2.5 text-sm font-medium text-white focus:outline-none focus:border-emerald-500 font-mono"
                     />
                   </div>
                   <div>
-                    <label className="text-xs font-semibold text-neutral-200 block mb-1.5">Current Views:</label>
+                    <label className="text-xs font-semibold text-neutral-200 block mb-1.5">Instagram Reel URL:</label>
                     <input
                       type="text"
-                      value={campaignInputs.viewsCount}
-                      onChange={(e) => setCampaignInputs({ ...campaignInputs, viewsCount: e.target.value })}
+                      value={autoInputs.postUrl}
+                      onChange={(e) => setAutoInputs({ ...autoInputs, postUrl: e.target.value })}
                       className="w-full bg-[#12141C] border border-white/10 rounded-lg px-3.5 py-2.5 text-sm font-medium text-white focus:outline-none focus:border-emerald-500"
+                    />
+                  </div>
+                  <div className="md:col-span-2">
+                    <label className="text-xs font-semibold text-neutral-200 block mb-1.5">Direct Message Sent to User:</label>
+                    <input
+                      type="text"
+                      value={autoInputs.replyDm}
+                      onChange={(e) => setAutoInputs({ ...autoInputs, replyDm: e.target.value })}
+                      className="w-full bg-[#12141C] border border-white/10 rounded-lg px-3.5 py-2.5 text-sm font-medium text-white focus:outline-none focus:border-emerald-500 font-mono text-xs"
                     />
                   </div>
                 </>
               }
-              onRun={() => runTest('submit_clip', async () => {
-                await new Promise(r => setTimeout(r, 250));
+              onRun={() => runTest('comment_auto_dm', async () => {
+                await new Promise(r => setTimeout(r, 220));
                 return {
-                  submissionId: `sub_${Date.now()}`,
-                  campaignId: campaignInputs.campaignId,
-                  clipUrl: campaignInputs.reelUrl,
-                  verifiedViews: 48500,
-                  earnedReward: '₹1,940',
-                  status: 'VERIFIED_AND_CREDITED'
+                  event: 'COMMENT_TRIGGER_MATCHED',
+                  detectedKeyword: autoInputs.keyword,
+                  fromUser: '@creator.fan',
+                  publicReplySent: autoInputs.replyComment,
+                  dmDispatched: autoInputs.replyDm.replace('{username}', '@creator.fan'),
+                  deliveryStatus: 'SENT_TO_INBOX',
+                  rateLimitRemaining: '29 DMs remaining this hour (Meta safe zone)'
                 };
               })}
-              {...(states['submit_clip'] || {})}
+              {...(states['comment_auto_dm'] || {})}
+            />
+
+            {/* 2. Story Reply Lead Magnet */}
+            <FunctionCard
+              title="2. Test Story Reply 'VAULT' Auto-Responder"
+              functionName="triggerStoryReplyLeadMagnet"
+              description="Sends instant resource delivery link when a follower replies to your active 24h Instagram story."
+              inputs={
+                <div className="md:col-span-2 text-xs font-medium text-neutral-300">
+                  Simulates story reply with keyword <span className="font-bold text-emerald-400 font-mono">VAULT</span> triggering immediate link-in-bio delivery.
+                </div>
+              }
+              onRun={() => runTest('story_auto_dm', async () => {
+                await new Promise(r => setTimeout(r, 200));
+                return {
+                  event: 'STORY_REPLY_CAPTURED',
+                  fromUser: '@alex.design',
+                  actionTaken: 'Sent private 2026 resource vault link to DM',
+                  crmLeadCreated: { emailCollected: false, status: 'OPEN_CONVERSATION' },
+                  conversionFunnelStep: 'DELIVERY_SENT'
+                };
+              })}
+              {...(states['story_auto_dm'] || {})}
+            />
+
+            {/* 3. API Rate-Limit Safety Queue */}
+            <FunctionCard
+              title="3. Instagram API Rate-Limit Safety Queue"
+              functionName="checkMessagingRateLimitQueue"
+              description="Monitors hourly Meta Graph API rate limits to strictly prevent account shadowbans and spam restrictions."
+              inputs={null}
+              onRun={() => runTest('rate_limit_queue', async () => {
+                await new Promise(r => setTimeout(r, 150));
+                return {
+                  hourlyLimit: '30 DMs / hour per Instagram token',
+                  sentLastHour: 8,
+                  remainingCapacity: 22,
+                  queueState: 'OPTIMAL (No backpressure delay)',
+                  antiSpamPublicReplyVariation: 'ACTIVE (Rotating 5 canned variants)'
+                };
+              })}
+              {...(states['rate_limit_queue'] || {})}
             />
           </div>
         )}
@@ -1265,9 +1294,10 @@ export default function FunctionWorkbench({ onToggleFullUi }) {
             <FunctionCard
               title="1. Fetch Unified Creator Earnings Ledger"
               functionName="getUnifiedWalletBalances"
-              description="Aggregates live balances from digital products, 40% affiliate recurring commissions, and clipping deals."
+              description="Aggregates live balances from digital products, 1-on-1 consultations, and 40% affiliate recurring commissions."
               inputs={null}
               onRun={() => runTest('wallet_balances', async () => {
+
                 await new Promise(r => setTimeout(r, 200));
                 return {
                   totalAvailableForWithdrawal: '₹24,950',
@@ -1369,9 +1399,10 @@ export default function FunctionWorkbench({ onToggleFullUi }) {
                       deliverable: 'Release ₹499 starter guide on Vyralify storefront'
                     },
                     days_61_to_90: {
-                      focus: 'Scaling to ₹50,000 / month & Brand Clipping',
-                      deliverable: 'Apply to SaaS brand clipping campaigns on Marketplace'
+                      focus: 'Scaling to ₹50,000 / month & Automation',
+                      deliverable: 'Automate DM keyword triggers & launch 1-on-1 consultations'
                     }
+
                   }
                 };
               })}

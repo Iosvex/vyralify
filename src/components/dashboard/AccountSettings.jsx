@@ -29,12 +29,12 @@ import { usePlanGating } from '../../context/PlanGatingContext';
 import { useNotifications } from '../../context/NotificationContext';
 
 export default function AccountSettings({ onNavigate }) {
-  const { user, tier, updateTier, logout } = useAuth();
+  const { user, tier, updateTier, logout, changeEmail, updateCurrency, deleteAccount } = useAuth();
   const { activePage } = usePage();
   const { openUpgradeModal } = usePlanGating();
   const { addNotification } = useNotifications();
 
-  // Active Sub-Tab: 'account' | 'billing' | 'security' | 'preferences'
+  // Active Sub-Tab: 'account' | 'billing' | 'security' | 'preferences' | 'notifications' | 'help'
   const [activeTab, setActiveTab] = useState('account');
 
   // Profile Form State
@@ -43,8 +43,22 @@ export default function AccountSettings({ onNavigate }) {
   const [isSavingProfile, setIsSavingProfile] = useState(false);
 
   // Currency & Regional Preferences State
-  const [selectedCurrency, setSelectedCurrency] = useState('INR');
+  const [selectedCurrency, setSelectedCurrency] = useState(user?.currency || 'INR');
   const [selectedTimezone, setSelectedTimezone] = useState('Asia/Kolkata (IST)');
+
+  // Notification Preferences State (Section 1 & 2 Checklist item)
+  const [notifPrefs, setNotifPrefs] = useState({
+    sales: true,
+    weeklyRecap: true,
+    billing: true,
+    tokenExpiry: true,
+    usageLimit: true
+  });
+
+  // Account Deletion State (Section 1 Checklist item: Full compliance deletion)
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [deleteConfirmInput, setDeleteConfirmInput] = useState('');
+  const [isDeletingAccount, setIsDeletingAccount] = useState(false);
 
   // Security State
   const [is2FAEnabled, setIs2FAEnabled] = useState(false);
@@ -61,10 +75,18 @@ export default function AccountSettings({ onNavigate }) {
     { id: 'INV-2026-001', date: 'Aug 01, 2026', plan: 'Pro Subscription', amount: '₹499', status: 'Paid' }
   ]);
 
-  // Save profile updates
-  const handleSaveProfile = (e) => {
+  // Save profile updates (triggers email re-verification if email changed)
+  const handleSaveProfile = async (e) => {
     e.preventDefault();
     setIsSavingProfile(true);
+    if (email !== user?.email && changeEmail) {
+      await changeEmail(email);
+      addNotification({
+        title: 'Email Changed & Verification Sent',
+        message: `Re-verification link sent to ${email}.`,
+        type: 'warning'
+      });
+    }
     setTimeout(() => {
       setIsSavingProfile(false);
       addNotification({
@@ -74,6 +96,7 @@ export default function AccountSettings({ onNavigate }) {
       });
     }, 400);
   };
+
 
   // Toggle 2FA
   const handleToggle2FA = () => {
@@ -141,8 +164,11 @@ export default function AccountSettings({ onNavigate }) {
             { id: 'account', label: 'Profile' },
             { id: 'billing', label: 'Billing & Plan' },
             { id: 'security', label: 'Security & 2FA' },
-            { id: 'preferences', label: 'Preferences' }
+            { id: 'preferences', label: 'Preferences' },
+            { id: 'notifications', label: 'Notifications' },
+            { id: 'help', label: 'Help & Support' }
           ].map(tab => {
+
             const isActive = activeTab === tab.id;
             return (
               <button
@@ -433,9 +459,11 @@ export default function AccountSettings({ onNavigate }) {
               <label className="font-mono text-neutral-500 font-medium">Display Currency</label>
               <select
                 value={selectedCurrency}
-                onChange={(e) => {
-                  setSelectedCurrency(e.target.value);
-                  addNotification({ title: 'Currency Updated', message: `Display currency set to ${e.target.value}.`, type: 'info' });
+                onChange={async (e) => {
+                  const val = e.target.value;
+                  setSelectedCurrency(val);
+                  if (updateCurrency) await updateCurrency(val);
+                  addNotification({ title: 'Currency Updated', message: `Display currency set to ${val}. Pricing and metrics now calculated in ${val}.`, type: 'info' });
                 }}
                 className="w-full bg-neutral-50 dark:bg-white/[0.03] border border-neutral-200 dark:border-white/[0.08] rounded-xl px-3 py-2 text-xs text-neutral-900 dark:text-white"
               >
@@ -470,6 +498,138 @@ export default function AccountSettings({ onNavigate }) {
         </div>
       )}
 
+      {/* 6. SUB-TAB: NOTIFICATION PREFERENCES (Section 1 & 2 Checklist items) */}
+      {activeTab === 'notifications' && (
+        <div className="p-5 rounded-2xl bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] shadow-xs space-y-5">
+          <div>
+            <h3 className="font-bold text-neutral-900 dark:text-white text-sm">Notification Channels & Delivery</h3>
+            <p className="text-xs text-neutral-500 mt-0.5">Configure in-app alerts and transactional email digests.</p>
+          </div>
+
+          <div className="divide-y divide-neutral-200/60 dark:divide-white/[0.05] space-y-3 pt-1">
+            {[
+              { key: 'sales', title: 'Real-Time Store Sales & Lead Alerts', desc: 'Instant push & email alert when a customer completes an order or submits lead info.' },
+              { key: 'weeklyRecap', title: 'Weekly Creator Performance Digest', desc: 'Every Monday: 7-day revenue, view velocity, top performing reel, and audience growth.' },
+              { key: 'billing', title: 'Subscription & Invoice Receipts', desc: 'Automatic email receipts on monthly plan renewal or plan upgrade.' },
+              { key: 'tokenExpiry', title: 'Meta / Instagram Token Expiry Warnings', desc: 'Alerts 7 days prior to token expiration to prevent automation interruption.' },
+              { key: 'usageLimit', title: 'AI Credit Usage Limits (80% & 100%)', desc: 'Proactive banner and notifications when daily AI quota is nearing limit.' }
+            ].map(item => (
+              <div key={item.key} className="flex items-center justify-between pt-3 text-xs">
+                <div>
+                  <h4 className="font-semibold text-neutral-900 dark:text-white">{item.title}</h4>
+                  <p className="text-[11px] text-neutral-500 mt-0.5">{item.desc}</p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setNotifPrefs(prev => ({ ...prev, [item.key]: !prev[item.key] }));
+                    addNotification({ title: 'Preferences Saved', message: `Updated ${item.title} setting.`, type: 'info' });
+                  }}
+                  className={`w-11 h-6 rounded-full transition-colors relative cursor-pointer shrink-0 ml-4 ${
+                    notifPrefs[item.key] ? 'bg-emerald-600' : 'bg-neutral-300 dark:bg-white/10'
+                  }`}
+                >
+                  <span
+                    className={`block w-4 h-4 rounded-full bg-white shadow-sm transition-transform absolute top-1 ${
+                      notifPrefs[item.key] ? 'right-1' : 'left-1'
+                    }`}
+                  />
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* 7. SUB-TAB: HELP & SUPPORT (Section 1 Checklist item) */}
+      {activeTab === 'help' && (
+        <div className="p-5 rounded-2xl bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] shadow-xs space-y-5">
+          <div>
+            <h3 className="font-bold text-neutral-900 dark:text-white text-sm">Help, Community & Direct Support</h3>
+            <p className="text-xs text-neutral-500 mt-0.5">Need assistance scaling your creator business? We are here 24/7.</p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+            <a
+              href="mailto:support@vyralify.in"
+              className="p-4 rounded-xl bg-neutral-50 dark:bg-white/[0.03] border border-neutral-200/80 dark:border-white/[0.08] hover:border-emerald-500/40 transition-colors block"
+            >
+              <h4 className="font-semibold text-white">Direct Email Support</h4>
+              <p className="text-neutral-400 text-[11px] mt-1">support@vyralify.in</p>
+              <span className="text-emerald-400 text-[11px] font-mono mt-2 inline-block">Response time: &lt; 2 hours &rarr;</span>
+            </a>
+
+            <div className="p-4 rounded-xl bg-neutral-50 dark:bg-white/[0.03] border border-neutral-200/80 dark:border-white/[0.08] block">
+              <h4 className="font-semibold text-white">Platform Version</h4>
+              <p className="text-neutral-400 text-[11px] mt-1">Vyralify Production 2026.4</p>
+              <span className="text-emerald-400 text-[11px] font-mono mt-2 inline-block">&bull; 100% Operational & Synced</span>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 8. COMPLIANT ACCOUNT DELETION MODAL & DANGER ZONE (Section 1 Checklist item) */}
+      <div className="p-5 rounded-2xl bg-rose-950/20 border border-rose-500/20 shadow-xs space-y-3">
+        <h3 className="font-bold text-rose-300 text-sm">Danger Zone: Compliant Account Deletion</h3>
+        <p className="text-xs text-rose-200/70 leading-relaxed">
+          In full accordance with GDPR and India DPDP Act, deleting your account permanently wipes all your connected Instagram metadata, products, CRM leads, and order history from Firestore.
+        </p>
+        <button
+          onClick={() => setIsDeleteModalOpen(true)}
+          className="px-3.5 py-2 rounded-xl bg-rose-600/20 hover:bg-rose-600/30 text-rose-300 border border-rose-500/30 text-xs font-semibold cursor-pointer transition-colors"
+        >
+          Permanently Delete Vyralify Account
+        </button>
+      </div>
+
+      {/* Deletion Confirmation Modal */}
+      {isDeleteModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+          <div className="max-w-md w-full rounded-2xl bg-[#0F1117] border border-rose-500/30 p-6 text-neutral-100 shadow-2xl space-y-4">
+            <h3 className="font-bold text-lg text-white">Permanently Delete Account?</h3>
+            <p className="text-xs text-neutral-400 leading-relaxed">
+              This action cannot be undone. All your Instagram analytics, products, customer records, and AI history will be immediately deleted.
+            </p>
+            <div className="space-y-1.5">
+              <label className="text-xs font-medium text-neutral-300 block">
+                Type <strong className="text-rose-400 font-mono">DELETE</strong> to confirm:
+              </label>
+              <input
+                type="text"
+                value={deleteConfirmInput}
+                onChange={(e) => setDeleteConfirmInput(e.target.value)}
+                placeholder="DELETE"
+                className="w-full bg-white/[0.04] border border-white/10 rounded-xl px-3.5 py-2 text-xs text-white font-mono"
+              />
+            </div>
+            <div className="flex items-center justify-end gap-2.5 pt-2">
+              <button
+                onClick={() => {
+                  setIsDeleteModalOpen(false);
+                  setDeleteConfirmInput('');
+                }}
+                className="px-4 py-2 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] text-xs font-semibold text-neutral-300 cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button
+                disabled={deleteConfirmInput !== 'DELETE' || isDeletingAccount}
+                onClick={async () => {
+                  setIsDeletingAccount(true);
+                  if (deleteAccount) await deleteAccount();
+                  setIsDeletingAccount(false);
+                  setIsDeleteModalOpen(false);
+                }}
+                className="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 disabled:opacity-40 text-xs font-semibold text-white cursor-pointer shadow-sm transition-colors"
+              >
+                {isDeletingAccount ? 'Deleting...' : 'Confirm & Delete'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }
+

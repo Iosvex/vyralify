@@ -490,34 +490,63 @@ export default function StoreCommerce({ onNavigate }) {
             </button>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {products.map(prod => (
-              <div
-                key={prod.id}
-                className="p-5 rounded-2xl bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] shadow-xs space-y-4 flex flex-col justify-between"
-              >
-                <div>
-                  <div className="flex items-center justify-between text-xs font-mono mb-2">
-                    <span className="px-2 py-0.5 rounded bg-neutral-100 dark:bg-white/[0.04] text-neutral-600 dark:text-neutral-400 font-medium">
-                      {prod.type}
-                    </span>
-                    <span className="font-bold text-emerald-600 text-sm">{prod.price}</span>
-                  </div>
-
-                  <h4 className="font-bold text-neutral-900 dark:text-white text-sm leading-snug">
-                    {prod.title}
-                  </h4>
-                </div>
-
-                <div className="pt-3 border-t border-neutral-200/80 dark:border-white/[0.05] flex items-center justify-between text-xs">
-                  <div className="font-mono text-neutral-400">
-                    <span className="text-neutral-900 dark:text-white font-bold">{prod.salesCount}</span> sales &bull; {prod.revenue}
-                  </div>
-                  <span className="text-[10px] text-emerald-600 font-semibold uppercase">Live &bull; 100% Margin</span>
-                </div>
+          {products.length === 0 ? (
+            <div className="p-12 rounded-2xl bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] text-center space-y-4">
+              <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto">
+                <ShoppingBag className="w-6 h-6" />
               </div>
-            ))}
-          </div>
+              <div className="space-y-1">
+                <h4 className="font-bold text-neutral-900 dark:text-white text-base">No Products Listed Yet</h4>
+                <p className="text-xs text-neutral-500 dark:text-neutral-400 max-w-sm mx-auto">
+                  Create your first digital guide or 1-click import a high-converting offer from the Winning Products Library.
+                </p>
+              </div>
+              <div className="flex items-center justify-center gap-3 pt-2">
+                <button
+                  onClick={() => setIsAddProductModalOpen(true)}
+                  className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs cursor-pointer shadow-xs"
+                >
+                  Create Custom Product
+                </button>
+                <button
+                  onClick={() => setActiveTab('winning')}
+                  className="px-4 py-2 rounded-xl bg-neutral-100 dark:bg-white/[0.05] hover:bg-neutral-200 dark:hover:bg-white/[0.1] text-neutral-800 dark:text-neutral-200 font-semibold text-xs border border-neutral-200 dark:border-white/[0.08] cursor-pointer"
+                >
+                  Browse Winning Products &rarr;
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {products.map(prod => (
+                <div
+                  key={prod.id}
+                  className="p-5 rounded-2xl bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] shadow-xs space-y-4 flex flex-col justify-between"
+                >
+                  <div>
+                    <div className="flex items-center justify-between text-xs font-mono mb-2">
+                      <span className="px-2 py-0.5 rounded bg-neutral-100 dark:bg-white/[0.04] text-neutral-600 dark:text-neutral-400 font-medium">
+                        {prod.type}
+                      </span>
+                      <span className="font-bold text-emerald-600 text-sm">{prod.price}</span>
+                    </div>
+
+                    <h4 className="font-bold text-neutral-900 dark:text-white text-sm leading-snug">
+                      {prod.title}
+                    </h4>
+                  </div>
+
+                  <div className="pt-3 border-t border-neutral-200/80 dark:border-white/[0.05] flex items-center justify-between text-xs">
+                    <div className="font-mono text-neutral-400">
+                      <span className="text-neutral-900 dark:text-white font-bold">{prod.salesCount}</span> sales &bull; {prod.revenue}
+                    </div>
+                    <span className="text-[10px] text-emerald-600 font-semibold uppercase">Live &bull; 100% Margin</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
 
           {tier === 'free' && (
             <div className="p-4 rounded-2xl bg-amber-50 dark:bg-amber-500/10 border border-amber-200 dark:border-amber-500/20 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">

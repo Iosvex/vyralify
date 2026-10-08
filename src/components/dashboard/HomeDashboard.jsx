@@ -19,12 +19,14 @@ import { usePlanGating } from '../../context/PlanGatingContext';
 import AnalyticsCharts from './AnalyticsCharts';
 import ReelPerformanceMatrix from './ReelPerformanceMatrix';
 import PageAuditWidget from './PageAuditWidget';
+import { formatCurrency } from '../../lib/utils';
 
 export default function HomeDashboard({ onNavigate }) {
   const { user } = useAuth();
   const { activePage } = usePage();
 
   const isBeginner = user?.onboardingTrack === 'beginner' || (activePage && activePage.followersNumeric === 0);
+
 
   // Getting Started Checklist State
   const [checklist, setChecklist] = useState(() => {
@@ -57,15 +59,20 @@ export default function HomeDashboard({ onNavigate }) {
       {/* 1. WHITE & GREEN HEADER & SCOPE BAR */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-neutral-200/80 dark:border-white/[0.06]">
         <div>
-          <div className="flex items-center gap-2 mb-1">
+          <div className="flex flex-wrap items-center gap-2 mb-1">
             <span className="text-[10px] font-mono text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-200 dark:border-emerald-500/20 font-medium">
               Meta Graph Active
+            </span>
+            <span className="text-neutral-400 text-xs">&bull;</span>
+            <span className="text-xs text-neutral-500 dark:text-neutral-400 font-mono">
+              Last synced: {activePage?.lastSynced || "12m ago"}
             </span>
             <span className="text-neutral-400 text-xs">&bull;</span>
             <span className="text-xs text-neutral-500 dark:text-neutral-400 font-mono">
               {activePage?.category || 'Business'} &bull; {activePage?.subNiche || 'Online'}
             </span>
           </div>
+
 
           <h1 className="text-xl sm:text-2xl font-bold text-neutral-900 dark:text-white tracking-tight">
             Dashboard
@@ -151,13 +158,14 @@ export default function HomeDashboard({ onNavigate }) {
           </div>
           <div>
             <div className="text-xl sm:text-2xl font-bold text-neutral-900 dark:text-white tracking-tight font-mono">
-              {activePage?.revenue30d || "₹42,850"}
+              {formatCurrency(activePage?.revenue30dNumeric || 42850, user?.currency || 'INR')}
             </div>
             <div className="text-[11px] text-emerald-600 dark:text-emerald-400 font-mono mt-0.5 font-medium">
               +32.4% <span className="text-neutral-400 font-sans">&bull; sales</span>
             </div>
           </div>
         </div>
+
 
         {/* Card 4: Engagement Rate */}
         <div className="p-4 rounded-xl bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] shadow-xs flex flex-col justify-between">

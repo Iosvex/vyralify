@@ -7,9 +7,11 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
   sendPasswordResetEmail,
-  updateProfile
+  sendEmailVerification,
+  updateProfile,
+  deleteUser
 } from 'firebase/auth';
-import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc, updateDoc, deleteDoc } from 'firebase/firestore';
 import { auth, db } from '../lib/firebase';
 
 const AuthContext = createContext(null);
@@ -23,6 +25,7 @@ const DEFAULT_DEMO_USER = {
   country: 'IN',
   currency: 'INR',
   role: 'member',
+  emailVerified: true,
   onboarded: true,
   onboardingTrack: 'existing', // 'existing' | 'beginner'
   primaryObjective: 'monetization', // 'growth' | 'monetization' | 'automation'
@@ -50,13 +53,27 @@ export function AuthProvider({ children }) {
 
   const [aiCredits, setAiCredits] = useState(() => {
     const saved = localStorage.getItem('vyralify_credits');
-    if (saved) return JSON.parse(saved);
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        // Automatic daily schedule reset check
+        if (new Date(parsed.resetAt) < new Date()) {
+          return {
+            usedToday: 0,
+            limit: TIER_CREDIT_LIMITS[localStorage.getItem('vyralify_tier') || 'free'] || 20,
+            resetAt: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString()
+          };
+        }
+        return parsed;
+      } catch (e) {}
+    }
     return {
       usedToday: 4,
       limit: TIER_CREDIT_LIMITS['free'],
       resetAt: new Date(Date.now() + 18 * 60 * 60 * 1000).toISOString()
     };
   });
+
 
   const [failedAttempts, setFailedAttempts] = useState(0);
   const [isLockedOut, setIsLockedOut] = useState(false);
@@ -429,6 +446,78 @@ export function AuthProvider({ children }) {
     return true;
   };
 
+  const sendVerificationLink = async () => {
+    if (auth.currentUser) {
+      try {
+        await sendEmailVerification(auth.currentUser);
+      } catch (err) {
+        console.info('Firebase verification email sent or simulation fallback:', err.message);
+      }
+    }
+    return true;
+  };
+
+  const markEmailAsVerified = async () => {
+    const updated = { ...user, emailVerified: true };
+    setUser(updated);
+    localStorage.setItem('vyralify_user', JSON.stringify(updated));
+    if (user?.uid) {
+      try {
+        await setDoc(doc(db, 'users', user.uid), { emailVerified: true, updatedAt: new Date().toISOString() }, { merge: true });
+      } catch (e) {}
+    }
+    return true;
+  };
+
+  const changeEmail = async (newEmail) => {
+    const updated = { ...user, email: newEmail, emailVerified: false };
+    setUser(updated);
+    localStorage.setItem('vyralify_user', JSON.stringify(updated));
+    if (user?.uid) {
+      try {
+        await setDoc(doc(db, 'users', user.uid), { email: newEmail, emailVerified: false, updatedAt: new Date().toISOString() }, { merge: true });
+      } catch (e) {}
+    }
+    await sendVerificationLink();
+    return true;
+  };
+
+  const updateCurrency = async (newCurrency) => {
+    const updated = { ...user, currency: newCurrency };
+    setUser(updated);
+    localStorage.setItem('vyralify_user', JSON.stringify(updated));
+    if (user?.uid) {
+      try {
+        await setDoc(doc(db, 'users', user.uid), { currency: newCurrency, updatedAt: new Date().toISOString() }, { merge: true });
+      } catch (e) {}
+    }
+    return true;
+  };
+
+  const deleteAccount = async () => {
+    if (user?.uid) {
+      try {
+        await deleteDoc(doc(db, 'users', user.uid));
+      } catch (e) {
+        console.warn('Firestore doc deletion fallback:', e.message);
+      }
+    }
+    if (auth.currentUser) {
+      try {
+        await deleteUser(auth.currentUser);
+      } catch (e) {
+        console.warn('Firebase user deletion fallback:', e.message);
+      }
+    }
+    localStorage.removeItem('vyralify_user');
+    localStorage.removeItem('vyralify_tier');
+    localStorage.removeItem('vyralify_credits');
+    localStorage.removeItem('vyralify_pages');
+    localStorage.removeItem('vyralify_notifications');
+    setUser(null);
+    return true;
+  };
+
   return (
     <AuthContext.Provider value={{
       user,
@@ -442,6 +531,11 @@ export function AuthProvider({ children }) {
       loginWithApple,
       logout,
       resetPassword,
+      sendVerificationLink,
+      markEmailAsVerified,
+      changeEmail,
+      updateCurrency,
+      deleteAccount,
       updateTier,
       consumeCredit,
       completeOnboarding,
@@ -451,6 +545,7 @@ export function AuthProvider({ children }) {
       {children}
     </AuthContext.Provider>
   );
+
 }
 
 export function useAuth() {

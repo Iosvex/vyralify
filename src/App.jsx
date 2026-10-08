@@ -6,6 +6,7 @@ import { PlanGatingProvider } from './context/PlanGatingContext';
 import { NotificationProvider } from './context/NotificationContext';
 import AppShell from './components/layout/AppShell';
 import HomeDashboard from './components/dashboard/HomeDashboard';
+import PageBuilder from './components/dashboard/PageBuilder';
 import PlaceholderModule from './components/dashboard/PlaceholderModule';
 import OnboardingWizard from './components/onboarding/OnboardingWizard';
 import AuthModal from './components/auth/AuthModal';
@@ -112,6 +113,8 @@ function WorkspaceRouter() {
       >
         {activeModule === 'home' ? (
           <HomeDashboard onNavigate={(mod) => setActiveModule(mod)} />
+        ) : activeModule === 'builder' ? (
+          <PageBuilder onNavigate={(mod) => setActiveModule(mod)} />
         ) : (
           <PlaceholderModule moduleId={activeModule} onNavigate={(mod) => setActiveModule(mod)} />
         )}

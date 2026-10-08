@@ -271,3 +271,176 @@ Return only valid JSON.`;
     };
   }
 }
+
+/**
+ * Vyralify AI Assistant Co-Pilot (Phase 4)
+ * Multi-turn chat grounded in live Instagram page metrics + optional multimodal image vision
+ */
+export async function askVyralifyAssistant({ messages, pageContext = {}, media = null }) {
+  const {
+    handle = 'creator',
+    niche = 'Business & Money',
+    subNiche = 'Digital Business',
+    followersCount = '42.5K',
+    engagementRate = '4.2%',
+    views7d = '840K',
+    revenue30d = '₹42,850',
+    topPost = 'Viral Breakdown Reel (342K views)',
+    audit = 'Optimize bio CTA and add DM keyword funnel'
+  } = pageContext;
+
+  const systemPrompt = `You are Vyralify AI — the elite Instagram Growth Director, Retention Engineer, and Creator Monetization Co-Pilot.
+You possess deep mastery over Instagram algorithm dynamics, retention curve drop-offs, pattern-interrupt hook formulas, and high-converting link-in-bio storefronts.
+
+ACTIVE CREATOR CONTEXT (GROUND TRUTH):
+- Account Handle: @${handle}
+- Primary Niche: ${niche}
+- Sub-Niche: ${subNiche}
+- Audience Size: ${followersCount} followers
+- Engagement Rate: ${engagementRate} (Industry Benchmark: ~3.5%)
+- 7-Day Total Views: ${views7d}
+- 30-Day Storefront Revenue: ${revenue30d}
+- Top-Performing Format: ${topPost}
+- Current Audit Priority: ${audit}
+
+RESPONSE PROTOCOL:
+1. Ground your answers directly in their specific metrics, niche, and audience archetype.
+2. When answering content or viral questions, specify:
+   - Visual Pattern Interrupt (0-1.5s): Framerate, motion, lighting, text placement.
+   - Text Hook: Exact 5-7 word on-screen phrasing.
+   - Spoken Hook: Audio delivery cadence.
+   - Micro-Conversion: Specific comment/DM keyword trigger.
+3. Keep tone direct, sharp, and highly actionable. No generic fluff.
+4. When relevant, embed action buttons at the end of your response using this exact syntax:
+   [ACTION:builder|Optimize Bio in Page Builder]
+   [ACTION:discover_create|Create Reel Script in Studio]
+   [ACTION:automation|Configure DM Keyword Automation]
+   [ACTION:store|Manage Store & Products]
+   [ACTION:home|View Overview Analytics]
+${media ? '5. The creator has uploaded a media screenshot/image. Critically dissect the visual hierarchy, contrast, text legibility, retention triggers, or metric drop-offs shown in this image.' : ''}`;
+
+  // 1. Multimodal Path (Google Gemini Vision)
+  if (media && media.base64 && GEMINI_API_KEY) {
+    try {
+      const cleanBase64 = media.base64.replace(/^data:image\/[a-z]+;base64,/, '');
+      const mimeType = media.mimeType || 'image/jpeg';
+      const lastUserMsg = messages[messages.length - 1]?.content || 'Please critique this screenshot and provide actionable optimizations.';
+
+      const geminiRes = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${GEMINI_API_KEY}`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: [
+              {
+                parts: [
+                  { text: `${systemPrompt}\n\nUSER QUESTION: ${lastUserMsg}` },
+                  {
+                    inline_data: {
+                      mime_type: mimeType,
+                      data: cleanBase64
+                    }
+                  }
+                ]
+              }
+            ]
+          })
+        }
+      );
+
+      if (geminiRes.ok) {
+        const gemData = await geminiRes.json();
+        const gemText = gemData.candidates?.[0]?.content?.parts?.[0]?.text;
+        if (gemText) return { text: gemText, provider: 'google:gemini-vision-flash' };
+      }
+    } catch (visionErr) {
+      console.warn('Gemini vision request failed, proceeding to text fallback:', visionErr.message);
+    }
+  }
+
+  // 2. Text Path via Groq (Ultra-low latency LLM)
+  if (GROQ_API_KEY) {
+    try {
+      const formattedMessages = [
+        { role: 'system', content: systemPrompt },
+        ...messages.map(m => ({
+          role: m.role || (m.sender === 'user' ? 'user' : 'assistant'),
+          content: m.content || m.text
+        }))
+      ];
+
+      const groqRes = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${GROQ_API_KEY}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          model: 'openai/gpt-oss-120b',
+          messages: formattedMessages,
+          temperature: 0.65,
+          max_tokens: 1200
+        })
+      });
+
+      if (groqRes.ok) {
+        const groqData = await groqRes.json();
+        const text = groqData.choices?.[0]?.message?.content;
+        if (text) return { text, provider: 'groq:gpt-oss-120b' };
+      }
+    } catch (groqErr) {
+      console.warn('Groq assistant call failed:', groqErr.message);
+    }
+  }
+
+  // 3. Text Path Fallback via Gemini
+  if (GEMINI_API_KEY) {
+    try {
+      const conversationText = messages
+        .map(m => `${m.role === 'user' || m.sender === 'user' ? 'CREATOR' : 'VYRALIFY'}: ${m.content || m.text}`)
+        .join('\n\n');
+
+      const geminiRes = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${GEMINI_API_KEY}`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: [
+              {
+                parts: [
+                  { text: `${systemPrompt}\n\nCONVERSATION HISTORY:\n${conversationText}\n\nProvide your authoritative guidance now:` }
+                ]
+              }
+            ]
+          })
+        }
+      );
+
+      if (geminiRes.ok) {
+        const gemData = await geminiRes.json();
+        const text = gemData.candidates?.[0]?.content?.parts?.[0]?.text;
+        if (text) return { text, provider: 'google:gemini-flash' };
+      }
+    } catch (gemErr) {
+      console.warn('Gemini assistant call failed:', gemErr.message);
+    }
+  }
+
+  // 4. Grounded Resilient Tactical Strategy Fallback
+  const lastMsg = messages[messages.length - 1]?.content || messages[messages.length - 1]?.text || '';
+  return {
+    text: `Here is the high-leverage growth diagnosis for @${handle} in ${niche} (${subNiche}):\n\n` +
+      `### 1. Retention & Algorithm Reality Check\n` +
+      `With **${followersCount}** followers and a **${engagementRate}** engagement rate, your primary growth bottleneck is **first-3-second retention drop-off**.\n\n` +
+      `### 2. Tactical Hook Recommendation\n` +
+      `- **Visual Interrupt (0-1.5s):** Fast zoom-in cut + bold contrast text overlay centered at eye level.\n` +
+      `- **Screen Hook:** *"The 1 Mistake Keeping You Stuck in ${subNiche}"*\n` +
+      `- **Audio Opening:** *"If you are still doing this in 2026, you are leaving 80% of your reach on the table."*\n\n` +
+      `### 3. Immediate Monetization Trigger\n` +
+      `Deploy a comment automation trigger like **"VAULT"** to route warm viewers directly into your bio storefront to scale your 30-day revenue past **${revenue30d}**.\n\n` +
+      `[ACTION:discover_create|Create Reel Script in Studio]\n[ACTION:automation|Configure DM Keyword Automation]`,
+    provider: 'local:vyralify-intelligence'
+  };
+}

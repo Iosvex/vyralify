@@ -7,6 +7,7 @@ import { NotificationProvider } from './context/NotificationContext';
 import AppShell from './components/layout/AppShell';
 import HomeDashboard from './components/dashboard/HomeDashboard';
 import PageBuilder from './components/dashboard/PageBuilder';
+import AIAssistant from './components/dashboard/AIAssistant';
 import PlaceholderModule from './components/dashboard/PlaceholderModule';
 import OnboardingWizard from './components/onboarding/OnboardingWizard';
 import AuthModal from './components/auth/AuthModal';
@@ -115,6 +116,8 @@ function WorkspaceRouter() {
           <HomeDashboard onNavigate={(mod) => setActiveModule(mod)} />
         ) : activeModule === 'builder' ? (
           <PageBuilder onNavigate={(mod) => setActiveModule(mod)} />
+        ) : activeModule === 'assistant' ? (
+          <AIAssistant onNavigate={(mod) => setActiveModule(mod)} />
         ) : (
           <PlaceholderModule moduleId={activeModule} onNavigate={(mod) => setActiveModule(mod)} />
         )}

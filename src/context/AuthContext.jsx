@@ -40,7 +40,7 @@ export function AuthProvider({ children }) {
   // Check local storage for persistent testing
   const [user, setUser] = useState(() => {
     const saved = localStorage.getItem('vyralify_user');
-    return saved ? JSON.parse(saved) : DEFAULT_DEMO_USER;
+    return saved ? JSON.parse(saved) : null;
   });
 
   const [tier, setTier] = useState(() => {

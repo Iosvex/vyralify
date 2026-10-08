@@ -176,7 +176,7 @@ export function PageProvider({ children }) {
     };
 
     if (isInitialOnboarding) {
-      setPages(prev => [newPage, ...prev.filter(p => p.handle !== newPage.handle)]);
+      setPages([newPage]);
     } else {
       setPages(prev => [...prev, newPage]);
     }

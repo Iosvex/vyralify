@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/png" href="/vyralify-logo.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#ffffff" />
+    <meta name="theme-color" content="#08090C" />
     <title>Vyralify | The Complete Creator-to-Cash Ecosystem</title>
     <meta name="description" content="Vyralify turns viral engagement into automated creator revenue with high-yield clipping challenges, viral scripting, brand campaigns, and creator growth systems." />
 
@@ -14,27 +14,19 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <link href="https://api.fontshare.com/v2/css?f[]=general-sans@500,600,700&display=swap" rel="stylesheet" />
 
-    <!-- Early Light Theme Enforcer to eliminate flash of dark mode -->
+    <!-- Permanent Dark Mode Enforcer -->
     <script>
       (function() {
         try {
-          var saved = localStorage.getItem('vyralify-theme-v3');
-          if (saved === 'dark') {
-            document.documentElement.classList.add('dark');
-            document.documentElement.style.colorScheme = 'dark';
-          } else {
-            // Default to OG White & Green
-            document.documentElement.classList.remove('dark');
-            document.documentElement.style.colorScheme = 'light';
-            localStorage.setItem('vyralify-theme-v3', 'light');
-            localStorage.removeItem('vyralify-theme');
-            localStorage.removeItem('vyralify-theme-v2');
-          }
+          document.documentElement.classList.add('dark');
+          document.documentElement.style.colorScheme = 'dark';
+          localStorage.setItem('vyralify-theme', 'dark');
+          localStorage.setItem('vyralify-theme-v3', 'dark');
         } catch (e) {}
       })();
     </script>
   </head>
-  <body class="bg-[#F8FAFC] text-neutral-900 font-sans antialiased selection:bg-emerald-500/20 selection:text-emerald-900 min-h-screen">
+  <body class="bg-[#08090C] text-neutral-200 font-sans antialiased selection:bg-emerald-500/20 selection:text-emerald-400 min-h-screen">
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

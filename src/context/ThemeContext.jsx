@@ -3,38 +3,24 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 const ThemeContext = createContext();
 
 export function ThemeProvider({ children }) {
-  const [theme, setTheme] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('vyralify-theme-v3');
-      if (saved) return saved;
-      // Clear legacy dark mode preference so OG White & Green is active
-      localStorage.removeItem('vyralify-theme');
-      localStorage.setItem('vyralify-theme-v3', 'light');
-      return 'light';
-    }
-    return 'light';
-  });
+  const [theme] = useState('dark');
 
   useEffect(() => {
     const root = document.documentElement;
-    if (theme === 'dark') {
-      root.classList.add('dark');
-      root.style.colorScheme = 'dark';
-    } else {
-      root.classList.remove('dark');
-      root.style.colorScheme = 'light';
-    }
-    localStorage.setItem('vyralify-theme-v3', theme);
-  }, [theme]);
+    root.classList.add('dark');
+    root.style.colorScheme = 'dark';
+    localStorage.setItem('vyralify-theme', 'dark');
+    localStorage.setItem('vyralify-theme-v3', 'dark');
+  }, []);
 
   const toggleTheme = () => {
-    setTheme(prev => (prev === 'dark' ? 'light' : 'dark'));
+    // Permanent dark mode enforced
   };
 
-  const isDark = theme === 'dark';
+  const isDark = true;
 
   return (
-    <ThemeContext.Provider value={{ theme, isDark, toggleTheme, setTheme }}>
+    <ThemeContext.Provider value={{ theme: 'dark', isDark: true, toggleTheme, setTheme: () => {} }}>
       {children}
     </ThemeContext.Provider>
   );

@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { ThemeProvider, useTheme } from './context/ThemeContext';
+import { ThemeProvider } from './context/ThemeContext';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { PageProvider } from './context/PageContext';
 import { PlanGatingProvider } from './context/PlanGatingContext';
 import { NotificationProvider } from './context/NotificationContext';
+import FunctionWorkbench from './components/testing/FunctionWorkbench';
 import AppShell from './components/layout/AppShell';
 import HomeDashboard from './components/dashboard/HomeDashboard';
 import PageBuilder from './components/dashboard/PageBuilder';
@@ -24,39 +25,43 @@ import {
   UserCheck, 
   ArrowRight,
   SlidersHorizontal,
-  Sun,
-  Moon
+  FlaskConical
 } from 'lucide-react';
 
 function WorkspaceRouter() {
   const { user, tier, updateTier, logout, resetOnboarding, loginAsDemo } = useAuth();
-  const { isDark, toggleTheme } = useTheme();
+  const [viewMode, setViewMode] = useState('workbench'); // 'workbench' (simple function testing) or 'dashboard' (full visual UI)
   const [activeModule, setActiveModule] = useState('home');
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [authMode, setAuthMode] = useState('login');
   const [showDevToolbar, setShowDevToolbar] = useState(true);
 
-  // If user is not logged in, show clean White & Green login gateway
+  // By default, render the simple, sorted Function Test Workbench for instant testing
+  if (viewMode === 'workbench') {
+    return <FunctionWorkbench onToggleFullUi={() => setViewMode('dashboard')} />;
+  }
+
+  // If user is not logged in, show clean Obsidian & Emerald login gateway
   if (!user) {
     return (
-      <div className="min-h-screen w-full bg-[#F8FAFC] dark:bg-[#08090C] text-neutral-900 dark:text-neutral-200 flex flex-col items-center justify-center p-6 relative overflow-hidden select-none">
+      <div className="min-h-screen w-full bg-[#08090C] text-neutral-200 flex flex-col items-center justify-center p-6 relative overflow-hidden select-none">
         <div className="relative z-10 max-w-sm w-full text-center space-y-6">
           <div className="flex items-center justify-center gap-2.5">
             <img src="/vyralify-logo.png" alt="Vyralify" className="h-7 w-auto object-contain" />
-            <span className="font-bold text-xl tracking-tight text-neutral-900 dark:text-white">Vyralify</span>
-            <span className="w-2 h-2 rounded-full bg-emerald-500" />
+            <span className="font-bold text-xl tracking-tight text-white">Vyralify</span>
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
           </div>
 
           <div className="space-y-1.5">
-            <h1 className="text-xl font-bold tracking-tight text-neutral-900 dark:text-white">
+            <h1 className="text-xl font-bold tracking-tight text-white">
               Creator Operating System
             </h1>
-            <p className="text-xs text-neutral-500 dark:text-neutral-400">
+            <p className="text-xs text-neutral-400">
               Page builder, viral content engine, and bio storefront.
             </p>
           </div>
 
-          <div className="p-5 rounded-2xl bg-white dark:bg-[#0D0F14] border border-neutral-200/80 dark:border-white/[0.08] shadow-sm space-y-2.5">
+          <div className="p-5 rounded-2xl bg-[#0D0F14] border border-white/[0.08] shadow-sm space-y-2.5">
             <button
               onClick={() => {
                 setAuthMode('signup');
@@ -73,20 +78,20 @@ function WorkspaceRouter() {
                 setAuthMode('login');
                 setIsAuthModalOpen(true);
               }}
-              className="w-full py-2 px-4 rounded-xl bg-neutral-100 hover:bg-neutral-200/70 dark:bg-white/[0.04] dark:hover:bg-white/[0.08] text-neutral-700 dark:text-neutral-300 font-medium text-xs border border-neutral-200/70 dark:border-white/[0.08] transition-colors flex items-center justify-center gap-2 cursor-pointer"
+              className="w-full py-2 px-4 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-neutral-200 font-medium text-xs border border-white/[0.08] transition-colors flex items-center justify-center gap-2 cursor-pointer"
             >
               <span>Log In to Workspace</span>
             </button>
 
             <button
               onClick={() => loginAsDemo()}
-              className="w-full py-1.5 px-3 rounded-lg text-neutral-500 hover:text-emerald-700 dark:text-neutral-400 dark:hover:text-emerald-400 text-[11px] font-mono transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+              className="w-full py-1.5 px-3 rounded-lg text-neutral-400 hover:text-emerald-400 text-[11px] font-mono transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
             >
               <span>Explore as Demo Creator &rarr;</span>
             </button>
           </div>
 
-          <p className="text-[11px] text-neutral-400 dark:text-neutral-500 font-mono">
+          <p className="text-[11px] text-neutral-500 font-mono">
             New user? Click "Get Started" to launch your 3-step setup.
           </p>
         </div>
@@ -103,7 +108,7 @@ function WorkspaceRouter() {
   // If user has not completed onboarding, show Dual Branching Wizard
   if (!user.onboarded) {
     return (
-      <div className="min-h-screen bg-[#F8FAFC] dark:bg-[#08090C] text-neutral-900 dark:text-neutral-200 flex flex-col justify-center">
+      <div className="min-h-screen bg-[#08090C] text-neutral-200 flex flex-col justify-center">
         <OnboardingWizard />
       </div>
     );
@@ -139,6 +144,16 @@ function WorkspaceRouter() {
       <div className="fixed bottom-3 right-3 z-50">
         {showDevToolbar ? (
           <div className="p-1.5 rounded-xl bg-white/95 dark:bg-[#111319]/90 border border-neutral-200 dark:border-white/[0.08] shadow-md backdrop-blur-md flex items-center gap-2 text-xs text-neutral-800 dark:text-neutral-300">
+            {/* Switch to Function Test Bench */}
+            <button
+              onClick={() => setViewMode('workbench')}
+              className="px-2 py-0.5 rounded-md bg-emerald-600 hover:bg-emerald-500 text-white text-[10px] font-mono flex items-center gap-1 transition-colors cursor-pointer shadow-xs"
+              title="Return to Function Test Workbench"
+            >
+              <FlaskConical className="w-2.5 h-2.5" />
+              <span>Test Bench</span>
+            </button>
+
             <span className="text-[10px] font-mono text-neutral-500 uppercase px-1 font-semibold">Dev:</span>
 
             {/* Tier Switcher */}
@@ -158,16 +173,6 @@ function WorkspaceRouter() {
                 </button>
               ))}
             </div>
-
-            {/* Quick Theme Toggle */}
-            <button
-              onClick={toggleTheme}
-              className="px-2 py-0.5 rounded-md bg-neutral-100 hover:bg-neutral-200 dark:bg-white/[0.06] dark:hover:bg-white/[0.1] text-neutral-700 dark:text-neutral-300 text-[10px] font-mono flex items-center gap-1 transition-colors cursor-pointer"
-              title="Toggle Light / Dark Mode"
-            >
-              {isDark ? <Sun className="w-2.5 h-2.5 text-amber-500" /> : <Moon className="w-2.5 h-2.5 text-neutral-600" />}
-              <span>{isDark ? 'Light' : 'Dark'}</span>
-            </button>
 
             {/* Reset Onboarding Button */}
             <button

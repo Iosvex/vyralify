@@ -27,14 +27,12 @@ import { useAuth } from '../../context/AuthContext';
 import { usePage } from '../../context/PageContext';
 import { usePlanGating } from '../../context/PlanGatingContext';
 import { useNotifications } from '../../context/NotificationContext';
-import { useTheme } from '../../context/ThemeContext';
 
 export default function AccountSettings({ onNavigate }) {
   const { user, tier, updateTier, logout } = useAuth();
   const { activePage } = usePage();
   const { openUpgradeModal } = usePlanGating();
   const { addNotification } = useNotifications();
-  const { isDark, toggleTheme } = useTheme();
 
   // Active Sub-Tab: 'account' | 'billing' | 'security' | 'preferences'
   const [activeTab, setActiveTab] = useState('account');
@@ -464,13 +462,10 @@ export default function AccountSettings({ onNavigate }) {
           </div>
 
           <div className="pt-3 border-t border-neutral-200/80 dark:border-white/[0.06] flex items-center justify-between text-xs">
-            <span className="text-neutral-500">Theme Preference:</span>
-            <button
-              onClick={toggleTheme}
-              className="px-3 py-1.5 rounded-xl bg-neutral-100 dark:bg-white/[0.04] text-neutral-800 dark:text-neutral-200 font-semibold cursor-pointer"
-            >
-              {isDark ? '🌙 Dark Mode Active' : '☀️ Light Mode Active'}
-            </button>
+            <span className="text-neutral-500">Theme:</span>
+            <span className="px-3 py-1.5 rounded-xl bg-white/[0.04] border border-white/[0.08] text-neutral-300 font-mono text-[11px] font-semibold">
+              🌙 Permanent Obsidian Dark Mode
+            </span>
           </div>
         </div>
       )}

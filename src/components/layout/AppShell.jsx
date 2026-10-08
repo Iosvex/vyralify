@@ -15,15 +15,12 @@ import {
   ExternalLink,
   Layers,
   Zap,
-  Crown,
-  Sun,
-  Moon
+  Crown
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { usePage } from '../../context/PageContext';
 import { usePlanGating } from '../../context/PlanGatingContext';
 import { useNotifications } from '../../context/NotificationContext';
-import { useTheme } from '../../context/ThemeContext';
 import UpgradeModal from '../common/UpgradeModal';
 import GlobalSearchModal from '../common/GlobalSearchModal';
 import ConnectAccountModal from '../common/ConnectAccountModal';
@@ -33,7 +30,6 @@ export default function AppShell({ activeModule, onSelectModule, children }) {
   const { pages, activePage, switchPage, canAddMorePages, getPageLimit } = usePage();
   const { openUpgradeModal } = usePlanGating();
   const { notifications, unreadCount, markAsRead, markAllAsRead } = useNotifications();
-  const { isDark, toggleTheme } = useTheme();
 
   const [isPageDropdownOpen, setIsPageDropdownOpen] = useState(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
@@ -195,16 +191,6 @@ export default function AppShell({ activeModule, onSelectModule, children }) {
                 >
                   <Settings className="w-3.5 h-3.5 text-neutral-500" />
                   <span>Account & Settings</span>
-                </button>
-                <button
-                  onClick={() => {
-                    toggleTheme();
-                    setIsProfileMenuOpen(false);
-                  }}
-                  className="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-lg hover:bg-neutral-100 dark:hover:bg-white/[0.06] text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white transition-colors cursor-pointer"
-                >
-                  {isDark ? <Sun className="w-3.5 h-3.5 text-amber-500" /> : <Moon className="w-3.5 h-3.5 text-neutral-500" />}
-                  <span>{isDark ? 'Switch to Light Theme' : 'Switch to Dark Theme'}</span>
                 </button>
                 <button
                   onClick={() => {

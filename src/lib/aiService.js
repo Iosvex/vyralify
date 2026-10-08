@@ -3,8 +3,8 @@
  * Powered by Groq (LLaMA-3 / GPT-OSS) and Google Gemini with live API keys.
  */
 
-const GROQ_API_KEY = import.meta.env.VITE_GROQ_API_KEY || '';
-const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY || '';
+const GROQ_API_KEY = import.meta.env.VITE_GROQ_API_KEY || import.meta.env.GROQ_API_KEY || '';
+const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY || import.meta.env.GEMINI_API_KEY || '';
 
 /**
  * Call Groq Live API with model fallback

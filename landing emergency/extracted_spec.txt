@@ -1,0 +1,1478 @@
+=== PAGE 1 ===
+Vyralify — Main Website: Final Landing Page Spec 
+For: Development team  |  Source: the uploaded Vyralify Website Specification (kept in full) plus the 7 
+conversion rules  |  Status: final 
+How to read this doc. Every line of the uploaded Website Specification is kept exactly as written: colors, 
+sizes, copy, numbers, components. The 7 conversion rules are applied on top, and each addition is 
+marked [+ Rule N]. Nothing from the draft was removed. A short list of things to double-check before 
+launch is in section 8; it removes nothing either. 
+ 
+1. Objective and strategy 
+Business goal: maximum revenue from a freemium product. Signup is open to everyone at launch (no 
+waitlist). This is the main Vyralify website, the page where people sign up and buy. 
+The page has one job: get the visitor to click Start Free. Revenue comes from Free users who feel the 
+product's value and upgrade to Pro or Elite. Two metrics: visitor to Free signup (this page), and Free to 
+paid (the product, prepared by the pricing section). 
+Two audiences, one page: beginners with no page who want to start one to earn, and existing creators 
+who want to grow, automate and monetize faster. 
+Positioning: one platform that takes a creator from zero to first sale. Brand promise: Everything You Need 
+to Build, Grow & Monetize Your Instagram Business. 
+ 
+2. The 7 conversion rules and where the page applies them 
+# 
+Rule 
+How the page applies it 
+Sections 
+1 
+Hero rule: in 5 seconds 
+the visitor knows what 
+it is, who it is for and 
+what to do. Risk 
+removed next to the 
+button 
+Headline says what, 
+subheading and the 
+beginner line say who, 
+the buttons say what 
+next. Beginner line: No 
+page yet? We'll help 
+you pick a niche and 
+start. Trust text under 
+the buttons: Free plan · 
+No credit card required 
+2 
+2 
+Outcomes over 
+features: result first, 
+tool second 
+Every feature is paired 
+with the result it gives. 
+Each spotlight and card 
+4, 7 to 12 
+
+
+=== PAGE 2 ===
+# 
+Rule 
+How the page applies it 
+Sections 
+gets an outcome line 
+above its feature list 
+3 
+Dual audience: 
+beginners and existing 
+creators each see their 
+own path 
+Nav links For Beginners 
+and For Creators, hero 
+beginner line, audience 
+chips, an interactive 
+'Who is this for?' toggle 
+with the two path 
+cards, and the chosen 
+path carried into 
+sign-up 
+1, 2, 4, 7, 10, 13 
+4 
+Real product 
+demonstration: real 
+software, no stock 
+mockups or decorative 
+icons 
+Every screenshot, 
+mockup and floating 
+card is built from the 
+real product screens 
+and components. 
+Watch Demo opens an 
+interactive demo: AI 
+chat prompt, 
+data-backed response, 
+action button 
+2, 5, 7 to 12 
+5 
+Differentiators: AI on 
+real Instagram data, 
+Discover & Create as 
+the daily-use hook, 
+Automation as the 
+earn-while-you-sleep 
+payoff, and the same 
+outcome angle for the 
+rest 
+One spotlight each with 
+a differentiator line and 
+the sharpest outcome 
+8 to 12 
+6 
+Pricing psychology: Pro 
+Recommended with a 
+neon green border, 
+Free visible, Elite as the 
+anchor, explicit 
+numbers 
+Pro marked 
+Recommended; Free 
+has a full card and a 
+Start Free link above 
+the cards; Elite shown 
+at full size next to Pro; 
+every feature line 
+carries its number 
+14 
+
+
+=== PAGE 3 ===
+# 
+Rule 
+How the page applies it 
+Sections 
+7 
+Free mini tool 
+(post-launch): a 
+no-signup tool for SEO 
+traffic and qualified 
+leads 
+Specified in section 7 
+7 
+ 
+3. Global rules (apply to every section) 
+From the uploaded specification (unchanged) 
+•​
+Theme: Dark hero + white body alternating pattern. Dark sections: bg #0A0A0A. White sections: 
+bg #FFFFFF or #F9F9F9. 
+•​
+Green accent: #23E598 (primary CTA, highlights, active states) 
+•​
+Typography: Inter throughout. Headlines bold (700), body regular (400). 
+•​
+Max content width: 1200px, centered, with 80px side padding on desktop, 40px tablet, 20px 
+mobile. 
+•​
+Primary CTA everywhere: “Start Free →” — green pill button, black text, no exceptions. 
+•​
+Secondary CTA: “See How It Works” or “Watch Demo” — ghost/outline style. 
+•​
+No credit card required microcopy always appears below primary CTA. 
+•​
+Navbar stays sticky — always visible on scroll. 
+•​
+Smooth scroll between sections. 
+•​
+All animations: subtle, purposeful, max 300ms. No bounce. No excessive motion. 
+Added by the conversion rules 
+•​
+[+ Rule 1] The trust text under primary buttons in the hero, pricing and final CTA starts with the 
+exact words Free plan · No credit card required. 
+•​
+[+ Rule 2] Copy rule: lead with the result, then name the tool. Example: not “AI assistant” but 
+“Your personal Instagram growth co-pilot that analyzes your own metrics”. 
+•​
+[+ Rule 3] Wherever a section speaks to one audience, it carries a small chip: For Everyone, For 
+Creators, For Beginners or For Scaling Creators. 
+•​
+[+ Rule 4] Every screenshot, phone mockup and floating card comes from the real product UI. No 
+stock images, no decorative icons standing in for the product. 
+•​
+[+ Motion] All animation respects the device's reduce-motion setting. 
+•​
+[+ Accessibility] Visible focus ring on every interactive element; menus, accordions, toggles and 
+the demo work with a keyboard. 
+ 
+4. Section-by-section spec 
+01. HEADER (Announcement Strip + Navbar) 
+Announcement Strip 
+
+
+=== PAGE 4 ===
+•​
+Height: 40px 
+•​
+Background: #23E598 (green) 
+•​
+Text color: #000000 
+•​
+Content: “🚀 Vyralify is live — Build, Grow & Monetize your Instagram page. Start free today →” 
+•​
+Arrow link: clicks to Hero CTA / signup 
+•​
+Dismissible: X button on right side, preference saved to localStorage 
+•​
+Mobile: same, text truncates gracefully, still dismissible 
+Navbar 
+•​
+Height: 64px 
+•​
+Background: #0A0A0A (dark, matches hero) 
+•​
+Border bottom: 1px solid #1F1F1F 
+•​
+Sticky: yes — stays on top on scroll, slight blur backdrop when scrolled (backdrop-filter: 
+blur(12px), bg: rgba(10,10,10,0.85)) 
+Layout (left to right): [Vyralify Logo]  [Product ▾]  [Pricing]  [For Creators]  [For Beginners]  [Log In]  [Start 
+Free →] 
+•​
+Logo: Vyralify wordmark + V icon, white, 28px height 
+•​
+Nav links: 14px, #A0A0A0, hover: #FFFFFF, transition 150ms 
+•​
+Product dropdown: on hover/click, a mega dropdown showing all 6 modules with icon + 1-line 
+description 
+•​
+Log In: ghost, white text, no border 
+•​
+Start Free →: green pill, black text, 36px height, 20px side padding 
+Product Dropdown content 
+•​
+🤖 Vyralify AI — Your 24/7 Instagram growth co-pilot 
+•​
+🔎 Discover & Create — Find what works, create what wins 
+•​
+🚀 Page Builder — Build your page the right way 
+•​
+⚡ Instagram Automation — Turn engagement into leads 
+•​
+💰 Store & Commerce — Monetize your audience 
+•​
+🏠 Dashboard — Track everything in one place 
+Mobile Navbar 
+•​
+Hamburger icon (right side) opens full-screen nav overlay 
+•​
+Overlay: dark bg, stacked links (large, 18px), Start Free CTA at bottom 
+•​
+Close X top-right 
+[+ Rule 3] For Creators scrolls to the I already have a page card in Section 13 and For Beginners scrolls to 
+the Starting from scratch card, each briefly highlighted (300ms outline). Each dropdown item scrolls to 
+its own spotlight (Dashboard scrolls to Section 5). 
+02. HERO SECTION 
+•​
+Background: #0A0A0A (dark) 
+•​
+Min height: 100vh 
+
+
+=== PAGE 5 ===
+•​
+Layout: centered, single column 
+Eyebrow 
+•​
+Text: “BUILD. GROW. MONETIZE.” 
+•​
+Style: 12px, 600 weight, letter-spacing: 0.15em, #23E598, uppercase 
+•​
+Decoration: subtle green dot before and after text, or thin horizontal lines flanking it 
+Headline 
+•​
+Text: “Everything You Need to Build, Grow & Monetize Your Instagram Business” 
+•​
+Size: 56px desktop / 40px tablet / 32px mobile 
+•​
+Weight: 700 
+•​
+Color: #FFFFFF 
+•​
+“Instagram Business” — last two words rendered in #23E598 
+•​
+Line height: 1.15 
+•​
+Max width: 800px, centered 
+Subheading 
+•​
+Text: “Build and grow your Instagram with Vyralify AI — discover what to post, create content 
+that performs, automate your DMs, and turn your attention into real revenue.” 
+•​
+Size: 18px desktop / 16px mobile 
+•​
+Weight: 400 
+•​
+Color: #A0A0A0 
+•​
+Max width: 600px, centered 
+•​
+Margin top: 20px 
+[+ Rule 1] Beginner line, directly under the subheading: No page yet? We'll help you pick a niche and 
+start. 15px, white at 85%, with a small arrow. It scrolls to the beginner card in Section 13. This is what 
+hooks a beginner in the first screen. 
+CTA Row: [Start Free →]  [Watch Demo ▶] 
+•​
+Primary: green pill, black text, 44px height, 28px side padding 
+•​
+Secondary: ghost, white border, white text, same height 
+•​
+Gap: 16px 
+•​
+Margin top: 32px 
+•​
+[+ Rule 4] Watch Demo opens the interactive product demo (the same scripted AI demo as 
+Section 8: prompt, data-backed response, action button) in a modal, with Start Free inside it. 
+Below CTA Microcopy 
+•​
+Text: “Free plan · No credit card required · Cancel anytime” (the draft's 'Free to start' opening is 
+replaced by the Rule 1 wording 'Free plan') 
+•​
+Size: 13px, #555555 
+•​
+Margin top: 12px 
+Main Visual (Product Dashboard Mockup) 
+
+
+=== PAGE 6 ===
+•​
+Large dashboard screenshot/mockup of the Vyralify Home screen 
+•​
+Shown in a subtle dark device frame (not a browser chrome — just rounded corners + shadow) 
+•​
+Width: 100% of content area, max 1000px 
+•​
+Margin top: 48px 
+•​
+Slight perspective tilt (3D CSS transform: rotateX(8deg)) for premium feel — straightens on scroll 
+•​
+Around the main mockup, 3 floating element cards (appear with staggered fade-in animation): 
+o​
+Top-left: “✨ What should I post next?” — AI suggestion bubble 
+o​
+Top-right: “+18.4K followers this month” — growth card (green badge) 
+o​
+Bottom-right: “New Sale: ₹499 — Digital Product” — sale notification card 
+•​
+Floating cards: --bg-surface (#111111) background, green left border, subtle shadow 
+•​
+[+ Rule 4] The dashboard and the three cards are captured from the real Home screen and real 
+product components, not drawn separately. 
+Background Treatment 
+•​
+Very subtle green radial gradient behind the headline (not obvious — just a glow at 5% opacity) 
+•​
+No particles, no excessive decoration 
+•​
+Grid dot pattern at very low opacity (5%) across the dark area — adds texture without noise 
+Mobile Hero 
+•​
+Headline: 32px 
+•​
+Dashboard mockup: full width, no tilt 
+•​
+Floating cards: hidden on mobile (too cluttered) 
+•​
+CTAs: stacked vertically, full width 
+[+ Rule 1] 5-second check. Above the fold the visitor can answer three things: what is it (headline), who 
+is it for (subheading plus beginner line), what do I do (Start Free, with the risk text under it). 
+03. TRUST STRIP 
+•​
+Background: #FFFFFF 
+•​
+Padding: 48px 0 
+•​
+Border top/bottom: 1px solid #EBEBEB 
+Label 
+•​
+Text: “Trusted by creators and page owners worldwide” 
+•​
+Size: 13px, #999999, centered, uppercase, letter-spacing: 0.1em 
+Marquee Row 
+•​
+Horizontally scrolling, infinite loop, left direction, 40s duration 
+•​
+Pause on hover 
+•​
+Items: creator @handles with avatar (24px circle) + username + small category chip 
+•​
+Each item styled as a compact pill card: [Avatar] @handle [Creator] “2.4M views” 
+•​
+Gap between items: 32px 
+•​
+Fade edges: gradient mask on left and right edges of the marquee container (transparent → 
+white) 
+
+
+=== PAGE 7 ===
+•​
+Duplicated set for seamless loop 
+Metric Row (below marquee): 4 stats, equal width, separated by vertical dividers 
+10K+ 
+900M+ 
+1M+ 
+₹50L+ 
+Creators 
+Combined Views 
+Pieces of Content 
+Creator Earnings 
+•​
+Number: 28px, 700, #0A0A0A 
+•​
+Label: 13px, #666666 
+•​
+Dividers: 1px #EBEBEB, 40px height centered 
+[+ Rule 1] Safety row, directly below the metric row. Four items, each with a line icon, a bold short title 
+and one line, so the fear of losing the account is removed before the visitor scrolls on: 
+Item 
+Line 
+Official Instagram login 
+Connect through Meta's own login. 
+You stay in control 
+Nothing posts or messages unless you set it up. 
+Built for Meta's limits 
+Automation is designed to follow Meta's 
+messaging limits. 
+Your data, your choice 
+Export or delete your data anytime. 
+•​
+Mobile: the metric row and the safety row are each 2 by 2. 
+04. PROBLEM & SOLUTION 
+•​
+Background: #FFFFFF 
+•​
+Padding: 100px 0 
+Section Label: “THE PROBLEM” — 12px, #23E598, uppercase, letter-spacing: 0.15em, centered 
+Headline: “Most creators are doing everything wrong — and don't know why it's not working.” 40px 
+desktop / 30px mobile, 700, #0A0A0A, centered, max-width 700px 
+Problem Cards (3 cards, horizontal row). Each card: 
+•​
+Background: #F9F9F9 
+•​
+Border: 1px solid #EBEBEB 
+•​
+Radius: 12px 
+•​
+Padding: 28px 
+•​
+Icon: 40px, simple line icon in red-soft (#FF4D4F) 
+•​
+Title: 18px, 600, #0A0A0A 
+•​
+Description: 14px, #666666, 3-4 lines 
+Card 1: No System. Icon: broken puzzle piece. Title: “Posting randomly and hoping something goes viral”. 
+Desc: “No strategy, no content system, no understanding of what actually drives growth — just guessing 
+every single day.” 
+
+
+=== PAGE 8 ===
+Card 2: No Direction. Icon: compass with X. Title: “10 different tools, zero clarity on what's working”. 
+Desc: “Analytics here, content ideas there, scheduling somewhere else — scattered across apps that 
+don't talk to each other.” 
+Card 3: No Revenue. Icon: empty wallet. Title: “Thousands of followers, no way to monetize them”. 
+Desc: “The audience is there but there's no system to turn views, comments and DMs into actual 
+income.” 
+Transition Arrow / Divider 
+•​
+Large “→” or “↓” in green (#23E598), 48px, centered 
+•​
+Below it: “There's a better way.” 
+•​
+20px, 600, #0A0A0A 
+Solution Statement 
+•​
+Headline: “Vyralify gives you the complete system.” 
+•​
+36px, 700, #0A0A0A, centered 
+•​
+Subtext: “One platform. AI-powered. Built specifically for Instagram creators and page owners.” 
+•​
+16px, #666666, centered, max 560px 
+[+ Rule 3] Both audiences, one line each, under the three cards: Just starting? The hardest part is 
+knowing where to begin. Vyralify starts with your niche. and Already growing but stuck? Vyralify shows 
+what's working on your page and what to do next. 
+[+ Rule 2] Outcome line, under the solution subtext, 18px, 600: Know what to post. Reply 
+automatically. Get paid. 
+05. ONE CONNECTED CREATOR SYSTEM 
+•​
+Background: #0A0A0A (dark) 
+•​
+Padding: 100px 0 
+Section Label: “THE SYSTEM” — 12px, #23E598, uppercase, letter-spacing: 0.15em, centered 
+Headline: “Everything works together. Nothing works in isolation.” 40px, 700, #FFFFFF, centered, max 
+700px 
+Subheading: “Vyralify is not a collection of tools. It's one connected system where every module feeds 
+the next.” 16px, #A0A0A0, centered, max 560px 
+Journey Flow Visualization. Horizontal flow on desktop, vertical on mobile: 
+🚀 BUILD → 🔎 DISCOVER → ✍️ CREATE → ⚡ AUTOMATE → 💰 MONETIZE → 📊 MEASURE 
+Each step: 
+•​
+Icon (40px, green) 
+•​
+Step name (14px, 600, white) 
+•​
+1-line description (12px, #666666) 
+•​
+Connected by a dotted green line between steps 
+
+
+=== PAGE 9 ===
+On hover of each step: expands slightly, shows a mini tooltip/card with a screenshot of that module. 
+[+ Rule 2] One-line descriptions for the six steps (the draft sets the style, these are the words): 
+Step 
+Description 
+Build 
+Set up your niche, profile and audience. 
+Discover 
+See what's working in your niche. 
+Create 
+Turn it into hooks, scripts and captions. 
+Automate 
+Reply to comments and DMs automatically. 
+Monetize 
+Sell from one link in your bio. 
+Measure 
+Track growth and revenue in one place. 
+[+ Rule 4] The tooltip screenshots are real module screens. On touch devices (no hover), tapping a step 
+opens the same card; steps are also keyboard operable. On mobile each step expands in place, one at a 
+time. 
+Below the flow: 
+•​
+“✨ Vyralify AI sits across all of it — learning what works for your specific page and telling you 
+what to do next.” 
+•​
+14px, #A0A0A0, italic, centered 
+•​
+AI sparkle icon before the text 
+Connection Lines (visual treatment): The arrows between steps pulse with a subtle green animation 
+(keyframe: opacity 0.4 → 1 → 0.4, 2s loop) — implies data flowing between modules. Subtle, not 
+distracting. 
+[+ Rule 5] Example chain, caption under the flow: Save a trend in Discover. Turn it into a script in Create. 
+Send your product link by DM in Automation. See the sale on your Dashboard. 
+06. RESULTS & TESTIMONIALS 
+•​
+Background: #FFFFFF 
+•​
+Padding: 100px 0 
+•​
+Status: HIDDEN until genuine proof exists — placeholder structure only, no fake data 
+Section Label: “RESULTS” — 12px, #23E598, uppercase 
+Headline: “Real creators. Real growth. Real revenue.” 40px, 700, #0A0A0A, centered 
+Subheading: “See what happens when creators stop guessing and start using a system.” 16px, #666666, 
+centered 
+2x2 Video/Image Grid 
+•​
+4 large cards in a 2x2 grid 
+•​
+Each card: rounded (16px), overflow hidden 
+
+
+=== PAGE 10 ===
+•​
+Content: video thumbnail or image with play button overlay 
+•​
+Caption overlay (bottom of card, gradient dark bg): 
+o​
+Creator name + handle 
+o​
+Result stat: “+142K followers in 60 days” or “₹2.4L earned in first month” 
+Testimonial Cards (below grid). 2x3 grid of compact cards. Each card: 
+•​
+Avatar (40px circle) + @handle + platform badge 
+•​
+Result stat: bold, green, “2.4M views” or “₹18,400 earned” 
+•​
+Quote: 2-3 lines, #444444, italic 
+•​
+Border: 1px #EBEBEB, radius 12px, padding 20px 
+Placeholder State (before real proof) 
+•​
+This entire section is commented out in the code 
+•​
+A simple internal note: “// RESULTS SECTION — activate when real testimonials available” 
+•​
+Do NOT show empty or fake cards 
+[+ Placement] Position in the page: right after Section 5 (the locked order). While it is hidden, the page 
+flows from Section 5 straight to Section 7. 
+07. BENEFITS MODULES (6 Cards) 
+•​
+Background: #F9F9F9 
+•​
+Padding: 100px 0 
+Section Label: “WHAT'S INSIDE” — 12px, #23E598, uppercase 
+Headline: “One Platform. Everything You Need.” 40px, 700, #0A0A0A, centered 
+Subheading: “From building your first page to automating your DMs and selling your products — every 
+tool lives right here.” 16px, #666666, centered, max 580px 
+Cards (draft: 2x2 grid desktop for the 4 core cards, 1 column mobile; with the 2 added cards the 
+desktop grid is 3 by 2). Each card: 
+•​
+Background: #FFFFFF 
+•​
+Border: 1px solid #EBEBEB 
+•​
+Radius: 12px 
+•​
+Padding: 28px 
+•​
+Real product screenshot (top, 16:9 crop, radius 8px) 
+•​
+Module icon (20px) + Module name (16px, 600, #0A0A0A) 
+•​
+Description: 14px, #666666, 2 lines 
+•​
+Audience tag chip: “For Everyone” / “For Creators” / “For Beginners” (bottom) 
+•​
+Hover: translateY(-4px), shadow appears, border lightens 
+Card 1: 🤖 Vyralify AI. Screenshot: AI chat interface with a real-looking response. Description: “Your 
+24/7 growth co-pilot — tells you what to post, why content worked, and what to do next.” Tag: For 
+Everyone 
+
+
+=== PAGE 11 ===
+Card 2: 🔎 Discover & Create. Screenshot: Trending content feed + hook generator output. Description: 
+“Find viral formats, trending audio, and winning hooks — then generate scripts and captions in seconds.” 
+Tag: For Creators 
+Card 3: ⚡ Instagram Automation. Screenshot: Automation setup screen with DM flow preview. 
+Description: “Turn comments and DMs into leads and sales automatically — set it up once, earn while 
+you sleep.” Tag: For Everyone 
+Card 4: 💰 Store & Commerce. Screenshot: Link-in-bio storefront on mobile. Description: “Sell digital 
+products, build your storefront, and turn your audience into recurring revenue.” Tag: For Scaling Creators 
+[+ Rule 3, 5] Card 5: 🚀 Page Builder. Screenshot: Niche selector with category cards. Description: “Build 
+the right page from day one — pick a niche, set up your bio and positioning, or audit the page you 
+already have.” Tag: For Beginners 
+[+ Rule 5] Card 6: 🏠 Dashboard. Screenshot: Home screen. Description: “See followers, views and 
+revenue in one place, with AI suggestions on what to do next.” Tag: For Everyone 
+Bottom of Section 
+•​
+“See Everything Inside →” — text link, green, centered, 14px 
+•​
+Links to the Pricing section or a dedicated features page (opens the comparison table in Section 
+14) 
+08. VYRALIFY AI SPOTLIGHT 
+•​
+Background: #0A0A0A (dark) 
+•​
+Padding: 100px 0 
+•​
+Layout: Two-column (50/50), left copy, right visual 
+Left: Copy 
+•​
+Label: “VYRALIFY AI” (green, uppercase, 12px) 
+•​
+Headline: “Your 24/7 Instagram growth expert.” 36px, 700, #FFFFFF 
+•​
+Subheading: “Stop guessing what to post, why a Reel flopped, or how to grow. Vyralify AI knows 
+your page inside out — and tells you exactly what to do next.” 16px, #A0A0A0 
+•​
+Feature list (4 bullet points with green checkmark icons): 
+o​
+✓ Analyzes your actual content, audience, and competitors 
+o​
+✓ Tells you what to post, when to post, and why 
+o​
+✓ Explains why each Reel worked or underperformed 
+o​
+✓ Suggests the exact next action — and links you straight there 
+•​
+CTA: “Try Vyralify AI Free →” (green pill). Below: “No credit card required” 
+Right: Visual. Large AI chat mockup (not a generic ChatGPT UI): 
+•​
+Vyralify-branded chat interface 
+•​
+Shows a real-looking multi-turn conversation: User: “Why did my last Reel underperform?” AI: 
+[Detailed, data-specific response with bold highlights, bullet points, and at the bottom: action 
+buttons “Create Similar Reel” + “View Analytics”] 
+
+
+=== PAGE 12 ===
+•​
+The response references real-looking numbers (“Your last Reel got 12K views vs your 34K 
+average”) 
+•​
+Chat input bar visible at bottom: “Ask Vyralify anything...” 
+•​
+Slight glow behind the mockup (green, radial, low opacity) 
+Mobile: Stacked: visual on top, copy below 
+[+ Rule 5] Differentiator line, under the subheading, in a small green-outlined chip: Not generic AI. It 
+works from your real Instagram data. 
+[+ Rule 2] Outcome line, above the feature list: Know exactly what to post, and why, from your own 
+numbers. 
+[+ Rule 4] Interactive demo. The chat mockup is clickable. Three prompt chips sit under it: Why did my 
+last Reel underperform? · What should I post today? · What should I fix on my page? Selecting a chip 
+shows the question, a short typing indicator (about 600ms), then a scripted answer with bold highlights, 
+bullets, example numbers and the two action buttons. The action buttons show a small note (In the app 
+this opens Create with this idea ready) and a Start Free link. The input bar is locked in the demo with the 
+tooltip Create a free account to ask your own questions. The demo is scripted and static (no live AI calls 
+from the website). The same demo opens from Watch Demo in the hero and the final CTA. 
+[+ Plan note] small grey text under the feature list: Free includes basic Q&A. Pro adds deep analysis and 
+strategy plans. 
+09. DISCOVER & CREATE SPOTLIGHT 
+•​
+Background: #FFFFFF 
+•​
+Padding: 100px 0 
+•​
+Layout: Two-column, LEFT visual, RIGHT copy (alternating from AI spotlight) 
+Right: Copy 
+•​
+Label: “DISCOVER & CREATE” (green, uppercase, 12px) 
+•​
+Headline: “Find what's going viral. Create it in seconds.” 36px, 700, #0A0A0A 
+•​
+Subheading: “Vyralify scans your niche in real-time — trending formats, winning hooks, viral 
+audio — and turns what's working into ready-to-post content for your specific page.” 16px, 
+#666666 
+•​
+Feature list: 
+o​
+✓ Real-time trending content feed — filtered by your niche 
+o​
+✓ Hook Generator with 50+ proven hook structures 
+o​
+✓ Full Reel scripts, captions, and CTAs — AI-generated 
+o​
+✓ 30-Day Content Planner — never run out of ideas again 
+•​
+CTA: “Start Creating Free →” (green pill) 
+Left: Visual. Split screenshot showing: 
+•​
+Top half: Trending content discovery feed with niche filters 
+•​
+Bottom half: Hook Generator output showing 6 hook variations 
+•​
+Subtle connecting arrow between the two panels (“Discover → Create”) 
+
+
+=== PAGE 13 ===
+Mobile: Stacked: visual on top, copy below 
+[+ Rule 5] Daily-use hook line, above the feature list: Open it every day to see what's working in your 
+niche, then make your next post in minutes. 
+[+ Rule 3, 4] Under the visual, small chips for the 8 launch niche categories: Business & Money, 
+Self-Improvement, Health & Fitness, Fashion & Beauty, Cars & Automotive, Travel & Lifestyle, 
+Entertainment, Sports. 
+[+ Plan note] Free has limited filters, 1 tracked competitor and a 7-day planner. Pro unlocks the full set. 
+10. PAGE BUILDER SPOTLIGHT 
+•​
+Background: #F9F9F9 
+•​
+Padding: 100px 0 
+•​
+Layout: Two-column, LEFT copy, RIGHT visual 
+Left: Copy 
+•​
+Label: “PAGE BUILDER” (green, uppercase, 12px) 
+•​
+Headline: “Build the right page from day one.” 36px, 700, #0A0A0A 
+•​
+Subheading: “Whether you're starting from scratch or optimizing an existing page — Vyralify's AI 
+guides you through niche selection, positioning, bio, and setup so your page is built to grow from 
+the very first post.” 16px, #666666 
+•​
+Feature list: 
+o​
+✓ AI-powered niche selector with profitability scores 
+o​
+✓ Bio generator tailored to your niche and goals 
+o​
+✓ Automatic page audit with specific fix recommendations 
+o​
+✓ Manage multiple pages from one dashboard 
+•​
+Special callout (small highlighted card within copy): “🚀 Perfect for beginners — no experience 
+needed. Vyralify walks you through every step.” Background: green-subtle (#23E598 at 8% 
+opacity), green left border, 12px, #1DC884 
+•​
+CTA: “Build Your Page Free →” (green pill) 
+Right: Visual. Phone mockup showing: 
+•​
+Niche Selector screen with category cards visible 
+•​
+Below it (floating): a Page Health Score card (“Page Health: 74/100”) with 3 recommendation 
+chips 
+[+ Rule 3] Audience chips: For Beginners and For existing pages, shown above the headline, so both 
+audiences see themselves here. 
+[+ Rule 2] Outcome line, above the feature list: Know your niche, your bio and your next move before you 
+post. 
+11. INSTAGRAM AUTOMATION SPOTLIGHT 
+•​
+Background: #0A0A0A (dark) 
+•​
+Padding: 100px 0 
+
+
+=== PAGE 14 ===
+•​
+Layout: Two-column, LEFT visual, RIGHT copy 
+Right: Copy 
+•​
+Label: “INSTAGRAM AUTOMATION” (green, uppercase, 12px) 
+•​
+Headline: “Turn every comment and DM into a sale. Automatically.” 36px, 700, #FFFFFF 
+•​
+Subheading: “Set up once. Then watch Vyralify automatically reply to comments, deliver product 
+links via DM, and convert your followers into customers — while you're asleep.” 16px, #A0A0A0 
+•​
+Feature list: 
+o​
+✓ Comment → DM automation (someone comments, gets a DM instantly) 
+o​
+✓ Keyword triggers — set words that unlock automated responses 
+o​
+✓ AI Auto-Conversations that qualify and convert leads 
+o​
+✓ Full conversation logs — always in control 
+•​
+Urgency/proof line: “Creators using Vyralify Automation never miss a lead — even at 3am.” 13px, 
+#555555, italic 
+•​
+CTA: “Set Up Automation Free →” (green pill) 
+Left: Visual. Phone frame showing a DM conversation: 
+•​
+User posted: “Comment 'FREE' for the guide!” 
+•​
+Follower comments: “FREE” 
+•​
+Auto-DM appears instantly: “Hey! Here's your free guide 👇 [link]” 
+•​
+Then: “💳 New Sale: ₹299 — Instagram Growth Guide” notification card floats above the phone 
+•​
+Green glow behind the phone mockup 
+[+ Rule 5] Earn-while-you-sleep flow strip, above the phone: Comment → Auto DM → Product delivery 
+→ Sale. One line under it: Set it up once. It keeps working while you sleep. 
+[+ Plan note] Automation is a Pro feature. Under the CTA: Start free, unlock Automation on Pro. A small 
+Pro tag sits next to the label. Safety line under the feature list: Designed to follow Meta's messaging 
+limits. You choose what runs, and you can take over any AI conversation at any time. 
+12. STORE & MONETISATION SPOTLIGHT 
+•​
+Background: #FFFFFF 
+•​
+Padding: 100px 0 
+•​
+Layout: Two-column, LEFT copy, RIGHT visual 
+Left: Copy 
+•​
+Label: “STORE & COMMERCE” (green, uppercase, 12px) 
+•​
+Headline: “Turn your audience into a real business.” 36px, 700, #0A0A0A 
+•​
+Subheading: “Vyralify gives you a complete link-in-bio storefront to sell digital products, services, 
+and subscriptions — directly from your Instagram bio. No separate tools. No monthly Shopify 
+bill.” 16px, #666666 
+•​
+Feature list: 
+o​
+✓ Link-in-bio storefront — one link, everything you sell 
+o​
+✓ Sell digital products, guides, courses, and services 
+o​
+✓ Automated delivery — product sent instantly after payment 
+
+
+=== PAGE 15 ===
+o​
+✓ Revenue tracking and sales analytics built in 
+•​
+Revenue callout card: “💰 Average Vyralify creator earns their first ₹ within 7 days of setting up 
+their store.” Green subtle bg, green left border (placeholder stat — replace with real data when 
+available) 
+•​
+CTA: “Set Up Your Store Free →” (green pill) 
+Right: Visual. Phone mockup showing the link-in-bio storefront: 
+•​
+Creator profile header (avatar + name + bio) 
+•​
+3 product cards below (visible, scrollable): 
+o​
+“Instagram Growth Guide — ₹299” 
+o​
+“Reel Hook Templates — ₹199” 
+o​
+“1:1 Coaching Call — ₹1,999” 
+•​
+Floating revenue notification: “Total Revenue this month: ₹24,800 ↑6.2%” 
+[+ Rule 2, 5] Outcome line, above the feature list: One link in your bio, and your audience can buy from 
+you today. 
+[+ Rule 5] Added feature line (fifth bullet): ✓ Add ready-to-sell offers from the Winning Products 
+library. The storefront link is shown in the mockup as vyralify.io/u/username. 
+[+ Plan note] Free includes 1 product. Pro unlocks unlimited products and the full library. 
+13. HOW IT WORKS + TWO STARTING PATHS 
+•​
+Background: #0A0A0A (dark) 
+•​
+Padding: 100px 0 
+Section Label: “HOW IT WORKS” — 12px, #23E598, uppercase, centered 
+Headline: “Start in minutes. See results fast.” 40px, 700, #FFFFFF, centered 
+[+ Rule 3] Who is this for? toggle, directly under the headline: a segmented control with two options, 
+Starting from scratch and I have a page, and the line Who is this for? Pick your starting point. On 
+desktop both cards stay visible side by side and the chosen card is highlighted. On mobile the toggle 
+swaps which card is shown (beginner first). The nav links For Beginners and For Creators set this toggle. 
+Two Path Cards (side by side, equal width) 
+Card 1: 🚀 Starting from scratch. Background: #111111, green border (1px), radius 16px, padding 32px 
+•​
+Title: “I want to build a page from scratch” 
+•​
+Subtitle: “Perfect if you have no Instagram page yet” 
+•​
+Steps (numbered, stacked): 
+a.​ Create your Vyralify account (free) 
+b.​ Choose your niche using our AI selector 
+c.​ Set up your page positioning and bio 
+d.​ Discover trending content and create your first posts 
+e.​ Set up automation and store to start earning 
+•​
+CTA at bottom: “Start Building →” (green pill) 
+
+
+=== PAGE 16 ===
+Card 2: 📱 Already have a page. Background: #111111, white/subtle border, radius 16px, padding 32px 
+•​
+Title: “I already have an Instagram page” 
+•​
+Subtitle: “Perfect if you want to grow and monetize faster” 
+•​
+Steps (numbered, stacked): 
+a.​ Connect your existing Instagram page 
+b.​ Run your free page audit (see what to fix) 
+c.​ Get AI-powered content recommendations 
+d.​ Set up DM automation to capture leads 
+e.​ Launch your store and monetize your audience 
+•​
+CTA at bottom: “Connect My Page →” (white outline pill) 
+Below Both Cards 
+•​
+Small text: “Both paths take less than 5 minutes to set up.” 
+•​
+14px, #555555, centered 
+[+ Rule 3] Both card buttons go to sign-up with the path attached (path=scratch or path=existing), so 
+the branching question in onboarding opens pre-selected (the visitor can still change it). 
+14. PRICING + COMPARISON TABLE 
+•​
+Background: #FFFFFF 
+•​
+Padding: 100px 0 
+Section Label: “PRICING” — 12px, #23E598, uppercase, centered 
+Headline: “Simple pricing. Start free.” 40px, 700, #0A0A0A, centered 
+Subheading: “Free to start, upgrade when you're ready to scale. No hidden fees.” 16px, #666666, 
+centered 
+[+ Rule 6] Directly under the subheading, a text link so the Free entry is never buried: Just want to try it? 
+Start Free → 
+Billing Toggle: [Monthly]  [Annually — Save 30%] 
+•​
+Pill toggle, centered 
+•​
+Annual selected: “Save 30%” badge in green 
+•​
+Prices update dynamically when toggled 
+3 Pricing Cards. Layout: 3 columns, center card (Pro) slightly elevated/larger + shadow + “Most Popular” 
+badge 
+Card 1: Free (Starter) 
+•​
+Badge: none 
+•​
+Price: ₹0 / $0 — “Forever free” 
+•​
+Subtitle: “For creators just getting started” 
+•​
+Feature list (6-8 items with ✓ checkmarks): 
+o​
+1 connected page 
+
+
+=== PAGE 17 ===
+o​
+20 AI credits/day 
+o​
+Basic Discover & Create [+ Rule 6: limited filters, 7-day content planner] 
+o​
+1 competitor tracking 
+o​
+1 product in store 
+o​
+Community support 
+•​
+CTA: “Start Free →” (outline button, not green — green reserved for Pro) 
+Card 2: Pro (Most Popular) 
+•​
+Badge: “Most Popular” — green chip, top of card 
+•​
+Card style: slightly larger, green border, subtle green glow 
+•​
+Price: ₹499/mo (monthly) / ₹415/mo (annual, “₹4,988/yr”) 
+•​
+Global: $9/mo / $7.50/mo annual 
+•​
+Subtitle: “For creators serious about growth” 
+•​
+Feature list: 
+o​
+Everything in Free, plus: 
+o​
+3 connected pages 
+o​
+300 AI credits/day 
+o​
+Full Discover & Create [+ Rule 6: full filters, viral database] 
+o​
+10 competitor tracking 
+o​
+30-Day Content Planner + Scheduling 
+o​
+Full Automation (3 active) 
+o​
+Unlimited store products 
+o​
+Email support 
+•​
+CTA: “Start Pro Free →” (green pill, black text) 
+•​
+[+ Rule 6] Under the plan name: Recommended for most creators. The card border is the neon 
+green #23E598 at 2px. 
+Card 3: Elite 
+•​
+Badge: none 
+•​
+Price: ₹1,499/mo / ₹1,249/mo annual 
+•​
+Global: $25/mo / $21/mo annual 
+•​
+Subtitle: “For scaling creators and agencies” 
+•​
+Feature list: 
+o​
+Everything in Pro, plus: 
+o​
+Unlimited pages 
+o​
+Unlimited AI credits 
+o​
+Unlimited automation 
+o​
+AI Auto-Conversations (unlimited) 
+o​
+White Label AI Resale 
+o​
+Priority support 
+o​
+Elite-only features (early access) 
+•​
+CTA: “Start Elite Free →” (outline button) 
+
+
+=== PAGE 18 ===
+[+ Rule 6] Anchoring and order. Elite is always shown at full size next to Pro with its price visible, so 
+₹1,499 anchors ₹499. Desktop order stays Free, Pro, Elite. Mobile stack order: Pro (highlighted) first, Elite 
+directly under it, Free last, with the Start Free link at the top. 
+Below Cards 
+•​
+Row: “✓ No credit card required · ✓ Cancel anytime · ✓ Instant access” 
+•​
+13px, #999999, centered 
+Comparison Table (below cards, collapsible “See full comparison ▾”). Full feature-by-feature table: 
+•​
+Rows: every feature listed 
+•​
+Columns: Free | Pro | Elite 
+•​
+✓ (green) / — (gray dash) / specific values 
+•​
+Sticky header row when table scrolls 
+•​
+Mobile: horizontally scrollable table 
+[+ Rule 6] The rows and values, from the Product Spec (explicit numbers, no vague wording): 
+Feature 
+Free 
+Pro 
+Elite 
+Connected pages 
+1 
+Up to 3 
+Unlimited 
+AI credits (Assistant 
+and content 
+generation) 
+20 / day 
+300 / day 
+Unlimited 
+Vyralify AI 
+Limited (basic Q&A) 
+Full (deep analysis, 
+strategy plans) 
+Full + priority speed 
+Media upload in AI chat 3 / month 
+50 / month 
+Unlimited 
+Conversation history 
+Last 5 
+Unlimited 
+Unlimited 
+Niche selector 
+✓ 
+✓ 
+✓ 
+New page setup wizard 
+✓ 
+✓ 
+✓ 
+Import and audit 
+1 audit 
+Unlimited re-audits 
+Unlimited + priority 
+audit depth 
+Audience 
+demographics 
+Basic 
+Full 
+Full + export 
+Trending feed and 
+search 
+Limited filters 
+Full filters 
+Full filters + early 
+access to new trends 
+Competitor tracking 
+1 
+10 
+Unlimited 
+Niche viral database 
+View only 
+Full access 
+Full access 
+
+
+=== PAGE 19 ===
+Feature 
+Free 
+Pro 
+Elite 
+Hooks, scripts and 
+captions generator 
+Limited (uses daily 
+credits) 
+Full 
+Full + unlimited 
+Content planner 
+7-day 
+30-day 
+30-day + AI auto-fill 
+Post scheduling and 
+calendar 
+Manual reminder only 
+Auto-publish 
+Auto-publish + bulk 
+scheduling 
+Saved and research 
+library 
+10 items 
+Unlimited 
+Unlimited 
+Templates library 
+Limited set 
+Full library 
+Full library + exclusive 
+templates 
+Automation: DM, 
+comment and story 
+triggers 
+Locked 
+Up to 3 active 
+Unlimited 
+Automation: follow and 
+lead collector 
+Locked 
+✓ 
+✓ + advanced 
+segmentation 
+Automation: AI 
+auto-conversations 
+Locked 
+Limited monthly 
+conversations 
+Unlimited 
+Automation: analytics 
+Locked 
+Standard 
+Standard + advanced 
+export 
+Link-in-bio storefront 
+1 product 
+Unlimited products 
+Unlimited + custom 
+branding 
+Winning products 
+library 
+View only 
+Full access 
+Full access + priority 
+new drops 
+Orders and customers 
+Basic (view orders) 
+Full 
+Full + CSV export 
+Sales analytics 
+Basic (total sales) 
+Full funnel analytics 
+Full + export 
+White Label AI 
+Assistant resale 
+— 
+— 
+Exclusive to Elite 
+Support 
+Help Center 
+Email support 
+Priority support 
+15. FAQ 
+•​
+Background: #F9F9F9 
+•​
+Padding: 100px 0 
+Headline: “Everything you need to know.” 40px, 700, #0A0A0A, centered 
+
+
+=== PAGE 20 ===
+Subheading: “Can't find your answer? [Contact us →]” 16px, #666666, centered (contact links to 
+support) 
+FAQ Accordion (10 questions, expand/collapse on click) 
+•​
+Each item: border-bottom 1px #EBEBEB, 20px padding 
+•​
+Question: 16px, 600, #0A0A0A 
+•​
+Answer: 14px, #666666, line-height 1.7 
+•​
+Expand icon: + / − in green 
+•​
+First item open by default 
+Questions: 
+1.​ What exactly is Vyralify? “Vyralify is an AI-powered toolkit for Instagram creators. It helps you 
+build pages, discover viral content, create posts, automate DMs, and sell products — all in one 
+platform.” 
+2.​ Do I need an existing Instagram page to use Vyralify? “No. Vyralify has a complete Page Builder 
+for beginners starting from scratch — niche selector, bio generator, and a step-by-step launch 
+guide. You can start with zero following.” 
+3.​ Is Vyralify's automation safe? Will it get my account banned? “Vyralify's automation is built to 
+stay within Meta's official guidelines. We use rate-limiting and safe messaging patterns — the 
+same methods used by tools like ManyChat, which millions of accounts use safely.” 
+4.​ What AI model powers Vyralify AI? “Vyralify AI is built on top of leading language models and 
+fine-tuned specifically for Instagram growth — niche benchmarks, algorithm behavior, and 
+content strategy. It's not a generic AI wrapper.” 
+5.​ Can I use Vyralify for multiple Instagram pages? “Yes. Pro supports up to 3 pages, Elite supports 
+unlimited pages. Each page has its own analytics, automations, and store.” 
+6.​ What happens when I hit my AI credit limit? “You'll see a notification at 80% usage. At 100%, AI 
+features are paused until the next reset. You can upgrade to Pro/Elite for higher limits or 
+unlimited credits.” 
+7.​ Does Vyralify work for all types of Instagram pages? “Yes — we support 8 niche categories with 
+40+ sub-niches at launch: Business & Money, Self-Improvement, Health & Fitness, Fashion & 
+Beauty, Cars & Automotive, Travel & Lifestyle, Entertainment, and Sports.” 
+8.​ How does the Store & Commerce feature work? “You get a link-in-bio storefront at 
+vyralify.io/your-username. Add products, set prices, and share the link in your Instagram bio. 
+Followers buy directly — Vyralify handles checkout, delivery, and tracking.” 
+9.​ Can I cancel my subscription anytime? “Yes. Cancel from your account settings anytime. Your 
+plan stays active until the end of the current billing period.” 
+10.​Is my Instagram data safe? “Yes. We only access the permissions you grant via Instagram's 
+official OAuth. We never store your Instagram password and never post anything without your 
+explicit permission.” 
+11.​[+ Rule 1] What does Vyralify need access to on Instagram? “It reads your profile, posts, insights 
+and audience data to power your dashboard and AI. Messaging access is used only for 
+automations you set up and switch on. You see the exact permissions on Meta's login screen.” 
+
+
+=== PAGE 21 ===
+16. FINAL CTA 
+•​
+Background: #0A0A0A (dark) 
+•​
+Padding: 120px 0 
+Headline: “Your Instagram business starts today.” 48px desktop / 36px mobile, 700, #FFFFFF, centered. 
+“today” in #23E598 
+Subheading: “Build your page, grow with AI, automate your DMs, and start earning — free.” 18px, 
+#A0A0A0, centered, max 560px 
+CTA Row: [Start Free →]  [Watch Demo ▶] 
+•​
+Same styling as Hero CTA 
+•​
+Center aligned 
+•​
+Margin top: 32px 
+Below CTA: “Free to start · No credit card required · Join 10K+ creators” — 13px, #555555, centered 
+Background Treatment 
+•​
+Subtle centered green radial glow behind headline (low opacity, same as hero) 
+•​
+Optionally: floating versions of the 3 product cards from the hero, very faint, blurred (15px) in 
+the background — implied product presence without distraction 
+[+ Rule 1] The trust text here also carries the exact words Free plan · No credit card required. Watch 
+Demo opens the same interactive demo as in the hero. 
+17. FOOTER 
+•​
+Background: #0A0A0A 
+•​
+Border top: 1px solid #1F1F1F 
+•​
+Padding: 80px 0 40px 
+•​
+Layout: 5 columns 
+Column 1: Brand (wider, 25%) 
+•​
+Vyralify logo (white) 
+•​
+Tagline: “The AI OS for Instagram Creators” 
+•​
+13px, #555555 
+•​
+Social icons (20px each, #555555, hover: #FFFFFF): Instagram | X/Twitter | YouTube | TikTok 
+•​
+Spacing below logo: 16px 
+Column 2: Product. Header: “Product” (12px, 600, #FFFFFF, uppercase, letter-spacing 0.1em). Links 
+(13px, #666666, hover: #FFFFFF): Vyralify AI · Discover & Create · Page Builder · Instagram Automation · 
+Store & Commerce · Pricing 
+Column 3: Company. Header: “Company”. Links: About · Blog · Careers · Contact · Press 
+Column 4: Resources. Header: “Resources”. Links: Help Center · Documentation · Creator Stories · 
+Community · Status 
+
+
+=== PAGE 22 ===
+Column 5: Legal. Header: “Legal”. Links: Terms of Service · Privacy Policy · Cookie Policy · Refund Policy 
+Bottom Bar (below columns, border-top: 1px solid #1F1F1F, padding-top: 32px) 
+•​
+Left: copyright, 12px, #555555 — “© 2025 Vyralify. All rights reserved.” [+ set the year 
+automatically] 
+•​
+Right: tagline, 12px, #555555 — “Made for creators, by creators.” 
+[+ Compliance] Privacy Policy and a Data Deletion page must be reachable from every page (Meta 
+requires them for Instagram app approval). [+ Rule 3] Add a Data Deletion link under Legal. 
+ 
+5. Responsive summary 
+Section 
+Desktop 
+Tablet 
+Mobile 
+Navbar 
+Full links + 2 CTAs 
+Logo + hamburger 
+Logo + hamburger 
+Hero headline 
+56px 
+40px 
+32px 
+Hero mockup 
+Tilted, full width 
+Straight, full width 
+Full width, no tilt 
+Hero floating cards 
+3 visible 
+2 visible 
+Hidden 
+Trust strip metrics 
+4 in a row 
+2x2 
+2x2 
+Problem cards 
+3 in a row 
+3 in a row 
+Stacked 1 col 
+Journey flow 
+Horizontal 
+Horizontal scroll 
+Vertical stacked 
+Spotlight sections 
+50/50 side by side 
+50/50 
+Stacked, visual first 
+Benefits cards 
+2x2 grid (3x2 with the 2 
+added cards) 
+2x2 grid 
+1 col 
+Pricing cards 
+3 in a row 
+3 in a row (compact) 
+Stacked, Pro 
+highlighted 
+Pricing table 
+Full visible 
+Horizontally scroll 
+Horizontally scroll 
+Two paths 
+Side by side 
+Side by side 
+Stacked 
+Footer 
+5 columns 
+3 cols 
+2 cols + stacked 
+[+ Rule 1] Sticky mobile button. On mobile a full-width Start Free → bar (56px high, respects the device 
+safe area) appears after the hero scrolls out of view and hides while the pricing section is on screen. 
+Instagram creators are mostly on phones, so design and test mobile first. 
+Hand this document to the developer alongside the Vyralify_UIUX_Specification.md (internal product) 
+and Vyralify_Product_Specification.md. Together these three documents define the complete Vyralify 
+digital experience — website, product, and design system. 
+
+
+=== PAGE 23 ===
+ 
+6. Technical, SEO, analytics and launch pages (additions) 
+Performance: largest content paint under 2.5s on mobile; no layout jumps; modern image formats at the 
+right sizes; hero image preloaded and its space reserved, other images lazy loaded; the marquee and 
+glow effects are CSS only; the tilt and animations use transform and opacity only. Pages that matter for 
+search should be delivered as ready-made HTML, with the interactive parts (menu, demo, accordion, 
+toggles, comparison table) added on top. 
+SEO: one H1 (the hero headline); logical H2 per section; unique title (about 60 characters) and 
+description (about 155) per page; share image; FAQ and organization structured data; clean URLs, 
+sitemap and robots file. Suggested URLs: /, /pricing, /features/ai-assistant, 
+/features/discover-create, /features/page-builder, /features/automation, 
+/features/store, /faq, /privacy, /terms, /data-deletion, /refund-policy, /contact. 
+Accessibility: visible focus, full keyboard use, descriptive alt text on every product screen, accordions, 
+toggles, the mega-menu and the demo usable with keyboard and screen reader, and reduce-motion 
+respected. 
+Analytics events 
+Event 
+When 
+cta_click (with location: nav, hero, hero-demo, 
+paths-scratch, paths-existing, pricing-free, 
+pricing-pro, pricing-elite, final, sticky) 
+Any Start Free, Watch Demo, Start Pro Free or 
+Start Elite Free click 
+path_toggle (with path) 
+Who is this for? toggle used, or nav link For 
+Beginners / For Creators 
+demo_open / demo_prompt_click / 
+demo_action_click 
+Interactive demo opened, prompt chip selected, 
+action button clicked 
+journey_step_view 
+A step is selected in Section 5 
+pricing_view / billing_toggle 
+Pricing section in view; Monthly or Annual 
+selected 
+compare_expand 
+Comparison table opened 
+faq_open (with question) 
+FAQ item opened 
+signup_start / signup_complete (with path) 
+Sign-up begins and finishes 
+scroll_depth (25, 50, 75, 100) 
+Page scroll 
+Pages needed at launch: sign-up and sign-in (product onboarding), pricing page (same section with the 
+comparison table open), Terms of Service, Privacy Policy, Cookie Policy, Refund Policy, Data Deletion 
+instructions, contact or Help Center. 
+
+
+=== PAGE 24 ===
+ 
+7. After launch: the free mini tool (Rule 7) 
+Why: a free, no-signup tool earns organic search traffic, lets visitors taste the product and turns them 
+into qualified leads. It is the first growth experiment after launch. 
+Two candidates (both reuse features already in Page Builder, so the build is small) 
+1.​ Free 60-Second Niche Quiz: 4 to 5 quick questions, result is a recommended niche from the 8 
+launch categories with its opportunity indicator. 
+2.​ Free Instagram Bio Generator: the visitor enters their niche and goal and receives bio options. 
+Flow: the visitor uses the tool with no account. To see the result they enter an email or continue with 
+Google. They are told the result will also be saved to a free Vyralify account. Their answers carry into 
+onboarding (niche pre-selected, bio saved), so signup continues what they started. 
+Gate placement (to test): version A asks for email before showing the result (the rule). Version B shows 
+the top result and asks for email to see the rest and save it. Measure both and keep the one with better 
+signup and onboarding completion. 
+Rules 
+•​
+A clear, unticked consent checkbox for marketing email, a link to the Privacy Policy and an easy 
+unsubscribe. Collect only what is needed. 
+•​
+Protect cost and abuse: rate limits, bot protection and cached results, because each use may call 
+AI. 
+•​
+Opportunity scores must be explainable; no promise that a niche will be profitable. 
+•​
+Dedicated pages (/tools/niche-finder, /tools/instagram-bio-generator) with one H1, a 
+short FAQ and example outputs; each ends with Start Free. 
+•​
+Once live, add 'Free Tools' to the navbar and footer. 
+Measure: tool start rate, completion rate, email capture rate, signup to onboarding completion, and Free 
+to paid by source. 
+ 
+ 
+
+

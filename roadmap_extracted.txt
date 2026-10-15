@@ -1,0 +1,309 @@
+
+=== PAGE 1 ===
+VYRALIFY V3 — MASTER DEVELOPMENT
+ROADMAP
+Phase-by-Phase Technical Architecture & Execution Plan
+Source of Truth: V3 Final Product Specification & Panels Structure  |  Scope: Core SaaS Platform OS  |  Version: 3.0 Final
+1. Executive Overview & Single-Sided Positioning
+Vyralify is an AI-powered SaaS operating system for Instagram creators and page owners. It serves a single-sided audience
+through two unified onboarding paths: (1) Existing Creators looking to automate engagement, scale content velocity, and boost
+revenue; and (2) Complete Beginners looking to launch a theme page from scratch, select a high-opportunity niche, and monetize
+quickly.
+Core User Journey:
+BUILD (Page Builder) → DISCOVER & CREATE → AUTOMATE (Instagram Automation) →
+MONETIZE (Store & Commerce) → MEASURE (Home Dashboard) → OPTIMIZE (Vyralify AI Assistant)
+The 6 Core Modules:
+1. Home • Overview, Page Analytics, Sales Tracker, Revenue Tracker, Recommendations, Quick
+Actions
+2. Vyralify AI Assistant • Ask Vyralify Anything, Multimodal Media Critique, Context Memory
+3. Page Builder • Niche Selector, Import & Audit, Objectives, Profile Setup, Multi-Page, Demographics
+4. Discover & Create • Trending Feeds, Viral DB, Niche Benchmarks, Competitor Tracking, Scripts,
+30-Day Planner
+5. Instagram Automation • DM Keywords, Comment Replies, Story DMs, Lead Collector, AI Inbox
+6. Store & Commerce • Link-in-Bio Storefront, Winning Products Library, Digital Goods, Orders CRM
+Explicitly OUT OF SCOPE:
+• Marketing/landing website (built separately post-product)
+• Brand-side/campaign marketplace features
+• Video clipping / creator payout infrastructure
+• Multi-user / team accounts / collaborator roles in v1
+2. Global Architecture & Core Data Stores
+The application is engineered around a reactive, multi-page context model where all analytics, content, automations, and store
+products are strictly scoped to the active selected Instagram profile.
+• Multi-Page Context Switcher: Persistent top-nav dropdown scoping all 6 modules. Switching pages instantly recalculates metrics
+without full reload.
+• Auth & Session Management: Firebase Client SDK with Email/Password, Google OAuth, Apple OAuth, 2FA, session tracking, and
+device management.
+• Soft-Lock Plan Gating: Gated features remain visible with lock badges, blurred previews, and contextual upgrade modals (never
+broken buttons).
+• Credit Metering Safety: Non-disruptive warnings at 80% usage and soft upgrade prompt at 100% (never cuts off in-flight responses).
+Vyralify SaaS Platform • Product Specification (v3 - Final)
+Page 1 of 7
+
+=== PAGE 2 ===
+3. Pricing Tiers & Usage Limits Matrix
+Full Feature Comparison Across Free (Starter), Pro (I499/mo), and Elite (I1,499/mo)
+Vyralify deploys a 'Hooked, Then Upgrade' monetization framework. The Free tier provides immediate value during the initial
+session so users experience the 'aha moment' before encountering limits on subsequent usage.
+Feature / Module
+Free (Starter)
+Pro (I499 / mo)
+Elite (I1,499 / mo)
+Connected Pages
+1 page
+Up to 3 pages
+Unlimited pages
+AI Credits (Combined)
+20 / day
+300 / day
+Unlimited credits
+AI Assistant Chat
+Basic Q&A only
+Deep strategy & analysis
+Full + priority response speed
+Chat Media Uploads
+3 uploads / month
+50 uploads / month
+Unlimited uploads
+Conversation History
+Last 5 conversations
+Unlimited history
+Unlimited history + search
+Niche Selector Quiz
+Included
+Included
+Included
+Page Builder & Audit
+1x full audit
+Unlimited re-audits
+Unlimited + priority depth
+Audience Demographics
+Basic overview
+Full breakdown
+Full breakdown + CSV export
+Discover Trending Feed
+Limited category filters
+Full filters & formats
+Full + early access trends
+Competitor Tracking
+1 competitor slot
+10 competitor slots
+Unlimited competitor tracking
+Niche Viral Database
+View-only mode
+Full access to viral DB
+Full access + weekly drops
+30-Day Content Planner
+7-day planner (manual)
+Full 30-day planner (auto)
+30-day + AI auto-fill + bulk
+Instagram Automation
+LOCKED (Soft-lock preview)
+Up to 3 active automations
+Unlimited active automations
+Lead Collector CRM
+LOCKED
+Included
+Included + advanced segmentation
+AI Inbox Auto-Chat
+LOCKED
+Limited monthly chats
+Unlimited auto-conversations
+Link-in-Bio Storefront
+1 product / link
+Unlimited products
+Unlimited + custom branding
+Winning Products Library
+View only (can't import)
+Full access & 1-click add
+Full access + priority drops
+Orders & Sales CRM
+Basic (view only)
+Full order management
+Full management + CSV export
+White-Label AI Resale
+Not available
+Not available
+Exclusive Included
+Customer Support
+Community / Help Center
+Standard Email Support
+Priority Support (Fast-track)
+VYRALIFY V3 — MASTER PRODUCT DEVELOPMENT ROADMAP
+CONFIDENTIAL &amp; PROPRIETARY
+Vyralify SaaS Platform • Product Specification (v3 - Final)
+Page 2 of 7
+
+=== PAGE 3 ===
+Phase 1 — Global Foundation, App Shell, Auth & Dual Onboarding
+FOUNDATION • CORE PREREQUISITE • APP SHELL
+Establishes the entire application layout, persistent multi-page routing context, authentication security, and the branching
+onboarding wizard for both beginner and existing page owners.
+• Global State Architecture: Implement AuthContext (user, tier, credit counters), PageContext (multi-page context switcher scoping all
+modules), PlanGatingContext (soft-lock UI with upgrade modal), and NotificationContext.
+• Premium SaaS App Layout: High-craft obsidian/emerald navigation shell with persistent Left Sidebar (6 core panels +
+Account/Settings), Top Bar with Multi-Page Dropdown, Cmd+K Search trigger, AI Credit pill meter, and notification bell.
+• Authentication & Security: Email/password signup, Google & Apple OAuth simulation, email verification, password reset,
+rate-limiting on failed attempts, ToS/Privacy acceptance, and explicit AI data-processing consent checkbox.
+• Branching Onboarding Wizard: Step 1: Account setup → Step 2: Core Branching Question ('Do you already have a page or starting
+from scratch?') → Path A: Meta OAuth connect & audit; Path B: Niche Selector Quiz & Opportunity Score → Step 3: Objective setting
+→ Step 4: Land on Home with tailored checklist.
+Phase 2 — Home Dashboard & Cross-Module Intelligence
+MEASURE • FIRST SCREEN AFTER LOGIN • CORE OVERVIEW
+The single-glance central dashboard summarizing page growth, content performance, storefront revenue, and proactive AI
+recommendations.
+• Overview Dashboard: 4 top KPI cards (Followers, 7-day Views, 30-day Revenue, Engagement Rate) with 7d/30d percentage
+trends.
+• Page Analytics: Reach, impressions, engagement trend curves, top performing and worst performing post breakdowns.
+• Sales & Revenue Trackers: Live stream of recent storefront transactions, sales curves, and revenue breakdown by source (digital
+products, services, affiliates).
+• AI Recommendations Widget: Top 1–3 data-driven suggestions with 1-click deep-linking into the AI Assistant with pre-loaded
+context.
+• Quick Actions Bar & Zero-States: Instant buttons ('Create Content', 'View Store', 'Check Automations', 'Ask AI'). Empty accounts
+display helpful onboarding states, never blank or broken charts.
+VYRALIFY V3 — MASTER PRODUCT DEVELOPMENT ROADMAP
+CONFIDENTIAL &amp; PROPRIETARY
+Vyralify SaaS Platform • Product Specification (v3 - Final)
+Page 3 of 7
+
+=== PAGE 4 ===
+Phase 3 — Page Builder & Official Niche Taxonomy System
+BUILD • TAXONOMY & IDENTITY • AUDIT ENGINE
+Where a page identity gets defined, audited, and optimized. All downstream content tools and AI recommendations filter by this
+structured niche taxonomy.
+• Official 8 Niche Taxonomy: Business & Money, Self-Improvement, Health & Fitness, Fashion & Beauty, Cars & Automotive, Travel
+& Lifestyle, Entertainment, Sports (extensible enum with defined sub-niches).
+• Niche Selector & AI Quiz: Guided quiz for beginners calculating profitability and opportunity scores per niche.
+• Import Page & Meta Connect: Instagram account OAuth integration pulling live bio, profile pic, follower metrics, and running an
+automated Page Audit (Strengths & Gaps scorecard).
+• Positioning & Profile Setup: AI Bio Generator, positioning statement builder, and Instagram Story Highlights architecture.
+• Multi-Page Management: Connected accounts dashboard with 1-click switching, disconnection, and Free tier 1-page soft-lock.
+• Audience Demographics: Visual breakdown of follower age brackets, gender distribution, top geographic locations, and active
+hours heatmap.
+Phase 4 — Vyralify AI Assistant (Domain-Grounded Co-Pilot)
+OPTIMIZE • CROSS-CUTTING AI BRAIN • STRATEGY ENGINE
+A conversational AI assistant built specifically for Instagram growth mechanics, retention benchmarks, and live page data
+reasoning.
+• 'Ask Vyralify Anything' Chat Interface: Multi-turn, context-aware chat thread trained on retention spikes, hook patterns, and niche
+benchmarks.
+• Grounded in Real User Data: Directly references the active page's real analytics, top posts, follower growth, and store products in
+answers.
+• Conversation History & Search: Persistent chat history drawer with full keyword search and session naming.
+• Multimodal Media Upload: Upload screenshots (analytics charts, competitor posts) or video thumbnails for visual AI critique and
+scoring.
+• Action Buttons in Responses: Generates interactive action buttons ('Create Script in Create', 'View in Discover', 'Add DM Trigger').
+• Credit Metering & Warning Banners: Real-time credit deduction, 80% usage warning banner, and 100% upgrade prompt without
+disrupting generated answers.
+VYRALIFY V3 — MASTER PRODUCT DEVELOPMENT ROADMAP
+CONFIDENTIAL &amp; PROPRIETARY
+Vyralify SaaS Platform • Product Specification (v3 - Final)
+Page 4 of 7
+
+=== PAGE 5 ===
+Phase 5 — Discover & Create Engine
+DISCOVER & CREATE • CONTENT VELOCITY • 30-DAY PLANNER
+Find what is currently working in the user's specific niche and immediately transform those viral insights into ready-to-post scripts,
+hooks, and planned schedules.
+• Discover Feed: Real-time trending content feed filterable by official niche taxonomy, post format (Reels, Carousels), and date range.
+• Niche Viral Database: Searchable archive of verified viral posts with retention breakdowns and hook breakdowns.
+• Competitor Tracking: Monitor competitor accounts and posting cadence (1 competitor on Free, 10 on Pro, Unlimited on Elite).
+• Scripting & Hooks Studio: Full script generator for Reels/Videos with proven opening hook formula variations and caption
+generators.
+• 30-Day Content Planner & Calendar: Interactive calendar scheduling (7-day view on Free, full 30-day on Pro, AI auto-fill on Elite).
+• Saved Research & Templates Library: Bookmark trends and reuse proven high-converting templates.
+Phase 6 — Instagram Automation & Conversion Engine
+AUTOMATE • LEAD & SALES ENGINE • META SAFEGUARDS
+Automate comment replies, DM keyword funnels, and AI-driven inbox conversations to convert engagement into customers while
+maintaining strict Meta compliance.
+• Free-Tier Soft-Lock UI: Complete module soft-locked for Starter tier with interactive preview and upgrade trigger.
+• Trigger Automation Builders: DM Keyword → Message, Comment → DM/Reply, and Story Reply → Message builders.
+• Follow & Lead Collector: Captures new engaging followers into an exportable CRM table.
+• AI Inbox Auto-Conversations: Back-and-forth conversational AI qualifying leads and answering follower inquiries automatically.
+• Automation Analytics & Meta Safety: Real-time trigger counts, conversion rates, rate-limiting queue, and human-override fallback
+path.
+VYRALIFY V3 — MASTER PRODUCT DEVELOPMENT ROADMAP
+CONFIDENTIAL &amp; PROPRIETARY
+Vyralify SaaS Platform • Product Specification (v3 - Final)
+Page 5 of 7
+
+=== PAGE 6 ===
+Phase 7 — Store & Commerce (Link-in-Bio Storefront)
+MONETIZE • CREATOR REVENUE • BIO COMMERCE
+A high-converting single-page link-in-bio storefront (vyralify.in/u/username) where creators list digital products, services, and
+affiliate offers.
+• Storefront Builder: Customize branding, theme colors, bio, and product card order with live mobile preview mockup.
+• Product Management: Create and edit Digital Goods, Services/Consultations, and Subscriptions (1 product on Free, unlimited on
+Pro).
+• Winning Products Library: Curated catalog of ready-to-sell digital products and affiliate offers to import with 1 click.
+• Public Customer Storefront: Ultra-fast, mobile-optimized public checkout experience for followers.
+• Orders & Customer CRM: Transaction log, fulfillment tracking, refund management, and CSV export.
+• White-Label AI Resale: Elite-tier feature allowing users to rebrand and resell Vyralify AI on their own storefront.
+Phase 8 — Account Settings, Billing & QA Hardening
+SETTINGS • COMPLIANCE • QUALITY ASSURANCE • HARDENING
+Account management, multi-currency billing, session security, and exhaustive zero-state and edge-case verification across all
+modules.
+• Account & Security Settings: Profile details, password reset, 2FA setup, active sessions list with 'Log out of all devices'.
+• Timezone & Currency Preferences: Dynamic switching between INR (I) and USD ($) across all pricing, analytics, and revenue
+trackers.
+• Billing & Subscription Portal: Plan upgrade/downgrade flows (Razorpay/Stripe simulation), invoice history, and cancellation
+handling.
+• Exhaustive QA Checklist Verification: Zero-states for new accounts, soft-lock verification, token expiry handling, rate limit backoffs,
+and cross-module data synchronization.
+VYRALIFY V3 — MASTER PRODUCT DEVELOPMENT ROADMAP
+CONFIDENTIAL &amp; PROPRIETARY
+Vyralify SaaS Platform • Product Specification (v3 - Final)
+Page 6 of 7
+
+=== PAGE 7 ===
+4. Cross-Module Data Dependencies & QA Protocol
+How all 6 modules interact and maintain real-time data synchronization.
+Module
+Reads Data From
+Writes / Feeds Data To
+Vyralify AI Assistant
+Home, Page Builder, Discover & Create, Automation,
+Store (Cross-cutting read access to entire page
+context)
+Conversation history, action deep-links into
+Create & Discover
+Home (Dashboard)
+Instagram Graph API (reach, views), Store &
+Commerce (revenue), Automation (activity feed)
+Central executive view, recommendations
+launchpad
+Page Builder
+Niche taxonomy, Meta OAuth profile data
+Feeds niche context to Discover, audience data
+to Store & AI
+Discover & Create
+Page Builder (niche, objectives, competitor targets)
+Feeds created scripts/captions into Planner and
+Automation DMs
+Instagram Automation
+Store & Commerce (product checkout links delivered
+via DM)
+Feeds lead count and trigger metrics to Home
+and AI Assistant
+Store & Commerce
+Page Builder (audience targeting), Winning Products
+catalog
+Pushes real-time transaction revenue into Home
+Revenue Tracker
+Mandatory QA Verification Checklist
+ Zero-States Everywhere: Every widget, graph, and list handles new accounts with zero data cleanly, showing guidance rather than
+empty/broken charts.
+ Soft-Lock Plan Gating: Free-tier restricted features always show blurred preview + lock icon + contextual upgrade dialog (never
+broken buttons).
+ Credit Metering Safety: 80% warning banner and 100% block next prompt (never cut off an in-progress AI generation
+mid-sentence).
+ Multi-Page Isolation: Switching active page in top navbar immediately and correctly updates all data across Home, Builder,
+Discover, Automation, and Store.
+ Meta API Compliance & Rate Limits: Automation queue implements backoff delay to prevent Instagram messaging rate limits and
+account suspension risks.
+ Dual Onboarding Integrity: Beginner path (Niche quiz) and Existing creator path (OAuth import) route flawlessly without leaking or
+assuming page presence.
+Milestone Review Protocol: Development proceeds sequentially phase-by-phase. Each phase is implemented, built, visually
+inspected in the browser, and presented to the founder for formal review and sign-off before proceeding to the subsequent phase.
+VYRALIFY V3 — MASTER PRODUCT DEVELOPMENT ROADMAP
+CONFIDENTIAL &amp; PROPRIETARY
+Vyralify SaaS Platform • Product Specification (v3 - Final)
+Page 7 of 7

@@ -4,6 +4,11 @@ import { AuthProvider, useAuth } from './context/AuthContext';
 import { PageProvider } from './context/PageContext';
 import { PlanGatingProvider } from './context/PlanGatingContext';
 import { NotificationProvider } from './context/NotificationContext';
+
+// Marketing Landing Page (The Public Face of Vyralify)
+import LandingPage from './components/LandingPage';
+
+// Interior App & Workbench (Safely Preserved for Development & Launch)
 import FunctionWorkbench from './components/testing/FunctionWorkbench';
 import AppShell from './components/layout/AppShell';
 import HomeDashboard from './components/dashboard/HomeDashboard';
@@ -16,6 +21,7 @@ import AccountSettings from './components/dashboard/AccountSettings';
 import PlaceholderModule from './components/dashboard/PlaceholderModule';
 import OnboardingWizard from './components/onboarding/OnboardingWizard';
 import AuthModal from './components/auth/AuthModal';
+
 import { 
   Sparkles, 
   RotateCcw, 
@@ -25,23 +31,93 @@ import {
   UserCheck, 
   ArrowRight,
   SlidersHorizontal,
-  FlaskConical
+  FlaskConical,
+  Globe,
+  LayoutDashboard
 } from 'lucide-react';
 
 function WorkspaceRouter() {
   const { user, tier, updateTier, logout, resetOnboarding, loginAsDemo } = useAuth();
-  const [viewMode, setViewMode] = useState('workbench'); // 'workbench' (simple function testing) or 'dashboard' (full visual UI)
+  const [viewMode, setViewMode] = useState('landing'); // 'landing' (Default public site) | 'workbench' (Function tester) | 'dashboard' (Full UI)
   const [activeModule, setActiveModule] = useState('home');
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [authMode, setAuthMode] = useState('login');
   const [showDevToolbar, setShowDevToolbar] = useState(true);
 
-  // By default, render the simple, sorted Function Test Workbench for instant testing
-  if (viewMode === 'workbench') {
-    return <FunctionWorkbench onToggleFullUi={() => setViewMode('dashboard')} />;
+  // 1. DEFAULT PUBLIC VIEW: The 17-Section Marketing Landing Page
+  if (viewMode === 'landing') {
+    return (
+      <div className="relative min-h-screen w-full bg-[#0A0A0A]">
+        <LandingPage onLoginSuccess={() => setViewMode('dashboard')} />
+
+        {/* FOUNDER / DEVELOPER TESTING SWITCHER BADGE */}
+        <div className="fixed bottom-3 right-3 z-50">
+          {showDevToolbar ? (
+            <div className="p-1.5 rounded-xl bg-[#111111]/95 border border-[#2A2A2A] shadow-xl backdrop-blur-md flex items-center gap-2 text-xs text-neutral-300">
+              <span className="text-[10px] font-mono text-[#23E598] uppercase px-1.5 font-bold">Dev:</span>
+              
+              <button
+                onClick={() => setViewMode('workbench')}
+                className="px-2.5 py-1 rounded-md bg-[#1C1C1C] hover:bg-[#282828] text-white text-[11px] font-mono flex items-center gap-1.5 transition-colors cursor-pointer border border-[#333333]"
+                title="Switch to Function Test Workbench"
+              >
+                <FlaskConical className="w-3 h-3 text-[#23E598]" />
+                <span>Test Bench</span>
+              </button>
+
+              <button
+                onClick={() => {
+                  if (!user) loginAsDemo();
+                  setViewMode('dashboard');
+                }}
+                className="px-2.5 py-1 rounded-md bg-[#23E598] hover:bg-[#1DCC84] text-[#0A0A0A] text-[11px] font-mono font-bold flex items-center gap-1.5 transition-colors cursor-pointer shadow-xs"
+                title="Open Product Dashboard App"
+              >
+                <LayoutDashboard className="w-3 h-3" />
+                <span>App Workspace</span>
+              </button>
+
+              <button
+                onClick={() => setShowDevToolbar(false)}
+                className="text-neutral-500 hover:text-white text-xs px-1 cursor-pointer"
+                title="Hide Dev Bar"
+              >
+                &times;
+              </button>
+            </div>
+          ) : (
+            <button
+              onClick={() => setShowDevToolbar(true)}
+              className="p-2 rounded-xl bg-[#111111] border border-[#2A2A2A] text-[#23E598] hover:text-white shadow-lg transition-colors cursor-pointer"
+              title="Open Dev Switcher"
+            >
+              <SlidersHorizontal className="w-4 h-4" />
+            </button>
+          )}
+        </div>
+      </div>
+    );
   }
 
-  // If user is not logged in, show clean Obsidian & Emerald login gateway
+  // 2. FUNCTION TEST BENCH (All internal functions safely accessible)
+  if (viewMode === 'workbench') {
+    return (
+      <div className="relative">
+        <FunctionWorkbench onToggleFullUi={() => setViewMode('dashboard')} />
+        <div className="fixed bottom-3 right-3 z-50">
+          <button
+            onClick={() => setViewMode('landing')}
+            className="px-3 py-1.5 rounded-xl bg-[#0A0A0A] border border-[#23E598]/40 text-[#23E598] font-mono text-xs flex items-center gap-1.5 shadow-xl hover:bg-[#161616] transition-all cursor-pointer"
+          >
+            <Globe className="w-3.5 h-3.5" />
+            <span>&larr; Back to Landing Page</span>
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // 3. IF USER NOT LOGGED IN FOR DASHBOARD, SHOW LOGIN GATEWAY
   if (!user) {
     return (
       <div className="min-h-screen w-full bg-[#08090C] text-neutral-200 flex flex-col items-center justify-center p-6 relative overflow-hidden select-none">
@@ -49,7 +125,7 @@ function WorkspaceRouter() {
           <div className="flex items-center justify-center gap-2.5">
             <img src="/vyralify-logo.png" alt="Vyralify" className="h-7 w-auto object-contain" />
             <span className="font-bold text-xl tracking-tight text-white">Vyralify</span>
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            <span className="w-2 h-2 rounded-full bg-[#23E598] animate-pulse" />
           </div>
 
           <div className="space-y-1.5">
@@ -67,7 +143,7 @@ function WorkspaceRouter() {
                 setAuthMode('signup');
                 setIsAuthModalOpen(true);
               }}
-              className="w-full py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-medium text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-xs"
+              className="w-full py-2.5 px-4 rounded-xl bg-[#23E598] hover:bg-[#1DCC84] text-[#0A0A0A] font-bold text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-xs"
             >
               <span>Get Started (Sign Up)</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -85,15 +161,18 @@ function WorkspaceRouter() {
 
             <button
               onClick={() => loginAsDemo()}
-              className="w-full py-1.5 px-3 rounded-lg text-neutral-400 hover:text-emerald-400 text-[11px] font-mono transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+              className="w-full py-1.5 px-3 rounded-lg text-neutral-400 hover:text-[#23E598] text-[11px] font-mono transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
             >
               <span>Explore as Demo Creator &rarr;</span>
             </button>
           </div>
 
-          <p className="text-[11px] text-neutral-500 font-mono">
-            New user? Click "Get Started" to launch your 3-step setup.
-          </p>
+          <button
+            onClick={() => setViewMode('landing')}
+            className="text-xs text-neutral-400 hover:text-white transition-colors cursor-pointer"
+          >
+            &larr; Return to Main Landing Page
+          </button>
         </div>
 
         <AuthModal 
@@ -105,7 +184,7 @@ function WorkspaceRouter() {
     );
   }
 
-  // If user has not completed onboarding, show Dual Branching Wizard
+  // 4. ONBOARDING WIZARD (If not completed)
   if (!user.onboarded) {
     return (
       <div className="min-h-screen bg-[#08090C] text-neutral-200 flex flex-col justify-center">
@@ -114,7 +193,7 @@ function WorkspaceRouter() {
     );
   }
 
-  // If user is onboarded, render AppShell with active module
+  // 5. INTERIOR DASHBOARD APP SHELL
   return (
     <div className="relative h-screen w-full overflow-hidden bg-[#F8FAFC] dark:bg-[#08090C] text-neutral-900 dark:text-neutral-200">
       <AppShell 
@@ -140,21 +219,29 @@ function WorkspaceRouter() {
         )}
       </AppShell>
 
-      {/* FOUNDER / DEVELOPER TESTING FLOATING BAR - Clean White & Green */}
+      {/* FOUNDER / DEVELOPER TESTING FLOATING BAR */}
       <div className="fixed bottom-3 right-3 z-50">
         {showDevToolbar ? (
           <div className="p-1.5 rounded-xl bg-white/95 dark:bg-[#111319]/90 border border-neutral-200 dark:border-white/[0.08] shadow-md backdrop-blur-md flex items-center gap-2 text-xs text-neutral-800 dark:text-neutral-300">
-            {/* Switch to Function Test Bench */}
+            <button
+              onClick={() => setViewMode('landing')}
+              className="px-2 py-0.5 rounded-md bg-[#23E598] hover:bg-[#1DCC84] text-[#0A0A0A] text-[10px] font-mono font-bold flex items-center gap-1 transition-colors cursor-pointer shadow-xs"
+              title="Return to Main Landing Page"
+            >
+              <Globe className="w-2.5 h-2.5" />
+              <span>Landing Page</span>
+            </button>
+
             <button
               onClick={() => setViewMode('workbench')}
-              className="px-2 py-0.5 rounded-md bg-emerald-600 hover:bg-emerald-500 text-white text-[10px] font-mono flex items-center gap-1 transition-colors cursor-pointer shadow-xs"
+              className="px-2 py-0.5 rounded-md bg-neutral-200 dark:bg-white/[0.08] hover:bg-neutral-300 text-neutral-800 dark:text-neutral-200 text-[10px] font-mono flex items-center gap-1 transition-colors cursor-pointer"
               title="Return to Function Test Workbench"
             >
               <FlaskConical className="w-2.5 h-2.5" />
               <span>Test Bench</span>
             </button>
 
-            <span className="text-[10px] font-mono text-neutral-500 uppercase px-1 font-semibold">Dev:</span>
+            <span className="text-[10px] font-mono text-neutral-500 uppercase px-1 font-semibold">Tier:</span>
 
             {/* Tier Switcher */}
             <div className="flex items-center gap-0.5 bg-neutral-100 dark:bg-black/40 p-0.5 rounded-lg border border-neutral-200/80 dark:border-white/[0.05]">

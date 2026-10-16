@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Check, Sparkles, ArrowRight, ChevronDown, ChevronUp, Zap, HelpCircle } from 'lucide-react';
+import { Check, Sparkles, ArrowRight, ChevronDown, ChevronUp, Zap, HelpCircle, Lock } from 'lucide-react';
 
 /**
  * Section 14: PRICING + COMPARISON TABLE
@@ -176,33 +176,41 @@ export default function PricingSection({ onSelectPlan }) {
           </div>
         </div>
 
-        {/* 3 Pricing Cards */}
-        {/* On mobile: Pro first, then Elite, then Free (as per spec) */}
+        {/* 3 Pricing Cards [RULE 6]: Elite (Left Anchor), Pro (Center Hero), Free (Right Entry) */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch max-w-6xl mx-auto">
-          {/* Card 1: Free (Starter) */}
-          <div className="order-3 lg:order-1 rounded-2xl bg-[#FFFFFF] border border-[#EBEBEB] hover:border-[#D5D5D5] p-8 md:p-9 flex flex-col justify-between shadow-xs transition-all duration-200">
+          {/* Card A: Elite (Left — Anchor) */}
+          <div className="order-1 rounded-2xl bg-[#F9F9F9] border border-[#EBEBEB] hover:border-[#D5D5D5] p-8 md:p-9 flex flex-col justify-between shadow-xs transition-all duration-200">
             <div>
               <div className="mb-6">
-                <h3 className="text-xl font-bold text-[#0A0A0A] mb-1">Free (Starter)</h3>
-                <p className="text-xs text-[#666666]">For creators just getting started</p>
+                <h3 className="text-xl font-bold text-[#0A0A0A] mb-1">Elite</h3>
+                <p className="text-xs text-[#666666]">For scaling creators and multi-page businesses</p>
               </div>
 
               <div className="mb-6">
                 <div className="flex items-baseline gap-1">
-                  <span className="text-4xl font-extrabold text-[#0A0A0A]">{currentPrices.free.price}</span>
+                  <span className="text-4xl font-extrabold text-[#0A0A0A]">
+                    {isAnnual ? currentPrices.elite.annual : currentPrices.elite.monthly}
+                  </span>
                   <span className="text-xs text-[#666666]">/ month</span>
                 </div>
-                <p className="text-xs text-[#888888] mt-1 font-medium">Forever free · No card needed</p>
+                <p className="text-xs text-[#0F8A55] mt-1 font-semibold">
+                  {isAnnual ? `Billed annually at ${currentPrices.elite.billedAnnual} (Save 30%)` : 'Billed monthly'}
+                </p>
               </div>
 
-              <div className="pt-6 border-t border-[#F0F0F0] space-y-3.5">
+              <div className="pt-6 border-t border-[#EBEBEB] space-y-3.5">
+                <p className="text-xs font-bold text-[#0A0A0A] uppercase tracking-wider mb-2">
+                  Everything in Pro, plus:
+                </p>
                 {[
-                  '1 connected page',
-                  '20 AI credits / day',
-                  'Basic Discover & Create (limited filters, 7-day planner)',
-                  '1 competitor tracking',
-                  '1 product in link-in-bio store',
-                  'Community & Help Center support'
+                  'Unlimited pages',
+                  'Unlimited AI credits',
+                  'Unlimited automations',
+                  'AI Auto-Conversations (unlimited)',
+                  '30-Day Planner + AI auto-fill',
+                  'Bulk scheduling',
+                  'White Label AI Resale',
+                  'Priority support + early access'
                 ].map((feat, i) => (
                   <div key={i} className="flex items-start gap-2.5">
                     <Check className="w-4 h-4 text-[#1DCC84] shrink-0 mt-0.5" />
@@ -212,19 +220,19 @@ export default function PricingSection({ onSelectPlan }) {
               </div>
             </div>
 
-            <div className="mt-8 pt-6 border-t border-[#F0F0F0]">
+            <div className="mt-8 pt-6 border-t border-[#EBEBEB]">
               <button
-                onClick={() => handlePlanClick('free')}
+                onClick={() => handlePlanClick('elite')}
                 className="w-full py-3 px-5 rounded-full border border-[#0A0A0A] text-[#0A0A0A] hover:bg-[#0A0A0A] hover:text-white font-bold text-xs md:text-sm transition-all duration-200 cursor-pointer text-center"
               >
-                Start Free &rarr;
+                Start Elite Free &rarr;
               </button>
             </div>
           </div>
 
-          {/* Card 2: Pro (Most Popular / Center Hero) */}
-          <div className="order-1 lg:order-2 rounded-2xl bg-[#FFFFFF] border-2 border-[#23E598] p-8 md:p-9 flex flex-col justify-between shadow-[0_12px_40px_rgba(35,229,152,0.14)] relative -translate-y-2 lg:-translate-y-3 transition-all duration-200">
-            {/* Most Popular Badge */}
+          {/* Card B: Pro (Center — Hero) [RULE 6] */}
+          <div className="order-2 rounded-2xl bg-[#FFFFFF] border-2 border-[#23E598] p-8 md:p-9 flex flex-col justify-between shadow-[0_12px_40px_rgba(35,229,152,0.15)] relative -translate-y-2 lg:-translate-y-3 transition-all duration-200">
+            {/* Recommended / Most Popular Badge */}
             <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-[#23E598] text-[#0A0A0A] text-[11px] font-extrabold uppercase tracking-widest shadow-md">
               Most Popular
             </div>
@@ -232,12 +240,12 @@ export default function PricingSection({ onSelectPlan }) {
             <div>
               <div className="mb-6">
                 <div className="flex items-center justify-between mb-1">
-                  <h3 className="text-2xl font-bold text-[#0A0A0A]">Vyralify Pro</h3>
+                  <h3 className="text-2xl font-bold text-[#0A0A0A]">Pro</h3>
                   <span className="px-2.5 py-0.5 rounded-full bg-[#23E598]/20 text-[#0E7A4A] text-[10px] font-bold uppercase">
                     Recommended
                   </span>
                 </div>
-                <p className="text-xs text-[#555555]">Recommended for most creators serious about growth</p>
+                <p className="text-xs text-[#555555]">For creators serious about growing and earning</p>
               </div>
 
               <div className="mb-6">
@@ -257,14 +265,16 @@ export default function PricingSection({ onSelectPlan }) {
                   Everything in Free, plus:
                 </p>
                 {[
-                  '3 connected pages',
-                  '300 AI credits / day (Assistant & scripts)',
-                  'Full Discover & Create (full filters, viral DB)',
+                  'Up to 3 pages',
+                  '300 AI credits / day',
+                  'Full Discover & Create',
                   '10 competitor tracking',
-                  '30-Day Content Planner + Auto-Publish',
-                  'Full Automation (up to 3 active triggers)',
+                  'Full 30-Day Content Planner',
+                  'Auto-publish scheduling',
+                  'Up to 3 active automations',
                   'Unlimited store products',
-                  'Email support with fast response'
+                  'Full order & customer management',
+                  'Email support'
                 ].map((feat, i) => (
                   <div key={i} className="flex items-start gap-2.5">
                     <Check className="w-4 h-4 text-[#1DCC84] shrink-0 mt-0.5" />
@@ -284,53 +294,62 @@ export default function PricingSection({ onSelectPlan }) {
             </div>
           </div>
 
-          {/* Card 3: Elite */}
-          <div className="order-2 lg:order-3 rounded-2xl bg-[#FFFFFF] border border-[#EBEBEB] hover:border-[#D5D5D5] p-8 md:p-9 flex flex-col justify-between shadow-xs transition-all duration-200">
+          {/* Card C: Free (Right — Entry) [RULE 6] */}
+          <div className="order-3 rounded-2xl bg-[#F9F9F9] border border-[#EBEBEB] hover:border-[#D5D5D5] p-8 md:p-9 flex flex-col justify-between shadow-xs transition-all duration-200">
             <div>
               <div className="mb-6">
-                <h3 className="text-xl font-bold text-[#0A0A0A] mb-1">Vyralify Elite</h3>
-                <p className="text-xs text-[#666666]">For scaling creators, multi-page owners & agencies</p>
+                <h3 className="text-xl font-bold text-[#0A0A0A] mb-1">Free</h3>
+                <p className="text-xs text-[#666666]">For creators just getting started</p>
               </div>
 
               <div className="mb-6">
                 <div className="flex items-baseline gap-1">
-                  <span className="text-4xl font-extrabold text-[#0A0A0A]">
-                    {isAnnual ? currentPrices.elite.annual : currentPrices.elite.monthly}
-                  </span>
+                  <span className="text-4xl font-extrabold text-[#0A0A0A]">{currentPrices.free.price}</span>
                   <span className="text-xs text-[#666666]">/ month</span>
                 </div>
-                <p className="text-xs text-[#0F8A55] mt-1 font-semibold">
-                  {isAnnual ? `Billed annually at ${currentPrices.elite.billedAnnual} (Save 30%)` : 'Billed monthly'}
-                </p>
+                <p className="text-xs text-[#888888] mt-1 font-medium">Forever free · No credit card required</p>
               </div>
 
-              <div className="pt-6 border-t border-[#F0F0F0] space-y-3.5">
-                <p className="text-xs font-bold text-[#0A0A0A] uppercase tracking-wider mb-2">
-                  Everything in Pro, plus:
-                </p>
+              <div className="pt-6 border-t border-[#EBEBEB] space-y-3.5">
                 {[
-                  'Unlimited connected pages',
-                  'Unlimited AI credits (zero daily limits)',
-                  'Unlimited Instagram automations',
-                  'Unlimited AI Auto-Conversations in DM',
-                  'White Label AI Assistant resale (exclusive)',
-                  'Priority 24/7 support queue',
-                  'Early access to new features'
+                  '1 connected page',
+                  '20 AI credits / day',
+                  'Basic Discover & Create',
+                  '1 competitor tracking',
+                  '7-day content planner',
+                  '1 product in store'
                 ].map((feat, i) => (
                   <div key={i} className="flex items-start gap-2.5">
                     <Check className="w-4 h-4 text-[#1DCC84] shrink-0 mt-0.5" />
                     <span className="text-xs md:text-sm text-[#444444]">{feat}</span>
                   </div>
                 ))}
+
+                {/* Locked items shown with lock icon + Pro/Elite tag (Rule 6) */}
+                {[
+                  { name: 'Automation (DM, Comment triggers)', plan: 'Pro' },
+                  { name: 'Auto-publish scheduling', plan: 'Pro' },
+                  { name: 'White Label AI Resale', plan: 'Elite' }
+                ].map((feat, i) => (
+                  <div key={i} className="flex items-center justify-between gap-2.5 opacity-60">
+                    <div className="flex items-center gap-2.5">
+                      <Lock className="w-3.5 h-3.5 text-[#888888] shrink-0" />
+                      <span className="text-xs md:text-sm text-[#777777] line-through decoration-[#AAAAAA]">{feat.name}</span>
+                    </div>
+                    <span className="text-[10px] font-bold text-[#777777] bg-[#EBEBEB] px-1.5 py-0.5 rounded border border-[#D5D5D5]">
+                      {feat.plan}
+                    </span>
+                  </div>
+                ))}
               </div>
             </div>
 
-            <div className="mt-8 pt-6 border-t border-[#F0F0F0]">
+            <div className="mt-8 pt-6 border-t border-[#EBEBEB]">
               <button
-                onClick={() => handlePlanClick('elite')}
+                onClick={() => handlePlanClick('free')}
                 className="w-full py-3 px-5 rounded-full border border-[#0A0A0A] text-[#0A0A0A] hover:bg-[#0A0A0A] hover:text-white font-bold text-xs md:text-sm transition-all duration-200 cursor-pointer text-center"
               >
-                Start Elite Free &rarr;
+                Start for Free &rarr;
               </button>
             </div>
           </div>

@@ -41,8 +41,8 @@ function WorkspaceRouter() {
   const [viewMode, setViewMode] = useState('landing'); // 'landing' (Default public site) | 'workbench' (Function tester) | 'dashboard' (Full UI)
   const [activeModule, setActiveModule] = useState('home');
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
-  const [authMode, setAuthMode] = useState('login');
-  const [showDevToolbar, setShowDevToolbar] = useState(true);
+  const isDevOrFounder = import.meta.env.DEV || (typeof window !== 'undefined' && (window.location.search.includes('dev') || localStorage.getItem('vyralify_dev') === 'true'));
+  const [showDevToolbar, setShowDevToolbar] = useState(import.meta.env.DEV);
 
   // 1. DEFAULT PUBLIC VIEW: The 17-Section Marketing Landing Page
   if (viewMode === 'landing') {
@@ -50,14 +50,15 @@ function WorkspaceRouter() {
       <div className="relative min-h-screen w-full bg-[#0A0A0A]">
         <LandingPage onLoginSuccess={() => setViewMode('dashboard')} />
 
-        {/* FOUNDER / DEVELOPER TESTING SWITCHER BADGE */}
-        <div className="fixed bottom-3 right-3 z-50">
-          {showDevToolbar ? (
-            <div className="p-1.5 rounded-xl bg-[#111111]/95 border border-[#2A2A2A] shadow-xl backdrop-blur-md flex items-center gap-2 text-xs text-neutral-300">
-              <span className="text-[10px] font-mono text-[#23E598] uppercase px-1.5 font-bold">Dev:</span>
-              
-              <button
-                onClick={() => setViewMode('workbench')}
+        {/* FOUNDER / DEVELOPER TESTING SWITCHER BADGE (Visible in Dev or with ?dev=true) */}
+        {isDevOrFounder && (
+          <div className="fixed bottom-3 right-3 z-50">
+            {showDevToolbar ? (
+              <div className="p-1.5 rounded-xl bg-[#111111]/95 border border-[#2A2A2A] shadow-xl backdrop-blur-md flex items-center gap-2 text-xs text-neutral-300">
+                <span className="text-[10px] font-mono text-[#23E598] uppercase px-1.5 font-bold">Dev:</span>
+                
+                <button
+                  onClick={() => setViewMode('workbench')}
                 className="px-2.5 py-1 rounded-md bg-[#1C1C1C] hover:bg-[#282828] text-white text-[11px] font-mono flex items-center gap-1.5 transition-colors cursor-pointer border border-[#333333]"
                 title="Switch to Function Test Workbench"
               >
@@ -95,6 +96,7 @@ function WorkspaceRouter() {
             </button>
           )}
         </div>
+        )}
       </div>
     );
   }

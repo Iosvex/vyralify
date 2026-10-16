@@ -1,23 +1,30 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { motion, useScroll, useTransform } from 'motion/react';
-import { Play, Sparkles, TrendingUp, ShoppingBag, ArrowRight } from 'lucide-react';
+import { motion, useScroll, useTransform, useReducedMotion } from 'motion/react';
+import { Play, Sparkles } from 'lucide-react';
 
 export default function Hero({ onStartFree, onWatchDemo, onSelectPath }) {
   const heroRef = useRef(null);
+  const shouldReduceMotion = useReducedMotion();
+
   const { scrollYProgress } = useScroll({
     target: heroRef,
     offset: ["start start", "end start"]
   });
 
-  // Tilt straightens smoothly as user scrolls down
-  const rotateX = useTransform(scrollYProgress, [0, 0.4], [6, 0]);
-  const scale = useTransform(scrollYProgress, [0, 0.4], [1, 1.02]);
+  // Tilt straightens smoothly as user scrolls down (disabled if user prefers reduced motion)
+  const rotateX = useTransform(scrollYProgress, [0, 0.4], shouldReduceMotion ? [0, 0] : [6, 0]);
+  const scale = useTransform(scrollYProgress, [0, 0.4], shouldReduceMotion ? [1, 1] : [1, 1.02]);
 
   const handleBeginnerClick = (e) => {
     e.preventDefault();
-    const target = document.getElementById('two-paths');
+    const target = document.getElementById('beginner-card') || document.getElementById('two-paths');
     if (target) {
-      target.scrollIntoView({ behavior: 'smooth' });
+      target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      target.style.transition = 'box-shadow 0.3s ease, border-color 0.3s ease';
+      target.style.boxShadow = '0 0 0 3px #23E598, 0 0 30px rgba(35,229,152,0.4)';
+      setTimeout(() => {
+        target.style.boxShadow = '';
+      }, 500);
       if (onSelectPath) onSelectPath('scratch');
     }
   };
@@ -27,11 +34,11 @@ export default function Hero({ onStartFree, onWatchDemo, onSelectPath }) {
       ref={heroRef}
       className="relative w-full min-h-screen bg-[#0A0A0A] text-white flex flex-col items-center justify-start pt-16 sm:pt-20 pb-24 px-5 sm:px-10 lg:px-20 overflow-hidden select-none"
     >
-      {/* BACKGROUND TREATMENT: Fine dot grid + subtle green radial glow */}
+      {/* BACKGROUND TREATMENT: Fine dot grid at exact 4% opacity (Rule 4 spec) + subtle green radial glow */}
       <div 
-        className="absolute inset-0 pointer-events-none opacity-40"
+        className="absolute inset-0 pointer-events-none"
         style={{
-          backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(255,255,255,0.08) 1px, transparent 0)',
+          backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(255,255,255,0.04) 1px, transparent 0)',
           backgroundSize: '24px 24px'
         }}
       />
@@ -102,28 +109,13 @@ export default function Hero({ onStartFree, onWatchDemo, onSelectPath }) {
         </p>
       </div>
 
-      {/* MAIN VISUAL: REAL DASHBOARD MOCKUP WITH 3D TILT */}
+      {/* MAIN VISUAL: REAL DASHBOARD MOCKUP — CLEAN FRAME WITHOUT BROWSER CHROME, NO FLOATING CARDS (SPEC RULE 4) */}
       <div className="relative w-full max-w-[1040px] mt-14 z-10 px-2 sm:px-0">
         <motion.div
           style={{ rotateX, scale, transformPerspective: 1200 }}
-          className="relative rounded-2xl bg-[#0F1117] border border-[#2A2A2A] shadow-2xl overflow-hidden p-2 sm:p-3"
+          className="relative rounded-2xl bg-[#0F1117] border border-[#2A2A2A] shadow-2xl overflow-hidden p-3 sm:p-4"
         >
-          {/* Top Bar of the Mockup */}
-          <div className="flex items-center justify-between pb-3 px-3 border-b border-white/[0.06] mb-3">
-            <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-red-500/80 inline-block" />
-              <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/80 inline-block" />
-              <span className="w-2.5 h-2.5 rounded-full bg-green-500/80 inline-block" />
-              <span className="ml-2 text-[11px] font-mono text-neutral-400">vyralify.in/dashboard</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="text-[10px] font-mono text-[#23E598] bg-[#23E598]/10 px-2 py-0.5 rounded border border-[#23E598]/20">
-                Meta Graph Synced
-              </span>
-            </div>
-          </div>
-
-          {/* Real Dashboard Body Layout */}
+          {/* Real Dashboard Body Layout — Pure Product UI, No Browser Chrome */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-3.5">
             <div className="p-3.5 rounded-xl bg-[#141721] border border-white/[0.06]">
               <div className="text-[10px] font-mono text-neutral-400 uppercase">Followers</div>
@@ -181,43 +173,6 @@ export default function Hero({ onStartFree, onWatchDemo, onSelectPath }) {
                 Apply AI Script &rarr;
               </button>
             </div>
-          </div>
-        </motion.div>
-
-        {/* 3 FLOATING ELEMENT CARDS (Desktop only — Page 6 spec) */}
-        {/* Card 1: Top-Left AI suggestion bubble */}
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="hidden md:flex items-center gap-2.5 p-3 rounded-xl bg-[#111111] border-l-4 border-[#23E598] border border-[#2A2A2A] shadow-2xl absolute -top-6 -left-8 z-20 text-xs font-medium text-white max-w-xs"
-        >
-          <Sparkles className="w-4 h-4 text-[#23E598] shrink-0" />
-          <span>✨ "What should I post next?"</span>
-        </motion.div>
-
-        {/* Card 2: Top-Right Growth Badge */}
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.45 }}
-          className="hidden md:flex items-center gap-2 p-3 rounded-xl bg-[#111111] border-l-4 border-[#23E598] border border-[#2A2A2A] shadow-2xl absolute -top-5 -right-6 z-20 text-xs font-bold text-white"
-        >
-          <TrendingUp className="w-4 h-4 text-[#23E598]" />
-          <span>+18.4K followers this month</span>
-        </motion.div>
-
-        {/* Card 3: Bottom-Right Sale Notification */}
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.6 }}
-          className="hidden md:flex items-center gap-2.5 p-3 rounded-xl bg-[#111111] border-l-4 border-[#23E598] border border-[#2A2A2A] shadow-2xl absolute -bottom-5 -right-8 z-20 text-xs font-medium text-white"
-        >
-          <ShoppingBag className="w-4 h-4 text-[#23E598] shrink-0" />
-          <div>
-            <span className="font-bold text-white block">New Sale: ₹499</span>
-            <span className="text-[11px] text-neutral-400">Digital Product &bull; Just now</span>
           </div>
         </motion.div>
       </div>

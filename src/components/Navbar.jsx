@@ -36,37 +36,37 @@ export default function Navbar({ onStartFree, onLogin, onSelectPath }) {
       id: 'ai-spotlight',
       icon: Bot,
       title: 'Vyralify AI',
-      desc: 'Your 24/7 Instagram growth co-pilot'
+      desc: 'Analyzes your page and tells you what to do next'
     },
     {
       id: 'discover-spotlight',
       icon: Search,
       title: 'Discover & Create',
-      desc: 'Find what works, create what wins'
+      desc: "Find what's viral, create content that performs"
     },
     {
       id: 'pagebuilder-spotlight',
       icon: Rocket,
       title: 'Page Builder',
-      desc: 'Build your page the right way'
+      desc: 'Build or optimize your Instagram page from day one'
     },
     {
       id: 'automation-spotlight',
       icon: Zap,
       title: 'Instagram Automation',
-      desc: 'Turn engagement into leads'
+      desc: 'Turn comments and DMs into leads and sales'
     },
     {
       id: 'store-spotlight',
       icon: ShoppingBag,
       title: 'Store & Commerce',
-      desc: 'Monetize your audience'
+      desc: 'Sell products and monetize your audience'
     },
     {
       id: 'system-section',
       icon: LayoutDashboard,
       title: 'Dashboard & Analytics',
-      desc: 'Track everything in one place'
+      desc: 'Track everything that matters in one place'
     }
   ];
 
@@ -90,16 +90,32 @@ export default function Navbar({ onStartFree, onLogin, onSelectPath }) {
     }
   };
 
+  const triggerHighlightRing = (targetId) => {
+    const element = document.getElementById(targetId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      element.style.transition = 'box-shadow 0.3s ease, border-color 0.3s ease';
+      element.style.boxShadow = '0 0 0 3px #23E598, 0 0 30px rgba(35,229,152,0.4)';
+      setTimeout(() => {
+        element.style.boxShadow = '';
+      }, 500);
+    }
+  };
+
   const handleForCreators = (e) => {
-    e.preventDefault();
-    scrollToSection('two-paths');
+    if (e) e.preventDefault();
+    setProductOpen(false);
+    setMobileMenuOpen(false);
     if (onSelectPath) onSelectPath('existing');
+    triggerHighlightRing('creator-card');
   };
 
   const handleForBeginners = (e) => {
-    e.preventDefault();
-    scrollToSection('two-paths');
+    if (e) e.preventDefault();
+    setProductOpen(false);
+    setMobileMenuOpen(false);
     if (onSelectPath) onSelectPath('scratch');
+    triggerHighlightRing('beginner-card');
   };
 
   return (
@@ -217,78 +233,102 @@ export default function Navbar({ onStartFree, onLogin, onSelectPath }) {
         {/* MOBILE HAMBURGER BUTTON */}
         <div className="md:hidden flex items-center">
           <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            onClick={() => setMobileMenuOpen(true)}
             className="p-2 text-neutral-300 hover:text-white cursor-pointer"
-            aria-label="Toggle navigation menu"
+            aria-label="Open navigation menu"
           >
-            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            <Menu className="w-6 h-6" />
           </button>
         </div>
 
       </div>
 
-      {/* MOBILE FULL-SCREEN NAV OVERLAY */}
+      {/* MOBILE FULL-SCREEN NAV OVERLAY (SPEC: FIXED FULL-SCREEN OVERLAY) */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-[#0A0A0A] border-b border-[#1F1F1F] px-6 py-6 space-y-4 shadow-2xl"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-50 bg-[#0A0A0A] flex flex-col justify-between px-6 pt-6 pb-10 overflow-y-auto"
           >
-            <div className="space-y-3 font-semibold text-base text-neutral-200">
+            {/* Top Bar with Logo and Close X */}
+            <div className="flex items-center justify-between pb-6 border-b border-[#1F1F1F]">
+              <a href="#" className="flex items-center gap-2.5">
+                <img 
+                  src="/vyralify-logo.png" 
+                  alt="Vyralify" 
+                  className="h-7 w-auto object-contain" 
+                />
+              </a>
+              <button
+                onClick={() => setMobileMenuOpen(false)}
+                className="p-2 text-neutral-300 hover:text-white cursor-pointer"
+                aria-label="Close navigation menu"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+
+            {/* Nav Links Stacked Vertically at 18px font size (Spec Rule) */}
+            <div className="flex-1 py-8 space-y-5 font-semibold text-[18px] text-neutral-200">
               <button 
                 onClick={handleForBeginners}
-                className="w-full text-left py-2 hover:text-[#23E598] flex items-center justify-between"
+                className="w-full text-left py-2 hover:text-[#23E598] flex items-center justify-between text-[18px]"
               >
                 <span>For Beginners</span>
-                <span className="text-[11px] font-mono text-[#23E598] bg-[#23E598]/10 px-2 py-0.5 rounded">Start from 0</span>
+                <span className="text-[12px] font-mono text-[#23E598] bg-[#23E598]/10 px-2.5 py-0.5 rounded">Start from 0</span>
               </button>
 
               <button 
                 onClick={handleForCreators}
-                className="w-full text-left py-2 hover:text-[#23E598] flex items-center justify-between"
+                className="w-full text-left py-2 hover:text-[#23E598] flex items-center justify-between text-[18px]"
               >
                 <span>For Creators</span>
-                <span className="text-[11px] font-mono text-neutral-400">Scale Page</span>
+                <span className="text-[12px] font-mono text-neutral-400 bg-white/5 px-2.5 py-0.5 rounded">Scale Page</span>
               </button>
 
               <button 
                 onClick={() => scrollToSection('benefits')}
-                className="w-full text-left py-2 hover:text-[#23E598]"
+                className="w-full text-left py-2 hover:text-[#23E598] text-[18px]"
               >
                 Products &amp; Features
               </button>
 
               <button 
                 onClick={() => scrollToSection('pricing')}
-                className="w-full text-left py-2 hover:text-[#23E598]"
+                className="w-full text-left py-2 hover:text-[#23E598] text-[18px]"
               >
                 Pricing &amp; Plans
               </button>
 
               <button 
                 onClick={() => scrollToSection('faq')}
-                className="w-full text-left py-2 hover:text-[#23E598]"
+                className="w-full text-left py-2 hover:text-[#23E598] text-[18px]"
               >
                 FAQ
               </button>
 
               <button 
-                onClick={onLogin}
-                className="w-full text-left py-2 text-white hover:text-[#23E598]"
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  onLogin();
+                }}
+                className="w-full text-left py-2 text-white hover:text-[#23E598] text-[18px]"
               >
                 Log In
               </button>
             </div>
 
-            <div className="pt-2">
+            {/* Bottom CTA Button */}
+            <div className="pt-4 border-t border-[#1F1F1F]">
               <button
                 onClick={() => {
                   setMobileMenuOpen(false);
                   onStartFree();
                 }}
-                className="w-full py-3 rounded-full bg-[#23E598] text-black font-bold text-sm text-center flex items-center justify-center gap-1.5 shadow-md cursor-pointer"
+                className="w-full py-3.5 rounded-full bg-[#23E598] text-black font-bold text-base text-center flex items-center justify-center gap-1.5 shadow-md cursor-pointer"
               >
                 <span>Start Free</span>
                 <span>&rarr;</span>

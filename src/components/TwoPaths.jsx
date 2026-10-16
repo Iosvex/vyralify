@@ -78,6 +78,7 @@ export default function TwoPaths({ onSelectPath, activePath: externalPath }) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
           {/* Card 1: Starting from scratch */}
           <div
+            id="beginner-card"
             onClick={() => handleSelect('scratch')}
             className={`rounded-2xl p-8 md:p-10 transition-all duration-300 relative flex flex-col justify-between cursor-pointer ${
               selectedPath === 'scratch'
@@ -139,6 +140,7 @@ export default function TwoPaths({ onSelectPath, activePath: externalPath }) {
 
           {/* Card 2: Already have a page */}
           <div
+            id="creator-card"
             onClick={() => handleSelect('existing')}
             className={`rounded-2xl p-8 md:p-10 transition-all duration-300 relative flex flex-col justify-between cursor-pointer ${
               selectedPath === 'existing'

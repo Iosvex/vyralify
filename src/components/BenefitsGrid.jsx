@@ -4,13 +4,31 @@ import {
   Search, 
   Zap, 
   ShoppingBag, 
-  Rocket, 
-  LayoutDashboard,
-  ArrowRight,
-  TrendingUp,
+  ArrowRight, 
   Sparkles,
-  CheckCircle2
+  TrendingUp,
+  MessageSquare,
+  ShieldCheck,
+  CheckCircle2,
+  ExternalLink
 } from 'lucide-react';
+
+/**
+ * Section 07: WHAT'S INSIDE / BENEFITS GRID
+ * Specification:
+ * - Background: #F9F9F9
+ * - Section Label: "WHAT'S INSIDE" — 12px, #23E598, uppercase, centered
+ * - Headline: "One Platform. Everything You Need." — 40px, 700, #0A0A0A, centered
+ * - Subheading: "From building your first page to automating your DMs and selling your products — every tool lives right here, connected." — 16px, #666666, centered, max 600px
+ * - 4 Cards — 2x2 grid desktop, 1 column mobile
+ * - Card Background: #FFFFFF, Border: 1px #EBEBEB, Radius: 12px, Padding: 28px
+ * - Real product screenshot top (16:9, radius 8px, actual UI screenshot — Rule 4)
+ * - Icon (20px) + Module name (16px, 600, #0A0A0A)
+ * - Outcome-first description (Rule 2): 14px, #666666, 2 lines
+ * - Audience chip: "For Everyone" / "For Creators" / "For Scaling Creators" (12px chip, bottom)
+ * - Hover: translateY(-4px), box-shadow appears, border lightens to #D0D0D0, 150ms ease
+ * - Bottom Text: "Explore all features →" — 14px, #23E598, centered text link (links smoothly to Pricing)
+ */
 
 export default function BenefitsGrid({ onExploreAll }) {
   const cards = [
@@ -20,23 +38,48 @@ export default function BenefitsGrid({ onExploreAll }) {
       name: 'Vyralify AI Assistant',
       desc: 'Your personal Instagram growth co-pilot — analyzes your real metrics, tells you what to post next, and explains why every Reel worked or flopped.',
       chip: 'For Everyone',
-      renderPreview: () => (
-        <div className="w-full h-36 bg-[#0E1017] rounded-lg p-3 border border-white/[0.08] flex flex-col justify-between text-[11px] font-mono">
-          <div className="flex items-center justify-between text-neutral-400 pb-1.5 border-b border-white/[0.06]">
-            <span className="flex items-center gap-1 text-[#23E598]">
-              <Sparkles className="w-3 h-3" /> Growth Co-Pilot
+      renderScreenshot: () => (
+        <div className="w-full aspect-video bg-[#0D1017] rounded-lg p-3 sm:p-4 border border-white/[0.08] flex flex-col justify-between overflow-hidden shadow-inner text-[11px] font-mono select-none">
+          {/* Top Bar */}
+          <div className="flex items-center justify-between pb-2 border-b border-white/[0.06]">
+            <div className="flex items-center gap-1.5 text-[#23E598] font-semibold text-[11px]">
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>Vyralify AI Assistant</span>
+            </div>
+            <span className="text-[10px] text-neutral-400 bg-white/[0.05] px-2 py-0.5 rounded border border-white/5">
+              Synced with Meta API
             </span>
-            <span>Live Analysis</span>
           </div>
-          <div className="space-y-1 text-neutral-300">
-            <div className="text-white font-semibold">User: "Why did my last reel stall at 1.2K?"</div>
-            <div className="text-[#23E598] font-sans text-[11px]">
-              &bull; Hook dropped retention at 0:03. Switched to curiosity angle (+180% forecast).
+
+          {/* Chat Stream Simulation */}
+          <div className="space-y-2 my-auto">
+            {/* User Bubble */}
+            <div className="flex justify-end">
+              <div className="bg-[#1C2130] text-neutral-200 px-2.5 py-1.5 rounded-lg rounded-tr-none text-[11px] max-w-[85%] font-sans">
+                "Why did my last Reel underperform?"
+              </div>
+            </div>
+
+            {/* AI Response Card */}
+            <div className="bg-[#131722] border border-white/[0.08] text-neutral-300 p-2.5 rounded-lg rounded-tl-none space-y-1 font-sans text-[11px] leading-tight">
+              <div className="text-white font-medium">
+                Last Reel: <span className="text-[#23E598] font-mono">12.4K views</span> (64% below your 34.2K average).
+              </div>
+              <div className="text-[10px] text-neutral-400 space-y-0.5">
+                <div>• Retention dropped at 0:04 before payoff</div>
+                <div>• Voiceover format up <span className="text-[#23E598] font-bold">+320%</span> in your niche this week</div>
+              </div>
             </div>
           </div>
-          <div className="bg-[#1A1D28] px-2 py-1 rounded text-neutral-400 text-[10px] flex items-center justify-between">
-            <span>[Create Variation]</span>
-            <span className="text-[#23E598] font-bold">&rarr;</span>
+
+          {/* Action Buttons Row */}
+          <div className="flex items-center gap-2 pt-1 border-t border-white/[0.06]">
+            <span className="px-2 py-1 rounded bg-[#23E598]/15 text-[#23E598] border border-[#23E598]/30 font-semibold text-[10px]">
+              Create Voiceover Variation
+            </span>
+            <span className="px-2 py-1 rounded bg-white/[0.05] text-neutral-400 text-[10px]">
+              View Full Analytics
+            </span>
           </div>
         </div>
       )
@@ -47,21 +90,56 @@ export default function BenefitsGrid({ onExploreAll }) {
       name: 'Discover & Create',
       desc: "Find what's going viral in your niche right now — then generate hooks, scripts, and captions that actually perform, in seconds.",
       chip: 'For Creators',
-      renderPreview: () => (
-        <div className="w-full h-36 bg-[#0E1017] rounded-lg p-3 border border-white/[0.08] flex flex-col justify-between text-[11px] font-mono">
-          <div className="flex items-center justify-between text-neutral-400">
-            <span className="text-white font-bold">Niche: Finance &amp; Wealth</span>
-            <span className="text-[#23E598] text-[10px] bg-[#23E598]/10 px-1.5 py-0.5 rounded">Trending 48h</span>
+      renderScreenshot: () => (
+        <div className="w-full aspect-video bg-[#0D1017] rounded-lg p-3 sm:p-4 border border-white/[0.08] flex flex-col justify-between overflow-hidden shadow-inner text-[11px] font-mono select-none">
+          {/* Top Filter Chips */}
+          <div className="flex items-center justify-between pb-2 border-b border-white/[0.06]">
+            <div className="flex items-center gap-1.5">
+              <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#23E598] text-black font-bold">
+                Finance &amp; Wealth
+              </span>
+              <span className="text-[10px] px-2 py-0.5 rounded-full bg-white/[0.05] text-neutral-400">
+                Top 1% Reels
+              </span>
+            </div>
+            <span className="text-[10px] text-[#23E598]">Trending 48h</span>
           </div>
-          <div className="space-y-1 text-neutral-300">
-            <div className="text-neutral-400 text-[10px]">Top Hook Formula #04:</div>
-            <div className="text-white font-sans text-[11px] leading-tight font-medium">
-              "Stop saving money in a traditional bank in 2026..."
+
+          {/* Side-by-Side: Trending Post + Hook Generator */}
+          <div className="grid grid-cols-2 gap-2 my-auto">
+            {/* Viral Sample Card */}
+            <div className="p-2 rounded bg-[#131722] border border-white/[0.06] flex flex-col justify-between">
+              <div>
+                <div className="text-[9px] text-neutral-400 uppercase">Viral Score: 98/100</div>
+                <div className="text-white font-sans text-[11px] font-semibold mt-0.5 line-clamp-2">
+                  "Stop saving money in a traditional bank in 2026..."
+                </div>
+              </div>
+              <div className="text-[10px] text-[#23E598] font-bold mt-1">1.2M views &bull; 8.4% share</div>
+            </div>
+
+            {/* Generated Hook Output */}
+            <div className="p-2 rounded bg-[#131722] border border-[#23E598]/20 flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between">
+                  <span className="text-[9px] text-[#23E598] uppercase font-bold">Hook #04</span>
+                  <span className="text-[9px] bg-white/[0.05] text-neutral-300 px-1 rounded">Curiosity</span>
+                </div>
+                <div className="text-neutral-200 font-sans text-[11px] mt-0.5 leading-snug">
+                  "The banking trick high-earners use to protect liquid cash..."
+                </div>
+              </div>
+              <div className="text-[10px] text-[#23E598] font-semibold mt-1 flex items-center justify-between">
+                <span>Copy Script</span>
+                <span>&rarr;</span>
+              </div>
             </div>
           </div>
-          <div className="flex items-center justify-between text-[10px] text-neutral-400 pt-1 border-t border-white/[0.06]">
-            <span>6 Variations Ready</span>
-            <span className="text-[#23E598] font-semibold">Generate Script &rarr;</span>
+
+          {/* Bottom Bar */}
+          <div className="flex items-center justify-between pt-1 border-t border-white/[0.06] text-[10px] text-neutral-400">
+            <span>Discover &rarr; Create Hook Pipeline</span>
+            <span className="text-white font-semibold">4 Hooks Generated</span>
           </div>
         </div>
       )
@@ -72,21 +150,39 @@ export default function BenefitsGrid({ onExploreAll }) {
       name: 'Instagram Automation',
       desc: "Comment LINK, get a DM — automatically. Set up once and watch Vyralify turn every comment and story reply into a lead or sale while you're not watching.",
       chip: 'For Everyone',
-      renderPreview: () => (
-        <div className="w-full h-36 bg-[#0E1017] rounded-lg p-3 border border-white/[0.08] flex flex-col justify-between text-[11px] font-mono">
-          <div className="flex items-center justify-between text-neutral-400 pb-1.5 border-b border-white/[0.06]">
-            <span className="text-[#23E598] font-bold">Trigger: "BLUEPRINT"</span>
-            <span className="text-[10px] text-emerald-400">Meta Safe 30/hr</span>
+      renderScreenshot: () => (
+        <div className="w-full aspect-video bg-[#0D1017] rounded-lg p-3 sm:p-4 border border-white/[0.08] flex flex-col justify-between overflow-hidden shadow-inner text-[11px] font-mono select-none">
+          {/* Top Automation Status */}
+          <div className="flex items-center justify-between pb-2 border-b border-white/[0.06]">
+            <div className="flex items-center gap-1.5 text-white font-semibold">
+              <span className="w-2 h-2 rounded-full bg-[#23E598] animate-pulse inline-block" />
+              <span className="text-[11px]">Workflow: Auto DM &amp; Link</span>
+            </div>
+            <span className="text-[10px] text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20 font-bold">
+              Meta Safe Active
+            </span>
           </div>
-          <div className="space-y-1 text-neutral-300 font-sans">
-            <div className="text-neutral-400 text-[10px] font-mono">Follower: "BLUEPRINT"</div>
-            <div className="text-white text-[11px] bg-white/[0.05] p-1.5 rounded">
-              "Hey! Here is your private access link: vyralify.in/blueprint"
+
+          {/* Trigger → Action Flow UI */}
+          <div className="space-y-1.5 my-auto">
+            <div className="flex items-center gap-2 p-2 rounded bg-[#131722] border border-white/[0.06]">
+              <span className="text-[10px] bg-white/[0.08] text-white px-1.5 py-0.5 rounded font-bold">TRIGGER</span>
+              <span className="text-white font-sans text-[11px]">Comment contains keyword:</span>
+              <span className="text-[#23E598] font-bold bg-[#23E598]/10 px-1.5 py-0.5 rounded">"BLUEPRINT"</span>
+            </div>
+
+            <div className="flex items-center gap-2 p-2 rounded bg-[#131722] border border-[#23E598]/20">
+              <span className="text-[10px] bg-[#23E598]/20 text-[#23E598] px-1.5 py-0.5 rounded font-bold">ACTION</span>
+              <span className="text-neutral-200 font-sans text-[11px] truncate">
+                Instant DM: "Hey! Here is your private blueprint link: vyralify.me/blueprint 🚀"
+              </span>
             </div>
           </div>
-          <div className="text-[10px] text-[#23E598] font-bold flex items-center justify-between">
-            <span>Sale Converted (+₹499)</span>
-            <span>2s ago</span>
+
+          {/* Conversion Footer */}
+          <div className="flex items-center justify-between pt-1 border-t border-white/[0.06] text-[10px]">
+            <span className="text-neutral-400">Pace: 30 DMs/hr (Anti-Spam)</span>
+            <span className="text-[#23E598] font-bold font-sans">⚡ New Sale: ₹499 (Just now)</span>
           </div>
         </div>
       )
@@ -97,69 +193,50 @@ export default function BenefitsGrid({ onExploreAll }) {
       name: 'Store & Commerce',
       desc: 'One link in your bio — your full storefront. Sell digital products, guides, and services directly to your audience with zero extra tools or monthly fees.',
       chip: 'For Scaling Creators',
-      renderPreview: () => (
-        <div className="w-full h-36 bg-[#0E1017] rounded-lg p-3 border border-white/[0.08] flex flex-col justify-between text-[11px] font-mono">
-          <div className="flex items-center justify-between text-neutral-400 pb-1.5 border-b border-white/[0.06]">
-            <span className="text-white font-bold">vyralify.me/creator</span>
-            <span className="text-[#23E598] text-[10px]">1-Click Checkout</span>
+      renderScreenshot: () => (
+        <div className="w-full aspect-video bg-[#0D1017] rounded-lg p-3 sm:p-4 border border-white/[0.08] flex flex-col justify-between overflow-hidden shadow-inner text-[11px] font-mono select-none">
+          {/* Top Profile Header */}
+          <div className="flex items-center justify-between pb-2 border-b border-white/[0.06]">
+            <div className="flex items-center gap-2">
+              <div className="w-5 h-5 rounded-full bg-gradient-to-tr from-[#23E598] to-emerald-400 flex items-center justify-center text-black font-bold text-[9px]">
+                V
+              </div>
+              <span className="text-white font-bold text-[11px]">vyralify.me/creator</span>
+            </div>
+            <span className="text-[10px] text-[#23E598] bg-[#23E598]/10 px-2 py-0.5 rounded">
+              1-Click UPI / Card
+            </span>
           </div>
-          <div className="space-y-1 text-neutral-300 font-sans">
-            <div className="flex items-center justify-between bg-white/[0.04] p-1.5 rounded text-[11px]">
-              <span className="text-white font-medium">Faceless Playbook 2026</span>
-              <span className="text-[#23E598] font-bold font-mono">₹499</span>
+
+          {/* Storefront Product Preview */}
+          <div className="grid grid-cols-2 gap-2 my-auto">
+            <div className="p-2 rounded bg-[#131722] border border-white/[0.06]">
+              <div className="text-[9px] text-neutral-400 uppercase">Featured Guide</div>
+              <div className="text-white font-sans text-[11px] font-semibold mt-0.5">
+                Faceless Playbook 2026
+              </div>
+              <div className="flex items-center justify-between mt-1 text-[10px]">
+                <span className="text-[#23E598] font-bold">₹499</span>
+                <span className="text-neutral-400">PDF + Audio</span>
+              </div>
+            </div>
+
+            <div className="p-2 rounded bg-[#131722] border border-white/[0.06]">
+              <div className="text-[9px] text-neutral-400 uppercase">30-Min Strategy</div>
+              <div className="text-white font-sans text-[11px] font-semibold mt-0.5">
+                1-on-1 Page Audit Call
+              </div>
+              <div className="flex items-center justify-between mt-1 text-[10px]">
+                <span className="text-[#23E598] font-bold">₹2,499</span>
+                <span className="text-neutral-400">Calendly Synced</span>
+              </div>
             </div>
           </div>
-          <div className="flex items-center justify-between text-[10px] text-neutral-400 pt-1">
-            <span>Instant Digital Delivery</span>
-            <span className="text-[#23E598]">100% Margin</span>
-          </div>
-        </div>
-      )
-    },
-    {
-      id: 'builder',
-      icon: Rocket,
-      name: 'Page Builder',
-      desc: 'Build the right page from day one — pick a niche, set up your bio and positioning, or audit the page you already have.',
-      chip: 'For Beginners',
-      renderPreview: () => (
-        <div className="w-full h-36 bg-[#0E1017] rounded-lg p-3 border border-white/[0.08] flex flex-col justify-between text-[11px] font-mono">
-          <div className="flex items-center justify-between text-neutral-400 pb-1.5 border-b border-white/[0.06]">
-            <span className="text-white font-bold">Niche Radar Score</span>
-            <span className="text-[#23E598] font-bold">96/100 Profitability</span>
-          </div>
-          <div className="space-y-1 text-neutral-300 font-sans">
-            <div className="text-[11px] text-white">Selected: Business &amp; Wealth (High CPM)</div>
-            <div className="text-[10px] text-neutral-400">Bio generated: "Stoic wealth models &amp; internet leverage."</div>
-          </div>
-          <div className="flex items-center justify-between text-[10px] text-neutral-400 pt-1">
-            <span>Page Health: 84/100</span>
-            <span className="text-[#23E598]">Audit Passed &rarr;</span>
-          </div>
-        </div>
-      )
-    },
-    {
-      id: 'dashboard',
-      icon: LayoutDashboard,
-      name: 'Dashboard & Analytics',
-      desc: 'See followers, views and revenue in one place, with AI suggestions on what to do next.',
-      chip: 'For Everyone',
-      renderPreview: () => (
-        <div className="w-full h-36 bg-[#0E1017] rounded-lg p-3 border border-white/[0.08] flex flex-col justify-between text-[11px] font-mono">
-          <div className="grid grid-cols-2 gap-2 text-center">
-            <div className="bg-white/[0.04] p-1.5 rounded">
-              <span className="text-[9px] text-neutral-400 block">7d Views</span>
-              <span className="text-sm font-bold text-white">184.5K</span>
-            </div>
-            <div className="bg-white/[0.04] p-1.5 rounded">
-              <span className="text-[9px] text-neutral-400 block">30d Revenue</span>
-              <span className="text-sm font-bold text-[#23E598]">₹42,850</span>
-            </div>
-          </div>
-          <div className="flex items-center justify-between text-[10px] text-neutral-400 pt-1 border-t border-white/[0.06]">
-            <span>Meta Graph Active</span>
-            <span className="text-[#23E598]">Verified Data &rarr;</span>
+
+          {/* Revenue Performance Bar */}
+          <div className="flex items-center justify-between pt-1 border-t border-white/[0.06] text-[10px]">
+            <span className="text-neutral-400">Total Store Volume:</span>
+            <span className="text-[#23E598] font-bold">₹42,850 (30d) &bull; 100% Margin</span>
           </div>
         </div>
       )
@@ -190,64 +267,72 @@ export default function BenefitsGrid({ onExploreAll }) {
           </p>
         </div>
 
-        {/* 3. CARDS: 3x2 GRID DESKTOP, 1 COL MOBILE */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+        {/* 3. CARDS: 4 CARDS — 2x2 GRID DESKTOP, 1 COL MOBILE (SPEC RULE) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-[1040px] mx-auto mb-12">
           {cards.map((c) => {
             const Icon = c.icon;
             return (
               <div
                 key={c.id}
-                className="p-7 rounded-xl bg-[#FFFFFF] border border-[#EBEBEB] hover:border-[#D0D0D0] hover:-translate-y-1 transition-all duration-150 flex flex-col justify-between shadow-xs hover:shadow-md"
+                className="p-7 rounded-xl bg-[#FFFFFF] border border-[#EBEBEB] hover:border-[#D0D0D0] hover:-translate-y-1 hover:shadow-lg transition-all duration-150 flex flex-col justify-between shadow-xs group"
               >
                 <div>
-                  {/* Real Product Screenshot Mockup on Top (16:9 crop) */}
-                  <div className="mb-5 overflow-hidden rounded-lg shadow-inner">
-                    {c.renderPreview()}
+                  {/* Real Product Screenshot Mockup on Top (16:9 aspect ratio, Rule 4) */}
+                  <div className="mb-5 overflow-hidden rounded-lg shadow-sm">
+                    {c.renderScreenshot()}
                   </div>
 
-                  {/* Icon + Module Name */}
+                  {/* Icon (20px) + Module Name (16px, 600, #0A0A0A) */}
                   <div className="flex items-center gap-2.5 mb-2.5">
-                    <div className="w-7 h-7 rounded-lg bg-[#23E598]/10 text-[#23E598] flex items-center justify-center shrink-0">
-                      <Icon className="w-4 h-4" />
+                    <div className="w-8 h-8 rounded-lg bg-[#23E598]/10 text-[#23E598] flex items-center justify-center shrink-0">
+                      <Icon className="w-5 h-5" />
                     </div>
-                    <h3 className="text-[16px] font-bold text-[#0A0A0A]">
+                    <h3 className="text-[16px] font-semibold text-[#0A0A0A]">
                       {c.name}
                     </h3>
                   </div>
 
-                  {/* Description (Rule 2 Outcome-first) */}
+                  {/* Outcome-First Description (Rule 2): 14px, #666666, 2 lines */}
                   <p className="text-[14px] text-[#666666] leading-relaxed line-clamp-2">
                     {c.desc}
                   </p>
                 </div>
 
-                {/* Audience Tag Chip */}
-                <div className="mt-5 pt-3 border-t border-[#F0F0F0] flex items-center justify-between">
-                  <span className="text-[11px] font-mono font-medium px-2.5 py-0.5 rounded-full bg-[#F5F5F5] text-[#666666] border border-[#E5E5E5]">
+                {/* Audience Tag Chip (12px chip, bottom) */}
+                <div className="mt-6 pt-3.5 border-t border-[#F0F0F0] flex items-center justify-between">
+                  <span className="text-[12px] font-mono font-medium px-2.5 py-0.5 rounded-full bg-[#F5F5F5] text-[#555555] border border-[#E5E5E5]">
                     {c.chip}
                   </span>
-                  <span className="text-[11px] font-semibold text-[#16A34A] flex items-center gap-1">
-                    Explore &rarr;
-                  </span>
+                  <button
+                    onClick={() => {
+                      const el = document.getElementById(`${c.id}-spotlight`) || document.getElementById('pricing');
+                      if (el) el.scrollIntoView({ behavior: 'smooth' });
+                    }}
+                    className="text-[12px] font-bold text-[#16A34A] group-hover:text-[#23E598] transition-colors flex items-center gap-1 cursor-pointer"
+                  >
+                    <span>Explore</span>
+                    <span>&rarr;</span>
+                  </button>
                 </div>
               </div>
             );
           })}
         </div>
 
-        {/* 4. BOTTOM LINK */}
+        {/* 4. BOTTOM TEXT LINK: "Explore all features →" — 14px, #23E598, centered text link */}
         <div className="text-center">
           <button
             onClick={() => {
-              if (onExploreAll) onExploreAll();
-              else {
+              if (onExploreAll) {
+                onExploreAll();
+              } else {
                 const el = document.getElementById('pricing');
                 if (el) el.scrollIntoView({ behavior: 'smooth' });
               }
             }}
-            className="text-[14px] font-bold text-[#16A34A] hover:underline cursor-pointer inline-flex items-center gap-1.5"
+            className="text-[14px] font-bold text-[#23E598] hover:underline cursor-pointer inline-flex items-center gap-1.5"
           >
-            <span>Explore all features &amp; comparison</span>
+            <span>Explore all features</span>
             <span>&rarr;</span>
           </button>
         </div>

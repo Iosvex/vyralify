@@ -751,7 +751,7 @@ export default function Spotlights({ onStartFree }) {
                 <span>&rarr;</span>
               </button>
               <div className="text-[12px] text-[#666666] font-mono mt-2">
-                Start free, unlock Automation on Pro
+                No credit card required
               </div>
             </div>
           </div>

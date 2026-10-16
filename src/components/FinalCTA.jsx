@@ -24,23 +24,6 @@ export default function FinalCTA({ onStartFree, onWatchDemo }) {
         }}
       />
 
-      {/* Faint blurred floating mock cards for ambient depth */}
-      <div className="absolute -left-12 top-1/3 w-64 p-4 rounded-xl bg-[#111111]/40 border border-white/5 backdrop-blur-xl rotate-[-8deg] opacity-20 hidden lg:block pointer-events-none">
-        <div className="flex items-center gap-2 mb-2">
-          <div className="w-5 h-5 rounded-full bg-[#23E598]/20 flex items-center justify-center text-[#23E598] text-[10px]">✨</div>
-          <span className="text-[11px] text-white/80 font-mono">Hook generated</span>
-        </div>
-        <p className="text-[10px] text-neutral-400">"5 secrets theme pages won't tell you..."</p>
-      </div>
-
-      <div className="absolute -right-12 bottom-1/4 w-64 p-4 rounded-xl bg-[#111111]/40 border border-white/5 backdrop-blur-xl rotate-[8deg] opacity-20 hidden lg:block pointer-events-none">
-        <div className="flex items-center justify-between mb-1">
-          <span className="text-[11px] font-mono text-[#23E598]">💳 Sale: ₹299</span>
-          <span className="text-[10px] text-neutral-500">Just now</span>
-        </div>
-        <p className="text-[10px] text-neutral-300">Instagram Growth Blueprint</p>
-      </div>
-
       <div className="max-w-[1200px] mx-auto relative z-10 text-center">
         {/* Eyebrow Pill */}
         <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#1A1A1A] border border-[#2E2E2E] text-xs font-semibold text-[#23E598] mb-6 shadow-sm">
@@ -77,9 +60,9 @@ export default function FinalCTA({ onStartFree, onWatchDemo }) {
           </button>
         </div>
 
-        {/* Trust microcopy */}
-        <p className="text-xs md:text-sm text-[#555555]">
-          Free plan · No credit card required · Join 10K+ creators
+        {/* Trust microcopy (Rule 1 spec) */}
+        <p className="text-xs md:text-sm text-[#888888] font-medium">
+          ✓ Free plan forever &nbsp;&bull;&nbsp; ✓ No credit card required &nbsp;&bull;&nbsp; ✓ Cancel anytime &nbsp;&bull;&nbsp; ✓ Setup in 5 minutes
         </p>
       </div>
     </section>

@@ -28,7 +28,7 @@ export default function TopStrip({ onStartFree }) {
             onClick={onStartFree}
             className="inline-flex items-center gap-1 underline underline-offset-2 hover:opacity-80 transition-opacity ml-1 cursor-pointer shrink-0 font-bold"
           >
-            <span>Start free today &rarr;</span>
+            <span>Start free &rarr;</span>
           </button>
         </div>
 

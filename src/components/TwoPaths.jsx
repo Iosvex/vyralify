@@ -80,20 +80,18 @@ export default function TwoPaths({ onSelectPath, activePath: externalPath }) {
           <div
             id="beginner-card"
             onClick={() => handleSelect('scratch')}
-            className={`rounded-2xl p-8 md:p-10 transition-all duration-300 relative flex flex-col justify-between cursor-pointer ${
+            className={`rounded-2xl p-8 md:p-9 transition-all duration-300 relative flex flex-col justify-between cursor-pointer ${
               selectedPath === 'scratch'
-                ? 'bg-[#111111] border-2 border-[#23E598] shadow-[0_0_30px_rgba(35,229,152,0.12)] -translate-y-1'
-                : 'bg-[#111111] border border-[#222222] opacity-80 hover:opacity-100 hover:border-[#333333]'
+                ? 'bg-[#111111] border-2 border-[#23E598] shadow-[0_0_30px_rgba(35,229,152,0.15)] -translate-y-1'
+                : 'bg-[#111111] border border-[#23E598]/60 hover:border-[#23E598]'
             }`}
           >
-            {selectedPath === 'scratch' && (
-              <div className="absolute -top-3 left-8 px-3 py-0.5 rounded-full bg-[#23E598] text-[#0A0A0A] text-[11px] font-bold uppercase tracking-wider shadow-sm">
-                Recommended for Beginners
-              </div>
-            )}
+            <div className="absolute -top-3 left-8 px-3.5 py-0.5 rounded-full bg-[#23E598] text-[#0A0A0A] text-[12px] font-bold uppercase tracking-wider shadow-sm">
+              No page yet
+            </div>
 
             <div>
-              <div className="flex items-center gap-3 mb-4">
+              <div className="flex items-center gap-3 mb-4 mt-1">
                 <div className="w-10 h-10 rounded-xl bg-[#23E598]/10 border border-[#23E598]/30 flex items-center justify-center text-[#23E598]">
                   <Rocket className="w-5 h-5" />
                 </div>
@@ -113,7 +111,7 @@ export default function TwoPaths({ onSelectPath, activePath: externalPath }) {
                   { num: '5', text: 'Set up automation and store to start earning' }
                 ].map((step, idx) => (
                   <div key={idx} className="flex items-start gap-3.5">
-                    <span className="w-6 h-6 rounded-full bg-[#1A1A1A] border border-[#2E2E2E] text-[#23E598] text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">
+                    <span className="w-6 h-6 rounded-full bg-[#23E598] text-[#0A0A0A] text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">
                       {step.num}
                     </span>
                     <span className="text-sm text-[#CCCCCC] leading-relaxed">
@@ -135,6 +133,9 @@ export default function TwoPaths({ onSelectPath, activePath: externalPath }) {
                 <span>Start Building</span>
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
               </button>
+              <p className="text-center text-[12px] text-[#555555] font-mono mt-2.5">
+                Free &bull; No credit card &bull; Setup in 5 minutes
+              </p>
             </div>
           </div>
 
@@ -142,20 +143,18 @@ export default function TwoPaths({ onSelectPath, activePath: externalPath }) {
           <div
             id="creator-card"
             onClick={() => handleSelect('existing')}
-            className={`rounded-2xl p-8 md:p-10 transition-all duration-300 relative flex flex-col justify-between cursor-pointer ${
+            className={`rounded-2xl p-8 md:p-9 transition-all duration-300 relative flex flex-col justify-between cursor-pointer ${
               selectedPath === 'existing'
-                ? 'bg-[#111111] border-2 border-[#23E598] shadow-[0_0_30px_rgba(35,229,152,0.12)] -translate-y-1'
-                : 'bg-[#111111] border border-[#222222] opacity-80 hover:opacity-100 hover:border-[#333333]'
+                ? 'bg-[#111111] border-2 border-[#23E598] shadow-[0_0_30px_rgba(35,229,152,0.15)] -translate-y-1'
+                : 'bg-[#111111] border border-[#2A2A2A] hover:border-[#444444]'
             }`}
           >
-            {selectedPath === 'existing' && (
-              <div className="absolute -top-3 left-8 px-3 py-0.5 rounded-full bg-[#23E598] text-[#0A0A0A] text-[11px] font-bold uppercase tracking-wider shadow-sm">
-                Recommended for Existing Pages
-              </div>
-            )}
+            <div className="absolute -top-3 left-8 px-3.5 py-0.5 rounded-full bg-[#1C1C1C] border border-[#333333] text-neutral-300 text-[12px] font-semibold uppercase tracking-wider shadow-sm">
+              Have a page
+            </div>
 
             <div>
-              <div className="flex items-center gap-3 mb-4">
+              <div className="flex items-center gap-3 mb-4 mt-1">
                 <div className="w-10 h-10 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center text-white">
                   <Smartphone className="w-5 h-5" />
                 </div>
@@ -175,7 +174,7 @@ export default function TwoPaths({ onSelectPath, activePath: externalPath }) {
                   { num: '5', text: 'Launch your store and monetize your audience' }
                 ].map((step, idx) => (
                   <div key={idx} className="flex items-start gap-3.5">
-                    <span className="w-6 h-6 rounded-full bg-[#1A1A1A] border border-[#2E2E2E] text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">
+                    <span className="w-6 h-6 rounded-full bg-white/15 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">
                       {step.num}
                     </span>
                     <span className="text-sm text-[#CCCCCC] leading-relaxed">
@@ -197,13 +196,16 @@ export default function TwoPaths({ onSelectPath, activePath: externalPath }) {
                 <span>Connect My Page</span>
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
               </button>
+              <p className="text-center text-[12px] text-[#555555] font-mono mt-2.5">
+                Free audit &bull; Instant analysis &bull; Setup in 2 minutes
+              </p>
             </div>
           </div>
         </div>
 
         {/* Sub-text */}
         <p className="text-center text-xs md:text-sm text-[#555555] mt-10">
-          Both paths take less than 5 minutes to set up.
+          Both paths take less than 5 minutes to get started.
         </p>
       </div>
     </section>

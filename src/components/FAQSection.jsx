@@ -29,36 +29,32 @@ export default function FAQSection({ onContactClick }) {
       a: "Vyralify's automation is built to stay within Meta's official guidelines. We use rate-limiting and safe messaging patterns — the same methods used by tools like ManyChat, which millions of accounts use safely."
     },
     {
-      q: 'What AI model powers Vyralify AI?',
-      a: "Vyralify AI is built on top of leading language models and fine-tuned specifically for Instagram growth — niche benchmarks, algorithm behavior, and content strategy. It's not a generic AI wrapper."
+      q: 'What makes Vyralify AI different from just using ChatGPT?',
+      a: 'ChatGPT gives generic responses. Vyralify AI is connected to your real Instagram data — your actual reach, engagement, content history, and niche benchmarks. When you ask it why a Reel underperformed, it looks at your specific numbers, not industry averages. It also links directly to the relevant Vyralify tool to take action immediately.'
     },
     {
       q: 'Can I use Vyralify for multiple Instagram pages?',
-      a: 'Yes. Pro supports up to 3 pages, Elite supports unlimited pages. Each page has its own analytics, automations, and store.'
+      a: 'Yes. Free plan: 1 page. Pro: up to 3 pages. Elite: unlimited pages. Each page has its own analytics, automations, and store, all switchable from one dashboard.'
     },
     {
       q: 'What happens when I hit my AI credit limit?',
-      a: "You'll see a notification at 80% usage. At 100%, AI features are paused until the next reset. You can upgrade to Pro/Elite for higher limits or unlimited credits."
+      a: "You'll see a notification when you reach 80% of your daily AI credits. At 100%, AI features pause until your next daily reset. You can upgrade to Pro (300/day) or Elite (unlimited) at any time from your account settings."
     },
     {
-      q: 'Does Vyralify work for all types of Instagram pages?',
-      a: 'Yes — we support 8 niche categories with 40+ sub-niches at launch: Business & Money, Self-Improvement, Health & Fitness, Fashion & Beauty, Cars & Automotive, Travel & Lifestyle, Entertainment, and Sports.'
+      q: 'What niches does Vyralify support?',
+      a: 'At launch, Vyralify supports 8 major niche categories: Business & Money, Self-Improvement, Health & Fitness, Fashion & Beauty, Cars & Automotive, Travel & Lifestyle, Entertainment, and Sports — with 40+ sub-niches total. The Discover feed, Viral Database, and AI recommendations are all filtered by your chosen niche.'
     },
     {
       q: 'How does the Store & Commerce feature work?',
-      a: 'You get a link-in-bio storefront at vyralify.io/your-username. Add products, set prices, and share the link in your Instagram bio. Followers buy directly — Vyralify handles checkout, delivery, and tracking.'
+      a: "You get a link-in-bio storefront at vyralify.io/your-username. Add products (digital files, services, coaching, subscriptions), set your prices, and share the link in your Instagram bio. When someone buys, Vyralify handles the checkout, payment processing, and automatic product delivery — you don't need to do anything manually."
     },
     {
       q: 'Can I cancel my subscription anytime?',
-      a: 'Yes. Cancel from your account settings anytime. Your plan stays active until the end of the current billing period.'
+      a: 'Yes. You can cancel from your account settings at any time — no calls required, no hoops to jump through. Your paid plan stays active until the end of your current billing period, then you roll back to Free automatically.'
     },
     {
-      q: 'Is my Instagram data safe?',
-      a: 'Yes. We only access the permissions you grant via Instagram’s official OAuth. We never store your Instagram password and never post anything without your explicit permission.'
-    },
-    {
-      q: 'What does Vyralify need access to on Instagram?',
-      a: 'It reads your profile, posts, insights and audience data to power your dashboard and AI. Messaging access is used only for automations you set up and switch on. You see the exact permissions on Meta’s login screen.'
+      q: 'Is my Instagram data safe with Vyralify?',
+      a: 'Yes. We only access the permissions you grant via Instagram’s official OAuth. We never store your Instagram password, never sell your data, and never post anything without your explicit permission. You can export or delete your data anytime.'
     }
   ];
 
@@ -71,17 +67,17 @@ export default function FAQSection({ onContactClick }) {
       <div className="max-w-[860px] mx-auto">
         {/* Header */}
         <div className="text-center mb-14">
-          <span className="text-[12px] font-bold text-[#1DCC84] tracking-[0.18em] uppercase inline-block mb-3">
+          <span className="text-[12px] font-bold text-[#16A34A] tracking-[0.18em] uppercase inline-block mb-3">
             FREQUENTLY ASKED QUESTIONS
           </span>
           <h2 className="text-3xl md:text-[40px] font-bold text-[#0A0A0A] tracking-tight leading-tight mb-4">
             Everything you need to know.
           </h2>
           <p className="text-[#666666] text-sm md:text-base">
-            Can't find your answer?{' '}
+            Still have questions?{' '}
             <button
               onClick={onContactClick}
-              className="text-[#1DCC84] hover:text-[#18A96E] font-semibold underline underline-offset-4 transition-colors cursor-pointer"
+              className="text-[#16A34A] hover:text-[#0F8A55] font-semibold underline underline-offset-4 transition-colors cursor-pointer"
             >
               Contact us &rarr;
             </button>

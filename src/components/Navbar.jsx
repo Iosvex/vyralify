@@ -120,7 +120,7 @@ export default function Navbar({ onStartFree, onLogin, onSelectPath }) {
 
   return (
     <header className={`sticky top-0 z-40 w-full h-16 bg-[#0A0A0A] border-b border-[#1F1F1F] transition-all select-none ${
-      isScrolled ? 'backdrop-blur-md bg-[#0A0A0A]/90 shadow-md' : ''
+      isScrolled ? 'backdrop-blur-[12px] bg-[rgba(10,10,10,0.88)] shadow-md' : ''
     }`}>
       <div className="max-w-[1200px] h-full mx-auto px-5 sm:px-10 lg:px-20 flex items-center justify-between">
         

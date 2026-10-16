@@ -55,11 +55,11 @@ export default function Hero({ onStartFree, onWatchDemo, onSelectPath }) {
         
         {/* EYEBROW WITH FLANKING THIN LINES */}
         <div className="inline-flex items-center gap-3 mb-6">
-          <span className="w-10 h-[1px] bg-[#23E598]/60" />
+          <span className="w-10 h-[1px] bg-[#23E598]" />
           <span className="text-[12px] font-bold text-[#23E598] tracking-[0.18em] uppercase">
             BUILD. GROW. MONETIZE.
           </span>
-          <span className="w-10 h-[1px] bg-[#23E598]/60" />
+          <span className="w-10 h-[1px] bg-[#23E598]" />
         </div>
 
         {/* HEADLINE */}

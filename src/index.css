@@ -43,7 +43,7 @@
   }
 
   body {
-    font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     font-weight: 500;
     line-height: 1.6;
     background-color: var(--bg-page);
@@ -56,16 +56,16 @@
   }
 
   h1, .hero-title {
-    font-family: 'General Sans', 'Plus Jakarta Sans', -apple-system, sans-serif;
+    font-family: 'Inter', -apple-system, sans-serif;
     letter-spacing: -0.03em;
     font-weight: 700;
     line-height: 1.15;
   }
 
   h2, h3, .section-title {
-    font-family: 'General Sans', 'Plus Jakarta Sans', -apple-system, sans-serif;
+    font-family: 'Inter', -apple-system, sans-serif;
     letter-spacing: -0.025em;
-    font-weight: 600;
+    font-weight: 700;
     line-height: 1.25;
   }
 
@@ -136,3 +136,20 @@ html.dark ::-webkit-scrollbar-thumb:hover {
     scroll-behavior: auto !important;
   }
 }
+
+/* Section 03: 35s Infinite Creator Marquee */
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 35s linear infinite;
+}
+

@@ -357,7 +357,7 @@ export default function PricingSection({ onSelectPlan }) {
 
         {/* Trust Row Below Cards */}
         <p className="text-center text-xs md:text-sm text-[#888888] font-medium mt-10">
-          ✓ No credit card required &nbsp;·&nbsp; ✓ Cancel anytime &nbsp;·&nbsp; ✓ Instant access
+          ✓ No credit card required &nbsp;·&nbsp; ✓ Cancel anytime &nbsp;·&nbsp; ✓ Instant access after signup
         </p>
 
         {/* Collapsible Full Feature Comparison Table */}
@@ -365,10 +365,9 @@ export default function PricingSection({ onSelectPlan }) {
           <div className="text-center">
             <button
               onClick={() => setShowTable(!showTable)}
-              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#F5F5F5] hover:bg-[#EBEBEB] text-[#0A0A0A] text-xs md:text-sm font-semibold transition-all cursor-pointer shadow-2xs"
+              className="inline-flex items-center gap-1 text-[14px] font-bold text-[#16A34A] hover:text-[#0F8A55] hover:underline transition-colors cursor-pointer"
             >
-              <span>{showTable ? 'Hide full comparison' : 'See full comparison'}</span>
-              {showTable ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+              <span>{showTable ? 'Hide full comparison ▴' : 'See full comparison ▾'}</span>
             </button>
           </div>
 

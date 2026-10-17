@@ -18,7 +18,8 @@ import {
   Crown,
   Mail,
   AlertCircle,
-  Globe
+  Globe,
+  ArrowLeftRight
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { usePage } from '../../context/PageContext';
@@ -48,7 +49,8 @@ export default function AppShell({ activeModule, onSelectModule, onNavigateLandi
     { id: 'builder', label: 'Page Builder', icon: Rocket },
     { id: 'discover_create', label: 'Discover & Create', icon: Search },
     { id: 'automation', label: 'Automations', icon: Bot, isLocked: tier === 'free' },
-    { id: 'store', label: 'Store & Commerce', icon: ShoppingBag }
+    { id: 'store', label: 'Store & Commerce', icon: ShoppingBag },
+    { id: 'marketplace', label: 'Marketplace', icon: ArrowLeftRight, badge: 'HOT' }
   ];
 
   const handleConnectPageClick = () => {

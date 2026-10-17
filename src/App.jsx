@@ -41,14 +41,39 @@ function WorkspaceRouter() {
   const [viewMode, setViewMode] = useState('landing'); // 'landing' (Default public site) | 'workbench' (Function tester) | 'dashboard' (Full UI)
   const [activeModule, setActiveModule] = useState('home');
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [authMode, setAuthMode] = useState('signup');
+  const [selectedStartingPath, setSelectedStartingPath] = useState('scratch');
+  const [selectedPlan, setSelectedPlan] = useState('free');
   const isDevOrFounder = import.meta.env.DEV || (typeof window !== 'undefined' && (window.location.search.includes('dev') || localStorage.getItem('vyralify_dev') === 'true'));
   const [showDevToolbar, setShowDevToolbar] = useState(import.meta.env.DEV);
+
+  const handleLoginSuccess = (payload = {}) => {
+    const chosenPath = payload.path || selectedStartingPath || 'scratch';
+    const chosenPlan = payload.plan || selectedPlan || 'free';
+
+    setSelectedStartingPath(chosenPath);
+    setSelectedPlan(chosenPlan);
+
+    // Apply plan upgrade if chosen
+    if (chosenPlan && chosenPlan !== 'free') {
+      updateTier(chosenPlan);
+    }
+
+    // Set target module based on user's starting choice
+    if (chosenPath === 'scratch' || chosenPath === 'beginner') {
+      setActiveModule('builder');
+    } else {
+      setActiveModule('home');
+    }
+
+    setViewMode('dashboard');
+  };
 
   // 1. DEFAULT PUBLIC VIEW: The 17-Section Marketing Landing Page
   if (viewMode === 'landing') {
     return (
       <div className="relative min-h-screen w-full bg-[#0A0A0A]">
-        <LandingPage onLoginSuccess={() => setViewMode('dashboard')} />
+        <LandingPage onLoginSuccess={handleLoginSuccess} />
 
         {/* FOUNDER / DEVELOPER TESTING SWITCHER BADGE (Visible in Dev or with ?dev=true) */}
         {isDevOrFounder && (
@@ -180,7 +205,10 @@ function WorkspaceRouter() {
         <AuthModal 
           isOpen={isAuthModalOpen} 
           initialMode={authMode}
+          selectedPath={selectedStartingPath}
+          selectedPlan={selectedPlan}
           onClose={() => setIsAuthModalOpen(false)} 
+          onSuccess={handleLoginSuccess}
         />
       </div>
     );
@@ -190,7 +218,17 @@ function WorkspaceRouter() {
   if (!user.onboarded) {
     return (
       <div className="min-h-screen bg-[#08090C] text-neutral-200 flex flex-col justify-center">
-        <OnboardingWizard />
+        <OnboardingWizard 
+          initialTrack={user.onboardingTrack || selectedStartingPath}
+          onComplete={(completedData) => {
+            const finalTrack = completedData?.track || user?.onboardingTrack || selectedStartingPath;
+            if (finalTrack === 'beginner' || finalTrack === 'scratch') {
+              setActiveModule('builder');
+            } else {
+              setActiveModule('home');
+            }
+          }}
+        />
       </div>
     );
   }
@@ -201,6 +239,7 @@ function WorkspaceRouter() {
       <AppShell 
         activeModule={activeModule} 
         onSelectModule={(mod) => setActiveModule(mod)}
+        onNavigateLanding={() => setViewMode('landing')}
       >
         {activeModule === 'home' ? (
           <HomeDashboard onNavigate={(mod) => setActiveModule(mod)} />
@@ -295,7 +334,10 @@ function WorkspaceRouter() {
       <AuthModal 
         isOpen={isAuthModalOpen} 
         initialMode={authMode}
+        selectedPath={selectedStartingPath}
+        selectedPlan={selectedPlan}
         onClose={() => setIsAuthModalOpen(false)} 
+        onSuccess={handleLoginSuccess}
       />
     </div>
   );

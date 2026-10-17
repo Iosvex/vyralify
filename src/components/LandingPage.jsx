@@ -48,9 +48,11 @@ export default function LandingPage({ onLoginSuccess }) {
   const [authMode, setAuthMode] = useState('signup'); // 'signup' | 'login'
   const [isDemoModalOpen, setIsDemoModalOpen] = useState(false);
   const [selectedStartingPath, setSelectedStartingPath] = useState('scratch');
+  const [selectedPlan, setSelectedPlan] = useState('free');
 
-  const handleStartFree = (path = 'scratch') => {
+  const handleStartFree = (path = 'scratch', plan = 'free') => {
     setSelectedStartingPath(path);
+    setSelectedPlan(plan);
     setAuthMode('signup');
     setIsAuthOpen(true);
   };
@@ -61,6 +63,7 @@ export default function LandingPage({ onLoginSuccess }) {
   };
 
   const handleSelectPlan = (planName) => {
+    setSelectedPlan(planName);
     setAuthMode('signup');
     setIsAuthOpen(true);
   };
@@ -77,13 +80,14 @@ export default function LandingPage({ onLoginSuccess }) {
     <div className="min-h-screen w-full bg-[#0A0A0A] text-white selection:bg-[#23E598]/30 selection:text-white font-sans antialiased">
       
       {/* 01. TOP ANNOUNCEMENT STRIP */}
-      <TopStrip />
+      <TopStrip onStartFree={() => handleStartFree('scratch')} />
 
       {/* 01. STICKY NAVBAR */}
       <Navbar 
         onStartFree={() => handleStartFree('scratch')}
         onLogin={handleLogin}
         onSelectPath={handleSelectPath}
+        onOpenDashboard={() => onLoginSuccess && onLoginSuccess({ mode: 'open', path: selectedStartingPath, plan: selectedPlan })}
       />
 
       {/* 02. HERO SECTION */}
@@ -158,9 +162,14 @@ export default function LandingPage({ onLoginSuccess }) {
       <AuthModal 
         isOpen={isAuthOpen}
         initialMode={authMode}
+        selectedPath={selectedStartingPath}
+        selectedPlan={selectedPlan}
         onClose={() => setIsAuthOpen(false)}
-        onSuccess={(mode) => {
-          if (onLoginSuccess) onLoginSuccess(mode);
+        onSuccess={(result) => {
+          const authPayload = typeof result === 'object' 
+            ? result 
+            : { mode: result, path: selectedStartingPath, plan: selectedPlan };
+          if (onLoginSuccess) onLoginSuccess(authPayload);
         }}
       />
     </div>

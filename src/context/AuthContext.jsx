@@ -242,7 +242,7 @@ export function AuthProvider({ children }) {
     }
   };
 
-  const signup = async (email, password, displayName, explicitConsent = true) => {
+  const signup = async (email, password, displayName, explicitConsent = true, options = {}) => {
     setAuthLoading(true);
     try {
       const cred = await createUserWithEmailAndPassword(auth, email, password);
@@ -255,12 +255,12 @@ export function AuthProvider({ children }) {
       const initialProfile = {
         email,
         displayName: displayName || email.split('@')[0],
-        tier: 'free',
+        tier: options.tier || 'free',
         country: 'IN',
         currency: 'INR',
         role: 'member',
         onboarded: false, // Explicitly false so Onboarding Wizard triggers!
-        onboardingTrack: null,
+        onboardingTrack: options.onboardingTrack || null,
         primaryObjective: null,
         aiDataConsentAccepted: explicitConsent,
         createdAt: new Date().toISOString()
@@ -277,7 +277,7 @@ export function AuthProvider({ children }) {
         ...initialProfile,
         photoURL: DEFAULT_DEMO_USER.photoURL
       });
-      setTier('free');
+      setTier(initialProfile.tier);
       return true;
     } catch (err) {
       throw new Error(formatAuthError(err));
@@ -286,7 +286,7 @@ export function AuthProvider({ children }) {
     }
   };
 
-  const loginWithGoogle = async () => {
+  const loginWithGoogle = async (options = {}) => {
     setAuthLoading(true);
     try {
       const provider = new GoogleAuthProvider();
@@ -298,12 +298,12 @@ export function AuthProvider({ children }) {
         email: u.email,
         displayName: u.displayName || 'Google Creator',
         photoURL: u.photoURL || DEFAULT_DEMO_USER.photoURL,
-        tier: 'free',
+        tier: options.tier || 'free',
         country: 'IN',
         currency: 'INR',
         role: 'member',
         onboarded: false,
-        onboardingTrack: null,
+        onboardingTrack: options.onboardingTrack || null,
         aiDataConsentAccepted: true
       };
 
@@ -317,6 +317,12 @@ export function AuthProvider({ children }) {
             ...data,
             onboarded: data.onboarded ?? false
           };
+          if (options.onboardingTrack && !data.onboardingTrack) {
+            profileData.onboardingTrack = options.onboardingTrack;
+          }
+          if (options.tier && options.tier !== 'free') {
+            profileData.tier = options.tier;
+          }
         } else {
           await setDoc(userDocRef, {
             ...profileData,
@@ -337,19 +343,37 @@ export function AuthProvider({ children }) {
     }
   };
 
-  const loginAsDemo = () => {
-    setUser(DEFAULT_DEMO_USER);
-    setTier(DEFAULT_DEMO_USER.tier);
+  const loginAsDemo = (options = {}) => {
+    const chosenTrack = options.onboardingTrack || 'scratch';
+    const chosenTier = options.tier || 'free';
+    const isUserOnboarded = options.onboarded !== undefined ? options.onboarded : true;
+
+    const demoUser = {
+      ...DEFAULT_DEMO_USER,
+      ...options,
+      tier: chosenTier,
+      onboardingTrack: chosenTrack,
+      onboarded: isUserOnboarded
+    };
+    setUser(demoUser);
+    setTier(chosenTier);
     return true;
   };
 
-  const loginWithApple = async () => {
+  const loginWithApple = async (options = {}) => {
     // Apple OAuth simulation for App Store compliance preparedness
-    setUser({
+    const chosenTrack = options.onboardingTrack || 'scratch';
+    const chosenTier = options.tier || 'free';
+    const demoApple = {
       ...DEFAULT_DEMO_USER,
       displayName: 'Apple Creator',
-      email: 'creator.apple@privaterelay.appleid.com'
-    });
+      email: 'creator.apple@privaterelay.appleid.com',
+      tier: chosenTier,
+      onboardingTrack: chosenTrack,
+      onboarded: false
+    };
+    setUser(demoApple);
+    setTier(chosenTier);
     return true;
   };
 

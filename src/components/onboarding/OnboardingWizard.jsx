@@ -94,12 +94,17 @@ const OFFICIAL_NICHES = [
   }
 ];
 
-export default function OnboardingWizard({ onComplete }) {
+export default function OnboardingWizard({ initialTrack, onComplete }) {
   const { user, completeOnboarding } = useAuth();
   const { addPage, updatePage, activePage } = usePage();
 
-  const [step, setStep] = useState(1);
-  const [track, setTrack] = useState(null);
+  const startingTrack = initialTrack || user?.onboardingTrack || null;
+  const normalizedTrack = (startingTrack === 'scratch' || startingTrack === 'beginner')
+    ? 'beginner'
+    : (startingTrack === 'existing' ? 'existing' : null);
+
+  const [step, setStep] = useState(normalizedTrack ? 2 : 1);
+  const [track, setTrack] = useState(normalizedTrack);
   
   // Existing Track State
   const [instagramHandle, setInstagramHandle] = useState('');
@@ -205,12 +210,23 @@ export default function OnboardingWizard({ onComplete }) {
       console.warn("Could not register page during onboarding finish, proceeding:", err);
     }
 
-    completeOnboarding({
+    const finalData = {
       track: track || 'beginner',
       objective: objective || 'growth'
-    });
+    };
 
-    if (onComplete) onComplete();
+    completeOnboarding(finalData);
+
+    if (onComplete) onComplete(finalData);
+  };
+
+  const handleSkip = () => {
+    const finalData = {
+      track: track || 'beginner',
+      objective: 'growth'
+    };
+    completeOnboarding(finalData);
+    if (onComplete) onComplete(finalData);
   };
 
   return (
@@ -242,7 +258,7 @@ export default function OnboardingWizard({ onComplete }) {
 
           <button
             type="button"
-            onClick={() => completeOnboarding({ track: 'existing', objective: 'growth' })}
+            onClick={handleSkip}
             className="text-[11px] font-mono text-neutral-500 hover:text-emerald-700 px-2 py-0.5 rounded hover:bg-neutral-200/60 dark:hover:bg-white/[0.05] transition-colors cursor-pointer"
           >
             Skip &rarr;
@@ -334,10 +350,20 @@ export default function OnboardingWizard({ onComplete }) {
         {/* STEP 2A: EXISTING CREATOR (Meta OAuth & Instant Audit) */}
         {step === 2 && track === 'existing' && (
           <div>
-            <div className="text-center max-w-lg mx-auto mb-6">
-              <span className="px-2.5 py-0.5 rounded-md bg-emerald-50 text-emerald-700 text-[10px] font-mono font-bold uppercase tracking-wider mb-2 inline-block border border-emerald-200">
+            <div className="flex items-center justify-between mb-4">
+              <button
+                type="button"
+                onClick={() => setStep(1)}
+                className="text-xs text-neutral-500 hover:text-emerald-600 dark:hover:text-[#23E598] font-mono flex items-center gap-1 cursor-pointer transition-colors"
+              >
+                <span>&larr; Switch starting path</span>
+              </button>
+              <span className="px-2.5 py-0.5 rounded-md bg-emerald-50 text-emerald-700 text-[10px] font-mono font-bold uppercase tracking-wider border border-emerald-200">
                 Existing Creator Path
               </span>
+            </div>
+
+            <div className="text-center max-w-lg mx-auto mb-6">
               <h2 className="text-xl sm:text-2xl font-bold text-neutral-900 dark:text-white tracking-tight">
                 Connect Your Instagram Account
               </h2>
@@ -453,10 +479,20 @@ export default function OnboardingWizard({ onComplete }) {
         {/* STEP 2B: BEGINNER PATH */}
         {step === 2 && track === 'beginner' && (
           <div>
-            <div className="text-center max-w-md mx-auto mb-5">
-              <span className="px-2.5 py-0.5 rounded-md bg-emerald-50 text-emerald-700 text-[10px] font-mono uppercase tracking-wider mb-2 inline-block border border-emerald-200 font-semibold">
-                Step 2 of 3
+            <div className="flex items-center justify-between mb-4">
+              <button
+                type="button"
+                onClick={() => setStep(1)}
+                className="text-xs text-neutral-500 hover:text-emerald-600 dark:hover:text-[#23E598] font-mono flex items-center gap-1 cursor-pointer transition-colors"
+              >
+                <span>&larr; Switch starting path</span>
+              </button>
+              <span className="px-2.5 py-0.5 rounded-md bg-emerald-50 text-emerald-700 text-[10px] font-mono font-bold uppercase tracking-wider border border-emerald-200">
+                From Scratch Path
               </span>
+            </div>
+
+            <div className="text-center max-w-md mx-auto mb-5">
               <h2 className="text-xl sm:text-2xl font-bold text-neutral-900 dark:text-white tracking-tight">
                 Select Your Niche &amp; Sub-Category
               </h2>

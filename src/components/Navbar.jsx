@@ -12,8 +12,10 @@ import {
   ArrowRight
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import { useAuth } from '../context/AuthContext';
 
-export default function Navbar({ onStartFree, onLogin, onSelectPath }) {
+export default function Navbar({ onStartFree, onLogin, onSelectPath, onOpenDashboard }) {
+  const { user } = useAuth();
   const [productOpen, setProductOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -212,22 +214,34 @@ export default function Navbar({ onStartFree, onLogin, onSelectPath }) {
           </button>
         </nav>
 
-        {/* RIGHT: [Log In] [Start Free →] */}
-        <div className="hidden md:flex items-center gap-5">
-          <button
-            onClick={onLogin}
-            className="text-[14px] text-white hover:text-[#23E598] font-medium transition-colors cursor-pointer"
-          >
-            Log In
-          </button>
+        {/* RIGHT: [Log In] [Start Free →] OR [Open Workspace →] */}
+        <div className="hidden md:flex items-center gap-4">
+          {user ? (
+            <button
+              onClick={() => onOpenDashboard ? onOpenDashboard() : onStartFree()}
+              className="h-9 px-4 rounded-full bg-[#23E598] hover:bg-[#1DCC84] text-black text-[13px] font-bold tracking-tight transition-all duration-150 hover:shadow-[0_0_15px_rgba(35,229,152,0.3)] cursor-pointer flex items-center gap-1.5"
+            >
+              <LayoutDashboard className="w-3.5 h-3.5" />
+              <span>Open Workspace &rarr;</span>
+            </button>
+          ) : (
+            <>
+              <button
+                onClick={onLogin}
+                className="text-[14px] text-white hover:text-[#23E598] font-medium transition-colors cursor-pointer"
+              >
+                Log In
+              </button>
 
-          <button
-            onClick={onStartFree}
-            className="h-9 px-5 rounded-full bg-[#23E598] hover:bg-[#1DCC84] text-black text-[13px] font-bold tracking-tight transition-all duration-150 hover:shadow-[0_0_15px_rgba(35,229,152,0.3)] cursor-pointer flex items-center gap-1"
-          >
-            <span>Start Free</span>
-            <span>&rarr;</span>
-          </button>
+              <button
+                onClick={onStartFree}
+                className="h-9 px-5 rounded-full bg-[#23E598] hover:bg-[#1DCC84] text-black text-[13px] font-bold tracking-tight transition-all duration-150 hover:shadow-[0_0_15px_rgba(35,229,152,0.3)] cursor-pointer flex items-center gap-1"
+              >
+                <span>Start Free</span>
+                <span>&rarr;</span>
+              </button>
+            </>
+          )}
         </div>
 
         {/* MOBILE HAMBURGER BUTTON */}
@@ -323,16 +337,30 @@ export default function Navbar({ onStartFree, onLogin, onSelectPath }) {
 
             {/* Bottom CTA Button */}
             <div className="pt-4 border-t border-[#1F1F1F]">
-              <button
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  onStartFree();
-                }}
-                className="w-full py-3.5 rounded-full bg-[#23E598] text-black font-bold text-base text-center flex items-center justify-center gap-1.5 shadow-md cursor-pointer"
-              >
-                <span>Start Free</span>
-                <span>&rarr;</span>
-              </button>
+              {user ? (
+                <button
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    if (onOpenDashboard) onOpenDashboard();
+                    else onStartFree();
+                  }}
+                  className="w-full py-3.5 rounded-full bg-[#23E598] text-black font-bold text-base text-center flex items-center justify-center gap-2 shadow-md cursor-pointer"
+                >
+                  <LayoutDashboard className="w-4 h-4" />
+                  <span>Open Workspace &rarr;</span>
+                </button>
+              ) : (
+                <button
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    onStartFree();
+                  }}
+                  className="w-full py-3.5 rounded-full bg-[#23E598] text-black font-bold text-base text-center flex items-center justify-center gap-1.5 shadow-md cursor-pointer"
+                >
+                  <span>Start Free</span>
+                  <span>&rarr;</span>
+                </button>
+              )}
             </div>
           </motion.div>
         )}

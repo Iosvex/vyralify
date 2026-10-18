@@ -73,6 +73,24 @@ You possess complete mastery over Instagram algorithm dynamics, short-form reten
 - Automated Comment-to-DM triggers (Viewer comments "VAULT" -> ManyChat/Graph API sends direct link -> converts to customer).
 - 40% recurring SaaS affiliate funnels (AI tools, editing software, hosting).
 - High-ticket consulting / private masterminds ($19 - $49/mo).
+
+================================================================================
+6. CLEAN OUTPUT FORMATTING (NO RAW MARKDOWN SYNTAX CLUTTER)
+================================================================================
+- NEVER output raw syntax clutter like "***", "* **", "###", ">>>" or "---".
+- Structure all outputs with clean, elegant readability:
+  * For titles/sections: write "Option 1: [Name]" or "**Option 1: [Name]**".
+  * For scripts, bio text, or on-screen copy: wrap in clean quotation marks or clean text blocks.
+  * For explanations: use clean bullet items with bold keywords like "**Line 1:** Explanation".
+  * Keep line breaks clean, breathable, and easy to scan on mobile and desktop.
+
+================================================================================
+7. STRICT CREATOR SCOPE LIMITATION (TOKEN CONSERVATION)
+================================================================================
+- You are EXCLUSIVELY the Vyralify Creator Co-Pilot for Instagram Growth, Reels Strategy, Hooks, Scripts, Bio Conversion, DM Automations, and Creator Monetization.
+- Answer ONLY what the user asked with zero unnecessary preamble or filler ("Sure!", "Here is what you need").
+- If a question is off-topic (e.g. recipes, general coding, school homework, politics, weather, math):
+  Immediately decline in 1-2 polite sentences in the user's language, stating that you only specialize in Instagram creator growth, and ask them to ask an Instagram-related question.
 `;
 
 /**
@@ -513,6 +531,49 @@ Return only valid JSON.`;
 }
 
 /**
+ * Fast Guardrail to Save API Tokens on Off-Topic Queries
+ */
+export function isOffTopicQuery(query) {
+  if (!query || typeof query !== 'string') return false;
+  const q = query.toLowerCase().trim();
+  if (q.length < 3) return false;
+
+  // Obvious creator/Instagram intent keywords
+  const creatorKeywords = [
+    'instagram', 'insta', 'ig', 'reel', 'reels', 'post', 'story', 'stories',
+    'bio', 'hook', 'hooks', 'script', 'viral', 'views', 'follower', 'followers',
+    'growth', 'niche', 'carousel', 'algorithm', 'reach', 'explore', 'monetiz',
+    'dm', 'funnel', 'store', 'whop', 'gumroad', 'lead', 'convert', 'content',
+    'caption', 'hashtag', 'hashtags', 'video', 'editing', 'creator', 'collab',
+    'profile', 'engagement', 'audience', 'comment', 'share', 'retention',
+    'monetise', 'monetize', 'sales', 'affiliate', 'sponsorship', 'course',
+    'ebook', 'brand', 'faceless', 'theme page', 'page', 'account',
+    'views pe', 'views nahi', 'viral kaise', 'reach drop', 'shadowban', 'shadow ban',
+    'watch time', 'audio', 'trending', 'format', 'challenge', 'traffic', 'link',
+    'growth', 'tiktok', 'youtube', 'shorts', 'strategy', 'thumbnail', 'headline',
+    'cta', 'call to action', 'opt in', 'optin', 'monetization', 'leads', 'product',
+    'sell', 'selling', 'client', 'clients', 'agency', 'smm', 'smma'
+  ];
+
+  if (creatorKeywords.some(kw => q.includes(kw))) {
+    return false; // Definitely on topic!
+  }
+
+  // Clear off-topic patterns (saves API tokens immediately)
+  const offTopicPatterns = [
+    /\b(recipe|cook|cooking|biryani|pizza|burger|pasta|dish|ingredient|kitchen|bake|baking)\b/i,
+    /\b(python|javascript|c\+\+|java|rust|html|css|sql|function to|write code for|leetcode|bubble sort|quick sort)\b/i,
+    /\b(weather|temperature|forecast|rain today|climate)\b/i,
+    /\b(homework|solve this|equation|calculus|algebra|physics problem|chemistry formula)\b/i,
+    /\b(president of|prime minister of|capital of|who won the 19|who won the 20\d\d world cup)\b/i,
+    /\b(tell me a joke|write a bedtime story|write a poem about flowers|fairy tale)\b/i,
+    /\b(crypto price|bitcoin prediction|ethereum price|stock market tips|invest in share)\b/i
+  ];
+
+  return offTopicPatterns.some(regex => regex.test(q));
+}
+
+/**
  * Multi-turn Conversational Co-Pilot grounded in creator profile context
  */
 export async function askVyralifyAssistant({ messages, pageContext = {}, media = null }) {
@@ -527,6 +588,16 @@ export async function askVyralifyAssistant({ messages, pageContext = {}, media =
     topPost = 'Viral Breakdown Reel (342K views)'
   } = pageContext;
 
+  const lastUserMessage = messages[messages.length - 1]?.content || messages[messages.length - 1]?.text || '';
+
+  // 1. Instant Token-Saving Guardrail (Saves 100% of LLM tokens on completely off-topic questions)
+  if (isOffTopicQuery(lastUserMessage)) {
+    return {
+      text: `⚠️ **Vyralify Creator Scope Notice:**\n\nMain Vyralify Creator Co-Pilot hoon — main sirf aapke **Instagram growth, viral content strategy, reel scripts, hooks, bio conversion aur creator monetization** mein help karta hoon.\n\nAPI resources save karne aur laser-focused rehne ke liye, kripya apne Instagram account (@${handle}) ya content creation se juda sawal puchein! 🚀\n\n*Jaise ki: "Mere reels 200 views pe kyu atak rahe hain?" ya "@${handle} ke liye 3 high-retention viral hooks do."*`,
+      provider: 'vyralify:guardrail-fast'
+    };
+  }
+
   const systemPrompt = `${CREATOR_INTERNET_BRAIN}
 
 ACTIVE CREATOR GROUND TRUTH:
@@ -536,8 +607,7 @@ ACTIVE CREATOR GROUND TRUTH:
 - 7-Day Total Views: ${views7d} | 30-Day Storefront Revenue: ${revenue30d}
 - Top Post: ${topPost}
 
-Detect user language and conversational tone automatically. Respond fluently and bespokely without repeating generic advice.`;
+Detect user language and conversational tone automatically. Respond fluently and bespokely without repeating generic advice. Answer only what is asked, with maximum retention and monetization leverage.`;
 
-  const lastUserMessage = messages[messages.length - 1]?.content || messages[messages.length - 1]?.text || '';
   return callRealAi({ prompt: lastUserMessage, systemPrompt });
 }

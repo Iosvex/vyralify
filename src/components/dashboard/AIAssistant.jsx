@@ -34,6 +34,219 @@ import { askVyralifyAssistant } from '../../lib/aiService';
 
 const SESSIONS_STORAGE_KEY = 'vyralify_chat_sessions_v3';
 
+/**
+ * Modern Clean Message Formatter
+ * Eliminates raw markdown clutter (###, ***, * **, >) and renders clean structured cards, badges, and callouts
+ */
+function CleanFormattedMessage({ text }) {
+  const [copiedQuoteIdx, setCopiedQuoteIdx] = useState(null);
+
+  if (!text) return null;
+
+  const handleCopyQuote = (content, idx) => {
+    navigator.clipboard.writeText(content);
+    setCopiedQuoteIdx(idx);
+    setTimeout(() => setCopiedQuoteIdx(null), 2000);
+  };
+
+  const lines = text.split('\n');
+  const renderedElements = [];
+  let currentQuote = [];
+  let currentList = [];
+
+  const flushQuote = (key) => {
+    if (currentQuote.length > 0) {
+      const quoteIndex = key;
+      const quoteContent = currentQuote.join('\n');
+      renderedElements.push(
+        <div 
+          key={`quote-${key}-${renderedElements.length}`}
+          className="my-3 p-3.5 rounded-xl bg-neutral-900/90 dark:bg-black/60 border border-emerald-500/30 border-l-4 border-l-emerald-500 text-xs shadow-sm relative group"
+        >
+          <div className="flex items-center justify-between text-[10px] font-mono uppercase tracking-wider text-emerald-400 font-semibold mb-2">
+            <span className="flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              <span>Recommended Script / Bio Copy</span>
+            </span>
+            <button
+              onClick={() => handleCopyQuote(quoteContent, quoteIndex)}
+              className="px-2 py-0.5 rounded bg-emerald-500/15 hover:bg-emerald-500/30 text-emerald-300 text-[10px] font-mono transition-colors cursor-pointer flex items-center gap-1"
+              title="Copy to clipboard"
+            >
+              {copiedQuoteIdx === quoteIndex ? (
+                <>
+                  <Check className="w-2.5 h-2.5 text-emerald-400" />
+                  <span>Copied!</span>
+                </>
+              ) : (
+                <>
+                  <Copy className="w-2.5 h-2.5" />
+                  <span>Copy</span>
+                </>
+              )}
+            </button>
+          </div>
+          <div className="font-mono text-neutral-100 whitespace-pre-line leading-relaxed selection:bg-emerald-500/30">
+            {quoteContent}
+          </div>
+        </div>
+      );
+      currentQuote = [];
+    }
+  };
+
+  const flushList = (key) => {
+    if (currentList.length > 0) {
+      renderedElements.push(
+        <div key={`list-${key}-${renderedElements.length}`} className="my-2 space-y-2">
+          {currentList.map((item, idx) => (
+            <div key={idx} className="flex items-start gap-2.5 text-xs leading-relaxed text-neutral-800 dark:text-neutral-200">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 mt-2 shrink-0" />
+              <div className="flex-1">
+                {renderCleanInline(item)}
+              </div>
+            </div>
+          ))}
+        </div>
+      );
+      currentList = [];
+    }
+  };
+
+  lines.forEach((line, lineIdx) => {
+    const trimmed = line.trim();
+
+    // 1. Divider / Separator (---, ***, ___)
+    if (/^[-*_]{3,}$/.test(trimmed)) {
+      flushQuote(lineIdx);
+      flushList(lineIdx);
+      renderedElements.push(
+        <div key={`div-${lineIdx}`} className="my-3 border-t border-neutral-200/80 dark:border-white/[0.08]" />
+      );
+      return;
+    }
+
+    // 2. Heading (### Option 1, ## Heading, # Heading)
+    if (/^#{1,4}\s+(.+)$/.test(trimmed)) {
+      flushQuote(lineIdx);
+      flushList(lineIdx);
+      const headingRaw = trimmed.replace(/^#{1,4}\s+/, '').trim();
+      
+      let mainTitle = headingRaw;
+      let badge = null;
+      const parenMatch = headingRaw.match(/\(([^)]+)\)$/);
+      if (parenMatch) {
+        mainTitle = headingRaw.replace(/\(([^)]+)\)$/, '').trim();
+        badge = parenMatch[1];
+      }
+
+      renderedElements.push(
+        <div key={`h-${lineIdx}`} className="mt-4 mb-2 pt-2 border-t border-neutral-200/40 dark:border-white/[0.04] first:border-0 first:pt-0 flex flex-wrap items-center gap-2">
+          <span className="w-1.5 h-4 rounded-full bg-emerald-500 shrink-0" />
+          <h4 className="text-xs font-bold text-neutral-900 dark:text-white uppercase tracking-tight">
+            {renderCleanInline(mainTitle)}
+          </h4>
+          {badge && (
+            <span className="px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 text-[10px] font-mono font-medium">
+              {badge}
+            </span>
+          )}
+        </div>
+      );
+      return;
+    }
+
+    // 3. Blockquotes / Bio scripts (> line)
+    if (trimmed.startsWith('>')) {
+      flushList(lineIdx);
+      const cleanQuoteLine = trimmed.replace(/^>\s*/, '');
+      currentQuote.push(cleanQuoteLine);
+      return;
+    } else {
+      flushQuote(lineIdx);
+    }
+
+    // 4. Bullet points (* line, - line, • line)
+    if (/^[*•-]\s+(.+)$/.test(trimmed)) {
+      const cleanItem = trimmed.replace(/^[*•-]\s+/, '');
+      currentList.push(cleanItem);
+      return;
+    } else {
+      flushList(lineIdx);
+    }
+
+    // 5. Empty line
+    if (!trimmed) {
+      return;
+    }
+
+    // 6. Regular paragraph
+    renderedElements.push(
+      <p key={`p-${lineIdx}`} className="text-xs leading-relaxed text-neutral-800 dark:text-neutral-200">
+        {renderCleanInline(trimmed)}
+      </p>
+    );
+  });
+
+  flushQuote('end');
+  flushList('end');
+
+  return <div className="space-y-2">{renderedElements}</div>;
+}
+
+function renderCleanInline(text) {
+  if (!text) return null;
+
+  // Clean weird double-prefix syntax e.g. `* **` or `***`
+  let cleaned = text.replace(/^\*\s*\*\*/, '**').replace(/^\*\*\*/, '**');
+
+  // Tokenize bold **bold**
+  const parts = cleaned.split(/(\*\*.*?\*\*)/g);
+
+  return parts.map((part, pIdx) => {
+    if (part.startsWith('**') && part.endsWith('**') && part.length >= 4) {
+      const boldText = part.slice(2, -2).trim();
+
+      // Check if it's a structural label like "Line 1 (Shock):", "Why it works:", "Bio Text:", "Hook:"
+      const isLabel = boldText.endsWith(':') || 
+                      boldText.startsWith('Line ') || 
+                      boldText.startsWith('Option ') || 
+                      boldText.includes('Trigger:') ||
+                      boldText === 'Why it works' ||
+                      boldText === 'Bio Text' ||
+                      boldText.startsWith('Hook');
+
+      if (isLabel) {
+        return (
+          <span
+            key={pIdx}
+            className="inline-flex items-center px-1.5 py-0.2 mr-1.5 rounded-md bg-emerald-500/15 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 font-mono font-bold text-[10px] border border-emerald-500/30 uppercase tracking-wider"
+          >
+            {boldText.replace(/:$/, '')}
+          </span>
+        );
+      }
+
+      return (
+        <strong key={pIdx} className="font-bold text-neutral-900 dark:text-white">
+          {boldText}
+        </strong>
+      );
+    }
+
+    // Italic *italic*
+    if (part.startsWith('*') && part.endsWith('*') && part.length > 2 && !part.startsWith('**')) {
+      return (
+        <em key={pIdx} className="text-neutral-500 dark:text-neutral-400 italic">
+          {part.slice(1, -1)}
+        </em>
+      );
+    }
+
+    return part;
+  });
+}
+
 export default function AIAssistant({ onNavigate }) {
   const { user, tier, aiCredits, consumeCredit } = useAuth();
   const { activePage } = usePage();
@@ -586,8 +799,12 @@ export default function AIAssistant({ onNavigate }) {
                   )}
 
                   {/* Message Content */}
-                  <div className="whitespace-pre-line font-sans space-y-2">
-                    {msg.text}
+                  <div className="font-sans">
+                    {isUser ? (
+                      <div className="whitespace-pre-line text-white">{msg.text}</div>
+                    ) : (
+                      <CleanFormattedMessage text={msg.text} />
+                    )}
                   </div>
 
                   {/* Interactive Action Buttons */}

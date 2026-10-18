@@ -19,9 +19,12 @@ import {
   Mail,
   AlertCircle,
   Globe,
-  ArrowLeftRight
+  ArrowLeftRight,
+  Sun,
+  Moon
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
+import { useTheme } from '../../context/ThemeContext';
 import { usePage } from '../../context/PageContext';
 import { usePlanGating } from '../../context/PlanGatingContext';
 import { useNotifications } from '../../context/NotificationContext';
@@ -30,6 +33,7 @@ import GlobalSearchModal from '../common/GlobalSearchModal';
 import ConnectAccountModal from '../common/ConnectAccountModal';
 
 export default function AppShell({ activeModule, onSelectModule, onNavigateLanding, children }) {
+  const { isDark, toggleTheme } = useTheme();
   const { user, tier, aiCredits, logout, sendVerificationLink, markEmailAsVerified } = useAuth();
   const { pages, activePage, switchPage, canAddMorePages, getPageLimit } = usePage();
   const [resendStatus, setResendStatus] = useState('');

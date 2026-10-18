@@ -205,7 +205,7 @@ function WorkspaceRouter() {
 
         <AuthModal 
           isOpen={isAuthModalOpen} 
-          initialMode={authMode}
+          initialMode={authMode || 'signup'}
           selectedPath={selectedStartingPath}
           selectedPlan={selectedPlan}
           onClose={() => setIsAuthModalOpen(false)} 
@@ -336,7 +336,7 @@ function WorkspaceRouter() {
 
       <AuthModal 
         isOpen={isAuthModalOpen} 
-        initialMode={authMode}
+        initialMode={authMode || 'signup'}
         selectedPath={selectedStartingPath}
         selectedPlan={selectedPlan}
         onClose={() => setIsAuthModalOpen(false)} 

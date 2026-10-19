@@ -10,10 +10,9 @@ const REDIRECT_URI = typeof window !== 'undefined'
 
 const REQUIRED_SCOPES = [
   'instagram_basic',
+  'instagram_manage_insights',
   'pages_show_list',
-  'pages_read_engagement',
-  'instagram_manage_comments',
-  'instagram_manage_messages'
+  'pages_read_engagement'
 ];
 
 /**

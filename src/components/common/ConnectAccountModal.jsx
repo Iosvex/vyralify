@@ -141,7 +141,7 @@ export default function ConnectAccountModal({ isOpen, onClose }) {
           overallScore: scoreMatch ? parseInt(scoreMatch[1], 10) : 82,
           aiAnalysis: auditRes.text,
           strengths: [`Positioned for growth in ${selectedNiche}`, 'Recognizable profile identity'],
-          gaps: ['Needs automated DM trigger on highest viewed reel'],
+          gaps: ['Add direct link-in-bio storefront and resource vault'],
           nicheRank: `Top 20% in ${selectedNiche}`
         };
       } catch (aiErr) {

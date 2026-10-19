@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   ShoppingBag, 
@@ -23,8 +23,18 @@ import {
   Clock, 
   Eye, 
   CreditCard,
-  AlertCircle
+  AlertCircle,
+  Search,
+  Upload,
+  File,
+  FileText,
+  Link as LinkIcon,
+  Mail,
+  UserCheck,
+  RefreshCw
 } from 'lucide-react';
+import { collection, query, where, onSnapshot, addDoc, serverTimestamp } from 'firebase/firestore';
+import { db } from '../../lib/firebase';
 import { useAuth } from '../../context/AuthContext';
 import { usePage, getSafeAvatarUrl } from '../../context/PageContext';
 import { usePlanGating } from '../../context/PlanGatingContext';
@@ -123,22 +133,87 @@ export default function StoreCommerce({ onNavigate }) {
   const [isAddProductModalOpen, setIsAddProductModalOpen] = useState(false);
   const [newProd, setNewProd] = useState({
     title: '',
-    price: '₹299',
+    price: '₹499',
     type: 'Digital Product',
-    ctaText: 'Unlock Download &rarr;'
+    deliveryMethod: 'upload', // 'upload' | 'link'
+    fileData: null,
+    fileName: '',
+    fileSize: '',
+    accessUrl: '',
+    description: '',
+    ctaText: 'Unlock Download & Instant Access'
   });
 
-  // Orders Log State
+  // Orders Log State & Search Query
+  const [orderSearchQuery, setOrderSearchQuery] = useState('');
   const [orders, setOrders] = useState([
-    { id: 'ORD-8921', customer: 'Vikram Sharma', email: 'vikram@example.com', product: 'Faceless Theme Page Master Blueprint', amount: '₹499', date: 'Today, 14:12', status: 'Paid' },
-    { id: 'ORD-8920', customer: 'Sara Khan', email: 'sara@creates.io', product: 'Faceless Theme Page Master Blueprint', amount: '₹499', date: 'Today, 11:45', status: 'Paid' },
-    { id: 'ORD-8919', customer: 'Aarav Patel', email: 'aarav@gmail.com', product: '1-on-1 Page Audit & Consultation', amount: '₹1,499', date: 'Yesterday', status: 'Paid' },
-    { id: 'ORD-8918', customer: 'Priya Joshi', email: 'priya@outlook.com', product: 'Faceless Theme Page Master Blueprint', amount: '₹499', date: 'Yesterday', status: 'Paid' },
-    { id: 'ORD-8917', customer: 'Rohan Gupta', email: 'rohan@tech.in', product: 'Faceless Theme Page Master Blueprint', amount: '₹499', date: '2 days ago', status: 'Paid' }
+    { id: 'ORD-8921', customer: 'Vikram Sharma', email: 'vikram@example.com', product: 'Faceless Theme Page Master Blueprint', amount: '₹499', amountNumeric: 499, date: 'Today, 14:12', status: 'Paid', deliveryAccess: 'Delivered (PDF)' },
+    { id: 'ORD-8920', customer: 'Sara Khan', email: 'sara@creates.io', product: 'Faceless Theme Page Master Blueprint', amount: '₹499', amountNumeric: 499, date: 'Today, 11:45', status: 'Paid', deliveryAccess: 'Delivered (PDF)' },
+    { id: 'ORD-8919', customer: 'Aarav Patel', email: 'aarav@gmail.com', product: '1-on-1 Page Audit & Consultation', amount: '₹1,499', amountNumeric: 1499, date: 'Yesterday', status: 'Paid', deliveryAccess: 'Calendar Scheduled' },
+    { id: 'ORD-8918', customer: 'Priya Joshi', email: 'priya@outlook.com', product: 'Faceless Theme Page Master Blueprint', amount: '₹499', amountNumeric: 499, date: 'Yesterday', status: 'Paid', deliveryAccess: 'Delivered (PDF)' },
+    { id: 'ORD-8917', customer: 'Rohan Gupta', email: 'rohan@tech.in', product: 'Faceless Theme Page Master Blueprint', amount: '₹499', amountNumeric: 499, date: '2 days ago', status: 'Paid', deliveryAccess: 'Delivered (PDF)' }
   ]);
 
   // Public Storefront URL
-  const storeUrl = `vyralify.me/${activePage?.handle || 'creator'}`;
+  const storeUrl = `vyralify.in/u/${activePage?.handle || 'creator'}`;
+
+  // Initial load of custom products & orders
+  useEffect(() => {
+    const savedProds = localStorage.getItem('vyralify_store_products');
+    if (savedProds) {
+      try {
+        setProducts(JSON.parse(savedProds));
+      } catch (e) {}
+    }
+
+    const savedOrders = localStorage.getItem('vyralify_store_orders');
+    if (savedOrders) {
+      try {
+        setOrders(JSON.parse(savedOrders));
+      } catch (e) {}
+    }
+  }, []);
+
+  // Sync store settings & products for the public storefront /u/:slug
+  useEffect(() => {
+    localStorage.setItem('vyralify_store_products', JSON.stringify(products));
+    const handleKey = (activePage?.handle || 'creator').replace(/^@/, '');
+    localStorage.setItem(`vyralify_store_${handleKey}`, JSON.stringify({
+      handle: handleKey,
+      headline: storeHeadline,
+      bio: storeBio,
+      products: products,
+      themeColor: storeThemeColor,
+      avatar: activePage?.avatar
+    }));
+  }, [products, storeHeadline, storeBio, storeThemeColor, activePage?.handle, activePage?.avatar]);
+
+  // Real-time Firestore sync for incoming live store orders
+  useEffect(() => {
+    const handleKey = (activePage?.handle || 'creator').replace(/^@/, '');
+    try {
+      const q = query(
+        collection(db, 'storeOrders'),
+        where('pageHandle', '==', handleKey)
+      );
+      const unsubscribe = onSnapshot(q, (snapshot) => {
+        if (!snapshot.empty) {
+          const remoteList = [];
+          snapshot.forEach(docSnap => remoteList.push({ id: docSnap.id, ...docSnap.data() }));
+          setOrders(prev => {
+            const merged = [...remoteList, ...prev.filter(p => !remoteList.some(r => r.id === p.id))];
+            localStorage.setItem('vyralify_store_orders', JSON.stringify(merged));
+            return merged;
+          });
+        }
+      }, (err) => {
+        console.warn('Store orders listener fallback:', err.message);
+      });
+      return () => unsubscribe();
+    } catch (e) {
+      console.warn('Store orders listener init warning:', e);
+    }
+  }, [activePage?.handle]);
 
   // Copy Storefront Link
   const handleCopyStoreLink = () => {
@@ -150,6 +225,39 @@ export default function StoreCommerce({ onNavigate }) {
       type: 'success'
     });
     setTimeout(() => setCopiedStoreLink(false), 2000);
+  };
+
+  // Digital Asset File Upload Handler (Base64 data URL)
+  const handleDigitalFileUpload = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (file.size > 15 * 1024 * 1024) {
+      addNotification({
+        title: 'File Too Large',
+        message: 'File size must be under 15MB. For larger videos or archives, choose External Access Link.',
+        type: 'warning'
+      });
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const dataUrl = event.target?.result;
+      const sizeMb = (file.size / (1024 * 1024)).toFixed(1);
+      setNewProd(prev => ({
+        ...prev,
+        fileData: dataUrl,
+        fileName: file.name,
+        fileSize: `${sizeMb} MB`
+      }));
+      addNotification({
+        title: 'Asset Attached',
+        message: `Successfully attached ${file.name} (${sizeMb} MB) for automated customer delivery.`,
+        type: 'success'
+      });
+    };
+    reader.readAsDataURL(file);
   };
 
   // Create Product (Gated by Tier)
@@ -171,6 +279,12 @@ export default function StoreCommerce({ onNavigate }) {
       title: newProd.title,
       price: newProd.price,
       type: newProd.type,
+      deliveryMethod: newProd.deliveryMethod,
+      fileData: newProd.fileData,
+      fileName: newProd.fileName,
+      fileSize: newProd.fileSize,
+      accessUrl: newProd.accessUrl,
+      description: newProd.description || 'Instant digital download delivered upon purchase.',
       salesCount: 0,
       revenue: '₹0',
       status: 'active',
@@ -179,10 +293,21 @@ export default function StoreCommerce({ onNavigate }) {
 
     setProducts([created, ...products]);
     setIsAddProductModalOpen(false);
-    setNewProd({ title: '', price: '₹299', type: 'Digital Product', ctaText: 'Unlock Download &rarr;' });
+    setNewProd({
+      title: '',
+      price: '₹499',
+      type: 'Digital Product',
+      deliveryMethod: 'upload',
+      fileData: null,
+      fileName: '',
+      fileSize: '',
+      accessUrl: '',
+      description: '',
+      ctaText: 'Unlock Download & Instant Access'
+    });
     addNotification({
       title: 'Product Published',
-      message: `"${created.title}" is now live on your link-in-bio storefront!`,
+      message: `"${created.title}" is now live on your link-in-bio storefront with instant delivery!`,
       type: 'success'
     });
   };
@@ -202,6 +327,11 @@ export default function StoreCommerce({ onNavigate }) {
       title: item.title,
       price: item.suggestedPrice,
       type: item.type,
+      description: item.description,
+      deliveryMethod: 'upload',
+      fileName: `${item.title.toLowerCase().replace(/[^a-z0-9]/g, '-')}.pdf`,
+      fileSize: '1.8 MB',
+      accessUrl: 'https://vyralify.in',
       salesCount: 0,
       revenue: '₹0',
       status: 'active',
@@ -216,23 +346,86 @@ export default function StoreCommerce({ onNavigate }) {
     });
   };
 
-  // Export Orders CSV
+  // Export Orders CSV for Email Marketing & CRM
   const handleExportOrdersCsv = () => {
-    const headers = 'Order ID,Customer,Email,Product,Amount,Date,Status\n';
-    const rows = orders.map(o => `${o.id},"${o.customer}",${o.email},"${o.product}",${o.amount},"${o.date}",${o.status}`).join('\n');
+    const headers = 'Order ID,Customer,Email,Product,Amount,Date,Status,Delivery Access\n';
+    const rows = orders.map(o => `${o.id},"${o.customer}",${o.email},"${o.product}","${o.amount}","${o.date}",${o.status},"${o.deliveryAccess || 'Delivered'}"`).join('\n');
     const blob = new Blob([headers + rows], { type: 'text/csv' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `vyralify_orders_${activePage?.handle || 'creator'}.csv`;
+    a.download = `vyralify_customers_${(activePage?.handle || 'creator').replace(/^@/, '')}.csv`;
     a.click();
     URL.revokeObjectURL(url);
     addNotification({
-      title: 'Orders Exported',
-      message: 'Downloaded CSV file with all storefront sales transactions.',
+      title: 'Customer List Exported',
+      message: `Exported ${orders.length} customer records to CSV for retargeting & email newsletters.`,
       type: 'success'
     });
   };
+
+  // Test Order Simulator
+  const handleSimulateTestOrder = () => {
+    const targetProduct = products[0] || WINNING_CATALOG[0];
+    const testBuyers = [
+      { name: 'Arjun Verma', email: 'arjun.v@gmail.com' },
+      { name: 'Meera Sengupta', email: 'meera@creatorflow.in' },
+      { name: 'Sameer Khan', email: 'sameer.k@outlook.com' },
+      { name: 'Tanvi Deshmukh', email: 'tanvi@digitalvault.io' }
+    ];
+    const buyer = testBuyers[Math.floor(Math.random() * testBuyers.length)];
+    const priceNum = parseInt(targetProduct.price?.replace(/[^0-9]/g, '') || '499');
+
+    const newOrder = {
+      id: 'ORD-' + Math.floor(1000 + Math.random() * 9000),
+      customer: buyer.name,
+      email: buyer.email,
+      product: targetProduct.title,
+      amount: targetProduct.price || '₹499',
+      amountNumeric: priceNum,
+      date: 'Just now',
+      status: 'Paid',
+      pageHandle: (activePage?.handle || 'creator').replace(/^@/, ''),
+      creatorUid: user?.uid || 'guest',
+      deliveryAccess: 'Dispatched & Downloaded'
+    };
+
+    const updated = [newOrder, ...orders];
+    setOrders(updated);
+    localStorage.setItem('vyralify_store_orders', JSON.stringify(updated));
+
+    if (user?.uid) {
+      addDoc(collection(db, 'storeOrders'), {
+        ...newOrder,
+        createdAt: serverTimestamp()
+      }).catch(() => {});
+    }
+
+    addNotification({
+      title: 'Order Verified & Received! 💰',
+      message: `${buyer.name} purchased "${targetProduct.title}" (${targetProduct.price}). Logged to CRM.`,
+      type: 'success'
+    });
+  };
+
+  // Filtered orders by search query
+  const filteredOrders = orders.filter(o => {
+    if (!orderSearchQuery.trim()) return true;
+    const q = orderSearchQuery.toLowerCase();
+    return (
+      o.customer?.toLowerCase().includes(q) ||
+      o.email?.toLowerCase().includes(q) ||
+      o.product?.toLowerCase().includes(q) ||
+      o.id?.toLowerCase().includes(q)
+    );
+  });
+
+  const totalStoreRevenue = orders.reduce((acc, o) => {
+    const num = o.amountNumeric || parseInt(o.amount?.replace(/[^0-9]/g, '') || '0', 10);
+    return acc + (isNaN(num) ? 0 : num);
+  }, 0);
+
+  const uniqueCustomersCount = new Set(orders.map(o => o.email?.toLowerCase())).size;
 
   return (
     <div className="space-y-6 max-w-7xl mx-auto pb-16">
@@ -624,54 +817,157 @@ export default function StoreCommerce({ onNavigate }) {
 
       {/* 5. SUB-TAB: ORDERS CRM */}
       {activeTab === 'orders' && (
-        <div className="p-5 rounded-2xl bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] shadow-xs space-y-4">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-neutral-200/80 dark:border-white/[0.06]">
-            <div>
-              <h3 className="font-bold text-neutral-900 dark:text-white text-sm">Storefront Sales & Fulfillment CRM</h3>
-              <p className="text-xs text-neutral-500">Real-time log of customer transactions and digital asset fulfillments.</p>
+        <div className="space-y-4">
+          {/* Top 4 Summary Metric Cards */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <div className="p-4 rounded-2xl bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] shadow-xs">
+              <div className="flex items-center justify-between text-neutral-400 mb-1">
+                <span className="text-[11px] font-mono font-medium">Gross Revenue</span>
+                <TrendingUp className="w-4 h-4 text-emerald-500" />
+              </div>
+              <div className="text-xl font-bold font-mono text-neutral-900 dark:text-white">
+                ₹{totalStoreRevenue.toLocaleString('en-IN')}
+              </div>
+              <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-mono mt-0.5 block">100% digital profit</span>
             </div>
 
-            <button
-              onClick={handleExportOrdersCsv}
-              className="px-3 py-1.5 rounded-xl bg-neutral-100 dark:bg-white/[0.04] hover:bg-neutral-200 text-neutral-700 dark:text-neutral-200 text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
-            >
-              <Download className="w-3.5 h-3.5" />
-              <span>Export Orders CSV</span>
-            </button>
+            <div className="p-4 rounded-2xl bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] shadow-xs">
+              <div className="flex items-center justify-between text-neutral-400 mb-1">
+                <span className="text-[11px] font-mono font-medium">Total Orders</span>
+                <ShoppingBag className="w-4 h-4 text-blue-500" />
+              </div>
+              <div className="text-xl font-bold font-mono text-neutral-900 dark:text-white">
+                {orders.length}
+              </div>
+              <span className="text-[10px] text-neutral-400 font-mono mt-0.5 block">Lifetime fulfillments</span>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] shadow-xs">
+              <div className="flex items-center justify-between text-neutral-400 mb-1">
+                <span className="text-[11px] font-mono font-medium">Unique Buyers</span>
+                <UserCheck className="w-4 h-4 text-purple-500" />
+              </div>
+              <div className="text-xl font-bold font-mono text-neutral-900 dark:text-white">
+                {uniqueCustomersCount}
+              </div>
+              <span className="text-[10px] text-neutral-400 font-mono mt-0.5 block">Email list size</span>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] shadow-xs">
+              <div className="flex items-center justify-between text-neutral-400 mb-1">
+                <span className="text-[11px] font-mono font-medium">Avg Order Value</span>
+                <DollarSign className="w-4 h-4 text-amber-500" />
+              </div>
+              <div className="text-xl font-bold font-mono text-neutral-900 dark:text-white">
+                ₹{orders.length ? Math.round(totalStoreRevenue / orders.length).toLocaleString('en-IN') : 0}
+              </div>
+              <span className="text-[10px] text-neutral-400 font-mono mt-0.5 block">Per customer spend</span>
+            </div>
           </div>
 
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs">
-              <thead>
-                <tr className="border-b border-neutral-200/80 dark:border-white/[0.06] text-neutral-400 font-mono text-[11px]">
-                  <th className="pb-2.5 font-medium">Order ID</th>
-                  <th className="pb-2.5 font-medium">Customer</th>
-                  <th className="pb-2.5 font-medium">Product Title</th>
-                  <th className="pb-2.5 font-medium">Amount</th>
-                  <th className="pb-2.5 font-medium">Status</th>
-                  <th className="pb-2.5 font-medium text-right">Date</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-neutral-200/60 dark:divide-white/[0.04]">
-                {orders.map(ord => (
-                  <tr key={ord.id} className="hover:bg-neutral-50/50 dark:hover:bg-white/[0.02]">
-                    <td className="py-3 font-mono text-neutral-500 font-medium">{ord.id}</td>
-                    <td className="py-3">
-                      <span className="font-semibold text-neutral-900 dark:text-white block">{ord.customer}</span>
-                      <span className="text-[10px] text-neutral-400 font-mono">{ord.email}</span>
-                    </td>
-                    <td className="py-3 text-neutral-800 dark:text-neutral-200 font-medium">{ord.product}</td>
-                    <td className="py-3 font-mono font-bold text-emerald-600 dark:text-emerald-400">{ord.amount}</td>
-                    <td className="py-3">
-                      <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
-                        {ord.status}
-                      </span>
-                    </td>
-                    <td className="py-3 text-right text-neutral-400 font-mono text-[11px]">{ord.date}</td>
+          {/* CRM Container */}
+          <div className="p-5 rounded-2xl bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] shadow-xs space-y-4">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 pb-3 border-b border-neutral-200/80 dark:border-white/[0.06]">
+              <div>
+                <h3 className="font-bold text-neutral-900 dark:text-white text-sm">Storefront Sales & Fulfillment CRM</h3>
+                <p className="text-xs text-neutral-500">Real-time log of customer transactions and instant digital asset deliveries.</p>
+              </div>
+
+              <div className="flex flex-wrap items-center gap-2">
+                <button
+                  onClick={handleSimulateTestOrder}
+                  className="px-3 py-1.5 rounded-xl bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 text-emerald-700 dark:text-emerald-400 hover:bg-emerald-100 text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
+                  title="Simulate an instant customer purchase to test live delivery & CRM sync"
+                >
+                  <Sparkles className="w-3.5 h-3.5" />
+                  <span>Simulate Test Order</span>
+                </button>
+
+                <button
+                  onClick={handleExportOrdersCsv}
+                  className="px-3 py-1.5 rounded-xl bg-neutral-100 dark:bg-white/[0.04] hover:bg-neutral-200 text-neutral-700 dark:text-neutral-200 text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer border border-neutral-200/60 dark:border-white/[0.06]"
+                >
+                  <Download className="w-3.5 h-3.5" />
+                  <span>Export CSV</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Search Input Bar */}
+            <div className="relative">
+              <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400" />
+              <input
+                type="text"
+                value={orderSearchQuery}
+                onChange={(e) => setOrderSearchQuery(e.target.value)}
+                placeholder="Search orders by customer name, email, product, or order ID..."
+                className="w-full bg-neutral-50 dark:bg-white/[0.03] border border-neutral-200 dark:border-white/[0.08] rounded-xl pl-9 pr-4 py-2 text-xs text-neutral-900 dark:text-white placeholder:text-neutral-400 focus:outline-hidden focus:border-emerald-500 transition-colors"
+              />
+              {orderSearchQuery && (
+                <button
+                  onClick={() => setOrderSearchQuery('')}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-200 text-xs font-mono"
+                >
+                  Clear
+                </button>
+              )}
+            </div>
+
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-xs">
+                <thead>
+                  <tr className="border-b border-neutral-200/80 dark:border-white/[0.06] text-neutral-400 font-mono text-[11px]">
+                    <th className="pb-2.5 font-medium">Order ID</th>
+                    <th className="pb-2.5 font-medium">Customer</th>
+                    <th className="pb-2.5 font-medium">Product Title</th>
+                    <th className="pb-2.5 font-medium">Amount</th>
+                    <th className="pb-2.5 font-medium">Payment</th>
+                    <th className="pb-2.5 font-medium">Fulfillment Status</th>
+                    <th className="pb-2.5 font-medium text-right">Date</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody className="divide-y divide-neutral-200/60 dark:divide-white/[0.04]">
+                  {filteredOrders.length === 0 ? (
+                    <tr>
+                      <td colSpan="7" className="py-8 text-center text-neutral-400">
+                        <AlertCircle className="w-6 h-6 mx-auto mb-2 text-neutral-500 opacity-60" />
+                        <p className="font-medium text-xs">No customer orders found</p>
+                        <p className="text-[11px] text-neutral-500 mt-0.5">Try searching for a different name or email, or click "Simulate Test Order".</p>
+                      </td>
+                    </tr>
+                  ) : (
+                    filteredOrders.map(ord => (
+                      <tr key={ord.id} className="hover:bg-neutral-50/50 dark:hover:bg-white/[0.02] transition-colors">
+                        <td className="py-3 font-mono text-neutral-500 font-medium">{ord.id}</td>
+                        <td className="py-3">
+                          <span className="font-semibold text-neutral-900 dark:text-white block">{ord.customer}</span>
+                          <span className="text-[10px] text-neutral-400 font-mono flex items-center gap-1 mt-0.5">
+                            <Mail className="w-2.5 h-2.5" />
+                            {ord.email}
+                          </span>
+                        </td>
+                        <td className="py-3 text-neutral-800 dark:text-neutral-200 font-medium max-w-[200px] truncate" title={ord.product}>
+                          {ord.product}
+                        </td>
+                        <td className="py-3 font-mono font-bold text-emerald-600 dark:text-emerald-400">{ord.amount}</td>
+                        <td className="py-3">
+                          <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/20">
+                            {ord.status}
+                          </span>
+                        </td>
+                        <td className="py-3">
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-medium bg-blue-50 dark:bg-blue-500/10 text-blue-700 dark:text-blue-400 border border-blue-200 dark:border-blue-500/20">
+                            <ShieldCheck className="w-3 h-3 text-blue-500" />
+                            <span>{ord.deliveryAccess || 'Delivered (Asset)'}</span>
+                          </span>
+                        </td>
+                        <td className="py-3 text-right text-neutral-400 font-mono text-[11px] whitespace-nowrap">{ord.date}</td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       )}
@@ -730,14 +1026,22 @@ export default function StoreCommerce({ onNavigate }) {
 
       {/* 7. ADD PRODUCT MODAL */}
       {isAddProductModalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="w-full max-w-md rounded-2xl bg-white dark:bg-[#0C0D12] border border-neutral-200 dark:border-white/[0.08] shadow-2xl p-6 space-y-4">
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
+          <div className="w-full max-w-lg rounded-2xl bg-white dark:bg-[#0C0D12] border border-neutral-200 dark:border-white/[0.08] shadow-2xl p-6 space-y-4 my-8 max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between pb-3 border-b border-neutral-200/80 dark:border-white/[0.06]">
-              <h3 className="font-bold text-neutral-900 dark:text-white text-sm">Add New Product to Store</h3>
-              <button onClick={() => setIsAddProductModalOpen(false)} className="text-neutral-400 hover:text-neutral-600 cursor-pointer">&times;</button>
+              <div>
+                <h3 className="font-bold text-neutral-900 dark:text-white text-sm">Add New Product to Store</h3>
+                <p className="text-[11px] text-neutral-500">Automated digital asset fulfillment upon customer checkout.</p>
+              </div>
+              <button 
+                onClick={() => setIsAddProductModalOpen(false)} 
+                className="text-neutral-400 hover:text-neutral-600 dark:hover:text-white text-lg p-1 cursor-pointer"
+              >
+                &times;
+              </button>
             </div>
 
-            <form onSubmit={handleSaveProduct} className="space-y-3.5 text-xs">
+            <form onSubmit={handleSaveProduct} className="space-y-4 text-xs">
               <div className="space-y-1">
                 <label className="font-mono text-neutral-500 font-medium">Product Title</label>
                 <input
@@ -745,20 +1049,22 @@ export default function StoreCommerce({ onNavigate }) {
                   required
                   value={newProd.title}
                   onChange={(e) => setNewProd({ ...newProd, title: e.target.value })}
-                  placeholder="e.g. 30-Day Stoic Mindset Journal"
-                  className="w-full bg-neutral-50 dark:bg-white/[0.03] border border-neutral-200 dark:border-white/[0.08] rounded-xl px-3 py-2 text-xs text-neutral-900 dark:text-white"
+                  placeholder="e.g. 30-Day Stoic Mindset Journal & Audio Guide"
+                  className="w-full bg-neutral-50 dark:bg-white/[0.03] border border-neutral-200 dark:border-white/[0.08] rounded-xl px-3 py-2 text-xs text-neutral-900 dark:text-white focus:outline-hidden focus:border-emerald-500"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div className="space-y-1">
-                  <label className="font-mono text-neutral-500 font-medium">Product Type</label>
+                  <label className="font-mono text-neutral-500 font-medium">Product Category</label>
                   <select
                     value={newProd.type}
                     onChange={(e) => setNewProd({ ...newProd, type: e.target.value })}
                     className="w-full bg-neutral-50 dark:bg-white/[0.03] border border-neutral-200 dark:border-white/[0.08] rounded-xl px-3 py-2 text-xs text-neutral-900 dark:text-white"
                   >
-                    <option value="Digital Product">Digital Product (PDF/Notion)</option>
+                    <option value="Digital Product">Digital Asset (PDF/Guide)</option>
+                    <option value="Notion Workspace">Notion Workspace / Template</option>
+                    <option value="Asset Pack">Asset Pack (Presets/Footage)</option>
                     <option value="Service / Call">1-on-1 Consultation Call</option>
                     <option value="Subscription">Community Membership</option>
                   </select>
@@ -772,9 +1078,110 @@ export default function StoreCommerce({ onNavigate }) {
                     value={newProd.price}
                     onChange={(e) => setNewProd({ ...newProd, price: e.target.value })}
                     placeholder="₹499"
-                    className="w-full bg-neutral-50 dark:bg-white/[0.03] border border-neutral-200 dark:border-white/[0.08] rounded-xl px-3 py-2 text-xs font-mono font-bold text-emerald-600"
+                    className="w-full bg-neutral-50 dark:bg-white/[0.03] border border-neutral-200 dark:border-white/[0.08] rounded-xl px-3 py-2 text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400 focus:outline-hidden focus:border-emerald-500"
                   />
                 </div>
+              </div>
+
+              {/* Delivery Method Selection */}
+              <div className="space-y-2 pt-1 border-t border-neutral-200/60 dark:border-white/[0.04]">
+                <label className="font-mono text-neutral-500 font-medium block">
+                  Automated Customer Delivery Method
+                </label>
+                <div className="grid grid-cols-2 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setNewProd({ ...newProd, deliveryMethod: 'upload' })}
+                    className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer flex items-start gap-2 ${
+                      newProd.deliveryMethod === 'upload'
+                        ? 'border-emerald-500 bg-emerald-50/70 dark:bg-emerald-500/10 text-emerald-950 dark:text-emerald-200 font-medium'
+                        : 'border-neutral-200 dark:border-white/[0.06] text-neutral-600 dark:text-neutral-400 hover:bg-neutral-50 dark:hover:bg-white/[0.02]'
+                    }`}
+                  >
+                    <Upload className="w-4 h-4 mt-0.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                    <div>
+                      <div className="font-semibold text-xs">Direct File Upload</div>
+                      <div className="text-[10px] text-neutral-400">PDF, ZIP, EPUB up to 15MB</div>
+                    </div>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setNewProd({ ...newProd, deliveryMethod: 'link' })}
+                    className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer flex items-start gap-2 ${
+                      newProd.deliveryMethod === 'link'
+                        ? 'border-emerald-500 bg-emerald-50/70 dark:bg-emerald-500/10 text-emerald-950 dark:text-emerald-200 font-medium'
+                        : 'border-neutral-200 dark:border-white/[0.06] text-neutral-600 dark:text-neutral-400 hover:bg-neutral-50 dark:hover:bg-white/[0.02]'
+                    }`}
+                  >
+                    <LinkIcon className="w-4 h-4 mt-0.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                    <div>
+                      <div className="font-semibold text-xs">Access Link / Vault</div>
+                      <div className="text-[10px] text-neutral-400">Notion, Drive, Loom, Calendly</div>
+                    </div>
+                  </button>
+                </div>
+              </div>
+
+              {/* Delivery Method Details: File Upload or Link Input */}
+              {newProd.deliveryMethod === 'upload' ? (
+                <div className="space-y-2">
+                  <label className="font-mono text-neutral-500 font-medium block">Select File to Deliver</label>
+                  {newProd.fileName ? (
+                    <div className="p-3 rounded-xl bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/30 flex items-center justify-between">
+                      <div className="flex items-center gap-2 overflow-hidden">
+                        <FileText className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                        <div className="truncate">
+                          <span className="font-semibold text-neutral-900 dark:text-white block truncate">{newProd.fileName}</span>
+                          <span className="text-[10px] text-neutral-400 font-mono">{newProd.fileSize} &bull; Ready for instant buyer download</span>
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => setNewProd({ ...newProd, fileData: null, fileName: '', fileSize: '' })}
+                        className="text-neutral-400 hover:text-red-500 text-xs font-mono ml-2 shrink-0 cursor-pointer"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  ) : (
+                    <label className="border-2 border-dashed border-neutral-300 dark:border-white/[0.1] rounded-xl p-4 flex flex-col items-center justify-center cursor-pointer hover:border-emerald-500 transition-colors bg-neutral-50/50 dark:bg-white/[0.01]">
+                      <Upload className="w-6 h-6 text-neutral-400 mb-1.5" />
+                      <span className="font-semibold text-neutral-700 dark:text-neutral-200 text-xs">Choose digital file to deliver</span>
+                      <span className="text-[10px] text-neutral-400 mt-0.5">Supports PDF, ZIP, EPUB, DOCX (Max 15MB)</span>
+                      <input
+                        type="file"
+                        accept=".pdf,.zip,.rar,.epub,.doc,.docx"
+                        onChange={handleDigitalFileUpload}
+                        className="hidden"
+                      />
+                    </label>
+                  )}
+                </div>
+              ) : (
+                <div className="space-y-1">
+                  <label className="font-mono text-neutral-500 font-medium block">Customer Access URL</label>
+                  <input
+                    type="url"
+                    value={newProd.accessUrl}
+                    onChange={(e) => setNewProd({ ...newProd, accessUrl: e.target.value })}
+                    placeholder="https://notion.so/my-workspace or https://drive.google.com/..."
+                    className="w-full bg-neutral-50 dark:bg-white/[0.03] border border-neutral-200 dark:border-white/[0.08] rounded-xl px-3 py-2 text-xs text-neutral-900 dark:text-white focus:outline-hidden focus:border-emerald-500 font-mono"
+                  />
+                  <span className="text-[10px] text-neutral-400 block">Buyer is immediately granted access to this URL upon purchase completion.</span>
+                </div>
+              )}
+
+              {/* Product Description */}
+              <div className="space-y-1">
+                <label className="font-mono text-neutral-500 font-medium">Short Description / Value Pitch</label>
+                <textarea
+                  rows={2}
+                  value={newProd.description}
+                  onChange={(e) => setNewProd({ ...newProd, description: e.target.value })}
+                  placeholder="Outline what is inside this asset, who it is for, and key takeaways..."
+                  className="w-full bg-neutral-50 dark:bg-white/[0.03] border border-neutral-200 dark:border-white/[0.08] rounded-xl px-3 py-2 text-xs text-neutral-900 dark:text-white resize-none focus:outline-hidden focus:border-emerald-500"
+                />
               </div>
 
               <div className="space-y-1">
@@ -783,8 +1190,8 @@ export default function StoreCommerce({ onNavigate }) {
                   type="text"
                   value={newProd.ctaText}
                   onChange={(e) => setNewProd({ ...newProd, ctaText: e.target.value })}
-                  placeholder="Get Instant Access &rarr;"
-                  className="w-full bg-neutral-50 dark:bg-white/[0.03] border border-neutral-200 dark:border-white/[0.08] rounded-xl px-3 py-2 text-xs text-neutral-900 dark:text-white"
+                  placeholder="Unlock Instant Access &rarr;"
+                  className="w-full bg-neutral-50 dark:bg-white/[0.03] border border-neutral-200 dark:border-white/[0.08] rounded-xl px-3 py-2 text-xs text-neutral-900 dark:text-white focus:outline-hidden focus:border-emerald-500"
                 />
               </div>
 
@@ -792,15 +1199,16 @@ export default function StoreCommerce({ onNavigate }) {
                 <button
                   type="button"
                   onClick={() => setIsAddProductModalOpen(false)}
-                  className="px-3 py-1.5 rounded-xl text-neutral-600 hover:bg-neutral-100 cursor-pointer"
+                  className="px-3.5 py-1.5 rounded-xl text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-white/[0.05] cursor-pointer transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold cursor-pointer shadow-xs"
+                  className="px-4 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold cursor-pointer shadow-xs transition-colors flex items-center gap-1.5"
                 >
-                  Publish Product
+                  <Plus className="w-3.5 h-3.5" />
+                  <span>Publish Product</span>
                 </button>
               </div>
             </form>

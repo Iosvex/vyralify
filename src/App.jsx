@@ -21,6 +21,7 @@ import AccountSettings from './components/dashboard/AccountSettings';
 import PlaceholderModule from './components/dashboard/PlaceholderModule';
 import OnboardingWizard from './components/onboarding/OnboardingWizard';
 import AuthModal from './components/auth/AuthModal';
+import InstagramAuthCallback from './components/auth/InstagramAuthCallback';
 
 import { 
   Sparkles, 
@@ -46,6 +47,20 @@ function WorkspaceRouter() {
   const [selectedPlan, setSelectedPlan] = useState('free');
   const isDevOrFounder = import.meta.env.DEV || (typeof window !== 'undefined' && (window.location.search.includes('dev') || localStorage.getItem('vyralify_dev') === 'true'));
   const [showDevToolbar, setShowDevToolbar] = useState(import.meta.env.DEV);
+
+  // Check if Meta OAuth redirect callback
+  const isAuthCallback = typeof window !== 'undefined' && window.location.pathname.startsWith('/auth/callback');
+
+  if (isAuthCallback) {
+    return (
+      <InstagramAuthCallback 
+        onComplete={() => {
+          window.history.pushState({}, '', '/');
+          window.location.reload();
+        }} 
+      />
+    );
+  }
 
   // Check if accessing public creator link-in-bio storefront /u/:slug per v4 spec
   const isPublicStore = typeof window !== 'undefined' && window.location.pathname.startsWith('/u/');

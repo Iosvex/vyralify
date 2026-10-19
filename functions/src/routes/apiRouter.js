@@ -81,6 +81,11 @@ router.get('/account/growth', requireAuth, account.getGrowthTracker);
 router.get('/account/competitors', requireAuth, account.listCompetitors);
 router.post('/account/competitors', requireAuth, account.addCompetitor);
 
+// Meta Graph API & Webhook Endpoints
+router.get('/webhooks/instagram', account.metaWebhookGet);
+router.post('/webhooks/instagram', account.metaWebhookPost);
+router.post('/auth/instagram/exchange', account.metaExchangeToken);
+
 // ==================== 5. DISCOVER & CREATE (Cached Repeat Requests) ====================
 router.get('/discover/niches', optionalAuth, cacheMiddleware(300), discover.listNiches);
 router.get('/discover/viral-pages', optionalAuth, cacheMiddleware(300), discover.listViralPages);

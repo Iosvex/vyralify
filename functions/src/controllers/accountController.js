@@ -337,6 +337,130 @@ async function addCompetitor(req, res) {
   }
 }
 
+// ==================== META GRAPH API & WEBHOOK ENGINE ====================
+
+async function metaWebhookGet(req, res) {
+  const VERIFY_TOKEN = process.env.META_WEBHOOK_VERIFY_TOKEN || 'vyralify_meta_verify_2026';
+  const mode = req.query['hub.mode'];
+  const token = req.query['hub.verify_token'];
+  const challenge = req.query['hub.challenge'];
+
+  if (mode === 'subscribe' && token === VERIFY_TOKEN) {
+    return res.status(200).send(challenge);
+  }
+  return res.status(403).send('Forbidden: Token mismatch');
+}
+
+async function metaWebhookPost(req, res) {
+  try {
+    const body = req.body;
+    if (body.object === 'page' || body.object === 'instagram') {
+      const entry = body.entry?.[0];
+      const messagingEvent = entry?.messaging?.[0];
+
+      if (messagingEvent && messagingEvent.message && !messagingEvent.message.is_echo) {
+        const senderId = messagingEvent.sender?.id;
+        const text = messagingEvent.message?.text?.toLowerCase() || '';
+
+        if (text.includes('vyralify') || text.includes('link') || text.includes('price')) {
+          const PAGE_TOKEN = process.env.PAGE_ACCESS_TOKEN;
+          if (PAGE_TOKEN) {
+            await fetch(`https://graph.facebook.com/v19.0/me/messages?access_token=${PAGE_TOKEN}`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                recipient: { id: senderId },
+                message: { text: 'Hey! Here is your exclusive link to scale your page on Instagram: https://vyralify.in 🚀' }
+              })
+            }).catch(e => console.error('DM auto-reply err:', e));
+          }
+        }
+      }
+      return res.status(200).json({ status: 'EVENT_RECEIVED' });
+    }
+    return res.status(404).send('Not Found');
+  } catch (err) {
+    console.error('Webhook POST error:', err);
+    return res.status(500).json({ error: 'Webhook processing error' });
+  }
+}
+
+async function metaExchangeToken(req, res) {
+  try {
+    const { code, redirectUri } = req.body;
+    if (!code) {
+      return res.status(400).json({ error: 'Authorization code is required.' });
+    }
+
+    const APP_ID = process.env.META_APP_ID || '2269459297171981';
+    const APP_SECRET = process.env.META_APP_SECRET || '234e80539dd2d9c45f144a632af4b67d';
+    const cleanRedirectUri = redirectUri || 'https://vyralify.in/auth/callback/instagram';
+
+    const tokenUrl = `https://graph.facebook.com/v19.0/oauth/access_token?client_id=${APP_ID}&redirect_uri=${encodeURIComponent(
+      cleanRedirectUri
+    )}&client_secret=${APP_SECRET}&code=${code}`;
+
+    const tokenRes = await fetch(tokenUrl);
+    const tokenData = await tokenRes.json();
+
+    if (tokenData.error) {
+      return res.status(400).json({ error: tokenData.error.message || 'Token exchange failed.' });
+    }
+
+    const userAccessToken = tokenData.access_token;
+    const accountsRes = await fetch(
+      `https://graph.facebook.com/v19.0/me/accounts?fields=id,name,access_token,instagram_business_account&access_token=${userAccessToken}`
+    );
+    const accountsData = await accountsRes.json();
+
+    if (accountsData.error) {
+      return res.status(400).json({ error: accountsData.error.message });
+    }
+
+    const pages = accountsData.data || [];
+    const targetPage = pages.find(p => p.instagram_business_account?.id) || pages[0];
+
+    if (!targetPage) {
+      return res.status(404).json({ error: 'No Page with linked Instagram Business Account found.' });
+    }
+
+    const igAccountId = targetPage.instagram_business_account?.id;
+    const pageAccessToken = targetPage.access_token;
+
+    let profile = null;
+    let insights = null;
+
+    if (igAccountId && pageAccessToken) {
+      try {
+        const pRes = await fetch(
+          `https://graph.facebook.com/v19.0/${igAccountId}?fields=name,username,profile_picture_url,followers_count,media_count,biography&access_token=${pageAccessToken}`
+        );
+        profile = await pRes.json();
+
+        const iRes = await fetch(
+          `https://graph.facebook.com/v19.0/${igAccountId}/insights?metric=impressions,reach,profile_views&period=day&access_token=${pageAccessToken}`
+        );
+        const ins = await iRes.json();
+        insights = ins.data || null;
+      } catch (err) {}
+    }
+
+    return res.json({
+      success: true,
+      userAccessToken,
+      pageAccessToken,
+      pageId: targetPage.id,
+      pageName: targetPage.name,
+      igAccountId,
+      profile,
+      insights
+    });
+  } catch (err) {
+    console.error('metaExchangeToken error:', err);
+    return res.status(500).json({ error: 'Failed to exchange Meta authorization token.' });
+  }
+}
+
 module.exports = {
   listPages,
   addPage,
@@ -349,5 +473,8 @@ module.exports = {
   saveDmTemplate,
   getGrowthTracker,
   listCompetitors,
-  addCompetitor
+  addCompetitor,
+  metaWebhookGet,
+  metaWebhookPost,
+  metaExchangeToken
 };

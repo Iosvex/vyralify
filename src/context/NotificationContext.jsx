@@ -15,11 +15,11 @@ const SEED_NOTIFICATIONS = [
   {
     id: 'notif_2',
     type: 'info',
-    title: 'New Lead Captured via DM Trigger',
-    message: 'Follower @alex.creates commented "SCALE" on your latest Reel and received your store guide link.',
+    title: 'Scheduled Post Reminder',
+    message: 'Your reel "3 Retention Hooks" is scheduled for 7:30 PM (peak active time for your audience).',
     time: '2h ago',
     read: false,
-    module: 'automation'
+    module: 'discover_create'
   },
   {
     id: 'notif_3',

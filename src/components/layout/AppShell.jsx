@@ -49,12 +49,10 @@ export default function AppShell({ activeModule, onSelectModule, onNavigateLandi
 
   const navItems = [
     { id: 'home', label: 'Home', icon: Home },
-    { id: 'assistant', label: 'AI Assistant', icon: Sparkles, badge: 'AI' },
+    { id: 'assistant', label: 'Vyralify AI Assistant', icon: Sparkles, badge: 'AI' },
     { id: 'builder', label: 'Page Builder', icon: Rocket },
     { id: 'discover_create', label: 'Discover & Create', icon: Search },
-    { id: 'automation', label: 'Automations', icon: Bot, isLocked: tier === 'free' },
-    { id: 'store', label: 'Store & Commerce', icon: ShoppingBag },
-    { id: 'marketplace', label: 'Marketplace', icon: ArrowLeftRight, badge: 'HOT' }
+    { id: 'store', label: 'Store & Commerce', icon: ShoppingBag }
   ];
 
   const handleConnectPageClick = () => {

@@ -108,7 +108,7 @@ export default function TwoPaths({ onSelectPath, activePath: externalPath }) {
                   { num: '2', text: 'Choose your niche using our AI selector' },
                   { num: '3', text: 'Set up your page positioning and bio' },
                   { num: '4', text: 'Discover trending content and create your first posts' },
-                  { num: '5', text: 'Set up automation and store to start earning' }
+                  { num: '5', text: 'Set up your link-in-bio store to start earning' }
                 ].map((step, idx) => (
                   <div key={idx} className="flex items-start gap-3.5">
                     <span className="w-6 h-6 rounded-full bg-[#23E598] text-[#0A0A0A] text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">
@@ -170,7 +170,7 @@ export default function TwoPaths({ onSelectPath, activePath: externalPath }) {
                   { num: '1', text: 'Connect your existing Instagram page' },
                   { num: '2', text: 'Run your free page audit (see what to fix)' },
                   { num: '3', text: 'Get AI-powered content recommendations' },
-                  { num: '4', text: 'Set up DM automation to capture leads' },
+                  { num: '4', text: 'Schedule high-retention reels in your 30-day planner' },
                   { num: '5', text: 'Launch your store and monetize your audience' }
                 ].map((step, idx) => (
                   <div key={idx} className="flex items-start gap-3.5">

@@ -40,18 +40,10 @@ export default function SystemJourney({ onNavigateModule }) {
       previewDetail: '50+ viral hook formulas, 60s reel scripts & 30-day planner.'
     },
     {
-      id: 'automate',
-      icon: Zap,
-      name: 'AUTOMATE',
-      desc: 'Reply to comments and DMs automatically.',
-      previewTitle: 'Instagram Automation',
-      previewDetail: 'Keyword comment triggers, story auto-responders & lead collector.'
-    },
-    {
       id: 'monetize',
       icon: ShoppingBag,
       name: 'MONETIZE',
-      desc: 'Sell from one link in your bio.',
+      desc: 'Sell digital goods from one link in your bio.',
       previewTitle: 'Creator Storefront',
       previewDetail: 'Digital downloads, 1-on-1 consultations & automated delivery.'
     },
@@ -61,7 +53,15 @@ export default function SystemJourney({ onNavigateModule }) {
       name: 'MEASURE',
       desc: 'Track growth and revenue in one place.',
       previewTitle: 'Home Dashboard',
-      previewDetail: 'Views, followers, conversion funnel & AI next-move guidance.'
+      previewDetail: 'Views, followers, conversion funnel & verified metrics.'
+    },
+    {
+      id: 'optimize',
+      icon: Sparkles,
+      name: 'OPTIMIZE',
+      desc: 'AI co-pilot analyzing metrics & next moves.',
+      previewTitle: 'Vyralify AI Assistant',
+      previewDetail: 'Retention breakdown, script variations & niche recommendations.'
     }
   ];
 
@@ -167,7 +167,7 @@ export default function SystemJourney({ onNavigateModule }) {
 
         {/* 5. EXAMPLE CHAIN CAPTION (RULE 5) */}
         <p className="text-center text-[12px] text-[#555555] font-mono">
-          Save a trend in Discover &bull; Turn it into a script in Create &bull; Send your product link by DM in Automation &bull; See the sale on your Dashboard
+          Save a trend in Discover &bull; Turn it into a script in Create &bull; Link your product in Store &bull; See the sale on your Dashboard &bull; Optimize with AI
         </p>
 
       </div>

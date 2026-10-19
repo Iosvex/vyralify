@@ -15,9 +15,8 @@ import HomeDashboard from './components/dashboard/HomeDashboard';
 import PageBuilder from './components/dashboard/PageBuilder';
 import AIAssistant from './components/dashboard/AIAssistant';
 import DiscoverCreate from './components/dashboard/DiscoverCreate';
-import InstagramAutomation from './components/dashboard/InstagramAutomation';
 import StoreCommerce from './components/dashboard/StoreCommerce';
-import AccountMarketplace from './components/dashboard/AccountMarketplace';
+import PublicStorefront from './components/public/PublicStorefront';
 import AccountSettings from './components/dashboard/AccountSettings';
 import PlaceholderModule from './components/dashboard/PlaceholderModule';
 import OnboardingWizard from './components/onboarding/OnboardingWizard';
@@ -47,6 +46,22 @@ function WorkspaceRouter() {
   const [selectedPlan, setSelectedPlan] = useState('free');
   const isDevOrFounder = import.meta.env.DEV || (typeof window !== 'undefined' && (window.location.search.includes('dev') || localStorage.getItem('vyralify_dev') === 'true'));
   const [showDevToolbar, setShowDevToolbar] = useState(import.meta.env.DEV);
+
+  // Check if accessing public creator link-in-bio storefront /u/:slug per v4 spec
+  const isPublicStore = typeof window !== 'undefined' && window.location.pathname.startsWith('/u/');
+  const storeSlug = isPublicStore ? window.location.pathname.replace(/^\/u\/?/, '') : null;
+
+  if (isPublicStore) {
+    return (
+      <PublicStorefront 
+        slug={storeSlug} 
+        onBackToApp={() => {
+          window.history.pushState({}, '', '/');
+          window.location.reload();
+        }}
+      />
+    );
+  }
 
   const handleLoginSuccess = (payload = {}) => {
     const chosenPath = payload.path || selectedStartingPath || 'scratch';
@@ -250,12 +265,8 @@ function WorkspaceRouter() {
           <AIAssistant onNavigate={(mod) => setActiveModule(mod)} />
         ) : activeModule === 'discover_create' ? (
           <DiscoverCreate onNavigate={(mod) => setActiveModule(mod)} />
-        ) : activeModule === 'automation' ? (
-          <InstagramAutomation onNavigate={(mod) => setActiveModule(mod)} />
         ) : activeModule === 'store' ? (
           <StoreCommerce onNavigate={(mod) => setActiveModule(mod)} />
-        ) : activeModule === 'marketplace' ? (
-          <AccountMarketplace onNavigate={(mod) => setActiveModule(mod)} />
         ) : activeModule === 'settings' ? (
           <AccountSettings onNavigate={(mod) => setActiveModule(mod)} />
         ) : (

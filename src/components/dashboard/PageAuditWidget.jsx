@@ -76,11 +76,11 @@ export default function PageAuditWidget({ onNavigate }) {
       isIssue: false
     },
     {
-      title: 'Lead Capture Funnel',
-      score: 54,
-      note: 'Missing automated DM trigger on top Reel.',
+      title: 'Bio Link & Storefront',
+      score: 62,
+      note: 'Bio missing direct link to your digital resource toolkit.',
       isIssue: true,
-      action: 'automation'
+      action: 'store'
     },
     {
       title: 'Posting Velocity',
@@ -191,7 +191,7 @@ export default function PageAuditWidget({ onNavigate }) {
                   onClick={() => onNavigate(pillar.action)}
                   className="mt-1.5 text-[10px] font-mono text-amber-600 dark:text-amber-300 hover:underline flex items-center gap-1 cursor-pointer font-medium"
                 >
-                  <span>Fix leak in Automations &rarr;</span>
+                  <span>Fix link in Store &rarr;</span>
                 </button>
               )}
             </div>

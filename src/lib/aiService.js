@@ -87,7 +87,7 @@ You possess complete mastery over Instagram algorithm dynamics, short-form reten
 ================================================================================
 7. STRICT CREATOR SCOPE LIMITATION (TOKEN CONSERVATION)
 ================================================================================
-- You are EXCLUSIVELY the Vyralify Creator Co-Pilot for Instagram Growth, Reels Strategy, Hooks, Scripts, Bio Conversion, DM Automations, and Creator Monetization.
+- You are EXCLUSIVELY the Vyralify Creator Co-Pilot for Instagram Growth, Reels Strategy, Hooks, Scripts, Bio Conversion, and Creator Store Monetization.
 - Answer ONLY what the user asked with zero unnecessary preamble or filler ("Sure!", "Here is what you need").
 - If a question is off-topic (e.g. recipes, general coding, school homework, politics, weather, math):
   Immediately decline in 1-2 polite sentences in the user's language, stating that you only specialize in Instagram creator growth, and ask them to ask an Instagram-related question.
@@ -101,7 +101,7 @@ function getRandomAngleSeed() {
     'The Contrarian Truth & Hidden Mechanism',
     'Algorithmic Retention & Visual Pacing Breakdown',
     'The High-Density Proof & Case Study Blueprint',
-    'Direct DM Monetization & Comment Keyword Flywheel',
+    'Direct Link-in-Bio Storefront Monetization Flywheel',
     'The 80/20 Leverage Law for Rapid Growth',
     'The Pattern-Interrupt Psychological Shift'
   ];
@@ -439,8 +439,8 @@ Format response as strictly valid JSON:
     }
   ],
   "ctaTrigger": {
-    "keyword": "BLUEPRINT",
-    "delivery": "Comment 'BLUEPRINT' and our automation will DM you the system."
+    "type": "BIO_LINK",
+    "delivery": "Check the link in my bio for the complete free system."
   },
   "caption": "High-converting 3-line Instagram caption with relevant tags."
 }
@@ -470,21 +470,21 @@ Return only valid JSON.`;
         {
           time: "0:08 - 0:22",
           visual: "3-step bullet graphic popping onto screen with sound effect",
-          script: `Here is the 3-step flywheel top 1% pages use: Step 1: Polarizing opening. Step 2: High-density proof. Step 3: Automated DM trigger.`,
+          script: `Here is the 3-step flywheel top 1% pages use: Step 1: Polarizing opening. Step 2: High-density proof. Step 3: Link in bio resource vault.`,
           pacing: "High-density value"
         },
         {
           time: "0:22 - 0:30",
-          visual: "Direct eye contact, hand pointing towards comment bar",
-          script: `Comment 'SYSTEM' below and I will send you the exact template in your DMs right now.`,
+          visual: "Direct eye contact, hand pointing towards bio",
+          script: `Tap the link in my bio right now to unlock the complete template for free.`,
           pacing: "Direct conviction"
         }
       ],
       ctaTrigger: {
-        keyword: "SYSTEM",
-        delivery: "Comment 'SYSTEM' below for instant DM delivery."
+        type: "BIO_LINK",
+        delivery: "Link in bio for instant access."
       },
-      caption: `The game changed. If you are not using automated retention loops in ${subNiche || niche}, you are working 10x harder for 10% of the results.\n\nDrop "SYSTEM" in the comments to unlock the full breakdown.\n\n#${(subNiche || niche).replace(/\s+/g, '').toLowerCase()} #creatorgrowth #instagramautomation`,
+      caption: `The game changed. If you are not using high-retention hooks in ${subNiche || niche}, you are working 10x harder for 10% of the results.\n\nTap the link in my bio to unlock the full breakdown.\n\n#${(subNiche || niche).replace(/\s+/g, '').toLowerCase()} #creatorgrowth #instagramreels`,
       provider: res.provider || 'local:fallback'
     };
   }

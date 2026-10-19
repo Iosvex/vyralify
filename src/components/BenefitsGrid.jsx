@@ -2,7 +2,7 @@ import React from 'react';
 import { 
   Bot, 
   Search, 
-  Zap, 
+  Rocket, 
   ShoppingBag, 
   ArrowRight, 
   Sparkles,
@@ -145,44 +145,38 @@ export default function BenefitsGrid({ onExploreAll }) {
       )
     },
     {
-      id: 'automation',
-      icon: Zap,
-      name: 'Instagram Automation',
-      desc: "Comment LINK, get a DM — automatically. Set up once and watch Vyralify turn every comment and story reply into a lead or sale while you're not watching.",
-      chip: 'For Everyone',
+      id: 'builder',
+      icon: Rocket,
+      name: 'Page Builder & AI Audit',
+      desc: 'Set up your niche from our 8-category taxonomy, build high-converting bio positioning, and benchmark your health score against top creators in seconds.',
+      chip: 'For Beginners & Existing',
       renderScreenshot: () => (
         <div className="w-full aspect-video bg-[#0D1017] rounded-lg p-3 sm:p-4 border border-white/[0.08] flex flex-col justify-between overflow-hidden shadow-inner text-[11px] font-mono select-none">
-          {/* Top Automation Status */}
           <div className="flex items-center justify-between pb-2 border-b border-white/[0.06]">
             <div className="flex items-center gap-1.5 text-white font-semibold">
               <span className="w-2 h-2 rounded-full bg-[#23E598] animate-pulse inline-block" />
-              <span className="text-[11px]">Workflow: Auto DM &amp; Link</span>
+              <span className="text-[11px]">Audit Engine: Verified</span>
             </div>
             <span className="text-[10px] text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20 font-bold">
-              Meta Safe Active
+              Health Score: 88/100
             </span>
           </div>
 
-          {/* Trigger → Action Flow UI */}
           <div className="space-y-1.5 my-auto">
-            <div className="flex items-center gap-2 p-2 rounded bg-[#131722] border border-white/[0.06]">
-              <span className="text-[10px] bg-white/[0.08] text-white px-1.5 py-0.5 rounded font-bold">TRIGGER</span>
-              <span className="text-white font-sans text-[11px]">Comment contains keyword:</span>
-              <span className="text-[#23E598] font-bold bg-[#23E598]/10 px-1.5 py-0.5 rounded">"BLUEPRINT"</span>
+            <div className="flex items-center justify-between p-2 rounded bg-[#131722] border border-white/[0.06]">
+              <span className="text-white font-sans text-[11px]">Bio Clarity & Positioning:</span>
+              <span className="text-[#23E598] font-bold">94/100</span>
             </div>
 
-            <div className="flex items-center gap-2 p-2 rounded bg-[#131722] border border-[#23E598]/20">
-              <span className="text-[10px] bg-[#23E598]/20 text-[#23E598] px-1.5 py-0.5 rounded font-bold">ACTION</span>
-              <span className="text-neutral-200 font-sans text-[11px] truncate">
-                Instant DM: "Hey! Here is your private blueprint link: vyralify.me/blueprint 🚀"
-              </span>
+            <div className="flex items-center justify-between p-2 rounded bg-[#131722] border border-[#23E598]/20">
+              <span className="text-neutral-200 font-sans text-[11px]">Niche Opportunity (eRPM):</span>
+              <span className="text-[#23E598] font-mono font-bold">₹180 - ₹350</span>
             </div>
           </div>
 
-          {/* Conversion Footer */}
           <div className="flex items-center justify-between pt-1 border-t border-white/[0.06] text-[10px]">
-            <span className="text-neutral-400">Pace: 30 DMs/hr (Anti-Spam)</span>
-            <span className="text-[#23E598] font-bold font-sans">⚡ New Sale: ₹499 (Just now)</span>
+            <span className="text-neutral-400">8 Taxonomy Niches Seeded</span>
+            <span className="text-[#23E598] font-bold font-sans">✓ Ready to Scale</span>
           </div>
         </div>
       )

@@ -332,61 +332,7 @@ export default function PlaceholderModule({ moduleId, onNavigate }) {
     );
   }
 
-  // 4. INSTAGRAM AUTOMATION (Gated by SoftLockWrapper)
-  if (moduleId === 'automation') {
-    return (
-      <SoftLockWrapper featureKey="instagram_automation" minTier="pro">
-        <div className="space-y-6 max-w-6xl mx-auto pb-12">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-neutral-200/80 dark:border-white/[0.06]">
-            <div>
-              <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-emerald-50 dark:bg-white/[0.04] border border-emerald-200 dark:border-white/[0.08] text-emerald-700 dark:text-neutral-300 text-[11px] font-mono mb-2 font-medium">
-                <Bot className="w-3 h-3 text-emerald-600 dark:text-neutral-400" />
-                <span>DM Automation & Lead Qualifiers</span>
-              </div>
-              <h1 className="text-xl font-bold text-neutral-900 dark:text-white tracking-tight">
-                Instagram Automation Workflows
-              </h1>
-              <p className="text-neutral-500 dark:text-neutral-400 text-xs mt-0.5">
-                Convert reel comments, story mentions, and inbound DMs into paying customers automatically.
-              </p>
-            </div>
-            <button className="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-medium text-xs transition-colors flex items-center gap-1.5 cursor-pointer shadow-xs">
-              <Plus className="w-3.5 h-3.5" />
-              <span>Create Trigger</span>
-            </button>
-          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="p-5 rounded-xl bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] shadow-xs space-y-2.5">
-              <div className="flex items-center justify-between">
-                <span className="px-2 py-0.5 rounded-md bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 text-emerald-700 dark:text-emerald-400 font-mono text-[10px] font-semibold">
-                  Active (342 DMs sent)
-                </span>
-                <span className="text-xs text-neutral-500 dark:text-neutral-400 font-mono">Conversion: 28.4%</span>
-              </div>
-              <h3 className="font-semibold text-neutral-900 dark:text-white text-sm">Comment Keyword: "BLUEPRINT"</h3>
-              <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">
-                Trigger: User comments "BLUEPRINT" on any recent Reel &rarr; Auto DM sent within 12 seconds with link to free guide.
-              </p>
-            </div>
-
-            <div className="p-5 rounded-xl bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] shadow-xs space-y-2.5">
-              <div className="flex items-center justify-between">
-                <span className="px-2 py-0.5 rounded-md bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 text-emerald-700 dark:text-emerald-400 font-mono text-[10px] font-semibold">
-                  Active (189 Leads captured)
-                </span>
-                <span className="text-xs text-neutral-500 dark:text-neutral-400 font-mono">Conversion: 41.2%</span>
-              </div>
-              <h3 className="font-semibold text-neutral-900 dark:text-white text-sm">Story Reply Auto-Responder</h3>
-              <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">
-                Trigger: Inbound story reply &rarr; AI qualifies intent and offers custom link to Store checkout.
-              </p>
-            </div>
-          </div>
-        </div>
-      </SoftLockWrapper>
-    );
-  }
 
   // 5. STORE & COMMERCE
   if (moduleId === 'store') {
@@ -473,7 +419,7 @@ export default function PlaceholderModule({ moduleId, onNavigate }) {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             {[
               { id: 'free', name: 'Free (Starter)', price: '₹0/mo', desc: '1 Page, 20 AI credits/day, 7-day planner, 1 product' },
-              { id: 'pro', name: 'Pro Creator', price: '₹499/mo', desc: '3 Pages, 300 AI credits/day, 30-day planner, Automation, Unlim products' },
+              { id: 'pro', name: 'Pro Creator', price: '₹499/mo', desc: '3 Pages, 300 AI credits/day, 30-day planner, Auto-publish, Unlim products' },
               { id: 'elite', name: 'Elite Agency', price: '₹1,499/mo', desc: 'Unlimited pages, Unlimited AI, Priority support, White-label assistant' }
             ].map(p => (
               <button

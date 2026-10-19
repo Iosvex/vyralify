@@ -53,12 +53,6 @@ export default function Navbar({ onStartFree, onLogin, onSelectPath, onOpenDashb
       desc: 'Build or optimize your Instagram page from day one'
     },
     {
-      id: 'automation-spotlight',
-      icon: Zap,
-      title: 'Instagram Automation',
-      desc: 'Turn comments and DMs into leads and sales'
-    },
-    {
       id: 'store-spotlight',
       icon: ShoppingBag,
       title: 'Store & Commerce',

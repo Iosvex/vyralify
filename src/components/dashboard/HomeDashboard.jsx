@@ -41,7 +41,7 @@ export default function HomeDashboard({ onNavigate }) {
       return [
         { id: 'c1', label: `Connect Instagram profile (@${activePage?.handle || 'creator'})`, done: true, module: 'builder' },
         { id: 'c2', label: 'Review initial AI Page Audit & gaps', done: true, module: 'builder' },
-        { id: 'c3', label: 'Create first automated DM Keyword Trigger', done: false, module: 'automation' },
+        { id: 'c3', label: 'Generate first 5 viral hook scripts', done: false, module: 'discover_create' },
         { id: 'c4', label: 'List digital product in Store', done: false, module: 'store' }
       ];
     }
@@ -101,11 +101,11 @@ export default function HomeDashboard({ onNavigate }) {
           </button>
 
           <button
-            onClick={() => onNavigate('automation')}
+            onClick={() => onNavigate('builder')}
             className="px-3 py-1.5 rounded-lg bg-white dark:bg-white/[0.04] hover:bg-neutral-50 dark:hover:bg-white/[0.08] border border-neutral-200 dark:border-white/[0.08] text-xs font-medium text-neutral-700 dark:text-neutral-200 transition-colors flex items-center gap-1.5 cursor-pointer shadow-xs"
           >
-            <Bot className="w-3.5 h-3.5 text-neutral-400" />
-            <span>Automations</span>
+            <ShieldCheck className="w-3.5 h-3.5 text-neutral-400" />
+            <span>Page Setup</span>
           </button>
 
           <button
@@ -284,17 +284,17 @@ export default function HomeDashboard({ onNavigate }) {
           </div>
 
           <div 
-            onClick={() => onNavigate('automation')}
+            onClick={() => onNavigate('discover_create')}
             className="p-3 rounded-lg bg-neutral-50/70 dark:bg-white/[0.02] border border-neutral-200/80 dark:border-white/[0.04] hover:border-emerald-300 dark:hover:bg-white/[0.04] transition-colors cursor-pointer group"
           >
             <div className="text-[10px] font-mono text-emerald-700 dark:text-neutral-500 uppercase mb-1 font-medium">
-              Lead Capture
+              Calendar & Cadence
             </div>
             <div className="text-xs font-semibold text-neutral-900 dark:text-white mb-0.5">
-              Set up "SCALE" keyword auto-DM
+              Plan 7-Day Reel Schedule
             </div>
             <p className="text-[11px] text-neutral-500 dark:text-neutral-400 leading-relaxed">
-              142 recent comments asking for details without automated replies.
+              Auto-generate 7 reel ideas mapped to peak active times for your {activePage?.category || 'niche'} audience.
             </p>
           </div>
 

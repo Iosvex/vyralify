@@ -4,13 +4,6 @@ import { useAuth } from './AuthContext';
 const PlanGatingContext = createContext(null);
 
 export const FEATURE_GATES = {
-  INSTAGRAM_AUTOMATION: {
-    key: 'instagram_automation',
-    minTier: 'pro',
-    title: 'Instagram Automation is a Pro Feature',
-    description: 'Turn comments, story replies, and DMs into high-converting sales leads and customers automatically 24/7.',
-    icon: 'Bot'
-  },
   MULTI_PAGE: {
     key: 'multi_page',
     minTier: 'pro',

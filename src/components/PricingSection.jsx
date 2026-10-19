@@ -86,12 +86,6 @@ export default function PricingSection({ onSelectPlan }) {
       { name: 'Saved & research library', free: '10 items', pro: 'Unlimited', elite: 'Unlimited' },
       { name: 'Templates library', free: 'Limited set', pro: 'Full library', elite: 'Full library + exclusive templates' },
     ]},
-    { category: 'Instagram Automation', features: [
-      { name: 'DM, comment & story triggers', free: 'Locked', pro: 'Up to 3 active', elite: 'Unlimited' },
-      { name: 'Follow & lead collector', free: 'Locked', pro: '✓', elite: '✓ + advanced segmentation' },
-      { name: 'AI auto-conversations', free: 'Locked', pro: 'Limited monthly', elite: 'Unlimited' },
-      { name: 'Automation analytics', free: 'Locked', pro: 'Standard', elite: 'Standard + advanced export' },
-    ]},
     { category: 'Store & Commerce', features: [
       { name: 'Link-in-bio storefront', free: '1 product', pro: 'Unlimited products', elite: 'Unlimited + custom branding' },
       { name: 'Winning products library', free: 'View only', pro: 'Full access', elite: 'Full access + priority drops' },
@@ -205,8 +199,8 @@ export default function PricingSection({ onSelectPlan }) {
                 {[
                   'Unlimited pages',
                   'Unlimited AI credits',
-                  'Unlimited automations',
-                  'AI Auto-Conversations (unlimited)',
+                  'Full + priority response speed',
+                  'Unlimited media uploads',
                   '30-Day Planner + AI auto-fill',
                   'Bulk scheduling',
                   'White Label AI Resale',
@@ -271,7 +265,6 @@ export default function PricingSection({ onSelectPlan }) {
                   '10 competitor tracking',
                   'Full 30-Day Content Planner',
                   'Auto-publish scheduling',
-                  'Up to 3 active automations',
                   'Unlimited store products',
                   'Full order & customer management',
                   'Email support'
@@ -327,7 +320,7 @@ export default function PricingSection({ onSelectPlan }) {
 
                 {/* Locked items shown with lock icon + Pro/Elite tag (Rule 6) */}
                 {[
-                  { name: 'Automation (DM, Comment triggers)', plan: 'Pro' },
+                  { name: 'Up to 3 Connected Pages', plan: 'Pro' },
                   { name: 'Auto-publish scheduling', plan: 'Pro' },
                   { name: 'White Label AI Resale', plan: 'Elite' }
                 ].map((feat, i) => (

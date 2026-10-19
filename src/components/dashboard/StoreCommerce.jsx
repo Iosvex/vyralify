@@ -26,7 +26,7 @@ import {
   AlertCircle
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
-import { usePage } from '../../context/PageContext';
+import { usePage, getSafeAvatarUrl } from '../../context/PageContext';
 import { usePlanGating } from '../../context/PlanGatingContext';
 import { useNotifications } from '../../context/NotificationContext';
 import { useTheme } from '../../context/ThemeContext';
@@ -412,8 +412,12 @@ export default function StoreCommerce({ onNavigate }) {
                 <div className="space-y-3 pt-2">
                   <div className="relative w-16 h-16 mx-auto">
                     <img
-                      src={activePage?.avatar}
-                      alt={activePage?.handle}
+                      src={getSafeAvatarUrl(activePage?.avatar, activePage?.handle)}
+                      alt={activePage?.handle || "Creator"}
+                      onError={(e) => {
+                        e.currentTarget.onerror = null;
+                        e.currentTarget.src = getSafeAvatarUrl('', activePage?.handle);
+                      }}
                       className="w-full h-full rounded-full object-cover ring-2 ring-emerald-500 shadow-md"
                     />
                     <span className="absolute bottom-0 right-0 w-4 h-4 rounded-full bg-emerald-500 border-2 border-white dark:border-neutral-900" />

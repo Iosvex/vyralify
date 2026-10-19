@@ -24,7 +24,7 @@ import {
   DollarSign
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
-import { usePage } from '../../context/PageContext';
+import { usePage, getSafeAvatarUrl } from '../../context/PageContext';
 import { usePlanGating } from '../../context/PlanGatingContext';
 import SoftLockWrapper from '../common/SoftLockWrapper';
 
@@ -98,7 +98,15 @@ export default function PlaceholderModule({ moduleId, onNavigate }) {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           <div className="p-5 rounded-xl bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] shadow-xs space-y-4">
             <div className="flex items-center gap-3">
-              <img src={activePage?.avatar} alt={activePage?.handle} className="w-11 h-11 rounded-full object-cover ring-2 ring-emerald-500/20" />
+              <img 
+                src={getSafeAvatarUrl(activePage?.avatar, activePage?.handle)} 
+                alt={activePage?.handle} 
+                onError={(e) => {
+                  e.currentTarget.onerror = null;
+                  e.currentTarget.src = getSafeAvatarUrl('', activePage?.handle);
+                }}
+                className="w-11 h-11 rounded-full object-cover ring-2 ring-emerald-500/20" 
+              />
               <div>
                 <h3 className="font-semibold text-neutral-900 dark:text-white text-sm">@{activePage?.handle}</h3>
                 <p className="text-xs text-neutral-500 dark:text-neutral-400 font-mono">{activePage?.category} &bull; {activePage?.followersCount} Followers</p>

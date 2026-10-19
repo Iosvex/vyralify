@@ -25,7 +25,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '../../context/ThemeContext';
-import { usePage } from '../../context/PageContext';
+import { usePage, getSafeAvatarUrl } from '../../context/PageContext';
 import { usePlanGating } from '../../context/PlanGatingContext';
 import { useNotifications } from '../../context/NotificationContext';
 import UpgradeModal from '../common/UpgradeModal';
@@ -243,8 +243,12 @@ export default function AppShell({ activeModule, onSelectModule, onNavigateLandi
               className="inline-flex items-center gap-2 px-2.5 py-1 rounded-lg bg-neutral-50 dark:bg-white/[0.04] border border-neutral-200 dark:border-white/[0.08] hover:border-neutral-300 dark:hover:border-white/15 text-xs text-neutral-800 dark:text-neutral-200 transition-colors cursor-pointer shadow-xs"
             >
               <img
-                src={activePage?.avatar || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=80&auto=format&fit=crop&q=80"}
-                alt={activePage?.handle}
+                src={getSafeAvatarUrl(activePage?.avatar, activePage?.handle)}
+                alt={activePage?.handle || "Creator"}
+                onError={(e) => {
+                  e.currentTarget.onerror = null;
+                  e.currentTarget.src = getSafeAvatarUrl('', activePage?.handle);
+                }}
                 className="w-4 h-4 rounded-full object-cover ring-1 ring-emerald-500/30"
               />
               <span className="font-mono text-xs font-semibold text-neutral-900 dark:text-white">
@@ -280,7 +284,15 @@ export default function AppShell({ activeModule, onSelectModule, onNavigateLandi
                         }`}
                       >
                         <div className="flex items-center gap-2 overflow-hidden">
-                          <img src={p.avatar} alt={p.handle} className="w-4 h-4 rounded-full object-cover shrink-0" />
+                          <img 
+                            src={getSafeAvatarUrl(p.avatar, p.handle)} 
+                            alt={p.handle} 
+                            onError={(e) => {
+                              e.currentTarget.onerror = null;
+                              e.currentTarget.src = getSafeAvatarUrl('', p.handle);
+                            }}
+                            className="w-4 h-4 rounded-full object-cover shrink-0" 
+                          />
                           <div className="truncate">
                             <div className="truncate font-mono text-xs font-medium">@{p.handle}</div>
                             <div className="text-[10px] text-neutral-500 dark:text-neutral-400">{p.category}</div>

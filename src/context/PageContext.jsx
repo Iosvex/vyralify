@@ -14,12 +14,21 @@ import { useAuth } from './AuthContext';
 
 const PageContext = createContext(null);
 
+export function getSafeAvatarUrl(avatar, handle = 'Creator') {
+  const cleanName = (handle || 'Creator').replace(/^@/, '').trim() || 'Creator';
+  const defaultFallback = `https://ui-avatars.com/api/?name=${encodeURIComponent(cleanName)}&background=23E598&color=0A0A0A&bold=true&size=200`;
+  
+  if (!avatar || typeof avatar !== 'string') return defaultFallback;
+  if (avatar.includes('photo-153452874') || avatar.includes('NaN')) return defaultFallback;
+  return avatar;
+}
+
 const INITIAL_PAGES = [
   {
     id: 'page_growth_mindset',
     handle: 'growth.mindset',
     displayName: 'Growth Mindset Hub',
-    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=160&auto=format&fit=crop&q=80',
+    avatar: 'https://ui-avatars.com/api/?name=Growth+Mindset&background=23E598&color=0A0A0A&bold=true&size=200',
     bio: 'Daily mental models, stoicism & wealth frameworks. Turning discipline into leverage.',
     category: 'Self-Improvement',
     subNiche: 'Motivation & Mindset',
@@ -42,7 +51,7 @@ const INITIAL_PAGES = [
     id: 'page_tech_hustle',
     handle: 'tech.hustle',
     displayName: 'AI & SaaS Secrets',
-    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=160&auto=format&fit=crop&q=80',
+    avatar: 'https://ui-avatars.com/api/?name=Tech+Hustle&background=23E598&color=0A0A0A&bold=true&size=200',
     bio: 'Breakdowns of modern software, AI workflows & internet money.',
     category: 'Business & Money',
     subNiche: 'AI Business & SaaS',
@@ -69,7 +78,13 @@ export function PageProvider({ children }) {
   const [pages, setPages] = useState(() => {
     const saved = localStorage.getItem('vyralify_pages');
     if (saved) {
-      try { return JSON.parse(saved); } catch (e) {}
+      try {
+        const parsed = JSON.parse(saved);
+        return parsed.map(p => ({
+          ...p,
+          avatar: getSafeAvatarUrl(p.avatar, p.handle)
+        }));
+      } catch (e) {}
     }
     return INITIAL_PAGES;
   });
@@ -95,7 +110,13 @@ export function PageProvider({ children }) {
         if (!snapshot.empty) {
           const remotePages = [];
           snapshot.forEach((docSnap) => {
-            remotePages.push({ id: docSnap.id, ...docSnap.data() });
+            const data = docSnap.data();
+            const safeAvatar = getSafeAvatarUrl(data.avatar, data.handle);
+            // If the avatar in firestore was broken, auto-update it in Firestore
+            if (data.avatar && (data.avatar.includes('photo-153452874') || data.avatar.includes('NaN'))) {
+              updateDoc(doc(db, 'instagramPages', docSnap.id), { avatar: safeAvatar }).catch(() => {});
+            }
+            remotePages.push({ id: docSnap.id, ...data, avatar: safeAvatar });
           });
           setPages(remotePages);
           if (!remotePages.some(p => p.id === activePageId) && remotePages.length > 0) {
@@ -155,7 +176,7 @@ export function PageProvider({ children }) {
       ownerUid: user?.uid || 'guest',
       handle: cleanHandle,
       displayName: newPageData.displayName || `@${cleanHandle}`,
-      avatar: newPageData.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=160&auto=format&fit=crop&q=80',
+      avatar: getSafeAvatarUrl(newPageData.avatar, cleanHandle),
       bio: newPageData.bio || 'New Instagram creator account.',
       category: newPageData.category || 'General',
       subNiche: newPageData.subNiche || 'General',

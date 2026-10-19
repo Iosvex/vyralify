@@ -20,10 +20,12 @@ import {
   HelpCircle,
   Sliders,
   DollarSign,
-  AlertCircle
+  AlertCircle,
+  Camera,
+  Upload
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
-import { usePage } from '../../context/PageContext';
+import { usePage, getSafeAvatarUrl } from '../../context/PageContext';
 import { usePlanGating } from '../../context/PlanGatingContext';
 import { useNotifications } from '../../context/NotificationContext';
 import { useTheme } from '../../context/ThemeContext';
@@ -196,6 +198,35 @@ export default function PageBuilder({ onNavigate }) {
     });
   };
 
+  // 2b. Upload or Change Profile Photo
+  const handleAvatarUpload = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (file.size > 3 * 1024 * 1024) {
+      addNotification({
+        title: 'Image Too Large',
+        message: 'Please choose an image under 3MB.',
+        type: 'warning'
+      });
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const base64Url = event.target?.result;
+      if (base64Url && activePage?.id) {
+        updatePage(activePage.id, { avatar: base64Url });
+        addNotification({
+          title: 'Profile Photo Updated',
+          message: `Photo updated successfully for @${activePage.handle}`,
+          type: 'success'
+        });
+      }
+    };
+    reader.readAsDataURL(file);
+  };
+
   // 3. Generate Positioning Statement
   const handleGeneratePositioning = async () => {
     const canUse = consumeCredit(1);
@@ -314,17 +345,47 @@ export default function PageBuilder({ onNavigate }) {
           {/* Active Profile Status Header Card */}
           <div className="p-5 rounded-2xl bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div className="flex items-center gap-4">
-              <img 
-                src={activePage?.avatar || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=160&auto=format&fit=crop&q=80"} 
-                alt={activePage?.handle} 
-                className="w-14 h-14 rounded-2xl object-cover ring-2 ring-emerald-500/20 shadow-xs"
-              />
+              <div className="relative group shrink-0">
+                <img 
+                  src={getSafeAvatarUrl(activePage?.avatar, activePage?.handle)} 
+                  alt={activePage?.handle} 
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = getSafeAvatarUrl('', activePage?.handle);
+                  }}
+                  className="w-16 h-16 rounded-2xl object-cover ring-2 ring-emerald-500/20 shadow-xs"
+                />
+                <label 
+                  title="Upload profile photo" 
+                  className="absolute inset-0 bg-black/60 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center cursor-pointer text-white text-[10px] font-medium backdrop-blur-xs"
+                >
+                  <Camera className="w-4 h-4 mb-0.5 text-emerald-400" />
+                  <span>Change</span>
+                  <input 
+                    type="file" 
+                    accept="image/*" 
+                    className="hidden" 
+                    onChange={handleAvatarUpload}
+                  />
+                </label>
+              </div>
+
               <div>
-                <div className="flex items-center gap-2">
+                <div className="flex flex-wrap items-center gap-2">
                   <h2 className="text-base font-bold text-neutral-900 dark:text-white font-mono">@{activePage?.handle}</h2>
                   <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/20 font-medium flex items-center gap-1">
                     <ShieldCheck className="w-3 h-3" /> Meta Connected
                   </span>
+                  <label className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-lg text-[10px] font-mono bg-neutral-100 dark:bg-white/[0.05] hover:bg-neutral-200/70 dark:hover:bg-white/[0.1] text-neutral-700 dark:text-neutral-300 border border-neutral-200 dark:border-white/10 cursor-pointer transition-colors shadow-2xs">
+                    <Camera className="w-3 h-3 text-emerald-500" />
+                    <span>Upload DP</span>
+                    <input 
+                      type="file" 
+                      accept="image/*" 
+                      className="hidden" 
+                      onChange={handleAvatarUpload}
+                    />
+                  </label>
                 </div>
                 <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5">
                   {activePage?.category} &bull; Sub-Niche: <span className="font-medium text-neutral-700 dark:text-neutral-300">{activePage?.subNiche || 'General'}</span>
@@ -1000,7 +1061,15 @@ export default function PageBuilder({ onNavigate }) {
                   <div className="space-y-3">
                     <div className="flex items-start justify-between">
                       <div className="flex items-center gap-3">
-                        <img src={p.avatar} alt={p.handle} className="w-12 h-12 rounded-2xl object-cover ring-2 ring-emerald-500/20" />
+                        <img 
+                          src={getSafeAvatarUrl(p.avatar, p.handle)} 
+                          alt={p.handle} 
+                          onError={(e) => {
+                            e.currentTarget.onerror = null;
+                            e.currentTarget.src = getSafeAvatarUrl('', p.handle);
+                          }}
+                          className="w-12 h-12 rounded-2xl object-cover ring-2 ring-emerald-500/20" 
+                        />
                         <div>
                           <div className="flex items-center gap-1.5">
                             <span className="font-bold text-sm font-mono text-neutral-900 dark:text-white">@{p.handle}</span>

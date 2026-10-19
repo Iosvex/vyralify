@@ -162,7 +162,7 @@ export default function ConnectAccountModal({ isOpen, onClose }) {
         subNiche: NICHES.find(n => n.name === selectedNiche)?.sub || 'Creator',
         followersCount: followers.includes('K') ? followers : `${followers}K`,
         followersNumeric: numericFollowers,
-        avatar: `https://images.unsplash.com/photo-${1534528741775 + (pages.length * 1000)}?w=160&auto=format&fit=crop&q=80`,
+        avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(cleanHandle)}&background=23E598&color=0A0A0A&bold=true&size=200`,
         audit: auditData
       });
 

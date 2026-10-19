@@ -36,6 +36,7 @@ export default function ConnectAccountModal({ isOpen, onClose }) {
   const [handle, setHandle] = useState('');
   const [selectedNiche, setSelectedNiche] = useState(NICHES[0].name);
   const [followers, setFollowers] = useState('14.2K');
+  const [connectTab, setConnectTab] = useState('direct'); // 'direct' (Instant V1 default) | 'meta'
   const [isConnecting, setIsConnecting] = useState(false);
   const [connectingMode, setConnectingMode] = useState(''); // 'meta' | 'direct'
   const [error, setError] = useState('');
@@ -248,109 +249,161 @@ export default function ConnectAccountModal({ isOpen, onClose }) {
               </button>
             </div>
           ) : (
-            <div className="space-y-3.5">
-              {/* Option A: Official Meta OAuth Popup */}
-              <button
-                type="button"
-                onClick={handleMetaOAuth}
-                disabled={isConnecting}
-                className="w-full py-2.5 px-4 rounded-xl bg-white dark:bg-white/[0.04] hover:bg-neutral-50 dark:hover:bg-white/[0.08] text-neutral-800 dark:text-neutral-200 border border-neutral-200/90 dark:border-white/[0.1] font-semibold text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-xs"
-              >
-                <InstagramIcon className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-                <span>Connect via Meta OAuth Popup</span>
-                <ExternalLink className="w-3.5 h-3.5 text-neutral-400" />
-              </button>
-
-              <div className="relative flex items-center justify-center my-1">
-                <div className="border-t border-neutral-200/80 dark:border-white/[0.06] w-full" />
-                <span className="bg-white dark:bg-[#0D0F14] px-2 text-[10px] font-mono text-neutral-400 uppercase">
-                  or enter handle
-                </span>
-              </div>
-
-              <form onSubmit={handleConnect} className="space-y-3.5">
-              {/* Handle Input */}
-              <div className="space-y-1">
-                <label className="text-[11px] font-semibold text-neutral-700 dark:text-neutral-300 uppercase tracking-wider font-mono">
-                  Instagram Handle
-                </label>
-                <div className="relative">
-                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400 text-xs font-mono">@</span>
-                  <input
-                    type="text"
-                    value={handle}
-                    onChange={(e) => setHandle(e.target.value)}
-                    placeholder="creator.handle"
-                    required
-                    className="w-full pl-7 pr-3 py-2 bg-neutral-50 dark:bg-white/[0.04] border border-neutral-200 dark:border-white/[0.08] rounded-xl text-xs text-neutral-900 dark:text-white placeholder:text-neutral-400 focus:outline-none focus:border-emerald-500 transition-colors font-mono"
-                  />
-                </div>
-              </div>
-
-              {/* Niche Selection */}
-              <div className="space-y-1">
-                <label className="text-[11px] font-semibold text-neutral-700 dark:text-neutral-300 uppercase tracking-wider font-mono">
-                  Primary Niche
-                </label>
-                <select
-                  value={selectedNiche}
-                  onChange={(e) => setSelectedNiche(e.target.value)}
-                  className="w-full px-3 py-2 bg-neutral-50 dark:bg-white/[0.04] border border-neutral-200 dark:border-white/[0.08] rounded-xl text-xs text-neutral-900 dark:text-white focus:outline-none focus:border-emerald-500 transition-colors"
-                >
-                  {NICHES.map(n => (
-                    <option key={n.id} value={n.name} className="dark:bg-[#12141C]">
-                      {n.name} ({n.sub})
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              {/* Followers Simulation */}
-              <div className="space-y-1">
-                <label className="text-[11px] font-semibold text-neutral-700 dark:text-neutral-300 uppercase tracking-wider font-mono">
-                  Estimated Followers
-                </label>
-                <input
-                  type="text"
-                  value={followers}
-                  onChange={(e) => setFollowers(e.target.value)}
-                  placeholder="e.g. 24.5K"
-                  className="w-full px-3 py-2 bg-neutral-50 dark:bg-white/[0.04] border border-neutral-200 dark:border-white/[0.08] rounded-xl text-xs text-neutral-900 dark:text-white placeholder:text-neutral-400 focus:outline-none focus:border-emerald-500 transition-colors font-mono"
-                />
-              </div>
-
-              {error && (
-                <div className="text-[11px] text-red-600 bg-red-50 dark:bg-red-500/10 p-2.5 rounded-lg border border-red-200 dark:border-red-500/20 font-medium">
-                  {error}
-                </div>
-              )}
-
-              {/* Submit CTA */}
-              <div className="pt-2">
+            <div className="space-y-4">
+              {/* Tab Selector */}
+              <div className="grid grid-cols-2 p-1 rounded-xl bg-neutral-100 dark:bg-white/[0.04] border border-neutral-200/80 dark:border-white/[0.06] text-xs">
                 <button
-                  type="submit"
-                  disabled={isConnecting}
-                  className="w-full py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white font-semibold text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-xs"
+                  type="button"
+                  onClick={() => { setConnectTab('direct'); setError(''); }}
+                  className={`py-2 px-3 rounded-lg font-medium transition-all cursor-pointer text-center flex items-center justify-center gap-1.5 ${
+                    connectTab === 'direct'
+                      ? 'bg-emerald-600 text-white font-semibold shadow-xs'
+                      : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white'
+                  }`}
                 >
-                  {isConnecting ? (
-                    <>
-                      <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                      <span>Authorizing via Meta Graph API...</span>
-                    </>
-                  ) : (
-                    <>
-                      <span>Authorize & Connect Account</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </>
-                  )}
+                  <Sparkles className="w-3.5 h-3.5" />
+                  <span>Enter Handle & Audit</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => { setConnectTab('meta'); setError(''); }}
+                  className={`py-2 px-3 rounded-lg font-medium transition-all cursor-pointer text-center flex items-center justify-center gap-1.5 ${
+                    connectTab === 'meta'
+                      ? 'bg-white dark:bg-white/[0.1] text-neutral-900 dark:text-white font-semibold shadow-xs'
+                      : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white'
+                  }`}
+                >
+                  <InstagramIcon className="w-3.5 h-3.5" />
+                  <span>Meta OAuth Popup</span>
                 </button>
               </div>
 
-              <p className="text-[10px] text-center text-neutral-400 dark:text-neutral-500 font-mono">
-                Read-only analytics permission • Official Meta Graph API
-              </p>
-            </form>
-          </div>
+              {/* TAB 1: DIRECT HANDLE & AI AUDIT (V1 RECOMMENDED FALLBACK) */}
+              {connectTab === 'direct' && (
+                <form onSubmit={handleConnect} className="space-y-3.5">
+                  <div className="p-2.5 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 text-[11px] text-emerald-800 dark:text-emerald-300">
+                    ⚡ <strong>Instant Setup:</strong> Zero Facebook popups or role delays. Enters your handle and executes live AI audit immediately.
+                  </div>
+
+                  {/* Handle Input */}
+                  <div className="space-y-1">
+                    <label className="text-[11px] font-semibold text-neutral-700 dark:text-neutral-300 uppercase tracking-wider font-mono">
+                      Instagram Handle
+                    </label>
+                    <div className="relative">
+                      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400 text-xs font-mono">@</span>
+                      <input
+                        type="text"
+                        value={handle}
+                        onChange={(e) => setHandle(e.target.value)}
+                        placeholder="your_handle"
+                        required
+                        className="w-full pl-7 pr-3 py-2 bg-neutral-50 dark:bg-white/[0.04] border border-neutral-200 dark:border-white/[0.08] rounded-xl text-xs text-neutral-900 dark:text-white placeholder:text-neutral-400 focus:outline-none focus:border-emerald-500 transition-colors font-mono"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Niche Selection */}
+                  <div className="space-y-1">
+                    <label className="text-[11px] font-semibold text-neutral-700 dark:text-neutral-300 uppercase tracking-wider font-mono">
+                      Primary Niche
+                    </label>
+                    <select
+                      value={selectedNiche}
+                      onChange={(e) => setSelectedNiche(e.target.value)}
+                      className="w-full px-3 py-2 bg-neutral-50 dark:bg-white/[0.04] border border-neutral-200 dark:border-white/[0.08] rounded-xl text-xs text-neutral-900 dark:text-white focus:outline-none focus:border-emerald-500 transition-colors"
+                    >
+                      {NICHES.map(n => (
+                        <option key={n.id} value={n.name} className="dark:bg-[#12141C]">
+                          {n.name} ({n.sub})
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* Followers Simulation */}
+                  <div className="space-y-1">
+                    <label className="text-[11px] font-semibold text-neutral-700 dark:text-neutral-300 uppercase tracking-wider font-mono">
+                      Follower Count
+                    </label>
+                    <input
+                      type="text"
+                      value={followers}
+                      onChange={(e) => setFollowers(e.target.value)}
+                      placeholder="e.g. 24.5K"
+                      className="w-full px-3 py-2 bg-neutral-50 dark:bg-white/[0.04] border border-neutral-200 dark:border-white/[0.08] rounded-xl text-xs text-neutral-900 dark:text-white placeholder:text-neutral-400 focus:outline-none focus:border-emerald-500 transition-colors font-mono"
+                    />
+                  </div>
+
+                  {error && (
+                    <div className="text-[11px] text-red-600 bg-red-50 dark:bg-red-500/10 p-2.5 rounded-lg border border-red-200 dark:border-red-500/20 font-medium">
+                      {error}
+                    </div>
+                  )}
+
+                  {/* Submit CTA */}
+                  <div className="pt-2">
+                    <button
+                      type="submit"
+                      disabled={isConnecting}
+                      className="w-full py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white font-semibold text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-xs"
+                    >
+                      {isConnecting ? (
+                        <>
+                          <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                          <span>Running AI Profile Audit...</span>
+                        </>
+                      ) : (
+                        <>
+                          <span>Connect & Run Live AI Audit</span>
+                          <ArrowRight className="w-3.5 h-3.5" />
+                        </>
+                      )}
+                    </button>
+                  </div>
+
+                  <p className="text-[10px] text-center text-neutral-400 dark:text-neutral-500 font-mono">
+                    Zero wait • Instant profile onboarding per v4 launch specification
+                  </p>
+                </form>
+              )}
+
+              {/* TAB 2: META OAUTH POPUP */}
+              {connectTab === 'meta' && (
+                <div className="space-y-3.5">
+                  <div className="p-3 rounded-xl bg-amber-50 dark:bg-amber-500/10 border border-amber-200 dark:border-amber-500/20 text-xs text-amber-800 dark:text-amber-200 space-y-1.5">
+                    <div className="font-semibold flex items-center gap-1.5">
+                      <AlertCircle className="w-4 h-4 text-amber-600 shrink-0" />
+                      <span>Meta "Can't load URL" Domain Fix:</span>
+                    </div>
+                    <p className="text-[11px] leading-relaxed">
+                      In <strong>developers.facebook.com</strong> &rarr; Your App &rarr; <strong>App Settings</strong> &rarr; <strong>Basic</strong>, add <code className="bg-black/10 dark:bg-white/10 px-1 py-0.5 rounded font-mono">vyralify.in</code> into <strong>App Domains</strong>, scroll to bottom, and save changes.
+                    </p>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={handleMetaOAuth}
+                    disabled={isConnecting}
+                    className="w-full py-2.5 px-4 rounded-xl bg-white dark:bg-white/[0.04] hover:bg-neutral-50 dark:hover:bg-white/[0.08] text-neutral-800 dark:text-neutral-200 border border-neutral-200/90 dark:border-white/[0.1] font-semibold text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-xs"
+                  >
+                    <InstagramIcon className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                    <span>Open Meta OAuth Window</span>
+                    <ExternalLink className="w-3.5 h-3.5 text-neutral-400" />
+                  </button>
+
+                  {error && (
+                    <div className="text-[11px] text-red-600 bg-red-50 dark:bg-red-500/10 p-2.5 rounded-lg border border-red-200 dark:border-red-500/20 font-medium">
+                      {error}
+                    </div>
+                  )}
+
+                  <p className="text-[10px] text-center text-neutral-400 dark:text-neutral-500 font-mono">
+                    Requires Meta App Review or active Tester Role authorization
+                  </p>
+                </div>
+              )}
+            </div>
         )}
         </div>
       </motion.div>

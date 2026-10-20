@@ -276,16 +276,20 @@ function WorkspaceRouter() {
         onSelectModule={(mod) => setActiveModule(mod)}
         onNavigateLanding={() => setViewMode('landing')}
       >
-        {activeModule === 'home' ? (
+        {activeModule === 'home' || activeModule === 'analytics' ? (
           <HomeDashboard onNavigate={(mod) => setActiveModule(mod)} />
         ) : activeModule === 'builder' ? (
           <PageBuilder onNavigate={(mod) => setActiveModule(mod)} />
         ) : activeModule === 'assistant' ? (
           <AIAssistant onNavigate={(mod) => setActiveModule(mod)} />
         ) : activeModule === 'discover_create' ? (
-          <DiscoverCreate onNavigate={(mod) => setActiveModule(mod)} />
+          <DiscoverCreate onNavigate={(mod) => setActiveModule(mod)} initialTab="studio" />
+        ) : activeModule === 'viral_discovery' ? (
+          <DiscoverCreate onNavigate={(mod) => setActiveModule(mod)} initialTab="feed" />
+        ) : activeModule === 'monetisation' ? (
+          <StoreCommerce onNavigate={(mod) => setActiveModule(mod)} initialTab="orders" />
         ) : activeModule === 'store' ? (
-          <StoreCommerce onNavigate={(mod) => setActiveModule(mod)} />
+          <StoreCommerce onNavigate={(mod) => setActiveModule(mod)} initialTab="builder" />
         ) : activeModule === 'settings' ? (
           <AccountSettings onNavigate={(mod) => setActiveModule(mod)} />
         ) : (

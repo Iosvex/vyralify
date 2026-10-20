@@ -183,14 +183,20 @@ const INITIAL_VIRAL_POSTS = [
   }
 ];
 
-export default function DiscoverCreate({ onNavigate }) {
+export default function DiscoverCreate({ onNavigate, initialTab = 'feed' }) {
   const { user, tier, aiCredits, consumeCredit } = useAuth();
   const { activePage } = usePage();
   const { openUpgradeModal } = usePlanGating();
   const { addNotification } = useNotifications();
 
   // Active Sub-Tab: 'feed' | 'studio' | 'planner' | 'competitors' | 'saved'
-  const [activeTab, setActiveTab] = useState('feed');
+  const [activeTab, setActiveTab] = useState(initialTab);
+
+  React.useEffect(() => {
+    if (initialTab) {
+      setActiveTab(initialTab);
+    }
+  }, [initialTab]);
 
   // Tab 1: Discover Feed Filters & Search
   const [selectedNiche, setSelectedNiche] = useState('All Niches');

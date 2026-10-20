@@ -86,7 +86,7 @@ const TEMPLATE_VAULT = [
   }
 ];
 
-export default function StoreCommerce({ onNavigate }) {
+export default function StoreCommerce({ onNavigate, initialTab = 'builder' }) {
   const { user, tier } = useAuth();
   const { activePage } = usePage();
   const { openUpgradeModal } = usePlanGating();
@@ -94,7 +94,13 @@ export default function StoreCommerce({ onNavigate }) {
 
   // Sub-Tab Navigation: 5 clean tabs
   // 'builder' | 'products' | 'templates' | 'orders' | 'resell'
-  const [activeTab, setActiveTab] = useState('builder');
+  const [activeTab, setActiveTab] = useState(initialTab);
+
+  React.useEffect(() => {
+    if (initialTab) {
+      setActiveTab(initialTab);
+    }
+  }, [initialTab]);
 
   // Store Customizer State
   const [storeThemeColor, setStoreThemeColor] = useState('blue');

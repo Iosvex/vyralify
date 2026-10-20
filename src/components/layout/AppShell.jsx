@@ -58,22 +58,11 @@ export default function AppShell({ activeModule, onSelectModule, onNavigateLandi
   ];
 
   const handleNavClick = (id) => {
-    if (id === 'viral_discovery') {
-      onSelectModule('discover_create');
-    } else if (id === 'analytics') {
-      onSelectModule('home');
-    } else if (id === 'monetisation') {
-      onSelectModule('store');
-    } else {
-      onSelectModule(id);
-    }
+    onSelectModule(id);
   };
 
   const isNavActive = (id) => {
-    if (id === activeModule) return true;
-    if (id === 'viral_discovery' && activeModule === 'discover_create') return false;
-    if (id === 'monetisation' && activeModule === 'store') return false;
-    return false;
+    return activeModule === id;
   };
 
   const handleConnectPageClick = () => {

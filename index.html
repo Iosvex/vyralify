@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/png" href="/vyralify-logo.png" />
@@ -8,7 +8,7 @@
     <meta name="description" content="Turn attention into automated recurring income. 8-niche algorithmic intelligence, viral reel blueprints, link-in-bio storefronts, and automated DM sales funnels." />
     <meta name="keywords" content="Instagram growth, creator economy, viral reels, link in bio store, AI bio generator, theme page automation" />
     <meta name="author" content="Vyralify" />
-    <meta name="theme-color" content="#08090C" />
+    <meta name="theme-color" content="#F0F6FE" />
 
     <!-- OpenGraph (Facebook, WhatsApp, LinkedIn, Discord preview cards) -->
     <meta property="og:type" content="website" />
@@ -36,25 +36,28 @@
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
 
-    <!-- Typography: General Sans (Display), Plus Jakarta Sans (Headings/Body), JetBrains Mono (Stats/Data) -->
+    <!-- Typography: Plus Jakarta Sans (Headings), Inter (UI Controls), JetBrains Mono (Stats/Data) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <link href="https://api.fontshare.com/v2/css?f[]=general-sans@500,600,700&display=swap" rel="stylesheet" />
 
-    <!-- Permanent Dark Mode Enforcer -->
+    <!-- Electric Light Theme Initiator -->
     <script>
       (function() {
         try {
-          document.documentElement.classList.add('dark');
-          document.documentElement.style.colorScheme = 'dark';
-          localStorage.setItem('vyralify-theme', 'dark');
-          localStorage.setItem('vyralify-theme-v3', 'dark');
+          const savedTheme = localStorage.getItem('vyralify-theme') || 'light';
+          if (savedTheme === 'dark') {
+            document.documentElement.classList.add('dark');
+            document.documentElement.style.colorScheme = 'dark';
+          } else {
+            document.documentElement.classList.remove('dark');
+            document.documentElement.style.colorScheme = 'light';
+          }
         } catch (e) {}
       })();
     </script>
   </head>
-  <body class="bg-[#08090C] text-neutral-200 font-sans antialiased selection:bg-emerald-500/20 selection:text-emerald-400 min-h-screen">
+  <body class="bg-[#F0F6FE] text-[#0F172A] font-sans antialiased selection:bg-[#067CF9]/20 selection:text-[#067CF9] min-h-screen">
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

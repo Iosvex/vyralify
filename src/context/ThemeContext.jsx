@@ -3,24 +3,30 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 const ThemeContext = createContext();
 
 export function ThemeProvider({ children }) {
-  const [theme] = useState('dark');
+  const [theme, setTheme] = useState(() => {
+    return localStorage.getItem('vyralify-theme') || 'light';
+  });
 
   useEffect(() => {
     const root = document.documentElement;
-    root.classList.add('dark');
-    root.style.colorScheme = 'dark';
-    localStorage.setItem('vyralify-theme', 'dark');
-    localStorage.setItem('vyralify-theme-v3', 'dark');
-  }, []);
+    if (theme === 'dark') {
+      root.classList.add('dark');
+      root.style.colorScheme = 'dark';
+    } else {
+      root.classList.remove('dark');
+      root.style.colorScheme = 'light';
+    }
+    localStorage.setItem('vyralify-theme', theme);
+  }, [theme]);
 
   const toggleTheme = () => {
-    // Permanent dark mode enforced
+    setTheme(prev => prev === 'light' ? 'dark' : 'light');
   };
 
-  const isDark = true;
+  const isDark = theme === 'dark';
 
   return (
-    <ThemeContext.Provider value={{ theme: 'dark', isDark: true, toggleTheme, setTheme: () => {} }}>
+    <ThemeContext.Provider value={{ theme, isDark, toggleTheme, setTheme }}>
       {children}
     </ThemeContext.Provider>
   );

@@ -266,7 +266,7 @@ function WorkspaceRouter() {
 
   // 5. INTERIOR DASHBOARD APP SHELL
   return (
-    <div className="relative h-screen w-full overflow-hidden bg-[#F8FAFC] dark:bg-[#08090C] text-neutral-900 dark:text-neutral-200">
+    <div className="relative h-screen w-full overflow-hidden bg-[#F0F6FE] text-[#0F172A]">
       <AppShell 
         activeModule={activeModule} 
         onSelectModule={(mod) => setActiveModule(mod)}

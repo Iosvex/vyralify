@@ -41,9 +41,8 @@ import { useAuth } from '../../context/AuthContext';
 import { usePage, getSafeAvatarUrl } from '../../context/PageContext';
 import { usePlanGating } from '../../context/PlanGatingContext';
 import { useNotifications } from '../../context/NotificationContext';
-import { useTheme } from '../../context/ThemeContext';
 
-// 4 Core Pre-Built Digital Asset Starters (Per Section 4 Blueprint)
+// 4 Core Pre-Built Digital Asset Starters
 const TEMPLATE_VAULT = [
   {
     id: 'tpl_1',
@@ -92,19 +91,18 @@ export default function StoreCommerce({ onNavigate }) {
   const { activePage } = usePage();
   const { openUpgradeModal } = usePlanGating();
   const { addNotification } = useNotifications();
-  const { isDark } = useTheme();
 
-  // Sub-Tab Navigation: 5 clean tabs per Section 1 Blueprint
+  // Sub-Tab Navigation: 5 clean tabs
   // 'builder' | 'products' | 'templates' | 'orders' | 'resell'
   const [activeTab, setActiveTab] = useState('builder');
 
   // Store Customizer State
-  const [storeThemeColor, setStoreThemeColor] = useState('emerald');
+  const [storeThemeColor, setStoreThemeColor] = useState('blue');
   const [storeHeadline, setStoreHeadline] = useState('Official Resource Vault & Toolkits');
   const [storeBio, setStoreBio] = useState(`Digital products, cheat sheets, and 1-on-1 strategy calls to fast-track your results in ${activePage?.category || 'business'}.`);
   const [copiedStoreLink, setCopiedStoreLink] = useState(false);
 
-  // Professional Product Catalog State (No cheap demo data)
+  // Professional Product Catalog State
   const [products, setProducts] = useState([
     {
       id: 'prod_1',
@@ -157,7 +155,7 @@ export default function StoreCommerce({ onNavigate }) {
     ctaText: 'Get Instant Access'
   });
 
-  // Orders Log State (Clean professional records)
+  // Orders Log State
   const [orderSearchQuery, setOrderSearchQuery] = useState('');
   const [orders, setOrders] = useState([
     { 
@@ -249,7 +247,7 @@ export default function StoreCommerce({ onNavigate }) {
     }
   }, []);
 
-  // Sync store settings & products for the public storefront /u/:slug
+  // Sync store settings & products for the public storefront
   useEffect(() => {
     localStorage.setItem('vyralify_store_products', JSON.stringify(products));
     const handleKey = rawHandle;
@@ -401,7 +399,7 @@ export default function StoreCommerce({ onNavigate }) {
     addNotification({ title: 'Product Removed', message: 'Product removed from your catalog.', type: 'info' });
   };
 
-  // 1-Click Import from Pre-Built Digital Asset Vault (Per Section 4 Blueprint)
+  // 1-Click Import from Pre-Built Digital Asset Vault
   const handleImportTemplate = (tpl) => {
     if (tier === 'free' && products.length >= 1) {
       openUpgradeModal(
@@ -456,7 +454,7 @@ export default function StoreCommerce({ onNavigate }) {
     });
   };
 
-  // Simulate Test Order (Muted action)
+  // Simulate Test Order
   const handleSimulateTestOrder = () => {
     const targetProduct = products[0] || TEMPLATE_VAULT[0];
     const testBuyers = [
@@ -501,7 +499,7 @@ export default function StoreCommerce({ onNavigate }) {
     });
   };
 
-  // Filtered orders by search query
+  // Filtered orders
   const filteredOrders = orders.filter(o => {
     if (!orderSearchQuery.trim()) return true;
     const q = orderSearchQuery.toLowerCase();
@@ -518,28 +516,27 @@ export default function StoreCommerce({ onNavigate }) {
     return acc + (isNaN(num) ? 0 : num);
   }, 0);
 
-  // Clean arrow helper
   const cleanArrow = (text) => {
     if (!text) return 'Get Instant Access';
     return text.replace(/&rarr;/g, '').replace(/→/g, '').trim();
   };
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto pb-16">
+    <div className="space-y-6 max-w-7xl mx-auto pb-16 font-sans">
       
-      {/* 1. TOP PANEL TITLE & TAB NAVIGATION REMAP (Per Section 1 Blueprint) */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-4 border-b border-neutral-200/80 dark:border-white/[0.06]">
+      {/* 1. TOP PANEL TITLE & TAB NAVIGATION */}
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-4 border-b border-[rgba(6,124,249,0.12)]">
         <div>
-          <h1 className="text-xl font-bold text-neutral-900 dark:text-white tracking-tight">
-            Creator Storefront & Commerce
+          <h1 className="text-xl sm:text-2xl font-bold text-[#0F172A] tracking-tight">
+            Creator Storefront &amp; Commerce
           </h1>
-          <p className="text-neutral-500 dark:text-neutral-400 text-xs mt-1">
+          <p className="text-[#64748B] text-xs mt-1 font-medium">
             Build ultra-fast digital storefronts, manage products, and track instant payouts.
           </p>
         </div>
 
         {/* Streamlined Segmented Navigation (5 Tabs) */}
-        <div className="flex items-center gap-1 bg-white dark:bg-[#0C0D12] p-1 rounded-xl border border-neutral-200/80 dark:border-white/[0.06] shadow-xs overflow-x-auto no-scrollbar shrink-0">
+        <div className="flex items-center gap-1 bg-white/80 p-1 rounded-xl border border-[rgba(6,124,249,0.12)] shadow-xs overflow-x-auto no-scrollbar shrink-0">
           {[
             { id: 'builder', label: 'Store Builder', icon: Smartphone },
             { id: 'products', label: 'Products', icon: Package },
@@ -555,8 +552,8 @@ export default function StoreCommerce({ onNavigate }) {
                 onClick={() => setActiveTab(tab.id)}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer whitespace-nowrap ${
                   isActive
-                    ? 'bg-emerald-600 text-white shadow-xs font-semibold'
-                    : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white hover:bg-neutral-50 dark:hover:bg-white/[0.04]'
+                    ? 'bg-[#067CF9] text-white shadow-xs font-semibold'
+                    : 'text-[#64748B] hover:text-[#0F172A]'
                 }`}
               >
                 <Icon className="w-3.5 h-3.5" />
@@ -567,69 +564,69 @@ export default function StoreCommerce({ onNavigate }) {
         </div>
       </div>
 
-      {/* 2. TAB 1: STORE BUILDER & LIVE MOBILE PREVIEW STUDIO (Per Section 2 Blueprint) */}
+      {/* 2. TAB 1: STORE BUILDER & LIVE MOBILE PREVIEW STUDIO (Panel 5 Blueprint: Sleek iOS white phone bezel frame over a soft clean backdrop) */}
       {activeTab === 'builder' && (
         <div className="space-y-6">
           
-          {/* Store Analytics Row (Relocated to Top/Full Width) */}
+          {/* Store Analytics Row */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3.5">
-            <div className="p-4 rounded-xl bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] shadow-xs">
-              <span className="text-[11px] font-mono text-neutral-400 font-medium">Total Revenue</span>
-              <div className="text-xl font-bold font-mono text-neutral-900 dark:text-white mt-1">
+            <div className="p-4 rounded-xl bg-white/95 backdrop-blur-xl border border-[rgba(6,124,249,0.12)] shadow-[0_2px_12px_rgba(6,124,249,0.03)]">
+              <span className="text-[11px] font-mono text-[#64748B] font-medium">Total Revenue</span>
+              <div className="text-xl font-bold font-mono text-[#0F172A] mt-1">
                 ₹{totalStoreRevenue.toLocaleString('en-IN')}
               </div>
-              <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-mono mt-1 block font-semibold">+18.2% this month</span>
+              <span className="text-[10px] text-[#10B981] font-mono mt-1 block font-semibold">+18.2% this month</span>
             </div>
 
-            <div className="p-4 rounded-xl bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] shadow-xs">
-              <span className="text-[11px] font-mono text-neutral-400 font-medium">Storefront Clicks</span>
-              <div className="text-xl font-bold font-mono text-neutral-900 dark:text-white mt-1">2,840</div>
-              <span className="text-[10px] text-neutral-400 font-mono mt-1 block">Traffic across bio links</span>
+            <div className="p-4 rounded-xl bg-white/95 backdrop-blur-xl border border-[rgba(6,124,249,0.12)] shadow-[0_2px_12px_rgba(6,124,249,0.03)]">
+              <span className="text-[11px] font-mono text-[#64748B] font-medium">Storefront Clicks</span>
+              <div className="text-xl font-bold font-mono text-[#0F172A] mt-1">2,840</div>
+              <span className="text-[10px] text-[#64748B] font-mono mt-1 block">Traffic across bio links</span>
             </div>
 
-            <div className="p-4 rounded-xl bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] shadow-xs">
-              <span className="text-[11px] font-mono text-neutral-400 font-medium">Conversion Rate</span>
-              <div className="text-xl font-bold font-mono text-neutral-900 dark:text-white mt-1">4.2%</div>
-              <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-mono mt-1 block font-semibold">Above creator avg (2.8%)</span>
+            <div className="p-4 rounded-xl bg-white/95 backdrop-blur-xl border border-[rgba(6,124,249,0.12)] shadow-[0_2px_12px_rgba(6,124,249,0.03)]">
+              <span className="text-[11px] font-mono text-[#64748B] font-medium">Conversion Rate</span>
+              <div className="text-xl font-bold font-mono text-[#0F172A] mt-1">4.2%</div>
+              <span className="text-[10px] text-[#10B981] font-mono mt-1 block font-semibold">Above creator avg (2.8%)</span>
             </div>
 
-            <div className="p-4 rounded-xl bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] shadow-xs">
-              <span className="text-[11px] font-mono text-neutral-400 font-medium">Active Products</span>
-              <div className="text-xl font-bold font-mono text-neutral-900 dark:text-white mt-1">
+            <div className="p-4 rounded-xl bg-white/95 backdrop-blur-xl border border-[rgba(6,124,249,0.12)] shadow-[0_2px_12px_rgba(6,124,249,0.03)]">
+              <span className="text-[11px] font-mono text-[#64748B] font-medium">Active Products</span>
+              <div className="text-xl font-bold font-mono text-[#0F172A] mt-1">
                 {products.length} / {tier === 'free' ? '1 (Free)' : 'Unlimited'}
               </div>
-              <span className="text-[10px] text-neutral-400 font-mono mt-1 block">Instant checkout enabled</span>
+              <span className="text-[10px] text-[#067CF9] font-mono mt-1 block font-semibold">Instant checkout enabled</span>
             </div>
           </div>
 
           {/* 2-Column Store Builder: Left Form Controls (7 Cols) & Right Mobile Preview (5 Cols) */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
             
-            {/* Left Input Controls Refinement */}
+            {/* Left Input Controls */}
             <div className="lg:col-span-7 space-y-4">
-              <div className="p-5 rounded-2xl bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] shadow-xs space-y-4">
+              <div className="p-5 rounded-2xl bg-white/95 backdrop-blur-xl border border-[rgba(6,124,249,0.12)] shadow-[0_2px_16px_rgba(6,124,249,0.04)] space-y-4">
                 
-                {/* Store Link Row: Clean display bar with a direct Copy Store Link button */}
+                {/* Store Link Row */}
                 <div className="space-y-1.5">
-                  <label className="text-xs font-mono text-neutral-500 font-medium">Store Link</label>
-                  <div className="flex items-center justify-between bg-neutral-50 dark:bg-[#12131A] border border-neutral-200 dark:border-white/[0.08] rounded-xl px-3.5 py-2 text-xs font-mono">
-                    <span className="text-neutral-700 dark:text-neutral-300 font-medium">
+                  <label className="text-xs font-mono text-[#64748B] font-medium">Store Link</label>
+                  <div className="flex items-center justify-between bg-[#F8FAFC] border border-[rgba(6,124,249,0.15)] rounded-xl px-3.5 py-2 text-xs font-mono">
+                    <span className="text-[#0F172A] font-semibold">
                       {cleanStoreUrl}
                     </span>
                     <button
                       type="button"
                       onClick={handleCopyStoreLink}
-                      className="px-2.5 py-1 rounded-lg bg-neutral-200 dark:bg-white/[0.08] hover:bg-neutral-300 dark:hover:bg-white/[0.12] text-neutral-800 dark:text-neutral-200 text-[11px] font-sans font-semibold transition-colors flex items-center gap-1 cursor-pointer"
+                      className="px-2.5 py-1 rounded-lg bg-[#EFF6FF] border border-[rgba(6,124,249,0.2)] text-[#067CF9] text-[11px] font-sans font-semibold transition-colors flex items-center gap-1 cursor-pointer"
                     >
-                      {copiedStoreLink ? <Check className="w-3 h-3 text-emerald-500" /> : <Copy className="w-3 h-3" />}
+                      {copiedStoreLink ? <Check className="w-3 h-3 text-[#067CF9]" /> : <Copy className="w-3 h-3" />}
                       <span>{copiedStoreLink ? 'Copied' : 'Copy Store Link'}</span>
                     </button>
                   </div>
                 </div>
 
-                {/* Store Title & Subtitle with Character Limit Counters */}
+                {/* Store Title & Subtitle */}
                 <div className="space-y-1.5">
-                  <div className="flex items-center justify-between text-xs font-mono text-neutral-500">
+                  <div className="flex items-center justify-between text-xs font-mono text-[#64748B]">
                     <label className="font-medium">Store Title</label>
                     <span className="text-[11px]">{storeHeadline.length}/60</span>
                   </div>
@@ -639,12 +636,12 @@ export default function StoreCommerce({ onNavigate }) {
                     value={storeHeadline}
                     onChange={(e) => setStoreHeadline(e.target.value)}
                     placeholder="e.g., Official Resource Vault & Toolkits"
-                    className="w-full bg-neutral-50 dark:bg-[#12131A] border border-neutral-200 dark:border-white/[0.08] rounded-xl px-3.5 py-2 text-xs text-neutral-900 dark:text-white focus:outline-hidden focus:border-emerald-500 transition-colors"
+                    className="w-full bg-[#F8FAFC] border border-[rgba(6,124,249,0.15)] rounded-xl px-3.5 py-2 text-xs text-[#0F172A] focus:outline-hidden focus:border-[#067CF9] transition-colors"
                   />
                 </div>
 
                 <div className="space-y-1.5">
-                  <div className="flex items-center justify-between text-xs font-mono text-neutral-500">
+                  <div className="flex items-center justify-between text-xs font-mono text-[#64748B]">
                     <label className="font-medium">Store Subtitle</label>
                     <span className="text-[11px]">{storeBio.length}/160</span>
                   </div>
@@ -654,19 +651,18 @@ export default function StoreCommerce({ onNavigate }) {
                     value={storeBio}
                     onChange={(e) => setStoreBio(e.target.value)}
                     placeholder="e.g., Digital products, cheat sheets, and 1-on-1 strategy calls..."
-                    className="w-full bg-neutral-50 dark:bg-[#12131A] border border-neutral-200 dark:border-white/[0.08] rounded-xl p-3 text-xs text-neutral-900 dark:text-white focus:outline-hidden focus:border-emerald-500 transition-colors resize-none"
+                    className="w-full bg-[#F8FAFC] border border-[rgba(6,124,249,0.15)] rounded-xl p-3 text-xs text-[#0F172A] focus:outline-hidden focus:border-[#067CF9] transition-colors resize-none"
                   />
                 </div>
 
-                {/* Theme Palette Picker: Minimalist color swatch circles with active checkmarks */}
+                {/* Theme Palette Picker */}
                 <div className="space-y-1.5">
-                  <label className="text-xs font-mono text-neutral-500 font-medium">Theme Palette</label>
+                  <label className="text-xs font-mono text-[#64748B] font-medium">Theme Palette</label>
                   <div className="flex flex-wrap items-center gap-3">
                     {[
-                      { id: 'emerald', label: 'Emerald Green', colorClass: 'bg-emerald-500' },
-                      { id: 'obsidian', label: 'Obsidian Black', colorClass: 'bg-neutral-900' },
-                      { id: 'indigo', label: 'Indigo Tech', colorClass: 'bg-indigo-600' },
-                      { id: 'amber', label: 'Sunset Gold', colorClass: 'bg-amber-500' }
+                      { id: 'blue', label: 'Electric Blue', colorClass: 'bg-[#067CF9]' },
+                      { id: 'obsidian', label: 'Obsidian Navy', colorClass: 'bg-[#0F172A]' },
+                      { id: 'cyan', label: 'Ice Cyan', colorClass: 'bg-[#38BDF8]' }
                     ].map(c => (
                       <button
                         key={c.id}
@@ -674,8 +670,8 @@ export default function StoreCommerce({ onNavigate }) {
                         onClick={() => setStoreThemeColor(c.id)}
                         className={`flex items-center gap-2 px-3 py-1.5 rounded-xl border text-xs cursor-pointer transition-all ${
                           storeThemeColor === c.id
-                            ? 'border-emerald-500 bg-emerald-50/50 dark:bg-emerald-500/10 text-emerald-900 dark:text-emerald-200 font-semibold shadow-xs'
-                            : 'border-neutral-200 dark:border-white/[0.06] text-neutral-600 dark:text-neutral-400 hover:border-neutral-300 dark:hover:border-white/20'
+                            ? 'border-[#067CF9] bg-[#EFF6FF] text-[#067CF9] font-bold shadow-xs'
+                            : 'border-neutral-200 text-[#64748B] hover:border-neutral-300'
                         }`}
                       >
                         <span className={`w-3.5 h-3.5 rounded-full ${c.colorClass} flex items-center justify-center`}>
@@ -687,9 +683,9 @@ export default function StoreCommerce({ onNavigate }) {
                   </div>
                 </div>
 
-                {/* Action Button: Single Primary CTA Save & Publish Store */}
-                <div className="pt-3 border-t border-neutral-200/80 dark:border-white/[0.06] flex items-center justify-between">
-                  <span className="text-[11px] text-emerald-600 dark:text-emerald-400 font-mono flex items-center gap-1">
+                {/* Action Button */}
+                <div className="pt-3 border-t border-[rgba(6,124,249,0.08)] flex items-center justify-between">
+                  <span className="text-[11px] text-[#067CF9] font-mono flex items-center gap-1 font-semibold">
                     <ShieldCheck className="w-3.5 h-3.5" /> Auto-synced with CDN
                   </span>
                   <button
@@ -701,7 +697,7 @@ export default function StoreCommerce({ onNavigate }) {
                         type: 'success'
                       });
                     }}
-                    className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs transition-colors flex items-center gap-1.5 cursor-pointer shadow-xs"
+                    className="px-4 py-2 rounded-xl bg-[#067CF9] hover:bg-[#0568D2] text-white font-semibold text-xs transition-colors flex items-center gap-1.5 cursor-pointer shadow-xs"
                   >
                     <Check className="w-3.5 h-3.5" />
                     <span>Save &amp; Publish Store</span>
@@ -710,15 +706,17 @@ export default function StoreCommerce({ onNavigate }) {
               </div>
             </div>
 
-            {/* Right Column: Ultra-Sleek Mobile Mockup Fix (High-fidelity glassmorphism bezel) */}
+            {/* Right Column: Sleek iOS White Phone Bezel Frame over Soft Clean Backdrop (Blueprint Section 2.F) */}
             <div className="lg:col-span-5 flex justify-center">
-              <div className="w-[320px] rounded-[40px] bg-neutral-900/90 backdrop-blur-md p-3 shadow-2xl border border-neutral-700/60 relative">
+              <div className="w-[320px] rounded-[48px] bg-white p-3.5 shadow-[0_20px_50px_rgba(6,124,249,0.12)] border-[6px] border-slate-100 ring-1 ring-[rgba(6,124,249,0.2)] relative">
                 
-                {/* Phone Notch */}
-                <div className="w-28 h-4 bg-neutral-950 rounded-b-xl mx-auto mb-2" />
+                {/* Dynamic Island pill */}
+                <div className="w-24 h-5 bg-[#0F172A] rounded-full mx-auto mb-2 flex items-center justify-end pr-2">
+                  <span className="w-2 h-2 rounded-full bg-slate-800" />
+                </div>
 
                 {/* Screen Inner */}
-                <div className="bg-[#F8FAFC] dark:bg-[#0A0B0E] rounded-[32px] p-4 text-center min-h-[540px] flex flex-col justify-between overflow-hidden text-neutral-900 dark:text-white">
+                <div className="bg-[#F0F6FE] rounded-[36px] p-4 text-center min-h-[540px] flex flex-col justify-between overflow-hidden text-[#0F172A]">
                   
                   {/* Store Profile Header */}
                   <div className="space-y-3 pt-1">
@@ -730,34 +728,33 @@ export default function StoreCommerce({ onNavigate }) {
                           e.currentTarget.onerror = null;
                           e.currentTarget.src = getSafeAvatarUrl('', rawHandle);
                         }}
-                        className="w-full h-full rounded-full object-cover ring-2 ring-emerald-500 shadow-md"
+                        className="w-full h-full rounded-full object-cover ring-2 ring-[#067CF9] shadow-md"
                       />
-                      <span className="absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full bg-emerald-500 border-2 border-white dark:border-neutral-900" />
+                      <span className="absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full bg-[#067CF9] border-2 border-white" />
                     </div>
 
                     <div>
-                      <h4 className="font-bold text-xs tracking-tight">@{rawHandle}</h4>
-                      <p className="text-[10px] font-mono text-neutral-500 mt-0.5 font-medium">{storeHeadline}</p>
-                      <p className="text-[10px] text-neutral-600 dark:text-neutral-400 leading-tight mt-1 max-w-[240px] mx-auto line-clamp-2">
+                      <h4 className="font-bold text-xs tracking-tight text-[#0F172A]">@{rawHandle}</h4>
+                      <p className="text-[10px] font-mono text-[#64748B] mt-0.5 font-medium">{storeHeadline}</p>
+                      <p className="text-[10px] text-[#64748B] leading-tight mt-1 max-w-[240px] mx-auto line-clamp-2">
                         {storeBio}
                       </p>
                     </div>
 
-                    {/* Product Cards Stack in Phone */}
+                    {/* Product Cards Stack in Phone (White cards with Electric Blue price tags) */}
                     <div className="space-y-2.5 pt-2 text-left">
                       {products.map(p => (
                         <div
                           key={p.id}
-                          className="p-3 rounded-xl bg-white dark:bg-[#12141A] border border-neutral-200/80 dark:border-white/[0.08] shadow-xs space-y-2 hover:border-emerald-500/40 transition-colors"
+                          className="p-3 rounded-xl bg-white border border-[rgba(6,124,249,0.12)] shadow-xs space-y-2 hover:border-[#067CF9]/40 transition-colors"
                         >
                           <div className="flex items-center justify-between text-[10px] font-mono">
-                            <span className="text-neutral-400 font-medium">{p.type}</span>
-                            <span className="font-bold text-emerald-600 dark:text-emerald-400">{p.price}</span>
+                            <span className="text-[#64748B] font-medium">{p.type}</span>
+                            <span className="font-bold text-[#067CF9]">{p.price}</span>
                           </div>
-                          <h5 className="font-semibold text-xs leading-snug line-clamp-1">{p.title}</h5>
+                          <h5 className="font-semibold text-xs leading-snug line-clamp-1 text-[#0F172A]">{p.title}</h5>
                           
-                          {/* Clean arrow button without raw HTML bug */}
-                          <button className="w-full py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-[10px] transition-colors flex items-center justify-center gap-1 cursor-pointer">
+                          <button className="w-full py-1.5 rounded-lg bg-[#067CF9] hover:bg-[#0568D2] text-white font-semibold text-[10px] transition-colors flex items-center justify-center gap-1 cursor-pointer">
                             <span>{cleanArrow(p.ctaText)}</span>
                             <ArrowRight className="w-3 h-3" />
                           </button>
@@ -766,9 +763,9 @@ export default function StoreCommerce({ onNavigate }) {
                     </div>
                   </div>
 
-                  {/* Clean Footer Brand Tag (Per Section 2 Blueprint) */}
-                  <div className="pt-3 pb-1 border-t border-neutral-200 dark:border-white/[0.06] text-[9px] font-mono text-neutral-400">
-                    Powered by <strong>Vyralify Store</strong>
+                  {/* Clean Footer Brand Tag */}
+                  <div className="pt-3 pb-1 border-t border-[rgba(6,124,249,0.1)] text-[9px] font-mono text-[#64748B]">
+                    Powered by <strong className="text-[#067CF9]">Vyralify Store</strong>
                   </div>
 
                 </div>
@@ -780,20 +777,20 @@ export default function StoreCommerce({ onNavigate }) {
         </div>
       )}
 
-      {/* 3. TAB 2: PRODUCTS CATALOG & PRODUCT CREATION MODAL (Per Section 3 Blueprint) */}
+      {/* 3. TAB 2: PRODUCTS CATALOG (Panel 5 Blueprint: White glass cards with Electric Blue price tags ₹499) */}
       {activeTab === 'products' && (
         <div className="space-y-6">
           
           {/* Catalog Overview Banner */}
-          <div className="p-4 rounded-2xl bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="p-4 rounded-2xl bg-white/95 backdrop-blur-xl border border-[rgba(6,124,249,0.12)] shadow-[0_2px_16px_rgba(6,124,249,0.04)] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <div className="flex items-center gap-2">
-                <h3 className="font-bold text-neutral-900 dark:text-white text-sm">Product Catalog</h3>
-                <span className="text-xs font-mono text-neutral-400 font-medium">
+                <h3 className="font-bold text-[#0F172A] text-sm">Product Catalog</h3>
+                <span className="text-xs font-mono text-[#067CF9] bg-[#EFF6FF] px-2 py-0.5 rounded font-semibold border border-[rgba(6,124,249,0.15)]">
                   {products.length} Listed
                 </span>
               </div>
-              <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5">
+              <p className="text-xs text-[#64748B] mt-0.5">
                 Manage your active digital assets, guides, and services.
               </p>
             </div>
@@ -806,50 +803,48 @@ export default function StoreCommerce({ onNavigate }) {
                   setIsAddProductModalOpen(true);
                 }
               }}
-              className="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs transition-colors flex items-center gap-1.5 cursor-pointer shadow-xs whitespace-nowrap"
+              className="px-3.5 py-2 rounded-xl bg-[#067CF9] hover:bg-[#0568D2] text-white font-semibold text-xs transition-colors flex items-center gap-1.5 cursor-pointer shadow-xs whitespace-nowrap"
             >
               <Plus className="w-3.5 h-3.5" />
               <span>+ Add Product</span>
             </button>
           </div>
 
-          {/* Professional Product Cards Grid */}
+          {/* White glass cards with Electric Blue price tags (Blueprint Section 2.F) */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {products.map(prod => (
               <div
                 key={prod.id}
-                className="p-5 rounded-2xl bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] shadow-xs space-y-4 flex flex-col justify-between"
+                className="p-5 rounded-2xl bg-white/95 backdrop-blur-xl border border-[rgba(6,124,249,0.12)] shadow-[0_2px_12px_rgba(6,124,249,0.03)] space-y-4 flex flex-col justify-between hover:border-[#067CF9]/30 transition-all"
               >
                 <div>
-                  {/* Badge: Digital Download or 1-on-1 Call & Status Dot */}
                   <div className="flex items-center justify-between text-xs font-mono mb-2">
-                    <span className="px-2 py-0.5 rounded-md bg-neutral-100 dark:bg-white/[0.05] text-neutral-600 dark:text-neutral-300 font-medium text-[10px]">
+                    <span className="px-2 py-0.5 rounded-md bg-[#F8FAFC] text-[#64748B] font-medium text-[10px] border border-neutral-100">
                       {prod.type}
                     </span>
-                    <span className="inline-flex items-center gap-1.5 text-[10px] text-emerald-600 dark:text-emerald-400 font-medium">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                    <span className="inline-flex items-center gap-1.5 text-[10px] text-[#067CF9] font-medium">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#067CF9] animate-pulse" />
                       Active
                     </span>
                   </div>
 
-                  {/* Title: Bold clean typography */}
-                  <h4 className="font-bold text-neutral-900 dark:text-white text-sm leading-snug">
+                  <h4 className="font-bold text-[#0F172A] text-sm leading-snug">
                     {prod.title}
                   </h4>
 
-                  {/* Price & Sales */}
-                  <div className="text-xs text-neutral-500 dark:text-neutral-400 font-mono mt-2">
-                    Price: <strong className="text-neutral-900 dark:text-white">{prod.price}</strong> &bull; Sales: {prod.salesCount} units ({prod.revenue || '₹0'})
+                  {/* Electric Blue Price Tag */}
+                  <div className="text-xs text-[#64748B] font-mono mt-2">
+                    Price: <strong className="text-[#067CF9] font-bold text-sm">{prod.price}</strong> &bull; Sales: {prod.salesCount} units ({prod.revenue || '₹0'})
                   </div>
                 </div>
 
-                {/* Card Actions: Ghost icons Edit Product | Copy Link | Delete */}
-                <div className="pt-3 border-t border-neutral-200/80 dark:border-white/[0.05] flex items-center justify-end gap-1">
+                {/* Card Actions */}
+                <div className="pt-3 border-t border-[rgba(6,124,249,0.08)] flex items-center justify-end gap-1">
                   <button
                     onClick={() => {
                       addNotification({ title: 'Edit Product', message: 'Edit modal opening...', type: 'info' });
                     }}
-                    className="p-1.5 rounded-lg text-neutral-400 hover:text-neutral-700 dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-white/[0.05] transition-colors cursor-pointer"
+                    className="p-1.5 rounded-lg text-[#64748B] hover:text-[#0F172A] hover:bg-[#F8FAFC] transition-colors cursor-pointer"
                     title="Edit Product"
                   >
                     <Edit3 className="w-3.5 h-3.5" />
@@ -857,7 +852,7 @@ export default function StoreCommerce({ onNavigate }) {
 
                   <button
                     onClick={handleCopyStoreLink}
-                    className="p-1.5 rounded-lg text-neutral-400 hover:text-neutral-700 dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-white/[0.05] transition-colors cursor-pointer"
+                    className="p-1.5 rounded-lg text-[#64748B] hover:text-[#0F172A] hover:bg-[#F8FAFC] transition-colors cursor-pointer"
                     title="Copy Link"
                   >
                     <Copy className="w-3.5 h-3.5" />
@@ -865,7 +860,7 @@ export default function StoreCommerce({ onNavigate }) {
 
                   <button
                     onClick={() => handleDeleteProduct(prod.id)}
-                    className="p-1.5 rounded-lg text-neutral-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 transition-colors cursor-pointer"
+                    className="p-1.5 rounded-lg text-[#64748B] hover:text-red-500 hover:bg-red-50 transition-colors cursor-pointer"
                     title="Delete Product"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
@@ -878,51 +873,48 @@ export default function StoreCommerce({ onNavigate }) {
         </div>
       )}
 
-      {/* 4. TAB 3: DIGITAL TEMPLATES (PRE-BUILT ASSET VAULT) (Per Section 4 Blueprint) */}
+      {/* 4. TAB 3: DIGITAL TEMPLATES (Pre-Built Asset Vault) */}
       {activeTab === 'templates' && (
         <div className="space-y-6">
           
-          {/* Header Copywriting Clean-up */}
-          <div className="p-4 rounded-2xl bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] shadow-xs flex items-center justify-between">
+          <div className="p-4 rounded-2xl bg-white/95 backdrop-blur-xl border border-[rgba(6,124,249,0.12)] shadow-[0_2px_16px_rgba(6,124,249,0.04)] flex items-center justify-between">
             <div>
-              <h3 className="font-bold text-neutral-900 dark:text-white text-sm">Pre-Built Digital Asset Vault</h3>
-              <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5">
+              <h3 className="font-bold text-[#0F172A] text-sm">Pre-Built Digital Asset Vault</h3>
+              <p className="text-xs text-[#64748B] mt-0.5">
                 Import verified templates, guides, and resource kits directly into your storefront.
               </p>
             </div>
-            <span className="text-xs font-mono text-neutral-500 dark:text-neutral-400 font-medium">
+            <span className="text-xs font-mono text-[#067CF9] bg-[#EFF6FF] px-2 py-0.5 rounded font-semibold border border-[rgba(6,124,249,0.15)]">
               4 Core Templates Available
             </span>
           </div>
 
-          {/* Template Cards Redesign (4 Core Starters) */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {TEMPLATE_VAULT.map(tpl => (
               <div
                 key={tpl.id}
-                className="p-5 rounded-2xl bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] shadow-xs space-y-4 flex flex-col justify-between"
+                className="p-5 rounded-2xl bg-white border border-[rgba(6,124,249,0.12)] shadow-[0_2px_12px_rgba(6,124,249,0.03)] space-y-4 flex flex-col justify-between hover:border-[#067CF9]/30 transition-all"
               >
                 <div className="flex items-start gap-4">
                   <img src={tpl.thumbnail} alt={tpl.title} className="w-20 h-20 rounded-xl object-cover shrink-0" />
                   <div className="space-y-1">
-                    <span className="px-2 py-0.5 rounded bg-neutral-100 dark:bg-white/[0.04] text-[10px] font-mono text-neutral-600 dark:text-neutral-300 font-medium">
+                    <span className="px-2 py-0.5 rounded bg-[#F8FAFC] text-[10px] font-mono text-[#64748B] font-medium border border-neutral-100">
                       {tpl.format}
                     </span>
-                    <h4 className="font-bold text-neutral-900 dark:text-white text-xs leading-snug mt-1">{tpl.title}</h4>
-                    <p className="text-[11px] text-neutral-500 dark:text-neutral-400 leading-relaxed line-clamp-2">{tpl.description}</p>
+                    <h4 className="font-bold text-[#0F172A] text-xs leading-snug mt-1">{tpl.title}</h4>
+                    <p className="text-[11px] text-[#64748B] leading-relaxed line-clamp-2">{tpl.description}</p>
                   </div>
                 </div>
 
-                <div className="pt-3 border-t border-neutral-200/80 dark:border-white/[0.05] flex items-center justify-between text-xs">
+                <div className="pt-3 border-t border-[rgba(6,124,249,0.08)] flex items-center justify-between text-xs">
                   <div>
-                    <span className="text-neutral-400 font-mono text-[11px]">Suggested Price: </span>
-                    <strong className="text-emerald-600 dark:text-emerald-400 font-mono font-bold text-sm">{tpl.suggestedPrice}</strong>
+                    <span className="text-[#64748B] font-mono text-[11px]">Suggested Price: </span>
+                    <strong className="text-[#067CF9] font-mono font-bold text-sm">{tpl.suggestedPrice}</strong>
                   </div>
 
-                  {/* Action Button: Import to My Store → */}
                   <button
                     onClick={() => handleImportTemplate(tpl)}
-                    className="px-3.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs transition-colors flex items-center gap-1.5 cursor-pointer shadow-xs"
+                    className="px-3.5 py-1.5 rounded-xl bg-[#067CF9] hover:bg-[#0568D2] text-white font-semibold text-xs transition-colors flex items-center gap-1.5 cursor-pointer shadow-xs"
                   >
                     <span>Import to My Store</span>
                     <ArrowRight className="w-3.5 h-3.5" />
@@ -935,37 +927,35 @@ export default function StoreCommerce({ onNavigate }) {
         </div>
       )}
 
-      {/* 5. TAB 4: ORDERS & SALES (ORDERS CRM) (Per Section 5 Blueprint) */}
+      {/* 5. TAB 4: ORDERS & SALES (Panel 5 Blueprint: High-contrast light table with alternating row fills #F8FAFC aur clean Electric Blue 'Paid' status badges) */}
       {activeTab === 'orders' && (
         <div className="space-y-4">
           
-          {/* Top Controls: Search Input | Secondary Ghost Button Export CSV | Muted Text Action Simulate Test Order */}
-          <div className="p-4 rounded-2xl bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-3">
+          {/* Top Controls */}
+          <div className="p-4 rounded-2xl bg-white/95 backdrop-blur-xl border border-[rgba(6,124,249,0.12)] shadow-[0_2px_16px_rgba(6,124,249,0.04)] flex flex-col md:flex-row md:items-center justify-between gap-3">
             <div className="relative flex-1 max-w-md">
-              <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400" />
+              <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-[#94A3B8]" />
               <input
                 type="text"
                 value={orderSearchQuery}
                 onChange={(e) => setOrderSearchQuery(e.target.value)}
                 placeholder="Search by customer email, order ID..."
-                className="w-full bg-neutral-50 dark:bg-[#12131A] border border-neutral-200 dark:border-white/[0.08] rounded-xl pl-8 pr-3 py-2 text-xs text-neutral-900 dark:text-white placeholder:text-neutral-400 focus:outline-hidden focus:border-emerald-500"
+                className="w-full bg-[#F8FAFC] border border-[rgba(6,124,249,0.15)] rounded-xl pl-8 pr-3 py-2 text-xs text-[#0F172A] placeholder:text-[#94A3B8] focus:outline-hidden focus:border-[#067CF9]"
               />
             </div>
 
             <div className="flex items-center gap-2">
-              {/* Secondary Ghost Button Export CSV */}
               <button
                 onClick={handleExportOrdersCsv}
-                className="px-3 py-1.5 rounded-xl border border-neutral-200 dark:border-white/[0.08] text-neutral-700 dark:text-neutral-300 hover:bg-neutral-50 dark:hover:bg-white/[0.04] text-xs font-medium flex items-center gap-1.5 transition-colors cursor-pointer"
+                className="px-3 py-1.5 rounded-xl border border-[rgba(6,124,249,0.2)] text-[#0F172A] hover:bg-[#EFF6FF] text-xs font-medium flex items-center gap-1.5 transition-colors cursor-pointer"
               >
-                <Download className="w-3.5 h-3.5 text-neutral-400" />
+                <Download className="w-3.5 h-3.5 text-[#067CF9]" />
                 <span>Export CSV</span>
               </button>
 
-              {/* Muted Text Action Simulate Test Order */}
               <button
                 onClick={handleSimulateTestOrder}
-                className="text-xs text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-300 font-medium px-2 py-1 cursor-pointer transition-colors"
+                className="text-xs text-[#64748B] hover:text-[#067CF9] font-medium px-2 py-1 cursor-pointer transition-colors"
                 title="Simulate a test order to verify CRM logging"
               >
                 Simulate Test Order
@@ -973,52 +963,55 @@ export default function StoreCommerce({ onNavigate }) {
             </div>
           </div>
 
-          {/* Clean Table Columns: Order ID | Customer Email | Product Purchased | Amount | Payment Gateway | Fulfillment | Date */}
-          <div className="p-5 rounded-2xl bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] shadow-xs overflow-x-auto">
+          {/* High-contrast light table with alternating row fills #F8FAFC & Electric Blue 'Paid' badges (Blueprint Section 2.F) */}
+          <div className="p-5 rounded-2xl bg-white border border-[rgba(6,124,249,0.12)] shadow-xs overflow-x-auto">
             <table className="w-full text-left text-xs">
               <thead>
-                <tr className="border-b border-neutral-200/80 dark:border-white/[0.06] text-neutral-400 font-mono text-[11px]">
-                  <th className="pb-2.5 font-medium">Order ID</th>
-                  <th className="pb-2.5 font-medium">Customer Email</th>
-                  <th className="pb-2.5 font-medium">Product Purchased</th>
-                  <th className="pb-2.5 font-medium">Amount</th>
-                  <th className="pb-2.5 font-medium">Payment Gateway</th>
-                  <th className="pb-2.5 font-medium">Fulfillment</th>
-                  <th className="pb-2.5 font-medium text-right">Date</th>
+                <tr className="border-b border-[rgba(6,124,249,0.12)] text-[#64748B] font-mono text-[11px]">
+                  <th className="pb-2.5 font-semibold">Order ID</th>
+                  <th className="pb-2.5 font-semibold">Customer Email</th>
+                  <th className="pb-2.5 font-semibold">Product Purchased</th>
+                  <th className="pb-2.5 font-semibold">Amount</th>
+                  <th className="pb-2.5 font-semibold">Payment Gateway</th>
+                  <th className="pb-2.5 font-semibold">Fulfillment</th>
+                  <th className="pb-2.5 font-semibold text-right">Date</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-neutral-200/60 dark:divide-white/[0.04]">
+              <tbody className="divide-y divide-[rgba(6,124,249,0.06)]">
                 {filteredOrders.length === 0 ? (
                   <tr>
-                    <td colSpan="7" className="py-8 text-center text-neutral-400 text-xs">
+                    <td colSpan="7" className="py-8 text-center text-[#94A3B8] text-xs">
                       No matching orders found.
                     </td>
                   </tr>
                 ) : (
-                  filteredOrders.map(ord => (
-                    <tr key={ord.id} className="hover:bg-neutral-50/50 dark:hover:bg-white/[0.02] transition-colors">
-                      <td className="py-3 font-mono text-neutral-500 font-medium">{ord.id}</td>
-                      <td className="py-3 font-mono text-neutral-700 dark:text-neutral-300">{ord.email}</td>
-                      <td className="py-3 text-neutral-900 dark:text-white font-medium max-w-[200px] truncate" title={ord.product}>
+                  filteredOrders.map((ord, idx) => (
+                    <tr 
+                      key={ord.id} 
+                      className={`${idx % 2 === 1 ? 'bg-[#F8FAFC]' : 'bg-white'} hover:bg-[#EFF6FF]/60 transition-colors`}
+                    >
+                      <td className="py-3 font-mono text-[#64748B] font-medium">{ord.id}</td>
+                      <td className="py-3 font-mono text-[#0F172A]">{ord.email}</td>
+                      <td className="py-3 text-[#0F172A] font-medium max-w-[200px] truncate" title={ord.product}>
                         {ord.product}
                       </td>
-                      <td className="py-3 font-mono font-bold text-emerald-600 dark:text-emerald-400">{ord.amount}</td>
-                      <td className="py-3 font-mono text-neutral-500 text-[11px]">{ord.paymentGateway || 'Razorpay'}</td>
+                      <td className="py-3 font-mono font-bold text-[#0F172A]">{ord.amount}</td>
+                      <td className="py-3 font-mono text-[#64748B] text-[11px]">{ord.paymentGateway || 'Razorpay'}</td>
                       
-                      {/* Clean Status Tags: Paid (Green outline) | Delivered (Blue dot) */}
+                      {/* Clean Electric Blue "Paid" status badges (Blueprint Section 2.F) */}
                       <td className="py-3">
                         <div className="flex items-center gap-2">
-                          <span className="px-2 py-0.5 rounded text-[10px] font-semibold border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 bg-emerald-50/50 dark:bg-emerald-500/10">
+                          <span className="px-2.5 py-0.5 rounded-md text-[10px] font-mono font-bold bg-[#EFF6FF] text-[#067CF9] border border-[rgba(6,124,249,0.2)]">
                             {ord.status}
                           </span>
-                          <span className="inline-flex items-center gap-1 text-[10px] text-neutral-400 font-medium">
-                            <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
+                          <span className="inline-flex items-center gap-1 text-[10px] text-[#64748B] font-medium">
+                            <span className="w-1.5 h-1.5 rounded-full bg-[#067CF9]" />
                             {ord.fulfillment || 'Delivered'}
                           </span>
                         </div>
                       </td>
                       
-                      <td className="py-3 text-right text-neutral-400 font-mono text-[11px] whitespace-nowrap">{ord.date}</td>
+                      <td className="py-3 text-right text-[#64748B] font-mono text-[11px] whitespace-nowrap">{ord.date}</td>
                     </tr>
                   ))
                 )}
@@ -1029,53 +1022,53 @@ export default function StoreCommerce({ onNavigate }) {
         </div>
       )}
 
-      {/* 6. TAB 5: AGENCY RESELL (WHITE-LABEL AI) (Per Section 5 Blueprint) */}
+      {/* 6. TAB 5: AGENCY RESELL */}
       {activeTab === 'resell' && (
-        <div className="p-6 rounded-2xl bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] shadow-xs space-y-6">
+        <div className="p-6 rounded-2xl bg-white/95 backdrop-blur-xl border border-[rgba(6,124,249,0.12)] shadow-[0_2px_16px_rgba(6,124,249,0.04)] space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
-              <h3 className="font-bold text-neutral-900 dark:text-white text-base">
+              <h3 className="font-bold text-[#0F172A] text-base">
                 Agency Resell &amp; Custom Branding
               </h3>
-              <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5">
+              <p className="text-xs text-[#64748B] mt-0.5">
                 Rebrand Vyralify under your custom domain and sell subscription access to your clients.
               </p>
             </div>
-            <span className="px-2.5 py-1 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-xs font-mono font-semibold self-start sm:self-auto">
+            <span className="px-2.5 py-1 rounded-lg bg-[#EFF6FF] border border-[rgba(6,124,249,0.2)] text-[#067CF9] text-xs font-mono font-bold self-start sm:self-auto">
               Elite Agency Reseller
             </span>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
-            <div className="p-4 rounded-xl bg-neutral-50 dark:bg-white/[0.02] border border-neutral-200/80 dark:border-white/[0.05] space-y-1.5">
-              <span className="font-bold text-neutral-900 dark:text-white block">Custom Domain &amp; Logo</span>
-              <p className="text-neutral-500 dark:text-neutral-400">Host under your custom domain with white-label logos, colors, and favicon.</p>
+            <div className="p-4 rounded-xl bg-[#F8FAFC] border border-[rgba(6,124,249,0.08)] space-y-1.5">
+              <span className="font-bold text-[#0F172A] block">Custom Domain &amp; Logo</span>
+              <p className="text-[#64748B]">Host under your custom domain with white-label logos, colors, and favicon.</p>
             </div>
-            <div className="p-4 rounded-xl bg-neutral-50 dark:bg-white/[0.02] border border-neutral-200/80 dark:border-white/[0.05] space-y-1.5">
-              <span className="font-bold text-neutral-900 dark:text-white block">Client Billing &amp; Invoicing</span>
-              <p className="text-neutral-500 dark:text-neutral-400">Connect your own Stripe or Razorpay accounts and keep 100% of subscriber revenue.</p>
+            <div className="p-4 rounded-xl bg-[#F8FAFC] border border-[rgba(6,124,249,0.08)] space-y-1.5">
+              <span className="font-bold text-[#0F172A] block">Client Billing &amp; Invoicing</span>
+              <p className="text-[#64748B]">Connect your own Stripe or Razorpay accounts and keep 100% of subscriber revenue.</p>
             </div>
-            <div className="p-4 rounded-xl bg-neutral-50 dark:bg-white/[0.02] border border-neutral-200/80 dark:border-white/[0.05] space-y-1.5">
-              <span className="font-bold text-neutral-900 dark:text-white block">Dedicated AI Inference Engine</span>
-              <p className="text-neutral-500 dark:text-neutral-400">Zero infrastructure overhead with Vyralify handling all AI processing silently in background.</p>
+            <div className="p-4 rounded-xl bg-[#F8FAFC] border border-[rgba(6,124,249,0.08)] space-y-1.5">
+              <span className="font-bold text-[#0F172A] block">Dedicated AI Inference Engine</span>
+              <p className="text-[#64748B]">Zero infrastructure overhead with Vyralify handling all AI processing silently in background.</p>
             </div>
           </div>
 
-          {/* Upgrade Lock Banner: Clean dark frosted card with sleek green border CTA */}
-          <div className="p-5 rounded-2xl bg-neutral-100/60 dark:bg-white/[0.03] border border-neutral-200/80 dark:border-white/[0.08] backdrop-blur-md flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs">
+          {/* Upgrade Lock Banner */}
+          <div className="p-5 rounded-2xl bg-[#EFF6FF] border border-[rgba(6,124,249,0.2)] flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 flex items-center justify-center shrink-0">
-                <Crown className="w-4 h-4" />
+              <div className="w-8 h-8 rounded-lg bg-white border border-[rgba(6,124,249,0.2)] text-[#067CF9] flex items-center justify-center shrink-0">
+                <Crown className="w-4 h-4 text-[#067CF9]" />
               </div>
               <div>
-                <h4 className="font-bold text-neutral-900 dark:text-white">Agency Reseller Access</h4>
-                <p className="text-neutral-500 dark:text-neutral-400">Upgrade to Elite Agency Plan to deploy custom-branded portals for client rosters.</p>
+                <h4 className="font-bold text-[#0F172A]">Agency Reseller Access</h4>
+                <p className="text-[#64748B]">Upgrade to Elite Agency Plan to deploy custom-branded portals for client rosters.</p>
               </div>
             </div>
 
             <button
               onClick={() => openUpgradeModal('white_label', 'Upgrade to Elite Agency to launch your custom branded software portal.')}
-              className="px-4 py-2 rounded-xl border border-emerald-500/40 hover:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-semibold text-xs transition-colors flex items-center gap-1.5 cursor-pointer whitespace-nowrap self-start sm:self-auto"
+              className="px-4 py-2 rounded-xl bg-[#067CF9] hover:bg-[#0568D2] text-white font-semibold text-xs transition-colors flex items-center gap-1.5 cursor-pointer whitespace-nowrap self-start sm:self-auto shadow-xs"
             >
               <span>Upgrade to Elite Agency Plan</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -1084,19 +1077,19 @@ export default function StoreCommerce({ onNavigate }) {
         </div>
       )}
 
-      {/* 7. STRUCTURED 3-STEP ADD PRODUCT MODAL (Per Section 3 Blueprint) */}
+      {/* 7. STRUCTURED 3-STEP ADD PRODUCT MODAL */}
       {isAddProductModalOpen && (
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
-          <div className="w-full max-w-lg rounded-2xl bg-white dark:bg-[#0C0D12] border border-neutral-200 dark:border-white/[0.08] shadow-2xl p-6 space-y-4 my-8 max-h-[90vh] overflow-y-auto">
+          <div className="w-full max-w-lg rounded-2xl bg-white border border-[rgba(6,124,249,0.15)] shadow-2xl p-6 space-y-4 my-8 max-h-[90vh] overflow-y-auto">
             
-            <div className="flex items-center justify-between pb-3 border-b border-neutral-200/80 dark:border-white/[0.06]">
+            <div className="flex items-center justify-between pb-3 border-b border-[rgba(6,124,249,0.1)]">
               <div>
-                <h3 className="font-bold text-neutral-900 dark:text-white text-sm">Add Product to Store</h3>
-                <p className="text-[11px] text-neutral-500">Configure your digital asset, pricing, and automated fulfillment.</p>
+                <h3 className="font-bold text-[#0F172A] text-sm">Add Product to Store</h3>
+                <p className="text-[11px] text-[#64748B]">Configure your digital asset, pricing, and automated fulfillment.</p>
               </div>
               <button 
                 onClick={() => setIsAddProductModalOpen(false)} 
-                className="text-neutral-400 hover:text-neutral-600 dark:hover:text-white p-1 cursor-pointer"
+                className="text-[#64748B] hover:text-[#0F172A] p-1 cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -1104,31 +1097,31 @@ export default function StoreCommerce({ onNavigate }) {
 
             <form onSubmit={handleSaveProduct} className="space-y-4 text-xs">
               
-              {/* STEP 1: Basic Details (Product Title, Price with INR/USD Switcher, Category Dropdown) */}
-              <div className="space-y-3 p-3.5 rounded-xl bg-neutral-50 dark:bg-white/[0.02] border border-neutral-200/70 dark:border-white/[0.05]">
-                <div className="font-mono text-[10px] font-semibold text-emerald-600 dark:text-emerald-400 uppercase">
+              {/* STEP 1: Basic Details */}
+              <div className="space-y-3 p-3.5 rounded-xl bg-[#F8FAFC] border border-[rgba(6,124,249,0.1)]">
+                <div className="font-mono text-[10px] font-bold text-[#067CF9] uppercase">
                   Step 1 &bull; Basic Details
                 </div>
 
                 <div className="space-y-1">
-                  <label className="font-mono text-neutral-500 font-medium">Product Title</label>
+                  <label className="font-mono text-[#64748B] font-medium">Product Title</label>
                   <input
                     type="text"
                     required
                     value={newProd.title}
                     onChange={(e) => setNewProd({ ...newProd, title: e.target.value })}
                     placeholder="e.g. 30-Day Stoic Mindset Journal & Audio Guide"
-                    className="w-full bg-white dark:bg-[#12131A] border border-neutral-200 dark:border-white/[0.08] rounded-xl px-3 py-2 text-xs text-neutral-900 dark:text-white focus:outline-hidden focus:border-emerald-500"
+                    className="w-full bg-white border border-[rgba(6,124,249,0.15)] rounded-xl px-3 py-2 text-xs text-[#0F172A] focus:outline-hidden focus:border-[#067CF9]"
                   />
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
                   <div className="space-y-1">
-                    <label className="font-mono text-neutral-500 font-medium">Category</label>
+                    <label className="font-mono text-[#64748B] font-medium">Category</label>
                     <select
                       value={newProd.type}
                       onChange={(e) => setNewProd({ ...newProd, type: e.target.value })}
-                      className="w-full bg-white dark:bg-[#12131A] border border-neutral-200 dark:border-white/[0.08] rounded-xl px-3 py-2 text-xs text-neutral-900 dark:text-white focus:outline-hidden focus:border-emerald-500"
+                      className="w-full bg-white border border-[rgba(6,124,249,0.15)] rounded-xl px-3 py-2 text-xs text-[#0F172A] focus:outline-hidden focus:border-[#067CF9]"
                     >
                       <option value="Digital Download">Digital Download (PDF/Guide)</option>
                       <option value="1-on-1 Call">1-on-1 Call (Consultation)</option>
@@ -1139,27 +1132,27 @@ export default function StoreCommerce({ onNavigate }) {
                   </div>
 
                   <div className="space-y-1">
-                    <div className="flex items-center justify-between font-mono text-neutral-500 font-medium">
+                    <div className="flex items-center justify-between font-mono text-[#64748B] font-medium">
                       <label>Price</label>
                       <div className="flex items-center gap-1 text-[10px]">
                         <button
                           type="button"
                           onClick={() => setModalCurrency('INR')}
-                          className={`px-1.5 py-0.2 rounded cursor-pointer ${modalCurrency === 'INR' ? 'bg-emerald-600 text-white font-bold' : 'text-neutral-400'}`}
+                          className={`px-1.5 py-0.2 rounded cursor-pointer ${modalCurrency === 'INR' ? 'bg-[#067CF9] text-white font-bold' : 'text-[#64748B]'}`}
                         >
                           INR (₹)
                         </button>
                         <button
                           type="button"
                           onClick={() => setModalCurrency('USD')}
-                          className={`px-1.5 py-0.2 rounded cursor-pointer ${modalCurrency === 'USD' ? 'bg-emerald-600 text-white font-bold' : 'text-neutral-400'}`}
+                          className={`px-1.5 py-0.2 rounded cursor-pointer ${modalCurrency === 'USD' ? 'bg-[#067CF9] text-white font-bold' : 'text-[#64748B]'}`}
                         >
                           USD ($)
                         </button>
                       </div>
                     </div>
                     <div className="relative">
-                      <span className="absolute left-3 top-1/2 -translate-y-1/2 font-mono font-bold text-neutral-400">
+                      <span className="absolute left-3 top-1/2 -translate-y-1/2 font-mono font-bold text-[#64748B]">
                         {modalCurrency === 'INR' ? '₹' : '$'}
                       </span>
                       <input
@@ -1168,16 +1161,16 @@ export default function StoreCommerce({ onNavigate }) {
                         value={newProd.priceAmount}
                         onChange={(e) => setNewProd({ ...newProd, priceAmount: e.target.value })}
                         placeholder="499"
-                        className="w-full bg-white dark:bg-[#12131A] border border-neutral-200 dark:border-white/[0.08] rounded-xl pl-7 pr-3 py-2 text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400 focus:outline-hidden focus:border-emerald-500"
+                        className="w-full bg-white border border-[rgba(6,124,249,0.15)] rounded-xl pl-7 pr-3 py-2 text-xs font-mono font-bold text-[#067CF9] focus:outline-hidden focus:border-[#067CF9]"
                       />
                     </div>
                   </div>
                 </div>
               </div>
 
-              {/* STEP 2: Fulfillment Asset (Toggle Upload File vs Access Link) */}
-              <div className="space-y-3 p-3.5 rounded-xl bg-neutral-50 dark:bg-white/[0.02] border border-neutral-200/70 dark:border-white/[0.05]">
-                <div className="font-mono text-[10px] font-semibold text-emerald-600 dark:text-emerald-400 uppercase">
+              {/* STEP 2: Fulfillment Asset */}
+              <div className="space-y-3 p-3.5 rounded-xl bg-[#F8FAFC] border border-[rgba(6,124,249,0.1)]">
+                <div className="font-mono text-[10px] font-bold text-[#067CF9] uppercase">
                   Step 2 &bull; Fulfillment Asset
                 </div>
 
@@ -1187,14 +1180,14 @@ export default function StoreCommerce({ onNavigate }) {
                     onClick={() => setNewProd({ ...newProd, deliveryMethod: 'upload' })}
                     className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer flex items-start gap-2 ${
                       newProd.deliveryMethod === 'upload'
-                        ? 'border-emerald-500 bg-emerald-50/70 dark:bg-emerald-500/10 text-emerald-950 dark:text-emerald-200 font-medium'
-                        : 'border-neutral-200 dark:border-white/[0.06] text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-white/[0.04]'
+                        ? 'border-[#067CF9] bg-[#EFF6FF] text-[#067CF9] font-bold'
+                        : 'border-neutral-200 text-[#64748B] hover:bg-neutral-50'
                     }`}
                   >
-                    <Upload className="w-4 h-4 mt-0.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                    <Upload className="w-4 h-4 mt-0.5 text-[#067CF9] shrink-0" />
                     <div>
                       <div className="font-semibold text-xs">Upload File</div>
-                      <div className="text-[10px] text-neutral-400">PDF/ZIP up to 25MB</div>
+                      <div className="text-[10px] text-[#64748B]">PDF/ZIP up to 25MB</div>
                     </div>
                   </button>
 
@@ -1203,14 +1196,14 @@ export default function StoreCommerce({ onNavigate }) {
                     onClick={() => setNewProd({ ...newProd, deliveryMethod: 'link' })}
                     className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer flex items-start gap-2 ${
                       newProd.deliveryMethod === 'link'
-                        ? 'border-emerald-500 bg-emerald-50/70 dark:bg-emerald-500/10 text-emerald-950 dark:text-emerald-200 font-medium'
-                        : 'border-neutral-200 dark:border-white/[0.06] text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-white/[0.04]'
+                        ? 'border-[#067CF9] bg-[#EFF6FF] text-[#067CF9] font-bold'
+                        : 'border-neutral-200 text-[#64748B] hover:bg-neutral-50'
                     }`}
                   >
-                    <LinkIcon className="w-4 h-4 mt-0.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                    <LinkIcon className="w-4 h-4 mt-0.5 text-[#067CF9] shrink-0" />
                     <div>
                       <div className="font-semibold text-xs">Access Link</div>
-                      <div className="text-[10px] text-neutral-400">Notion/Drive/Calendly</div>
+                      <div className="text-[10px] text-[#64748B]">Notion/Drive/Calendly</div>
                     </div>
                   </button>
                 </div>
@@ -1218,27 +1211,27 @@ export default function StoreCommerce({ onNavigate }) {
                 {newProd.deliveryMethod === 'upload' ? (
                   <div>
                     {newProd.fileName ? (
-                      <div className="p-3 rounded-xl bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/30 flex items-center justify-between">
+                      <div className="p-3 rounded-xl bg-[#EFF6FF] border border-[rgba(6,124,249,0.2)] flex items-center justify-between">
                         <div className="flex items-center gap-2 overflow-hidden">
-                          <FileText className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                          <FileText className="w-4 h-4 text-[#067CF9] shrink-0" />
                           <div className="truncate">
-                            <span className="font-semibold text-neutral-900 dark:text-white block truncate">{newProd.fileName}</span>
-                            <span className="text-[10px] text-neutral-400 font-mono">{newProd.fileSize} &bull; Ready for instant buyer download</span>
+                            <span className="font-semibold text-[#0F172A] block truncate">{newProd.fileName}</span>
+                            <span className="text-[10px] text-[#64748B] font-mono">{newProd.fileSize} &bull; Ready for instant buyer download</span>
                           </div>
                         </div>
                         <button
                           type="button"
                           onClick={() => setNewProd({ ...newProd, fileData: null, fileName: '', fileSize: '' })}
-                          className="text-neutral-400 hover:text-red-500 text-xs font-mono ml-2 shrink-0 cursor-pointer"
+                          className="text-[#64748B] hover:text-red-500 text-xs font-mono ml-2 shrink-0 cursor-pointer"
                         >
                           Remove
                         </button>
                       </div>
                     ) : (
-                      <label className="border border-dashed border-neutral-300 dark:border-white/[0.12] rounded-xl p-4 flex flex-col items-center justify-center cursor-pointer hover:border-emerald-500 transition-colors bg-white dark:bg-[#12131A]">
-                        <Upload className="w-5 h-5 text-neutral-400 mb-1" />
-                        <span className="font-semibold text-neutral-700 dark:text-neutral-200 text-xs">Choose digital file to deliver</span>
-                        <span className="text-[10px] text-neutral-400 mt-0.5">Supports PDF, ZIP, EPUB up to 25MB</span>
+                      <label className="border border-dashed border-[rgba(6,124,249,0.25)] rounded-xl p-4 flex flex-col items-center justify-center cursor-pointer hover:border-[#067CF9] transition-colors bg-white">
+                        <Upload className="w-5 h-5 text-[#067CF9] mb-1" />
+                        <span className="font-semibold text-[#0F172A] text-xs">Choose digital file to deliver</span>
+                        <span className="text-[10px] text-[#64748B] mt-0.5">Supports PDF, ZIP, EPUB up to 25MB</span>
                         <input
                           type="file"
                           accept=".pdf,.zip,.rar,.epub,.doc,.docx"
@@ -1250,59 +1243,59 @@ export default function StoreCommerce({ onNavigate }) {
                   </div>
                 ) : (
                   <div className="space-y-1">
-                    <label className="font-mono text-neutral-500 font-medium block">Customer Access Link</label>
+                    <label className="font-mono text-[#64748B] font-medium block">Customer Access Link</label>
                     <input
                       type="url"
                       value={newProd.accessUrl}
                       onChange={(e) => setNewProd({ ...newProd, accessUrl: e.target.value })}
                       placeholder="https://calendly.com/... or https://notion.so/..."
-                      className="w-full bg-white dark:bg-[#12131A] border border-neutral-200 dark:border-white/[0.08] rounded-xl px-3 py-2 text-xs text-neutral-900 dark:text-white focus:outline-hidden focus:border-emerald-500 font-mono"
+                      className="w-full bg-white border border-[rgba(6,124,249,0.15)] rounded-xl px-3 py-2 text-xs text-[#0F172A] focus:outline-hidden focus:border-[#067CF9] font-mono"
                     />
                   </div>
                 )}
               </div>
 
               {/* STEP 3: Button Label & Description */}
-              <div className="space-y-3 p-3.5 rounded-xl bg-neutral-50 dark:bg-white/[0.02] border border-neutral-200/70 dark:border-white/[0.05]">
-                <div className="font-mono text-[10px] font-semibold text-emerald-600 dark:text-emerald-400 uppercase">
+              <div className="space-y-3 p-3.5 rounded-xl bg-[#F8FAFC] border border-[rgba(6,124,249,0.1)]">
+                <div className="font-mono text-[10px] font-bold text-[#067CF9] uppercase">
                   Step 3 &bull; Pitch &amp; Call to Action
                 </div>
 
                 <div className="space-y-1">
-                  <label className="font-mono text-neutral-500 font-medium">Short Sales Pitch</label>
+                  <label className="font-mono text-[#64748B] font-medium">Short Sales Pitch</label>
                   <textarea
                     rows={2}
                     value={newProd.description}
                     onChange={(e) => setNewProd({ ...newProd, description: e.target.value })}
                     placeholder="Outline what is inside this asset, who it is for, and key takeaways..."
-                    className="w-full bg-white dark:bg-[#12131A] border border-neutral-200 dark:border-white/[0.08] rounded-xl px-3 py-2 text-xs text-neutral-900 dark:text-white resize-none focus:outline-hidden focus:border-emerald-500"
+                    className="w-full bg-white border border-[rgba(6,124,249,0.15)] rounded-xl px-3 py-2 text-xs text-[#0F172A] resize-none focus:outline-hidden focus:border-[#067CF9]"
                   />
                 </div>
 
                 <div className="space-y-1">
-                  <label className="font-mono text-neutral-500 font-medium">Button CTA Text</label>
+                  <label className="font-mono text-[#64748B] font-medium">Button CTA Text</label>
                   <input
                     type="text"
                     value={newProd.ctaText}
                     onChange={(e) => setNewProd({ ...newProd, ctaText: e.target.value })}
                     placeholder="e.g., Get Instant Access"
-                    className="w-full bg-white dark:bg-[#12131A] border border-neutral-200 dark:border-white/[0.08] rounded-xl px-3 py-2 text-xs text-neutral-900 dark:text-white focus:outline-hidden focus:border-emerald-500"
+                    className="w-full bg-white border border-[rgba(6,124,249,0.15)] rounded-xl px-3 py-2 text-xs text-[#0F172A] focus:outline-hidden focus:border-[#067CF9]"
                   />
                 </div>
               </div>
 
-              {/* Primary Action Button: Publish Product to Store */}
+              {/* Action Buttons */}
               <div className="flex items-center justify-end gap-2 pt-2">
                 <button
                   type="button"
                   onClick={() => setIsAddProductModalOpen(false)}
-                  className="px-3.5 py-1.5 rounded-xl text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-white/[0.05] cursor-pointer transition-colors"
+                  className="px-3.5 py-1.5 rounded-xl text-[#64748B] hover:bg-neutral-100 cursor-pointer transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold cursor-pointer shadow-xs transition-colors flex items-center gap-1.5"
+                  className="px-4 py-2 rounded-xl bg-[#067CF9] hover:bg-[#0568D2] text-white font-semibold cursor-pointer shadow-xs transition-colors flex items-center gap-1.5"
                 >
                   <Plus className="w-3.5 h-3.5" />
                   <span>Publish Product to Store</span>

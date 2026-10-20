@@ -72,8 +72,8 @@ export default function PlaceholderModule({ moduleId, onNavigate }) {
       <div className="space-y-6 max-w-6xl mx-auto pb-12">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-neutral-200/80 dark:border-white/[0.06]">
           <div>
-            <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 text-emerald-700 dark:text-emerald-400 text-[11px] font-mono mb-2 font-medium">
-              <Rocket className="w-3 h-3 text-emerald-600 dark:text-emerald-400" />
+            <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-[#EFF6FF] dark:bg-[#EFF6FF] border border-[#067CF9]/30 dark:border-[#067CF9]/30 text-[#067CF9] dark:text-[#067CF9] text-[11px] font-mono mb-2 font-medium">
+              <Rocket className="w-3 h-3 text-[#067CF9] dark:text-[#067CF9]" />
               <span>Page Builder & Niche Intelligence</span>
             </div>
             <h1 className="text-xl font-bold text-neutral-900 dark:text-white tracking-tight">
@@ -118,7 +118,7 @@ export default function PlaceholderModule({ moduleId, onNavigate }) {
             <div className="grid grid-cols-2 gap-2 text-xs">
               <div className="p-2.5 rounded-lg bg-neutral-50 dark:bg-white/[0.02] border border-neutral-200/80 dark:border-white/[0.05]">
                 <div className="text-[10px] text-neutral-400 font-mono font-medium">Connection</div>
-                <div className="font-semibold text-emerald-600 dark:text-emerald-400 flex items-center gap-1 mt-0.5 text-xs">
+                <div className="font-semibold text-[#067CF9] dark:text-[#067CF9] flex items-center gap-1 mt-0.5 text-xs">
                   <ShieldCheck className="w-3.5 h-3.5" /> Meta Graph Active
                 </div>
               </div>
@@ -132,17 +132,17 @@ export default function PlaceholderModule({ moduleId, onNavigate }) {
           <div className="lg:col-span-2 p-5 rounded-xl bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] shadow-xs space-y-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <Sparkles className="w-3.5 h-3.5 text-emerald-600 dark:text-neutral-400" />
+                <Sparkles className="w-3.5 h-3.5 text-[#067CF9] dark:text-neutral-400" />
                 <h3 className="font-semibold text-neutral-900 dark:text-white text-sm">Automated Page Audit</h3>
               </div>
-              <span className="px-2 py-0.5 rounded-md bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 text-emerald-700 dark:text-emerald-400 text-[11px] font-mono font-semibold">
+              <span className="px-2 py-0.5 rounded-md bg-[#EFF6FF] dark:bg-[#EFF6FF] border border-[#067CF9]/30 dark:border-[#067CF9]/30 text-[#067CF9] dark:text-[#067CF9] text-[11px] font-mono font-semibold">
                 Health Score: {activePage?.audit?.overallScore || 82}/100
               </span>
             </div>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
               <div className="p-3 rounded-lg bg-neutral-50/70 dark:bg-white/[0.02] border border-neutral-200/80 dark:border-white/[0.05] space-y-1.5">
-                <div className="font-semibold text-emerald-700 dark:text-emerald-400 text-xs flex items-center gap-1.5">
+                <div className="font-semibold text-[#067CF9] dark:text-[#067CF9] text-xs flex items-center gap-1.5">
                   <Check className="w-3.5 h-3.5" /> Profile Strengths
                 </div>
                 <ul className="space-y-1 text-neutral-600 dark:text-neutral-300 text-[11px]">
@@ -164,8 +164,8 @@ export default function PlaceholderModule({ moduleId, onNavigate }) {
               </div>
             </div>
 
-            <div className="p-3 rounded-lg bg-emerald-50/60 dark:bg-white/[0.02] border border-emerald-200/80 dark:border-white/[0.06] flex items-start gap-2.5">
-              <Zap className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
+            <div className="p-3 rounded-lg bg-[#EFF6FF] dark:bg-white/[0.02] border border-[#067CF9]/30 dark:border-white/[0.06] flex items-start gap-2.5">
+              <Zap className="w-3.5 h-3.5 text-[#067CF9] shrink-0 mt-0.5" />
               <div className="text-xs text-neutral-700 dark:text-neutral-300">
                 <span className="font-semibold text-neutral-900 dark:text-white">Recommended Action: </span>
                 {activePage?.audit?.recommendation || 'Launch an automated DM keyword on your highest-retention post to capture warm leads directly.'}
@@ -184,7 +184,7 @@ export default function PlaceholderModule({ moduleId, onNavigate }) {
         {/* Assistant Header */}
         <div className="p-3.5 px-4 border-b border-neutral-200/80 dark:border-white/[0.06] bg-neutral-50/70 dark:bg-[#0A0B0E] flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-emerald-100 dark:bg-white/[0.05] border border-emerald-200 dark:border-white/[0.08] flex items-center justify-center text-emerald-700 dark:text-white">
+            <div className="w-8 h-8 rounded-lg bg-[#EFF6FF] dark:bg-white/[0.05] border border-[#067CF9]/30 dark:border-white/[0.08] flex items-center justify-center text-[#067CF9] dark:text-white">
               <Sparkles className="w-4 h-4" />
             </div>
             <div>
@@ -200,7 +200,7 @@ export default function PlaceholderModule({ moduleId, onNavigate }) {
           {tier === 'free' && (
             <button
               onClick={() => openUpgradeModal('ai_credits', 'Unlock 300 daily AI credits with Pro.')}
-              className="px-2.5 py-1 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 text-xs font-semibold transition-colors cursor-pointer"
+              className="px-2.5 py-1 rounded-lg bg-[#EFF6FF] hover:bg-[#EFF6FF] text-[#067CF9] border border-[#067CF9]/30 text-xs font-semibold transition-colors cursor-pointer"
             >
               Get More Credits
             </button>
@@ -213,7 +213,7 @@ export default function PlaceholderModule({ moduleId, onNavigate }) {
             <div key={idx} className={`flex ${m.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
               <div className={`max-w-xl p-3 rounded-2xl text-xs leading-relaxed ${
                 m.sender === 'user'
-                  ? 'bg-emerald-600 text-white font-medium rounded-tr-xs shadow-xs'
+                  ? 'bg-[#067CF9] text-white font-medium rounded-tr-xs shadow-xs'
                   : 'bg-neutral-50 dark:bg-white/[0.03] border border-neutral-200/80 dark:border-white/[0.06] text-neutral-800 dark:text-neutral-300 rounded-tl-xs whitespace-pre-line'
               }`}>
                 {m.text}
@@ -248,11 +248,11 @@ export default function PlaceholderModule({ moduleId, onNavigate }) {
             value={chatInput}
             onChange={(e) => setChatInput(e.target.value)}
             placeholder={`Ask Vyralify Assistant about @${activePage?.handle || 'your page'}...`}
-            className="flex-1 bg-neutral-50 dark:bg-white/[0.03] border border-neutral-200 dark:border-white/[0.08] rounded-xl px-3.5 py-2 text-xs text-neutral-900 dark:text-white placeholder-neutral-400 focus:outline-hidden focus:border-emerald-500 focus:bg-white transition-colors"
+            className="flex-1 bg-neutral-50 dark:bg-white/[0.03] border border-neutral-200 dark:border-white/[0.08] rounded-xl px-3.5 py-2 text-xs text-neutral-900 dark:text-white placeholder-neutral-400 focus:outline-hidden focus:border-[#067CF9]/30 focus:bg-white transition-colors"
           />
           <button
             type="submit"
-            className="p-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-medium transition-colors cursor-pointer shrink-0 shadow-xs"
+            className="p-2 rounded-xl bg-[#067CF9] hover:bg-[#0568D2] text-white font-medium transition-colors cursor-pointer shrink-0 shadow-xs"
             aria-label="Send message"
           >
             <Send className="w-3.5 h-3.5" />
@@ -268,8 +268,8 @@ export default function PlaceholderModule({ moduleId, onNavigate }) {
       <div className="space-y-6 max-w-6xl mx-auto pb-12">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-neutral-200/80 dark:border-white/[0.06]">
           <div>
-            <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-emerald-50 dark:bg-white/[0.04] border border-emerald-200 dark:border-white/[0.08] text-emerald-700 dark:text-neutral-300 text-[11px] font-mono mb-2 font-medium">
-              <Search className="w-3 h-3 text-emerald-600 dark:text-neutral-400" />
+            <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-[#EFF6FF] dark:bg-white/[0.04] border border-[#067CF9]/30 dark:border-white/[0.08] text-[#067CF9] dark:text-neutral-300 text-[11px] font-mono mb-2 font-medium">
+              <Search className="w-3 h-3 text-[#067CF9] dark:text-neutral-400" />
               <span>Viral Discovery & Script Engine</span>
             </div>
             <h1 className="text-xl font-bold text-neutral-900 dark:text-white tracking-tight">
@@ -289,7 +289,7 @@ export default function PlaceholderModule({ moduleId, onNavigate }) {
         {/* Hook Library */}
         <div className="space-y-3">
           <h3 className="font-semibold text-neutral-900 dark:text-white text-xs flex items-center gap-1.5">
-            <Sparkles className="w-3.5 h-3.5 text-emerald-600 dark:text-neutral-400" />
+            <Sparkles className="w-3.5 h-3.5 text-[#067CF9] dark:text-neutral-400" />
             <span>High-Performing Hook Formulas for {activePage?.category}</span>
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5">
@@ -317,7 +317,7 @@ export default function PlaceholderModule({ moduleId, onNavigate }) {
                 <div>
                   <div className="flex items-center justify-between text-[10px] font-mono mb-2">
                     <span className="px-1.5 py-0.5 rounded bg-neutral-100 dark:bg-white/[0.04] text-neutral-600 dark:text-neutral-400 font-medium">{item.type}</span>
-                    <span className="text-emerald-600 dark:text-emerald-400 font-semibold">{item.score}</span>
+                    <span className="text-[#067CF9] dark:text-[#067CF9] font-semibold">{item.score}</span>
                   </div>
                   <p className="text-xs text-neutral-800 dark:text-neutral-200 font-medium leading-relaxed">
                     "{item.hook}"
@@ -327,7 +327,7 @@ export default function PlaceholderModule({ moduleId, onNavigate }) {
                   <span className="text-neutral-400 font-mono">{item.engagement}</span>
                   <button 
                     onClick={() => onNavigate('assistant')}
-                    className="text-emerald-600 hover:underline font-semibold text-xs cursor-pointer flex items-center gap-1"
+                    className="text-[#067CF9] hover:underline font-semibold text-xs cursor-pointer flex items-center gap-1"
                   >
                     Use in AI Script &rarr;
                   </button>
@@ -348,19 +348,19 @@ export default function PlaceholderModule({ moduleId, onNavigate }) {
       <div className="space-y-6 max-w-6xl mx-auto pb-12">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-neutral-200/80 dark:border-white/[0.06]">
           <div>
-            <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-emerald-50 dark:bg-white/[0.04] border border-emerald-200 dark:border-white/[0.08] text-emerald-700 dark:text-neutral-300 text-[11px] font-mono mb-2 font-medium">
-              <ShoppingBag className="w-3 h-3 text-emerald-600 dark:text-neutral-400" />
+            <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-[#EFF6FF] dark:bg-white/[0.04] border border-[#067CF9]/30 dark:border-white/[0.08] text-[#067CF9] dark:text-neutral-300 text-[11px] font-mono mb-2 font-medium">
+              <ShoppingBag className="w-3 h-3 text-[#067CF9] dark:text-neutral-400" />
               <span>Link-in-Bio Store & Digital Commerce</span>
             </div>
             <h1 className="text-xl font-bold text-neutral-900 dark:text-white tracking-tight">
               Creator Store & Monetization
             </h1>
             <p className="text-neutral-500 dark:text-neutral-400 text-xs mt-0.5">
-              Storefront URL: <span className="text-emerald-700 dark:text-neutral-200 font-mono font-medium">vyralify.me/{activePage?.handle || 'store'}</span>
+              Storefront URL: <span className="text-[#067CF9] dark:text-neutral-200 font-mono font-medium">vyralify.me/{activePage?.handle || 'store'}</span>
             </p>
           </div>
           <div className="flex items-center gap-2">
-            <button className="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-medium text-xs transition-colors flex items-center gap-1.5 cursor-pointer shadow-xs">
+            <button className="px-3 py-1.5 rounded-lg bg-[#067CF9] hover:bg-[#0568D2] text-white font-medium text-xs transition-colors flex items-center gap-1.5 cursor-pointer shadow-xs">
               <Plus className="w-3.5 h-3.5" />
               <span>Add Product</span>
             </button>
@@ -372,7 +372,7 @@ export default function PlaceholderModule({ moduleId, onNavigate }) {
           <div className="p-4 rounded-xl bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] shadow-xs">
             <div className="text-[11px] font-mono text-neutral-500 dark:text-neutral-400">Total Net Revenue</div>
             <div className="text-2xl font-bold text-neutral-900 dark:text-white font-mono mt-1">₹42,850</div>
-            <div className="text-[10px] text-emerald-600 font-mono mt-1 font-semibold">+18.4% this month</div>
+            <div className="text-[10px] text-[#067CF9] font-mono mt-1 font-semibold">+18.4% this month</div>
           </div>
           <div className="p-4 rounded-xl bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] shadow-xs">
             <div className="text-[11px] font-mono text-neutral-500 dark:text-neutral-400">Total Orders</div>
@@ -417,7 +417,7 @@ export default function PlaceholderModule({ moduleId, onNavigate }) {
             </div>
             <span className={`px-2 py-0.5 rounded-md text-[11px] font-mono font-bold uppercase border ${
               tier === 'elite' ? 'bg-amber-50 text-amber-700 border-amber-200' :
-              tier === 'pro' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' :
+              tier === 'pro' ? 'bg-[#EFF6FF] text-[#067CF9] border-[#067CF9]/30' :
               'bg-neutral-100 text-neutral-600 border-neutral-200'
             }`}>
               {tier.toUpperCase()} TIER
@@ -435,15 +435,15 @@ export default function PlaceholderModule({ moduleId, onNavigate }) {
                 onClick={() => updateTier(p.id)}
                 className={`p-3.5 rounded-xl border text-left transition-all cursor-pointer ${
                   tier === p.id 
-                    ? 'bg-emerald-50/70 border-emerald-500 text-neutral-900 dark:text-white shadow-xs' 
+                    ? 'bg-[#EFF6FF] border-[#067CF9]/30 text-neutral-900 dark:text-white shadow-xs' 
                     : 'bg-neutral-50/70 dark:bg-white/[0.02] border-neutral-200/80 dark:border-white/[0.06] text-neutral-600 dark:text-neutral-400 hover:border-neutral-300'
                 }`}
               >
                 <div className="flex items-center justify-between">
                   <span className="font-semibold text-xs text-neutral-900 dark:text-white">{p.name}</span>
-                  {tier === p.id && <Check className="w-3.5 h-3.5 text-emerald-600" />}
+                  {tier === p.id && <Check className="w-3.5 h-3.5 text-[#067CF9]" />}
                 </div>
-                <div className="font-mono text-xs text-emerald-700 dark:text-neutral-200 my-1 font-semibold">{p.price}</div>
+                <div className="font-mono text-xs text-[#067CF9] dark:text-neutral-200 my-1 font-semibold">{p.price}</div>
                 <div className="text-[10px] text-neutral-500 leading-normal">{p.desc}</div>
               </button>
             ))}
@@ -467,12 +467,12 @@ export default function PlaceholderModule({ moduleId, onNavigate }) {
               </div>
             </div>
           </div>
-          <div className="p-3 rounded-lg bg-emerald-50/60 dark:bg-white/[0.02] border border-emerald-200/80 dark:border-white/[0.05] flex items-center justify-between text-xs">
+          <div className="p-3 rounded-lg bg-[#EFF6FF] dark:bg-white/[0.02] border border-[#067CF9]/30 dark:border-white/[0.05] flex items-center justify-between text-xs">
             <div className="flex items-center gap-2 text-neutral-700 dark:text-neutral-300">
-              <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+              <ShieldCheck className="w-3.5 h-3.5 text-[#067CF9]" />
               <span>AI Data Processing Consent Accepted</span>
             </div>
-            <span className="text-[10px] font-mono text-emerald-700 font-semibold">Active &bull; GDPR/DPDP Compliant</span>
+            <span className="text-[10px] font-mono text-[#067CF9] font-semibold">Active &bull; GDPR/DPDP Compliant</span>
           </div>
         </div>
       </div>

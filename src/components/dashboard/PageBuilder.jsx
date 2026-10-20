@@ -114,7 +114,6 @@ export default function PageBuilder({ onNavigate }) {
   const { pages, activePage, switchPage, updatePage, getPageLimit, canAddMorePages } = usePage();
   const { openUpgradeModal } = usePlanGating();
   const { addNotification } = useNotifications();
-  const { isDark } = useTheme();
 
   // Active Sub-Tab: 'identity' | 'quiz' | 'demographics' | 'multi_page'
   const [activeTab, setActiveTab] = useState('identity');
@@ -250,21 +249,21 @@ export default function PageBuilder({ onNavigate }) {
   };
 
   return (
-    <div className="space-y-6 max-w-6xl mx-auto pb-16">
+    <div className="space-y-6 max-w-6xl mx-auto pb-16 font-sans">
       
-      {/* 1. TOP PANEL TITLE & CLEAN SEGMENTED TAB NAVIGATION per Section 1 Blueprint */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-neutral-200/80 dark:border-white/[0.06]">
+      {/* 1. TOP PANEL TITLE & CLEAN SEGMENTED TAB NAVIGATION */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[rgba(6,124,249,0.12)]">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-neutral-900 dark:text-white tracking-tight">
+          <h1 className="text-xl sm:text-2xl font-bold text-[#0F172A] tracking-tight">
             Page &amp; Profile Studio
           </h1>
-          <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5">
+          <p className="text-xs text-[#64748B] mt-0.5">
             Positioning, bio optimization, niche eRPM benchmarks, and audience demographics.
           </p>
         </div>
 
-        {/* 4 Streamlined Tabs per Section 1 */}
-        <div className="flex items-center p-1 rounded-xl bg-neutral-100 dark:bg-white/[0.03] border border-neutral-200/80 dark:border-white/[0.06] text-xs">
+        {/* 4 Streamlined Tabs */}
+        <div className="flex items-center p-1 rounded-xl bg-white/80 border border-[rgba(6,124,249,0.12)] text-xs shadow-xs">
           {[
             { id: 'identity', label: 'Bio & Positioning' },
             { id: 'quiz', label: 'Niche & eRPM' },
@@ -274,10 +273,10 @@ export default function PageBuilder({ onNavigate }) {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer ${
+              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
                 activeTab === tab.id
-                  ? 'bg-white dark:bg-white/[0.08] text-neutral-900 dark:text-white font-semibold shadow-xs border border-neutral-200/80 dark:border-white/[0.06]'
-                  : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white'
+                  ? 'bg-[#067CF9] text-white font-semibold shadow-xs'
+                  : 'text-[#64748B] hover:text-[#0F172A]'
               }`}
             >
               {tab.label}
@@ -290,8 +289,8 @@ export default function PageBuilder({ onNavigate }) {
       {activeTab === 'identity' && (
         <div className="space-y-6">
           
-          {/* Refined Profile Identity Bar per Section 2 Blueprint */}
-          <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] shadow-xs flex items-center justify-between gap-4">
+          {/* Profile Identity Bar */}
+          <div className="p-4 sm:p-5 rounded-2xl bg-white/95 backdrop-blur-xl border border-[rgba(6,124,249,0.12)] shadow-[0_2px_16px_rgba(6,124,249,0.04)] flex items-center justify-between gap-4">
             <div className="flex items-center gap-3.5">
               <div className="relative group shrink-0">
                 <img 
@@ -301,13 +300,13 @@ export default function PageBuilder({ onNavigate }) {
                     e.currentTarget.onerror = null;
                     e.currentTarget.src = getSafeAvatarUrl('', activePage?.handle);
                   }}
-                  className="w-14 h-14 rounded-2xl object-cover ring-2 ring-emerald-500/20 shadow-xs"
+                  className="w-14 h-14 rounded-2xl object-cover ring-2 ring-[#067CF9]/20 shadow-xs"
                 />
                 <label 
                   title="Change profile photo" 
                   className="absolute inset-0 bg-black/60 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center cursor-pointer text-white text-[9px] font-medium backdrop-blur-xs"
                 >
-                  <Camera className="w-3.5 h-3.5 mb-0.5 text-emerald-400" />
+                  <Camera className="w-3.5 h-3.5 mb-0.5 text-white" />
                   <span>Change</span>
                   <input 
                     type="file" 
@@ -320,26 +319,26 @@ export default function PageBuilder({ onNavigate }) {
 
               <div>
                 <div className="flex flex-wrap items-center gap-2">
-                  <h2 className="text-base font-bold text-neutral-900 dark:text-white font-mono">@{activePage?.handle}</h2>
-                  <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/20 font-medium flex items-center gap-1">
-                    <ShieldCheck className="w-3 h-3 text-emerald-500" />
+                  <h2 className="text-base font-bold text-[#0F172A] font-sans">@{activePage?.handle}</h2>
+                  <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-[#EFF6FF] text-[#067CF9] border border-[rgba(6,124,249,0.2)] font-semibold flex items-center gap-1">
+                    <ShieldCheck className="w-3 h-3 text-[#067CF9]" />
                     <span>Meta Connected</span>
                   </span>
                 </div>
-                <div className="text-xs text-neutral-500 dark:text-neutral-400 font-mono mt-0.5 flex items-center gap-1.5">
-                  <span className="font-semibold text-neutral-700 dark:text-neutral-300">{activePage?.category}</span>
+                <div className="text-xs text-[#64748B] font-mono mt-0.5 flex items-center gap-1.5">
+                  <span className="font-semibold text-[#0F172A]">{activePage?.category}</span>
                   <span>&bull;</span>
                   <span>{activePage?.subNiche || 'Online Growth'}</span>
                   <span>&bull;</span>
-                  <span className="text-emerald-600 dark:text-emerald-400 font-medium">Synced Just Now</span>
+                  <span className="text-[#067CF9] font-medium">Synced Just Now</span>
                 </div>
               </div>
             </div>
 
             {/* Current Bio Snippet preview */}
             <div className="hidden md:block max-w-sm text-right">
-              <span className="text-[10px] font-mono text-neutral-400 uppercase tracking-wider block mb-0.5">Active Bio</span>
-              <p className="text-xs text-neutral-600 dark:text-neutral-300 italic font-sans truncate">
+              <span className="text-[10px] font-mono text-[#94A3B8] uppercase tracking-wider block mb-0.5">Active Bio</span>
+              <p className="text-xs text-[#64748B] italic font-sans truncate">
                 "{activePage?.bio || 'No bio configured yet.'}"
               </p>
             </div>
@@ -347,21 +346,21 @@ export default function PageBuilder({ onNavigate }) {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             
-            {/* Left: AI Bio Optimizer Studio per Section 2 Blueprint */}
-            <div className="p-5 rounded-2xl bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] shadow-xs space-y-4">
-              <div className="flex items-center justify-between pb-3 border-b border-neutral-200/80 dark:border-white/[0.05]">
+            {/* Left: AI Bio Optimizer Studio */}
+            <div className="p-5 rounded-2xl bg-white/95 backdrop-blur-xl border border-[rgba(6,124,249,0.12)] shadow-[0_2px_16px_rgba(6,124,249,0.04)] space-y-4">
+              <div className="flex items-center justify-between pb-3 border-b border-[rgba(6,124,249,0.08)]">
                 <div className="flex items-center gap-2">
-                  <Sparkles className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-                  <h3 className="font-semibold text-sm text-neutral-900 dark:text-white">AI Bio Optimizer</h3>
+                  <Sparkles className="w-4 h-4 text-[#067CF9]" />
+                  <h3 className="font-bold text-sm text-[#0F172A]">AI Bio Optimizer</h3>
                 </div>
-                <span className="text-[10px] font-mono text-neutral-500 dark:text-neutral-400 bg-neutral-100 dark:bg-white/[0.04] px-2 py-0.5 rounded">
+                <span className="text-[10px] font-mono text-[#067CF9] bg-[#EFF6FF] px-2 py-0.5 rounded border border-[rgba(6,124,249,0.12)] font-semibold">
                   150 Char Limit Safe
                 </span>
               </div>
 
               <div className="space-y-3">
                 <div>
-                  <label className="block text-[11px] font-mono text-neutral-500 dark:text-neutral-400 uppercase font-semibold mb-1">
+                  <label className="block text-[11px] font-mono text-[#64748B] uppercase font-semibold mb-1">
                     Select Primary Bio Objective
                   </label>
                   <div className="grid grid-cols-3 gap-2">
@@ -376,12 +375,12 @@ export default function PageBuilder({ onNavigate }) {
                         onClick={() => setBioObjective(opt.id)}
                         className={`py-2 px-2 rounded-xl text-xs font-medium border transition-colors cursor-pointer text-center ${
                           bioObjective === opt.id
-                            ? 'bg-emerald-50 dark:bg-emerald-500/10 border-emerald-300 dark:border-emerald-500/30 text-emerald-800 dark:text-emerald-300 font-semibold'
-                            : 'bg-neutral-50 dark:bg-white/[0.02] border-neutral-200 dark:border-white/[0.06] text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white'
+                            ? 'bg-[#EFF6FF] border-[#067CF9] text-[#067CF9] font-bold shadow-xs'
+                            : 'bg-[#F8FAFC] border-neutral-200 text-[#64748B] hover:text-[#0F172A]'
                         }`}
                       >
                         <div className="font-semibold text-xs">{opt.label}</div>
-                        <div className="text-[10px] text-neutral-400 dark:text-neutral-400 mt-0.5">{opt.sub}</div>
+                        <div className="text-[10px] text-[#94A3B8] mt-0.5">{opt.sub}</div>
                       </button>
                     ))}
                   </div>
@@ -390,7 +389,7 @@ export default function PageBuilder({ onNavigate }) {
                 <button
                   onClick={handleGenerateBios}
                   disabled={isGeneratingBio}
-                  className="w-full py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white font-semibold text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-xs"
+                  className="w-full py-2.5 px-4 rounded-xl bg-[#067CF9] hover:bg-[#0568D2] disabled:opacity-50 text-white font-semibold text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-xs"
                 >
                   <RotateCw className={`w-3.5 h-3.5 ${isGeneratingBio ? 'animate-spin' : ''}`} />
                   <span>{isGeneratingBio ? 'Architecting High-CTR Bios...' : 'Generate Bio Variations'}</span>
@@ -400,24 +399,24 @@ export default function PageBuilder({ onNavigate }) {
               {/* Bio Cards Result */}
               {generatedBios && (
                 <div className="space-y-3 pt-2">
-                  <div className="text-[11px] font-mono text-neutral-400 uppercase font-semibold">
+                  <div className="text-[11px] font-mono text-[#64748B] uppercase font-semibold">
                     Generated Formulations
                   </div>
                   {generatedBios.map((b, idx) => (
                     <div 
                       key={idx}
-                      className="p-3.5 rounded-xl bg-neutral-50/70 dark:bg-white/[0.02] border border-neutral-200/80 dark:border-white/[0.06] space-y-2 group"
+                      className="p-3.5 rounded-xl bg-[#F8FAFC] border border-[rgba(6,124,249,0.12)] space-y-2 group"
                     >
                       <div className="flex items-center justify-between">
-                        <span className="text-[10px] font-mono uppercase font-semibold text-emerald-700 dark:text-emerald-400">
+                        <span className="text-[10px] font-mono uppercase font-semibold text-[#067CF9]">
                           {b.archetype}
                         </span>
-                        <span className="text-[10px] font-mono text-neutral-400">
+                        <span className="text-[10px] font-mono text-[#94A3B8]">
                           {b.text.length} / 150 chars
                         </span>
                       </div>
 
-                      <div className="text-xs text-neutral-800 dark:text-neutral-200 font-mono whitespace-pre-line leading-relaxed bg-white dark:bg-black/30 p-2.5 rounded-lg border border-neutral-200/60 dark:border-white/[0.04]">
+                      <div className="text-xs text-[#0F172A] font-mono whitespace-pre-line leading-relaxed bg-white p-2.5 rounded-lg border border-[rgba(6,124,249,0.1)]">
                         {b.text}
                       </div>
 
@@ -428,15 +427,15 @@ export default function PageBuilder({ onNavigate }) {
                             setCopiedBioIndex(idx);
                             setTimeout(() => setCopiedBioIndex(null), 2000);
                           }}
-                          className="px-2.5 py-1 rounded-lg text-[11px] font-mono text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white bg-white dark:bg-white/[0.04] border border-neutral-200 dark:border-white/[0.06] flex items-center gap-1 cursor-pointer"
+                          className="px-2.5 py-1 rounded-lg text-[11px] font-mono text-[#64748B] hover:text-[#0F172A] bg-white border border-[rgba(6,124,249,0.15)] flex items-center gap-1 cursor-pointer"
                         >
-                          {copiedBioIndex === idx ? <Check className="w-3 h-3 text-emerald-600" /> : <Copy className="w-3 h-3" />}
+                          {copiedBioIndex === idx ? <Check className="w-3 h-3 text-[#067CF9]" /> : <Copy className="w-3 h-3" />}
                           <span>{copiedBioIndex === idx ? 'Copied' : 'Copy'}</span>
                         </button>
 
                         <button
                           onClick={() => handleApplyBio(b.text)}
-                          className="px-3 py-1 rounded-lg text-[11px] font-semibold text-white bg-emerald-600 hover:bg-emerald-700 flex items-center gap-1 cursor-pointer shadow-xs"
+                          className="px-3 py-1 rounded-lg text-[11px] font-semibold text-white bg-[#067CF9] hover:bg-[#0568D2] flex items-center gap-1 cursor-pointer shadow-xs"
                         >
                           <Check className="w-3 h-3" />
                           <span>Apply to Active Profile</span>
@@ -448,21 +447,21 @@ export default function PageBuilder({ onNavigate }) {
               )}
             </div>
 
-            {/* Right: Authority Positioning Statement Builder per Section 2 Blueprint */}
-            <div className="p-5 rounded-2xl bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] shadow-xs space-y-4">
-              <div className="flex items-center justify-between pb-3 border-b border-neutral-200/80 dark:border-white/[0.05]">
+            {/* Right: Authority Positioning Statement Builder */}
+            <div className="p-5 rounded-2xl bg-white/95 backdrop-blur-xl border border-[rgba(6,124,249,0.12)] shadow-[0_2px_16px_rgba(6,124,249,0.04)] space-y-4">
+              <div className="flex items-center justify-between pb-3 border-b border-[rgba(6,124,249,0.08)]">
                 <div className="flex items-center gap-2">
-                  <Compass className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-                  <h3 className="font-semibold text-sm text-neutral-900 dark:text-white">Authority Positioning Builder</h3>
+                  <Compass className="w-4 h-4 text-[#067CF9]" />
+                  <h3 className="font-bold text-sm text-[#0F172A]">Authority Positioning Builder</h3>
                 </div>
-                <span className="text-[10px] font-mono text-neutral-500 dark:text-neutral-400">
+                <span className="text-[10px] font-mono text-[#64748B]">
                   Formula Architecture
                 </span>
               </div>
 
               <div className="space-y-3">
                 <div>
-                  <label className="block text-[11px] font-mono text-neutral-500 dark:text-neutral-400 uppercase font-semibold mb-1">
+                  <label className="block text-[11px] font-mono text-[#64748B] uppercase font-semibold mb-1">
                     Target Audience
                   </label>
                   <input
@@ -470,12 +469,12 @@ export default function PageBuilder({ onNavigate }) {
                     value={positioningData.audience}
                     onChange={(e) => setPositioningData(prev => ({ ...prev, audience: e.target.value }))}
                     placeholder="e.g., Creator-operators & agency owners"
-                    className="w-full px-3.5 py-2 bg-neutral-50 dark:bg-white/[0.03] border border-neutral-200 dark:border-white/[0.08] rounded-xl text-xs text-neutral-900 dark:text-white placeholder-neutral-400 font-medium focus:outline-hidden focus:border-emerald-500 transition-colors"
+                    className="w-full px-3.5 py-2 bg-[#F8FAFC] border border-[rgba(6,124,249,0.15)] rounded-xl text-xs text-[#0F172A] placeholder-neutral-400 font-medium focus:outline-hidden focus:border-[#067CF9] transition-colors"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-[11px] font-mono text-neutral-500 dark:text-neutral-400 uppercase font-semibold mb-1">
+                  <label className="block text-[11px] font-mono text-[#64748B] uppercase font-semibold mb-1">
                     Primary Transformation
                   </label>
                   <input
@@ -483,12 +482,12 @@ export default function PageBuilder({ onNavigate }) {
                     value={positioningData.outcome}
                     onChange={(e) => setPositioningData(prev => ({ ...prev, outcome: e.target.value }))}
                     placeholder="e.g., Predictable organic reach & digital sales"
-                    className="w-full px-3.5 py-2 bg-neutral-50 dark:bg-white/[0.03] border border-neutral-200 dark:border-white/[0.08] rounded-xl text-xs text-neutral-900 dark:text-white placeholder-neutral-400 font-medium focus:outline-hidden focus:border-emerald-500 transition-colors"
+                    className="w-full px-3.5 py-2 bg-[#F8FAFC] border border-[rgba(6,124,249,0.15)] rounded-xl text-xs text-[#0F172A] placeholder-neutral-400 font-medium focus:outline-hidden focus:border-[#067CF9] transition-colors"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-[11px] font-mono text-neutral-500 dark:text-neutral-400 uppercase font-semibold mb-1">
+                  <label className="block text-[11px] font-mono text-[#64748B] uppercase font-semibold mb-1">
                     Key Obstacle Solved
                   </label>
                   <input
@@ -496,16 +495,16 @@ export default function PageBuilder({ onNavigate }) {
                     value={positioningData.painPoint}
                     onChange={(e) => setPositioningData(prev => ({ ...prev, painPoint: e.target.value }))}
                     placeholder="e.g., Ending content burnout and low engagement"
-                    className="w-full px-3.5 py-2 bg-neutral-50 dark:bg-white/[0.03] border border-neutral-200 dark:border-white/[0.08] rounded-xl text-xs text-neutral-900 dark:text-white placeholder-neutral-400 font-medium focus:outline-hidden focus:border-emerald-500 transition-colors"
+                    className="w-full px-3.5 py-2 bg-[#F8FAFC] border border-[rgba(6,124,249,0.15)] rounded-xl text-xs text-[#0F172A] placeholder-neutral-400 font-medium focus:outline-hidden focus:border-[#067CF9] transition-colors"
                   />
                 </div>
 
                 <button
                   onClick={handleGeneratePositioning}
                   disabled={isGeneratingPositioning}
-                  className="w-full py-2.5 px-4 rounded-xl bg-neutral-900 dark:bg-white hover:bg-black dark:hover:bg-neutral-100 text-white dark:text-black font-semibold text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-xs"
+                  className="w-full py-2.5 px-4 rounded-xl bg-[#067CF9] hover:bg-[#0568D2] text-white font-semibold text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-xs"
                 >
-                  <Sparkles className="w-3.5 h-3.5 text-emerald-500" />
+                  <Sparkles className="w-3.5 h-3.5 text-white" />
                   <span>{isGeneratingPositioning ? 'Formulating Position...' : 'Generate Positioning Statement'}</span>
                 </button>
               </div>
@@ -514,18 +513,18 @@ export default function PageBuilder({ onNavigate }) {
               {generatedStatements ? (
                 <div className="space-y-2.5 pt-2">
                   {generatedStatements.map((s, idx) => (
-                    <div key={idx} className="p-3 rounded-xl bg-neutral-50 dark:bg-white/[0.02] border border-neutral-200/80 dark:border-white/[0.06] space-y-1">
-                      <div className="flex items-center justify-between text-[10px] font-mono text-emerald-600 dark:text-emerald-400 font-semibold">
+                    <div key={idx} className="p-3 rounded-xl bg-[#F8FAFC] border border-[rgba(6,124,249,0.12)] space-y-1">
+                      <div className="flex items-center justify-between text-[10px] font-mono text-[#067CF9] font-semibold">
                         <span>{s.formula}</span>
-                        <span className="text-neutral-400">{s.bannerHook}</span>
+                        <span className="text-[#94A3B8]">{s.bannerHook}</span>
                       </div>
-                      <p className="text-xs text-neutral-900 dark:text-white font-medium">"{s.statement}"</p>
+                      <p className="text-xs text-[#0F172A] font-medium">"{s.statement}"</p>
                     </div>
                   ))}
                 </div>
               ) : (
-                <div className="p-3.5 rounded-xl bg-emerald-50/60 dark:bg-emerald-500/5 border border-emerald-200/80 dark:border-emerald-500/10 text-xs text-emerald-900 dark:text-emerald-300">
-                  <span className="font-semibold block mb-0.5 font-mono text-[11px]">Core Blueprint:</span>
+                <div className="p-3.5 rounded-xl bg-[#EFF6FF] border border-[rgba(6,124,249,0.15)] text-xs text-[#0F172A]">
+                  <span className="font-semibold block mb-0.5 font-mono text-[11px] text-[#067CF9]">Core Blueprint:</span>
                   "I help {positioningData.audience} achieve {positioningData.outcome} without {positioningData.painPoint}."
                 </div>
               )}
@@ -534,16 +533,16 @@ export default function PageBuilder({ onNavigate }) {
 
           </div>
 
-          {/* Story Highlights Stack (4 Conversion Anchors per Section 2 Blueprint) */}
-          <div className="p-5 rounded-2xl bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] shadow-xs space-y-4">
-            <div className="flex items-center justify-between pb-3 border-b border-neutral-200/80 dark:border-white/[0.05]">
+          {/* Story Highlights Stack (4 Conversion Anchors) */}
+          <div className="p-5 rounded-2xl bg-white/95 backdrop-blur-xl border border-[rgba(6,124,249,0.12)] shadow-[0_2px_16px_rgba(6,124,249,0.04)] space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-[rgba(6,124,249,0.08)]">
               <div>
-                <h3 className="font-semibold text-sm text-neutral-900 dark:text-white">Instagram Story Highlights Architecture</h3>
-                <p className="text-[11px] text-neutral-500 dark:text-neutral-400 mt-0.5">
+                <h3 className="font-bold text-sm text-[#0F172A]">Instagram Story Highlights Architecture</h3>
+                <p className="text-[11px] text-[#64748B] mt-0.5">
                   The proven 4-highlight setup required to convert profile visitors into paying customers.
                 </p>
               </div>
-              <span className="text-[10px] font-mono text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-500/10 px-2.5 py-0.5 rounded font-medium border border-emerald-200 dark:border-emerald-500/20">
+              <span className="text-[10px] font-mono text-[#067CF9] bg-[#EFF6FF] px-2.5 py-0.5 rounded font-semibold border border-[rgba(6,124,249,0.2)]">
                 Conversion Stack
               </span>
             </div>
@@ -579,17 +578,17 @@ export default function PageBuilder({ onNavigate }) {
                   icon: '⚡'
                 }
               ].map((hl, i) => (
-                <div key={i} className="p-4 rounded-xl bg-neutral-50/70 dark:bg-white/[0.02] border border-neutral-200/80 dark:border-white/[0.04] flex flex-col justify-between space-y-3">
+                <div key={i} className="p-4 rounded-xl bg-[#F8FAFC] border border-[rgba(6,124,249,0.1)] flex flex-col justify-between space-y-3">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-emerald-100 dark:bg-emerald-500/10 border-2 border-emerald-500 flex items-center justify-center text-sm font-bold font-mono text-emerald-800 dark:text-emerald-300">
+                    <div className="w-10 h-10 rounded-full bg-[#EFF6FF] border-2 border-[#067CF9] flex items-center justify-center text-sm font-bold font-mono text-[#067CF9]">
                       {hl.icon}
                     </div>
                     <div>
-                      <span className="text-xs font-bold text-neutral-900 dark:text-white font-mono">{hl.name}</span>
-                      <p className="text-[10px] text-emerald-600 dark:text-emerald-400 font-mono">{hl.role}</p>
+                      <span className="text-xs font-bold text-[#0F172A] font-mono">{hl.name}</span>
+                      <p className="text-[10px] text-[#067CF9] font-mono">{hl.role}</p>
                     </div>
                   </div>
-                  <p className="text-xs text-neutral-500 dark:text-neutral-400 leading-relaxed">
+                  <p className="text-xs text-[#64748B] leading-relaxed">
                     {hl.desc}
                   </p>
                 </div>
@@ -600,68 +599,68 @@ export default function PageBuilder({ onNavigate }) {
         </div>
       )}
 
-      {/* 3. TAB 2: NICHE & eRPM BENCHMARK DIRECTORY (Direct 8 Niche Cards Hero per Section 3 Blueprint) */}
+      {/* 3. TAB 2: NICHE & eRPM BENCHMARK DIRECTORY (Panel 3: Solid white cards with clean Electric Blue score badges & eRPM) */}
       {activeTab === 'quiz' && (
         <div className="space-y-4">
           
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2">
             <div>
-              <h3 className="font-semibold text-sm text-neutral-900 dark:text-white">
+              <h3 className="font-bold text-sm text-[#0F172A]">
                 Niche &amp; eRPM Benchmark Directory
               </h3>
-              <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5">
+              <p className="text-xs text-[#64748B] mt-0.5">
                 8 Core high-leverage creator niches benchmarked against real digital sales and ad metrics.
               </p>
             </div>
-            <span className="text-xs text-neutral-500 dark:text-neutral-400 font-mono">
+            <span className="text-xs text-[#64748B] font-mono">
               Click any niche card to apply to active profile
             </span>
           </div>
 
-          {/* Official 8 Niche Catalog Grid with Clean High-Contrast Hierarchy */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3.5">
+          {/* Official 8 Niche Catalog Grid (Blueprint Section 2.D) */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {OFFICIAL_NICHES.map(niche => {
               const isCurrent = activePage?.category === niche.name;
               return (
                 <div
                   key={niche.id}
                   onClick={() => handleApplyNicheToActivePage(niche)}
-                  className={`p-4 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between space-y-3 hover:border-emerald-500/50 hover:shadow-emerald-500/5 hover:shadow-md ${
+                  className={`p-4 rounded-2xl bg-white border transition-all cursor-pointer flex flex-col justify-between space-y-3 shadow-[0_2px_12px_rgba(6,124,249,0.03)] hover:border-[#067CF9]/40 hover:shadow-md ${
                     isCurrent
-                      ? 'bg-emerald-50/70 dark:bg-emerald-500/10 border-emerald-500 shadow-xs ring-1 ring-emerald-500'
-                      : 'bg-white dark:bg-[#0C0D12] border-neutral-200/80 dark:border-white/[0.06]'
+                      ? 'border-[#067CF9] ring-2 ring-[#067CF9]/20 bg-[#EFF6FF]/25 shadow-xs'
+                      : 'border-[rgba(6,124,249,0.12)]'
                   }`}
                 >
                   <div>
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-2xl">{niche.icon}</span>
                       <div className="flex items-center gap-1.5">
-                        <span className="px-2 py-0.5 rounded font-mono text-[10px] font-semibold bg-neutral-100 dark:bg-white/[0.06] text-neutral-700 dark:text-neutral-300">
+                        <span className="px-2 py-0.5 rounded font-mono text-[10px] font-semibold bg-[#EFF6FF] text-[#067CF9] border border-[rgba(6,124,249,0.15)]">
                           {niche.profitability}% Match
                         </span>
                         {isCurrent && (
-                          <span className="w-2 h-2 rounded-full bg-emerald-500" title="Active Niche" />
+                          <span className="w-2 h-2 rounded-full bg-[#067CF9]" title="Active Niche" />
                         )}
                       </div>
                     </div>
 
-                    <h4 className="font-bold text-xs text-neutral-900 dark:text-white mb-1">
+                    <h4 className="font-bold text-xs text-[#0F172A] mb-1">
                       {niche.name}
                     </h4>
-                    <div className="text-[11px] font-mono text-emerald-600 dark:text-emerald-400 font-medium mb-2.5">
+                    <div className="text-[11px] font-mono text-[#067CF9] font-bold mb-2.5">
                       Est. eRPM: {niche.eRPM}
                     </div>
 
                     <div className="space-y-1">
-                      <div className="text-[10px] font-mono text-neutral-400 uppercase font-medium">Sub-Niches:</div>
+                      <div className="text-[10px] font-mono text-[#94A3B8] uppercase font-semibold">Sub-Niches:</div>
                       <div className="flex flex-wrap gap-1">
                         {niche.subNiches.slice(0, 3).map((sub, idx) => (
-                          <span key={idx} className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-neutral-100 dark:bg-white/[0.04] text-neutral-600 dark:text-neutral-300">
+                          <span key={idx} className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-[#F8FAFC] text-[#64748B] border border-neutral-100">
                             {sub}
                           </span>
                         ))}
                         {niche.subNiches.length > 3 && (
-                          <span className="text-[9px] font-mono text-neutral-400">+{niche.subNiches.length - 3}</span>
+                          <span className="text-[9px] font-mono text-[#94A3B8]">+{niche.subNiches.length - 3}</span>
                         )}
                       </div>
                     </div>
@@ -674,17 +673,17 @@ export default function PageBuilder({ onNavigate }) {
         </div>
       )}
 
-      {/* 4. TAB 3: AUDIENCE INSIGHTS & ACTIVE HOURS per Section 4 Blueprint */}
+      {/* 4. TAB 3: AUDIENCE INSIGHTS & ACTIVE HOURS (Panel 3: Heatmap with Electric Blue peak cells) */}
       {activeTab === 'demographics' && (
         <div className="space-y-6">
           
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             
             {/* Age Distribution Card */}
-            <div className="p-5 rounded-2xl bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] shadow-xs space-y-4">
-              <div className="flex items-center justify-between pb-3 border-b border-neutral-200/80 dark:border-white/[0.05]">
-                <h3 className="font-semibold text-sm text-neutral-900 dark:text-white">Age Brackets Breakdown</h3>
-                <span className="text-[10px] font-mono text-neutral-400">Meta Verified</span>
+            <div className="p-5 rounded-2xl bg-white/95 backdrop-blur-xl border border-[rgba(6,124,249,0.12)] shadow-[0_2px_16px_rgba(6,124,249,0.04)] space-y-4">
+              <div className="flex items-center justify-between pb-3 border-b border-[rgba(6,124,249,0.08)]">
+                <h3 className="font-bold text-sm text-[#0F172A]">Age Brackets Breakdown</h3>
+                <span className="text-[10px] font-mono text-[#067CF9] bg-[#EFF6FF] px-2 py-0.5 rounded border border-[rgba(6,124,249,0.12)] font-semibold">Meta Verified</span>
               </div>
 
               <div className="space-y-3">
@@ -696,14 +695,14 @@ export default function PageBuilder({ onNavigate }) {
                 ].map((item, idx) => (
                   <div key={idx} className="space-y-1">
                     <div className="flex items-center justify-between text-xs font-mono">
-                      <span className="text-neutral-700 dark:text-neutral-300 font-medium">{item.bracket}</span>
-                      <span className={`font-semibold ${item.isTop ? 'text-emerald-600 dark:text-emerald-400' : 'text-neutral-500'}`}>
+                      <span className="text-[#0F172A] font-medium">{item.bracket}</span>
+                      <span className={`font-semibold ${item.isTop ? 'text-[#067CF9]' : 'text-[#64748B]'}`}>
                         {item.pct}%
                       </span>
                     </div>
-                    <div className="w-full h-2 rounded-full bg-neutral-100 dark:bg-white/[0.06] overflow-hidden">
+                    <div className="w-full h-2 rounded-full bg-[#EFF6FF] overflow-hidden">
                       <div 
-                        className={`h-full rounded-full ${item.isTop ? 'bg-emerald-600' : 'bg-neutral-300 dark:bg-neutral-600'}`}
+                        className={`h-full rounded-full ${item.isTop ? 'bg-[#067CF9]' : 'bg-neutral-300'}`}
                         style={{ width: `${item.pct}%` }}
                       />
                     </div>
@@ -711,48 +710,48 @@ export default function PageBuilder({ onNavigate }) {
                 ))}
               </div>
 
-              {/* Clean Summary Badge per Section 4 */}
-              <div className="p-2.5 rounded-lg bg-neutral-50 dark:bg-white/[0.02] border border-neutral-200/70 dark:border-white/[0.04] text-xs flex items-center justify-between">
-                <span className="text-neutral-500 dark:text-neutral-400 font-medium">Primary Demographic:</span>
-                <span className="text-emerald-600 dark:text-emerald-400 font-mono font-bold">18–24 (46%)</span>
+              {/* Clean Summary Badge */}
+              <div className="p-2.5 rounded-lg bg-[#EFF6FF] border border-[rgba(6,124,249,0.12)] text-xs flex items-center justify-between">
+                <span className="text-[#64748B] font-medium">Primary Demographic:</span>
+                <span className="text-[#067CF9] font-mono font-bold">18–24 (46%)</span>
               </div>
             </div>
 
             {/* Gender Split Ratio Card */}
-            <div className="p-5 rounded-2xl bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] shadow-xs space-y-4">
-              <div className="flex items-center justify-between pb-3 border-b border-neutral-200/80 dark:border-white/[0.05]">
-                <h3 className="font-semibold text-sm text-neutral-900 dark:text-white">Gender Distribution</h3>
-                <span className="text-[10px] font-mono text-neutral-400">Active Audience</span>
+            <div className="p-5 rounded-2xl bg-white/95 backdrop-blur-xl border border-[rgba(6,124,249,0.12)] shadow-[0_2px_16px_rgba(6,124,249,0.04)] space-y-4">
+              <div className="flex items-center justify-between pb-3 border-b border-[rgba(6,124,249,0.08)]">
+                <h3 className="font-bold text-sm text-[#0F172A]">Gender Distribution</h3>
+                <span className="text-[10px] font-mono text-[#64748B]">Active Audience</span>
               </div>
 
               <div className="flex items-center justify-around py-4">
                 <div className="text-center space-y-1">
-                  <div className="text-3xl font-bold font-mono text-neutral-900 dark:text-white">68%</div>
-                  <div className="text-xs text-neutral-500 dark:text-neutral-400 font-mono">Male</div>
+                  <div className="text-3xl font-bold font-mono text-[#0F172A]">68%</div>
+                  <div className="text-xs text-[#64748B] font-mono">Male</div>
                 </div>
-                <div className="h-12 w-px bg-neutral-200 dark:bg-white/[0.08]" />
+                <div className="h-12 w-px bg-neutral-200" />
                 <div className="text-center space-y-1">
-                  <div className="text-3xl font-bold font-mono text-emerald-600 dark:text-emerald-400">32%</div>
-                  <div className="text-xs text-neutral-500 dark:text-neutral-400 font-mono">Female</div>
+                  <div className="text-3xl font-bold font-mono text-[#067CF9]">32%</div>
+                  <div className="text-xs text-[#64748B] font-mono">Female</div>
                 </div>
               </div>
 
-              {/* Minimalist Split Bar per Section 4 */}
-              <div className="w-full h-3 rounded-full bg-neutral-100 dark:bg-white/[0.06] flex overflow-hidden">
-                <div className="bg-neutral-800 dark:bg-neutral-300 h-full" style={{ width: '68%' }} title="Male 68%" />
-                <div className="bg-emerald-500 h-full" style={{ width: '32%' }} title="Female 32%" />
+              {/* Minimalist Split Bar */}
+              <div className="w-full h-3 rounded-full bg-[#EFF6FF] flex overflow-hidden">
+                <div className="bg-[#0F172A] h-full" style={{ width: '68%' }} title="Male 68%" />
+                <div className="bg-[#067CF9] h-full" style={{ width: '32%' }} title="Female 32%" />
               </div>
 
-              <div className="p-2.5 rounded-lg bg-neutral-50 dark:bg-white/[0.02] border border-neutral-200/70 dark:border-white/[0.04] text-[11px] text-neutral-600 dark:text-neutral-400 leading-relaxed">
+              <div className="p-2.5 rounded-lg bg-[#F8FAFC] border border-[rgba(6,124,249,0.08)] text-[11px] text-[#64748B] leading-relaxed">
                 Ideal hook framing: Direct, result-driven pattern interrupts.
               </div>
             </div>
 
-            {/* Top Geographic Markets Card (eRPM removed, clean % share per Section 4) */}
-            <div className="p-5 rounded-2xl bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] shadow-xs space-y-4">
-              <div className="flex items-center justify-between pb-3 border-b border-neutral-200/80 dark:border-white/[0.05]">
-                <h3 className="font-semibold text-sm text-neutral-900 dark:text-white">Top Geographic Markets</h3>
-                <span className="text-[10px] font-mono text-neutral-400">Territory Distribution</span>
+            {/* Top Geographic Markets Card */}
+            <div className="p-5 rounded-2xl bg-white/95 backdrop-blur-xl border border-[rgba(6,124,249,0.12)] shadow-[0_2px_16px_rgba(6,124,249,0.04)] space-y-4">
+              <div className="flex items-center justify-between pb-3 border-b border-[rgba(6,124,249,0.08)]">
+                <h3 className="font-bold text-sm text-[#0F172A]">Top Geographic Markets</h3>
+                <span className="text-[10px] font-mono text-[#64748B]">Territory Distribution</span>
               </div>
 
               <div className="space-y-2.5">
@@ -763,12 +762,12 @@ export default function PageBuilder({ onNavigate }) {
                   { country: 'United Arab Emirates', flag: '🇦🇪', pct: '7.1%' },
                   { country: 'Others', flag: '🌐', pct: '6.5%' }
                 ].map((geo, i) => (
-                  <div key={i} className="flex items-center justify-between text-xs py-1 border-b border-neutral-100 dark:border-white/[0.03]">
+                  <div key={i} className="flex items-center justify-between text-xs py-1 border-b border-neutral-100">
                     <div className="flex items-center gap-2">
                       <span>{geo.flag}</span>
-                      <span className="font-medium text-neutral-800 dark:text-neutral-200">{geo.country}</span>
+                      <span className="font-medium text-[#0F172A]">{geo.country}</span>
                     </div>
-                    <div className="font-mono font-semibold text-neutral-900 dark:text-white">
+                    <div className="font-mono font-bold text-[#067CF9]">
                       {geo.pct}
                     </div>
                   </div>
@@ -778,37 +777,37 @@ export default function PageBuilder({ onNavigate }) {
 
           </div>
 
-          {/* 24-Hour Active Posting Velocity Heatmap */}
-          <div className="p-5 rounded-2xl bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] shadow-xs space-y-4">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-neutral-200/80 dark:border-white/[0.05]">
+          {/* 24-Hour Active Posting Velocity Heatmap (Blueprint Section 2.D: Non-peak hours muted blue cells, peak active windows pure Electric Blue filled cells) */}
+          <div className="p-5 rounded-2xl bg-white/95 backdrop-blur-xl border border-[rgba(6,124,249,0.12)] shadow-[0_2px_16px_rgba(6,124,249,0.04)] space-y-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[rgba(6,124,249,0.08)]">
               <div>
-                <h3 className="font-semibold text-sm text-neutral-900 dark:text-white">Audience Active Hours Heatmap</h3>
-                <p className="text-[11px] text-neutral-500 dark:text-neutral-400 mt-0.5">
+                <h3 className="font-bold text-sm text-[#0F172A]">Audience Active Hours Heatmap</h3>
+                <p className="text-[11px] text-[#64748B] mt-0.5">
                   Algorithm retention windows specific to @{activePage?.handle || 'creator'}'s follower density.
                 </p>
               </div>
 
               <div className="flex items-center gap-2 font-mono text-[10px]">
-                <span className="text-neutral-400">Intensity:</span>
-                <span className="px-1.5 py-0.5 rounded bg-neutral-100 dark:bg-white/[0.04] text-neutral-500">Low</span>
-                <span className="px-1.5 py-0.5 rounded bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300">Med</span>
-                <span className="px-1.5 py-0.5 rounded bg-emerald-600 text-white font-semibold">Peak Window</span>
+                <span className="text-[#94A3B8]">Intensity:</span>
+                <span className="px-1.5 py-0.5 rounded bg-[#F8FAFC] text-[#64748B] border border-neutral-200">Low</span>
+                <span className="px-1.5 py-0.5 rounded bg-[#EFF6FF] text-[#067CF9] border border-[rgba(6,124,249,0.2)] font-semibold">Muted Blue</span>
+                <span className="px-1.5 py-0.5 rounded bg-[#067CF9] text-white font-bold shadow-xs">Peak Window</span>
               </div>
             </div>
 
-            {/* Heatmap Grid: Flame emojis removed, clean indicator dots per Section 4 */}
+            {/* Heatmap Grid */}
             <div className="overflow-x-auto">
               <table className="w-full text-xs font-mono">
                 <thead>
-                  <tr className="text-neutral-400 text-[10px]">
-                    <th className="py-2 text-left font-medium">DAY</th>
-                    <th className="py-2 text-center font-medium">MORNING (8AM-12PM)</th>
-                    <th className="py-2 text-center font-medium">AFTERNOON (12PM-5PM)</th>
-                    <th className="py-2 text-center font-medium">PRIME (5PM-9PM)</th>
-                    <th className="py-2 text-center font-medium">LATE (9PM-12AM)</th>
+                  <tr className="text-[#94A3B8] text-[10px]">
+                    <th className="py-2 text-left font-semibold">DAY</th>
+                    <th className="py-2 text-center font-semibold">MORNING (8AM-12PM)</th>
+                    <th className="py-2 text-center font-semibold">AFTERNOON (12PM-5PM)</th>
+                    <th className="py-2 text-center font-semibold">PRIME (5PM-9PM)</th>
+                    <th className="py-2 text-center font-semibold">LATE (9PM-12AM)</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-neutral-100 dark:divide-white/[0.04]">
+                <tbody className="divide-y divide-[rgba(6,124,249,0.06)]">
                   {[
                     { day: 'Monday', m: 34, a: 52, p: 92, l: 64, primeSlot: '7:30 PM' },
                     { day: 'Tuesday', m: 38, a: 58, p: 88, l: 58, primeSlot: '8:00 PM' },
@@ -818,26 +817,26 @@ export default function PageBuilder({ onNavigate }) {
                     { day: 'Saturday', m: 62, a: 82, p: 96, l: 88, primeSlot: '6:00 PM' },
                     { day: 'Sunday', m: 74, a: 88, p: 100, l: 90, primeSlot: '7:00 PM' }
                   ].map((row, idx) => (
-                    <tr key={idx} className="hover:bg-neutral-50/50 dark:hover:bg-white/[0.02]">
-                      <td className="py-2.5 font-semibold text-neutral-800 dark:text-neutral-200">{row.day}</td>
+                    <tr key={idx} className="hover:bg-[#EFF6FF]/40 transition-colors">
+                      <td className="py-2.5 font-bold text-[#0F172A]">{row.day}</td>
                       <td className="py-2.5 text-center">
-                        <span className="px-2.5 py-1 rounded-md text-[11px] bg-neutral-100 dark:bg-white/[0.04] text-neutral-600 dark:text-neutral-400 font-medium">
+                        <span className="px-2.5 py-1 rounded-md text-[11px] bg-[#F8FAFC] text-[#64748B] font-medium border border-neutral-100">
                           {row.m}%
                         </span>
                       </td>
                       <td className="py-2.5 text-center">
-                        <span className="px-2.5 py-1 rounded-md text-[11px] bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 font-medium">
+                        <span className="px-2.5 py-1 rounded-md text-[11px] bg-[#EFF6FF] text-[#067CF9] font-semibold border border-[rgba(6,124,249,0.15)]">
                           {row.a}%
                         </span>
                       </td>
                       <td className="py-2.5 text-center">
-                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] bg-emerald-600 text-white font-bold shadow-xs">
+                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] bg-[#067CF9] text-white font-bold shadow-xs">
                           <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
                           <span>{row.p}% ({row.primeSlot})</span>
                         </span>
                       </td>
                       <td className="py-2.5 text-center">
-                        <span className="px-2.5 py-1 rounded-md text-[11px] bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 font-medium">
+                        <span className="px-2.5 py-1 rounded-md text-[11px] bg-[#EFF6FF] text-[#067CF9] font-semibold border border-[rgba(6,124,249,0.15)]">
                           {row.l}%
                         </span>
                       </td>
@@ -847,15 +846,15 @@ export default function PageBuilder({ onNavigate }) {
               </table>
             </div>
 
-            {/* Dynamic Crisp Highlight Bar per Section 4 */}
-            <div className="p-3 px-4 rounded-xl bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
-              <div className="flex items-center gap-2 text-emerald-900 dark:text-emerald-200">
-                <Clock className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
-                <span>Optimal Release Window Today: <strong>7:00 PM – 9:00 PM IST</strong></span>
+            {/* Dynamic Crisp Highlight Bar */}
+            <div className="p-3 px-4 rounded-xl bg-[#EFF6FF] border border-[rgba(6,124,249,0.15)] flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+              <div className="flex items-center gap-2 text-[#0F172A]">
+                <Clock className="w-4 h-4 text-[#067CF9] shrink-0" />
+                <span>Optimal Release Window Today: <strong className="text-[#067CF9]">7:00 PM – 9:00 PM IST</strong></span>
               </div>
               <button
                 onClick={() => onNavigate('discover_create')}
-                className="font-mono text-emerald-700 dark:text-emerald-400 font-semibold hover:underline cursor-pointer flex items-center gap-1 self-start sm:self-auto"
+                className="font-mono text-[#067CF9] font-bold hover:underline cursor-pointer flex items-center gap-1 self-start sm:self-auto"
               >
                 <span>Open Content Planner &rarr;</span>
               </button>
@@ -865,24 +864,24 @@ export default function PageBuilder({ onNavigate }) {
         </div>
       )}
 
-      {/* 5. TAB 4: WORKSPACE ACCOUNTS (Multi-Page Hub per Section 5 Blueprint) */}
+      {/* 5. TAB 4: WORKSPACE ACCOUNTS (Multi-Page Hub) */}
       {activeTab === 'multi_page' && (
         <div className="space-y-6">
           
-          {/* Header Workspace Row per Section 5 */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-5 rounded-2xl bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] shadow-xs">
+          {/* Header Workspace Row */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-5 rounded-2xl bg-white/95 backdrop-blur-xl border border-[rgba(6,124,249,0.12)] shadow-[0_2px_16px_rgba(6,124,249,0.04)]">
             <div>
-              <h3 className="font-bold text-sm text-neutral-900 dark:text-white">
+              <h3 className="font-bold text-sm text-[#0F172A]">
                 Connected Accounts
               </h3>
-              <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5">
+              <p className="text-xs text-[#64748B] mt-0.5">
                 Manage connected Instagram Business accounts across workspaces.
               </p>
             </div>
 
             <div className="flex items-center gap-3">
-              {/* Account Slots Usage Pill per Section 5 */}
-              <div className="px-3 py-1 rounded-lg bg-neutral-100 dark:bg-white/[0.04] border border-neutral-200 dark:border-white/[0.08] text-xs font-mono text-neutral-700 dark:text-neutral-300 font-medium">
+              {/* Account Slots Usage Pill */}
+              <div className="px-3 py-1 rounded-lg bg-[#EFF6FF] border border-[rgba(6,124,249,0.15)] text-xs font-mono text-[#067CF9] font-semibold">
                 {pages.length} of {getPageLimit() === 9999 ? 'Unlimited' : getPageLimit()} Accounts Used ({tier === 'free' ? 'Starter' : tier === 'elite' ? 'Elite Tier' : 'Pro Tier'})
               </div>
 
@@ -894,7 +893,7 @@ export default function PageBuilder({ onNavigate }) {
                     setIsConnectModalOpen(true);
                   }
                 }}
-                className="py-2 px-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs transition-colors flex items-center gap-1.5 cursor-pointer shadow-xs"
+                className="py-2 px-3.5 rounded-xl bg-[#067CF9] hover:bg-[#0568D2] text-white font-semibold text-xs transition-colors flex items-center gap-1.5 cursor-pointer shadow-xs"
               >
                 <Plus className="w-3.5 h-3.5" />
                 <span>+ Connect Account</span>
@@ -902,17 +901,17 @@ export default function PageBuilder({ onNavigate }) {
             </div>
           </div>
 
-          {/* Grid of Refined Connected Account Cards per Section 5 */}
+          {/* Grid of Refined Connected Account Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {pages.map((p) => {
               const isActive = p.id === activePage?.id;
               return (
                 <div 
                   key={p.id}
-                  className={`p-5 rounded-2xl border transition-all flex flex-col justify-between space-y-4 ${
+                  className={`p-5 rounded-2xl bg-white border transition-all flex flex-col justify-between space-y-4 shadow-[0_2px_12px_rgba(6,124,249,0.03)] ${
                     isActive 
-                      ? 'bg-white dark:bg-[#0C0D12] border-emerald-500 ring-2 ring-emerald-500/20 shadow-sm' 
-                      : 'bg-white dark:bg-[#0C0D12] border-neutral-200/80 dark:border-white/[0.06] hover:border-neutral-300'
+                      ? 'border-[#067CF9] ring-2 ring-[#067CF9]/20 shadow-sm' 
+                      : 'border-[rgba(6,124,249,0.12)] hover:border-[#067CF9]/30'
                   }`}
                 >
                   <div className="space-y-3">
@@ -926,56 +925,56 @@ export default function PageBuilder({ onNavigate }) {
                             e.currentTarget.onerror = null;
                             e.currentTarget.src = getSafeAvatarUrl('', p.handle);
                           }}
-                          className="w-12 h-12 rounded-2xl object-cover ring-2 ring-emerald-500/20" 
+                          className="w-12 h-12 rounded-2xl object-cover ring-2 ring-[#067CF9]/20" 
                         />
                         <div>
                           <div className="flex items-center gap-1.5">
-                            <span className="font-bold text-sm font-mono text-neutral-900 dark:text-white">@{p.handle}</span>
+                            <span className="font-bold text-sm font-sans text-[#0F172A]">@{p.handle}</span>
                             {isActive && (
-                              <span className="px-1.5 py-0.2 rounded font-mono text-[9px] bg-emerald-600 text-white font-semibold">
+                              <span className="px-1.5 py-0.2 rounded font-mono text-[9px] bg-[#067CF9] text-white font-semibold">
                                 ACTIVE
                               </span>
                             )}
                           </div>
-                          <span className="text-xs text-neutral-500 dark:text-neutral-400 font-mono">{p.category}</span>
+                          <span className="text-xs text-[#64748B] font-mono">{p.category}</span>
                         </div>
                       </div>
                     </div>
 
-                    {/* Key Snapshot Metrics: Followers | 7D Reach | Page Score */}
-                    <div className="grid grid-cols-3 gap-2 p-2.5 rounded-xl bg-neutral-50 dark:bg-white/[0.02] border border-neutral-200/60 dark:border-white/[0.04] text-center text-xs font-mono">
+                    {/* Key Snapshot Metrics */}
+                    <div className="grid grid-cols-3 gap-2 p-2.5 rounded-xl bg-[#F8FAFC] border border-[rgba(6,124,249,0.08)] text-center text-xs font-mono">
                       <div>
-                        <div className="text-[10px] text-neutral-400">Followers</div>
-                        <div className="font-bold text-neutral-900 dark:text-white mt-0.5">{p.followersCount || '0'}</div>
+                        <div className="text-[10px] text-[#94A3B8]">Followers</div>
+                        <div className="font-bold text-[#0F172A] mt-0.5">{p.followersCount || '0'}</div>
                       </div>
                       <div>
-                        <div className="text-[10px] text-neutral-400">7D Reach</div>
-                        <div className="font-bold text-neutral-900 dark:text-white mt-0.5">{p.views7d || '0'}</div>
+                        <div className="text-[10px] text-[#94A3B8]">7D Reach</div>
+                        <div className="font-bold text-[#0F172A] mt-0.5">{p.views7d || '0'}</div>
                       </div>
                       <div>
-                        <div className="text-[10px] text-neutral-400">Page Score</div>
-                        <div className="font-bold text-emerald-600 dark:text-emerald-400 mt-0.5">{p.audit?.overallScore || 80}/100</div>
+                        <div className="text-[10px] text-[#94A3B8]">Page Score</div>
+                        <div className="font-bold text-[#067CF9] mt-0.5">{p.audit?.overallScore || 80}/100</div>
                       </div>
                     </div>
                   </div>
 
-                  {/* Bottom Action Status per Section 5 */}
-                  <div className="pt-3 border-t border-neutral-100 dark:border-white/[0.05] flex items-center justify-between">
+                  {/* Bottom Action Status */}
+                  <div className="pt-3 border-t border-[rgba(6,124,249,0.06)] flex items-center justify-between">
                     {isActive ? (
-                      <span className="text-xs font-mono text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5 font-semibold">
-                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                      <span className="text-xs font-mono text-[#067CF9] flex items-center gap-1.5 font-semibold">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#067CF9] animate-pulse" />
                         <span>Active Workspace</span>
                       </span>
                     ) : (
                       <button
                         onClick={() => switchPage(p.id)}
-                        className="px-3 py-1.5 rounded-lg bg-neutral-100 hover:bg-neutral-200 dark:bg-white/[0.04] dark:hover:bg-white/[0.08] text-xs font-medium text-neutral-700 dark:text-neutral-300 transition-colors cursor-pointer"
+                        className="px-3 py-1.5 rounded-lg bg-[#F8FAFC] hover:bg-[#EFF6FF] border border-neutral-200 text-xs font-medium text-[#0F172A] transition-colors cursor-pointer"
                       >
                         Set as Active Context
                       </button>
                     )}
 
-                    <span className="text-[10px] font-mono text-neutral-400">
+                    <span className="text-[10px] font-mono text-[#94A3B8]">
                       Synced {p.lastSynced || '2m ago'}
                     </span>
                   </div>
@@ -986,16 +985,16 @@ export default function PageBuilder({ onNavigate }) {
 
           {/* Plan Limits Callout */}
           {tier === 'free' && (
-            <div className="p-4 rounded-2xl bg-amber-50 dark:bg-amber-500/10 border border-amber-200 dark:border-amber-500/20 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
-              <div className="flex items-center gap-2.5 text-amber-900 dark:text-amber-200">
-                <AlertCircle className="w-4 h-4 text-amber-600 shrink-0" />
+            <div className="p-4 rounded-2xl bg-[#EFF6FF] border border-[rgba(6,124,249,0.2)] flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+              <div className="flex items-center gap-2.5 text-[#0F172A]">
+                <AlertCircle className="w-4 h-4 text-[#067CF9] shrink-0" />
                 <span>
                   <strong>Free Plan Limit:</strong> You can manage 1 Instagram account. Upgrade to Pro to scale up to 3 theme pages simultaneously.
                 </span>
               </div>
               <button
                 onClick={() => openUpgradeModal('multi_page', 'Upgrade to Pro to connect up to 3 Instagram accounts.')}
-                className="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs whitespace-nowrap cursor-pointer shadow-xs"
+                className="px-3 py-1.5 rounded-xl bg-[#067CF9] hover:bg-[#0568D2] text-white font-semibold text-xs whitespace-nowrap cursor-pointer shadow-xs"
               >
                 Upgrade to Pro (3 Pages)
               </button>

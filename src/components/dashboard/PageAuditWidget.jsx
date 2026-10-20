@@ -20,7 +20,7 @@ export const getScoreBadgeClasses = (score) => {
   if (score < 75) {
     return 'bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-200 dark:border-amber-500/20';
   }
-  return 'bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-500/30';
+  return 'bg-[#EFF6FF] dark:bg-[#EFF6FF] text-[#067CF9] dark:text-[#067CF9] border-[#067CF9]/30 dark:border-[#067CF9]/30';
 };
 
 export const getScoreStrokeColor = (score) => {
@@ -135,7 +135,7 @@ export default function PageAuditWidget({ onNavigate }) {
       </div>
 
       {scanMessage && (
-        <div className="p-2 rounded-lg bg-emerald-50 dark:bg-white/[0.03] border border-emerald-200 dark:border-white/[0.08] text-xs text-emerald-800 dark:text-neutral-300 font-mono">
+        <div className="p-2 rounded-lg bg-[#EFF6FF] dark:bg-white/[0.03] border border-[#067CF9]/30 dark:border-white/[0.08] text-xs text-[#067CF9] dark:text-neutral-300 font-mono">
           {scanMessage}
         </div>
       )}
@@ -176,7 +176,7 @@ export default function PageAuditWidget({ onNavigate }) {
           </div>
 
           <div className={`text-[11px] font-mono font-medium ${
-            healthScore >= 75 ? 'text-emerald-600 dark:text-emerald-400' : healthScore >= 50 ? 'text-amber-600 dark:text-amber-400' : 'text-red-600 dark:text-red-400'
+            healthScore >= 75 ? 'text-[#067CF9] dark:text-[#067CF9]' : healthScore >= 50 ? 'text-amber-600 dark:text-amber-400' : 'text-red-600 dark:text-red-400'
           }`}>
             Profile Optimization
           </div>

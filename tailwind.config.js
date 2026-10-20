@@ -7,14 +7,20 @@ export default {
   darkMode: 'class',
   theme: {
     extend: {
-      fontFamily: {
-        headline: ['"General Sans"', '"Plus Jakarta Sans"', '-apple-system', 'sans-serif'],
-        display: ['"General Sans"', '"Plus Jakarta Sans"', '-apple-system', 'sans-serif'],
-        sans: ['"Plus Jakarta Sans"', '"Inter"', '-apple-system', 'sans-serif'],
-        inter: ['"Inter"', '-apple-system', 'sans-serif'],
-        mono: ['"JetBrains Mono"', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
-      },
       colors: {
+        brand: {
+          50: '#EFF6FF',
+          100: '#DBEAFE',
+          500: '#067CF9', // Single Electric Blue Accent
+          600: '#056ad6',
+          700: '#0457b0',
+          900: '#0F172A', // Deep Obsidian Navy
+        },
+        surface: {
+          light: '#FFFFFF',
+          glass: 'rgba(255, 255, 255, 0.85)',
+          border: 'rgba(6, 124, 249, 0.12)',
+        },
         black: '#000000',
         dark: {
           950: '#08090C',
@@ -23,6 +29,13 @@ export default {
           800: '#181A22',
           700: '#262933',
         },
+      },
+      fontFamily: {
+        headline: ['"Plus Jakarta Sans"', '"Inter"', '-apple-system', 'sans-serif'],
+        display: ['"Plus Jakarta Sans"', '"Inter"', '-apple-system', 'sans-serif'],
+        sans: ['"Plus Jakarta Sans"', '"Inter"', '-apple-system', 'sans-serif'],
+        inter: ['"Inter"', 'sans-serif'],
+        mono: ['"JetBrains Mono"', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
       },
     },
   },

@@ -161,7 +161,7 @@ export default function ReelPerformanceMatrix({ onNavigate }) {
               </div>
               <div>
                 <div className="text-[10px] text-neutral-400 font-semibold">Retention</div>
-                <div className="text-xs font-bold text-emerald-600 dark:text-emerald-400 mt-0.5">{reel.retention}%</div>
+                <div className="text-xs font-bold text-[#067CF9] dark:text-[#067CF9] mt-0.5">{reel.retention}%</div>
               </div>
               <div>
                 <div className="text-[10px] text-neutral-400 font-semibold">Shares</div>
@@ -175,7 +175,7 @@ export default function ReelPerformanceMatrix({ onNavigate }) {
                 onClick={() => onNavigate && onNavigate('discover_create')}
                 className="px-3 py-1.5 rounded-lg border border-neutral-200 dark:border-white/[0.08] text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-white/[0.05] text-xs font-semibold transition-colors flex items-center gap-1.5 cursor-pointer shadow-xs"
               >
-                <Sparkles className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                <Sparkles className="w-3.5 h-3.5 text-[#067CF9] dark:text-[#067CF9]" />
                 <span>AI Remix</span>
               </button>
             </div>

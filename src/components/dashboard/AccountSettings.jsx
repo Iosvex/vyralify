@@ -176,7 +176,7 @@ export default function AccountSettings({ onNavigate }) {
                 onClick={() => setActiveTab(tab.id)}
                 className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer whitespace-nowrap ${
                   isActive
-                    ? 'bg-emerald-600 text-white shadow-xs'
+                    ? 'bg-[#067CF9] text-white shadow-xs'
                     : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white hover:bg-neutral-50 dark:hover:bg-white/[0.04]'
                 }`}
               >
@@ -222,12 +222,12 @@ export default function AccountSettings({ onNavigate }) {
             <div className="p-4 rounded-xl bg-neutral-50 dark:bg-white/[0.02] border border-neutral-200/80 dark:border-white/[0.05] flex items-center justify-between text-xs">
               <div>
                 <span className="font-semibold text-neutral-900 dark:text-white block">Active Instagram Workspace:</span>
-                <span className="text-[11px] text-emerald-600 font-mono">@{activePage?.handle || 'creator'} ({activePage?.category})</span>
+                <span className="text-[11px] text-[#067CF9] font-mono">@{activePage?.handle || 'creator'} ({activePage?.category})</span>
               </div>
               <button
                 type="button"
                 onClick={() => onNavigate('builder')}
-                className="text-xs text-emerald-600 hover:underline font-semibold cursor-pointer"
+                className="text-xs text-[#067CF9] hover:underline font-semibold cursor-pointer"
               >
                 Switch Account in Builder &rarr;
               </button>
@@ -237,7 +237,7 @@ export default function AccountSettings({ onNavigate }) {
               <button
                 type="submit"
                 disabled={isSavingProfile}
-                className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white font-semibold text-xs cursor-pointer shadow-xs transition-colors"
+                className="px-4 py-2 rounded-xl bg-[#067CF9] hover:bg-[#0568D2] disabled:opacity-50 text-white font-semibold text-xs cursor-pointer shadow-xs transition-colors"
               >
                 {isSavingProfile ? 'Saving...' : 'Save Profile Changes'}
               </button>
@@ -247,7 +247,7 @@ export default function AccountSettings({ onNavigate }) {
           {/* Privacy & Compliance Card */}
           <div className="p-5 rounded-2xl bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] shadow-xs space-y-3">
             <h3 className="font-bold text-neutral-900 dark:text-white text-sm flex items-center gap-2">
-              <ShieldCheck className="w-4 h-4 text-emerald-600" />
+              <ShieldCheck className="w-4 h-4 text-[#067CF9]" />
               <span>Data Compliance & AI Processing Rights</span>
             </h3>
             <p className="text-xs text-neutral-500 leading-relaxed">
@@ -281,7 +281,7 @@ export default function AccountSettings({ onNavigate }) {
               </div>
               <span className={`px-2.5 py-1 rounded-lg text-xs font-mono font-bold uppercase ${
                 tier === 'elite' ? 'bg-amber-100 text-amber-800' :
-                tier === 'pro' ? 'bg-emerald-100 text-emerald-800' :
+                tier === 'pro' ? 'bg-[#EFF6FF] text-[#067CF9]' :
                 'bg-neutral-100 text-neutral-700'
               }`}>
                 {tier.toUpperCase()} TIER
@@ -301,14 +301,14 @@ export default function AccountSettings({ onNavigate }) {
                     key={plan.id}
                     className={`p-5 rounded-2xl border flex flex-col justify-between space-y-4 transition-all ${
                       isCurrent
-                        ? 'bg-emerald-50/70 dark:bg-emerald-500/10 border-emerald-500 shadow-xs'
+                        ? 'bg-[#EFF6FF] dark:bg-[#EFF6FF] border-[#067CF9]/30 shadow-xs'
                         : 'bg-white dark:bg-[#0C0D12] border-neutral-200/80 dark:border-white/[0.06]'
                     }`}
                   >
                     <div>
                       <div className="flex items-center justify-between">
                         <h4 className="font-bold text-neutral-900 dark:text-white text-xs">{plan.name}</h4>
-                        {isCurrent && <Check className="w-4 h-4 text-emerald-600" />}
+                        {isCurrent && <Check className="w-4 h-4 text-[#067CF9]" />}
                       </div>
                       <div className="text-xl font-bold font-mono text-neutral-900 dark:text-white mt-2">
                         {plan.price}
@@ -328,7 +328,7 @@ export default function AccountSettings({ onNavigate }) {
                       }}
                       className={`w-full py-2 rounded-xl text-xs font-semibold transition-colors cursor-pointer ${
                         isCurrent
-                          ? 'bg-emerald-600 text-white shadow-xs'
+                          ? 'bg-[#067CF9] text-white shadow-xs'
                           : 'bg-neutral-100 dark:bg-white/[0.04] text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200'
                       }`}
                     >
@@ -359,9 +359,9 @@ export default function AccountSettings({ onNavigate }) {
                     <tr key={inv.id} className="hover:bg-neutral-50/50 dark:hover:bg-white/[0.02]">
                       <td className="py-2.5 font-mono text-neutral-500">{inv.id}</td>
                       <td className="py-2.5 font-semibold text-neutral-900 dark:text-white">{inv.plan}</td>
-                      <td className="py-2.5 font-mono text-emerald-600 font-bold">{inv.amount}</td>
+                      <td className="py-2.5 font-mono text-[#067CF9] font-bold">{inv.amount}</td>
                       <td className="py-2.5">
-                        <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-50 text-emerald-700">
+                        <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-[#EFF6FF] text-[#067CF9]">
                           {inv.status}
                         </span>
                       </td>
@@ -390,7 +390,7 @@ export default function AccountSettings({ onNavigate }) {
                 onClick={handleToggle2FA}
                 className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-colors cursor-pointer ${
                   is2FAEnabled 
-                    ? 'bg-emerald-600 text-white' 
+                    ? 'bg-[#067CF9] text-white' 
                     : 'bg-neutral-100 dark:bg-white/[0.04] text-neutral-700 dark:text-neutral-300'
                 }`}
               >
@@ -430,7 +430,7 @@ export default function AccountSettings({ onNavigate }) {
                       <div className="flex items-center gap-2">
                         <span className="font-semibold text-neutral-900 dark:text-white">{s.device}</span>
                         {s.current && (
-                          <span className="px-1.5 py-0.2 rounded bg-emerald-100 text-emerald-800 text-[9px] font-mono font-semibold">
+                          <span className="px-1.5 py-0.2 rounded bg-[#EFF6FF] text-[#067CF9] text-[9px] font-mono font-semibold">
                             This Device
                           </span>
                         )}
@@ -526,7 +526,7 @@ export default function AccountSettings({ onNavigate }) {
                     addNotification({ title: 'Preferences Saved', message: `Updated ${item.title} setting.`, type: 'info' });
                   }}
                   className={`w-11 h-6 rounded-full transition-colors relative cursor-pointer shrink-0 ml-4 ${
-                    notifPrefs[item.key] ? 'bg-emerald-600' : 'bg-neutral-300 dark:bg-white/10'
+                    notifPrefs[item.key] ? 'bg-[#067CF9]' : 'bg-neutral-300 dark:bg-white/10'
                   }`}
                 >
                   <span
@@ -552,17 +552,17 @@ export default function AccountSettings({ onNavigate }) {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
             <a
               href="mailto:support@vyralify.in"
-              className="p-4 rounded-xl bg-neutral-50 dark:bg-white/[0.03] border border-neutral-200/80 dark:border-white/[0.08] hover:border-emerald-500/40 transition-colors block"
+              className="p-4 rounded-xl bg-neutral-50 dark:bg-white/[0.03] border border-neutral-200/80 dark:border-white/[0.08] hover:border-[#067CF9]/30 transition-colors block"
             >
               <h4 className="font-semibold text-white">Direct Email Support</h4>
               <p className="text-neutral-400 text-[11px] mt-1">support@vyralify.in</p>
-              <span className="text-emerald-400 text-[11px] font-mono mt-2 inline-block">Response time: &lt; 2 hours &rarr;</span>
+              <span className="text-[#067CF9] text-[11px] font-mono mt-2 inline-block">Response time: &lt; 2 hours &rarr;</span>
             </a>
 
             <div className="p-4 rounded-xl bg-neutral-50 dark:bg-white/[0.03] border border-neutral-200/80 dark:border-white/[0.08] block">
               <h4 className="font-semibold text-white">Platform Version</h4>
               <p className="text-neutral-400 text-[11px] mt-1">Vyralify Production 2026.4</p>
-              <span className="text-emerald-400 text-[11px] font-mono mt-2 inline-block">&bull; 100% Operational & Synced</span>
+              <span className="text-[#067CF9] text-[11px] font-mono mt-2 inline-block">&bull; 100% Operational & Synced</span>
             </div>
           </div>
         </div>

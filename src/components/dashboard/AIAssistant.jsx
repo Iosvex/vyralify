@@ -112,21 +112,21 @@ function CleanFormattedMessage({ text }) {
       renderedElements.push(
         <div 
           key={`quote-${key}-${renderedElements.length}`}
-          className="my-3 p-3.5 rounded-xl bg-slate-900/90 dark:bg-black/70 border border-neutral-800 dark:border-white/[0.08] text-xs shadow-xs relative group"
+          className="my-3 p-3.5 rounded-xl bg-[#F1F5F9] border border-[rgba(6,124,249,0.14)] text-xs shadow-xs relative group"
         >
-          <div className="flex items-center justify-between text-[10px] font-mono uppercase tracking-wider text-emerald-400 font-medium mb-2">
+          <div className="flex items-center justify-between text-[10px] font-mono uppercase tracking-wider text-[#067CF9] font-semibold mb-2">
             <span className="flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              <span>Recommended Script / Bio Copy</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-[#067CF9] animate-pulse" />
+              <span>Recommended Script / Copy</span>
             </span>
             <button
               onClick={() => handleCopyQuote(quoteContent, quoteIndex)}
-              className="px-2 py-0.5 rounded bg-white/[0.06] hover:bg-white/[0.12] text-neutral-300 hover:text-white text-[10px] font-mono transition-colors cursor-pointer flex items-center gap-1 border border-white/[0.08]"
+              className="px-2 py-0.5 rounded-md bg-white hover:bg-[#EFF6FF] text-[#067CF9] text-[10px] font-mono transition-colors cursor-pointer flex items-center gap-1 border border-[#067CF9]/20 shadow-xs"
               title="Copy to clipboard"
             >
               {copiedQuoteIdx === quoteIndex ? (
                 <>
-                  <Check className="w-2.5 h-2.5 text-emerald-400" />
+                  <Check className="w-2.5 h-2.5 text-[#067CF9]" />
                   <span>Copied!</span>
                 </>
               ) : (
@@ -137,7 +137,7 @@ function CleanFormattedMessage({ text }) {
               )}
             </button>
           </div>
-          <div className="font-mono text-neutral-200 whitespace-pre-line leading-relaxed selection:bg-emerald-500/30">
+          <div className="font-mono text-[#0F172A] whitespace-pre-line leading-relaxed selection:bg-[#067CF9]/20">
             {quoteContent}
           </div>
         </div>
@@ -767,19 +767,19 @@ export default function AIAssistant({ onNavigate }) {
             )}
 
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-bold shadow-xs">
+              <div className="w-8 h-8 rounded-xl bg-[#067CF9] text-white flex items-center justify-center font-bold shadow-xs">
                 <Sparkles className="w-4 h-4" />
               </div>
               <div>
-                <div className="font-semibold text-neutral-900 dark:text-white text-xs flex items-center gap-2">
+                <div className="font-semibold text-[#0F172A] text-xs flex items-center gap-2">
                   <span>Vyralify Assistant</span>
-                  <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200/80 dark:border-emerald-500/20 text-emerald-700 dark:text-emerald-400 text-[10px] font-mono font-medium">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                  <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#EFF6FF] border border-[#067CF9]/20 text-[#067CF9] text-[10px] font-mono font-medium">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#067CF9] animate-pulse" />
                     <span>Grounded in Account Analytics</span>
                   </span>
                 </div>
-                <div className="text-[10px] text-neutral-500 dark:text-neutral-400 font-mono flex items-center gap-1.5 mt-0.5">
-                  <span className="text-emerald-600 dark:text-emerald-400 font-semibold">Live Data Connected</span>
+                <div className="text-[10px] text-[#64748B] font-mono flex items-center gap-1.5 mt-0.5">
+                  <span className="text-[#067CF9] font-semibold">Live Data Connected</span>
                   <span>&bull;</span>
                   <span>Active Context</span>
                 </div>
@@ -792,7 +792,7 @@ export default function AIAssistant({ onNavigate }) {
             {tier === 'free' && (
               <button
                 onClick={() => openUpgradeModal('ai_credits', 'Unlock 300 daily generations & vision critiques with Pro.')}
-                className="px-2.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs transition-colors cursor-pointer shadow-xs"
+                className="px-2.5 py-1.5 rounded-xl bg-[#067CF9] hover:bg-[#056ad6] text-white font-semibold text-xs transition-colors cursor-pointer shadow-xs"
               >
                 Upgrade to Pro
               </button>
@@ -802,7 +802,7 @@ export default function AIAssistant({ onNavigate }) {
 
         {/* 80% Credit Warning Banner */}
         {isNearLimit && (
-          <div className="px-4 py-2 bg-amber-50 dark:bg-amber-500/10 border-b border-amber-200 dark:border-amber-500/20 flex items-center justify-between text-xs text-amber-900 dark:text-amber-200">
+          <div className="px-4 py-2 bg-amber-50 border-b border-amber-200 flex items-center justify-between text-xs text-amber-900">
             <div className="flex items-center gap-2">
               <AlertTriangle className="w-3.5 h-3.5 text-amber-600 shrink-0" />
               <span>
@@ -811,7 +811,7 @@ export default function AIAssistant({ onNavigate }) {
             </div>
             <button
               onClick={() => openUpgradeModal('ai_credits', 'Upgrade to Pro for 300 daily generations.')}
-              className="text-amber-700 dark:text-amber-300 font-semibold underline hover:no-underline cursor-pointer text-[11px]"
+              className="text-amber-700 font-semibold underline hover:no-underline cursor-pointer text-[11px]"
             >
               Get 300 Credits &rarr;
             </button>
@@ -833,10 +833,10 @@ export default function AIAssistant({ onNavigate }) {
               >
                 {/* Media Attachment if present */}
                 {msg.mediaUrl && (
-                  <div className="mb-2 max-w-sm rounded-xl overflow-hidden border border-neutral-200/80 dark:border-white/[0.08] shadow-xs">
+                  <div className="mb-2 max-w-sm rounded-xl overflow-hidden border border-[rgba(6,124,249,0.12)] shadow-xs">
                     <img src={msg.mediaUrl} alt="Uploaded critique media" className="max-h-48 w-full object-cover" />
                     {msg.mediaName && (
-                      <div className="p-1.5 bg-neutral-900/80 text-white text-[10px] font-mono px-2 truncate">
+                      <div className="p-1.5 bg-[#0F172A] text-white text-[10px] font-mono px-2 truncate">
                         📎 {msg.mediaName}
                       </div>
                     )}
@@ -846,8 +846,8 @@ export default function AIAssistant({ onNavigate }) {
                 {/* Message Bubble */}
                 <div className={`group relative max-w-2xl p-4 rounded-2xl text-xs leading-relaxed ${
                   isUser
-                    ? 'bg-emerald-600 text-white font-medium rounded-tr-xs shadow-xs'
-                    : 'bg-neutral-50 dark:bg-white/[0.03] border border-neutral-200/80 dark:border-white/[0.06] text-neutral-800 dark:text-neutral-200 rounded-tl-xs shadow-xs'
+                    ? 'bg-[#067CF9] text-white font-medium rounded-tr-xs shadow-xs'
+                    : 'bg-white border border-[rgba(6,124,249,0.12)] text-[#0F172A] rounded-tl-xs shadow-xs'
                 }`}>
                   
                   {/* Sender Header for AI */}
@@ -934,17 +934,17 @@ export default function AIAssistant({ onNavigate }) {
           <div ref={messagesEndRef} />
         </div>
 
-        {/* 4. SUGGESTED PROMPT CHIPS (4 Clean Action Pills with SVG Outline Icons per Section 4 Blueprint) */}
-        <div className="px-4 py-2 border-t border-neutral-200/80 dark:border-white/[0.06] bg-neutral-50/70 dark:bg-[#0A0B0E] flex items-center gap-2 overflow-x-auto no-scrollbar">
+        {/* 4. SUGGESTED PROMPT CHIPS (Muted ice-blue background #EFF6FF with crisp #067CF9 outlines) */}
+        <div className="px-4 py-2.5 border-t border-[rgba(6,124,249,0.08)] bg-white/60 flex items-center gap-2 overflow-x-auto no-scrollbar">
           {PROMPT_SUGGESTIONS.map((item, idx) => {
             const Icon = item.icon;
             return (
               <button
                 key={idx}
                 onClick={() => handleSendMessage(item.prompt)}
-                className="shrink-0 px-3 py-1.5 rounded-lg bg-white dark:bg-white/[0.03] hover:bg-neutral-100 dark:hover:bg-white/[0.06] text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white border border-neutral-200 dark:border-white/[0.06] text-xs font-medium transition-colors cursor-pointer flex items-center gap-1.5 shadow-xs"
+                className="shrink-0 px-3 py-1.5 rounded-xl bg-[#EFF6FF] hover:bg-[#DBEAFE] text-[#067CF9] border border-[#067CF9]/30 text-xs font-semibold transition-colors cursor-pointer flex items-center gap-1.5 shadow-2xs"
               >
-                <Icon className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                <Icon className="w-3.5 h-3.5 text-[#067CF9] shrink-0" />
                 <span>{item.label}</span>
               </button>
             );
@@ -953,17 +953,17 @@ export default function AIAssistant({ onNavigate }) {
 
         {/* 5. ATTACHED MEDIA PREVIEW BANNER */}
         {attachedMedia && (
-          <div className="px-4 py-2 border-t border-neutral-200/80 dark:border-white/[0.06] bg-emerald-50/60 dark:bg-emerald-500/10 flex items-center justify-between text-xs">
+          <div className="px-4 py-2 border-t border-[rgba(6,124,249,0.08)] bg-[#EFF6FF] flex items-center justify-between text-xs">
             <div className="flex items-center gap-2.5">
-              <img src={attachedMedia.previewUrl} alt="Preview" className="w-8 h-8 rounded-lg object-cover border border-emerald-500/30" />
+              <img src={attachedMedia.previewUrl} alt="Preview" className="w-8 h-8 rounded-lg object-cover border border-[#067CF9]/30" />
               <div>
-                <span className="font-semibold text-emerald-900 dark:text-emerald-200">{attachedMedia.name}</span>
-                <span className="text-[10px] text-emerald-700 dark:text-emerald-400 block font-mono">Multimodal Vision Critique Ready</span>
+                <span className="font-semibold text-[#0F172A]">{attachedMedia.name}</span>
+                <span className="text-[10px] text-[#067CF9] block font-mono">Multimodal Vision Critique Ready</span>
               </div>
             </div>
             <button
               onClick={() => setAttachedMedia(null)}
-              className="p-1 rounded-md text-emerald-700 hover:bg-emerald-200/50 cursor-pointer"
+              className="p-1 rounded-md text-[#067CF9] hover:bg-[#DBEAFE] cursor-pointer"
               title="Remove attachment"
             >
               <X className="w-4 h-4" />
@@ -971,13 +971,13 @@ export default function AIAssistant({ onNavigate }) {
           </div>
         )}
 
-        {/* 6. CHAT COMPOSER INPUT per Section 4 Blueprint */}
+        {/* 6. CHAT COMPOSER INPUT: Light gray input bar #F8FAFC with Electric Blue send button */}
         <form
           onSubmit={(e) => {
             e.preventDefault();
             handleSendMessage();
           }}
-          className="p-3 border-t border-neutral-200/80 dark:border-white/[0.06] bg-white dark:bg-[#0C0D12] flex items-center gap-2"
+          className="p-3 border-t border-[rgba(6,124,249,0.08)] bg-white flex items-center gap-2"
         >
           {/* File Upload Trigger */}
           <input
@@ -990,28 +990,28 @@ export default function AIAssistant({ onNavigate }) {
           <button
             type="button"
             onClick={() => fileInputRef.current?.click()}
-            className="p-2 rounded-xl bg-neutral-100 dark:bg-white/[0.04] hover:bg-neutral-200 dark:hover:bg-white/[0.08] border border-transparent hover:border-neutral-300 dark:hover:border-white/20 text-neutral-600 dark:text-neutral-400 transition-all cursor-pointer shrink-0"
-            title="Upload Screenshot (Analytics / Competitor Reel / Thumbnail)"
+            className="p-2.5 rounded-xl bg-[#F8FAFC] hover:bg-neutral-100 border border-[rgba(6,124,249,0.12)] text-[#64748B] hover:text-[#0F172A] transition-all cursor-pointer shrink-0"
+            title="Upload Screenshot"
             aria-label="Upload Screenshot"
           >
             <Paperclip className="w-4 h-4" />
           </button>
 
-          {/* Text Input Field: Clean direct placeholder per 4.2 */}
+          {/* Text Input Field: Light gray input bar #F8FAFC */}
           <input
             type="text"
             value={inputMessage}
             onChange={(e) => setInputMessage(e.target.value)}
             disabled={isGenerating}
             placeholder="Ask Assistant about scripts, retention, or growth strategy..."
-            className="flex-1 bg-neutral-50 dark:bg-white/[0.03] border border-neutral-200 dark:border-white/[0.08] rounded-xl px-3.5 py-2.5 text-xs text-neutral-900 dark:text-white placeholder-neutral-400 focus:outline-hidden focus:border-emerald-500 focus:bg-white dark:focus:bg-[#0F1117] transition-all"
+            className="flex-1 bg-[#F8FAFC] border border-[rgba(6,124,249,0.12)] rounded-xl px-3.5 py-2.5 text-xs text-[#0F172A] placeholder:text-[#94A3B8] focus:outline-hidden focus:border-[#067CF9] focus:bg-white transition-all font-medium"
           />
 
-          {/* Send Button: Subtle hover border and dark-mode active states */}
+          {/* Send Button in Electric Blue #067CF9 */}
           <button
             type="submit"
             disabled={isGenerating || (!inputMessage.trim() && !attachedMedia)}
-            className="p-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white font-medium border border-transparent hover:border-emerald-500 transition-all cursor-pointer shrink-0 shadow-xs"
+            className="p-2.5 rounded-xl bg-[#067CF9] hover:bg-[#056ad6] disabled:opacity-40 text-white font-medium transition-all cursor-pointer shrink-0 shadow-xs"
             aria-label="Send message"
           >
             <Send className="w-4 h-4" />

@@ -96,7 +96,7 @@ export default function PlaceholderModule({ moduleId, onNavigate }) {
 
         {/* Profile Card & Audit Overview */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-          <div className="p-5 rounded-xl bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] shadow-xs space-y-4">
+          <div className="p-5 rounded-xl bg-white border border-neutral-200/80 dark:border-white/[0.06] shadow-xs space-y-4">
             <div className="flex items-center gap-3">
               <img 
                 src={getSafeAvatarUrl(activePage?.avatar, activePage?.handle)} 
@@ -129,7 +129,7 @@ export default function PlaceholderModule({ moduleId, onNavigate }) {
             </div>
           </div>
 
-          <div className="lg:col-span-2 p-5 rounded-xl bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] shadow-xs space-y-4">
+          <div className="lg:col-span-2 p-5 rounded-xl bg-white border border-neutral-200/80 dark:border-white/[0.06] shadow-xs space-y-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Sparkles className="w-3.5 h-3.5 text-[#067CF9] dark:text-neutral-400" />
@@ -180,9 +180,9 @@ export default function PlaceholderModule({ moduleId, onNavigate }) {
   // 2. AI ASSISTANT
   if (moduleId === 'assistant') {
     return (
-      <div className="h-[calc(100vh-6rem)] flex flex-col max-w-4xl mx-auto rounded-2xl bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] shadow-sm overflow-hidden">
+      <div className="h-[calc(100vh-6rem)] flex flex-col max-w-4xl mx-auto rounded-2xl bg-white border border-neutral-200/80 dark:border-white/[0.06] shadow-sm overflow-hidden">
         {/* Assistant Header */}
-        <div className="p-3.5 px-4 border-b border-neutral-200/80 dark:border-white/[0.06] bg-neutral-50/70 dark:bg-[#0A0B0E] flex items-center justify-between">
+        <div className="p-3.5 px-4 border-b border-neutral-200/80 dark:border-white/[0.06] bg-neutral-50/70 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-lg bg-[#EFF6FF] dark:bg-white/[0.05] border border-[#067CF9]/30 dark:border-white/[0.08] flex items-center justify-center text-[#067CF9] dark:text-white">
               <Sparkles className="w-4 h-4" />
@@ -223,7 +223,7 @@ export default function PlaceholderModule({ moduleId, onNavigate }) {
         </div>
 
         {/* Preset quick actions */}
-        <div className="px-4 py-2 border-t border-neutral-200/80 dark:border-white/[0.06] bg-neutral-50/70 dark:bg-[#0A0B0E] flex items-center gap-1.5 overflow-x-auto no-scrollbar">
+        <div className="px-4 py-2 border-t border-neutral-200/80 dark:border-white/[0.06] bg-neutral-50/70 flex items-center gap-1.5 overflow-x-auto no-scrollbar">
           <span className="text-[10px] text-neutral-400 font-mono font-medium shrink-0">Prompts:</span>
           {[
             'Write 3 viral hooks for my niche',
@@ -242,7 +242,7 @@ export default function PlaceholderModule({ moduleId, onNavigate }) {
         </div>
 
         {/* Chat Input form */}
-        <form onSubmit={handleSendChat} className="p-3 border-t border-neutral-200/80 dark:border-white/[0.06] bg-white dark:bg-[#0C0D12] flex items-center gap-2">
+        <form onSubmit={handleSendChat} className="p-3 border-t border-neutral-200/80 dark:border-white/[0.06] bg-white flex items-center gap-2">
           <input
             type="text"
             value={chatInput}
@@ -313,7 +313,7 @@ export default function PlaceholderModule({ moduleId, onNavigate }) {
                 engagement: '3.1M Avg Views'
               }
             ].map((item, idx) => (
-              <div key={idx} className="p-4 rounded-xl bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] shadow-xs space-y-3 flex flex-col justify-between">
+              <div key={idx} className="p-4 rounded-xl bg-white border border-neutral-200/80 dark:border-white/[0.06] shadow-xs space-y-3 flex flex-col justify-between">
                 <div>
                   <div className="flex items-center justify-between text-[10px] font-mono mb-2">
                     <span className="px-1.5 py-0.5 rounded bg-neutral-100 dark:bg-white/[0.04] text-neutral-600 dark:text-neutral-400 font-medium">{item.type}</span>
@@ -369,17 +369,17 @@ export default function PlaceholderModule({ moduleId, onNavigate }) {
 
         {/* Stats Row */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
-          <div className="p-4 rounded-xl bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] shadow-xs">
+          <div className="p-4 rounded-xl bg-white border border-neutral-200/80 dark:border-white/[0.06] shadow-xs">
             <div className="text-[11px] font-mono text-neutral-500 dark:text-neutral-400">Total Net Revenue</div>
             <div className="text-2xl font-bold text-neutral-900 dark:text-white font-mono mt-1">₹42,850</div>
             <div className="text-[10px] text-[#067CF9] font-mono mt-1 font-semibold">+18.4% this month</div>
           </div>
-          <div className="p-4 rounded-xl bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] shadow-xs">
+          <div className="p-4 rounded-xl bg-white border border-neutral-200/80 dark:border-white/[0.06] shadow-xs">
             <div className="text-[11px] font-mono text-neutral-500 dark:text-neutral-400">Total Orders</div>
             <div className="text-2xl font-bold text-neutral-900 dark:text-white font-mono mt-1">118 sales</div>
             <div className="text-[10px] text-neutral-400 font-mono mt-1">Average order: ₹363</div>
           </div>
-          <div className="p-4 rounded-xl bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] shadow-xs">
+          <div className="p-4 rounded-xl bg-white border border-neutral-200/80 dark:border-white/[0.06] shadow-xs">
             <div className="text-[11px] font-mono text-neutral-500 dark:text-neutral-400">Active Products</div>
             <div className="text-2xl font-bold text-neutral-900 dark:text-white font-mono mt-1">2 / {tier === 'free' ? '1 (Free Limit)' : 'Unlimited'}</div>
             <div className="text-[10px] text-neutral-500 font-mono mt-1">
@@ -409,7 +409,7 @@ export default function PlaceholderModule({ moduleId, onNavigate }) {
         </div>
 
         {/* Plan Switcher for Quick Testing */}
-        <div className="p-5 rounded-xl bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] shadow-xs space-y-4">
+        <div className="p-5 rounded-xl bg-white border border-neutral-200/80 dark:border-white/[0.06] shadow-xs space-y-4">
           <div className="flex items-center justify-between">
             <div>
               <h3 className="font-semibold text-neutral-900 dark:text-white text-xs">Active Subscription Plan</h3>
@@ -451,7 +451,7 @@ export default function PlaceholderModule({ moduleId, onNavigate }) {
         </div>
 
         {/* Profile Info */}
-        <div className="p-5 rounded-xl bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] shadow-xs space-y-4">
+        <div className="p-5 rounded-xl bg-white border border-neutral-200/80 dark:border-white/[0.06] shadow-xs space-y-4">
           <h3 className="font-semibold text-neutral-900 dark:text-white text-xs">Account Credentials & Data Consent</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
             <div>

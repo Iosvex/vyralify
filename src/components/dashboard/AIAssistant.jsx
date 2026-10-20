@@ -9,18 +9,11 @@ import {
   Trash2, 
   Copy, 
   Check, 
-  RotateCw, 
   ArrowRight, 
-  Image as ImageIcon, 
   X, 
-  Layers, 
   TrendingUp, 
-  Bot, 
-  Compass, 
   Zap, 
   AlertTriangle, 
-  ShieldCheck, 
-  ExternalLink,
   ChevronLeft,
   ChevronRight,
   MessageSquare,
@@ -31,20 +24,17 @@ import { useAuth } from '../../context/AuthContext';
 import { usePage } from '../../context/PageContext';
 import { usePlanGating } from '../../context/PlanGatingContext';
 import { useNotifications } from '../../context/NotificationContext';
-import { useTheme } from '../../context/ThemeContext';
 import { askVyralifyAssistant } from '../../lib/aiService';
 
-const SESSIONS_STORAGE_KEY = 'vyralify_chat_sessions_v3';
+const SESSIONS_STORAGE_KEY = 'vyralify_chat_sessions_v4';
 
 /**
- * Intelligent clean session title generator per Section 2 Blueprint
- * Prevents raw user inputs like "yo" or "kya dikh rha..." from polluting chat titles.
+ * Intelligent clean session title generator
  */
 function generateCleanSessionTitle(rawText, pageCategory) {
   if (!rawText) return 'Growth Strategy Session';
   const lower = rawText.toLowerCase().trim();
 
-  // Keyword-based topic classification
   if (lower.includes('hook') || lower.includes('viral') || lower.includes('3-second') || lower.includes('opening')) {
     return 'Viral Hook Breakdown';
   }
@@ -67,7 +57,6 @@ function generateCleanSessionTitle(rawText, pageCategory) {
     return 'Viral Reel Script Draft';
   }
 
-  // Filter out low-effort casual slang
   const cleanWords = rawText
     .replace(/^[^\w\s]+/, '')
     .replace(/\b(yo|hey|hi|hello|kya|dikh|rha|hai|is|photo|me|bro|bhai|so|um|tell|me)\b/gi, '')
@@ -85,9 +74,8 @@ function generateCleanSessionTitle(rawText, pageCategory) {
 }
 
 /**
- * Modern Clean Message Formatter
- * Eliminates raw markdown clutter (###, ***, * **, >) and renders clean structured cards, badges, and callouts
- * Per Section 5 Blueprint: subtle dark border + mute green text formatting, slate-900 background for script blocks
+ * Modern Clean Message Formatter - Strict Electric Light Blueprint
+ * Uses White (#FFFFFF), Obsidian Navy (#0F172A), Slate (#64748B), and Electric Blue (#067CF9)
  */
 function CleanFormattedMessage({ text }) {
   const [copiedQuoteIdx, setCopiedQuoteIdx] = useState(null);
@@ -112,16 +100,16 @@ function CleanFormattedMessage({ text }) {
       renderedElements.push(
         <div 
           key={`quote-${key}-${renderedElements.length}`}
-          className="my-3 p-3.5 rounded-xl bg-[#F1F5F9] border border-[rgba(6,124,249,0.14)] text-xs shadow-xs relative group"
+          className="my-3 p-3.5 rounded-xl bg-white border border-[rgba(6,124,249,0.18)] text-xs shadow-2xs relative group"
         >
-          <div className="flex items-center justify-between text-[10px] font-mono uppercase tracking-wider text-[#067CF9] font-semibold mb-2">
+          <div className="flex items-center justify-between text-[10px] font-mono uppercase tracking-wider text-[#067CF9] font-bold mb-2">
             <span className="flex items-center gap-1.5">
               <span className="w-1.5 h-1.5 rounded-full bg-[#067CF9] animate-pulse" />
               <span>Recommended Script / Copy</span>
             </span>
             <button
               onClick={() => handleCopyQuote(quoteContent, quoteIndex)}
-              className="px-2 py-0.5 rounded-md bg-white hover:bg-[#EFF6FF] text-[#067CF9] text-[10px] font-mono transition-colors cursor-pointer flex items-center gap-1 border border-[#067CF9]/20 shadow-xs"
+              className="px-2 py-0.5 rounded-md bg-[#EFF6FF] hover:bg-[#DBEAFE] text-[#067CF9] text-[10px] font-mono transition-colors cursor-pointer flex items-center gap-1 border border-[#067CF9]/30 shadow-2xs"
               title="Copy to clipboard"
             >
               {copiedQuoteIdx === quoteIndex ? (
@@ -137,7 +125,7 @@ function CleanFormattedMessage({ text }) {
               )}
             </button>
           </div>
-          <div className="font-mono text-[#0F172A] whitespace-pre-line leading-relaxed selection:bg-[#067CF9]/20">
+          <div className="font-mono text-[#0F172A] whitespace-pre-line leading-relaxed selection:bg-[#067CF9]/20 font-medium">
             {quoteContent}
           </div>
         </div>
@@ -151,9 +139,9 @@ function CleanFormattedMessage({ text }) {
       renderedElements.push(
         <div key={`list-${key}-${renderedElements.length}`} className="my-2 space-y-2">
           {currentList.map((item, idx) => (
-            <div key={idx} className="flex items-start gap-2.5 text-xs leading-relaxed text-neutral-800 dark:text-neutral-200">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 mt-2 shrink-0" />
-              <div className="flex-1">
+            <div key={idx} className="flex items-start gap-2.5 text-xs leading-relaxed text-[#0F172A]">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#067CF9] mt-2 shrink-0" />
+              <div className="flex-1 font-normal">
                 {renderCleanInline(item)}
               </div>
             </div>
@@ -167,17 +155,17 @@ function CleanFormattedMessage({ text }) {
   lines.forEach((line, lineIdx) => {
     const trimmed = line.trim();
 
-    // 1. Divider / Separator (---, ***, ___)
+    // 1. Divider / Separator
     if (/^[-*_]{3,}$/.test(trimmed)) {
       flushQuote(lineIdx);
       flushList(lineIdx);
       renderedElements.push(
-        <div key={`div-${lineIdx}`} className="my-3 border-t border-neutral-200/80 dark:border-white/[0.08]" />
+        <div key={`div-${lineIdx}`} className="my-3 border-t border-slate-200" />
       );
       return;
     }
 
-    // 2. Heading (### Option 1, ## Heading, # Heading)
+    // 2. Heading
     if (/^#{1,4}\s+(.+)$/.test(trimmed)) {
       flushQuote(lineIdx);
       flushList(lineIdx);
@@ -192,13 +180,13 @@ function CleanFormattedMessage({ text }) {
       }
 
       renderedElements.push(
-        <div key={`h-${lineIdx}`} className="mt-4 mb-2 pt-2 border-t border-neutral-200/40 dark:border-white/[0.04] first:border-0 first:pt-0 flex flex-wrap items-center gap-2">
-          <span className="w-1.5 h-3.5 rounded-full bg-emerald-500 shrink-0" />
-          <h4 className="text-xs font-semibold text-neutral-900 dark:text-white uppercase tracking-tight">
+        <div key={`h-${lineIdx}`} className="mt-4 mb-2 pt-2 border-t border-slate-100 first:border-0 first:pt-0 flex flex-wrap items-center gap-2">
+          <span className="w-1.5 h-3.5 rounded-full bg-[#067CF9] shrink-0" />
+          <h4 className="text-xs font-bold text-[#0F172A] uppercase tracking-tight font-headline">
             {renderCleanInline(mainTitle)}
           </h4>
           {badge && (
-            <span className="px-2 py-0.5 rounded border border-neutral-300 dark:border-white/10 bg-neutral-100/80 dark:bg-white/[0.04] text-emerald-600 dark:text-emerald-400 text-[10px] font-mono font-medium">
+            <span className="px-2 py-0.5 rounded border border-[#067CF9]/20 bg-[#EFF6FF] text-[#067CF9] text-[10px] font-mono font-semibold">
               {badge}
             </span>
           )}
@@ -207,7 +195,7 @@ function CleanFormattedMessage({ text }) {
       return;
     }
 
-    // 3. Blockquotes / Bio scripts (> line)
+    // 3. Blockquotes (> line)
     if (trimmed.startsWith('>')) {
       flushList(lineIdx);
       const cleanQuoteLine = trimmed.replace(/^>\s*/, '');
@@ -233,7 +221,7 @@ function CleanFormattedMessage({ text }) {
 
     // 6. Regular paragraph
     renderedElements.push(
-      <p key={`p-${lineIdx}`} className="text-xs leading-relaxed text-neutral-800 dark:text-neutral-200">
+      <p key={`p-${lineIdx}`} className="text-xs leading-relaxed text-[#0F172A]">
         {renderCleanInline(trimmed)}
       </p>
     );
@@ -248,17 +236,13 @@ function CleanFormattedMessage({ text }) {
 function renderCleanInline(text) {
   if (!text) return null;
 
-  // Clean weird double-prefix syntax e.g. `* **` or `***`
   let cleaned = text.replace(/^\*\s*\*\*/, '**').replace(/^\*\*\*/, '**');
-
-  // Tokenize bold **bold**
   const parts = cleaned.split(/(\*\*.*?\*\*)/g);
 
   return parts.map((part, pIdx) => {
     if (part.startsWith('**') && part.endsWith('**') && part.length >= 4) {
       const boldText = part.slice(2, -2).trim();
 
-      // Check if it's a structural label like "Line 1 (Shock):", "Why it works:", "Bio Text:", "Hook:"
       const isLabel = boldText.endsWith(':') || 
                       boldText.startsWith('Line ') || 
                       boldText.startsWith('Option ') || 
@@ -273,7 +257,7 @@ function renderCleanInline(text) {
         return (
           <span
             key={pIdx}
-            className="inline-flex items-center px-1.5 py-0.2 mr-1.5 rounded border border-neutral-200/90 dark:border-white/10 bg-neutral-100/70 dark:bg-white/[0.04] text-emerald-700 dark:text-emerald-400 font-mono font-medium text-[10px] uppercase tracking-wider"
+            className="inline-flex items-center px-1.5 py-0.2 mr-1.5 rounded border border-[#067CF9]/25 bg-[#EFF6FF] text-[#067CF9] font-mono font-bold text-[10px] uppercase tracking-wider"
           >
             {boldText.replace(/:$/, '')}
           </span>
@@ -281,16 +265,15 @@ function renderCleanInline(text) {
       }
 
       return (
-        <strong key={pIdx} className="font-semibold text-neutral-900 dark:text-white">
+        <strong key={pIdx} className="font-bold text-[#0F172A]">
           {boldText}
         </strong>
       );
     }
 
-    // Italic *italic*
     if (part.startsWith('*') && part.endsWith('*') && part.length > 2 && !part.startsWith('**')) {
       return (
-        <em key={pIdx} className="text-neutral-500 dark:text-neutral-400 italic">
+        <em key={pIdx} className="text-slate-500 italic">
           {part.slice(1, -1)}
         </em>
       );
@@ -301,28 +284,24 @@ function renderCleanInline(text) {
 }
 
 export default function AIAssistant({ onNavigate }) {
-  const { user, tier, aiCredits, consumeCredit } = useAuth();
+  const { user, tier, aiCredits } = useAuth();
   const { activePage } = usePage();
   const { openUpgradeModal } = usePlanGating();
   const { addNotification } = useNotifications();
-  const { isDark } = useTheme();
 
-  // Chat sessions state
   const [sessions, setSessions] = useState([]);
   const [activeSessionId, setActiveSessionId] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
-  // Active composer state
   const [inputMessage, setInputMessage] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
-  const [attachedMedia, setAttachedMedia] = useState(null); // { base64, mimeType, name, previewUrl }
+  const [attachedMedia, setAttachedMedia] = useState(null);
   const [copiedMessageId, setCopiedMessageId] = useState(null);
 
   const messagesEndRef = useRef(null);
   const fileInputRef = useRef(null);
 
-  // Initialize or load sessions
   useEffect(() => {
     try {
       const stored = localStorage.getItem(SESSIONS_STORAGE_KEY);
@@ -338,33 +317,25 @@ export default function AIAssistant({ onNavigate }) {
       console.warn('Failed to parse stored sessions:', e);
     }
 
-    // Default initial session grounded in active page
     const initialSession = createDefaultSession(activePage);
     setSessions([initialSession]);
     setActiveSessionId(initialSession.id);
   }, []);
 
-  // Save sessions to localStorage
   useEffect(() => {
     if (sessions.length > 0) {
       try {
         localStorage.setItem(SESSIONS_STORAGE_KEY, JSON.stringify(sessions));
-      } catch (e) {
-        console.warn('Failed to save sessions:', e);
-      }
+      } catch (e) {}
     }
   }, [sessions]);
 
-  // Scroll to bottom when messages update
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [sessions, activeSessionId, isGenerating]);
 
-  // Create default initial session per Section 3 Blueprint
   function createDefaultSession(page) {
     const handle = page?.handle || 'creator';
-
-    // Clean user first name
     const rawName = user?.displayName || user?.name || '';
     const cleanFirstName = rawName && !rawName.toLowerCase().includes('apple creator') && !rawName.includes('@')
       ? rawName.trim().split(' ')[0]
@@ -395,10 +366,8 @@ export default function AIAssistant({ onNavigate }) {
     };
   }
 
-  // Active current session object
   const activeSession = sessions.find(s => s.id === activeSessionId) || sessions[0];
 
-  // Start a fresh conversation thread
   const handleNewSession = () => {
     const newSession = createDefaultSession(activePage);
     setSessions(prev => [newSession, ...prev]);
@@ -407,11 +376,9 @@ export default function AIAssistant({ onNavigate }) {
     setAttachedMedia(null);
   };
 
-  // Delete a session
   const handleDeleteSession = (e, sessionId) => {
     e.stopPropagation();
     if (sessions.length <= 1) {
-      // If last session, reset to new default
       const reset = createDefaultSession(activePage);
       setSessions([reset]);
       setActiveSessionId(reset.id);
@@ -424,82 +391,77 @@ export default function AIAssistant({ onNavigate }) {
     }
   };
 
-  // Handle media file upload
   const handleFileUpload = (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    if (tier === 'free') {
-      addNotification({
-        title: 'Multimodal Vision Active',
-        message: 'Free tier includes 3 multimodal image audits. Upgrade to Pro for 50/month.',
-        type: 'info'
-      });
-    }
-
     if (!file.type.startsWith('image/')) {
-      alert('Please upload an image or screenshot (PNG, JPG, WebP).');
+      addNotification({
+        title: 'Unsupported File',
+        message: 'Please upload an image screenshot of your Instagram page or reel.',
+        type: 'warning'
+      });
       return;
     }
 
-    if (file.size > 8 * 1024 * 1024) {
-      alert('File size exceeds 8MB limit.');
+    if (file.size > 5 * 1024 * 1024) {
+      addNotification({
+        title: 'File Too Large',
+        message: 'Max image size is 5MB for multimodal critique.',
+        type: 'warning'
+      });
       return;
     }
 
     const reader = new FileReader();
-    reader.onload = () => {
+    reader.onload = (event) => {
+      const base64String = event.target?.result;
       setAttachedMedia({
         name: file.name,
         mimeType: file.type,
-        base64: reader.result,
-        previewUrl: reader.result
+        base64: base64String,
+        previewUrl: URL.createObjectURL(file)
+      });
+      addNotification({
+        title: 'Screenshot Attached',
+        message: 'Ready for multimodal vision retention critique.',
+        type: 'info'
       });
     };
     reader.readAsDataURL(file);
   };
 
-  // Parse [ACTION:type|Label] from AI text response
-  const parseActionButtons = (rawText) => {
-    const actionRegex = /\[ACTION:([a-z_]+)\|([^\]]+)\]/g;
+  const parseActionButtons = (aiText) => {
     const actions = [];
+    let cleanText = aiText;
+
+    const actionRegex = /\[ACTION:\s*([a-zA-Z0-9_]+)\s*\|\s*([^\]]+)\]/g;
     let match;
-    while ((match = actionRegex.exec(rawText)) !== null) {
+    while ((match = actionRegex.exec(aiText)) !== null) {
       actions.push({
         type: match[1],
-        label: match[2]
+        label: match[2].trim()
       });
     }
-    const cleanText = rawText.replace(actionRegex, '').trim();
+
+    cleanText = cleanText.replace(actionRegex, '').trim();
     return { cleanText, actions };
   };
 
-  // Send message
-  const handleSendMessage = async (customPrompt = null) => {
-    const textToSend = customPrompt || inputMessage;
+  const handleSendMessage = async (textOverride = null) => {
+    const textToSend = textOverride || inputMessage;
     if (!textToSend.trim() && !attachedMedia) return;
 
-    // Credit consumption check
-    const canUse = consumeCredit(1);
-    if (!canUse) {
-      openUpgradeModal(
-        'ai_credits',
-        `You have reached your daily credit quota (${aiCredits.limit} credits on ${tier.toUpperCase()}). Upgrade to scale unlimited generations.`
-      );
-      return;
-    }
-
-    const userMessageId = 'msg_' + Date.now();
+    const userMessageId = 'msg_user_' + Date.now();
     const newUserMsg = {
       id: userMessageId,
       sender: 'user',
-      text: textToSend,
+      text: textToSend.trim(),
       mediaUrl: attachedMedia?.previewUrl || null,
       mediaName: attachedMedia?.name || null,
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     };
 
-    // Auto-generate clean title on first user message per Section 2 Blueprint
     let sessionTitle = activeSession?.title;
     if (!activeSession?.messages || activeSession.messages.length <= 1) {
       sessionTitle = generateCleanSessionTitle(textToSend, activePage?.category);
@@ -507,7 +469,6 @@ export default function AIAssistant({ onNavigate }) {
 
     const updatedMessages = [...(activeSession?.messages || []), newUserMsg];
     
-    // Update local state immediately
     setSessions(prev => prev.map(s => {
       if (s.id === activeSessionId) {
         return {
@@ -526,7 +487,6 @@ export default function AIAssistant({ onNavigate }) {
     setIsGenerating(true);
 
     try {
-      // Build context payload
       const pageContext = {
         handle: activePage?.handle || 'creator',
         niche: activePage?.category || 'Business & Money',
@@ -582,25 +542,21 @@ export default function AIAssistant({ onNavigate }) {
     }
   };
 
-  // Copy message text
   const handleCopyMessage = (text, id) => {
     navigator.clipboard.writeText(text);
     setCopiedMessageId(id);
     setTimeout(() => setCopiedMessageId(null), 2000);
   };
 
-  // Filtered sessions based on search query
   const filteredSessions = sessions.filter(s => 
     s.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
     s.messages.some(m => m.text.toLowerCase().includes(searchQuery.toLowerCase()))
   );
 
-  // Credit calculation & 80% threshold warning
-  const creditsRemaining = Math.max(0, aiCredits.limit - aiCredits.usedToday);
-  const creditUsagePercent = aiCredits.limit > 90000 ? 0 : Math.round((aiCredits.usedToday / aiCredits.limit) * 100);
-  const isNearLimit = creditUsagePercent >= 80 && aiCredits.limit < 90000;
+  const creditsRemaining = Math.max(0, (aiCredits?.limit || 20) - (aiCredits?.usedToday || 0));
+  const creditUsagePercent = (aiCredits?.limit || 20) > 90000 ? 0 : Math.round(((aiCredits?.usedToday || 0) / (aiCredits?.limit || 20)) * 100);
+  const isNearLimit = creditUsagePercent >= 80 && (aiCredits?.limit || 20) < 90000;
 
-  // 4 Clean Growth Presets with minimalist SVG outline icons per Section 4 Blueprint
   const PROMPT_SUGGESTIONS = [
     { 
       label: '3 Viral Reel Hooks', 
@@ -610,7 +566,7 @@ export default function AIAssistant({ onNavigate }) {
     { 
       label: 'Bio Conversion Teardown', 
       icon: Search,
-      prompt: `Audit my current bio for @${activePage?.handle || 'my page'} and suggest 3 high-converting rewrites.` 
+      prompt: `Audit my current bio for @${activePage?.handle || 'my page'} and suggest 3 high-converting rewrites with DM call-to-actions.` 
     },
     { 
       label: 'Analyze Top Retention Reel', 
@@ -627,26 +583,26 @@ export default function AIAssistant({ onNavigate }) {
   return (
     <div className="h-[calc(100vh-5.5rem)] flex flex-col lg:flex-row gap-3 max-w-7xl mx-auto overflow-hidden">
       
-      {/* 1. SESSIONS HISTORY DRAWER (Collapsible with smooth transition per Section 2) */}
-      <div className={`shrink-0 transition-all duration-300 ease-in-out flex flex-col bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] rounded-2xl overflow-hidden shadow-xs ${
+      {/* 1. SESSIONS HISTORY DRAWER (Clean Frosted White Container) */}
+      <div className={`shrink-0 transition-all duration-300 ease-in-out flex flex-col bg-white border border-slate-200/90 rounded-2xl overflow-hidden shadow-xs ${
         isSidebarOpen ? 'w-full lg:w-72' : 'w-14 hidden lg:flex'
       }`}>
         
-        {/* Drawer Header with non-overlapping tooltips per Section 2 */}
-        <div className="p-3 border-b border-neutral-200/80 dark:border-white/[0.06] flex items-center justify-between gap-2">
+        {/* Drawer Header */}
+        <div className="p-3 border-b border-slate-100 flex items-center justify-between gap-2 bg-slate-50/60">
           {isSidebarOpen ? (
             <>
               <div className="flex items-center gap-2">
-                <MessageSquare className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-                <span className="font-semibold text-xs text-neutral-900 dark:text-white">Conversations</span>
-                <span className="px-1.5 py-0.2 rounded bg-neutral-100 dark:bg-white/[0.05] text-[10px] font-mono text-neutral-500">
+                <MessageSquare className="w-4 h-4 text-[#067CF9]" />
+                <span className="font-semibold text-xs text-[#0F172A]">Conversations</span>
+                <span className="px-1.5 py-0.2 rounded-full bg-blue-50 text-[10px] font-mono text-[#067CF9] font-semibold">
                   {sessions.length}
                 </span>
               </div>
               <div className="flex items-center gap-1.5">
                 <button
                   onClick={handleNewSession}
-                  className="p-1.5 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 hover:bg-emerald-100 dark:hover:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 text-xs transition-colors cursor-pointer"
+                  className="p-1.5 rounded-lg bg-[#EFF6FF] hover:bg-[#DBEAFE] text-[#067CF9] text-xs transition-colors cursor-pointer shadow-2xs"
                   title="New Thread"
                   aria-label="New Thread"
                 >
@@ -654,7 +610,7 @@ export default function AIAssistant({ onNavigate }) {
                 </button>
                 <button
                   onClick={() => setIsSidebarOpen(false)}
-                  className="p-1.5 rounded-lg hover:bg-neutral-100 dark:hover:bg-white/[0.06] text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-200 transition-colors cursor-pointer"
+                  className="p-1.5 rounded-lg hover:bg-slate-100 text-slate-400 hover:text-slate-700 transition-colors cursor-pointer"
                   title="Collapse Sidebar"
                   aria-label="Collapse Sidebar"
                 >
@@ -665,7 +621,7 @@ export default function AIAssistant({ onNavigate }) {
           ) : (
             <button
               onClick={() => setIsSidebarOpen(true)}
-              className="w-full py-2 flex items-center justify-center hover:bg-neutral-100 dark:hover:bg-white/[0.06] text-neutral-400 rounded-lg transition-colors cursor-pointer"
+              className="w-full py-2 flex items-center justify-center hover:bg-slate-100 text-slate-400 rounded-lg transition-colors cursor-pointer"
               title="Expand Conversations"
               aria-label="Expand Conversations"
             >
@@ -674,24 +630,24 @@ export default function AIAssistant({ onNavigate }) {
           )}
         </div>
 
-        {/* Drawer Search & List (When Open) */}
+        {/* Drawer Search & List */}
         {isSidebarOpen && (
           <>
-            <div className="p-2.5 border-b border-neutral-200/80 dark:border-white/[0.06]">
+            <div className="p-2.5 border-b border-slate-100">
               <div className="relative">
-                <Search className="w-3 h-3 text-neutral-400 absolute left-2.5 top-1/2 -translate-y-1/2" />
+                <Search className="w-3 h-3 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2" />
                 <input
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search chats..."
-                  className="w-full bg-neutral-50 dark:bg-white/[0.03] border border-neutral-200 dark:border-white/[0.06] rounded-xl pl-7 pr-2.5 py-1.5 text-[11px] text-neutral-900 dark:text-white placeholder-neutral-400 focus:outline-hidden focus:border-emerald-500 transition-colors"
+                  className="w-full bg-[#F8FAFC] border border-slate-200 rounded-xl pl-7 pr-2.5 py-1.5 text-[11px] text-[#0F172A] placeholder-slate-400 focus:outline-hidden focus:border-[#067CF9] focus:bg-white transition-colors"
                 />
               </div>
             </div>
 
             {/* Sessions Scroll List */}
-            <div className="flex-1 overflow-y-auto p-2 space-y-1">
+            <div className="flex-1 overflow-y-auto p-2 space-y-1 bg-white">
               {filteredSessions.map((s) => {
                 const isActive = s.id === activeSessionId;
                 return (
@@ -700,13 +656,13 @@ export default function AIAssistant({ onNavigate }) {
                     onClick={() => setActiveSessionId(s.id)}
                     className={`group relative p-2.5 rounded-xl border transition-all cursor-pointer flex items-center justify-between gap-2 ${
                       isActive
-                        ? 'bg-emerald-50/80 dark:bg-emerald-500/10 border-emerald-500/40 text-neutral-900 dark:text-white font-medium shadow-xs'
-                        : 'bg-transparent border-transparent hover:bg-neutral-50 dark:hover:bg-white/[0.02] text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white'
+                        ? 'bg-[#EFF6FF] border-[#067CF9]/40 text-[#067CF9] font-semibold shadow-2xs'
+                        : 'bg-transparent border-transparent hover:bg-slate-50 text-slate-600 hover:text-[#0F172A]'
                     }`}
                   >
                     <div className="min-w-0 flex-1">
                       <p className="text-xs truncate">{s.title}</p>
-                      <div className="flex items-center gap-1.5 text-[10px] text-neutral-400 font-mono mt-0.5">
+                      <div className="flex items-center gap-1.5 text-[10px] text-slate-400 font-mono mt-0.5">
                         <span>{s.messages.length} msgs</span>
                         <span>&bull;</span>
                         <span>{new Date(s.updatedAt).toLocaleDateString([], { month: 'short', day: 'numeric' })}</span>
@@ -715,7 +671,7 @@ export default function AIAssistant({ onNavigate }) {
 
                     <button
                       onClick={(e) => handleDeleteSession(e, s.id)}
-                      className="opacity-0 group-hover:opacity-100 p-1 rounded-md hover:bg-red-50 dark:hover:bg-red-500/10 text-neutral-400 hover:text-red-600 transition-all cursor-pointer"
+                      className="opacity-0 group-hover:opacity-100 p-1 rounded-md hover:bg-red-50 text-slate-400 hover:text-red-500 transition-all cursor-pointer"
                       title="Delete Thread"
                     >
                       <Trash2 className="w-3 h-3" />
@@ -725,22 +681,22 @@ export default function AIAssistant({ onNavigate }) {
               })}
 
               {filteredSessions.length === 0 && (
-                <div className="p-4 text-center text-xs text-neutral-400">
+                <div className="p-4 text-center text-xs text-slate-400">
                   No matching sessions found.
                 </div>
               )}
             </div>
 
-            {/* Sidebar Footer: Subtle status badge per Section 2 Blueprint */}
-            <div className="p-2.5 px-3 border-t border-neutral-200/80 dark:border-white/[0.06] bg-neutral-50/60 dark:bg-black/20 text-[11px] text-neutral-500 flex items-center justify-between">
-              <div className="flex items-center gap-1.5 font-mono text-[10px] text-neutral-600 dark:text-neutral-400">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+            {/* Sidebar Footer */}
+            <div className="p-2.5 px-3 border-t border-slate-100 bg-slate-50/70 text-[11px] text-slate-500 flex items-center justify-between">
+              <div className="flex items-center gap-1.5 font-mono text-[10px] text-slate-600">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#067CF9]" />
                 <span>{tier === 'free' ? 'Starter Memory' : 'Cloud History Synced'}</span>
               </div>
               {tier === 'free' && (
                 <button
                   onClick={() => openUpgradeModal('ai_history', 'Upgrade to Pro for unlimited searchable chat memory.')}
-                  className="text-emerald-600 dark:text-emerald-400 hover:underline font-semibold text-[10px] cursor-pointer"
+                  className="text-[#067CF9] hover:underline font-semibold text-[10px] cursor-pointer"
                 >
                   Upgrade &rarr;
                 </button>
@@ -750,19 +706,19 @@ export default function AIAssistant({ onNavigate }) {
         )}
       </div>
 
-      {/* 2. MAIN CONVERSATION WORKSPACE */}
-      <div className="flex-1 flex flex-col bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] rounded-2xl overflow-hidden shadow-xs relative">
+      {/* 2. MAIN CONVERSATION WORKSPACE (Clean Frosted White Container) */}
+      <div className="flex-1 flex flex-col bg-white border border-slate-200/90 rounded-2xl overflow-hidden shadow-xs relative">
         
-        {/* Workspace Top Header Bar per Section 1 Blueprint */}
-        <div className="p-3 px-4 border-b border-neutral-200/80 dark:border-white/[0.06] bg-neutral-50/70 dark:bg-[#0A0B0E] flex flex-wrap items-center justify-between gap-3 z-10">
+        {/* Workspace Top Header Bar */}
+        <div className="p-3 px-4 border-b border-slate-100 bg-slate-50/70 flex flex-wrap items-center justify-between gap-3 z-10">
           <div className="flex items-center gap-3">
             {!isSidebarOpen && (
               <button
                 onClick={() => setIsSidebarOpen(true)}
-                className="p-1.5 rounded-lg hover:bg-neutral-100 dark:hover:bg-white/[0.06] text-neutral-500 transition-colors cursor-pointer"
+                className="p-1.5 rounded-lg hover:bg-slate-100 text-slate-500 transition-colors cursor-pointer"
                 title="View Chats"
               >
-                <MessageSquare className="w-4 h-4 text-emerald-600" />
+                <MessageSquare className="w-4 h-4 text-[#067CF9]" />
               </button>
             )}
 
@@ -771,14 +727,14 @@ export default function AIAssistant({ onNavigate }) {
                 <Sparkles className="w-4 h-4" />
               </div>
               <div>
-                <div className="font-semibold text-[#0F172A] text-xs flex items-center gap-2">
+                <div className="font-bold text-[#0F172A] text-xs flex items-center gap-2 font-headline">
                   <span>Vyralify Assistant</span>
-                  <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#EFF6FF] border border-[#067CF9]/20 text-[#067CF9] text-[10px] font-mono font-medium">
+                  <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#EFF6FF] border border-[#067CF9]/20 text-[#067CF9] text-[10px] font-mono font-semibold">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#067CF9] animate-pulse" />
                     <span>Grounded in Account Analytics</span>
                   </span>
                 </div>
-                <div className="text-[10px] text-[#64748B] font-mono flex items-center gap-1.5 mt-0.5">
+                <div className="text-[10px] text-slate-500 font-mono flex items-center gap-1.5 mt-0.5">
                   <span className="text-[#067CF9] font-semibold">Live Data Connected</span>
                   <span>&bull;</span>
                   <span>Active Context</span>
@@ -787,12 +743,12 @@ export default function AIAssistant({ onNavigate }) {
             </div>
           </div>
 
-          {/* Right Header Status: Clean without duplicate credits badge per 1.2 Blueprint */}
+          {/* Right Header Status */}
           <div className="flex items-center gap-2">
             {tier === 'free' && (
               <button
                 onClick={() => openUpgradeModal('ai_credits', 'Unlock 300 daily generations & vision critiques with Pro.')}
-                className="px-2.5 py-1.5 rounded-xl bg-[#067CF9] hover:bg-[#056ad6] text-white font-semibold text-xs transition-colors cursor-pointer shadow-xs"
+                className="px-3 py-1.5 rounded-xl bg-[#067CF9] hover:bg-[#056ad6] text-white font-semibold text-xs transition-colors cursor-pointer shadow-xs"
               >
                 Upgrade to Pro
               </button>
@@ -819,7 +775,7 @@ export default function AIAssistant({ onNavigate }) {
         )}
 
         {/* 3. MESSAGE THREAD DISPLAY */}
-        <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4">
+        <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 bg-[#F8FAFC]">
           {activeSession?.messages?.map((msg) => {
             const isUser = msg.sender === 'user';
 
@@ -831,9 +787,9 @@ export default function AIAssistant({ onNavigate }) {
                 transition={{ duration: 0.15 }}
                 className={`flex flex-col ${isUser ? 'items-end' : 'items-start'}`}
               >
-                {/* Media Attachment if present */}
+                {/* Media Attachment */}
                 {msg.mediaUrl && (
-                  <div className="mb-2 max-w-sm rounded-xl overflow-hidden border border-[rgba(6,124,249,0.12)] shadow-xs">
+                  <div className="mb-2 max-w-sm rounded-xl overflow-hidden border border-blue-200 shadow-xs">
                     <img src={msg.mediaUrl} alt="Uploaded critique media" className="max-h-48 w-full object-cover" />
                     {msg.mediaName && (
                       <div className="p-1.5 bg-[#0F172A] text-white text-[10px] font-mono px-2 truncate">
@@ -846,18 +802,18 @@ export default function AIAssistant({ onNavigate }) {
                 {/* Message Bubble */}
                 <div className={`group relative max-w-2xl p-4 rounded-2xl text-xs leading-relaxed ${
                   isUser
-                    ? 'bg-[#067CF9] text-white font-medium rounded-tr-xs shadow-xs'
-                    : 'bg-white border border-[rgba(6,124,249,0.12)] text-[#0F172A] rounded-tl-xs shadow-xs'
+                    ? 'bg-[#067CF9] text-white font-medium rounded-tr-xs shadow-md shadow-blue-500/20'
+                    : 'bg-white border border-slate-200/90 text-[#0F172A] rounded-tl-xs shadow-xs'
                 }`}>
                   
                   {/* Sender Header for AI */}
                   {!isUser && (
-                    <div className="flex items-center justify-between gap-3 mb-2 pb-2 border-b border-neutral-200/60 dark:border-white/[0.05] text-[10px] font-mono text-neutral-400">
+                    <div className="flex items-center justify-between gap-3 mb-2 pb-2 border-b border-slate-100 text-[10px] font-mono text-slate-400">
                       <div className="flex items-center gap-1.5">
-                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                        <span className="font-semibold text-neutral-700 dark:text-neutral-300">Vyralify Assistant</span>
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#067CF9]" />
+                        <span className="font-semibold text-slate-700">Vyralify Assistant</span>
                         {msg.provider && (
-                          <span className="text-[9px] px-1 py-0.2 rounded bg-neutral-200/60 dark:bg-white/[0.05] text-neutral-500">
+                          <span className="text-[9px] px-1 py-0.2 rounded bg-slate-100 text-slate-500 font-mono">
                             {msg.provider}
                           </span>
                         )}
@@ -875,15 +831,15 @@ export default function AIAssistant({ onNavigate }) {
                     )}
                   </div>
 
-                  {/* Interactive Action Buttons per Section 3 Blueprint */}
+                  {/* Interactive Action Buttons */}
                   {!isUser && msg.actions && msg.actions.length > 0 && (
-                    <div className="mt-3.5 pt-3 border-t border-neutral-200/60 dark:border-white/[0.05] flex flex-wrap items-center gap-2">
-                      <span className="text-[10px] font-mono text-neutral-400 mr-1">Recommended:</span>
+                    <div className="mt-3.5 pt-3 border-t border-slate-100 flex flex-wrap items-center gap-2">
+                      <span className="text-[10px] font-mono text-slate-400 mr-1">Recommended:</span>
                       {msg.actions.map((act, aIdx) => (
                         <button
                           key={aIdx}
                           onClick={() => onNavigate && onNavigate(act.type)}
-                          className="px-2.5 py-1.5 rounded-lg bg-emerald-600/10 dark:bg-emerald-500/15 hover:bg-emerald-600 hover:text-white dark:hover:bg-emerald-500 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30 font-semibold text-[11px] transition-all flex items-center gap-1.5 cursor-pointer shadow-xs"
+                          className="px-2.5 py-1.5 rounded-lg bg-[#EFF6FF] hover:bg-[#067CF9] hover:text-white text-[#067CF9] border border-[#067CF9]/30 font-semibold text-[11px] transition-all flex items-center gap-1.5 cursor-pointer shadow-2xs"
                         >
                           <span>{act.label}</span>
                           <ArrowRight className="w-3 h-3" />
@@ -898,11 +854,11 @@ export default function AIAssistant({ onNavigate }) {
                   }`}>
                     <button
                       onClick={() => handleCopyMessage(msg.text, msg.id)}
-                      className="p-1 rounded-md bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 text-neutral-500 hover:text-neutral-900 transition-colors shadow-xs"
+                      className="p-1 rounded-md bg-white border border-slate-200 text-slate-500 hover:text-slate-900 transition-colors shadow-2xs"
                       title="Copy response"
                     >
                       {copiedMessageId === msg.id ? (
-                        <Check className="w-3 h-3 text-emerald-600" />
+                        <Check className="w-3 h-3 text-[#067CF9]" />
                       ) : (
                         <Copy className="w-3 h-3" />
                       )}
@@ -911,7 +867,7 @@ export default function AIAssistant({ onNavigate }) {
                 </div>
 
                 {isUser && (
-                  <span className="text-[10px] font-mono text-neutral-400 mt-1 mr-1">
+                  <span className="text-[10px] font-mono text-slate-400 mt-1 mr-1">
                     {msg.timestamp}
                   </span>
                 )}
@@ -924,18 +880,18 @@ export default function AIAssistant({ onNavigate }) {
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="flex items-center gap-2 p-3 rounded-2xl bg-neutral-50 dark:bg-white/[0.03] border border-neutral-200/80 dark:border-white/[0.06] text-xs text-neutral-500 w-fit"
+              className="flex items-center gap-2 p-3 rounded-2xl bg-white border border-slate-200 text-xs text-slate-600 w-fit shadow-xs"
             >
-              <Sparkles className="w-3.5 h-3.5 text-emerald-600 animate-spin" />
-              <span>Analyzing @{activePage?.handle} retention benchmarks & generating tactical answer...</span>
+              <Sparkles className="w-3.5 h-3.5 text-[#067CF9] animate-spin" />
+              <span>Analyzing @{activePage?.handle || 'page'} benchmarks &amp; generating tactical answer...</span>
             </motion.div>
           )}
 
           <div ref={messagesEndRef} />
         </div>
 
-        {/* 4. SUGGESTED PROMPT CHIPS (Muted ice-blue background #EFF6FF with crisp #067CF9 outlines) */}
-        <div className="px-4 py-2.5 border-t border-[rgba(6,124,249,0.08)] bg-white/60 flex items-center gap-2 overflow-x-auto no-scrollbar">
+        {/* 4. SUGGESTED PROMPT CHIPS */}
+        <div className="px-4 py-2.5 border-t border-slate-200 bg-white flex items-center gap-2 overflow-x-auto no-scrollbar">
           {PROMPT_SUGGESTIONS.map((item, idx) => {
             const Icon = item.icon;
             return (
@@ -953,7 +909,7 @@ export default function AIAssistant({ onNavigate }) {
 
         {/* 5. ATTACHED MEDIA PREVIEW BANNER */}
         {attachedMedia && (
-          <div className="px-4 py-2 border-t border-[rgba(6,124,249,0.08)] bg-[#EFF6FF] flex items-center justify-between text-xs">
+          <div className="px-4 py-2 border-t border-blue-100 bg-[#EFF6FF] flex items-center justify-between text-xs">
             <div className="flex items-center gap-2.5">
               <img src={attachedMedia.previewUrl} alt="Preview" className="w-8 h-8 rounded-lg object-cover border border-[#067CF9]/30" />
               <div>
@@ -977,9 +933,8 @@ export default function AIAssistant({ onNavigate }) {
             e.preventDefault();
             handleSendMessage();
           }}
-          className="p-3 border-t border-[rgba(6,124,249,0.08)] bg-white flex items-center gap-2"
+          className="p-3 border-t border-slate-200 bg-white flex items-center gap-2"
         >
-          {/* File Upload Trigger */}
           <input
             type="file"
             ref={fileInputRef}
@@ -990,28 +945,26 @@ export default function AIAssistant({ onNavigate }) {
           <button
             type="button"
             onClick={() => fileInputRef.current?.click()}
-            className="p-2.5 rounded-xl bg-[#F8FAFC] hover:bg-neutral-100 border border-[rgba(6,124,249,0.12)] text-[#64748B] hover:text-[#0F172A] transition-all cursor-pointer shrink-0"
+            className="p-2.5 rounded-xl bg-[#F8FAFC] hover:bg-slate-100 border border-slate-200 text-slate-500 hover:text-[#0F172A] transition-all cursor-pointer shrink-0"
             title="Upload Screenshot"
             aria-label="Upload Screenshot"
           >
             <Paperclip className="w-4 h-4" />
           </button>
 
-          {/* Text Input Field: Light gray input bar #F8FAFC */}
           <input
             type="text"
             value={inputMessage}
             onChange={(e) => setInputMessage(e.target.value)}
             disabled={isGenerating}
             placeholder="Ask Assistant about scripts, retention, or growth strategy..."
-            className="flex-1 bg-[#F8FAFC] border border-[rgba(6,124,249,0.12)] rounded-xl px-3.5 py-2.5 text-xs text-[#0F172A] placeholder:text-[#94A3B8] focus:outline-hidden focus:border-[#067CF9] focus:bg-white transition-all font-medium"
+            className="flex-1 bg-[#F8FAFC] border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-[#0F172A] placeholder:text-slate-400 focus:outline-hidden focus:border-[#067CF9] focus:bg-white transition-all font-medium"
           />
 
-          {/* Send Button in Electric Blue #067CF9 */}
           <button
             type="submit"
             disabled={isGenerating || (!inputMessage.trim() && !attachedMedia)}
-            className="p-2.5 rounded-xl bg-[#067CF9] hover:bg-[#056ad6] disabled:opacity-40 text-white font-medium transition-all cursor-pointer shrink-0 shadow-xs"
+            className="p-2.5 rounded-xl bg-[#067CF9] hover:bg-[#056AD6] disabled:opacity-40 text-white font-medium transition-all cursor-pointer shrink-0 shadow-md shadow-blue-500/20"
             aria-label="Send message"
           >
             <Send className="w-4 h-4" />

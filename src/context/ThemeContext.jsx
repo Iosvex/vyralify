@@ -3,27 +3,21 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 const ThemeContext = createContext();
 
 export function ThemeProvider({ children }) {
-  const [theme, setTheme] = useState(() => {
-    return localStorage.getItem('vyralify-theme') || 'light';
-  });
+  const [theme, setTheme] = useState('light');
 
   useEffect(() => {
     const root = document.documentElement;
-    if (theme === 'dark') {
-      root.classList.add('dark');
-      root.style.colorScheme = 'dark';
-    } else {
-      root.classList.remove('dark');
-      root.style.colorScheme = 'light';
-    }
-    localStorage.setItem('vyralify-theme', theme);
-  }, [theme]);
+    root.classList.remove('dark');
+    root.style.colorScheme = 'light';
+    localStorage.setItem('vyralify-theme', 'light');
+  }, []);
 
   const toggleTheme = () => {
-    setTheme(prev => prev === 'light' ? 'dark' : 'light');
+    // Electric Light minimal master blueprint specifies strict light theme only
+    setTheme('light');
   };
 
-  const isDark = theme === 'dark';
+  const isDark = false;
 
   return (
     <ThemeContext.Provider value={{ theme, isDark, toggleTheme, setTheme }}>

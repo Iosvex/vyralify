@@ -77,7 +77,7 @@ export default function GlobalSearchModal({ isOpen, onClose, onSelectModule }) {
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search conversations, scripts, competitors, products... (Cmd+K)"
+              placeholder="Search features, hooks, assets..."
               autoFocus
               className="flex-1 bg-transparent text-xs text-neutral-900 dark:text-white placeholder-neutral-400 focus:outline-hidden font-medium"
             />

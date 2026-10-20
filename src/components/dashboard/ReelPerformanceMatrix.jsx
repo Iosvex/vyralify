@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { 
   Play, 
-  Sparkles
+  Sparkles,
+  TrendingUp,
+  Share2,
+  Eye
 } from 'lucide-react';
 
 const MOCK_REELS = [
@@ -14,9 +17,7 @@ const MOCK_REELS = [
     completionRate: 88,
     shares: '14.2K',
     sharesNumeric: 14200,
-    dmLeads: 342,
-    date: '3d ago',
-    triggerWord: 'BLUEPRINT'
+    date: '3d ago'
   },
   {
     id: 'reel_2',
@@ -27,9 +28,7 @@ const MOCK_REELS = [
     completionRate: 82,
     shares: '9.8K',
     sharesNumeric: 9800,
-    dmLeads: 218,
-    date: '6d ago',
-    triggerWord: 'FORMULA'
+    date: '6d ago'
   },
   {
     id: 'reel_3',
@@ -40,22 +39,18 @@ const MOCK_REELS = [
     completionRate: 79,
     shares: '7.1K',
     sharesNumeric: 7100,
-    dmLeads: 184,
-    date: '9d ago',
-    triggerWord: 'STORE'
+    date: '9d ago'
   },
   {
     id: 'reel_4',
-    hook: "3 automated DM scripts that generated ₹42,000 in digital product sales while asleep:",
+    hook: "3 automated content hooks that generated ₹42,000 in digital product sales while asleep:",
     thumbnail: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=240&auto=format&fit=crop&q=80',
     views: '98.4K',
     viewsNumeric: 98400,
     completionRate: 75,
     shares: '5.4K',
     sharesNumeric: 5400,
-    dmLeads: 142,
-    date: '12d ago',
-    triggerWord: 'SCRIPTS'
+    date: '12d ago'
   },
   {
     id: 'reel_5',
@@ -66,9 +61,7 @@ const MOCK_REELS = [
     completionRate: 72,
     shares: '4.8K',
     sharesNumeric: 4800,
-    dmLeads: 96,
-    date: '15d ago',
-    triggerWord: 'SCHEDULE'
+    date: '15d ago'
   }
 ];
 
@@ -77,30 +70,30 @@ export default function ReelPerformanceMatrix({ onNavigate }) {
 
   const sortedReels = [...MOCK_REELS].sort((a, b) => {
     if (sortBy === 'views') return b.viewsNumeric - a.viewsNumeric;
-    if (sortBy === 'shares') return b.sharesNumeric - a.sharesNumeric;
-    return b.dmLeads - a.dmLeads;
+    if (sortBy === 'retention') return b.completionRate - a.completionRate;
+    return b.sharesNumeric - a.sharesNumeric;
   });
 
   return (
     <div className="p-5 rounded-xl bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] shadow-xs space-y-3">
-      {/* Header & Sorter */}
+      {/* Header & Clean Sorter (Views | Retention % | Shares) */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-2.5 border-b border-neutral-200/80 dark:border-white/[0.05]">
         <div>
-          <h3 className="text-sm font-semibold text-neutral-900 dark:text-white tracking-tight">
+          <h3 className="text-sm font-bold text-neutral-900 dark:text-white tracking-tight">
             Top Performing Reels
           </h3>
           <p className="text-[11px] text-neutral-500 dark:text-neutral-400 mt-0.5">
-            Retention and direct inbound DM leads captured per post.
+            Algorithmic retention &amp; organic reach per post
           </p>
         </div>
 
-        {/* Sort Filter */}
+        {/* Pure Analytics Sort Filter */}
         <div className="flex items-center gap-1 p-0.5 rounded-lg bg-neutral-100 dark:bg-white/[0.03] border border-neutral-200/80 dark:border-white/[0.06] text-xs font-mono">
-          <span className="text-neutral-400 px-1 text-[10px] font-semibold">Sort:</span>
+          <span className="text-neutral-400 px-1 text-[10px] font-semibold">Sort by:</span>
           {[
             { id: 'views', label: 'Views' },
-            { id: 'shares', label: 'Shares' },
-            { id: 'dmLeads', label: 'DM Leads' }
+            { id: 'retention', label: 'Retention %' },
+            { id: 'shares', label: 'Shares' }
           ].map((s) => (
             <button
               key={s.id}
@@ -124,7 +117,7 @@ export default function ReelPerformanceMatrix({ onNavigate }) {
             key={reel.id}
             className="p-2.5 sm:p-3 rounded-lg bg-neutral-50/70 dark:bg-white/[0.02] border border-neutral-200/80 dark:border-white/[0.04] hover:bg-neutral-100/70 dark:hover:bg-white/[0.04] transition-colors flex flex-col md:flex-row md:items-center justify-between gap-3 group"
           >
-            {/* Left: Thumbnail & Hook */}
+            {/* Left: Thumbnail, Publish Date & Caption/Hook Snippet */}
             <div className="flex items-center gap-3 flex-1 min-w-0">
               <div className="relative w-12 h-16 rounded-md overflow-hidden shrink-0 border border-neutral-200 dark:border-white/[0.08] bg-neutral-900">
                 <img 
@@ -142,12 +135,9 @@ export default function ReelPerformanceMatrix({ onNavigate }) {
                 </div>
               </div>
 
-              <div className="min-w-0 flex-1 space-y-0.5">
+              <div className="min-w-0 flex-1 space-y-1">
                 <div className="flex items-center gap-2">
                   <span className="text-[10px] font-mono text-neutral-400">{reel.date}</span>
-                  <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-emerald-50 dark:bg-white/[0.06] text-emerald-700 dark:text-neutral-300 border border-emerald-200/80 dark:border-transparent font-medium">
-                    Trigger: "{reel.triggerWord}"
-                  </span>
                 </div>
                 <p className="text-xs text-neutral-800 dark:text-neutral-200 line-clamp-1 leading-snug font-medium">
                   "{reel.hook}"
@@ -155,33 +145,29 @@ export default function ReelPerformanceMatrix({ onNavigate }) {
               </div>
             </div>
 
-            {/* Middle: Metrics Grid */}
-            <div className="grid grid-cols-4 gap-4 sm:gap-6 shrink-0 py-1 sm:py-0 text-center font-mono">
+            {/* Middle: Clean Metrics Grid (Views | Retention % | Shares) */}
+            <div className="grid grid-cols-3 gap-6 sm:gap-8 shrink-0 py-1 sm:py-0 text-center font-mono">
               <div>
                 <div className="text-[10px] text-neutral-400 font-semibold">Views</div>
                 <div className="text-xs font-bold text-neutral-900 dark:text-white mt-0.5">{reel.views}</div>
               </div>
               <div>
-                <div className="text-[10px] text-neutral-400 font-semibold">Retention</div>
+                <div className="text-[10px] text-neutral-400 font-semibold">Retention %</div>
                 <div className="text-xs font-bold text-emerald-600 dark:text-emerald-400 mt-0.5">{reel.completionRate}%</div>
               </div>
               <div>
                 <div className="text-[10px] text-neutral-400 font-semibold">Shares</div>
                 <div className="text-xs font-medium text-neutral-700 dark:text-neutral-300 mt-0.5">{reel.shares}</div>
               </div>
-              <div>
-                <div className="text-[10px] text-neutral-400 font-semibold">DM Leads</div>
-                <div className="text-xs font-bold text-neutral-900 dark:text-neutral-200 mt-0.5">+{reel.dmLeads}</div>
-              </div>
             </div>
 
-            {/* Right: AI Breakdown Action */}
+            {/* Right: Ultra-clean Ghost Action Button */}
             <div className="flex items-center justify-end shrink-0">
               <button
-                onClick={() => onNavigate('assistant')}
-                className="px-2.5 py-1 rounded-lg bg-white dark:bg-white/[0.05] hover:bg-neutral-100 dark:hover:bg-white/[0.1] text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white border border-neutral-200 dark:border-white/[0.08] text-[11px] font-medium transition-colors flex items-center gap-1.5 cursor-pointer shadow-xs"
+                onClick={() => onNavigate && onNavigate('discover_create')}
+                className="px-3 py-1.5 rounded-lg border border-neutral-200 dark:border-white/[0.08] text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-white/[0.05] text-xs font-semibold transition-colors flex items-center gap-1.5 cursor-pointer shadow-xs"
               >
-                <Sparkles className="w-3 h-3 text-emerald-600 dark:text-neutral-400" />
+                <Sparkles className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
                 <span>AI Remix</span>
               </button>
             </div>

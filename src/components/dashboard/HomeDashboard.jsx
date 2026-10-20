@@ -28,24 +28,27 @@ export default function HomeDashboard({ onNavigate }) {
   const isBeginner = user?.onboardingTrack === 'beginner' || (activePage && activePage.followersNumeric === 0);
 
 
-  // Getting Started Checklist State
-  const [checklist, setChecklist] = useState(() => {
-    if (isBeginner) {
-      return [
-        { id: 'c1', label: 'Select profitable niche & theme', done: true, module: 'builder' },
-        { id: 'c2', label: 'Generate first 5 viral hook scripts', done: false, module: 'discover_create' },
-        { id: 'c3', label: 'Set up Link-in-Bio Storefront', done: false, module: 'store' },
-        { id: 'c4', label: 'Schedule initial 7-day content queue', done: false, module: 'discover_create' }
-      ];
-    } else {
-      return [
-        { id: 'c1', label: `Connect Instagram profile (@${activePage?.handle || 'creator'})`, done: true, module: 'builder' },
-        { id: 'c2', label: 'Review initial AI Page Audit & gaps', done: true, module: 'builder' },
-        { id: 'c3', label: 'Generate first 5 viral hook scripts', done: false, module: 'discover_create' },
-        { id: 'c4', label: 'List digital product in Store', done: false, module: 'store' }
-      ];
-    }
-  });
+  // Dynamic personalized greeting
+  const getGreeting = () => {
+    const hour = new Date().getHours();
+    if (hour < 12) return 'Good morning';
+    if (hour < 18) return 'Good afternoon';
+    return 'Good evening';
+  };
+
+  const firstName = 
+    user?.displayName?.split(' ')[0] || 
+    user?.name?.split(' ')[0] || 
+    (activePage?.handle ? activePage.handle.replace(/^@/, '').split('.')[0] : null) || 
+    'Maaz';
+
+  // Getting Started Checklist State (Clean 4-step checklist per audit spec)
+  const [checklist, setChecklist] = useState([
+    { id: 'c1', label: 'Select niche & target audience', done: true, module: 'builder' },
+    { id: 'c2', label: 'Set up Link-in-Bio Storefront', done: false, module: 'store' },
+    { id: 'c3', label: 'Generate initial hook scripts', done: false, module: 'discover_create' },
+    { id: 'c4', label: 'Schedule 7-day content queue', done: false, module: 'discover_create' }
+  ]);
 
   const toggleChecklistItem = (id) => {
     setChecklist(prev => prev.map(item => item.id === id ? { ...item, done: !item.done } : item));
@@ -56,37 +59,22 @@ export default function HomeDashboard({ onNavigate }) {
   return (
     <div className="space-y-5 max-w-6xl mx-auto pb-16">
       
-      {/* 1. WHITE & GREEN HEADER & SCOPE BAR */}
+      {/* 1. DYNAMIC PERSONALIZED GREETING HEADER */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-neutral-200/80 dark:border-white/[0.06]">
         <div>
-          <div className="flex flex-wrap items-center gap-2 mb-1">
-            <span className="text-[10px] font-mono text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-200 dark:border-emerald-500/20 font-medium">
-              Meta Graph Active
-            </span>
-            <span className="text-neutral-400 text-xs">&bull;</span>
-            <span className="text-xs text-neutral-500 dark:text-neutral-400 font-mono">
-              Last synced: {activePage?.lastSynced || "12m ago"}
-            </span>
-            <span className="text-neutral-400 text-xs">&bull;</span>
-            <span className="text-xs text-neutral-500 dark:text-neutral-400 font-mono">
-              {activePage?.category || 'Business'} &bull; {activePage?.subNiche || 'Online'}
-            </span>
-          </div>
-
-
           <h1 className="text-xl sm:text-2xl font-bold text-neutral-900 dark:text-white tracking-tight">
-            Dashboard
+            {getGreeting()}, {firstName}
           </h1>
           <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5">
-            Active account: <span className="text-neutral-800 dark:text-neutral-200 font-mono font-medium">@{activePage?.handle || "growth.mindset"}</span>
+            Here is your growth overview for today.
           </p>
         </div>
 
-        {/* Quick Actions */}
-        <div className="flex flex-wrap items-center gap-1.5">
+        {/* Right-aligned Header Action Buttons: + Create, Store, Ask AI */}
+        <div className="flex items-center gap-2 self-start sm:self-auto">
           <button
             onClick={() => onNavigate('discover_create')}
-            className="px-3 py-1.5 rounded-lg bg-white dark:bg-white/[0.04] hover:bg-neutral-50 dark:hover:bg-white/[0.08] border border-neutral-200 dark:border-white/[0.08] text-xs font-medium text-neutral-700 dark:text-neutral-200 transition-colors flex items-center gap-1.5 cursor-pointer shadow-xs"
+            className="px-3 py-1.5 rounded-lg bg-white dark:bg-white/[0.04] hover:bg-neutral-50 dark:hover:bg-white/[0.08] border border-neutral-200 dark:border-white/[0.08] text-xs font-semibold text-neutral-700 dark:text-neutral-200 transition-colors flex items-center gap-1.5 cursor-pointer shadow-xs"
           >
             <Plus className="w-3.5 h-3.5 text-neutral-400" />
             <span>Create</span>
@@ -94,23 +82,15 @@ export default function HomeDashboard({ onNavigate }) {
           
           <button
             onClick={() => onNavigate('store')}
-            className="px-3 py-1.5 rounded-lg bg-white dark:bg-white/[0.04] hover:bg-neutral-50 dark:hover:bg-white/[0.08] border border-neutral-200 dark:border-white/[0.08] text-xs font-medium text-neutral-700 dark:text-neutral-200 transition-colors flex items-center gap-1.5 cursor-pointer shadow-xs"
+            className="px-3 py-1.5 rounded-lg bg-white dark:bg-white/[0.04] hover:bg-neutral-50 dark:hover:bg-white/[0.08] border border-neutral-200 dark:border-white/[0.08] text-xs font-semibold text-neutral-700 dark:text-neutral-200 transition-colors flex items-center gap-1.5 cursor-pointer shadow-xs"
           >
             <ShoppingBag className="w-3.5 h-3.5 text-neutral-400" />
             <span>Store</span>
           </button>
 
           <button
-            onClick={() => onNavigate('builder')}
-            className="px-3 py-1.5 rounded-lg bg-white dark:bg-white/[0.04] hover:bg-neutral-50 dark:hover:bg-white/[0.08] border border-neutral-200 dark:border-white/[0.08] text-xs font-medium text-neutral-700 dark:text-neutral-200 transition-colors flex items-center gap-1.5 cursor-pointer shadow-xs"
-          >
-            <ShieldCheck className="w-3.5 h-3.5 text-neutral-400" />
-            <span>Page Setup</span>
-          </button>
-
-          <button
             onClick={() => onNavigate('assistant')}
-            className="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-medium transition-colors flex items-center gap-1.5 cursor-pointer shadow-xs"
+            className="px-3.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold transition-colors flex items-center gap-1.5 cursor-pointer shadow-xs"
           >
             <Sparkles className="w-3.5 h-3.5" />
             <span>Ask AI</span>
@@ -118,58 +98,60 @@ export default function HomeDashboard({ onNavigate }) {
         </div>
       </div>
 
-      {/* 2. WHITE & GREEN 4 KPI CARDS */}
+      {/* 2. CORE METRICS SUMMARY CARDS (KPI BAR) */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
         
-        {/* Card 1: Followers */}
+        {/* Card 1: Followers (Clean metric display without sub-text clutter) */}
         <div className="p-4 rounded-xl bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] shadow-xs flex flex-col justify-between">
-          <div className="text-[11px] font-mono text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-1">
+          <div className="text-[11px] font-mono text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-1 font-medium">
             Followers
           </div>
           <div>
             <div className="text-xl sm:text-2xl font-bold text-neutral-900 dark:text-white tracking-tight font-mono">
-              {activePage?.followersCount || "0"}
+              {activePage?.followersCount && activePage.followersCount !== '0' ? activePage.followersCount : '12.4K'}
             </div>
-            <div className="text-[11px] text-emerald-600 dark:text-emerald-400 font-mono mt-0.5 font-medium">
-              +1.2K (30d) <span className="text-neutral-400 font-sans">&bull; organic</span>
+            <div className="text-[11px] text-emerald-600 dark:text-emerald-400 font-mono mt-0.5 font-medium flex items-center gap-1">
+              <TrendingUp className="w-3 h-3 text-emerald-500" />
+              <span>+4.2%</span>
             </div>
           </div>
         </div>
 
-        {/* Card 2: 7-Day Views */}
+        {/* Card 2: 7-Day Reel Views */}
         <div className="p-4 rounded-xl bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] shadow-xs flex flex-col justify-between">
-          <div className="text-[11px] font-mono text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-1">
-            Reel Views (7d)
+          <div className="text-[11px] font-mono text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-1 font-medium">
+            7-Day Reel Views
           </div>
           <div>
             <div className="text-xl sm:text-2xl font-bold text-neutral-900 dark:text-white tracking-tight font-mono">
               {activePage?.views7d || "142.8K"}
             </div>
-            <div className="text-[11px] text-emerald-600 dark:text-emerald-400 font-mono mt-0.5 font-medium">
-              +44.8% <span className="text-neutral-400 font-sans">&bull; reach</span>
+            <div className="text-[11px] text-emerald-600 dark:text-emerald-400 font-mono mt-0.5 font-medium flex items-center gap-1">
+              <TrendingUp className="w-3 h-3 text-emerald-500" />
+              <span>+44.8%</span>
             </div>
           </div>
         </div>
 
-        {/* Card 3: 30-Day Revenue */}
+        {/* Card 3: Store Revenue */}
         <div className="p-4 rounded-xl bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] shadow-xs flex flex-col justify-between">
-          <div className="text-[11px] font-mono text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-1">
-            Store Revenue (30d)
+          <div className="text-[11px] font-mono text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-1 font-medium">
+            Store Revenue
           </div>
           <div>
             <div className="text-xl sm:text-2xl font-bold text-neutral-900 dark:text-white tracking-tight font-mono">
               {formatCurrency(activePage?.revenue30dNumeric || 42850, user?.currency || 'INR')}
             </div>
-            <div className="text-[11px] text-emerald-600 dark:text-emerald-400 font-mono mt-0.5 font-medium">
-              +32.4% <span className="text-neutral-400 font-sans">&bull; sales</span>
+            <div className="text-[11px] text-emerald-600 dark:text-emerald-400 font-mono mt-0.5 font-medium flex items-center gap-1">
+              <TrendingUp className="w-3 h-3 text-emerald-500" />
+              <span>+32.4%</span>
             </div>
           </div>
         </div>
 
-
         {/* Card 4: Engagement Rate */}
         <div className="p-4 rounded-xl bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] shadow-xs flex flex-col justify-between">
-          <div className="text-[11px] font-mono text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-1">
+          <div className="text-[11px] font-mono text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-1 font-medium">
             Engagement Rate
           </div>
           <div>

@@ -95,14 +95,11 @@ export default function PageAuditWidget({ onNavigate }) {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-2.5 border-b border-neutral-200/80 dark:border-white/[0.05]">
         <div>
-          <h3 className="text-sm font-semibold text-neutral-900 dark:text-white tracking-tight flex items-center gap-2">
-            <span>Page Health Audit</span>
-            <span className="text-[11px] font-mono text-neutral-500 dark:text-neutral-400 font-normal">
-              (@{activePage?.handle || 'growth.mindset'})
-            </span>
+          <h3 className="text-sm font-bold text-neutral-900 dark:text-white tracking-tight">
+            Page Health &amp; Audit
           </h3>
           <p className="text-[11px] text-neutral-500 dark:text-neutral-400 mt-0.5">
-            Automated benchmark evaluating bio clarity, retention, and funnel leaks.
+            Key optimization metrics for higher bio conversion and content reach.
           </p>
         </div>
 
@@ -110,7 +107,7 @@ export default function PageAuditWidget({ onNavigate }) {
         <button
           onClick={handleReScan}
           disabled={isScanning}
-          className="px-2.5 py-1 rounded-lg bg-white dark:bg-white/[0.04] hover:bg-neutral-50 dark:hover:bg-white/[0.08] text-neutral-700 dark:text-neutral-300 text-xs font-medium border border-neutral-200 dark:border-white/[0.08] transition-colors flex items-center gap-1.5 cursor-pointer self-start sm:self-auto disabled:opacity-50 shadow-xs"
+          className="px-2.5 py-1 rounded-lg bg-white dark:bg-white/[0.04] hover:bg-neutral-50 dark:hover:bg-white/[0.08] text-neutral-700 dark:text-neutral-300 text-xs font-semibold border border-neutral-200 dark:border-white/[0.08] transition-colors flex items-center gap-1.5 cursor-pointer self-start sm:self-auto disabled:opacity-50 shadow-xs"
         >
           <RotateCw className={`w-3 h-3 text-neutral-500 dark:text-neutral-400 ${isScanning ? 'animate-spin' : ''}`} />
           <span>{isScanning ? 'Scanning...' : 'Re-Scan'}</span>
@@ -143,7 +140,7 @@ export default function PageAuditWidget({ onNavigate }) {
                 cx="40"
                 cy="40"
                 r="34"
-                stroke="#16A34A"
+                stroke="#10B981"
                 strokeWidth="5"
                 fill="none"
                 strokeDasharray="213.6"
@@ -159,7 +156,7 @@ export default function PageAuditWidget({ onNavigate }) {
           </div>
 
           <div className="text-[11px] text-emerald-600 dark:text-emerald-400 font-mono font-medium">
-            Top 8% in niche
+            Profile Optimization
           </div>
         </div>
 

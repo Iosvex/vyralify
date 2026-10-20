@@ -254,9 +254,6 @@ export default function AppShell({ activeModule, onSelectModule, onNavigateLandi
               <span className="font-mono text-xs font-semibold text-neutral-900 dark:text-white">
                 @{activePage?.handle || "select.page"}
               </span>
-              <span className="text-[10px] text-neutral-500 dark:text-neutral-400 bg-neutral-200/70 dark:bg-white/[0.04] px-1 rounded font-mono">
-                {activePage?.followersCount || "0"}
-              </span>
               <ChevronDown className="w-3 h-3 text-neutral-400" />
             </button>
 
@@ -320,16 +317,13 @@ export default function AppShell({ activeModule, onSelectModule, onNavigateLandi
           {/* RIGHT: Search, AI Credits, Theme Toggle, Notifications */}
           <div className="flex items-center gap-2">
             
-            {/* Minimal Global Search Trigger */}
+            {/* Minimal Global Search Trigger - Clean placeholder without ⌘K badge */}
             <button
               onClick={() => setIsSearchOpen(true)}
-              className="hidden sm:inline-flex items-center gap-2 px-2.5 py-1 rounded-lg bg-neutral-100/80 dark:bg-white/[0.04] border border-neutral-200/80 dark:border-white/[0.06] hover:border-neutral-300 text-xs text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-200 transition-colors cursor-pointer"
+              className="hidden sm:inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-neutral-100/80 dark:bg-white/[0.04] border border-neutral-200/80 dark:border-white/[0.06] hover:border-neutral-300 text-xs text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-200 transition-colors cursor-pointer w-64"
             >
-              <Search className="w-3 h-3 text-neutral-400" />
-              <span className="text-[11px]">Search</span>
-              <kbd className="px-1 py-0.2 rounded bg-white dark:bg-white/[0.06] text-[9px] font-mono text-neutral-500 border border-neutral-200 dark:border-white/[0.08]">
-                ⌘K
-              </kbd>
+              <Search className="w-3.5 h-3.5 text-neutral-400 shrink-0" />
+              <span className="text-[11px] truncate text-neutral-400">Search features, hooks, assets...</span>
             </button>
 
             {/* AI Credit Usage Pill */}

@@ -22,7 +22,8 @@ import {
   DollarSign,
   AlertCircle,
   Camera,
-  Upload
+  Upload,
+  Globe
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { usePage, getSafeAvatarUrl } from '../../context/PageContext';
@@ -32,24 +33,14 @@ import { useTheme } from '../../context/ThemeContext';
 import { generateLiveBios, generatePositioningStatement } from '../../lib/aiService';
 import ConnectAccountModal from '../common/ConnectAccountModal';
 
-function InstagramIcon({ className = "w-4 h-4" }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/>
-      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
-      <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
-    </svg>
-  );
-}
-
-// 8 Official V3 Niches with eRPM and sub-niche taxonomy
+// 8 Official V3 Niches with eRPM and sub-niche taxonomy per Section 3 Blueprint
 const OFFICIAL_NICHES = [
   {
     id: 'business_money',
     name: 'Business & Money',
     subNiches: ['AI Business & SaaS', 'Finance & Investing', 'E-commerce & Dropshipping', 'Entrepreneurship', 'Marketing & Sales'],
     profitability: 96,
-    eRPM: '₹180 - ₹350',
+    eRPM: '$2.50 - $5.00 / ₹180 - ₹350',
     icon: '💼',
     monetizationFocus: 'Digital products, software affiliates, high-ticket consulting'
   },
@@ -58,7 +49,7 @@ const OFFICIAL_NICHES = [
     name: 'Self-Improvement',
     subNiches: ['Motivation & Stoicism', 'Discipline & Daily Habits', 'Productivity Systems', 'Mindset & Success', 'Philosophy'],
     profitability: 92,
-    eRPM: '₹120 - ₹240',
+    eRPM: '$1.80 - $3.50 / ₹120 - ₹240',
     icon: '🧠',
     monetizationFocus: 'Notion templates, e-books, private skool communities'
   },
@@ -67,7 +58,7 @@ const OFFICIAL_NICHES = [
     name: 'Health & Fitness',
     subNiches: ['Gym & Hypertrophy', 'Fat Loss & Diet', 'Biohacking & Longevity', 'Calisthenics', 'Holistic Wellness'],
     profitability: 89,
-    eRPM: '₹100 - ₹220',
+    eRPM: '$1.50 - $3.20 / ₹100 - ₹220',
     icon: '⚡',
     monetizationFocus: 'Workout guides, meal plans, supplement sponsorships'
   },
@@ -76,7 +67,7 @@ const OFFICIAL_NICHES = [
     name: 'Fashion & Beauty',
     subNiches: ['Men\'s Sartorial Style', 'Luxury Watches & EDC', 'Skincare & Grooming', 'Minimalist Aesthetics', 'Streetwear'],
     profitability: 94,
-    eRPM: '₹150 - ₹300',
+    eRPM: '$2.20 - $4.40 / ₹150 - ₹300',
     icon: '✨',
     monetizationFocus: 'Brand affiliate deals, lookbooks, physical merchandise'
   },
@@ -85,7 +76,7 @@ const OFFICIAL_NICHES = [
     name: 'Cars & Automotive',
     subNiches: ['Supercars & Exotics', 'JDM Culture & Builds', 'Motorsport & Racing', 'Auto Detailing & Care', 'Vintage Classics'],
     profitability: 87,
-    eRPM: '₹130 - ₹260',
+    eRPM: '$1.90 - $3.80 / ₹130 - ₹260',
     icon: '🏎️',
     monetizationFocus: 'Car accessories, detailing kits, clipping bounties'
   },
@@ -94,7 +85,7 @@ const OFFICIAL_NICHES = [
     name: 'Travel & Lifestyle',
     subNiches: ['Luxury & Ultra-Stays', 'Digital Nomad Living', 'Adventure Expeditions', 'Hidden Destinations', 'Urban Photography'],
     profitability: 88,
-    eRPM: '₹110 - ₹230',
+    eRPM: '$1.60 - $3.40 / ₹110 - ₹230',
     icon: '✈️',
     monetizationFocus: 'Lightroom presets, itinerary guides, hotel collabs'
   },
@@ -103,7 +94,7 @@ const OFFICIAL_NICHES = [
     name: 'Entertainment',
     subNiches: ['Cinema & Movie Breakdowns', 'Anime & Manga Lore', 'Pop Culture Curations', 'Gaming Clips', 'Humor & Relatable'],
     profitability: 82,
-    eRPM: '₹60 - ₹140',
+    eRPM: '$0.90 - $2.00 / ₹60 - ₹140',
     icon: '🎬',
     monetizationFocus: 'Mass view clipping bounties, game promotions'
   },
@@ -112,7 +103,7 @@ const OFFICIAL_NICHES = [
     name: 'Sports',
     subNiches: ['Football (Soccer)', 'Cricket Insights', 'F1 Racing & Telemetry', 'Combat Sports (MMA/Boxing)', 'Basketball'],
     profitability: 85,
-    eRPM: '₹90 - ₹190',
+    eRPM: '$1.30 - $2.80 / ₹90 - ₹190',
     icon: '⚽',
     monetizationFocus: 'Sports apparel affiliates, fan community clubs'
   }
@@ -125,32 +116,24 @@ export default function PageBuilder({ onNavigate }) {
   const { addNotification } = useNotifications();
   const { isDark } = useTheme();
 
-  // Active Sub-Tab: 'identity' | 'quiz' | 'multi_page' | 'demographics'
+  // Active Sub-Tab: 'identity' | 'quiz' | 'demographics' | 'multi_page'
   const [activeTab, setActiveTab] = useState('identity');
   const [isConnectModalOpen, setIsConnectModalOpen] = useState(false);
 
   // Bio Studio State
-  const [bioObjective, setBioObjective] = useState('dm_sales');
+  const [bioObjective, setBioObjective] = useState('lead_magnet');
   const [generatedBios, setGeneratedBios] = useState(null);
   const [isGeneratingBio, setIsGeneratingBio] = useState(false);
   const [copiedBioIndex, setCopiedBioIndex] = useState(null);
 
   // Positioning Statement State
   const [positioningData, setPositioningData] = useState({
-    audience: 'Ambitious creators & operators',
-    outcome: 'Predictable viral reach & recurring sales',
-    painPoint: 'Wasting months copying dead reel formats'
+    audience: 'Creator-operators & agency owners',
+    outcome: 'Predictable organic reach & digital sales',
+    painPoint: 'Ending content burnout and low engagement'
   });
   const [generatedStatements, setGeneratedStatements] = useState(null);
   const [isGeneratingPositioning, setIsGeneratingPositioning] = useState(false);
-
-  // Niche Quiz State
-  const [quizState, setQuizState] = useState({
-    goal: 'digital_products',
-    format: 'faceless_curation',
-    region: 'global'
-  });
-  const [quizResult, setQuizResult] = useState(null);
 
   // 1. Generate Live AI Bios
   const handleGenerateBios = async () => {
@@ -172,7 +155,7 @@ export default function PageBuilder({ onNavigate }) {
       setGeneratedBios(res.bios || []);
       addNotification({
         title: 'AI Bios Generated',
-        message: '3 conversion-optimized bios generated using real AI models.',
+        message: 'Conversion-optimized bios generated using real AI models.',
         type: 'success'
       });
     } catch (err) {
@@ -252,37 +235,7 @@ export default function PageBuilder({ onNavigate }) {
     }
   };
 
-  // 4. Calculate Niche Quiz Recommendation
-  const handleRunQuiz = () => {
-    let topNiche = OFFICIAL_NICHES[0];
-    let score = 94;
-
-    if (quizState.goal === 'digital_products') {
-      topNiche = OFFICIAL_NICHES[0]; // Business & Money
-      score = 96;
-    } else if (quizState.goal === 'community_subscriptions') {
-      topNiche = OFFICIAL_NICHES[1]; // Self-Improvement
-      score = 92;
-    } else if (quizState.goal === 'affiliate_deals') {
-      topNiche = OFFICIAL_NICHES[3]; // Fashion & Beauty
-      score = 94;
-    } else {
-      topNiche = OFFICIAL_NICHES[2]; // Health & Fitness
-      score = 89;
-    }
-
-    setQuizResult({
-      recommendedNiche: topNiche,
-      opportunityScore: score,
-      reasons: [
-        `High monetization velocity via ${topNiche.monetizationFocus}`,
-        `Healthy eRPM range benchmarked at ${topNiche.eRPM}`,
-        `Ideal match for ${quizState.format.replace('_', ' ')} format`
-      ]
-    });
-  };
-
-  // 5. Apply Recommended Niche to Active Page
+  // 4. Apply Recommended Niche to Active Page
   const handleApplyNicheToActivePage = (nicheObj) => {
     if (!activePage?.id) return;
     updatePage(activePage.id, {
@@ -299,29 +252,24 @@ export default function PageBuilder({ onNavigate }) {
   return (
     <div className="space-y-6 max-w-6xl mx-auto pb-16">
       
-      {/* 1. HEADER & TOP NAV TABS */}
+      {/* 1. TOP PANEL TITLE & CLEAN SEGMENTED TAB NAVIGATION per Section 1 Blueprint */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-neutral-200/80 dark:border-white/[0.06]">
         <div>
-          <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-md bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200/80 dark:border-emerald-500/20 text-emerald-800 dark:text-emerald-300 text-[11px] font-mono mb-2 font-medium">
-            <Rocket className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
-            <span>01 Page Builder & Niche Taxonomy</span>
-          </div>
-
           <h1 className="text-xl sm:text-2xl font-bold text-neutral-900 dark:text-white tracking-tight">
-            Page Identity & Taxonomy Studio
+            Page &amp; Profile Studio
           </h1>
           <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5">
-            Scoped to <span className="font-mono text-neutral-800 dark:text-neutral-200 font-semibold">@{activePage?.handle || 'creator'}</span> &bull; {activePage?.category || 'General'}
+            Positioning, bio optimization, niche eRPM benchmarks, and audience demographics.
           </p>
         </div>
 
-        {/* Tab Controls */}
+        {/* 4 Streamlined Tabs per Section 1 */}
         <div className="flex items-center p-1 rounded-xl bg-neutral-100 dark:bg-white/[0.03] border border-neutral-200/80 dark:border-white/[0.06] text-xs">
           {[
-            { id: 'identity', label: 'Identity & Bio Studio' },
-            { id: 'quiz', label: 'Niche Taxonomy & Quiz' },
-            { id: 'demographics', label: 'Audience Demographics' },
-            { id: 'multi_page', label: 'Multi-Page Hub' }
+            { id: 'identity', label: 'Bio & Positioning' },
+            { id: 'quiz', label: 'Niche & eRPM' },
+            { id: 'demographics', label: 'Audience Insights' },
+            { id: 'multi_page', label: 'Workspace Accounts' }
           ].map(tab => (
             <button
               key={tab.id}
@@ -338,13 +286,13 @@ export default function PageBuilder({ onNavigate }) {
         </div>
       </div>
 
-      {/* 2. TAB 1: IDENTITY & BIO STUDIO */}
+      {/* 2. TAB 1: BIO & POSITIONING STUDIO (Identity & Bio) */}
       {activeTab === 'identity' && (
         <div className="space-y-6">
           
-          {/* Active Profile Status Header Card */}
-          <div className="p-5 rounded-2xl bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div className="flex items-center gap-4">
+          {/* Refined Profile Identity Bar per Section 2 Blueprint */}
+          <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] shadow-xs flex items-center justify-between gap-4">
+            <div className="flex items-center gap-3.5">
               <div className="relative group shrink-0">
                 <img 
                   src={getSafeAvatarUrl(activePage?.avatar, activePage?.handle)} 
@@ -353,13 +301,13 @@ export default function PageBuilder({ onNavigate }) {
                     e.currentTarget.onerror = null;
                     e.currentTarget.src = getSafeAvatarUrl('', activePage?.handle);
                   }}
-                  className="w-16 h-16 rounded-2xl object-cover ring-2 ring-emerald-500/20 shadow-xs"
+                  className="w-14 h-14 rounded-2xl object-cover ring-2 ring-emerald-500/20 shadow-xs"
                 />
                 <label 
-                  title="Upload profile photo" 
-                  className="absolute inset-0 bg-black/60 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center cursor-pointer text-white text-[10px] font-medium backdrop-blur-xs"
+                  title="Change profile photo" 
+                  className="absolute inset-0 bg-black/60 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center cursor-pointer text-white text-[9px] font-medium backdrop-blur-xs"
                 >
-                  <Camera className="w-4 h-4 mb-0.5 text-emerald-400" />
+                  <Camera className="w-3.5 h-3.5 mb-0.5 text-emerald-400" />
                   <span>Change</span>
                   <input 
                     type="file" 
@@ -374,46 +322,37 @@ export default function PageBuilder({ onNavigate }) {
                 <div className="flex flex-wrap items-center gap-2">
                   <h2 className="text-base font-bold text-neutral-900 dark:text-white font-mono">@{activePage?.handle}</h2>
                   <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/20 font-medium flex items-center gap-1">
-                    <ShieldCheck className="w-3 h-3" /> Meta Connected
+                    <ShieldCheck className="w-3 h-3 text-emerald-500" />
+                    <span>Meta Connected</span>
                   </span>
-                  <label className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-lg text-[10px] font-mono bg-neutral-100 dark:bg-white/[0.05] hover:bg-neutral-200/70 dark:hover:bg-white/[0.1] text-neutral-700 dark:text-neutral-300 border border-neutral-200 dark:border-white/10 cursor-pointer transition-colors shadow-2xs">
-                    <Camera className="w-3 h-3 text-emerald-500" />
-                    <span>Upload DP</span>
-                    <input 
-                      type="file" 
-                      accept="image/*" 
-                      className="hidden" 
-                      onChange={handleAvatarUpload}
-                    />
-                  </label>
                 </div>
-                <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5">
-                  {activePage?.category} &bull; Sub-Niche: <span className="font-medium text-neutral-700 dark:text-neutral-300">{activePage?.subNiche || 'General'}</span>
-                </p>
-                <p className="text-xs text-neutral-700 dark:text-neutral-300 mt-1 italic font-sans max-w-xl">
-                  "{activePage?.bio || 'No bio configured yet.'}"
-                </p>
+                <div className="text-xs text-neutral-500 dark:text-neutral-400 font-mono mt-0.5 flex items-center gap-1.5">
+                  <span className="font-semibold text-neutral-700 dark:text-neutral-300">{activePage?.category}</span>
+                  <span>&bull;</span>
+                  <span>{activePage?.subNiche || 'Online Growth'}</span>
+                  <span>&bull;</span>
+                  <span className="text-emerald-600 dark:text-emerald-400 font-medium">Synced Just Now</span>
+                </div>
               </div>
             </div>
 
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => onNavigate('home')}
-                className="px-3 py-1.5 rounded-xl bg-neutral-100 hover:bg-neutral-200/70 dark:bg-white/[0.04] dark:hover:bg-white/[0.08] text-neutral-700 dark:text-neutral-300 text-xs font-medium border border-neutral-200 dark:border-white/[0.08] transition-colors cursor-pointer"
-              >
-                <span>View Dashboard</span>
-              </button>
+            {/* Current Bio Snippet preview */}
+            <div className="hidden md:block max-w-sm text-right">
+              <span className="text-[10px] font-mono text-neutral-400 uppercase tracking-wider block mb-0.5">Active Bio</span>
+              <p className="text-xs text-neutral-600 dark:text-neutral-300 italic font-sans truncate">
+                "{activePage?.bio || 'No bio configured yet.'}"
+              </p>
             </div>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             
-            {/* Left: AI Bio Generator Studio */}
+            {/* Left: AI Bio Optimizer Studio per Section 2 Blueprint */}
             <div className="p-5 rounded-2xl bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] shadow-xs space-y-4">
               <div className="flex items-center justify-between pb-3 border-b border-neutral-200/80 dark:border-white/[0.05]">
                 <div className="flex items-center gap-2">
                   <Sparkles className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-                  <h3 className="font-semibold text-sm text-neutral-900 dark:text-white">AI Bio Optimizer Studio</h3>
+                  <h3 className="font-semibold text-sm text-neutral-900 dark:text-white">AI Bio Optimizer</h3>
                 </div>
                 <span className="text-[10px] font-mono text-neutral-500 dark:text-neutral-400 bg-neutral-100 dark:bg-white/[0.04] px-2 py-0.5 rounded">
                   150 Char Limit Safe
@@ -427,21 +366,22 @@ export default function PageBuilder({ onNavigate }) {
                   </label>
                   <div className="grid grid-cols-3 gap-2">
                     {[
-                      { id: 'dm_sales', label: 'DM Sales Funnel' },
-                      { id: 'store_clicks', label: 'Storefront Link' },
-                      { id: 'viral_followers', label: 'Viral Authority' }
+                      { id: 'lead_magnet', label: 'Lead Magnet', sub: 'Link-in-bio focus' },
+                      { id: 'store_clicks', label: 'Storefront Sales', sub: 'Catalog direct' },
+                      { id: 'viral_followers', label: 'Brand Authority', sub: 'Reach focus' }
                     ].map(opt => (
                       <button
                         key={opt.id}
                         type="button"
                         onClick={() => setBioObjective(opt.id)}
-                        className={`py-2 px-2.5 rounded-xl text-xs font-medium border transition-colors cursor-pointer text-center ${
+                        className={`py-2 px-2 rounded-xl text-xs font-medium border transition-colors cursor-pointer text-center ${
                           bioObjective === opt.id
                             ? 'bg-emerald-50 dark:bg-emerald-500/10 border-emerald-300 dark:border-emerald-500/30 text-emerald-800 dark:text-emerald-300 font-semibold'
                             : 'bg-neutral-50 dark:bg-white/[0.02] border-neutral-200 dark:border-white/[0.06] text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white'
                         }`}
                       >
-                        {opt.label}
+                        <div className="font-semibold text-xs">{opt.label}</div>
+                        <div className="text-[10px] text-neutral-400 dark:text-neutral-400 mt-0.5">{opt.sub}</div>
                       </button>
                     ))}
                   </div>
@@ -453,7 +393,7 @@ export default function PageBuilder({ onNavigate }) {
                   className="w-full py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white font-semibold text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-xs"
                 >
                   <RotateCw className={`w-3.5 h-3.5 ${isGeneratingBio ? 'animate-spin' : ''}`} />
-                  <span>{isGeneratingBio ? 'Architecting High-CTR Bios via AI...' : 'Generate 3 AI Bio Variations'}</span>
+                  <span>{isGeneratingBio ? 'Architecting High-CTR Bios...' : 'Generate Bio Variations'}</span>
                 </button>
               </div>
 
@@ -508,7 +448,7 @@ export default function PageBuilder({ onNavigate }) {
               )}
             </div>
 
-            {/* Right: Authority Positioning Statement Builder */}
+            {/* Right: Authority Positioning Statement Builder per Section 2 Blueprint */}
             <div className="p-5 rounded-2xl bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] shadow-xs space-y-4">
               <div className="flex items-center justify-between pb-3 border-b border-neutral-200/80 dark:border-white/[0.05]">
                 <div className="flex items-center gap-2">
@@ -522,32 +462,41 @@ export default function PageBuilder({ onNavigate }) {
 
               <div className="space-y-3">
                 <div>
-                  <label className="block text-[11px] font-mono text-neutral-500 uppercase font-semibold mb-1">Who you help (Audience)</label>
+                  <label className="block text-[11px] font-mono text-neutral-500 dark:text-neutral-400 uppercase font-semibold mb-1">
+                    Target Audience
+                  </label>
                   <input
                     type="text"
                     value={positioningData.audience}
                     onChange={(e) => setPositioningData(prev => ({ ...prev, audience: e.target.value }))}
-                    className="w-full px-3 py-2 bg-neutral-50 dark:bg-white/[0.03] border border-neutral-200 dark:border-white/[0.08] rounded-xl text-xs text-neutral-900 dark:text-white font-mono focus:outline-hidden focus:border-emerald-500"
+                    placeholder="e.g., Creator-operators & agency owners"
+                    className="w-full px-3.5 py-2 bg-neutral-50 dark:bg-white/[0.03] border border-neutral-200 dark:border-white/[0.08] rounded-xl text-xs text-neutral-900 dark:text-white placeholder-neutral-400 font-medium focus:outline-hidden focus:border-emerald-500 transition-colors"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-[11px] font-mono text-neutral-500 uppercase font-semibold mb-1">Dream Outcome (Result)</label>
+                  <label className="block text-[11px] font-mono text-neutral-500 dark:text-neutral-400 uppercase font-semibold mb-1">
+                    Primary Transformation
+                  </label>
                   <input
                     type="text"
                     value={positioningData.outcome}
                     onChange={(e) => setPositioningData(prev => ({ ...prev, outcome: e.target.value }))}
-                    className="w-full px-3 py-2 bg-neutral-50 dark:bg-white/[0.03] border border-neutral-200 dark:border-white/[0.08] rounded-xl text-xs text-neutral-900 dark:text-white font-mono focus:outline-hidden focus:border-emerald-500"
+                    placeholder="e.g., Predictable organic reach & digital sales"
+                    className="w-full px-3.5 py-2 bg-neutral-50 dark:bg-white/[0.03] border border-neutral-200 dark:border-white/[0.08] rounded-xl text-xs text-neutral-900 dark:text-white placeholder-neutral-400 font-medium focus:outline-hidden focus:border-emerald-500 transition-colors"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-[11px] font-mono text-neutral-500 uppercase font-semibold mb-1">Pain Point Avoided</label>
+                  <label className="block text-[11px] font-mono text-neutral-500 dark:text-neutral-400 uppercase font-semibold mb-1">
+                    Key Obstacle Solved
+                  </label>
                   <input
                     type="text"
                     value={positioningData.painPoint}
                     onChange={(e) => setPositioningData(prev => ({ ...prev, painPoint: e.target.value }))}
-                    className="w-full px-3 py-2 bg-neutral-50 dark:bg-white/[0.03] border border-neutral-200 dark:border-white/[0.08] rounded-xl text-xs text-neutral-900 dark:text-white font-mono focus:outline-hidden focus:border-emerald-500"
+                    placeholder="e.g., Ending content burnout and low engagement"
+                    className="w-full px-3.5 py-2 bg-neutral-50 dark:bg-white/[0.03] border border-neutral-200 dark:border-white/[0.08] rounded-xl text-xs text-neutral-900 dark:text-white placeholder-neutral-400 font-medium focus:outline-hidden focus:border-emerald-500 transition-colors"
                   />
                 </div>
 
@@ -557,7 +506,7 @@ export default function PageBuilder({ onNavigate }) {
                   className="w-full py-2.5 px-4 rounded-xl bg-neutral-900 dark:bg-white hover:bg-black dark:hover:bg-neutral-100 text-white dark:text-black font-semibold text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-xs"
                 >
                   <Sparkles className="w-3.5 h-3.5 text-emerald-500" />
-                  <span>{isGeneratingPositioning ? 'Formulating Position...' : 'Formulate Authority Positioning'}</span>
+                  <span>{isGeneratingPositioning ? 'Formulating Position...' : 'Generate Positioning Statement'}</span>
                 </button>
               </div>
 
@@ -585,7 +534,7 @@ export default function PageBuilder({ onNavigate }) {
 
           </div>
 
-          {/* Story Highlights Architecture Section */}
+          {/* Story Highlights Stack (4 Conversion Anchors per Section 2 Blueprint) */}
           <div className="p-5 rounded-2xl bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] shadow-xs space-y-4">
             <div className="flex items-center justify-between pb-3 border-b border-neutral-200/80 dark:border-white/[0.05]">
               <div>
@@ -605,28 +554,28 @@ export default function PageBuilder({ onNavigate }) {
                   circle: '01',
                   name: 'STORY',
                   role: 'Origin & Authority',
-                  desc: 'Why this page exists, who runs it, and the philosophy behind your curations.',
+                  desc: 'Origin, mission, and core thesis behind your curations.',
                   icon: '📖'
                 },
                 {
                   circle: '02',
                   name: 'PROOF',
                   role: 'Social Proof & Wins',
-                  desc: 'Screenshots of follower wins, DM conversations, earnings, and positive reviews.',
+                  desc: 'Client wins, metric spikes, and reviews from followers.',
                   icon: '🏆'
                 },
                 {
                   circle: '03',
                   name: 'STORE',
                   role: 'Offer & Products',
-                  desc: 'Breakdown of your digital guide, template, or private community with direct link.',
+                  desc: 'Overview of templates, guides, and tools with direct bio link.',
                   icon: '🛍️'
                 },
                 {
                   circle: '04',
-                  name: 'VAULT',
-                  role: 'Free Resource Hook',
-                  desc: 'Keyword trigger to capture leads: "Reply with VAULT to get our free cheat sheet."',
+                  name: 'RESOURCES',
+                  role: 'Free Value Drops',
+                  desc: 'Free value drops and link-in-bio guide hooks.',
                   icon: '⚡'
                 }
               ].map((hl, i) => (
@@ -651,182 +600,81 @@ export default function PageBuilder({ onNavigate }) {
         </div>
       )}
 
-      {/* 3. TAB 2: OFFICIAL 8 NICHE TAXONOMY & AI QUIZ */}
+      {/* 3. TAB 2: NICHE & eRPM BENCHMARK DIRECTORY (Direct 8 Niche Cards Hero per Section 3 Blueprint) */}
       {activeTab === 'quiz' && (
-        <div className="space-y-6">
+        <div className="space-y-4">
           
-          {/* Beginner Quiz Card */}
-          <div className="p-5 rounded-2xl bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] shadow-xs space-y-4">
-            <div className="flex items-center justify-between pb-3 border-b border-neutral-200/80 dark:border-white/[0.05]">
-              <div>
-                <h3 className="font-semibold text-sm text-neutral-900 dark:text-white">AI Niche Opportunity Diagnostic</h3>
-                <p className="text-[11px] text-neutral-500 dark:text-neutral-400 mt-0.5">
-                  Calculate the exact profitability score and recommended niche based on your goals.
-                </p>
-              </div>
-              <span className="text-[10px] font-mono text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-500/10 px-2 py-0.5 rounded font-medium border border-emerald-200 dark:border-emerald-500/20">
-                Diagnostic Tool
-              </span>
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2">
+            <div>
+              <h3 className="font-semibold text-sm text-neutral-900 dark:text-white">
+                Niche &amp; eRPM Benchmark Directory
+              </h3>
+              <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5">
+                8 Core high-leverage creator niches benchmarked against real digital sales and ad metrics.
+              </p>
             </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div>
-                <label className="block text-[11px] font-mono text-neutral-500 uppercase font-semibold mb-1">
-                  1. Primary Monetization Route
-                </label>
-                <select
-                  value={quizState.goal}
-                  onChange={(e) => setQuizState(prev => ({ ...prev, goal: e.target.value }))}
-                  className="w-full px-3 py-2 bg-neutral-50 dark:bg-white/[0.03] border border-neutral-200 dark:border-white/[0.08] rounded-xl text-xs text-neutral-900 dark:text-white focus:outline-hidden focus:border-emerald-500 font-medium"
-                >
-                  <option value="digital_products">Digital Products / E-books / Notion</option>
-                  <option value="community_subscriptions">Paid Memberships / Communities</option>
-                  <option value="affiliate_deals">Software & Brand Affiliate Deals</option>
-                  <option value="clipping_bounties">Mass View Clipping Bounties</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-[11px] font-mono text-neutral-500 uppercase font-semibold mb-1">
-                  2. Creation Style
-                </label>
-                <select
-                  value={quizState.format}
-                  onChange={(e) => setQuizState(prev => ({ ...prev, format: e.target.value }))}
-                  className="w-full px-3 py-2 bg-neutral-50 dark:bg-white/[0.03] border border-neutral-200 dark:border-white/[0.08] rounded-xl text-xs text-neutral-900 dark:text-white focus:outline-hidden focus:border-emerald-500 font-medium"
-                >
-                  <option value="faceless_curation">Faceless AI Curation & Quotes</option>
-                  <option value="screen_breakdowns">Software & Workflow Breakdowns</option>
-                  <option value="high_cinematic">Cinematic 4K Visual Cuts</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-[11px] font-mono text-neutral-500 uppercase font-semibold mb-1">
-                  3. Geographic Focus
-                </label>
-                <select
-                  value={quizState.region}
-                  onChange={(e) => setQuizState(prev => ({ ...prev, region: e.target.value }))}
-                  className="w-full px-3 py-2 bg-neutral-50 dark:bg-white/[0.03] border border-neutral-200 dark:border-white/[0.08] rounded-xl text-xs text-neutral-900 dark:text-white focus:outline-hidden focus:border-emerald-500 font-medium"
-                >
-                  <option value="global">Global Tier-1 (US, UK, Canada, UAE)</option>
-                  <option value="india">Domestic India (Fast volume reach)</option>
-                </select>
-              </div>
-            </div>
-
-            <button
-              onClick={handleRunQuiz}
-              className="py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-xs"
-            >
-              <Compass className="w-3.5 h-3.5" />
-              <span>Calculate Niche Opportunity Score</span>
-            </button>
-
-            {/* Quiz Recommendation Banner */}
-            {quizResult && (
-              <div className="p-4 rounded-xl bg-emerald-50/80 dark:bg-emerald-500/10 border border-emerald-300 dark:border-emerald-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                <div className="space-y-1">
-                  <div className="flex items-center gap-2">
-                    <span className="text-xl">{quizResult.recommendedNiche.icon}</span>
-                    <span className="text-sm font-bold text-neutral-900 dark:text-white">
-                      Recommended: {quizResult.recommendedNiche.name}
-                    </span>
-                    <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-emerald-600 text-white">
-                      Score: {quizResult.opportunityScore}/100
-                    </span>
-                  </div>
-                  <ul className="text-xs text-emerald-900 dark:text-emerald-300 list-disc list-inside space-y-0.5">
-                    {quizResult.reasons.map((r, i) => (
-                      <li key={i}>{r}</li>
-                    ))}
-                  </ul>
-                </div>
-
-                <button
-                  onClick={() => handleApplyNicheToActivePage(quizResult.recommendedNiche)}
-                  className="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold whitespace-nowrap cursor-pointer shadow-xs"
-                >
-                  Apply to Active Page &rarr;
-                </button>
-              </div>
-            )}
+            <span className="text-xs text-neutral-500 dark:text-neutral-400 font-mono">
+              Click any niche card to apply to active profile
+            </span>
           </div>
 
-          {/* Official 8 Niche Catalog Grid */}
-          <div>
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="font-semibold text-sm text-neutral-900 dark:text-white">
-                Official 8 Niche Taxonomy & eRPM Benchmark Directory
-              </h3>
-              <span className="text-xs text-neutral-500 dark:text-neutral-400 font-mono">
-                Click any niche to apply to active profile
-              </span>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3.5">
-              {OFFICIAL_NICHES.map(niche => {
-                const isCurrent = activePage?.category === niche.name;
-                return (
-                  <div
-                    key={niche.id}
-                    onClick={() => handleApplyNicheToActivePage(niche)}
-                    className={`p-4 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between space-y-3 ${
-                      isCurrent
-                        ? 'bg-emerald-50/70 dark:bg-emerald-500/10 border-emerald-500 shadow-xs ring-1 ring-emerald-500'
-                        : 'bg-white dark:bg-[#0C0D12] border-neutral-200/80 dark:border-white/[0.06] hover:border-emerald-300 dark:hover:bg-white/[0.04]'
-                    }`}
-                  >
-                    <div>
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="text-2xl">{niche.icon}</span>
-                        <div className="flex items-center gap-1.5">
-                          <span className="px-2 py-0.5 rounded font-mono text-[10px] font-semibold bg-neutral-100 dark:bg-white/[0.06] text-neutral-700 dark:text-neutral-300">
-                            {niche.profitability}% Score
-                          </span>
-                          {isCurrent && (
-                            <span className="w-2 h-2 rounded-full bg-emerald-500" title="Active Niche" />
-                          )}
-                        </div>
-                      </div>
-
-                      <h4 className="font-bold text-xs text-neutral-900 dark:text-white mb-1">
-                        {niche.name}
-                      </h4>
-                      <div className="text-[11px] font-mono text-emerald-600 dark:text-emerald-400 font-medium mb-2">
-                        eRPM: {niche.eRPM}
-                      </div>
-
-                      <div className="space-y-1">
-                        <div className="text-[10px] font-mono text-neutral-400 uppercase font-medium">Sub-Niches:</div>
-                        <div className="flex flex-wrap gap-1">
-                          {niche.subNiches.slice(0, 3).map((sub, idx) => (
-                            <span key={idx} className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-neutral-100 dark:bg-white/[0.04] text-neutral-600 dark:text-neutral-300">
-                              {sub}
-                            </span>
-                          ))}
-                          {niche.subNiches.length > 3 && (
-                            <span className="text-[9px] font-mono text-neutral-400">+{niche.subNiches.length - 3}</span>
-                          )}
-                        </div>
+          {/* Official 8 Niche Catalog Grid with Clean High-Contrast Hierarchy */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3.5">
+            {OFFICIAL_NICHES.map(niche => {
+              const isCurrent = activePage?.category === niche.name;
+              return (
+                <div
+                  key={niche.id}
+                  onClick={() => handleApplyNicheToActivePage(niche)}
+                  className={`p-4 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between space-y-3 hover:border-emerald-500/50 hover:shadow-emerald-500/5 hover:shadow-md ${
+                    isCurrent
+                      ? 'bg-emerald-50/70 dark:bg-emerald-500/10 border-emerald-500 shadow-xs ring-1 ring-emerald-500'
+                      : 'bg-white dark:bg-[#0C0D12] border-neutral-200/80 dark:border-white/[0.06]'
+                  }`}
+                >
+                  <div>
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-2xl">{niche.icon}</span>
+                      <div className="flex items-center gap-1.5">
+                        <span className="px-2 py-0.5 rounded font-mono text-[10px] font-semibold bg-neutral-100 dark:bg-white/[0.06] text-neutral-700 dark:text-neutral-300">
+                          {niche.profitability}% Match
+                        </span>
+                        {isCurrent && (
+                          <span className="w-2 h-2 rounded-full bg-emerald-500" title="Active Niche" />
+                        )}
                       </div>
                     </div>
 
-                    <div className="pt-2 border-t border-neutral-200/60 dark:border-white/[0.04] flex items-center justify-between text-[11px]">
-                      <span className="text-neutral-500 dark:text-neutral-400 text-[10px]">Tap to sync taxonomy</span>
-                      <ArrowRight className="w-3 h-3 text-neutral-400" />
+                    <h4 className="font-bold text-xs text-neutral-900 dark:text-white mb-1">
+                      {niche.name}
+                    </h4>
+                    <div className="text-[11px] font-mono text-emerald-600 dark:text-emerald-400 font-medium mb-2.5">
+                      Est. eRPM: {niche.eRPM}
+                    </div>
+
+                    <div className="space-y-1">
+                      <div className="text-[10px] font-mono text-neutral-400 uppercase font-medium">Sub-Niches:</div>
+                      <div className="flex flex-wrap gap-1">
+                        {niche.subNiches.slice(0, 3).map((sub, idx) => (
+                          <span key={idx} className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-neutral-100 dark:bg-white/[0.04] text-neutral-600 dark:text-neutral-300">
+                            {sub}
+                          </span>
+                        ))}
+                        {niche.subNiches.length > 3 && (
+                          <span className="text-[9px] font-mono text-neutral-400">+{niche.subNiches.length - 3}</span>
+                        )}
+                      </div>
                     </div>
                   </div>
-                );
-              })}
-            </div>
+                </div>
+              );
+            })}
           </div>
 
         </div>
       )}
 
-      {/* 4. TAB 3: AUDIENCE DEMOGRAPHICS & PEAK ACTIVITY HEATMAP */}
+      {/* 4. TAB 3: AUDIENCE INSIGHTS & ACTIVE HOURS per Section 4 Blueprint */}
       {activeTab === 'demographics' && (
         <div className="space-y-6">
           
@@ -863,8 +711,10 @@ export default function PageBuilder({ onNavigate }) {
                 ))}
               </div>
 
-              <div className="p-2.5 rounded-lg bg-neutral-50 dark:bg-white/[0.02] border border-neutral-200/70 dark:border-white/[0.04] text-[11px] text-neutral-600 dark:text-neutral-400">
-                Primary segment: <strong className="text-neutral-900 dark:text-white font-mono">18–24 High-Growth Cohort</strong> (Ideal for low-friction digital products).
+              {/* Clean Summary Badge per Section 4 */}
+              <div className="p-2.5 rounded-lg bg-neutral-50 dark:bg-white/[0.02] border border-neutral-200/70 dark:border-white/[0.04] text-xs flex items-center justify-between">
+                <span className="text-neutral-500 dark:text-neutral-400 font-medium">Primary Demographic:</span>
+                <span className="text-emerald-600 dark:text-emerald-400 font-mono font-bold">18–24 (46%)</span>
               </div>
             </div>
 
@@ -878,26 +728,27 @@ export default function PageBuilder({ onNavigate }) {
               <div className="flex items-center justify-around py-4">
                 <div className="text-center space-y-1">
                   <div className="text-3xl font-bold font-mono text-neutral-900 dark:text-white">68%</div>
-                  <div className="text-xs text-neutral-500 dark:text-neutral-400 font-mono">Male Audience</div>
+                  <div className="text-xs text-neutral-500 dark:text-neutral-400 font-mono">Male</div>
                 </div>
                 <div className="h-12 w-px bg-neutral-200 dark:bg-white/[0.08]" />
                 <div className="text-center space-y-1">
                   <div className="text-3xl font-bold font-mono text-emerald-600 dark:text-emerald-400">32%</div>
-                  <div className="text-xs text-neutral-500 dark:text-neutral-400 font-mono">Female Audience</div>
+                  <div className="text-xs text-neutral-500 dark:text-neutral-400 font-mono">Female</div>
                 </div>
               </div>
 
+              {/* Minimalist Split Bar per Section 4 */}
               <div className="w-full h-3 rounded-full bg-neutral-100 dark:bg-white/[0.06] flex overflow-hidden">
                 <div className="bg-neutral-800 dark:bg-neutral-300 h-full" style={{ width: '68%' }} title="Male 68%" />
                 <div className="bg-emerald-500 h-full" style={{ width: '32%' }} title="Female 32%" />
               </div>
 
-              <div className="p-2.5 rounded-lg bg-neutral-50 dark:bg-white/[0.02] border border-neutral-200/70 dark:border-white/[0.04] text-[11px] text-neutral-600 dark:text-neutral-400">
-                Optimal hook framing: Direct, outcome-driven, high-friction patterns work best for this split.
+              <div className="p-2.5 rounded-lg bg-neutral-50 dark:bg-white/[0.02] border border-neutral-200/70 dark:border-white/[0.04] text-[11px] text-neutral-600 dark:text-neutral-400 leading-relaxed">
+                Ideal hook framing: Direct, result-driven pattern interrupts.
               </div>
             </div>
 
-            {/* Top Geographies Card */}
+            {/* Top Geographic Markets Card (eRPM removed, clean % share per Section 4) */}
             <div className="p-5 rounded-2xl bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] shadow-xs space-y-4">
               <div className="flex items-center justify-between pb-3 border-b border-neutral-200/80 dark:border-white/[0.05]">
                 <h3 className="font-semibold text-sm text-neutral-900 dark:text-white">Top Geographic Markets</h3>
@@ -906,20 +757,19 @@ export default function PageBuilder({ onNavigate }) {
 
               <div className="space-y-2.5">
                 {[
-                  { country: 'India', flag: '🇮🇳', pct: '56.4%', eRPM: '₹140' },
-                  { country: 'United States', flag: '🇺🇸', pct: '21.8%', eRPM: '₹380' },
-                  { country: 'United Kingdom', flag: '🇬🇧', pct: '8.2%', eRPM: '₹310' },
-                  { country: 'United Arab Emirates', flag: '🇦🇪', pct: '7.1%', eRPM: '₹290' },
-                  { country: 'Others', flag: '🌐', pct: '6.5%', eRPM: '₹110' }
+                  { country: 'India', flag: '🇮🇳', pct: '56.4%' },
+                  { country: 'United States', flag: '🇺🇸', pct: '21.8%' },
+                  { country: 'United Kingdom', flag: '🇬🇧', pct: '8.2%' },
+                  { country: 'United Arab Emirates', flag: '🇦🇪', pct: '7.1%' },
+                  { country: 'Others', flag: '🌐', pct: '6.5%' }
                 ].map((geo, i) => (
                   <div key={i} className="flex items-center justify-between text-xs py-1 border-b border-neutral-100 dark:border-white/[0.03]">
                     <div className="flex items-center gap-2">
                       <span>{geo.flag}</span>
                       <span className="font-medium text-neutral-800 dark:text-neutral-200">{geo.country}</span>
                     </div>
-                    <div className="flex items-center gap-2 font-mono">
-                      <span className="text-neutral-500 text-[11px]">{geo.eRPM} eRPM</span>
-                      <span className="font-semibold text-neutral-900 dark:text-white">{geo.pct}</span>
+                    <div className="font-mono font-semibold text-neutral-900 dark:text-white">
+                      {geo.pct}
                     </div>
                   </div>
                 ))}
@@ -941,12 +791,12 @@ export default function PageBuilder({ onNavigate }) {
               <div className="flex items-center gap-2 font-mono text-[10px]">
                 <span className="text-neutral-400">Intensity:</span>
                 <span className="px-1.5 py-0.5 rounded bg-neutral-100 dark:bg-white/[0.04] text-neutral-500">Low</span>
-                <span className="px-1.5 py-0.5 rounded bg-emerald-200 dark:bg-emerald-500/30 text-emerald-800 dark:text-emerald-300">Med</span>
+                <span className="px-1.5 py-0.5 rounded bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300">Med</span>
                 <span className="px-1.5 py-0.5 rounded bg-emerald-600 text-white font-semibold">Peak Window</span>
               </div>
             </div>
 
-            {/* Heatmap Grid */}
+            {/* Heatmap Grid: Flame emojis removed, clean indicator dots per Section 4 */}
             <div className="overflow-x-auto">
               <table className="w-full text-xs font-mono">
                 <thead>
@@ -976,17 +826,18 @@ export default function PageBuilder({ onNavigate }) {
                         </span>
                       </td>
                       <td className="py-2.5 text-center">
-                        <span className="px-2.5 py-1 rounded-md text-[11px] bg-emerald-100/70 dark:bg-emerald-500/20 text-emerald-800 dark:text-emerald-300 font-medium">
+                        <span className="px-2.5 py-1 rounded-md text-[11px] bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 font-medium">
                           {row.a}%
                         </span>
                       </td>
                       <td className="py-2.5 text-center">
-                        <span className="px-2.5 py-1 rounded-md text-[11px] bg-emerald-600 text-white font-bold shadow-xs">
-                          {row.p}% 🔥 ({row.primeSlot})
+                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] bg-emerald-600 text-white font-bold shadow-xs">
+                          <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+                          <span>{row.p}% ({row.primeSlot})</span>
                         </span>
                       </td>
                       <td className="py-2.5 text-center">
-                        <span className="px-2.5 py-1 rounded-md text-[11px] bg-emerald-100/70 dark:bg-emerald-500/20 text-emerald-800 dark:text-emerald-300 font-medium">
+                        <span className="px-2.5 py-1 rounded-md text-[11px] bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 font-medium">
                           {row.l}%
                         </span>
                       </td>
@@ -996,16 +847,17 @@ export default function PageBuilder({ onNavigate }) {
               </table>
             </div>
 
-            <div className="p-3 rounded-xl bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 flex items-center justify-between text-xs">
+            {/* Dynamic Crisp Highlight Bar per Section 4 */}
+            <div className="p-3 px-4 rounded-xl bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
               <div className="flex items-center gap-2 text-emerald-900 dark:text-emerald-200">
-                <Clock className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-                <span>Optimal Reel Release Window for Today: <strong>7:00 PM – 9:00 PM IST</strong></span>
+                <Clock className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                <span>Optimal Release Window Today: <strong>7:00 PM – 9:00 PM IST</strong></span>
               </div>
               <button
                 onClick={() => onNavigate('discover_create')}
-                className="font-mono text-emerald-700 dark:text-emerald-400 font-semibold hover:underline cursor-pointer"
+                className="font-mono text-emerald-700 dark:text-emerald-400 font-semibold hover:underline cursor-pointer flex items-center gap-1 self-start sm:self-auto"
               >
-                Schedule in Planner &rarr;
+                <span>Open Content Planner &rarr;</span>
               </button>
             </div>
           </div>
@@ -1013,39 +865,44 @@ export default function PageBuilder({ onNavigate }) {
         </div>
       )}
 
-      {/* 5. TAB 4: MULTI-PAGE MANAGEMENT HUB */}
+      {/* 5. TAB 4: WORKSPACE ACCOUNTS (Multi-Page Hub per Section 5 Blueprint) */}
       {activeTab === 'multi_page' && (
         <div className="space-y-6">
           
+          {/* Header Workspace Row per Section 5 */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-5 rounded-2xl bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] shadow-xs">
             <div>
-              <div className="flex items-center gap-2">
-                <h3 className="font-bold text-sm text-neutral-900 dark:text-white">Multi-Page Workspace Management</h3>
-                <span className="px-2 py-0.5 rounded text-[10px] font-mono font-semibold uppercase bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/20">
-                  {tier} Plan
-                </span>
-              </div>
+              <h3 className="font-bold text-sm text-neutral-900 dark:text-white">
+                Connected Accounts
+              </h3>
               <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5">
-                Connected accounts: <strong className="text-neutral-900 dark:text-white font-mono">{pages.length}</strong> / {getPageLimit() === 9999 ? 'Unlimited' : getPageLimit()} slots utilized.
+                Manage connected Instagram Business accounts across workspaces.
               </p>
             </div>
 
-            <button
-              onClick={() => {
-                if (!canAddMorePages()) {
-                  openUpgradeModal('multi_page', `Your ${tier.toUpperCase()} plan is capped at ${getPageLimit()} page(s). Upgrade to connect additional accounts.`);
-                } else {
-                  setIsConnectModalOpen(true);
-                }
-              }}
-              className="py-2 px-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs transition-colors flex items-center gap-1.5 cursor-pointer shadow-xs"
-            >
-              <Plus className="w-3.5 h-3.5" />
-              <span>Connect New Account</span>
-            </button>
+            <div className="flex items-center gap-3">
+              {/* Account Slots Usage Pill per Section 5 */}
+              <div className="px-3 py-1 rounded-lg bg-neutral-100 dark:bg-white/[0.04] border border-neutral-200 dark:border-white/[0.08] text-xs font-mono text-neutral-700 dark:text-neutral-300 font-medium">
+                {pages.length} of {getPageLimit() === 9999 ? 'Unlimited' : getPageLimit()} Accounts Used ({tier === 'free' ? 'Starter' : tier === 'elite' ? 'Elite Tier' : 'Pro Tier'})
+              </div>
+
+              <button
+                onClick={() => {
+                  if (!canAddMorePages()) {
+                    openUpgradeModal('multi_page', `Your ${tier.toUpperCase()} plan is capped at ${getPageLimit()} page(s). Upgrade to connect additional accounts.`);
+                  } else {
+                    setIsConnectModalOpen(true);
+                  }
+                }}
+                className="py-2 px-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs transition-colors flex items-center gap-1.5 cursor-pointer shadow-xs"
+              >
+                <Plus className="w-3.5 h-3.5" />
+                <span>+ Connect Account</span>
+              </button>
+            </div>
           </div>
 
-          {/* Grid of Connected Pages */}
+          {/* Grid of Refined Connected Account Cards per Section 5 */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {pages.map((p) => {
               const isActive = p.id === activePage?.id;
@@ -1059,6 +916,7 @@ export default function PageBuilder({ onNavigate }) {
                   }`}
                 >
                   <div className="space-y-3">
+                    {/* Header: [Avatar] | @username | Active Badge */}
                     <div className="flex items-start justify-between">
                       <div className="flex items-center gap-3">
                         <img 
@@ -1084,30 +942,29 @@ export default function PageBuilder({ onNavigate }) {
                       </div>
                     </div>
 
+                    {/* Key Snapshot Metrics: Followers | 7D Reach | Page Score */}
                     <div className="grid grid-cols-3 gap-2 p-2.5 rounded-xl bg-neutral-50 dark:bg-white/[0.02] border border-neutral-200/60 dark:border-white/[0.04] text-center text-xs font-mono">
                       <div>
                         <div className="text-[10px] text-neutral-400">Followers</div>
                         <div className="font-bold text-neutral-900 dark:text-white mt-0.5">{p.followersCount || '0'}</div>
                       </div>
                       <div>
-                        <div className="text-[10px] text-neutral-400">Views 7d</div>
+                        <div className="text-[10px] text-neutral-400">7D Reach</div>
                         <div className="font-bold text-neutral-900 dark:text-white mt-0.5">{p.views7d || '0'}</div>
                       </div>
                       <div>
-                        <div className="text-[10px] text-neutral-400">Score</div>
+                        <div className="text-[10px] text-neutral-400">Page Score</div>
                         <div className="font-bold text-emerald-600 dark:text-emerald-400 mt-0.5">{p.audit?.overallScore || 80}/100</div>
                       </div>
                     </div>
-
-                    <p className="text-xs text-neutral-600 dark:text-neutral-300 line-clamp-2 italic">
-                      "{p.bio}"
-                    </p>
                   </div>
 
+                  {/* Bottom Action Status per Section 5 */}
                   <div className="pt-3 border-t border-neutral-100 dark:border-white/[0.05] flex items-center justify-between">
                     {isActive ? (
-                      <span className="text-xs font-mono text-emerald-600 dark:text-emerald-400 flex items-center gap-1 font-semibold">
-                        <Check className="w-3.5 h-3.5" /> Scoping Workspace
+                      <span className="text-xs font-mono text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5 font-semibold">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                        <span>Active Workspace</span>
                       </span>
                     ) : (
                       <button
@@ -1119,7 +976,7 @@ export default function PageBuilder({ onNavigate }) {
                     )}
 
                     <span className="text-[10px] font-mono text-neutral-400">
-                      Synced {p.lastSynced || 'Recently'}
+                      Synced {p.lastSynced || '2m ago'}
                     </span>
                   </div>
                 </div>

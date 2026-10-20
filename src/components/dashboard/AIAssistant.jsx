@@ -23,7 +23,9 @@ import {
   ExternalLink,
   ChevronLeft,
   ChevronRight,
-  MessageSquare
+  MessageSquare,
+  Target,
+  Calendar
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { usePage } from '../../context/PageContext';
@@ -35,8 +37,57 @@ import { askVyralifyAssistant } from '../../lib/aiService';
 const SESSIONS_STORAGE_KEY = 'vyralify_chat_sessions_v3';
 
 /**
+ * Intelligent clean session title generator per Section 2 Blueprint
+ * Prevents raw user inputs like "yo" or "kya dikh rha..." from polluting chat titles.
+ */
+function generateCleanSessionTitle(rawText, pageCategory) {
+  if (!rawText) return 'Growth Strategy Session';
+  const lower = rawText.toLowerCase().trim();
+
+  // Keyword-based topic classification
+  if (lower.includes('hook') || lower.includes('viral') || lower.includes('3-second') || lower.includes('opening')) {
+    return 'Viral Hook Breakdown';
+  }
+  if (lower.includes('bio') || lower.includes('teardown') || lower.includes('profile') || lower.includes('conversion')) {
+    return 'Bio Conversion Teardown';
+  }
+  if (lower.includes('retention') || lower.includes('drop') || lower.includes('completion') || lower.includes('curve')) {
+    return 'Retention Curve Audit';
+  }
+  if (lower.includes('plan') || lower.includes('schedule') || lower.includes('7-day') || lower.includes('sprint') || lower.includes('calendar')) {
+    return '7-Day Content Sprint';
+  }
+  if (lower.includes('competitor') || lower.includes('format') || lower.includes('niche')) {
+    return 'Competitor Format Analysis';
+  }
+  if (lower.includes('store') || lower.includes('product') || lower.includes('revenue') || lower.includes('money') || lower.includes('sales')) {
+    return 'Storefront Monetization';
+  }
+  if (lower.includes('script') || lower.includes('draft') || lower.includes('reel')) {
+    return 'Viral Reel Script Draft';
+  }
+
+  // Filter out low-effort casual slang
+  const cleanWords = rawText
+    .replace(/^[^\w\s]+/, '')
+    .replace(/\b(yo|hey|hi|hello|kya|dikh|rha|hai|is|photo|me|bro|bhai|so|um|tell|me)\b/gi, '')
+    .trim();
+
+  if (!cleanWords || cleanWords.length < 3) {
+    return pageCategory ? `${pageCategory} Strategy` : 'Growth Strategy Session';
+  }
+
+  const titleCandidate = cleanWords.split(/[?!.\n]/)[0].trim();
+  if (titleCandidate.length > 28) {
+    return titleCandidate.slice(0, 26).trim() + '...';
+  }
+  return titleCandidate.charAt(0).toUpperCase() + titleCandidate.slice(1);
+}
+
+/**
  * Modern Clean Message Formatter
  * Eliminates raw markdown clutter (###, ***, * **, >) and renders clean structured cards, badges, and callouts
+ * Per Section 5 Blueprint: subtle dark border + mute green text formatting, slate-900 background for script blocks
  */
 function CleanFormattedMessage({ text }) {
   const [copiedQuoteIdx, setCopiedQuoteIdx] = useState(null);
@@ -61,16 +112,16 @@ function CleanFormattedMessage({ text }) {
       renderedElements.push(
         <div 
           key={`quote-${key}-${renderedElements.length}`}
-          className="my-3 p-3.5 rounded-xl bg-neutral-900/90 dark:bg-black/60 border border-emerald-500/30 border-l-4 border-l-emerald-500 text-xs shadow-sm relative group"
+          className="my-3 p-3.5 rounded-xl bg-slate-900/90 dark:bg-black/70 border border-neutral-800 dark:border-white/[0.08] text-xs shadow-xs relative group"
         >
-          <div className="flex items-center justify-between text-[10px] font-mono uppercase tracking-wider text-emerald-400 font-semibold mb-2">
+          <div className="flex items-center justify-between text-[10px] font-mono uppercase tracking-wider text-emerald-400 font-medium mb-2">
             <span className="flex items-center gap-1.5">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
               <span>Recommended Script / Bio Copy</span>
             </span>
             <button
               onClick={() => handleCopyQuote(quoteContent, quoteIndex)}
-              className="px-2 py-0.5 rounded bg-emerald-500/15 hover:bg-emerald-500/30 text-emerald-300 text-[10px] font-mono transition-colors cursor-pointer flex items-center gap-1"
+              className="px-2 py-0.5 rounded bg-white/[0.06] hover:bg-white/[0.12] text-neutral-300 hover:text-white text-[10px] font-mono transition-colors cursor-pointer flex items-center gap-1 border border-white/[0.08]"
               title="Copy to clipboard"
             >
               {copiedQuoteIdx === quoteIndex ? (
@@ -86,7 +137,7 @@ function CleanFormattedMessage({ text }) {
               )}
             </button>
           </div>
-          <div className="font-mono text-neutral-100 whitespace-pre-line leading-relaxed selection:bg-emerald-500/30">
+          <div className="font-mono text-neutral-200 whitespace-pre-line leading-relaxed selection:bg-emerald-500/30">
             {quoteContent}
           </div>
         </div>
@@ -142,12 +193,12 @@ function CleanFormattedMessage({ text }) {
 
       renderedElements.push(
         <div key={`h-${lineIdx}`} className="mt-4 mb-2 pt-2 border-t border-neutral-200/40 dark:border-white/[0.04] first:border-0 first:pt-0 flex flex-wrap items-center gap-2">
-          <span className="w-1.5 h-4 rounded-full bg-emerald-500 shrink-0" />
-          <h4 className="text-xs font-bold text-neutral-900 dark:text-white uppercase tracking-tight">
+          <span className="w-1.5 h-3.5 rounded-full bg-emerald-500 shrink-0" />
+          <h4 className="text-xs font-semibold text-neutral-900 dark:text-white uppercase tracking-tight">
             {renderCleanInline(mainTitle)}
           </h4>
           {badge && (
-            <span className="px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 text-[10px] font-mono font-medium">
+            <span className="px-2 py-0.5 rounded border border-neutral-300 dark:border-white/10 bg-neutral-100/80 dark:bg-white/[0.04] text-emerald-600 dark:text-emerald-400 text-[10px] font-mono font-medium">
               {badge}
             </span>
           )}
@@ -214,13 +265,15 @@ function renderCleanInline(text) {
                       boldText.includes('Trigger:') ||
                       boldText === 'Why it works' ||
                       boldText === 'Bio Text' ||
-                      boldText.startsWith('Hook');
+                      boldText.startsWith('Hook') ||
+                      boldText === 'CRUCIAL' ||
+                      boldText.includes('STEP');
 
       if (isLabel) {
         return (
           <span
             key={pIdx}
-            className="inline-flex items-center px-1.5 py-0.2 mr-1.5 rounded-md bg-emerald-500/15 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 font-mono font-bold text-[10px] border border-emerald-500/30 uppercase tracking-wider"
+            className="inline-flex items-center px-1.5 py-0.2 mr-1.5 rounded border border-neutral-200/90 dark:border-white/10 bg-neutral-100/70 dark:bg-white/[0.04] text-emerald-700 dark:text-emerald-400 font-mono font-medium text-[10px] uppercase tracking-wider"
           >
             {boldText.replace(/:$/, '')}
           </span>
@@ -228,7 +281,7 @@ function renderCleanInline(text) {
       }
 
       return (
-        <strong key={pIdx} className="font-bold text-neutral-900 dark:text-white">
+        <strong key={pIdx} className="font-semibold text-neutral-900 dark:text-white">
           {boldText}
         </strong>
       );
@@ -307,15 +360,23 @@ export default function AIAssistant({ onNavigate }) {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [sessions, activeSessionId, isGenerating]);
 
-  // Create default initial session
+  // Create default initial session per Section 3 Blueprint
   function createDefaultSession(page) {
     const handle = page?.handle || 'creator';
-    const category = page?.category || 'Business & Money';
-    const subNiche = page?.subNiche || 'Online Growth';
+
+    // Clean user first name
+    const rawName = user?.displayName || user?.name || '';
+    const cleanFirstName = rawName && !rawName.toLowerCase().includes('apple creator') && !rawName.includes('@')
+      ? rawName.trim().split(' ')[0]
+      : 'Maaz';
+
+    const hour = new Date().getHours();
+    const timeGreeting = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
+    const titleGreeting = cleanFirstName ? `${timeGreeting}, ${cleanFirstName}.` : 'How can we grow your audience today?';
 
     return {
       id: 'session_' + Date.now(),
-      title: `Strategy: @${handle}`,
+      title: 'Growth Strategy Session',
       pageHandle: handle,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
@@ -323,11 +384,11 @@ export default function AIAssistant({ onNavigate }) {
         {
           id: 'msg_welcome',
           sender: 'ai',
-          text: `Welcome back, ${user?.displayName || 'Creator'}.\n\nI am your **Vyralify Operating Co-Pilot**, grounded in real-time data for **@${handle}** (${category} • ${subNiche}).\n\nI can dissect your retention curve, engineer 3-second pattern-interrupt hooks, audit your bio conversion flow, or structure a high-ticket DM automation funnel.\n\nWhat are we optimizing today?`,
+          text: `${titleGreeting}\n\nI have analyzed your last 30 days of reach, retention curves, and top reels. Select an action below or ask anything.`,
           timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
           actions: [
-            { type: 'discover_create', label: 'Create Reel Script' },
-            { type: 'builder', label: 'Audit Bio & Taxonomy' }
+            { type: 'discover_create', label: 'Draft Viral Script' },
+            { type: 'builder', label: 'Audit Profile & Bio' }
           ]
         }
       ]
@@ -368,10 +429,7 @@ export default function AIAssistant({ onNavigate }) {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // Check media upload plan limits
-    // Free: 3 uploads/month, Pro: 50, Elite: Unlimited
     if (tier === 'free') {
-      // Notice for free creators
       addNotification({
         title: 'Multimodal Vision Active',
         message: 'Free tier includes 3 multimodal image audits. Upgrade to Pro for 50/month.',
@@ -441,10 +499,10 @@ export default function AIAssistant({ onNavigate }) {
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     };
 
-    // Update session title on first user message if default
+    // Auto-generate clean title on first user message per Section 2 Blueprint
     let sessionTitle = activeSession?.title;
-    if (activeSession?.messages?.length <= 1) {
-      sessionTitle = textToSend.slice(0, 32) + (textToSend.length > 32 ? '...' : '');
+    if (!activeSession?.messages || activeSession.messages.length <= 1) {
+      sessionTitle = generateCleanSessionTitle(textToSend, activePage?.category);
     }
 
     const updatedMessages = [...(activeSession?.messages || []), newUserMsg];
@@ -478,7 +536,7 @@ export default function AIAssistant({ onNavigate }) {
         views7d: activePage?.views7d || '840K',
         revenue30d: activePage?.revenue30d || '₹42,850',
         topPost: activePage?.topPost?.title || 'Contrarian Reel Breakdown (342K views)',
-        audit: activePage?.audit?.recommendation || 'Optimize bio CTA and add DM keyword funnel'
+        audit: activePage?.audit?.recommendation || 'Optimize bio CTA and conversion flow'
       };
 
       const res = await askVyralifyAssistant({
@@ -497,7 +555,7 @@ export default function AIAssistant({ onNavigate }) {
         provider: res.provider || 'vyralify:gpt-oss',
         actions: actions.length > 0 ? actions : [
           { type: 'discover_create', label: 'Use in Content Studio' },
-          { type: 'automation', label: 'Set Up DM Funnel' }
+          { type: 'builder', label: 'Optimize Bio Link' }
         ],
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       };
@@ -542,24 +600,39 @@ export default function AIAssistant({ onNavigate }) {
   const creditUsagePercent = aiCredits.limit > 90000 ? 0 : Math.round((aiCredits.usedToday / aiCredits.limit) * 100);
   const isNearLimit = creditUsagePercent >= 80 && aiCredits.limit < 90000;
 
-  // Preset growth prompt chips
+  // 4 Clean Growth Presets with minimalist SVG outline icons per Section 4 Blueprint
   const PROMPT_SUGGESTIONS = [
-    { label: '🔥 3 Pattern-Interrupt Hooks', prompt: `Write 3 high-retention opening hooks for @${activePage?.handle || 'my page'} targeting first-3-second retention.` },
-    { label: '⚡ Bio Conversion Teardown', prompt: `Audit my current bio for @${activePage?.handle || 'my page'} and suggest 3 high-converting rewrites with DM call-to-actions.` },
-    { label: '📈 Competitor Format Steal', prompt: `What format are the top 1% creators in ${activePage?.category || 'my niche'} using this week to get 1M+ views?` },
-    { label: '🤖 DM Funnel Trigger', prompt: `Design a high-converting comment keyword automation funnel to turn reel viewers into email leads.` },
-    { label: '🗓️ 7-Day Sprint Plan', prompt: `Give me an exact 7-day reel release schedule with hooks, formats, and optimal posting times.` }
+    { 
+      label: '3 Viral Reel Hooks', 
+      icon: Target,
+      prompt: `Write 3 high-retention opening hooks for @${activePage?.handle || 'my page'} targeting first-3-second retention.` 
+    },
+    { 
+      label: 'Bio Conversion Teardown', 
+      icon: Search,
+      prompt: `Audit my current bio for @${activePage?.handle || 'my page'} and suggest 3 high-converting rewrites.` 
+    },
+    { 
+      label: 'Analyze Top Retention Reel', 
+      icon: TrendingUp,
+      prompt: `Analyze the retention mechanics of my top-performing reel and breakdown why it worked.` 
+    },
+    { 
+      label: 'Generate 7-Day Content Plan', 
+      icon: Calendar,
+      prompt: `Generate a 7-day content sprint plan with hooks, visual angles, and peak posting times.` 
+    }
   ];
 
   return (
     <div className="h-[calc(100vh-5.5rem)] flex flex-col lg:flex-row gap-3 max-w-7xl mx-auto overflow-hidden">
       
-      {/* 1. SESSIONS HISTORY DRAWER (Collapsible) */}
-      <div className={`shrink-0 transition-all duration-200 flex flex-col bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] rounded-2xl overflow-hidden shadow-xs ${
+      {/* 1. SESSIONS HISTORY DRAWER (Collapsible with smooth transition per Section 2) */}
+      <div className={`shrink-0 transition-all duration-300 ease-in-out flex flex-col bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] rounded-2xl overflow-hidden shadow-xs ${
         isSidebarOpen ? 'w-full lg:w-72' : 'w-14 hidden lg:flex'
       }`}>
         
-        {/* Drawer Header */}
+        {/* Drawer Header with non-overlapping tooltips per Section 2 */}
         <div className="p-3 border-b border-neutral-200/80 dark:border-white/[0.06] flex items-center justify-between gap-2">
           {isSidebarOpen ? (
             <>
@@ -570,18 +643,20 @@ export default function AIAssistant({ onNavigate }) {
                   {sessions.length}
                 </span>
               </div>
-              <div className="flex items-center gap-1">
+              <div className="flex items-center gap-1.5">
                 <button
                   onClick={handleNewSession}
                   className="p-1.5 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 hover:bg-emerald-100 dark:hover:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 text-xs transition-colors cursor-pointer"
                   title="New Thread"
+                  aria-label="New Thread"
                 >
                   <Plus className="w-3.5 h-3.5" />
                 </button>
                 <button
                   onClick={() => setIsSidebarOpen(false)}
-                  className="p-1.5 rounded-lg hover:bg-neutral-100 dark:hover:bg-white/[0.06] text-neutral-400 transition-colors cursor-pointer"
+                  className="p-1.5 rounded-lg hover:bg-neutral-100 dark:hover:bg-white/[0.06] text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-200 transition-colors cursor-pointer"
                   title="Collapse Sidebar"
+                  aria-label="Collapse Sidebar"
                 >
                   <ChevronLeft className="w-3.5 h-3.5" />
                 </button>
@@ -592,6 +667,7 @@ export default function AIAssistant({ onNavigate }) {
               onClick={() => setIsSidebarOpen(true)}
               className="w-full py-2 flex items-center justify-center hover:bg-neutral-100 dark:hover:bg-white/[0.06] text-neutral-400 rounded-lg transition-colors cursor-pointer"
               title="Expand Conversations"
+              aria-label="Expand Conversations"
             >
               <ChevronRight className="w-4 h-4" />
             </button>
@@ -655,15 +731,16 @@ export default function AIAssistant({ onNavigate }) {
               )}
             </div>
 
-            {/* Plan Quota Footnote */}
-            <div className="p-3 border-t border-neutral-200/80 dark:border-white/[0.06] bg-neutral-50/60 dark:bg-black/20 text-[11px] text-neutral-500 flex items-center justify-between">
-              <span className="font-mono">
-                {tier === 'free' ? 'Starter (Last 5 Chats)' : 'Pro (Unlimited History)'}
-              </span>
+            {/* Sidebar Footer: Subtle status badge per Section 2 Blueprint */}
+            <div className="p-2.5 px-3 border-t border-neutral-200/80 dark:border-white/[0.06] bg-neutral-50/60 dark:bg-black/20 text-[11px] text-neutral-500 flex items-center justify-between">
+              <div className="flex items-center gap-1.5 font-mono text-[10px] text-neutral-600 dark:text-neutral-400">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                <span>{tier === 'free' ? 'Starter Memory' : 'Cloud History Synced'}</span>
+              </div>
               {tier === 'free' && (
                 <button
                   onClick={() => openUpgradeModal('ai_history', 'Upgrade to Pro for unlimited searchable chat memory.')}
-                  className="text-emerald-600 hover:underline font-semibold cursor-pointer"
+                  className="text-emerald-600 dark:text-emerald-400 hover:underline font-semibold text-[10px] cursor-pointer"
                 >
                   Upgrade &rarr;
                 </button>
@@ -676,7 +753,7 @@ export default function AIAssistant({ onNavigate }) {
       {/* 2. MAIN CONVERSATION WORKSPACE */}
       <div className="flex-1 flex flex-col bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] rounded-2xl overflow-hidden shadow-xs relative">
         
-        {/* Workspace Top Header Bar */}
+        {/* Workspace Top Header Bar per Section 1 Blueprint */}
         <div className="p-3 px-4 border-b border-neutral-200/80 dark:border-white/[0.06] bg-neutral-50/70 dark:bg-[#0A0B0E] flex flex-wrap items-center justify-between gap-3 z-10">
           <div className="flex items-center gap-3">
             {!isSidebarOpen && (
@@ -689,38 +766,29 @@ export default function AIAssistant({ onNavigate }) {
               </button>
             )}
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2.5">
               <div className="w-8 h-8 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-bold shadow-xs">
                 <Sparkles className="w-4 h-4" />
               </div>
               <div>
                 <div className="font-semibold text-neutral-900 dark:text-white text-xs flex items-center gap-2">
-                  <span>Vyralify Co-Pilot</span>
-                  <span className="px-1.5 py-0.2 rounded bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 text-emerald-700 dark:text-emerald-400 text-[9px] font-mono font-semibold">
-                    Domain-Grounded
+                  <span>Vyralify Assistant</span>
+                  <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200/80 dark:border-emerald-500/20 text-emerald-700 dark:text-emerald-400 text-[10px] font-mono font-medium">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                    <span>Grounded in Account Analytics</span>
                   </span>
                 </div>
-                <div className="text-[10px] text-neutral-500 dark:text-neutral-400 font-mono flex items-center gap-1.5">
-                  <span>@{activePage?.handle || 'creator'}</span>
+                <div className="text-[10px] text-neutral-500 dark:text-neutral-400 font-mono flex items-center gap-1.5 mt-0.5">
+                  <span className="text-emerald-600 dark:text-emerald-400 font-semibold">Live Data Connected</span>
                   <span>&bull;</span>
-                  <span>{activePage?.category}</span>
-                  <span>&bull;</span>
-                  <span>{activePage?.followersCount} Followers</span>
+                  <span>Active Context</span>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Right Header Status: AI Credits Meter */}
-          <div className="flex items-center gap-2.5">
-            <div className="text-right">
-              <div className="text-[10px] font-mono text-neutral-400">Daily AI Budget</div>
-              <div className="text-xs font-mono font-bold text-neutral-900 dark:text-white flex items-center gap-1">
-                <Zap className="w-3 h-3 text-emerald-600 fill-emerald-600" />
-                <span>{aiCredits.limit > 90000 ? 'Unlimited' : `${creditsRemaining} left`}</span>
-              </div>
-            </div>
-
+          {/* Right Header Status: Clean without duplicate credits badge per 1.2 Blueprint */}
+          <div className="flex items-center gap-2">
             {tier === 'free' && (
               <button
                 onClick={() => openUpgradeModal('ai_credits', 'Unlock 300 daily generations & vision critiques with Pro.')}
@@ -807,7 +875,7 @@ export default function AIAssistant({ onNavigate }) {
                     )}
                   </div>
 
-                  {/* Interactive Action Buttons */}
+                  {/* Interactive Action Buttons per Section 3 Blueprint */}
                   {!isUser && msg.actions && msg.actions.length > 0 && (
                     <div className="mt-3.5 pt-3 border-t border-neutral-200/60 dark:border-white/[0.05] flex flex-wrap items-center gap-2">
                       <span className="text-[10px] font-mono text-neutral-400 mr-1">Recommended:</span>
@@ -866,18 +934,21 @@ export default function AIAssistant({ onNavigate }) {
           <div ref={messagesEndRef} />
         </div>
 
-        {/* 4. SUGGESTED PROMPT CHIPS */}
+        {/* 4. SUGGESTED PROMPT CHIPS (4 Clean Action Pills with SVG Outline Icons per Section 4 Blueprint) */}
         <div className="px-4 py-2 border-t border-neutral-200/80 dark:border-white/[0.06] bg-neutral-50/70 dark:bg-[#0A0B0E] flex items-center gap-2 overflow-x-auto no-scrollbar">
-          <span className="text-[10px] text-neutral-400 font-mono font-medium shrink-0">Prompts:</span>
-          {PROMPT_SUGGESTIONS.map((item, idx) => (
-            <button
-              key={idx}
-              onClick={() => handleSendMessage(item.prompt)}
-              className="shrink-0 px-2.5 py-1 rounded-lg bg-white dark:bg-white/[0.03] hover:bg-neutral-100 dark:hover:bg-white/[0.06] text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 border border-neutral-200 dark:border-white/[0.05] text-[11px] font-medium transition-colors cursor-pointer shadow-xs"
-            >
-              {item.label}
-            </button>
-          ))}
+          {PROMPT_SUGGESTIONS.map((item, idx) => {
+            const Icon = item.icon;
+            return (
+              <button
+                key={idx}
+                onClick={() => handleSendMessage(item.prompt)}
+                className="shrink-0 px-3 py-1.5 rounded-lg bg-white dark:bg-white/[0.03] hover:bg-neutral-100 dark:hover:bg-white/[0.06] text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white border border-neutral-200 dark:border-white/[0.06] text-xs font-medium transition-colors cursor-pointer flex items-center gap-1.5 shadow-xs"
+              >
+                <Icon className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                <span>{item.label}</span>
+              </button>
+            );
+          })}
         </div>
 
         {/* 5. ATTACHED MEDIA PREVIEW BANNER */}
@@ -900,7 +971,7 @@ export default function AIAssistant({ onNavigate }) {
           </div>
         )}
 
-        {/* 6. CHAT COMPOSER INPUT */}
+        {/* 6. CHAT COMPOSER INPUT per Section 4 Blueprint */}
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -919,27 +990,28 @@ export default function AIAssistant({ onNavigate }) {
           <button
             type="button"
             onClick={() => fileInputRef.current?.click()}
-            className="p-2 rounded-xl bg-neutral-100 dark:bg-white/[0.04] hover:bg-neutral-200 dark:hover:bg-white/[0.08] text-neutral-600 dark:text-neutral-400 transition-colors cursor-pointer shrink-0"
+            className="p-2 rounded-xl bg-neutral-100 dark:bg-white/[0.04] hover:bg-neutral-200 dark:hover:bg-white/[0.08] border border-transparent hover:border-neutral-300 dark:hover:border-white/20 text-neutral-600 dark:text-neutral-400 transition-all cursor-pointer shrink-0"
             title="Upload Screenshot (Analytics / Competitor Reel / Thumbnail)"
+            aria-label="Upload Screenshot"
           >
             <Paperclip className="w-4 h-4" />
           </button>
 
-          {/* Text Input Field */}
+          {/* Text Input Field: Clean direct placeholder per 4.2 */}
           <input
             type="text"
             value={inputMessage}
             onChange={(e) => setInputMessage(e.target.value)}
             disabled={isGenerating}
-            placeholder={`Ask Vyralify Co-Pilot anything about @${activePage?.handle || 'your page'} growth, hooks, or funnel...`}
-            className="flex-1 bg-neutral-50 dark:bg-white/[0.03] border border-neutral-200 dark:border-white/[0.08] rounded-xl px-3.5 py-2.5 text-xs text-neutral-900 dark:text-white placeholder-neutral-400 focus:outline-hidden focus:border-emerald-500 focus:bg-white transition-colors"
+            placeholder="Ask Assistant about scripts, retention, or growth strategy..."
+            className="flex-1 bg-neutral-50 dark:bg-white/[0.03] border border-neutral-200 dark:border-white/[0.08] rounded-xl px-3.5 py-2.5 text-xs text-neutral-900 dark:text-white placeholder-neutral-400 focus:outline-hidden focus:border-emerald-500 focus:bg-white dark:focus:bg-[#0F1117] transition-all"
           />
 
-          {/* Send Button */}
+          {/* Send Button: Subtle hover border and dark-mode active states */}
           <button
             type="submit"
             disabled={isGenerating || (!inputMessage.trim() && !attachedMedia)}
-            className="p-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white font-medium transition-colors cursor-pointer shrink-0 shadow-xs"
+            className="p-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white font-medium border border-transparent hover:border-emerald-500 transition-all cursor-pointer shrink-0 shadow-xs"
             aria-label="Send message"
           >
             <Send className="w-4 h-4" />

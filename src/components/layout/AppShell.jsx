@@ -82,19 +82,23 @@ export default function AppShell({ activeModule, onSelectModule, onNavigateLandi
               <span className="font-bold text-sm tracking-tight text-neutral-900 dark:text-white">
                 Vyralify
               </span>
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              {/* Instagram connection status indicator per 1.1 */}
+              <span 
+                className={`w-1.5 h-1.5 rounded-full ${activePage ? 'bg-emerald-500 animate-pulse' : 'bg-neutral-400'}`}
+                title={activePage ? `Instagram Connected: @${activePage.handle}` : 'Instagram account not connected'}
+              />
             </div>
 
-            {/* Plan Tier Badge */}
-            <span className={`px-2 py-0.5 rounded text-[10px] font-mono uppercase tracking-wider font-semibold border ${
-              tier === 'elite'
-                ? 'bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-300 border-amber-200 dark:border-amber-500/20'
-                : tier === 'pro'
-                ? 'bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-500/30'
-                : 'bg-neutral-100 dark:bg-white/[0.04] text-neutral-600 dark:text-neutral-400 border-neutral-200 dark:border-white/[0.08]'
-            }`}>
-              {tier}
-            </span>
+            {/* Plan Tier Badge (PRO/ELITE, no badge on Free per 1.1) */}
+            {tier !== 'free' && (
+              <span className={`px-2 py-0.5 rounded text-[10px] font-mono uppercase tracking-wider font-semibold border ${
+                tier === 'elite'
+                  ? 'bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-300 border-amber-200 dark:border-amber-500/20'
+                  : 'bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-500/30'
+              }`}>
+                {tier.toUpperCase()}
+              </span>
+            )}
           </div>
 
           {/* Navigation Links */}
@@ -130,6 +134,24 @@ export default function AppShell({ activeModule, onSelectModule, onNavigateLandi
                 </button>
               );
             })}
+
+            {/* Divider below Store & Commerce */}
+            <div className="my-1.5 border-t border-neutral-200/80 dark:border-white/[0.06]" />
+
+            {/* Settings & Billing Nav Item */}
+            <button
+              onClick={() => onSelectModule('settings')}
+              className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-colors cursor-pointer ${
+                activeModule === 'settings'
+                  ? 'bg-emerald-50 dark:bg-white/[0.08] text-emerald-800 dark:text-white font-semibold border border-emerald-200/80 dark:border-white/[0.08] shadow-xs'
+                  : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-200 hover:bg-neutral-100/70 dark:hover:bg-white/[0.03]'
+              }`}
+            >
+              <div className="flex items-center gap-2.5">
+                <Settings className={`w-4 h-4 ${activeModule === 'settings' ? 'text-emerald-600 dark:text-emerald-400' : 'text-neutral-400'}`} />
+                <span>Settings &amp; Billing</span>
+              </div>
+            </button>
           </nav>
         </div>
 
@@ -163,6 +185,9 @@ export default function AppShell({ activeModule, onSelectModule, onNavigateLandi
               <span>{tier === 'free' ? 'Upgrade Plan' : 'Manage Plan'}</span>
             </button>
           </div>
+
+          {/* Divider between Plan Card and User Account per 1.5 spec */}
+          <div className="my-1.5 border-t border-neutral-200/80 dark:border-white/[0.06]" />
 
           {/* User Account / Profile Row */}
           <div className="relative">
@@ -199,7 +224,7 @@ export default function AppShell({ activeModule, onSelectModule, onNavigateLandi
                   className="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-lg hover:bg-neutral-100 dark:hover:bg-white/[0.06] text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white transition-colors cursor-pointer"
                 >
                   <Settings className="w-3.5 h-3.5 text-neutral-500" />
-                  <span>Account & Settings</span>
+                  <span>Account &amp; Settings</span>
                 </button>
                 {onNavigateLanding && (
                   <button
@@ -259,7 +284,7 @@ export default function AppShell({ activeModule, onSelectModule, onNavigateLandi
 
             {/* Page Switcher Menu */}
             {isPageDropdownOpen && (
-              <div className="absolute top-10 left-0 w-60 bg-white dark:bg-[#12141C] border border-neutral-200 dark:border-white/[0.1] rounded-xl shadow-xl p-1.5 z-50 text-xs">
+              <div className="absolute top-10 left-0 w-64 bg-white dark:bg-[#12141C] border border-neutral-200 dark:border-white/[0.1] rounded-xl shadow-xl p-1.5 z-50 text-xs">
                 <div className="px-2 py-1 text-[10px] font-mono uppercase text-neutral-400 font-semibold">
                   Switch Account ({pages.length}/{getPageLimit()})
                 </div>
@@ -288,14 +313,18 @@ export default function AppShell({ activeModule, onSelectModule, onNavigateLandi
                               e.currentTarget.onerror = null;
                               e.currentTarget.src = getSafeAvatarUrl('', p.handle);
                             }}
-                            className="w-4 h-4 rounded-full object-cover shrink-0" 
+                            className="w-5 h-5 rounded-full object-cover shrink-0" 
                           />
                           <div className="truncate">
-                            <div className="truncate font-mono text-xs font-medium">@{p.handle}</div>
-                            <div className="text-[10px] text-neutral-500 dark:text-neutral-400">{p.category}</div>
+                            <div className="truncate font-mono text-xs font-semibold">@{p.handle}</div>
+                            {/* Relocated on-demand connection status per 1.2 */}
+                            <div className="text-[10px] text-emerald-600 dark:text-emerald-400 font-mono flex items-center gap-1 mt-0.5">
+                              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0" />
+                              <span>Connected &bull; {p.lastSynced ? `synced ${p.lastSynced}` : 'synced just now'}</span>
+                            </div>
                           </div>
                         </div>
-                        {isSelected && <Check className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />}
+                        {isSelected && <Check className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />}
                       </div>
                     );
                   })}
@@ -314,57 +343,45 @@ export default function AppShell({ activeModule, onSelectModule, onNavigateLandi
             )}
           </div>
 
-          {/* RIGHT: Search, AI Credits, Theme Toggle, Notifications */}
+          {/* RIGHT: Search, AI Credits Pill, Icon-only Theme Toggle, Notification Bell */}
           <div className="flex items-center gap-2">
             
             {/* Minimal Global Search Trigger - Clean placeholder without ⌘K badge */}
             <button
               onClick={() => setIsSearchOpen(true)}
-              className="hidden sm:inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-neutral-100/80 dark:bg-white/[0.04] border border-neutral-200/80 dark:border-white/[0.06] hover:border-neutral-300 text-xs text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-200 transition-colors cursor-pointer w-64"
+              title="Search (Ctrl+K)"
+              className="hidden sm:inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-neutral-100/80 dark:bg-white/[0.04] border border-neutral-200/80 dark:border-white/[0.06] hover:border-neutral-300 text-xs text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-200 transition-colors cursor-pointer w-48"
             >
               <Search className="w-3.5 h-3.5 text-neutral-400 shrink-0" />
-              <span className="text-[11px] truncate text-neutral-400">Search features, hooks, assets...</span>
+              <span className="text-[11px] truncate text-neutral-400">Search</span>
             </button>
 
-            {/* AI Credit Usage Pill */}
+            {/* AI Credit Usage Pill - Compact number only: [bolt icon] 294/300 per 1.4 */}
             <div 
               onClick={() => openUpgradeModal('ai_credits', 'Boost your daily AI limit with Pro.')}
               className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-neutral-100/80 dark:bg-white/[0.04] border border-neutral-200/80 dark:border-white/[0.06] text-xs font-mono text-neutral-700 dark:text-neutral-300 hover:text-emerald-700 transition-colors cursor-pointer"
               title="Daily AI generation credits remaining"
             >
-              <Sparkles className="w-3 h-3 text-emerald-600 dark:text-neutral-400" />
-              <span className="text-[11px] font-medium">{aiCredits.limit > 90000 ? 'Unlim' : `${aiCredits.limit - aiCredits.usedToday} AI left`}</span>
+              <Zap className="w-3 h-3 text-emerald-600 dark:text-neutral-400" />
+              <span className="text-[11px] font-semibold">
+                {aiCredits.limit > 90000 ? 'Unlimited' : `${aiCredits.limit - aiCredits.usedToday}/${aiCredits.limit}`}
+              </span>
             </div>
 
-            {/* Prominent Theme Toggle (OG White & Green vs Dark) */}
-            <div className="flex items-center p-0.5 rounded-lg bg-neutral-100/90 dark:bg-white/[0.06] border border-neutral-200/90 dark:border-white/[0.08]">
-              <button
-                type="button"
-                onClick={() => isDark && toggleTheme()}
-                className={`px-2 py-1 rounded-md text-[11px] font-medium transition-all flex items-center gap-1 cursor-pointer ${
-                  !isDark
-                    ? 'bg-white text-emerald-800 font-semibold shadow-xs border border-neutral-200/60'
-                    : 'text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white'
-                }`}
-                title="Switch to OG White & Green Theme"
-              >
-                <Sun className="w-3 h-3 text-amber-500" />
-                <span className="hidden sm:inline">Light</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => !isDark && toggleTheme()}
-                className={`px-2 py-1 rounded-md text-[11px] font-medium transition-all flex items-center gap-1 cursor-pointer ${
-                  isDark
-                    ? 'bg-neutral-800 text-white font-semibold shadow-xs'
-                    : 'text-neutral-500 hover:text-neutral-900'
-                }`}
-                title="Switch to Dark Theme"
-              >
-                <Moon className="w-3 h-3 text-neutral-400" />
-                <span className="hidden sm:inline">Dark</span>
-              </button>
-            </div>
+            {/* Icon-Only Theme Toggle (Sun / Moon) with Tooltip per 1.4 */}
+            <button
+              type="button"
+              onClick={toggleTheme}
+              className="p-1.5 rounded-lg bg-neutral-100/80 dark:bg-white/[0.04] border border-neutral-200/80 dark:border-white/[0.06] text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white transition-colors cursor-pointer"
+              title={isDark ? "Switch to light mode" : "Switch to dark mode"}
+              aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+            >
+              {isDark ? (
+                <Sun className="w-3.5 h-3.5 text-amber-400" />
+              ) : (
+                <Moon className="w-3.5 h-3.5 text-neutral-600" />
+              )}
+            </button>
 
             {/* Notification Bell */}
             <div className="relative">

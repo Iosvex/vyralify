@@ -36,11 +36,18 @@ export default function HomeDashboard({ onNavigate }) {
     return 'Good evening';
   };
 
-  const firstName = 
-    user?.displayName?.split(' ')[0] || 
-    user?.name?.split(' ')[0] || 
-    (activePage?.handle ? activePage.handle.replace(/^@/, '').split('.')[0] : null) || 
-    'Maaz';
+  const getCleanFirstName = () => {
+    const raw = user?.displayName || user?.name || '';
+    if (!raw) return null;
+    const lower = raw.toLowerCase().trim();
+    if (lower.includes('apple creator') || lower.includes('@') || lower === 'creator' || lower === 'user') {
+      return null;
+    }
+    const first = raw.trim().split(' ')[0];
+    return first || null;
+  };
+
+  const firstName = getCleanFirstName();
 
   // Getting Started Checklist State (Clean 4-step checklist per audit spec)
   const [checklist, setChecklist] = useState([
@@ -63,15 +70,17 @@ export default function HomeDashboard({ onNavigate }) {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-neutral-200/80 dark:border-white/[0.06]">
         <div>
           <h1 className="text-xl sm:text-2xl font-bold text-neutral-900 dark:text-white tracking-tight">
-            {getGreeting()}, {firstName}
+            {getGreeting()}{firstName ? `, ${firstName}` : ''}
           </h1>
           <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5">
-            Here is your growth overview for today.
+            {activePage 
+              ? `Here's what's happening with your ${activePage.category || 'creator'} page today.`
+              : "Welcome to Vyralify. Let's get your page set up."}
           </p>
         </div>
 
-        {/* Right-aligned Header Action Buttons: + Create, Store, Ask AI */}
-        <div className="flex items-center gap-2 self-start sm:self-auto">
+        {/* Quick Actions Row: Create, Store, Page Setup (outline) | Ask AI (THE ONE solid green button per 1.6 & 2.1) */}
+        <div className="flex flex-wrap items-center gap-2 self-start sm:self-auto">
           <button
             onClick={() => onNavigate('discover_create')}
             className="px-3 py-1.5 rounded-lg bg-white dark:bg-white/[0.04] hover:bg-neutral-50 dark:hover:bg-white/[0.08] border border-neutral-200 dark:border-white/[0.08] text-xs font-semibold text-neutral-700 dark:text-neutral-200 transition-colors flex items-center gap-1.5 cursor-pointer shadow-xs"
@@ -89,6 +98,14 @@ export default function HomeDashboard({ onNavigate }) {
           </button>
 
           <button
+            onClick={() => onNavigate('builder')}
+            className="px-3 py-1.5 rounded-lg bg-white dark:bg-white/[0.04] hover:bg-neutral-50 dark:hover:bg-white/[0.08] border border-neutral-200 dark:border-white/[0.08] text-xs font-semibold text-neutral-700 dark:text-neutral-200 transition-colors flex items-center gap-1.5 cursor-pointer shadow-xs"
+          >
+            <ShieldCheck className="w-3.5 h-3.5 text-neutral-400" />
+            <span>Page Setup</span>
+          </button>
+
+          <button
             onClick={() => onNavigate('assistant')}
             className="px-3.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold transition-colors flex items-center gap-1.5 cursor-pointer shadow-xs"
           >
@@ -98,45 +115,57 @@ export default function HomeDashboard({ onNavigate }) {
         </div>
       </div>
 
-      {/* 2. CORE METRICS SUMMARY CARDS (KPI BAR) */}
+      {/* 2. CORE METRICS SUMMARY CARDS (KPI BAR per 2.2) */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
         
-        {/* Card 1: Followers (Clean metric display without sub-text clutter) */}
+        {/* Card 1: Followers */}
         <div className="p-4 rounded-xl bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] shadow-xs flex flex-col justify-between">
           <div className="text-[11px] font-mono text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-1 font-medium">
             Followers
           </div>
           <div>
             <div className="text-xl sm:text-2xl font-bold text-neutral-900 dark:text-white tracking-tight font-mono">
-              {activePage?.followersCount && activePage.followersCount !== '0' ? activePage.followersCount : '12.4K'}
+              {activePage?.followersCount && activePage.followersCount !== '0' ? activePage.followersCount : (activePage ? '14.2K' : '0')}
             </div>
-            <div className="text-[11px] text-emerald-600 dark:text-emerald-400 font-mono mt-0.5 font-medium flex items-center gap-1">
-              <TrendingUp className="w-3 h-3 text-emerald-500" />
-              <span>+4.2%</span>
-            </div>
+            {!activePage || activePage.followersCount === '0' ? (
+              <div className="text-[11px] text-neutral-400 font-mono mt-0.5">
+                No data yet &mdash; connect a page to see this.
+              </div>
+            ) : (
+              <div className="text-[11px] text-emerald-600 dark:text-emerald-400 font-mono mt-0.5 font-medium flex items-center gap-1">
+                <TrendingUp className="w-3 h-3 text-emerald-500" />
+                <span>+1.2K this month &bull; organic</span>
+              </div>
+            )}
           </div>
         </div>
 
         {/* Card 2: 7-Day Reel Views */}
         <div className="p-4 rounded-xl bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] shadow-xs flex flex-col justify-between">
           <div className="text-[11px] font-mono text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-1 font-medium">
-            7-Day Reel Views
+            Reel Views (7D)
           </div>
           <div>
             <div className="text-xl sm:text-2xl font-bold text-neutral-900 dark:text-white tracking-tight font-mono">
-              {activePage?.views7d || "142.8K"}
+              {activePage?.views7d || (activePage ? "142.8K" : "0")}
             </div>
-            <div className="text-[11px] text-emerald-600 dark:text-emerald-400 font-mono mt-0.5 font-medium flex items-center gap-1">
-              <TrendingUp className="w-3 h-3 text-emerald-500" />
-              <span>+44.8%</span>
-            </div>
+            {!activePage ? (
+              <div className="text-[11px] text-neutral-400 font-mono mt-0.5">
+                No data yet &mdash; connect a page to see this.
+              </div>
+            ) : (
+              <div className="text-[11px] text-emerald-600 dark:text-emerald-400 font-mono mt-0.5 font-medium flex items-center gap-1">
+                <TrendingUp className="w-3 h-3 text-emerald-500" />
+                <span>+44.8% vs last week</span>
+              </div>
+            )}
           </div>
         </div>
 
-        {/* Card 3: Store Revenue */}
+        {/* Card 3: Store Revenue (30D) */}
         <div className="p-4 rounded-xl bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] shadow-xs flex flex-col justify-between">
           <div className="text-[11px] font-mono text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-1 font-medium">
-            Store Revenue
+            Store Revenue (30D)
           </div>
           <div>
             <div className="text-xl sm:text-2xl font-bold text-neutral-900 dark:text-white tracking-tight font-mono">
@@ -144,7 +173,7 @@ export default function HomeDashboard({ onNavigate }) {
             </div>
             <div className="text-[11px] text-emerald-600 dark:text-emerald-400 font-mono mt-0.5 font-medium flex items-center gap-1">
               <TrendingUp className="w-3 h-3 text-emerald-500" />
-              <span>+32.4%</span>
+              <span>+32.4% vs last month</span>
             </div>
           </div>
         </div>
@@ -158,8 +187,8 @@ export default function HomeDashboard({ onNavigate }) {
             <div className="text-xl sm:text-2xl font-bold text-neutral-900 dark:text-white tracking-tight font-mono">
               {activePage?.engagementRate || "4.6%"}
             </div>
-            <div className="text-[11px] text-neutral-500 dark:text-neutral-400 font-mono mt-0.5">
-              Niche avg: 2.8%
+            <div className="text-[11px] text-neutral-400 font-mono mt-0.5">
+              Niche average: 2.8%
             </div>
           </div>
         </div>
@@ -248,51 +277,76 @@ export default function HomeDashboard({ onNavigate }) {
           </button>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-2.5">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
           
-          <div 
-            onClick={() => onNavigate('assistant')}
-            className="p-3 rounded-lg bg-neutral-50/70 dark:bg-white/[0.02] border border-neutral-200/80 dark:border-white/[0.04] hover:border-emerald-300 dark:hover:bg-white/[0.04] transition-colors cursor-pointer group"
-          >
-            <div className="text-[10px] font-mono text-emerald-700 dark:text-neutral-500 uppercase mb-1 font-medium">
-              Reels Retention
+          {/* Card 1: Reels Retention */}
+          <div className="p-3.5 rounded-xl bg-neutral-50/70 dark:bg-white/[0.02] border border-neutral-200/80 dark:border-white/[0.04] flex flex-col justify-between">
+            <div>
+              <div className="text-[10px] font-mono uppercase tracking-wider font-semibold text-emerald-600 dark:text-emerald-400 mb-1">
+                Reels Retention
+              </div>
+              <div className="text-xs font-bold text-neutral-900 dark:text-white mb-1 leading-snug">
+                {activePage?.category?.trim()
+                  ? `"3 mistakes keeping you stuck in ${activePage.category.toLowerCase().trim()}..."`
+                  : activePage?.subNiche?.trim()
+                  ? `"3 mistakes keeping you stuck in ${activePage.subNiche.toLowerCase().trim()}..."`
+                  : '"3 mistakes keeping creators stuck right now"'}
+              </div>
+              <p className="text-[11px] text-neutral-600 dark:text-neutral-400 leading-relaxed font-normal">
+                Showed 82% retention spike in your niche. Generate full script.
+              </p>
             </div>
-            <div className="text-xs font-semibold text-neutral-900 dark:text-white mb-0.5">
-              "3 mistakes keeping you stuck in [niche]..."
-            </div>
-            <p className="text-[11px] text-neutral-500 dark:text-neutral-400 leading-relaxed">
-              Showed 82% retention spike in your niche. Generate full script.
-            </p>
+            
+            <button
+              onClick={() => onNavigate('assistant')}
+              className="mt-3 w-full py-1.5 px-2.5 rounded-lg border border-neutral-200 dark:border-white/[0.08] hover:bg-neutral-100 dark:hover:bg-white/[0.05] text-xs font-semibold text-neutral-800 dark:text-neutral-200 transition-colors flex items-center justify-center gap-1 cursor-pointer"
+            >
+              <span>Create it &rarr;</span>
+            </button>
           </div>
 
-          <div 
-            onClick={() => onNavigate('discover_create')}
-            className="p-3 rounded-lg bg-neutral-50/70 dark:bg-white/[0.02] border border-neutral-200/80 dark:border-white/[0.04] hover:border-emerald-300 dark:hover:bg-white/[0.04] transition-colors cursor-pointer group"
-          >
-            <div className="text-[10px] font-mono text-emerald-700 dark:text-neutral-500 uppercase mb-1 font-medium">
-              Calendar & Cadence
+          {/* Card 2: Calendar & Cadence */}
+          <div className="p-3.5 rounded-xl bg-neutral-50/70 dark:bg-white/[0.02] border border-neutral-200/80 dark:border-white/[0.04] flex flex-col justify-between">
+            <div>
+              <div className="text-[10px] font-mono uppercase tracking-wider font-semibold text-emerald-600 dark:text-emerald-400 mb-1">
+                Calendar &amp; Cadence
+              </div>
+              <div className="text-xs font-bold text-neutral-900 dark:text-white mb-1 leading-snug">
+                Plan 7-Day Reel Schedule
+              </div>
+              <p className="text-[11px] text-neutral-600 dark:text-neutral-400 leading-relaxed font-normal">
+                Auto-generate 7 reel ideas mapped to peak active times for your {activePage?.category || 'target'} audience.
+              </p>
             </div>
-            <div className="text-xs font-semibold text-neutral-900 dark:text-white mb-0.5">
-              Plan 7-Day Reel Schedule
-            </div>
-            <p className="text-[11px] text-neutral-500 dark:text-neutral-400 leading-relaxed">
-              Auto-generate 7 reel ideas mapped to peak active times for your {activePage?.category || 'niche'} audience.
-            </p>
+
+            <button
+              onClick={() => onNavigate('discover_create')}
+              className="mt-3 w-full py-1.5 px-2.5 rounded-lg border border-neutral-200 dark:border-white/[0.08] hover:bg-neutral-100 dark:hover:bg-white/[0.05] text-xs font-semibold text-neutral-800 dark:text-neutral-200 transition-colors flex items-center justify-center gap-1 cursor-pointer"
+            >
+              <span>View in Calendar &rarr;</span>
+            </button>
           </div>
 
-          <div 
-            onClick={() => onNavigate('store')}
-            className="p-3 rounded-lg bg-neutral-50/70 dark:bg-white/[0.02] border border-neutral-200/80 dark:border-white/[0.04] hover:border-emerald-300 dark:hover:bg-white/[0.04] transition-colors cursor-pointer group"
-          >
-            <div className="text-[10px] font-mono text-emerald-700 dark:text-neutral-500 uppercase mb-1 font-medium">
-              Monetization
+          {/* Card 3: Monetization */}
+          <div className="p-3.5 rounded-xl bg-neutral-50/70 dark:bg-white/[0.02] border border-neutral-200/80 dark:border-white/[0.04] flex flex-col justify-between">
+            <div>
+              <div className="text-[10px] font-mono uppercase tracking-wider font-semibold text-emerald-600 dark:text-emerald-400 mb-1">
+                Monetization
+              </div>
+              <div className="text-xs font-bold text-neutral-900 dark:text-white mb-1 leading-snug">
+                Add "The Faceless Guide" to Bio
+              </div>
+              <p className="text-[11px] text-neutral-600 dark:text-neutral-400 leading-relaxed font-normal">
+                Matches your {activePage?.subNiche || 'creator'} audience for immediate storefront conversions.
+              </p>
             </div>
-            <div className="text-xs font-semibold text-neutral-900 dark:text-white mb-0.5">
-              Add "The Faceless Guide" to Bio
-            </div>
-            <p className="text-[11px] text-neutral-500 dark:text-neutral-400 leading-relaxed">
-              Matches your {activePage?.subNiche || 'niche'} audience for immediate sales.
-            </p>
+
+            <button
+              onClick={() => onNavigate('store')}
+              className="mt-3 w-full py-1.5 px-2.5 rounded-lg border border-neutral-200 dark:border-white/[0.08] hover:bg-neutral-100 dark:hover:bg-white/[0.05] text-xs font-semibold text-neutral-800 dark:text-neutral-200 transition-colors flex items-center justify-center gap-1 cursor-pointer"
+            >
+              <span>Set up in Store &rarr;</span>
+            </button>
           </div>
 
         </div>

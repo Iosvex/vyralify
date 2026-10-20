@@ -22,16 +22,21 @@ const CHART_DATA = {
   ],
   '30D': [
     { label: 'Sep 21', reach: 112000, views: 148000, followers: 1120, rate: 74 },
-    { label: 'Sep 28', reach: 168000, views: 224000, followers: 1780, rate: 79 },
-    { label: 'Oct 05', reach: 245000, views: 338000, followers: 2640, rate: 85 },
-    { label: 'Oct 12', reach: 342000, views: 489000, followers: 3890, rate: 88 },
+    { label: 'Sep 26', reach: 145000, views: 195000, followers: 1540, rate: 77 },
+    { label: 'Oct 01', reach: 198000, views: 260000, followers: 2100, rate: 80 },
+    { label: 'Oct 06', reach: 254000, views: 345000, followers: 2750, rate: 84 },
+    { label: 'Oct 11', reach: 320000, views: 440000, followers: 3500, rate: 87 },
+    { label: 'Oct 16', reach: 410000, views: 565000, followers: 4420, rate: 90 },
     { label: 'Oct 20', reach: 489000, views: 682000, followers: 5410, rate: 93 }
   ],
   '90D': [
-    { label: 'Jul', reach: 380000, views: 512000, followers: 3900, rate: 71 },
-    { label: 'Aug', reach: 640000, views: 890000, followers: 6800, rate: 79 },
-    { label: 'Sep', reach: 980000, views: 1340000, followers: 11200, rate: 86 },
-    { label: 'Oct', reach: 1480000, views: 2040000, followers: 16900, rate: 92 }
+    { label: 'Jul 25', reach: 380000, views: 512000, followers: 3900, rate: 71 },
+    { label: 'Aug 08', reach: 520000, views: 710000, followers: 5300, rate: 75 },
+    { label: 'Aug 22', reach: 690000, views: 950000, followers: 7200, rate: 79 },
+    { label: 'Sep 05', reach: 880000, views: 1200000, followers: 9600, rate: 83 },
+    { label: 'Sep 19', reach: 1080000, views: 1480000, followers: 12100, rate: 86 },
+    { label: 'Oct 03', reach: 1290000, views: 1780000, followers: 14600, rate: 89 },
+    { label: 'Oct 20', reach: 1480000, views: 2040000, followers: 16900, rate: 92 }
   ]
 };
 
@@ -56,10 +61,10 @@ export default function AnalyticsCharts() {
   // SVG Chart Geometry
   const width = 640;
   const height = 210;
-  const paddingLeft = 55; // Left margin for Y-Axis labels
-  const paddingRight = 20;
+  const paddingLeft = 52; // Left margin for Y-Axis labels
+  const paddingRight = 16;
   const paddingTop = 20;
-  const paddingBottom = 30; // Bottom margin for X-Axis date labels
+  const paddingBottom = 28; // Bottom margin for X-Axis date labels
   const chartW = width - paddingLeft - paddingRight;
   const chartH = height - paddingTop - paddingBottom;
 
@@ -97,21 +102,21 @@ export default function AnalyticsCharts() {
   return (
     <div className="p-5 rounded-xl bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] shadow-xs space-y-4">
       
-      {/* 1. Header with Metric Tabs and Timeframe Controls (Sub-heading without @username) */}
+      {/* 1. Header with Title, Clean Subtitle, and Unified Right-Aligned Toolbar per Section 2.3 */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-neutral-200/80 dark:border-white/[0.05]">
         <div>
           <h3 className="text-sm font-bold text-neutral-900 dark:text-white tracking-tight">
             Performance Trends
           </h3>
           <p className="text-[11px] text-neutral-500 dark:text-neutral-400 mt-0.5">
-            Real-time algorithmic reach &amp; audience retention
+            How your page is trending.
           </p>
         </div>
 
-        {/* Controls: Metric Tabs + Timeframe */}
-        <div className="flex flex-wrap items-center gap-2">
+        {/* Combined Unified Toolbar: Metric Selector stacked immediately left of Date-Range Selector per 2.3 */}
+        <div className="flex items-center gap-1.5 self-start sm:self-auto">
           
-          {/* Metric Selector */}
+          {/* Metric Selector (Reach / Followers / Retention) */}
           <div className="flex items-center p-0.5 rounded-lg bg-neutral-100 dark:bg-white/[0.03] border border-neutral-200/80 dark:border-white/[0.06] text-xs">
             {[
               { id: 'reach', label: 'Reach' },
@@ -132,7 +137,7 @@ export default function AnalyticsCharts() {
             ))}
           </div>
 
-          {/* Timeframe Pill */}
+          {/* Date-Range Selector (7D / 30D / 90D) */}
           <div className="flex items-center p-0.5 rounded-lg bg-neutral-100 dark:bg-white/[0.03] border border-neutral-200/80 dark:border-white/[0.06] text-xs font-mono">
             {['7D', '30D', '90D'].map((tf) => (
               <button
@@ -152,10 +157,42 @@ export default function AnalyticsCharts() {
         </div>
       </div>
 
-      {/* 2. Side-by-Side Dual Column Layout Integration (Left 65% Graph, Right 35% KPI Cards) */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
+      {/* 2. Main Two-Column Structure per Section 2.3: Left Numbers Table (~25-30%) + Right Line Chart (~70-75%) */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-center">
         
-        {/* Left Column (65% width): Performance Trends Graph with Y-Axis Scaling & Date Labels */}
+        {/* Left Column (~25-30% width): Static 3-row numbers table (Reach, Followers, Retention) */}
+        <div className="lg:col-span-4 flex flex-col justify-center space-y-3.5 lg:border-r border-neutral-200/80 dark:border-white/[0.06] lg:pr-5 py-1">
+          
+          {/* Row 1: Reach */}
+          <div className="flex items-center justify-between p-2.5 rounded-lg bg-neutral-50/70 dark:bg-white/[0.02] border border-neutral-200/60 dark:border-white/[0.04]">
+            <span className="text-xs font-medium text-neutral-600 dark:text-neutral-400">Reach</span>
+            <div className="text-right">
+              <span className="text-sm font-bold font-mono text-neutral-900 dark:text-white">128.4K</span>
+              <span className="ml-2 text-xs font-mono font-semibold text-emerald-600 dark:text-emerald-400">+38.4%</span>
+            </div>
+          </div>
+
+          {/* Row 2: Followers */}
+          <div className="flex items-center justify-between p-2.5 rounded-lg bg-neutral-50/70 dark:bg-white/[0.02] border border-neutral-200/60 dark:border-white/[0.04]">
+            <span className="text-xs font-medium text-neutral-600 dark:text-neutral-400">Followers</span>
+            <div className="text-right">
+              <span className="text-sm font-bold font-mono text-neutral-900 dark:text-white">48.2K</span>
+              <span className="ml-2 text-xs font-mono font-semibold text-emerald-600 dark:text-emerald-400">+1.2K</span>
+            </div>
+          </div>
+
+          {/* Row 3: Retention */}
+          <div className="flex items-center justify-between p-2.5 rounded-lg bg-neutral-50/70 dark:bg-white/[0.02] border border-neutral-200/60 dark:border-white/[0.04]">
+            <span className="text-xs font-medium text-neutral-600 dark:text-neutral-400">Retention</span>
+            <div className="text-right">
+              <span className="text-sm font-bold font-mono text-neutral-900 dark:text-white">82%</span>
+              <span className="ml-2 text-xs font-mono font-medium text-neutral-400 dark:text-neutral-400">Target 70%</span>
+            </div>
+          </div>
+
+        </div>
+
+        {/* Right Column (~70-75% width): Line Chart with Y-Axis scale and Real Dates on X-Axis */}
         <div className="lg:col-span-8 flex flex-col justify-between">
           <div className="relative w-full aspect-[20/9] sm:aspect-[22/9] min-h-[190px]">
             <svg 
@@ -201,7 +238,7 @@ export default function AnalyticsCharts() {
               {/* Area Fill */}
               <path d={areaD} fill="url(#performanceGradient)" />
 
-              {/* Clean Green Stroke */}
+              {/* Clean Brand Green Stroke */}
               <path
                 d={pathD}
                 fill="none"
@@ -211,7 +248,7 @@ export default function AnalyticsCharts() {
                 strokeLinejoin="round"
               />
 
-              {/* Data Points and X-Axis Date Labels */}
+              {/* Data Points and X-Axis Real Calendar Date Labels */}
               {points.map((p, i) => {
                 const isHovered = hoveredIndex === i;
                 return (
@@ -240,7 +277,7 @@ export default function AnalyticsCharts() {
                       onMouseLeave={() => setHoveredIndex(null)}
                     />
 
-                    {/* X-Axis Date Range Label (e.g., Oct 14, Oct 15...) */}
+                    {/* X-Axis Real Date Label (e.g. Oct 14, Oct 15...) */}
                     <text
                       x={p.x}
                       y={height - 8}
@@ -288,51 +325,57 @@ export default function AnalyticsCharts() {
           </div>
         </div>
 
-        {/* Right Column (35% width): Vertically Stacked Performance KPI Cards */}
-        <div className="lg:col-span-4 flex flex-col justify-between gap-2.5">
-          
-          {/* Card 1: Velocity */}
-          <div className="p-3.5 rounded-xl bg-neutral-50/70 dark:bg-white/[0.02] border border-neutral-200/80 dark:border-white/[0.04] space-y-1">
-            <div className="flex items-center justify-between text-[11px] font-mono text-neutral-500 dark:text-neutral-400">
-              <span className="uppercase font-semibold tracking-wider">Velocity</span>
-              <TrendingUp className="w-3.5 h-3.5 text-emerald-500" />
-            </div>
-            <div className="text-xl font-bold font-mono text-emerald-600 dark:text-emerald-400">
+      </div>
+
+      {/* 3. Detail Row Below Chart (Velocity, Avg Watch Completion, Peak Posting Window) Restyled to Match Top 4 Cards per Section 2.3 */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-3 border-t border-neutral-200/80 dark:border-white/[0.05]">
+        
+        {/* Chip 1: Velocity */}
+        <div className="p-4 rounded-xl bg-neutral-50/70 dark:bg-white/[0.02] border border-neutral-200/80 dark:border-white/[0.04] shadow-xs flex flex-col justify-between">
+          <div className="text-[11px] font-mono text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-1 font-medium flex items-center justify-between">
+            <span>Velocity</span>
+            <TrendingUp className="w-3.5 h-3.5 text-emerald-500" />
+          </div>
+          <div>
+            <div className="text-xl sm:text-2xl font-bold font-mono text-emerald-600 dark:text-emerald-400 tracking-tight">
               +38.4%
             </div>
-            <span className="text-[10px] text-neutral-400 font-mono block">
+            <div className="text-[11px] text-neutral-400 font-mono mt-0.5">
               vs last period benchmark
-            </span>
-          </div>
-
-          {/* Card 2: Avg Watch Completion */}
-          <div className="p-3.5 rounded-xl bg-neutral-50/70 dark:bg-white/[0.02] border border-neutral-200/80 dark:border-white/[0.04] space-y-1">
-            <div className="flex items-center justify-between text-[11px] font-mono text-neutral-500 dark:text-neutral-400">
-              <span className="uppercase font-semibold tracking-wider">Avg Watch Completion</span>
-              <Target className="w-3.5 h-3.5 text-blue-500" />
             </div>
-            <div className="text-xl font-bold font-mono text-neutral-900 dark:text-white">
+          </div>
+        </div>
+
+        {/* Chip 2: Avg Watch Completion */}
+        <div className="p-4 rounded-xl bg-neutral-50/70 dark:bg-white/[0.02] border border-neutral-200/80 dark:border-white/[0.04] shadow-xs flex flex-col justify-between">
+          <div className="text-[11px] font-mono text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-1 font-medium flex items-center justify-between">
+            <span>Avg Watch Completion</span>
+            <Target className="w-3.5 h-3.5 text-blue-500" />
+          </div>
+          <div>
+            <div className="text-xl sm:text-2xl font-bold font-mono text-neutral-900 dark:text-white tracking-tight">
               {avgRetentionCurrent}%
             </div>
-            <span className="text-[10px] text-neutral-400 font-mono block">
+            <div className="text-[11px] text-neutral-400 font-mono mt-0.5">
               Target: 70% retention loop
-            </span>
+            </div>
           </div>
+        </div>
 
-          {/* Card 3: Peak Posting Window */}
-          <div className="p-3.5 rounded-xl bg-neutral-50/70 dark:bg-white/[0.02] border border-neutral-200/80 dark:border-white/[0.04] space-y-1">
-            <div className="flex items-center justify-between text-[11px] font-mono text-neutral-500 dark:text-neutral-400">
-              <span className="uppercase font-semibold tracking-wider">Peak Posting Window</span>
-              <Clock className="w-3.5 h-3.5 text-amber-500" />
+        {/* Chip 3: Peak Posting Window */}
+        <div className="p-4 rounded-xl bg-neutral-50/70 dark:bg-white/[0.02] border border-neutral-200/80 dark:border-white/[0.04] shadow-xs flex flex-col justify-between">
+          <div className="text-[11px] font-mono text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-1 font-medium flex items-center justify-between">
+            <span>Peak Posting Window</span>
+            <Clock className="w-3.5 h-3.5 text-amber-500" />
+          </div>
+          <div>
+            <div className="text-base sm:text-lg font-bold font-mono text-neutral-900 dark:text-white tracking-tight">
+              Sun 7:00 PM &ndash; 9:30 PM
             </div>
-            <div className="text-sm font-bold font-mono text-neutral-900 dark:text-white mt-1">
-              Sun 7:00 PM – 9:30 PM
-            </div>
-            <span className="text-[10px] text-neutral-400 font-mono block">
+            <div className="text-[11px] text-neutral-400 font-mono mt-0.5">
               Highest algorithmic distribution
-            </span>
+            </div>
           </div>
-
         </div>
 
       </div>

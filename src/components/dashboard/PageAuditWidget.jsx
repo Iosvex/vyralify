@@ -9,6 +9,26 @@ import { usePage } from '../../context/PageContext';
 import { useTheme } from '../../context/ThemeContext';
 import { auditLiveBio } from '../../lib/aiService';
 
+// 3-Tier Sitewide Score Color System per Section 1.7 & 2.4
+// 0–49: Red/amber-red (Needs attention now)
+// 50–74: Amber (Okay, room to improve)
+// 75–100: Green (Strong / brand accent)
+export const getScoreBadgeClasses = (score) => {
+  if (score < 50) {
+    return 'bg-red-50 dark:bg-red-500/10 text-red-700 dark:text-red-400 border-red-200 dark:border-red-500/20';
+  }
+  if (score < 75) {
+    return 'bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-200 dark:border-amber-500/20';
+  }
+  return 'bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-500/30';
+};
+
+export const getScoreStrokeColor = (score) => {
+  if (score < 50) return '#EF4444';
+  if (score < 75) return '#F59E0B';
+  return '#10B981';
+};
+
 export default function PageAuditWidget({ onNavigate }) {
   const { activePage, updatePage } = usePage();
   const { isDark } = useTheme();
@@ -67,43 +87,43 @@ export default function PageAuditWidget({ onNavigate }) {
       title: 'Bio Proposition',
       score: 92,
       note: 'Clear niche proposition with direct link.',
-      isIssue: false
+      action: null
     },
     {
       title: 'Grid Uniformity',
       score: 88,
       note: 'Consistent font style & recognizable aesthetic.',
-      isIssue: false
+      action: null
     },
     {
       title: 'Bio Link & Storefront',
       score: 62,
       note: 'Bio missing direct link to your digital resource toolkit.',
-      isIssue: true,
-      action: 'store'
+      action: 'store',
+      actionText: 'Fix link in Store \u2192'
     },
     {
       title: 'Posting Velocity',
       score: 78,
       note: 'Audience peaks 7:00 PM – 9:30 PM IST.',
-      isIssue: false
+      action: null
     }
   ];
 
   return (
     <div className="p-5 rounded-xl bg-white dark:bg-[#0C0D12] border border-neutral-200/80 dark:border-white/[0.06] shadow-xs space-y-3">
-      {/* Header */}
+      {/* Header with Title (no handle) per Section 2.4 */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-2.5 border-b border-neutral-200/80 dark:border-white/[0.05]">
         <div>
           <h3 className="text-sm font-bold text-neutral-900 dark:text-white tracking-tight">
-            Page Health &amp; Audit
+            Page Health Audit
           </h3>
           <p className="text-[11px] text-neutral-500 dark:text-neutral-400 mt-0.5">
             Key optimization metrics for higher bio conversion and content reach.
           </p>
         </div>
 
-        {/* Re-Scan Button */}
+        {/* Re-Scan Button (Outline button per button hierarchy rule 1.6) */}
         <button
           onClick={handleReScan}
           disabled={isScanning}
@@ -140,7 +160,7 @@ export default function PageAuditWidget({ onNavigate }) {
                 cx="40"
                 cy="40"
                 r="34"
-                stroke="#10B981"
+                stroke={getScoreStrokeColor(healthScore)}
                 strokeWidth="5"
                 fill="none"
                 strokeDasharray="213.6"
@@ -155,44 +175,47 @@ export default function PageAuditWidget({ onNavigate }) {
             </div>
           </div>
 
-          <div className="text-[11px] text-emerald-600 dark:text-emerald-400 font-mono font-medium">
+          <div className={`text-[11px] font-mono font-medium ${
+            healthScore >= 75 ? 'text-emerald-600 dark:text-emerald-400' : healthScore >= 50 ? 'text-amber-600 dark:text-amber-400' : 'text-red-600 dark:text-red-400'
+          }`}>
             Profile Optimization
           </div>
         </div>
 
         {/* Right: 4 Core Pillars */}
         <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 gap-2">
-          {pillars.map((pillar, idx) => (
-            <div
-              key={idx}
-              className="p-3 rounded-lg bg-neutral-50/70 dark:bg-white/[0.02] border border-neutral-200/80 dark:border-white/[0.04] flex flex-col justify-between"
-            >
-              <div>
-                <div className="flex items-center justify-between text-xs mb-0.5">
-                  <span className="font-semibold text-neutral-900 dark:text-white text-xs">{pillar.title}</span>
-                  <span className={`px-1.5 py-0.2 rounded font-mono text-[9px] font-semibold ${
-                    pillar.isIssue 
-                      ? 'bg-amber-50 dark:bg-amber-500/10 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-500/20' 
-                      : 'bg-white dark:bg-white/[0.05] text-neutral-700 dark:text-neutral-300 border border-neutral-200/80 dark:border-transparent'
-                  }`}>
-                    {pillar.score}/100
-                  </span>
-                </div>
-                <p className="text-[11px] text-neutral-600 dark:text-neutral-400 font-normal leading-relaxed">
-                  {pillar.note}
-                </p>
-              </div>
+          {pillars.map((pillar, idx) => {
+            // Section 2.4 Explicit Rule: Any sub-score below 70 shows "Fix [thing] ->" link; 70 and above shows no link
+            const showsFixLink = pillar.score < 70 && pillar.action;
 
-              {pillar.isIssue && pillar.action && (
-                <button
-                  onClick={() => onNavigate(pillar.action)}
-                  className="mt-1.5 text-[10px] font-mono text-amber-600 dark:text-amber-300 hover:underline flex items-center gap-1 cursor-pointer font-medium"
-                >
-                  <span>Fix link in Store &rarr;</span>
-                </button>
-              )}
-            </div>
-          ))}
+            return (
+              <div
+                key={idx}
+                className="p-3 rounded-lg bg-neutral-50/70 dark:bg-white/[0.02] border border-neutral-200/80 dark:border-white/[0.04] flex flex-col justify-between"
+              >
+                <div>
+                  <div className="flex items-center justify-between text-xs mb-0.5">
+                    <span className="font-semibold text-neutral-900 dark:text-white text-xs">{pillar.title}</span>
+                    <span className={`px-1.5 py-0.5 rounded font-mono text-[9px] font-semibold border ${getScoreBadgeClasses(pillar.score)}`}>
+                      {pillar.score}/100
+                    </span>
+                  </div>
+                  <p className="text-[11px] text-neutral-600 dark:text-neutral-400 font-normal leading-relaxed">
+                    {pillar.note}
+                  </p>
+                </div>
+
+                {showsFixLink && (
+                  <button
+                    onClick={() => onNavigate(pillar.action)}
+                    className="mt-2 text-[10px] font-mono text-amber-600 dark:text-amber-400 hover:underline flex items-center gap-1 cursor-pointer font-medium self-start"
+                  >
+                    <span>{pillar.actionText || 'Fix \u2192'}</span>
+                  </button>
+                )}
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>

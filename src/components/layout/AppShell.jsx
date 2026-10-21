@@ -50,7 +50,6 @@ export default function AppShell({ activeModule, onSelectModule, onNavigateLandi
     { id: 'assistant', label: 'AI Assistant', icon: Sparkles },
     { id: 'builder', label: 'Page Builder', icon: User },
     { id: 'discover_create', label: 'Discover & Create', icon: Compass },
-    { id: 'analytics', label: 'Analytics', icon: BarChart2 },
     { id: 'store', label: 'Store & Commerce', icon: ShoppingBag },
     { id: 'settings', label: 'Settings', icon: Settings }
   ];
@@ -86,10 +85,25 @@ export default function AppShell({ activeModule, onSelectModule, onNavigateLandi
   const isUnlimited = creditsLimit > 90000;
 
   return (
-    <div className="flex h-screen w-full bg-[#F0F6FE] text-[#0F172A] font-sans overflow-hidden select-none antialiased">
+    <div className="relative flex h-screen w-full bg-[#F4F8FD] text-[#0F172A] font-sans overflow-hidden select-none antialiased">
       
-      {/* 1. FLOATING FROSTED WHITE SIDEBAR (Per Image 1 & Blueprint) */}
-      <aside className="w-64 shrink-0 m-4 mr-0 rounded-2xl bg-white/95 backdrop-blur-xl border border-[rgba(6,124,249,0.12)] shadow-[0_4px_24px_rgba(6,124,249,0.06)] flex flex-col justify-between z-30">
+      {/* Dynamic Ambient Background with Blue-Purple Mesh and Grid for Glass Depth */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
+        {/* Soft top-left electric blue glow */}
+        <div className="absolute -top-32 -left-32 w-[38rem] h-[38rem] rounded-full bg-gradient-to-br from-[#067CF9]/16 via-[#38BDF8]/10 to-transparent blur-[90px]" />
+        
+        {/* Soft top-right purple/indigo glow */}
+        <div className="absolute -top-24 right-0 w-[42rem] h-[42rem] rounded-full bg-gradient-to-bl from-[#A855F7]/14 via-[#6366F1]/12 to-transparent blur-[100px]" />
+        
+        {/* Center-bottom subtle violet aura */}
+        <div className="absolute -bottom-36 left-1/3 w-[46rem] h-[46rem] rounded-full bg-gradient-to-tr from-[#6366F1]/10 via-[#067CF9]/8 to-[#A855F7]/12 blur-[110px]" />
+
+        {/* Delicate modern tech dot grid for texture depth */}
+        <div className="absolute inset-0 bg-[radial-gradient(rgba(6,124,249,0.14)_1px,transparent_1px)] [background-size:24px_24px] opacity-40" />
+      </div>
+
+      {/* 1. FLOATING FROSTED GLASS SIDEBAR */}
+      <aside className="w-64 shrink-0 m-4 mr-0 rounded-2xl bg-white/75 backdrop-blur-2xl border border-white/80 shadow-[0_8px_32px_rgba(6,124,249,0.06),0_1px_2px_rgba(0,0,0,0.02)] ring-1 ring-[rgba(99,102,241,0.12)] flex flex-col justify-between z-30 transition-all">
         
         {/* Top: Logo */}
         <div>
@@ -114,12 +128,15 @@ export default function AppShell({ activeModule, onSelectModule, onNavigateLandi
                 <button
                   key={item.id}
                   onClick={() => handleNavClick(item.id)}
-                  className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium transition-all cursor-pointer ${
+                  className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium transition-all cursor-pointer relative overflow-hidden ${
                     isActive
-                      ? 'bg-[#EFF6FF] text-[#067CF9] font-semibold shadow-xs'
-                      : 'text-[#64748B] hover:text-[#0F172A] hover:bg-[#F8FAFC]'
+                      ? 'bg-gradient-to-r from-[#EFF6FF] via-[#F5F3FF] to-[#FAF5FF] text-[#067CF9] font-semibold border border-[rgba(99,102,241,0.22)] shadow-xs'
+                      : 'text-[#64748B] hover:text-[#0F172A] hover:bg-white/60'
                   }`}
                 >
+                  {isActive && (
+                    <span className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 rounded-r-full bg-gradient-to-b from-[#067CF9] via-[#6366F1] to-[#A855F7] shadow-xs" />
+                  )}
                   <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-[#067CF9]' : 'text-[#64748B]'}`} />
                   <span className="truncate">{item.label}</span>
                 </button>
@@ -132,10 +149,10 @@ export default function AppShell({ activeModule, onSelectModule, onNavigateLandi
         <div className="p-3">
           <div 
             onClick={() => openUpgradeModal('general', 'Upgrade to Pro to unlock unlimited generations.')}
-            className="p-3 rounded-xl bg-[#F8FAFC] border border-[rgba(6,124,249,0.12)] hover:border-[#067CF9]/30 transition-all cursor-pointer flex items-center justify-between group shadow-xs"
+            className="p-3 rounded-xl bg-gradient-to-br from-white/90 via-[#F5F3FF]/70 to-[#EFF6FF]/70 backdrop-blur-md border border-[rgba(99,102,241,0.2)] hover:border-[#6366F1]/50 transition-all cursor-pointer flex items-center justify-between group shadow-xs relative overflow-hidden"
           >
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-lg bg-[#FEF3C7] flex items-center justify-center shrink-0">
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#FEF3C7] to-[#FDE68A] flex items-center justify-center shrink-0 shadow-xs">
                 <Crown className="w-4 h-4 text-[#D97706]" />
               </div>
               <div className="text-left">
@@ -149,12 +166,12 @@ export default function AppShell({ activeModule, onSelectModule, onNavigateLandi
       </aside>
 
       {/* 2. MAIN VIEW AREA (Header + Module View) */}
-      <div className="flex-1 flex flex-col min-w-0 overflow-hidden p-4">
+      <div className="flex-1 flex flex-col min-w-0 overflow-hidden p-4 relative z-10">
         
-        {/* FLOATING TOPBAR (Per Image 1 & Blueprint) */}
-        <header className="h-14 bg-white/95 backdrop-blur-xl border border-[rgba(6,124,249,0.12)] rounded-2xl shadow-[0_2px_16px_rgba(6,124,249,0.04)] px-5 flex items-center justify-between shrink-0 mb-4 z-20">
+        {/* FLOATING FROSTED GLASS TOPBAR */}
+        <header className="h-14 bg-white/75 backdrop-blur-2xl border border-white/80 rounded-2xl shadow-[0_4px_20px_rgba(6,124,249,0.04)] ring-1 ring-[rgba(99,102,241,0.1)] px-5 flex items-center justify-between shrink-0 mb-4 z-20">
           
-          {/* LEFT: Search Box (Minimalist, without ⌘K clutter) */}
+          {/* LEFT: Search Box */}
           <div className="relative flex-1 max-w-md">
             <Search className="w-4 h-4 text-[#94A3B8] absolute left-3 top-1/2 -translate-y-1/2" />
             <input
@@ -163,67 +180,13 @@ export default function AppShell({ activeModule, onSelectModule, onNavigateLandi
               onChange={(e) => setSearchQuery(e.target.value)}
               onClick={() => setIsSearchOpen(true)}
               placeholder="Search features, hooks, assets..."
-              className="w-full bg-[#F8FAFC] border border-transparent focus:border-[#067CF9]/30 text-xs rounded-xl pl-9 pr-4 py-2 text-[#0F172A] placeholder:text-[#94A3B8] focus:outline-hidden transition-all"
+              className="w-full bg-white/60 backdrop-blur-md border border-[rgba(99,102,241,0.15)] focus:border-[#6366F1]/60 text-xs rounded-xl pl-9 pr-4 py-2 text-[#0F172A] placeholder:text-[#94A3B8] focus:outline-hidden transition-all shadow-xs"
             />
           </div>
 
-          {/* RIGHT: AI Credits Pill + Action Buttons (+ Create, Store, Ask AI) | Bell | Profile Pill */}
-          <div className="flex items-center gap-3">
+          {/* RIGHT: Notification Bell | AI Credits Pill (directly left of Account) | Profile Pill */}
+          <div className="flex items-center gap-2.5">
             
-            {/* AI Credits Quota Pill Widget in Top Strip */}
-            <div
-              onClick={() => openUpgradeModal('ai_credits', 'Upgrade to Pro to unlock 300 daily AI credits & vision models!')}
-              className="flex items-center gap-2.5 px-3 py-1.5 rounded-xl bg-[#EFF6FF] border border-[rgba(6,124,249,0.18)] hover:border-[#067CF9]/40 transition-all cursor-pointer shadow-2xs group"
-              title="Daily AI Credits Quota (Click to Upgrade)"
-            >
-              <div className="w-5 h-5 rounded-lg bg-[#067CF9] text-white flex items-center justify-center shrink-0 shadow-2xs">
-                <Zap className="w-3 h-3 fill-current" />
-              </div>
-              <div className="flex flex-col text-left">
-                <div className="flex items-center gap-1.5 leading-none">
-                  <span className="font-bold text-xs text-[#0F172A] font-mono">
-                    {isUnlimited ? '∞ Unlimited' : `${creditsRemaining} / ${creditsLimit}`}
-                  </span>
-                  <span className="text-[10px] font-semibold text-[#067CF9] uppercase tracking-wider">Credits</span>
-                </div>
-                {!isUnlimited && (
-                  <div className="w-20 bg-[#DBEAFE] h-1 rounded-full overflow-hidden mt-1">
-                    <div 
-                      className="bg-[#067CF9] h-full rounded-full transition-all duration-300"
-                      style={{ width: `${Math.min(100, Math.max(0, (creditsRemaining / creditsLimit) * 100))}%` }}
-                    />
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* + Create (The ONLY Solid Electric Blue CTA button) */}
-            <button
-              onClick={() => onSelectModule('discover_create')}
-              className="px-4 py-2 rounded-xl bg-[#067CF9] hover:bg-[#056ad6] text-white text-xs font-semibold flex items-center gap-1.5 cursor-pointer shadow-sm transition-colors"
-            >
-              <Plus className="w-3.5 h-3.5" />
-              <span>Create</span>
-            </button>
-
-            {/* Store Button */}
-            <button
-              onClick={() => onSelectModule('store')}
-              className="px-3.5 py-2 rounded-xl bg-white hover:bg-neutral-50 border border-[rgba(6,124,249,0.14)] text-[#0F172A] text-xs font-semibold flex items-center gap-1.5 cursor-pointer shadow-xs transition-colors"
-            >
-              <ShoppingBag className="w-3.5 h-3.5 text-[#64748B]" />
-              <span>Store</span>
-            </button>
-
-            {/* Ask AI Button */}
-            <button
-              onClick={() => onSelectModule('assistant')}
-              className="px-3.5 py-2 rounded-xl bg-white hover:bg-neutral-50 border border-[rgba(6,124,249,0.14)] text-[#0F172A] text-xs font-semibold flex items-center gap-1.5 cursor-pointer shadow-xs transition-colors"
-            >
-              <Sparkles className="w-3.5 h-3.5 text-[#067CF9]" />
-              <span>Ask AI</span>
-            </button>
-
             {/* Notification Bell */}
             <div className="relative">
               <button
@@ -269,11 +232,23 @@ export default function AppShell({ activeModule, onSelectModule, onNavigateLandi
               )}
             </div>
 
+            {/* AI Credits Pill: Positioned directly left of connected account with subtle blue-purple styling */}
+            <div
+              onClick={() => openUpgradeModal('ai_credits', 'Upgrade to Pro to unlock 300 daily AI credits & vision models!')}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-[#EFF6FF] via-[#F5F3FF] to-[#FAF5FF] hover:from-[#DBEAFE] hover:to-[#EDE9FE] border border-[rgba(99,102,241,0.22)] hover:border-[#6366F1]/50 text-[#0F172A] transition-all cursor-pointer shadow-xs group"
+              title="Daily AI Credits Remaining (Click to Upgrade)"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-[#6366F1] group-hover:scale-110 transition-transform" />
+              <span className="font-bold text-xs font-mono bg-gradient-to-r from-[#067CF9] via-[#6366F1] to-[#8B5CF6] bg-clip-text text-transparent">
+                {isUnlimited ? '∞ Unlimited' : `${creditsRemaining} AI left`}
+              </span>
+            </div>
+
             {/* Profile Pill: Avatar + @handle + chevron */}
             <div className="relative">
               <button
                 onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
-                className="flex items-center gap-2 p-1 pl-1.5 pr-2 rounded-xl bg-white hover:bg-[#F8FAFC] border border-[rgba(6,124,249,0.12)] cursor-pointer transition-colors shadow-xs"
+                className="flex items-center gap-2 p-1 pl-1.5 pr-2 rounded-xl bg-white/80 hover:bg-white border border-[rgba(99,102,241,0.18)] hover:border-[#6366F1]/40 cursor-pointer transition-colors shadow-xs"
               >
                 <img
                   src={getSafeAvatarUrl(activePage?.avatar, currentHandle)}
@@ -282,7 +257,7 @@ export default function AppShell({ activeModule, onSelectModule, onNavigateLandi
                     e.currentTarget.onerror = null;
                     e.currentTarget.src = getSafeAvatarUrl('', currentHandle);
                   }}
-                  className="w-6 h-6 rounded-full object-cover ring-1 ring-[#067CF9]/30"
+                  className="w-6 h-6 rounded-full object-cover ring-2 ring-[#6366F1]/30"
                 />
                 <span className="text-xs font-semibold text-[#0F172A]">@{currentHandle}</span>
                 <ChevronDown className="w-3.5 h-3.5 text-[#94A3B8]" />
@@ -290,7 +265,7 @@ export default function AppShell({ activeModule, onSelectModule, onNavigateLandi
 
               {/* Profile Menu Dropdown */}
               {isProfileMenuOpen && (
-                <div className="absolute right-0 top-11 w-52 bg-white border border-[rgba(6,124,249,0.12)] rounded-2xl shadow-xl p-1.5 z-50 text-xs">
+                <div className="absolute right-0 top-11 w-52 bg-white/95 backdrop-blur-xl border border-[rgba(99,102,241,0.16)] rounded-2xl shadow-xl p-1.5 z-50 text-xs">
                   <button
                     onClick={() => {
                       setIsProfileMenuOpen(false);

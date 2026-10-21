@@ -507,21 +507,27 @@ export default function DiscoverCreate({ onNavigate, initialTab = 'discover' }) 
       {/* 1. TOP HEADER & TWO MASTER TOGGLES: [ Discover | Create ] */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[rgba(6,124,249,0.12)]">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-[#0F172A] tracking-tight">
-            Discover &amp; Create
-          </h1>
+          <div className="flex items-center gap-2.5">
+            <h1 className="text-xl sm:text-2xl font-bold text-[#0F172A] tracking-tight">
+              Discover &amp; Create
+            </h1>
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-600 text-[11px] font-semibold border border-emerald-200">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              Live Viral Feed
+            </span>
+          </div>
           <p className="text-[#64748B] text-xs mt-1 font-medium">
             Discover trending formats, viral audios, competitors, and engineer 30-day viral content calendars.
           </p>
         </div>
 
         {/* Master Two Toggles: [ Discover | Create ] */}
-        <div className="flex items-center gap-1 bg-white/90 p-1 rounded-xl border border-[rgba(6,124,249,0.15)] shadow-xs shrink-0">
+        <div className="flex items-center gap-1 bg-white/80 backdrop-blur-xl p-1 rounded-xl border border-[rgba(99,102,241,0.2)] shadow-xs shrink-0">
           <button
             onClick={() => setMainMode('discover')}
             className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
               mainMode === 'discover'
-                ? 'bg-[#067CF9] text-white shadow-xs'
+                ? 'bg-gradient-to-r from-[#067CF9] via-[#6366F1] to-[#8B5CF6] text-white shadow-xs'
                 : 'text-[#64748B] hover:text-[#0F172A]'
             }`}
           >
@@ -533,7 +539,7 @@ export default function DiscoverCreate({ onNavigate, initialTab = 'discover' }) 
             onClick={() => setMainMode('create')}
             className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
               mainMode === 'create'
-                ? 'bg-[#067CF9] text-white shadow-xs'
+                ? 'bg-gradient-to-r from-[#067CF9] via-[#6366F1] to-[#8B5CF6] text-white shadow-xs'
                 : 'text-[#64748B] hover:text-[#0F172A]'
             }`}
           >
@@ -551,10 +557,10 @@ export default function DiscoverCreate({ onNavigate, initialTab = 'discover' }) 
         <div className="space-y-6">
           
           {/* Sub-Filters: [ All | Reels | Carousels | Audios | Competitors ] */}
-          <div className="p-4 rounded-2xl bg-white/95 backdrop-blur-xl border border-[rgba(6,124,249,0.12)] shadow-[0_2px_16px_rgba(6,124,249,0.04)] flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div className="p-4 rounded-2xl bg-white/75 backdrop-blur-xl border border-white/80 shadow-[0_8px_30px_rgba(6,124,249,0.04)] ring-1 ring-[rgba(99,102,241,0.12)] hover:ring-[rgba(99,102,241,0.28)] transition-all flex flex-col md:flex-row md:items-center justify-between gap-4">
             
             {/* 5 Content Toggles */}
-            <div className="flex items-center gap-1 bg-[#F8FAFC] p-1 rounded-xl border border-[rgba(6,124,249,0.12)] overflow-x-auto no-scrollbar shrink-0">
+            <div className="flex items-center gap-1 bg-white/60 p-1 rounded-xl border border-[rgba(99,102,241,0.15)] overflow-x-auto no-scrollbar shrink-0">
               {[
                 { id: 'all', label: 'All', icon: Layers },
                 { id: 'reels', label: 'Reels', icon: Video },
@@ -570,7 +576,7 @@ export default function DiscoverCreate({ onNavigate, initialTab = 'discover' }) 
                     onClick={() => setDiscoverFilter(f.id)}
                     className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer whitespace-nowrap ${
                       isActive
-                        ? 'bg-[#067CF9] text-white shadow-xs'
+                        ? 'bg-gradient-to-r from-[#067CF9] to-[#6366F1] text-white shadow-xs'
                         : 'text-[#64748B] hover:text-[#0F172A]'
                     }`}
                   >
@@ -591,7 +597,7 @@ export default function DiscoverCreate({ onNavigate, initialTab = 'discover' }) 
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder={discoverFilter === 'audios' ? "Search audios, genres..." : "Search viral hooks, creators..."}
-                    className="w-full bg-[#F8FAFC] border border-[rgba(6,124,249,0.15)] rounded-xl pl-8 pr-3 py-1.5 text-xs text-[#0F172A] placeholder:text-[#94A3B8] focus:outline-hidden focus:border-[#067CF9]"
+                    className="w-full bg-white/60 border border-[rgba(99,102,241,0.15)] rounded-xl pl-8 pr-3 py-1.5 text-xs text-[#0F172A] placeholder:text-[#94A3B8] focus:outline-hidden focus:border-[#6366F1]/60"
                   />
                 </div>
 
@@ -599,7 +605,7 @@ export default function DiscoverCreate({ onNavigate, initialTab = 'discover' }) 
                   <select
                     value={selectedNiche}
                     onChange={(e) => setSelectedNiche(e.target.value)}
-                    className="bg-[#F8FAFC] border border-[rgba(6,124,249,0.15)] rounded-xl px-3 py-1.5 text-xs text-[#0F172A] font-medium focus:outline-hidden focus:border-[#067CF9] cursor-pointer"
+                    className="bg-white/60 border border-[rgba(99,102,241,0.15)] rounded-xl px-3 py-1.5 text-xs text-[#0F172A] font-medium focus:outline-hidden focus:border-[#6366F1]/60 cursor-pointer"
                   >
                     {NICHES.map(n => (
                       <option key={n} value={n}>{n}</option>
@@ -616,7 +622,7 @@ export default function DiscoverCreate({ onNavigate, initialTab = 'discover' }) 
               {filteredPosts.map(post => (
                 <div
                   key={post.id}
-                  className="rounded-2xl bg-white border border-[rgba(6,124,249,0.12)] shadow-[0_2px_12px_rgba(6,124,249,0.03)] overflow-hidden flex flex-col justify-between hover:border-[#067CF9]/40 transition-all group"
+                  className="rounded-2xl bg-white/75 backdrop-blur-xl border border-white/80 shadow-[0_8px_30px_rgba(6,124,249,0.04)] ring-1 ring-[rgba(99,102,241,0.12)] hover:ring-[rgba(99,102,241,0.28)] overflow-hidden flex flex-col justify-between transition-all group"
                 >
                   <div className="relative h-44 w-full overflow-hidden bg-slate-900">
                     <img
@@ -630,7 +636,7 @@ export default function DiscoverCreate({ onNavigate, initialTab = 'discover' }) 
                       <span className="px-2 py-0.5 rounded-md bg-black/60 backdrop-blur-md text-white text-[10px] font-semibold border border-white/10">
                         {post.format}
                       </span>
-                      <span className="px-2 py-0.5 rounded-md bg-[#067CF9]/80 backdrop-blur-md text-white text-[10px] font-semibold">
+                      <span className="px-2 py-0.5 rounded-md bg-gradient-to-r from-[#067CF9] to-[#6366F1] backdrop-blur-md text-white text-[10px] font-semibold shadow-xs">
                         {post.retentionScore} Retention
                       </span>
                     </div>
@@ -638,7 +644,7 @@ export default function DiscoverCreate({ onNavigate, initialTab = 'discover' }) 
                     <button
                       type="button"
                       onClick={() => handleToggleBookmark(post.id)}
-                      className="absolute top-2.5 right-2.5 w-7 h-7 rounded-lg bg-black/60 backdrop-blur-md text-white flex items-center justify-center cursor-pointer hover:bg-[#067CF9] transition-colors"
+                      className="absolute top-2.5 right-2.5 w-7 h-7 rounded-lg bg-black/60 backdrop-blur-md text-white flex items-center justify-center cursor-pointer hover:bg-[#6366F1] transition-colors"
                     >
                       {savedPosts.includes(post.id) ? (
                         <BookmarkCheck className="w-3.5 h-3.5 text-white" />
@@ -657,7 +663,7 @@ export default function DiscoverCreate({ onNavigate, initialTab = 'discover' }) 
                     <div className="space-y-1.5 text-xs">
                       <div className="flex items-center justify-between text-[#64748B] text-[11px]">
                         <span>Views: <strong className="text-[#0F172A] font-semibold">{post.views}</strong></span>
-                        <span>Saves: <strong className="text-[#067CF9] font-semibold">{post.saves}</strong></span>
+                        <span>Saves: <strong className="text-[#6366F1] font-semibold">{post.saves}</strong></span>
                       </div>
                       <p className="text-[11px] text-[#64748B] line-clamp-2 leading-relaxed">
                         {post.breakdown}
@@ -667,7 +673,7 @@ export default function DiscoverCreate({ onNavigate, initialTab = 'discover' }) 
                     <button
                       type="button"
                       onClick={() => handleUseHookInScript(post)}
-                      className="w-full py-1.5 rounded-xl bg-[#EFF6FF] hover:bg-[#067CF9] text-[#067CF9] hover:text-white font-semibold text-xs transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+                      className="w-full py-1.5 rounded-xl bg-gradient-to-r from-blue-50 to-indigo-50 border border-[rgba(99,102,241,0.2)] hover:from-blue-100 hover:to-indigo-100 text-[#6366F1] font-semibold text-xs transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
                     >
                       <span>Use Hook in Script</span>
                       <ArrowRight className="w-3 h-3" />
@@ -684,19 +690,19 @@ export default function DiscoverCreate({ onNavigate, initialTab = 'discover' }) 
               {VIRAL_AUDIOS.map(audio => (
                 <div
                   key={audio.id}
-                  className="p-5 rounded-2xl bg-white border border-[rgba(6,124,249,0.12)] shadow-[0_2px_12px_rgba(6,124,249,0.03)] space-y-4 hover:border-[#067CF9]/30 transition-all flex flex-col justify-between"
+                  className="p-5 rounded-2xl bg-white/75 backdrop-blur-xl border border-white/80 shadow-[0_8px_30px_rgba(6,124,249,0.04)] ring-1 ring-[rgba(99,102,241,0.12)] hover:ring-[rgba(99,102,241,0.28)] space-y-4 transition-all flex flex-col justify-between"
                 >
                   <div className="space-y-3">
                     <div className="flex items-center justify-between">
-                      <span className="px-2 py-0.5 rounded-md bg-[#EFF6FF] text-[#067CF9] text-[10px] font-bold border border-[rgba(6,124,249,0.15)]">
+                      <span className="px-2 py-0.5 rounded-md bg-gradient-to-r from-blue-50 to-indigo-50 text-[#6366F1] text-[10px] font-bold border border-[rgba(99,102,241,0.2)]">
                         {audio.badge}
                       </span>
                       <span className="text-[10px] text-emerald-600 font-semibold">{audio.growth}</span>
                     </div>
 
                     <div className="flex items-start gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-[#EFF6FF] border border-[rgba(6,124,249,0.2)] text-[#067CF9] flex items-center justify-center shrink-0">
-                        <Music className="w-5 h-5 text-[#067CF9]" />
+                      <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-50 to-indigo-50 border border-[rgba(99,102,241,0.2)] text-[#6366F1] flex items-center justify-center shrink-0 shadow-2xs">
+                        <Music className="w-5 h-5 text-[#6366F1]" />
                       </div>
                       <div>
                         <h4 className="font-bold text-[#0F172A] text-xs leading-snug">{audio.title}</h4>
@@ -705,12 +711,12 @@ export default function DiscoverCreate({ onNavigate, initialTab = 'discover' }) 
                     </div>
 
                     {/* Audio wave simulation bars */}
-                    <div className="flex items-center gap-1 h-5 px-2 bg-[#F8FAFC] rounded-lg">
+                    <div className="flex items-center gap-1 h-5 px-2 bg-white/60 rounded-lg border border-[rgba(99,102,241,0.1)]">
                       {[40, 70, 30, 90, 60, 45, 80, 50, 95, 40, 65, 85, 30, 70, 55, 90, 45].map((h, i) => (
                         <span
                           key={i}
                           style={{ height: `${h}%` }}
-                          className="flex-1 bg-[#067CF9]/40 rounded-full"
+                          className="flex-1 bg-gradient-to-t from-[#067CF9] to-[#8B5CF6] rounded-full opacity-60"
                         />
                       ))}
                     </div>
@@ -724,7 +730,7 @@ export default function DiscoverCreate({ onNavigate, initialTab = 'discover' }) 
                   <button
                     type="button"
                     onClick={() => handleUseAudioInScript(audio)}
-                    className="w-full py-2 rounded-xl bg-[#067CF9] hover:bg-[#0568D2] text-white font-semibold text-xs transition-colors flex items-center justify-center gap-1.5 cursor-pointer shadow-xs"
+                    className="w-full py-2 rounded-xl bg-gradient-to-r from-[#067CF9] via-[#6366F1] to-[#8B5CF6] hover:opacity-95 text-white font-semibold text-xs transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-md shadow-[#6366F1]/20"
                   >
                     <span>Use Audio in Script Studio</span>
                     <ArrowRight className="w-3.5 h-3.5" />
@@ -739,7 +745,7 @@ export default function DiscoverCreate({ onNavigate, initialTab = 'discover' }) 
             <div className="space-y-4">
               
               {/* Add Competitor Banner */}
-              <div className="p-4 rounded-2xl bg-white/95 backdrop-blur-xl border border-[rgba(6,124,249,0.12)] shadow-[0_2px_16px_rgba(6,124,249,0.04)] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div className="p-4 rounded-2xl bg-white/75 backdrop-blur-xl border border-white/80 shadow-[0_8px_30px_rgba(6,124,249,0.04)] ring-1 ring-[rgba(99,102,241,0.12)] hover:ring-[rgba(99,102,241,0.28)] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div>
                   <h3 className="font-bold text-[#0F172A] text-sm">Competitor Radar &amp; Format Benchmarking</h3>
                   <p className="text-xs text-[#64748B] mt-0.5">Track publishing cadence, follower velocity, and top-converting formats.</p>
@@ -751,12 +757,12 @@ export default function DiscoverCreate({ onNavigate, initialTab = 'discover' }) 
                     value={newCompetitorInput}
                     onChange={(e) => setNewCompetitorInput(e.target.value)}
                     placeholder="@competitor.handle"
-                    className="bg-[#F8FAFC] border border-[rgba(6,124,249,0.15)] rounded-xl px-3 py-1.5 text-xs text-[#0F172A] placeholder:text-[#94A3B8] focus:outline-hidden focus:border-[#067CF9]"
+                    className="bg-white/60 border border-[rgba(99,102,241,0.15)] rounded-xl px-3 py-1.5 text-xs text-[#0F172A] placeholder:text-[#94A3B8] focus:outline-hidden focus:border-[#6366F1]/60"
                   />
                   <button
                     type="button"
                     onClick={handleAddCompetitor}
-                    className="px-3.5 py-1.5 rounded-xl bg-[#067CF9] hover:bg-[#0568D2] text-white font-semibold text-xs transition-colors flex items-center gap-1 cursor-pointer shadow-xs shrink-0"
+                    className="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-[#067CF9] via-[#6366F1] to-[#8B5CF6] text-white font-semibold text-xs transition-all flex items-center gap-1 cursor-pointer shadow-md shadow-[#6366F1]/20 shrink-0"
                   >
                     <Plus className="w-3.5 h-3.5" />
                     <span>Track Competitor</span>
@@ -769,11 +775,11 @@ export default function DiscoverCreate({ onNavigate, initialTab = 'discover' }) 
                 {competitors.map((comp, idx) => (
                   <div
                     key={idx}
-                    className="p-5 rounded-2xl bg-white border border-[rgba(6,124,249,0.12)] shadow-xs space-y-3"
+                    className="p-5 rounded-2xl bg-white/75 backdrop-blur-xl border border-white/80 shadow-[0_8px_30px_rgba(6,124,249,0.04)] ring-1 ring-[rgba(99,102,241,0.12)] hover:ring-[rgba(99,102,241,0.28)] space-y-3 transition-all"
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2.5">
-                        <div className="w-9 h-9 rounded-full bg-[#EFF6FF] border border-[rgba(6,124,249,0.2)] text-[#067CF9] font-bold text-xs flex items-center justify-center">
+                        <div className="w-9 h-9 rounded-full bg-gradient-to-br from-blue-50 to-indigo-50 border border-[rgba(99,102,241,0.2)] text-[#6366F1] font-bold text-xs flex items-center justify-center">
                           @{comp.handle[0]?.toUpperCase()}
                         </div>
                         <div>
@@ -787,18 +793,18 @@ export default function DiscoverCreate({ onNavigate, initialTab = 'discover' }) 
                       </span>
                     </div>
 
-                    <div className="grid grid-cols-3 gap-2 pt-2 border-t border-[rgba(6,124,249,0.08)] text-center text-xs">
-                      <div className="p-2 rounded-xl bg-[#F8FAFC]">
+                    <div className="grid grid-cols-3 gap-2 pt-2 border-t border-[rgba(99,102,241,0.1)] text-center text-xs">
+                      <div className="p-2 rounded-xl bg-white/60 border border-[rgba(99,102,241,0.1)]">
                         <span className="text-[10px] text-[#64748B] block font-medium">Followers</span>
                         <strong className="text-[#0F172A] font-bold text-xs">{comp.followers}</strong>
                       </div>
-                      <div className="p-2 rounded-xl bg-[#F8FAFC]">
+                      <div className="p-2 rounded-xl bg-white/60 border border-[rgba(99,102,241,0.1)]">
                         <span className="text-[10px] text-[#64748B] block font-medium">Cadence</span>
                         <strong className="text-[#0F172A] font-bold text-xs">{comp.cadence}</strong>
                       </div>
-                      <div className="p-2 rounded-xl bg-[#F8FAFC]">
+                      <div className="p-2 rounded-xl bg-white/60 border border-[rgba(99,102,241,0.1)]">
                         <span className="text-[10px] text-[#64748B] block font-medium">Avg Views</span>
-                        <strong className="text-[#067CF9] font-bold text-xs">{comp.avgViews}</strong>
+                        <strong className="text-[#6366F1] font-bold text-xs">{comp.avgViews}</strong>
                       </div>
                     </div>
 
@@ -825,7 +831,7 @@ export default function DiscoverCreate({ onNavigate, initialTab = 'discover' }) 
         <div className="space-y-6">
           
           {/* A. SCRIPT STUDIO */}
-          <div className="p-6 rounded-2xl bg-white/95 backdrop-blur-xl border border-[rgba(6,124,249,0.12)] shadow-[0_2px_16px_rgba(6,124,249,0.04)] space-y-5">
+          <div className="p-6 rounded-2xl bg-white/75 backdrop-blur-xl border border-white/80 shadow-[0_8px_30px_rgba(6,124,249,0.04)] ring-1 ring-[rgba(99,102,241,0.12)] hover:ring-[rgba(99,102,241,0.28)] transition-all space-y-5">
             <div>
               <h3 className="font-bold text-[#0F172A] text-base">
                 AI Script Studio &amp; Scene Architecture
@@ -843,7 +849,7 @@ export default function DiscoverCreate({ onNavigate, initialTab = 'discover' }) 
                 <select
                   value={scriptHookType}
                   onChange={(e) => setScriptHookType(e.target.value)}
-                  className="w-full bg-[#F8FAFC] border border-[rgba(6,124,249,0.15)] rounded-xl px-3 py-2 text-xs text-[#0F172A] font-medium focus:outline-hidden focus:border-[#067CF9]"
+                  className="w-full bg-white/60 border border-[rgba(99,102,241,0.15)] rounded-xl px-3 py-2 text-xs text-[#0F172A] font-medium focus:outline-hidden focus:border-[#6366F1]/60"
                 >
                   <option value="contrarian">Contrarian (Challenge beliefs)</option>
                   <option value="mistake_pain">Mistake / Pain (Stop doing X)</option>
@@ -857,7 +863,7 @@ export default function DiscoverCreate({ onNavigate, initialTab = 'discover' }) 
                 <select
                   value={scriptGoal}
                   onChange={(e) => setScriptGoal(e.target.value)}
-                  className="w-full bg-[#F8FAFC] border border-[rgba(6,124,249,0.15)] rounded-xl px-3 py-2 text-xs text-[#0F172A] font-medium focus:outline-hidden focus:border-[#067CF9]"
+                  className="w-full bg-white/60 border border-[rgba(99,102,241,0.15)] rounded-xl px-3 py-2 text-xs text-[#0F172A] font-medium focus:outline-hidden focus:border-[#6366F1]/60"
                 >
                   <option value="lead_magnet">Free Lead Magnet / DM Trigger</option>
                   <option value="storefront_sales">Storefront Product Direct Sale</option>
@@ -872,7 +878,7 @@ export default function DiscoverCreate({ onNavigate, initialTab = 'discover' }) 
                   value={scriptTopic}
                   onChange={(e) => setScriptTopic(e.target.value)}
                   placeholder="e.g. Stop wasting 5 hours making Reels"
-                  className="w-full bg-[#F8FAFC] border border-[rgba(6,124,249,0.15)] rounded-xl px-3 py-2 text-xs text-[#0F172A] focus:outline-hidden focus:border-[#067CF9]"
+                  className="w-full bg-white/60 border border-[rgba(99,102,241,0.15)] rounded-xl px-3 py-2 text-xs text-[#0F172A] focus:outline-hidden focus:border-[#6366F1]/60"
                 />
               </div>
 
@@ -881,7 +887,7 @@ export default function DiscoverCreate({ onNavigate, initialTab = 'discover' }) 
             {/* Generate Script Action Button */}
             <div className="flex items-center justify-between pt-2">
               <span className="text-xs text-[#64748B] flex items-center gap-1.5 font-medium">
-                <Zap className="w-3.5 h-3.5 text-[#067CF9]" />
+                <Zap className="w-3.5 h-3.5 text-[#6366F1]" />
                 Uses 1 AI Credit &bull; Optimized for 3-Second Retention
               </span>
 
@@ -889,7 +895,7 @@ export default function DiscoverCreate({ onNavigate, initialTab = 'discover' }) 
                 type="button"
                 onClick={() => handleGenerateScript()}
                 disabled={isGeneratingScript}
-                className="px-4 py-2 rounded-xl bg-[#067CF9] hover:bg-[#0568D2] text-white font-semibold text-xs transition-colors flex items-center gap-1.5 cursor-pointer shadow-xs disabled:opacity-50"
+                className="px-4 py-2 rounded-xl bg-gradient-to-r from-[#067CF9] via-[#6366F1] to-[#8B5CF6] hover:opacity-95 text-white font-semibold text-xs transition-all flex items-center gap-1.5 cursor-pointer shadow-md shadow-[#6366F1]/20 disabled:opacity-50"
               >
                 {isGeneratingScript ? (
                   <>
@@ -907,10 +913,10 @@ export default function DiscoverCreate({ onNavigate, initialTab = 'discover' }) 
 
             {/* Generated Script Card */}
             {generatedScript && (
-              <div className="p-5 rounded-2xl bg-[#F8FAFC] border border-[rgba(6,124,249,0.2)] space-y-4">
+              <div className="p-5 rounded-2xl bg-white/60 border border-[rgba(99,102,241,0.2)] space-y-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <span className="px-2 py-0.5 rounded-md bg-[#EFF6FF] text-[#067CF9] text-[10px] font-bold border border-[rgba(6,124,249,0.2)]">
+                    <span className="px-2 py-0.5 rounded-md bg-gradient-to-r from-blue-50 to-indigo-50 text-[#6366F1] text-[10px] font-bold border border-[rgba(99,102,241,0.2)]">
                       {generatedScript.angle || 'Viral Script'}
                     </span>
                     <h4 className="font-bold text-xs text-[#0F172A]">{generatedScript.title}</h4>
@@ -925,16 +931,16 @@ export default function DiscoverCreate({ onNavigate, initialTab = 'discover' }) 
                         setIsCopiedScript(true);
                         setTimeout(() => setIsCopiedScript(false), 2000);
                       }}
-                      className="px-2.5 py-1 rounded-lg bg-white border border-[rgba(6,124,249,0.2)] text-[#0F172A] text-xs font-medium flex items-center gap-1 cursor-pointer"
+                      className="px-2.5 py-1 rounded-lg bg-white border border-[rgba(99,102,241,0.2)] text-[#0F172A] text-xs font-medium flex items-center gap-1 cursor-pointer"
                     >
-                      {isCopiedScript ? <Check className="w-3 h-3 text-[#067CF9]" /> : <Copy className="w-3 h-3" />}
+                      {isCopiedScript ? <Check className="w-3 h-3 text-[#6366F1]" /> : <Copy className="w-3 h-3" />}
                       <span>{isCopiedScript ? 'Copied' : 'Copy'}</span>
                     </button>
 
                     <button
                       type="button"
                       onClick={handleSaveScriptToPlanner}
-                      className="px-2.5 py-1 rounded-lg bg-[#067CF9] text-white text-xs font-semibold flex items-center gap-1 cursor-pointer shadow-xs"
+                      className="px-2.5 py-1 rounded-lg bg-gradient-to-r from-[#067CF9] via-[#6366F1] to-[#8B5CF6] text-white text-xs font-semibold flex items-center gap-1 cursor-pointer shadow-xs"
                     >
                       <Plus className="w-3 h-3" />
                       <span>Add to 30-Day Planner</span>
@@ -974,7 +980,7 @@ export default function DiscoverCreate({ onNavigate, initialTab = 'discover' }) 
           </div>
 
           {/* B. 30-DAY CONTENT PLANNER (Directly Under Script Studio) */}
-          <div className="p-6 rounded-2xl bg-white/95 backdrop-blur-xl border border-[rgba(6,124,249,0.12)] shadow-[0_2px_16px_rgba(6,124,249,0.04)] space-y-5">
+          <div className="p-6 rounded-2xl bg-white/75 backdrop-blur-xl border border-white/80 shadow-[0_8px_30px_rgba(6,124,249,0.04)] ring-1 ring-[rgba(99,102,241,0.12)] hover:ring-[rgba(99,102,241,0.28)] transition-all space-y-5">
             
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div>
@@ -982,7 +988,7 @@ export default function DiscoverCreate({ onNavigate, initialTab = 'discover' }) 
                   <h3 className="font-bold text-[#0F172A] text-base">
                     30-Day Strategic Content Planner
                   </h3>
-                  <span className="px-2 py-0.5 rounded-full bg-[#EFF6FF] text-[#067CF9] border border-[rgba(6,124,249,0.2)] text-[10px] font-bold">
+                  <span className="px-2.5 py-0.5 rounded-full bg-gradient-to-r from-blue-50 to-indigo-50 text-[#6366F1] border border-[rgba(99,102,241,0.25)] text-[10px] font-bold">
                     {calendarSchedule.length} Days Planned
                   </span>
                 </div>
@@ -995,7 +1001,7 @@ export default function DiscoverCreate({ onNavigate, initialTab = 'discover' }) 
                 type="button"
                 onClick={handleAutoFill30Days}
                 disabled={isAutoFillingCalendar}
-                className="px-4 py-2 rounded-xl bg-[#067CF9] hover:bg-[#0568D2] text-white font-semibold text-xs transition-colors flex items-center gap-1.5 cursor-pointer shadow-xs whitespace-nowrap self-start sm:self-auto disabled:opacity-50"
+                className="px-4 py-2 rounded-xl bg-gradient-to-r from-[#067CF9] via-[#6366F1] to-[#8B5CF6] hover:opacity-95 text-white font-semibold text-xs transition-all flex items-center gap-1.5 cursor-pointer shadow-md shadow-[#6366F1]/20 whitespace-nowrap self-start sm:self-auto disabled:opacity-50"
               >
                 {isAutoFillingCalendar ? (
                   <>
@@ -1012,7 +1018,7 @@ export default function DiscoverCreate({ onNavigate, initialTab = 'discover' }) 
             </div>
 
             {/* Day-by-Day Strategic Schedule Table */}
-            <div className="overflow-x-auto rounded-xl border border-[rgba(6,124,249,0.1)]">
+            <div className="overflow-x-auto rounded-xl border border-[rgba(99,102,241,0.12)]">
               <table className="w-full text-left text-xs">
                 <thead>
                   <tr className="bg-[#F8FAFC] border-b border-[rgba(6,124,249,0.1)] text-[#64748B] text-[11px]">

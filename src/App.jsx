@@ -62,14 +62,23 @@ function WorkspaceRouter() {
     );
   }
 
-  // Check if accessing public creator link-in-bio storefront /u/:slug per v4 spec
-  const isPublicStore = typeof window !== 'undefined' && window.location.pathname.startsWith('/u/');
-  const storeSlug = isPublicStore ? window.location.pathname.replace(/^\/u\/?/, '') : null;
+  // Check if accessing public creator link-in-bio storefront /u/:slug or /@handle per v2.4 spec
+  const pathname = typeof window !== 'undefined' ? window.location.pathname : '';
+  const isPublicStore = pathname.startsWith('/u/') || pathname.startsWith('/@');
+  let storeSlug = null;
+  let initialProductSlug = null;
+  if (isPublicStore) {
+    const raw = pathname.replace(/^(\/u\/|\/@)/, '').replace(/\/$/, '');
+    const parts = raw.split('/');
+    storeSlug = parts[0] || 'creator';
+    initialProductSlug = parts[1] || null;
+  }
 
   if (isPublicStore) {
     return (
       <PublicStorefront 
         slug={storeSlug} 
+        productSlug={initialProductSlug}
         onBackToApp={() => {
           window.history.pushState({}, '', '/');
           window.location.reload();
@@ -268,7 +277,7 @@ function WorkspaceRouter() {
 
   // 5. INTERIOR DASHBOARD APP SHELL
   return (
-    <div className="relative h-screen w-full overflow-hidden bg-[#F0F6FE] text-[#0F172A]">
+    <div className="relative h-screen w-full overflow-hidden bg-[#F4F8FD] text-[#0F172A]">
       <AppShell 
         activeModule={activeModule} 
         onSelectModule={(mod) => setActiveModule(mod)}

@@ -168,12 +168,13 @@ export default function PageBuilder({ onNavigate }) {
       {/* 2. SECTION 1 (TOP): AUDIENCE & DEMOGRAPHICS INSIGHTS */}
       <section className="space-y-5">
         <div className="flex items-center gap-2">
-          <div className="w-2 h-5 rounded-full bg-[#067CF9]" />
+          <div className="w-2 h-5 rounded-full bg-gradient-to-b from-[#067CF9] via-[#6366F1] to-[#A855F7]" />
           <h2 className="text-sm font-bold text-[#0F172A] uppercase tracking-wide">
             Audience &amp; Insights
           </h2>
-          <span className="text-xs text-[#64748B]">
-            &bull; Live Meta Graph metrics for @{activePage?.handle || 'creator'}
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-gradient-to-r from-blue-50 to-indigo-50 border border-[rgba(99,102,241,0.25)] text-[#6366F1] text-[11px] font-semibold">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#6366F1] animate-pulse" />
+            Meta Graph Insights
           </span>
         </div>
 
@@ -213,11 +214,11 @@ export default function PageBuilder({ onNavigate }) {
               {/* 3 Demographic Cards */}
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
                 
-                {/* Age Distribution Card */}
-                <div className="p-5 rounded-2xl bg-white/95 backdrop-blur-xl border border-[rgba(6,124,249,0.12)] shadow-[0_2px_16px_rgba(6,124,249,0.04)] space-y-4">
-                  <div className="flex items-center justify-between pb-3 border-b border-[rgba(6,124,249,0.08)]">
+                {/* 1. Age Distribution Card (Left) */}
+                <div className="p-5 rounded-2xl bg-white/75 backdrop-blur-xl border border-white/80 shadow-[0_8px_30px_rgba(6,124,249,0.04)] ring-1 ring-[rgba(99,102,241,0.12)] hover:ring-[rgba(99,102,241,0.28)] transition-all space-y-4">
+                  <div className="flex items-center justify-between pb-3 border-b border-[rgba(99,102,241,0.1)]">
                     <h3 className="font-bold text-sm text-[#0F172A]">Age Brackets Breakdown</h3>
-                    <span className="text-[10px] text-[#067CF9] bg-[#EFF6FF] px-2 py-0.5 rounded-md border border-[rgba(6,124,249,0.12)] font-semibold">
+                    <span className="text-[10px] text-[#6366F1] bg-gradient-to-r from-blue-50 to-indigo-50 px-2 py-0.5 rounded-md border border-[rgba(99,102,241,0.2)] font-semibold">
                       Meta Graph
                     </span>
                   </div>
@@ -227,13 +228,13 @@ export default function PageBuilder({ onNavigate }) {
                       <div key={idx} className="space-y-1">
                         <div className="flex items-center justify-between text-xs">
                           <span className="text-[#0F172A] font-medium">{item.bracket}</span>
-                          <span className={`font-semibold ${item.isTop ? 'text-[#067CF9]' : 'text-[#64748B]'}`}>
+                          <span className={`font-bold ${item.isTop ? 'bg-gradient-to-r from-[#067CF9] to-[#8B5CF6] bg-clip-text text-transparent' : 'text-[#64748B]'}`}>
                             {item.pct}%
                           </span>
                         </div>
                         <div className="w-full h-2 rounded-full bg-[#EFF6FF] overflow-hidden">
                           <div 
-                            className={`h-full rounded-full ${item.isTop ? 'bg-[#067CF9]' : 'bg-neutral-300'}`}
+                            className={`h-full rounded-full ${item.isTop ? 'bg-gradient-to-r from-[#067CF9] via-[#6366F1] to-[#A855F7]' : 'bg-neutral-300'}`}
                             style={{ width: `${item.pct}%` }}
                           />
                         </div>
@@ -241,44 +242,15 @@ export default function PageBuilder({ onNavigate }) {
                     ))}
                   </div>
 
-                  <div className="p-2.5 rounded-xl bg-[#EFF6FF] border border-[rgba(6,124,249,0.12)] text-xs flex items-center justify-between">
+                  <div className="p-2.5 rounded-xl bg-gradient-to-r from-blue-50/70 via-indigo-50/70 to-purple-50/70 border border-[rgba(99,102,241,0.2)] text-xs flex items-center justify-between">
                     <span className="text-[#64748B] font-medium">Primary Demographic:</span>
-                    <span className="text-[#067CF9] font-bold">{topBracket.bracket} ({topBracket.pct}%)</span>
+                    <span className="font-bold bg-gradient-to-r from-[#067CF9] via-[#6366F1] to-[#8B5CF6] bg-clip-text text-transparent">{topBracket.bracket} ({topBracket.pct}%)</span>
                   </div>
                 </div>
 
-                {/* Gender Split Ratio Card */}
-                <div className="p-5 rounded-2xl bg-white/95 backdrop-blur-xl border border-[rgba(6,124,249,0.12)] shadow-[0_2px_16px_rgba(6,124,249,0.04)] space-y-4">
-                  <div className="flex items-center justify-between pb-3 border-b border-[rgba(6,124,249,0.08)]">
-                    <h3 className="font-bold text-sm text-[#0F172A]">Gender Distribution</h3>
-                    <span className="text-[10px] text-[#64748B]">Active Followers</span>
-                  </div>
-
-                  <div className="flex items-center justify-around py-4">
-                    <div className="text-center space-y-1">
-                      <div className="text-3xl font-bold text-[#0F172A]">{audience.gender?.male || 68}%</div>
-                      <div className="text-xs text-[#64748B]">Male</div>
-                    </div>
-                    <div className="h-12 w-px bg-neutral-200" />
-                    <div className="text-center space-y-1">
-                      <div className="text-3xl font-bold text-[#067CF9]">{audience.gender?.female || 32}%</div>
-                      <div className="text-xs text-[#64748B]">Female</div>
-                    </div>
-                  </div>
-
-                  <div className="w-full h-3 rounded-full bg-[#EFF6FF] flex overflow-hidden">
-                    <div className="bg-[#0F172A] h-full" style={{ width: `${audience.gender?.male || 68}%` }} title={`Male ${audience.gender?.male || 68}%`} />
-                    <div className="bg-[#067CF9] h-full" style={{ width: `${audience.gender?.female || 32}%` }} title={`Female ${audience.gender?.female || 32}%`} />
-                  </div>
-
-                  <div className="p-2.5 rounded-xl bg-[#F8FAFC] border border-[rgba(6,124,249,0.08)] text-[11px] text-[#64748B] leading-relaxed">
-                    Ideal hook framing: Direct, result-driven pattern interrupts tailored to {activePage?.category || 'your niche'}.
-                  </div>
-                </div>
-
-                {/* Top Geographic Markets Card */}
-                <div className="p-5 rounded-2xl bg-white/95 backdrop-blur-xl border border-[rgba(6,124,249,0.12)] shadow-[0_2px_16px_rgba(6,124,249,0.04)] space-y-4">
-                  <div className="flex items-center justify-between pb-3 border-b border-[rgba(6,124,249,0.08)]">
+                {/* 2. Top Geographic Markets Card (Middle) */}
+                <div className="p-5 rounded-2xl bg-white/75 backdrop-blur-xl border border-white/80 shadow-[0_8px_30px_rgba(6,124,249,0.04)] ring-1 ring-[rgba(99,102,241,0.12)] hover:ring-[rgba(99,102,241,0.28)] transition-all space-y-4">
+                  <div className="flex items-center justify-between pb-3 border-b border-[rgba(99,102,241,0.1)]">
                     <h3 className="font-bold text-sm text-[#0F172A]">Top Geographic Markets</h3>
                     <span className="text-[10px] text-[#64748B]">Territory Reach</span>
                   </div>
@@ -290,7 +262,7 @@ export default function PageBuilder({ onNavigate }) {
                           <span>{geo.flag}</span>
                           <span className="font-medium text-[#0F172A]">{geo.country}</span>
                         </div>
-                        <div className="font-bold text-[#067CF9]">
+                        <div className="font-bold text-[#6366F1]">
                           {geo.pct}
                         </div>
                       </div>
@@ -298,11 +270,40 @@ export default function PageBuilder({ onNavigate }) {
                   </div>
                 </div>
 
+                {/* 3. Gender Split Ratio Card (Right) */}
+                <div className="p-5 rounded-2xl bg-white/75 backdrop-blur-xl border border-white/80 shadow-[0_8px_30px_rgba(6,124,249,0.04)] ring-1 ring-[rgba(99,102,241,0.12)] hover:ring-[rgba(99,102,241,0.28)] transition-all space-y-4">
+                  <div className="flex items-center justify-between pb-3 border-b border-[rgba(99,102,241,0.1)]">
+                    <h3 className="font-bold text-sm text-[#0F172A]">Gender Distribution</h3>
+                    <span className="text-[10px] text-[#64748B]">Active Followers</span>
+                  </div>
+
+                  <div className="flex items-center justify-around py-4">
+                    <div className="text-center space-y-1">
+                      <div className="text-3xl font-bold text-[#0F172A]">{audience.gender?.male || 68}%</div>
+                      <div className="text-xs text-[#64748B]">Male</div>
+                    </div>
+                    <div className="h-12 w-px bg-neutral-200" />
+                    <div className="text-center space-y-1">
+                      <div className="text-3xl font-bold bg-gradient-to-r from-[#067CF9] via-[#6366F1] to-[#A855F7] bg-clip-text text-transparent">{audience.gender?.female || 32}%</div>
+                      <div className="text-xs text-[#64748B]">Female</div>
+                    </div>
+                  </div>
+
+                  <div className="w-full h-3 rounded-full bg-[#EFF6FF] flex overflow-hidden">
+                    <div className="bg-[#0F172A] h-full" style={{ width: `${audience.gender?.male || 68}%` }} title={`Male ${audience.gender?.male || 68}%`} />
+                    <div className="bg-gradient-to-r from-[#067CF9] via-[#6366F1] to-[#A855F7] h-full" style={{ width: `${audience.gender?.female || 32}%` }} title={`Female ${audience.gender?.female || 32}%`} />
+                  </div>
+
+                  <div className="p-2.5 rounded-xl bg-white/60 border border-[rgba(99,102,241,0.12)] text-[11px] text-[#64748B] leading-relaxed">
+                    Ideal hook framing: Direct, result-driven pattern interrupts tailored to {activePage?.category || 'your niche'}.
+                  </div>
+                </div>
+
               </div>
 
               {/* Audience Active Hours Heatmap */}
-              <div className="p-5 rounded-2xl bg-white/95 backdrop-blur-xl border border-[rgba(6,124,249,0.12)] shadow-[0_2px_16px_rgba(6,124,249,0.04)] space-y-4">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[rgba(6,124,249,0.08)]">
+              <div className="p-5 rounded-2xl bg-white/75 backdrop-blur-xl border border-white/80 shadow-[0_8px_30px_rgba(6,124,249,0.04)] ring-1 ring-[rgba(99,102,241,0.12)] hover:ring-[rgba(99,102,241,0.28)] transition-all space-y-4">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[rgba(99,102,241,0.1)]">
                   <div>
                     <h3 className="font-bold text-sm text-[#0F172A]">Audience Active Hours Heatmap</h3>
                     <p className="text-[11px] text-[#64748B] mt-0.5">
@@ -314,7 +315,7 @@ export default function PageBuilder({ onNavigate }) {
                     <span className="text-[#94A3B8]">Intensity:</span>
                     <span className="px-2 py-0.5 rounded-md bg-[#F8FAFC] text-[#64748B] border border-neutral-200">Low</span>
                     <span className="px-2 py-0.5 rounded-md bg-[#EFF6FF] text-[#067CF9] border border-[rgba(6,124,249,0.2)] font-semibold">Muted Blue</span>
-                    <span className="px-2 py-0.5 rounded-md bg-[#067CF9] text-white font-bold shadow-xs">Peak Window</span>
+                    <span className="px-2 py-0.5 rounded-md bg-gradient-to-r from-[#067CF9] via-[#6366F1] to-[#8B5CF6] text-white font-bold shadow-xs">Peak Window</span>
                   </div>
                 </div>
 
@@ -330,7 +331,7 @@ export default function PageBuilder({ onNavigate }) {
                         <th className="py-2 text-center font-semibold">LATE (9PM-12AM)</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-[rgba(6,124,249,0.06)]">
+                    <tbody className="divide-y divide-[rgba(99,102,241,0.08)]">
                       {audience.activeHours.map((row, idx) => (
                         <tr key={idx} className="hover:bg-[#EFF6FF]/40 transition-colors">
                           <td className="py-2.5 font-bold text-[#0F172A]">{row.day}</td>
@@ -345,7 +346,7 @@ export default function PageBuilder({ onNavigate }) {
                             </span>
                           </td>
                           <td className="py-2.5 text-center">
-                            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] bg-[#067CF9] text-white font-bold shadow-xs">
+                            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] bg-gradient-to-r from-[#067CF9] via-[#6366F1] to-[#8B5CF6] text-white font-bold shadow-xs">
                               <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
                               <span>{row.p}% ({row.primeSlot})</span>
                             </span>
@@ -361,14 +362,14 @@ export default function PageBuilder({ onNavigate }) {
                   </table>
                 </div>
 
-                <div className="p-3 px-4 rounded-xl bg-[#EFF6FF] border border-[rgba(6,124,249,0.15)] flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+                <div className="p-3 px-4 rounded-xl bg-gradient-to-r from-blue-50/70 via-indigo-50/60 to-purple-50/50 border border-[rgba(99,102,241,0.2)] flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
                   <div className="flex items-center gap-2 text-[#0F172A]">
-                    <Clock className="w-4 h-4 text-[#067CF9] shrink-0" />
-                    <span>Optimal Release Window Today: <strong className="text-[#067CF9]">{primeSlotToday} IST</strong></span>
+                    <Clock className="w-4 h-4 text-[#6366F1] shrink-0" />
+                    <span>Optimal Release Window Today: <strong className="text-[#6366F1]">{primeSlotToday} IST</strong></span>
                   </div>
                   <button
                     onClick={() => onNavigate('discover_create')}
-                    className="text-[#067CF9] font-bold hover:underline cursor-pointer flex items-center gap-1 self-start sm:self-auto"
+                    className="text-[#6366F1] font-bold hover:underline cursor-pointer flex items-center gap-1 self-start sm:self-auto"
                   >
                     <span>Open Content Planner &rarr;</span>
                   </button>
@@ -380,85 +381,46 @@ export default function PageBuilder({ onNavigate }) {
       </section>
 
       {/* 3. SECTION 2 (BOTTOM): ACCOUNT SETUP & BIO POSITIONING */}
-      <section className="space-y-5 pt-4 border-t border-[rgba(6,124,249,0.12)]">
+      <section className="space-y-5 pt-4 border-t border-[rgba(99,102,241,0.15)]">
         <div className="flex items-center gap-2">
-          <div className="w-2 h-5 rounded-full bg-[#067CF9]" />
+          <div className="w-2 h-5 rounded-full bg-gradient-to-b from-[#067CF9] via-[#6366F1] to-[#A855F7]" />
           <h2 className="text-sm font-bold text-[#0F172A] uppercase tracking-wide">
             Account Setup &amp; Bio Positioning
           </h2>
-          <span className="text-xs text-[#64748B]">
-            &bull; Bio optimization &amp; conversion architecture
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-gradient-to-r from-blue-50 to-indigo-50 border border-[rgba(99,102,241,0.25)] text-[#6366F1] text-[11px] font-semibold">
+            <Sparkles className="w-3 h-3 text-[#6366F1]" />
+            Conversion Architecture
           </span>
-        </div>
-        
-        {/* Profile Identity Bar */}
-        <div className="p-4 sm:p-5 rounded-2xl bg-white/95 backdrop-blur-xl border border-[rgba(6,124,249,0.12)] shadow-[0_2px_16px_rgba(6,124,249,0.04)] flex items-center justify-between gap-4">
-          <div className="flex items-center gap-3.5">
-            <div className="relative group shrink-0">
-              <img 
-                src={getSafeAvatarUrl(activePage?.avatar, activePage?.handle)} 
-                alt={activePage?.handle} 
-                onError={(e) => {
-                  e.currentTarget.onerror = null;
-                  e.currentTarget.src = getSafeAvatarUrl('', activePage?.handle);
-                }}
-                className="w-14 h-14 rounded-2xl object-cover ring-2 ring-[#067CF9]/20 shadow-xs"
-              />
-              <label 
-                title="Change profile photo" 
-                className="absolute inset-0 bg-black/60 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center cursor-pointer text-white text-[9px] font-medium backdrop-blur-xs"
-              >
-                <Camera className="w-3.5 h-3.5 mb-0.5 text-white" />
-                <span>Change</span>
-                <input 
-                  type="file" 
-                  accept="image/*" 
-                  className="hidden" 
-                  onChange={handleAvatarUpload}
-                />
-              </label>
-            </div>
-
-            <div>
-              <div className="flex flex-wrap items-center gap-2">
-                <h2 className="text-base font-bold text-[#0F172A] font-sans">@{activePage?.handle}</h2>
-                <span className="px-2 py-0.5 rounded-md text-[11px] bg-[#EFF6FF] text-[#067CF9] border border-[rgba(6,124,249,0.2)] font-semibold flex items-center gap-1">
-                  <ShieldCheck className="w-3 h-3 text-[#067CF9]" />
-                  <span>Meta Connected</span>
-                </span>
-              </div>
-              <div className="text-xs text-[#64748B] mt-0.5 flex items-center gap-1.5">
-                <span className="font-semibold text-[#0F172A]">{activePage?.category}</span>
-                <span>&bull;</span>
-                <span>{activePage?.subNiche || 'Online Growth'}</span>
-                <span>&bull;</span>
-                <span className="text-[#067CF9] font-medium">Synced Just Now</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Current Bio Snippet preview */}
-          <div className="hidden md:block max-w-sm text-right">
-            <span className="text-[11px] text-[#94A3B8] uppercase tracking-wider block mb-0.5 font-semibold">Active Bio</span>
-            <p className="text-xs text-[#64748B] italic truncate">
-              "{activePage?.bio || 'No bio configured yet.'}"
-            </p>
-          </div>
         </div>
 
         {/* 2 Setup Columns: Bio Optimizer & Authority Positioning */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           
           {/* Left: AI Bio Optimizer Studio */}
-          <div className="p-5 rounded-2xl bg-white/95 backdrop-blur-xl border border-[rgba(6,124,249,0.12)] shadow-[0_2px_16px_rgba(6,124,249,0.04)] space-y-4">
-            <div className="flex items-center justify-between pb-3 border-b border-[rgba(6,124,249,0.08)]">
+          <div className="p-5 rounded-2xl bg-white/75 backdrop-blur-xl border border-white/80 shadow-[0_8px_30px_rgba(6,124,249,0.04)] ring-1 ring-[rgba(99,102,241,0.12)] hover:ring-[rgba(99,102,241,0.28)] transition-all space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-[rgba(99,102,241,0.1)]">
               <div className="flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-[#067CF9]" />
+                <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-blue-50 to-indigo-50 border border-[rgba(99,102,241,0.2)] flex items-center justify-center">
+                  <Sparkles className="w-4 h-4 text-[#6366F1]" />
+                </div>
                 <h3 className="font-bold text-sm text-[#0F172A]">AI Bio Optimizer</h3>
               </div>
-              <span className="text-[11px] text-[#067CF9] bg-[#EFF6FF] px-2 py-0.5 rounded-md border border-[rgba(6,124,249,0.12)] font-semibold">
+              <span className="text-[11px] text-[#6366F1] bg-gradient-to-r from-blue-50 to-indigo-50 px-2 py-0.5 rounded-md border border-[rgba(99,102,241,0.2)] font-semibold">
                 150 Char Limit Safe
               </span>
+            </div>
+
+            {/* Current Active Bio Display */}
+            <div className="p-3.5 rounded-xl bg-white/60 border border-[rgba(99,102,241,0.14)] space-y-1.5">
+              <div className="flex items-center justify-between text-xs">
+                <span className="font-bold text-[#0F172A]">Current Active Bio</span>
+                <span className="text-[10px] text-[#6366F1] bg-gradient-to-r from-blue-50 to-indigo-50 px-2 py-0.5 rounded-md font-mono font-bold border border-[rgba(99,102,241,0.2)]">
+                  {(activePage?.bio || '').length} / 150 chars
+                </span>
+              </div>
+              <p className="text-xs text-[#475569] italic leading-relaxed whitespace-pre-line">
+                "{activePage?.bio || 'No active bio set yet. Select an objective below to engineer your bio.'}"
+              </p>
             </div>
 
             <div className="space-y-3">
@@ -476,10 +438,10 @@ export default function PageBuilder({ onNavigate }) {
                       key={opt.id}
                       type="button"
                       onClick={() => setBioObjective(opt.id)}
-                      className={`py-2 px-2 rounded-xl text-xs font-medium border transition-colors cursor-pointer text-center ${
+                      className={`py-2 px-2 rounded-xl text-xs font-medium border transition-all cursor-pointer text-center ${
                         bioObjective === opt.id
-                          ? 'bg-[#EFF6FF] border-[#067CF9] text-[#067CF9] font-bold shadow-xs'
-                          : 'bg-[#F8FAFC] border-neutral-200 text-[#64748B] hover:text-[#0F172A]'
+                          ? 'bg-gradient-to-r from-blue-50/90 via-indigo-50/80 to-purple-50/70 border-[rgba(99,102,241,0.4)] text-[#6366F1] font-bold shadow-xs ring-1 ring-[rgba(99,102,241,0.25)]'
+                          : 'bg-white/60 border-neutral-200/80 text-[#64748B] hover:text-[#0F172A] hover:bg-white'
                       }`}
                     >
                       <div className="leading-tight">{opt.label}</div>
@@ -492,7 +454,7 @@ export default function PageBuilder({ onNavigate }) {
               <button
                 onClick={handleGenerateBios}
                 disabled={isGeneratingBio}
-                className="w-full py-2.5 rounded-xl bg-[#067CF9] hover:bg-[#0568D2] disabled:opacity-50 text-white font-semibold text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-sm"
+                className="w-full py-2.5 rounded-xl bg-gradient-to-r from-[#067CF9] via-[#6366F1] to-[#8B5CF6] hover:opacity-95 disabled:opacity-50 text-white font-semibold text-xs transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md shadow-[#6366F1]/20"
               >
                 {isGeneratingBio ? (
                   <>
@@ -510,12 +472,12 @@ export default function PageBuilder({ onNavigate }) {
 
             {/* Generated Bio Results List */}
             {generatedBios && generatedBios.length > 0 && (
-              <div className="space-y-3 pt-3 border-t border-[rgba(6,124,249,0.08)]">
+              <div className="space-y-3 pt-3 border-t border-[rgba(99,102,241,0.1)]">
                 <div className="text-xs font-bold text-[#0F172A]">AI Bio Recommendations</div>
                 {generatedBios.map((bio, idx) => (
-                  <div key={idx} className="p-3 rounded-xl bg-[#F8FAFC] border border-[rgba(6,124,249,0.1)] space-y-2">
+                  <div key={idx} className="p-3 rounded-xl bg-white/60 border border-[rgba(99,102,241,0.12)] space-y-2">
                     <div className="flex items-center justify-between text-[11px]">
-                      <span className="font-semibold text-[#067CF9]">Option {idx + 1}</span>
+                      <span className="font-semibold bg-gradient-to-r from-[#067CF9] to-[#8B5CF6] bg-clip-text text-transparent">Option {idx + 1}</span>
                       <span className="text-[#94A3B8]">{bio.charCount || bio.text?.length || 0} / 150</span>
                     </div>
                     <p className="text-xs text-[#0F172A] whitespace-pre-line leading-relaxed">
@@ -540,7 +502,7 @@ export default function PageBuilder({ onNavigate }) {
                       </button>
                       <button
                         onClick={() => handleApplyBio(bio.text)}
-                        className="px-2.5 py-1 rounded-md text-[11px] font-semibold bg-[#EFF6FF] text-[#067CF9] hover:bg-[#DBEAFE] transition-colors flex items-center gap-1 cursor-pointer"
+                        className="px-2.5 py-1 rounded-md text-[11px] font-semibold bg-gradient-to-r from-blue-50 to-indigo-50 text-[#6366F1] border border-[rgba(99,102,241,0.2)] hover:from-blue-100 hover:to-indigo-100 transition-colors flex items-center gap-1 cursor-pointer"
                       >
                         <Check className="w-3 h-3" />
                         <span>Apply to Profile</span>
@@ -553,10 +515,12 @@ export default function PageBuilder({ onNavigate }) {
           </div>
 
           {/* Right: Authority Positioning Builder */}
-          <div className="p-5 rounded-2xl bg-white/95 backdrop-blur-xl border border-[rgba(6,124,249,0.12)] shadow-[0_2px_16px_rgba(6,124,249,0.04)] space-y-4">
-            <div className="flex items-center justify-between pb-3 border-b border-[rgba(6,124,249,0.08)]">
+          <div className="p-5 rounded-2xl bg-white/75 backdrop-blur-xl border border-white/80 shadow-[0_8px_30px_rgba(6,124,249,0.04)] ring-1 ring-[rgba(99,102,241,0.12)] hover:ring-[rgba(99,102,241,0.28)] transition-all space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-[rgba(99,102,241,0.1)]">
               <div className="flex items-center gap-2">
-                <Compass className="w-4 h-4 text-[#067CF9]" />
+                <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-blue-50 to-indigo-50 border border-[rgba(99,102,241,0.2)] flex items-center justify-center">
+                  <Compass className="w-4 h-4 text-[#6366F1]" />
+                </div>
                 <h3 className="font-bold text-sm text-[#0F172A]">Authority Positioning Builder</h3>
               </div>
               <span className="text-[11px] text-[#64748B]">Formula Architecture</span>
@@ -570,7 +534,7 @@ export default function PageBuilder({ onNavigate }) {
                   value={positioningData.audience}
                   onChange={(e) => setPositioningData({ ...positioningData, audience: e.target.value })}
                   placeholder="e.g. Creator-operators & agency owners"
-                  className="w-full px-3 py-2 rounded-xl bg-[#F8FAFC] border border-[rgba(6,124,249,0.12)] text-xs text-[#0F172A] focus:outline-hidden focus:border-[#067CF9]"
+                  className="w-full px-3 py-2 rounded-xl bg-white/60 border border-[rgba(99,102,241,0.15)] focus:border-[#6366F1]/60 text-xs text-[#0F172A] focus:outline-hidden transition-all"
                 />
               </div>
 
@@ -581,7 +545,7 @@ export default function PageBuilder({ onNavigate }) {
                   value={positioningData.outcome}
                   onChange={(e) => setPositioningData({ ...positioningData, outcome: e.target.value })}
                   placeholder="e.g. Predictable organic reach & digital sales"
-                  className="w-full px-3 py-2 rounded-xl bg-[#F8FAFC] border border-[rgba(6,124,249,0.12)] text-xs text-[#0F172A] focus:outline-hidden focus:border-[#067CF9]"
+                  className="w-full px-3 py-2 rounded-xl bg-white/60 border border-[rgba(99,102,241,0.15)] focus:border-[#6366F1]/60 text-xs text-[#0F172A] focus:outline-hidden transition-all"
                 />
               </div>
 
@@ -592,14 +556,14 @@ export default function PageBuilder({ onNavigate }) {
                   value={positioningData.painPoint}
                   onChange={(e) => setPositioningData({ ...positioningData, painPoint: e.target.value })}
                   placeholder="e.g. Ending content burnout and low engagement"
-                  className="w-full px-3 py-2 rounded-xl bg-[#F8FAFC] border border-[rgba(6,124,249,0.12)] text-xs text-[#0F172A] focus:outline-hidden focus:border-[#067CF9]"
+                  className="w-full px-3 py-2 rounded-xl bg-white/60 border border-[rgba(99,102,241,0.15)] focus:border-[#6366F1]/60 text-xs text-[#0F172A] focus:outline-hidden transition-all"
                 />
               </div>
 
               <button
                 onClick={handleGeneratePositioning}
                 disabled={isGeneratingPositioning}
-                className="w-full py-2.5 rounded-xl bg-[#067CF9] hover:bg-[#0568D2] disabled:opacity-50 text-white font-semibold text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-sm"
+                className="w-full py-2.5 rounded-xl bg-gradient-to-r from-[#067CF9] via-[#6366F1] to-[#8B5CF6] hover:opacity-95 disabled:opacity-50 text-white font-semibold text-xs transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md shadow-[#6366F1]/20"
               >
                 {isGeneratingPositioning ? (
                   <>
@@ -617,15 +581,15 @@ export default function PageBuilder({ onNavigate }) {
 
             {/* Generated Positioning Statements */}
             {generatedStatements && generatedStatements.length > 0 ? (
-              <div className="space-y-2.5 pt-3 border-t border-[rgba(6,124,249,0.08)]">
+              <div className="space-y-2.5 pt-3 border-t border-[rgba(99,102,241,0.1)]">
                 <div className="text-xs font-bold text-[#0F172A]">AI Positioning Blueprints</div>
                 {generatedStatements.map((s, idx) => (
-                  <div key={idx} className="p-3 rounded-xl bg-[#F8FAFC] border border-[rgba(6,124,249,0.1)] space-y-1">
+                  <div key={idx} className="p-3 rounded-xl bg-white/60 border border-[rgba(99,102,241,0.12)] space-y-1">
                     <div className="flex items-center justify-between text-[11px]">
-                      <span className="font-semibold text-[#067CF9]">{s.angle || `Blueprint ${idx + 1}`}</span>
+                      <span className="font-semibold bg-gradient-to-r from-[#067CF9] to-[#8B5CF6] bg-clip-text text-transparent">{s.angle || `Blueprint ${idx + 1}`}</span>
                       <button 
                         onClick={() => navigator.clipboard.writeText(s.statement)}
-                        className="text-[#64748B] hover:text-[#067CF9] text-[10px] font-semibold cursor-pointer"
+                        className="text-[#64748B] hover:text-[#6366F1] text-[10px] font-semibold cursor-pointer"
                       >
                         Copy
                       </button>
@@ -635,8 +599,8 @@ export default function PageBuilder({ onNavigate }) {
                 ))}
               </div>
             ) : (
-              <div className="p-3.5 rounded-xl bg-[#EFF6FF] border border-[rgba(6,124,249,0.15)] text-xs text-[#0F172A]">
-                <span className="font-semibold block mb-0.5 text-[11px] text-[#067CF9]">Core Blueprint:</span>
+              <div className="p-3.5 rounded-xl bg-gradient-to-r from-blue-50/70 via-indigo-50/60 to-purple-50/50 border border-[rgba(99,102,241,0.2)] text-xs text-[#0F172A]">
+                <span className="font-bold block mb-0.5 text-[11px] bg-gradient-to-r from-[#067CF9] to-[#8B5CF6] bg-clip-text text-transparent">Core Blueprint:</span>
                 "I help {positioningData.audience} achieve {positioningData.outcome} without {positioningData.painPoint}."
               </div>
             )}
@@ -646,15 +610,15 @@ export default function PageBuilder({ onNavigate }) {
         </div>
 
         {/* Story Highlights Stack (4 Conversion Anchors) */}
-        <div className="p-5 rounded-2xl bg-white/95 backdrop-blur-xl border border-[rgba(6,124,249,0.12)] shadow-[0_2px_16px_rgba(6,124,249,0.04)] space-y-4">
-          <div className="flex items-center justify-between pb-3 border-b border-[rgba(6,124,249,0.08)]">
+        <div className="p-5 rounded-2xl bg-white/75 backdrop-blur-xl border border-white/80 shadow-[0_8px_30px_rgba(6,124,249,0.04)] ring-1 ring-[rgba(99,102,241,0.12)] hover:ring-[rgba(99,102,241,0.28)] transition-all space-y-4">
+          <div className="flex items-center justify-between pb-3 border-b border-[rgba(99,102,241,0.1)]">
             <div>
               <h3 className="font-bold text-sm text-[#0F172A]">Instagram Story Highlights Architecture</h3>
               <p className="text-[11px] text-[#64748B] mt-0.5">
                 The proven 4-highlight setup required to convert profile visitors into paying customers.
               </p>
             </div>
-            <span className="text-[11px] text-[#067CF9] bg-[#EFF6FF] px-2.5 py-0.5 rounded-md font-semibold border border-[rgba(6,124,249,0.2)]">
+            <span className="text-[11px] text-[#6366F1] bg-gradient-to-r from-blue-50 to-indigo-50 px-2.5 py-0.5 rounded-md font-semibold border border-[rgba(99,102,241,0.25)]">
               Conversion Stack
             </span>
           </div>
@@ -690,9 +654,9 @@ export default function PageBuilder({ onNavigate }) {
                 icon: '⚡'
               }
             ].map((hl, i) => (
-              <div key={i} className="p-4 rounded-xl bg-[#F8FAFC] border border-[rgba(6,124,249,0.1)] flex flex-col justify-between space-y-3">
+              <div key={i} className="p-4 rounded-xl bg-white/60 border border-[rgba(99,102,241,0.12)] hover:border-[#6366F1]/40 flex flex-col justify-between space-y-3 transition-colors">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-[#EFF6FF] border-2 border-[#067CF9] flex items-center justify-center text-sm font-bold text-[#067CF9]">
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#EFF6FF] to-[#F5F3FF] border-2 border-[#6366F1] flex items-center justify-center text-sm font-bold text-[#6366F1] shadow-2xs">
                     {hl.icon}
                   </div>
                   <div>

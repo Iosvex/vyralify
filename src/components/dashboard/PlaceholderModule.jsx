@@ -272,9 +272,15 @@ export default function PlaceholderModule({ moduleId, onNavigate }) {
               <Search className="w-3 h-3 text-[#067CF9] dark:text-neutral-400" />
               <span>Viral Discovery & Script Engine</span>
             </div>
-            <h1 className="text-xl font-bold text-neutral-900 dark:text-white tracking-tight">
-              Discover & Create
-            </h1>
+            <div className="flex items-center gap-2.5">
+              <h1 className="text-xl font-bold text-neutral-900 dark:text-white tracking-tight">
+                Discover &amp; Create
+              </h1>
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-600 border border-emerald-200 text-[10px] font-semibold">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                Live Viral Feed
+              </span>
+            </div>
             <p className="text-neutral-500 dark:text-neutral-400 text-xs mt-0.5">
               Curated viral reels, hook formulas, and structured script generation for {activePage?.category}.
             </p>
@@ -356,7 +362,7 @@ export default function PlaceholderModule({ moduleId, onNavigate }) {
               Creator Store & Monetization
             </h1>
             <p className="text-neutral-500 dark:text-neutral-400 text-xs mt-0.5">
-              Storefront URL: <span className="text-[#067CF9] dark:text-neutral-200 font-mono font-medium">vyralify.me/{activePage?.handle || 'store'}</span>
+              Storefront URL: <span className="text-[#067CF9] dark:text-neutral-200 font-mono font-medium">vyralify.app/{activePage?.handle || 'store'}</span>
             </p>
           </div>
           <div className="flex items-center gap-2">

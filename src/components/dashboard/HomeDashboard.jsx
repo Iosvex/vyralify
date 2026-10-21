@@ -172,98 +172,70 @@ export default function HomeDashboard({ onNavigate }) {
         </p>
       </div>
 
-      {/* 2. TOP 4 KPI CARDS (Clean without wavy sparklines) */}
+      {/* 2. TOP 4 KPI CARDS (Pure Text-Based, No Icons, Clean Modern Metrics) */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         
         {/* KPI 1: Followers */}
-        <div className="bg-white/95 backdrop-blur-xl border border-[rgba(6,124,249,0.12)] rounded-2xl p-5 shadow-[0_2px_16px_rgba(6,124,249,0.04)] hover:border-[#067CF9]/30 transition-all flex flex-col justify-between">
-          <div className="flex items-start justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-[#EFF6FF] text-[#067CF9] flex items-center justify-center shrink-0">
-                <InstagramIcon className="w-5 h-5" />
-              </div>
-              <div>
-                <span className="text-xs text-[#64748B] font-medium block">Followers</span>
-                <span className="text-2xl font-bold text-[#0F172A] tracking-tight">
-                  {activePage?.followersCount && activePage.followersCount !== '0' ? activePage.followersCount : '48.2K'}
-                </span>
-              </div>
-            </div>
-            <div className="text-right">
-              <span className="text-xs font-semibold text-[#10B981] flex items-center justify-end gap-0.5">
-                <span>&uarr; 12.4%</span>
-              </span>
-              <span className="text-[10px] text-[#94A3B8] font-medium block">vs last 7 days</span>
-            </div>
+        <div className="bg-white/75 backdrop-blur-xl border border-white/80 rounded-2xl p-5 shadow-[0_8px_30px_rgba(6,124,249,0.04)] ring-1 ring-[rgba(99,102,241,0.12)] hover:ring-[rgba(99,102,241,0.28)] transition-all flex flex-col justify-between">
+          <div>
+            <span className="text-[11px] font-bold tracking-wider text-[#64748B] uppercase block">
+              Followers
+            </span>
+            <span className="text-2xl sm:text-3xl font-extrabold text-[#0F172A] tracking-tight block my-1.5">
+              {activePage?.followersCount && activePage.followersCount !== '0' ? activePage.followersCount : '24.5K'}
+            </span>
+          </div>
+          <div className="text-xs font-semibold flex items-center gap-1.5">
+            <span className="bg-gradient-to-r from-[#067CF9] to-[#8B5CF6] bg-clip-text text-transparent font-bold">&uarr; 12.4%</span>
+            <span className="text-[11px] text-[#94A3B8] font-medium">vs last 7 days</span>
           </div>
         </div>
 
         {/* KPI 2: 7-Day Reel Views */}
-        <div className="bg-white/95 backdrop-blur-xl border border-[rgba(6,124,249,0.12)] rounded-2xl p-5 shadow-[0_2px_16px_rgba(6,124,249,0.04)] hover:border-[#067CF9]/30 transition-all flex flex-col justify-between">
-          <div className="flex items-start justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-[#EFF6FF] text-[#067CF9] flex items-center justify-center shrink-0">
-                <Play className="w-5 h-5 fill-current" />
-              </div>
-              <div>
-                <span className="text-xs text-[#64748B] font-medium block">7-Day Reel Views</span>
-                <span className="text-2xl font-bold text-[#0F172A] tracking-tight">
-                  {activePage?.views7d && activePage.views7d !== '0' ? activePage.views7d : '184.5K'}
-                </span>
-              </div>
-            </div>
-            <div className="text-right">
-              <span className="text-xs font-semibold text-[#10B981] flex items-center justify-end gap-0.5">
-                <span>&uarr; 18.6%</span>
-              </span>
-              <span className="text-[10px] text-[#94A3B8] font-medium block">vs last 7 days</span>
-            </div>
+        <div className="bg-white/75 backdrop-blur-xl border border-white/80 rounded-2xl p-5 shadow-[0_8px_30px_rgba(6,124,249,0.04)] ring-1 ring-[rgba(99,102,241,0.12)] hover:ring-[rgba(99,102,241,0.28)] transition-all flex flex-col justify-between">
+          <div>
+            <span className="text-[11px] font-bold tracking-wider text-[#64748B] uppercase block">
+              Reel Views (7D)
+            </span>
+            <span className="text-2xl sm:text-3xl font-extrabold text-[#0F172A] tracking-tight block my-1.5">
+              {activePage?.views7d && activePage.views7d !== '0' ? activePage.views7d : '102.9K'}
+            </span>
+          </div>
+          <div className="text-xs font-semibold flex items-center gap-1.5">
+            <span className="bg-gradient-to-r from-[#067CF9] to-[#8B5CF6] bg-clip-text text-transparent font-bold">&uarr; 18.6%</span>
+            <span className="text-[11px] text-[#94A3B8] font-medium">reach</span>
           </div>
         </div>
 
         {/* KPI 3: Store Revenue */}
-        <div className="bg-white/95 backdrop-blur-xl border border-[rgba(6,124,249,0.12)] rounded-2xl p-5 shadow-[0_2px_16px_rgba(6,124,249,0.04)] hover:border-[#067CF9]/30 transition-all flex flex-col justify-between">
-          <div className="flex items-start justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-[#EFF6FF] text-[#067CF9] flex items-center justify-center font-bold text-lg shrink-0">
-                ₹
-              </div>
-              <div>
-                <span className="text-xs text-[#64748B] font-medium block">Store Revenue</span>
-                <span className="text-2xl font-bold text-[#0F172A] tracking-tight">
-                  {activePage?.revenue30d && activePage.revenue30d !== '₹0' ? activePage.revenue30d : '₹24,950'}
-                </span>
-              </div>
-            </div>
-            <div className="text-right">
-              <span className="text-xs font-semibold text-[#10B981] flex items-center justify-end gap-0.5">
-                <span>&uarr; 32.4%</span>
-              </span>
-              <span className="text-[10px] text-[#94A3B8] font-medium block">vs last 7 days</span>
-            </div>
+        <div className="bg-white/75 backdrop-blur-xl border border-white/80 rounded-2xl p-5 shadow-[0_8px_30px_rgba(6,124,249,0.04)] ring-1 ring-[rgba(99,102,241,0.12)] hover:ring-[rgba(99,102,241,0.28)] transition-all flex flex-col justify-between">
+          <div>
+            <span className="text-[11px] font-bold tracking-wider text-[#64748B] uppercase block">
+              Store Revenue (30D)
+            </span>
+            <span className="text-2xl sm:text-3xl font-extrabold text-[#0F172A] tracking-tight block my-1.5">
+              {activePage?.revenue30d && activePage.revenue30d !== '₹0' ? activePage.revenue30d : '₹23,275'}
+            </span>
+          </div>
+          <div className="text-xs font-semibold flex items-center gap-1.5">
+            <span className="bg-gradient-to-r from-[#067CF9] to-[#8B5CF6] bg-clip-text text-transparent font-bold">&uarr; 32.4%</span>
+            <span className="text-[11px] text-[#94A3B8] font-medium">sales</span>
           </div>
         </div>
 
         {/* KPI 4: Engagement Rate */}
-        <div className="bg-white/95 backdrop-blur-xl border border-[rgba(6,124,249,0.12)] rounded-2xl p-5 shadow-[0_2px_16px_rgba(6,124,249,0.04)] hover:border-[#067CF9]/30 transition-all flex flex-col justify-between">
-          <div className="flex items-start justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-[#EFF6FF] text-[#067CF9] flex items-center justify-center shrink-0">
-                <Users className="w-5 h-5" />
-              </div>
-              <div>
-                <span className="text-xs text-[#64748B] font-medium block">Engagement Rate</span>
-                <span className="text-2xl font-bold text-[#0F172A] tracking-tight">
-                  {activePage?.engagementRate && activePage.engagementRate !== '0.0%' ? activePage.engagementRate : '4.8%'}
-                </span>
-              </div>
-            </div>
-            <div className="text-right">
-              <span className="text-xs font-semibold text-[#10B981] flex items-center justify-end gap-0.5">
-                <span>&uarr; 0.9%</span>
-              </span>
-              <span className="text-[10px] text-[#94A3B8] font-medium block">vs last 7 days</span>
-            </div>
+        <div className="bg-white/75 backdrop-blur-xl border border-white/80 rounded-2xl p-5 shadow-[0_8px_30px_rgba(6,124,249,0.04)] ring-1 ring-[rgba(99,102,241,0.12)] hover:ring-[rgba(99,102,241,0.28)] transition-all flex flex-col justify-between">
+          <div>
+            <span className="text-[11px] font-bold tracking-wider text-[#64748B] uppercase block">
+              Engagement Rate
+            </span>
+            <span className="text-2xl sm:text-3xl font-extrabold text-[#0F172A] tracking-tight block my-1.5">
+              {activePage?.engagementRate && activePage.engagementRate !== '0.0%' ? activePage.engagementRate : '5.4%'}
+            </span>
+          </div>
+          <div className="text-xs font-semibold flex items-center gap-1.5">
+            <span className="bg-gradient-to-r from-[#067CF9] to-[#8B5CF6] bg-clip-text text-transparent font-bold">&uarr; 0.9%</span>
+            <span className="text-[11px] text-[#94A3B8] font-medium">vs last 7 days</span>
           </div>
         </div>
 
@@ -272,41 +244,42 @@ export default function HomeDashboard({ onNavigate }) {
       {/* 3. MIDDLE ROW: PERFORMANCE TRENDS (Left 8 Cols) & INSIGHTS / AUDIT (Right 4 Cols) */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
         
-        {/* Left (8 Cols): Performance Trends Stock Market Spline Line Chart (Mon to Sun with Emerald Green Line) */}
-        <div className="lg:col-span-8 bg-white/95 backdrop-blur-xl border border-[rgba(6,124,249,0.12)] rounded-2xl p-5 shadow-[0_2px_16px_rgba(6,124,249,0.04)] flex flex-col justify-between">
-          <div className="flex items-center justify-between pb-4 border-b border-neutral-100">
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-lg bg-[#EAF7EE] text-[#10B981] flex items-center justify-center">
-                <TrendingUp className="w-4 h-4" />
-              </div>
-              <div>
-                <h3 className="font-bold text-sm text-[#0F172A]">Performance Trends</h3>
-                <p className="text-xs text-[#64748B]">Real-time reach, views and audience engagement.</p>
-              </div>
+        {/* Left (8 Cols): Performance Trends Spline Line Chart (Blue-Purple Gradient) */}
+        <div className="lg:col-span-8 bg-white/75 backdrop-blur-xl border border-white/80 rounded-2xl p-5 shadow-[0_8px_30px_rgba(6,124,249,0.04)] ring-1 ring-[rgba(99,102,241,0.12)] hover:ring-[rgba(99,102,241,0.28)] transition-all flex flex-col justify-between">
+          <div className="flex items-center justify-between pb-4 border-b border-[rgba(99,102,241,0.1)]">
+            <div>
+              <h3 className="font-bold text-sm text-[#0F172A]">Performance Trends</h3>
+              <p className="text-xs text-[#64748B]">Real-time reach, views and audience engagement.</p>
             </div>
 
-            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-[rgba(6,124,249,0.12)] bg-[#F8FAFC] text-xs font-medium text-[#0F172A] cursor-pointer hover:bg-neutral-100 transition-colors">
-              <Clock className="w-3.5 h-3.5 text-[#64748B]" />
+            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-[rgba(99,102,241,0.15)] bg-white/60 text-xs font-medium text-[#0F172A] cursor-pointer hover:bg-white transition-colors">
+              <Clock className="w-3.5 h-3.5 text-[#6366F1]" />
               <span>Last 7 days</span>
               <ChevronDown className="w-3.5 h-3.5 text-[#94A3B8]" />
             </div>
           </div>
 
-          {/* Stock Market Spline Line Chart Canvas */}
+          {/* Spline Line Chart Canvas */}
           <div className="pt-6 pb-2">
             <div className="relative w-full h-56">
               
               <svg viewBox="0 0 700 220" className="w-full h-full overflow-visible" preserveAspectRatio="none">
                 <defs>
-                  {/* Stock Market Emerald Green Area Fill Gradient */}
+                  {/* Subtle Blue-Purple Area Fill Gradient */}
                   <linearGradient id="stock-market-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stopColor="#10B981" stopOpacity="0.25" />
-                    <stop offset="85%" stopColor="#10B981" stopOpacity="0.02" />
-                    <stop offset="100%" stopColor="#10B981" stopOpacity="0.0" />
+                    <stop offset="0%" stopColor="#6366F1" stopOpacity="0.22" />
+                    <stop offset="50%" stopColor="#067CF9" stopOpacity="0.08" />
+                    <stop offset="100%" stopColor="#067CF9" stopOpacity="0.0" />
+                  </linearGradient>
+                  {/* Multi-Stop Gradient Spline Line: #067CF9 -> #6366F1 -> #A855F7 */}
+                  <linearGradient id="stock-line-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#067CF9" />
+                    <stop offset="50%" stopColor="#6366F1" />
+                    <stop offset="100%" stopColor="#A855F7" />
                   </linearGradient>
                   {/* Line Glow Filter */}
                   <filter id="stock-line-glow" x="-20%" y="-20%" width="140%" height="140%">
-                    <feDropShadow dx="0" dy="4" stdDeviation="4" floodColor="#10B981" floodOpacity="0.25" />
+                    <feDropShadow dx="0" dy="4" stdDeviation="5" floodColor="#6366F1" floodOpacity="0.28" />
                   </filter>
                 </defs>
 
@@ -319,11 +292,11 @@ export default function HomeDashboard({ onNavigate }) {
                 {/* Area Gradient Fill */}
                 <path d={areaPathD} fill="url(#stock-market-gradient)" />
 
-                {/* Continuous Smooth Spline Curve */}
+                {/* Continuous Smooth Spline Curve with Gradient Stroke */}
                 <path 
                   d={linePathD} 
                   fill="none" 
-                  stroke="#10B981" 
+                  stroke="url(#stock-line-gradient)" 
                   strokeWidth="3.2" 
                   strokeLinecap="round" 
                   strokeLinejoin="round" 
@@ -340,9 +313,9 @@ export default function HomeDashboard({ onNavigate }) {
                         cx={pt.x} 
                         cy={pt.y} 
                         r={isHovered ? 9 : 6.5} 
-                        fill="#10B981" 
+                        fill="#6366F1" 
                         fillOpacity={isHovered ? 0.35 : 0.18} 
-                        stroke="#10B981" 
+                        stroke="#6366F1" 
                         strokeWidth="1.5" 
                       />
                       {/* Inner Dot */}
@@ -351,7 +324,7 @@ export default function HomeDashboard({ onNavigate }) {
                         cy={pt.y} 
                         r={isHovered ? 4.5 : 3.5} 
                         fill="#FFFFFF" 
-                        stroke="#10B981" 
+                        stroke="#6366F1" 
                         strokeWidth="2.5" 
                       />
                     </g>
@@ -365,9 +338,9 @@ export default function HomeDashboard({ onNavigate }) {
                   className="absolute -top-3 transform -translate-x-1/2 pointer-events-none transition-all duration-150 z-20"
                   style={{ left: `${(stockPoints[activeHoverPoint].x / 700) * 100}%` }}
                 >
-                  <div className="px-2.5 py-1 rounded-lg bg-[#0F172A] text-white text-[11px] shadow-lg flex items-center gap-1.5 whitespace-nowrap">
+                  <div className="px-2.5 py-1 rounded-lg bg-[#0F172A] text-white text-[11px] shadow-lg flex items-center gap-1.5 whitespace-nowrap border border-[rgba(99,102,241,0.3)]">
                     <span className="font-semibold">{stockPoints[activeHoverPoint].day}:</span>
-                    <span className="text-[#10B981] font-bold">{stockPoints[activeHoverPoint].value}</span>
+                    <span className="bg-gradient-to-r from-[#067CF9] to-[#A855F7] bg-clip-text text-transparent font-bold">{stockPoints[activeHoverPoint].value}</span>
                     <span className="text-[10px] text-neutral-300">({stockPoints[activeHoverPoint].change})</span>
                   </div>
                 </div>
@@ -375,14 +348,14 @@ export default function HomeDashboard({ onNavigate }) {
 
             </div>
 
-            {/* X-Axis Day Labels (Mon to Sun matching photo) */}
+            {/* X-Axis Day Labels (Mon to Sun) */}
             <div className="flex items-center justify-between px-6 pt-2 text-xs text-[#64748B] font-medium">
               {stockPoints.map((pt, i) => (
                 <button
                   key={i}
                   onClick={() => setActiveHoverPoint(i)}
                   className={`w-12 text-center transition-colors cursor-pointer ${
-                    activeHoverPoint === i ? 'text-[#10B981] font-bold' : 'hover:text-[#0F172A]'
+                    activeHoverPoint === i ? 'text-[#6366F1] font-bold' : 'hover:text-[#0F172A]'
                   }`}
                 >
                   {pt.day}
@@ -395,18 +368,17 @@ export default function HomeDashboard({ onNavigate }) {
         {/* Right (4 Cols): Insights & Page Health & Audit */}
         <div className="lg:col-span-4 space-y-5">
           
-          {/* Card 1: Insights (Renamed from Performance Insights per user request) */}
-          <div className="bg-white/95 backdrop-blur-xl border border-[rgba(6,124,249,0.12)] rounded-2xl p-4 shadow-[0_2px_16px_rgba(6,124,249,0.04)] space-y-3">
-            <div className="flex items-center gap-2">
-              <TrendingUp className="w-4 h-4 text-[#067CF9]" />
+          {/* Card 1: Insights */}
+          <div className="bg-white/75 backdrop-blur-xl border border-white/80 rounded-2xl p-4 shadow-[0_8px_30px_rgba(6,124,249,0.04)] ring-1 ring-[rgba(99,102,241,0.12)] hover:ring-[rgba(99,102,241,0.28)] transition-all space-y-3">
+            <div>
               <h3 className="font-bold text-xs text-[#0F172A]">Insights</h3>
             </div>
 
             <div className="space-y-2.5">
               {/* Row 1: Velocity */}
-              <div className="p-2.5 rounded-xl bg-[#F8FAFC] border border-[rgba(6,124,249,0.08)] flex items-center justify-between hover:bg-[#EFF6FF]/60 transition-colors cursor-pointer group">
+              <div className="p-2.5 rounded-xl bg-white/60 border border-[rgba(99,102,241,0.1)] flex items-center justify-between hover:bg-white hover:border-[#6366F1]/40 transition-all cursor-pointer group">
                 <div className="flex items-center gap-2.5">
-                  <div className="w-7 h-7 rounded-lg bg-[#EFF6FF] text-[#067CF9] flex items-center justify-center shrink-0">
+                  <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-blue-50 to-indigo-50 border border-[rgba(99,102,241,0.2)] text-[#6366F1] flex items-center justify-center shrink-0">
                     <Zap className="w-3.5 h-3.5" />
                   </div>
                   <div>
@@ -416,17 +388,17 @@ export default function HomeDashboard({ onNavigate }) {
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="text-right">
-                    <div className="font-bold text-xs text-[#0F172A]">{activePage?.views7d || '184.5K'}</div>
-                    <div className="text-[10px] text-[#10B981] font-semibold">&uarr; 24%</div>
+                    <div className="font-bold text-xs text-[#0F172A]">{activePage?.views7d || '102.9K'}</div>
+                    <div className="text-[10px] font-semibold bg-gradient-to-r from-[#067CF9] to-[#8B5CF6] bg-clip-text text-transparent">&uarr; 24%</div>
                   </div>
                   <ChevronRight className="w-3.5 h-3.5 text-[#94A3B8] group-hover:translate-x-0.5 transition-transform" />
                 </div>
               </div>
 
               {/* Row 2: Watch Completion */}
-              <div className="p-2.5 rounded-xl bg-[#F8FAFC] border border-[rgba(6,124,249,0.08)] flex items-center justify-between hover:bg-[#EFF6FF]/60 transition-colors cursor-pointer group">
+              <div className="p-2.5 rounded-xl bg-white/60 border border-[rgba(99,102,241,0.1)] flex items-center justify-between hover:bg-white hover:border-[#6366F1]/40 transition-all cursor-pointer group">
                 <div className="flex items-center gap-2.5">
-                  <div className="w-7 h-7 rounded-lg bg-[#EFF6FF] text-[#067CF9] flex items-center justify-center shrink-0">
+                  <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-blue-50 to-indigo-50 border border-[rgba(99,102,241,0.2)] text-[#6366F1] flex items-center justify-center shrink-0">
                     <Clock className="w-3.5 h-3.5" />
                   </div>
                   <div>
@@ -439,16 +411,16 @@ export default function HomeDashboard({ onNavigate }) {
                     <div className="font-bold text-xs text-[#0F172A]">
                       {activePage?.engagementRate ? `${Math.min(92, Math.round(parseFloat(activePage.engagementRate) * 14))}%` : '68.5%'}
                     </div>
-                    <div className="text-[10px] text-[#10B981] font-semibold">&uarr; 12%</div>
+                    <div className="text-[10px] font-semibold bg-gradient-to-r from-[#067CF9] to-[#8B5CF6] bg-clip-text text-transparent">&uarr; 12%</div>
                   </div>
                   <ChevronRight className="w-3.5 h-3.5 text-[#94A3B8] group-hover:translate-x-0.5 transition-transform" />
                 </div>
               </div>
 
               {/* Row 3: Peak Window */}
-              <div className="p-2.5 rounded-xl bg-[#F8FAFC] border border-[rgba(6,124,249,0.08)] flex items-center justify-between hover:bg-[#EFF6FF]/60 transition-colors cursor-pointer group">
+              <div className="p-2.5 rounded-xl bg-white/60 border border-[rgba(99,102,241,0.1)] flex items-center justify-between hover:bg-white hover:border-[#6366F1]/40 transition-all cursor-pointer group">
                 <div className="flex items-center gap-2.5">
-                  <div className="w-7 h-7 rounded-lg bg-[#EFF6FF] text-[#067CF9] flex items-center justify-center shrink-0">
+                  <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-blue-50 to-indigo-50 border border-[rgba(99,102,241,0.2)] text-[#6366F1] flex items-center justify-center shrink-0">
                     <BarChart2 className="w-3.5 h-3.5" />
                   </div>
                   <div>
@@ -469,15 +441,14 @@ export default function HomeDashboard({ onNavigate }) {
           </div>
 
           {/* Card 2: Page Health & Audit */}
-          <div className="bg-white/95 backdrop-blur-xl border border-[rgba(6,124,249,0.12)] rounded-2xl p-4 shadow-[0_2px_16px_rgba(6,124,249,0.04)] space-y-3">
+          <div className="bg-white/75 backdrop-blur-xl border border-white/80 rounded-2xl p-4 shadow-[0_8px_30px_rgba(6,124,249,0.04)] ring-1 ring-[rgba(99,102,241,0.12)] hover:ring-[rgba(99,102,241,0.28)] transition-all space-y-3">
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <FileText className="w-4 h-4 text-[#067CF9]" />
+              <div>
                 <h3 className="font-bold text-xs text-[#0F172A]">Page Health &amp; Audit</h3>
               </div>
               <button 
                 onClick={() => onNavigate('builder')}
-                className="text-[11px] font-semibold text-[#067CF9] hover:underline flex items-center gap-0.5 cursor-pointer"
+                className="text-[11px] font-semibold text-[#6366F1] hover:underline flex items-center gap-0.5 cursor-pointer"
               >
                 <span>View full audit</span>
                 <ArrowRight className="w-3 h-3" />
@@ -487,12 +458,19 @@ export default function HomeDashboard({ onNavigate }) {
             <div className="flex items-center gap-4 pt-1">
               <div className="relative w-16 h-16 shrink-0 flex items-center justify-center">
                 <svg className="w-16 h-16 transform -rotate-90">
+                  <defs>
+                    <linearGradient id="audit-circle-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#067CF9" />
+                      <stop offset="50%" stopColor="#6366F1" />
+                      <stop offset="100%" stopColor="#A855F7" />
+                    </linearGradient>
+                  </defs>
                   <circle cx="32" cy="32" r="26" stroke="#EFF6FF" strokeWidth="5" fill="none" />
                   <circle 
                     cx="32" 
                     cy="32" 
                     r="26" 
-                    stroke="#067CF9" 
+                    stroke="url(#audit-circle-gradient)" 
                     strokeWidth="5" 
                     strokeDasharray="163" 
                     strokeDashoffset={`${163 - (163 * (activePage?.audit?.overallScore || 86)) / 100}`} 
@@ -509,27 +487,27 @@ export default function HomeDashboard({ onNavigate }) {
               </div>
 
               <div>
-                <h4 className="font-bold text-xs text-[#10B981]">Great performance!</h4>
+                <h4 className="font-bold text-xs bg-gradient-to-r from-[#067CF9] to-[#8B5CF6] bg-clip-text text-transparent">Great performance!</h4>
                 <p className="text-[11px] text-[#64748B] leading-tight mt-0.5">
                   Your page is well optimised for growth. Keep going!
                 </p>
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-2 pt-2 border-t border-neutral-100">
-              <div className="p-2 rounded-xl bg-[#F8FAFC] border border-[rgba(6,124,249,0.08)] text-[10px] space-y-0.5">
+            <div className="grid grid-cols-2 gap-2 pt-2 border-t border-[rgba(99,102,241,0.08)]">
+              <div className="p-2 rounded-xl bg-white/60 border border-[rgba(99,102,241,0.1)] text-[10px] space-y-0.5">
                 <span className="text-[#64748B] block truncate">Bio Proposition</span>
-                <span className="font-bold text-[#10B981]">92/100</span>
+                <span className="font-bold text-[#6366F1]">92/100</span>
               </div>
-              <div className="p-2 rounded-xl bg-[#F8FAFC] border border-[rgba(6,124,249,0.08)] text-[10px] space-y-0.5">
+              <div className="p-2 rounded-xl bg-white/60 border border-[rgba(99,102,241,0.1)] text-[10px] space-y-0.5">
                 <span className="text-[#64748B] block truncate">Grid Uniformity</span>
                 <span className="font-bold text-[#067CF9]">78/100</span>
               </div>
-              <div className="p-2 rounded-xl bg-[#F8FAFC] border border-[rgba(6,124,249,0.08)] text-[10px] space-y-0.5">
+              <div className="p-2 rounded-xl bg-white/60 border border-[rgba(99,102,241,0.1)] text-[10px] space-y-0.5">
                 <span className="text-[#64748B] block truncate">Bio Link &amp; Store</span>
                 <span className="font-bold text-[#8B5CF6]">88/100</span>
               </div>
-              <div className="p-2 rounded-xl bg-[#F8FAFC] border border-[rgba(6,124,249,0.08)] text-[10px] space-y-0.5">
+              <div className="p-2 rounded-xl bg-white/60 border border-[rgba(99,102,241,0.1)] text-[10px] space-y-0.5">
                 <span className="text-[#64748B] block truncate">Posting Velocity</span>
                 <span className="font-bold text-[#067CF9]">84/100</span>
               </div>
@@ -541,19 +519,14 @@ export default function HomeDashboard({ onNavigate }) {
       </div>
 
       {/* 4. FULL-WIDTH TOP PERFORMING REELS (Per user request: full width, spacious column layout) */}
-      <div className="w-full bg-white/95 backdrop-blur-xl border border-[rgba(6,124,249,0.12)] rounded-2xl p-5 shadow-[0_2px_16px_rgba(6,124,249,0.04)] space-y-4">
-        <div className="flex items-center justify-between pb-3 border-b border-neutral-100">
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-[#EFF6FF] text-[#067CF9] flex items-center justify-center">
-              <Play className="w-4 h-4 fill-current" />
-            </div>
-            <div>
-              <h3 className="font-bold text-sm text-[#0F172A]">Top Performing Reels</h3>
-              <p className="text-xs text-[#64748B]">Your best content from the last 30 days.</p>
-            </div>
+      <div className="w-full bg-white/75 backdrop-blur-xl border border-white/80 rounded-2xl p-5 shadow-[0_8px_30px_rgba(6,124,249,0.04)] ring-1 ring-[rgba(99,102,241,0.12)] hover:ring-[rgba(99,102,241,0.28)] transition-all space-y-4">
+        <div className="flex items-center justify-between pb-3 border-b border-[rgba(99,102,241,0.1)]">
+          <div>
+            <h3 className="font-bold text-sm text-[#0F172A]">Top Performing Reels</h3>
+            <p className="text-xs text-[#64748B]">Your best content from the last 30 days.</p>
           </div>
 
-          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-[rgba(6,124,249,0.12)] bg-[#F8FAFC] text-xs font-medium text-[#0F172A] cursor-pointer hover:bg-neutral-100 transition-colors">
+          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-[rgba(99,102,241,0.15)] bg-white/60 text-xs font-medium text-[#0F172A] cursor-pointer hover:bg-white transition-colors">
             <span>Sort by: Views</span>
             <ChevronDown className="w-3.5 h-3.5 text-[#94A3B8]" />
           </div>
@@ -562,7 +535,7 @@ export default function HomeDashboard({ onNavigate }) {
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
             <thead>
-              <tr className="border-b border-neutral-100 text-[#64748B] text-[11px]">
+              <tr className="border-b border-[rgba(99,102,241,0.1)] text-[#64748B] text-[11px]">
                 <th className="pb-3 w-10 text-center font-semibold">#</th>
                 <th className="pb-3 w-[30%] min-w-[200px] font-semibold">Reel</th>
                 <th className="pb-3 w-[15%] min-w-[110px] font-semibold">Publish Date</th>
@@ -573,7 +546,7 @@ export default function HomeDashboard({ onNavigate }) {
                 <th className="pb-3 w-28 text-right font-semibold">Action</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-neutral-100">
+            <tbody className="divide-y divide-[rgba(99,102,241,0.06)]">
               {topReels.map((reel) => (
                 <tr key={reel.id} className="hover:bg-[#EFF6FF]/40 transition-colors group">
                   <td className="py-3 text-center text-[#94A3B8] font-medium">{reel.id}</td>
@@ -598,9 +571,9 @@ export default function HomeDashboard({ onNavigate }) {
                     <div className="inline-flex items-center gap-1.5 justify-end">
                       <button
                         onClick={() => onNavigate('assistant')}
-                        className="px-2.5 py-1 rounded-lg bg-[#EFF6FF] hover:bg-[#DBEAFE] text-[#067CF9] text-[11px] font-semibold transition-colors flex items-center gap-1 cursor-pointer"
+                        className="px-2.5 py-1 rounded-lg bg-gradient-to-r from-blue-50 to-indigo-50 border border-[rgba(99,102,241,0.2)] hover:from-blue-100 hover:to-indigo-100 text-[#6366F1] text-[11px] font-semibold transition-colors flex items-center gap-1 cursor-pointer"
                       >
-                        <Sparkles className="w-3 h-3" />
+                        <Sparkles className="w-3 h-3 text-[#6366F1]" />
                         <span>AI Remix</span>
                       </button>
                       <button className="p-1 rounded-lg hover:bg-neutral-100 text-[#94A3B8] cursor-pointer">
@@ -616,10 +589,10 @@ export default function HomeDashboard({ onNavigate }) {
       </div>
 
       {/* 5. GETTING STARTED CHECKLIST (Moved below Top Performing Reels per user request) */}
-      <div className="w-full bg-white/95 backdrop-blur-xl border border-[rgba(6,124,249,0.12)] rounded-2xl p-5 shadow-[0_2px_16px_rgba(6,124,249,0.04)] space-y-4">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-neutral-100">
+      <div className="w-full bg-white/75 backdrop-blur-xl border border-white/80 rounded-2xl p-5 shadow-[0_8px_30px_rgba(6,124,249,0.04)] ring-1 ring-[rgba(99,102,241,0.12)] hover:ring-[rgba(99,102,241,0.28)] transition-all space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[rgba(99,102,241,0.1)]">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-[#EFF6FF] text-[#067CF9] flex items-center justify-center">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-50 to-indigo-50 border border-[rgba(99,102,241,0.2)] text-[#6366F1] flex items-center justify-center">
               <Check className="w-4 h-4 stroke-[3]" />
             </div>
             <div>
@@ -629,12 +602,12 @@ export default function HomeDashboard({ onNavigate }) {
           </div>
 
           <div className="flex items-center gap-3">
-            <span className="text-xs text-[#64748B] font-medium bg-[#F8FAFC] px-2.5 py-1 rounded-lg border border-neutral-200">
+            <span className="text-xs text-[#6366F1] font-semibold bg-gradient-to-r from-blue-50 to-indigo-50 px-2.5 py-1 rounded-lg border border-[rgba(99,102,241,0.2)]">
               {completedCount}/{checklist.length} complete
             </span>
             <button
               onClick={() => onNavigate('discover_create')}
-              className="py-1.5 px-3 rounded-xl bg-[#EFF6FF] hover:bg-[#DBEAFE] text-[#067CF9] text-xs font-semibold transition-colors flex items-center gap-1 cursor-pointer"
+              className="py-1.5 px-3 rounded-xl bg-gradient-to-r from-[#067CF9] via-[#6366F1] to-[#8B5CF6] text-white text-xs font-semibold shadow-xs hover:opacity-95 transition-all flex items-center gap-1 cursor-pointer"
             >
               <span>Continue setup sprint</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -642,10 +615,10 @@ export default function HomeDashboard({ onNavigate }) {
           </div>
         </div>
 
-        {/* Progress Bar */}
+        {/* Progress Bar with Blue-Purple Gradient */}
         <div className="w-full h-1.5 rounded-full bg-[#EFF6FF] overflow-hidden">
           <div 
-            className="h-full bg-[#067CF9] transition-all duration-300"
+            className="h-full bg-gradient-to-r from-[#067CF9] via-[#6366F1] to-[#A855F7] transition-all duration-300"
             style={{ width: `${(completedCount / checklist.length) * 100}%` }}
           />
         </div>
@@ -658,13 +631,13 @@ export default function HomeDashboard({ onNavigate }) {
               onClick={() => toggleChecklistItem(item.id)}
               className={`p-3.5 rounded-xl border flex items-center justify-between transition-all cursor-pointer ${
                 item.done
-                  ? 'bg-[#F8FAFC] border-[rgba(6,124,249,0.1)] text-[#0F172A]'
-                  : 'bg-white border-neutral-200 hover:border-[#067CF9]/40 text-[#0F172A]'
+                  ? 'bg-gradient-to-r from-blue-50/50 to-indigo-50/40 border-[rgba(99,102,241,0.2)] text-[#0F172A]'
+                  : 'bg-white/60 border-neutral-200/80 hover:border-[#6366F1]/40 text-[#0F172A]'
               }`}
             >
               <div className="flex items-center gap-2.5">
                 {item.done ? (
-                  <div className="w-4 h-4 rounded-md bg-[#067CF9] text-white flex items-center justify-center shrink-0">
+                  <div className="w-4 h-4 rounded-md bg-gradient-to-r from-[#067CF9] to-[#6366F1] text-white flex items-center justify-center shrink-0">
                     <Check className="w-3 h-3 stroke-[3]" />
                   </div>
                 ) : (

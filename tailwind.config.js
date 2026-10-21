@@ -35,6 +35,7 @@ export default {
         display: ['"Plus Jakarta Sans"', '"Inter"', '-apple-system', 'sans-serif'],
         sans: ['"Plus Jakarta Sans"', '"Inter"', '-apple-system', 'sans-serif'],
         inter: ['"Inter"', 'sans-serif'],
+        geist: ['"Geist"', '"Inter"', '-apple-system', 'sans-serif'],
         mono: ['"Inter"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
       },
     },

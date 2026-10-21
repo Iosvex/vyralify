@@ -46,7 +46,7 @@ export default function AccountSettings({ onNavigate }) {
   const [isSavingProfile, setIsSavingProfile] = useState(false);
 
   // Currency & Regional Preferences State
-  const [selectedCurrency, setSelectedCurrency] = useState(user?.currency || 'INR');
+  const [selectedCurrency, setSelectedCurrency] = useState(() => localStorage.getItem('vyralify_currency') || user?.currency || 'INR');
   const [selectedTimezone, setSelectedTimezone] = useState('Asia/Kolkata (IST)');
 
   // Notification Preferences State
@@ -361,6 +361,7 @@ export default function AccountSettings({ onNavigate }) {
                 onChange={async (e) => {
                   const val = e.target.value;
                   setSelectedCurrency(val);
+                  localStorage.setItem('vyralify_currency', val);
                   if (updateCurrency) await updateCurrency(val);
                   addNotification({ title: 'Currency Updated', message: `Display currency set to ${val}.`, type: 'info' });
                 }}

@@ -56,7 +56,7 @@ export default function InstagramAutomation({ onNavigate }) {
         'Just messaged you the link! 🔥',
         'Check your inbox, blueprint is ready ⚡'
       ],
-      dmMessage: `Hey {username}! Here is the private blueprint link you requested:\n\n🔗 vyralify.me/${activePage?.handle || 'creator'}/blueprint\n\nLet me know if you have any questions!`,
+      dmMessage: `Hey {username}! Here is the private blueprint link you requested:\n\n🔗 vyralify.app/${activePage?.handle || 'creator'}/blueprint\n\nLet me know if you have any questions!`,
       delaySeconds: 12
     },
     {
@@ -68,7 +68,7 @@ export default function InstagramAutomation({ onNavigate }) {
       dmsSent: 192,
       conversionRate: '41.8%',
       publicReplies: [],
-      dmMessage: `Appreciate you replying to my story! Here is exclusive access to the 2026 Resource Vault:\n\n👉 vyralify.me/${activePage?.handle || 'creator'}/vault`,
+      dmMessage: `Appreciate you replying to my story! Here is exclusive access to the 2026 Resource Vault:\n\n👉 vyralify.app/${activePage?.handle || 'creator'}/vault`,
       delaySeconds: 5
     },
     {
@@ -92,7 +92,7 @@ export default function InstagramAutomation({ onNavigate }) {
     type: 'comment',
     keyword: '',
     publicReply: 'Sent to your DM! Check requests 📥',
-    dmMessage: `Hey {username}! Here is your download link: vyralify.me/${activePage?.handle || 'creator'}`,
+    dmMessage: `Hey {username}! Here is your download link: vyralify.app/${activePage?.handle || 'creator'}`,
     delaySeconds: 10
   });
 
@@ -111,7 +111,7 @@ export default function InstagramAutomation({ onNavigate }) {
     humanOverride: false,
     messages: [
       { sender: 'user', text: 'BLUEPRINT', time: '14:20' },
-      { sender: 'bot', text: 'Hey Vikram! Here is the private blueprint link you requested: vyralify.me/creator/blueprint', time: '14:20' },
+      { sender: 'bot', text: 'Hey Vikram! Here is the private blueprint link you requested: vyralify.app/creator/blueprint', time: '14:20' },
       { sender: 'user', text: 'Thanks! Does this work for beginners with under 1,000 followers?', time: '14:22' },
       { sender: 'bot', text: 'Yes, absolutely. The first module is specifically designed for 0 to 10K follower scaling without needing your face on camera.', time: '14:23' }
     ]
@@ -165,7 +165,7 @@ export default function InstagramAutomation({ onNavigate }) {
       type: 'comment',
       keyword: '',
       publicReply: 'Sent to your DM! Check requests 📥',
-      dmMessage: `Hey {username}! Here is your download link: vyralify.me/${activePage?.handle || 'creator'}`,
+      dmMessage: `Hey {username}! Here is your download link: vyralify.app/${activePage?.handle || 'creator'}`,
       delaySeconds: 10
     });
     addNotification({

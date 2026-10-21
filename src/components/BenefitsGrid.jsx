@@ -195,7 +195,7 @@ export default function BenefitsGrid({ onExploreAll }) {
               <div className="w-5 h-5 rounded-full bg-gradient-to-tr from-[#23E598] to-emerald-400 flex items-center justify-center text-black font-bold text-[9px]">
                 V
               </div>
-              <span className="text-white font-bold text-[11px]">vyralify.me/creator</span>
+              <span className="text-white font-bold text-[11px]">vyralify.app/creator</span>
             </div>
             <span className="text-[10px] text-[#23E598] bg-[#23E598]/10 px-2 py-0.5 rounded">
               1-Click UPI / Card

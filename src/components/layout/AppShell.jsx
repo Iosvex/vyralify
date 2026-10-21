@@ -119,27 +119,32 @@ export default function AppShell({ activeModule, onSelectModule, onNavigateLandi
             />
           </div>
 
-          {/* Navigation Links */}
-          <nav className="p-3 space-y-1">
-            {navItems.map((item) => {
+          {/* Navigation Links with Sleek Dividers */}
+          <nav className="p-3">
+            {navItems.map((item, index) => {
               const Icon = item.icon;
               const isActive = isNavActive(item.id);
               return (
-                <button
-                  key={item.id}
-                  onClick={() => handleNavClick(item.id)}
-                  className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium transition-all cursor-pointer relative overflow-hidden ${
-                    isActive
-                      ? 'bg-gradient-to-r from-[#EFF6FF] via-[#F5F3FF] to-[#FAF5FF] text-[#067CF9] font-semibold border border-[rgba(99,102,241,0.22)] shadow-xs'
-                      : 'text-[#64748B] hover:text-[#0F172A] hover:bg-white/60'
-                  }`}
-                >
-                  {isActive && (
-                    <span className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 rounded-r-full bg-gradient-to-b from-[#067CF9] via-[#6366F1] to-[#A855F7] shadow-xs" />
+                <React.Fragment key={item.id}>
+                  {index > 0 && (
+                    <div className="my-1.5 mx-2 border-t border-[rgba(6,124,249,0.1)]" />
                   )}
-                  <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-[#067CF9]' : 'text-[#64748B]'}`} />
-                  <span className="truncate">{item.label}</span>
-                </button>
+                  <button
+                    key={item.id}
+                    onClick={() => handleNavClick(item.id)}
+                    className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-medium transition-all cursor-pointer relative overflow-hidden ${
+                      isActive
+                        ? 'bg-gradient-to-r from-[#EFF6FF] via-[#F5F3FF] to-[#FAF5FF] text-[#067CF9] font-semibold border border-[rgba(99,102,241,0.22)] shadow-xs'
+                        : 'text-[#64748B] hover:text-[#0F172A] hover:bg-white/60'
+                    }`}
+                  >
+                    {isActive && (
+                      <span className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 rounded-r-full bg-gradient-to-b from-[#067CF9] via-[#6366F1] to-[#A855F7] shadow-xs" />
+                    )}
+                    <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-[#067CF9]' : 'text-[#64748B]'}`} />
+                    <span className="truncate">{item.label}</span>
+                  </button>
+                </React.Fragment>
               );
             })}
           </nav>

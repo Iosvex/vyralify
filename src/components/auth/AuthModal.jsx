@@ -166,10 +166,8 @@ export default function AuthModal({
 
           {/* Logo & Headline */}
           <div className="text-center mb-5">
-            <div className="flex items-center justify-center gap-2 mb-2">
-              <img src="/vyralify-logo.png" alt="Vyralify" className="h-6 w-auto object-contain" />
-              <span className="font-bold text-base text-white tracking-tight">Vyralify</span>
-              <span className="w-1.5 h-1.5 rounded-full bg-[#23E598] animate-pulse" />
+            <div className="flex items-center justify-center mb-3">
+              <img src="/vyralify-logo-white.png" alt="Vyralify" className="h-7 w-auto object-contain" />
             </div>
             <h3 className="text-lg font-bold text-white tracking-tight">
               {mode === 'login' ? 'Welcome Back' : mode === 'signup' ? 'Create Your Account' : 'Reset Password'}

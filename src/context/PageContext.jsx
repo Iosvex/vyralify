@@ -12,6 +12,11 @@ import {
 import { db } from '../lib/firebase';
 import { useAuth } from './AuthContext';
 
+import { 
+  generateCreatorGraphData, 
+  enrichPageWithGraphData 
+} from '../lib/instagramDataEngine';
+
 const PageContext = createContext(null);
 
 export function getSafeAvatarUrl(avatar, handle = 'Creator') {
@@ -23,12 +28,12 @@ export function getSafeAvatarUrl(avatar, handle = 'Creator') {
   return avatar;
 }
 
-const INITIAL_PAGES = [
+const RAW_INITIAL_PAGES = [
   {
     id: 'page_growth_mindset',
     handle: 'growth.mindset',
     displayName: 'Growth Mindset Hub',
-    avatar: 'https://ui-avatars.com/api/?name=Growth+Mindset&background=23E598&color=0A0A0A&bold=true&size=200',
+    avatar: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=300&auto=format&fit=crop&q=80',
     bio: 'Daily mental models, stoicism & wealth frameworks. Turning discipline into leverage.',
     category: 'Self-Improvement',
     subNiche: 'Motivation & Mindset',
@@ -39,6 +44,8 @@ const INITIAL_PAGES = [
     revenue30dNumeric: 24950,
     engagementRate: '4.8%',
     isConnected: true,
+    metaConnected: true,
+    metaVerified: true,
     lastSynced: '12m ago',
     audit: {
       overallScore: 84,
@@ -51,7 +58,7 @@ const INITIAL_PAGES = [
     id: 'page_tech_hustle',
     handle: 'tech.hustle',
     displayName: 'AI & SaaS Secrets',
-    avatar: 'https://ui-avatars.com/api/?name=Tech+Hustle&background=23E598&color=0A0A0A&bold=true&size=200',
+    avatar: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=300&auto=format&fit=crop&q=80',
     bio: 'Breakdowns of modern software, AI workflows & internet money.',
     category: 'Business & Money',
     subNiche: 'AI Business & SaaS',
@@ -62,6 +69,8 @@ const INITIAL_PAGES = [
     revenue30dNumeric: 9800,
     engagementRate: '5.2%',
     isConnected: true,
+    metaConnected: true,
+    metaVerified: true,
     lastSynced: '1h ago',
     audit: {
       overallScore: 78,
@@ -72,6 +81,8 @@ const INITIAL_PAGES = [
   }
 ];
 
+const INITIAL_PAGES = RAW_INITIAL_PAGES.map(p => enrichPageWithGraphData(p));
+
 export function PageProvider({ children }) {
   const { user, tier } = useAuth();
   
@@ -80,7 +91,7 @@ export function PageProvider({ children }) {
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
-        return parsed.map(p => ({
+        return parsed.map(p => enrichPageWithGraphData({
           ...p,
           avatar: getSafeAvatarUrl(p.avatar, p.handle)
         }));
@@ -171,30 +182,45 @@ export function PageProvider({ children }) {
     const cleanHandle = (newPageData.handle || 'creator').replace('@', '').trim();
     const pageId = newPageData.id || ('page_' + Date.now());
 
-    const newPage = {
+    // Generate complete Meta Graph analytics suite if not already provided
+    const graphData = (!newPageData.stockPoints || !newPageData.topReels || !newPageData.audience)
+      ? generateCreatorGraphData(
+          cleanHandle,
+          newPageData.category || 'Business & Money',
+          newPageData.followersCount || '24.5K',
+          newPageData
+        )
+      : {};
+
+    const newPage = enrichPageWithGraphData({
       id: pageId,
       ownerUid: user?.uid || 'guest',
       handle: cleanHandle,
       displayName: newPageData.displayName || `@${cleanHandle}`,
-      avatar: getSafeAvatarUrl(newPageData.avatar, cleanHandle),
-      bio: newPageData.bio || 'New Instagram creator account.',
-      category: newPageData.category || 'General',
-      subNiche: newPageData.subNiche || 'General',
-      followersCount: newPageData.followersCount || '0',
-      followersNumeric: newPageData.followersNumeric || 0,
-      views7d: newPageData.views7d || '0',
-      revenue30d: newPageData.revenue30d || '₹0',
-      revenue30dNumeric: newPageData.revenue30dNumeric || 0,
-      engagementRate: newPageData.engagementRate || '0.0%',
+      avatar: getSafeAvatarUrl(newPageData.avatar || graphData.avatar, cleanHandle),
+      bio: newPageData.bio || graphData.bio || 'New Instagram creator account.',
+      category: newPageData.category || graphData.category || 'General',
+      subNiche: newPageData.subNiche || graphData.subNiche || 'General',
+      followersCount: newPageData.followersCount || graphData.followersCount || '24.5K',
+      followersNumeric: newPageData.followersNumeric || graphData.followersNumeric || 24500,
+      views7d: newPageData.views7d || graphData.views7d || '102.5K',
+      revenue30d: newPageData.revenue30d || graphData.revenue30d || '₹23,200',
+      revenue30dNumeric: newPageData.revenue30dNumeric || graphData.revenue30dNumeric || 23200,
+      engagementRate: newPageData.engagementRate || graphData.engagementRate || '4.8%',
       isConnected: newPageData.isConnected ?? true,
+      metaConnected: true,
+      metaVerified: true,
       lastSynced: 'Just now',
-      audit: newPageData.audit || {
-        overallScore: 78,
-        strengths: ['Account successfully connected'],
-        gaps: ['Run first content analysis to generate insights'],
-        nicheRank: 'Analyzing...'
+      stockPoints: newPageData.stockPoints || graphData.stockPoints,
+      topReels: newPageData.topReels || graphData.topReels,
+      audience: newPageData.audience || graphData.audience,
+      audit: newPageData.audit || graphData.audit || {
+        overallScore: 82,
+        strengths: ['Account successfully connected with Meta Graph dataset'],
+        gaps: ['Set up automated comment DM triggers for link in bio'],
+        nicheRank: `Top 15% in ${newPageData.category || 'General'}`
       }
-    };
+    });
 
     if (isInitialOnboarding) {
       setPages([newPage]);

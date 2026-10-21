@@ -44,11 +44,11 @@ export default function GlobalSearchModal({ isOpen, onClose, onSelectModule }) {
 
   const getItemIcon = (type) => {
     switch (type) {
-      case 'ai': return <MessageSquare className="w-4 h-4 text-emerald-600" />;
-      case 'script': return <FileText className="w-4 h-4 text-emerald-600" />;
-      case 'competitor': return <Target className="w-4 h-4 text-emerald-600" />;
-      case 'product': return <ShoppingBag className="w-4 h-4 text-emerald-600" />;
-      default: return <Search className="w-4 h-4 text-neutral-400" />;
+      case 'ai': return <MessageSquare className="w-4 h-4 text-[#067CF9]" />;
+      case 'script': return <FileText className="w-4 h-4 text-[#067CF9]" />;
+      case 'competitor': return <Target className="w-4 h-4 text-[#067CF9]" />;
+      case 'product': return <ShoppingBag className="w-4 h-4 text-[#067CF9]" />;
+      default: return <Search className="w-4 h-4 text-[#94A3B8]" />;
     }
   };
 
@@ -60,7 +60,7 @@ export default function GlobalSearchModal({ isOpen, onClose, onSelectModule }) {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={onClose}
-          className="fixed inset-0 bg-black/60 dark:bg-black/80 backdrop-blur-sm"
+          className="fixed inset-0 bg-slate-900/40 backdrop-blur-xs"
         />
 
         <motion.div
@@ -68,36 +68,36 @@ export default function GlobalSearchModal({ isOpen, onClose, onSelectModule }) {
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.98, y: -6 }}
           transition={{ duration: 0.16 }}
-          className="relative w-full max-w-xl bg-white dark:bg-[#0C0D12] border border-neutral-200 dark:border-white/[0.08] rounded-2xl shadow-2xl overflow-hidden z-10 text-neutral-900 dark:text-white"
+          className="relative w-full max-w-xl bg-white border border-[rgba(6,124,249,0.18)] rounded-2xl shadow-[0_12px_40px_rgba(6,124,249,0.08)] overflow-hidden z-10 text-[#0F172A]"
         >
           {/* Search Input Bar */}
-          <div className="flex items-center gap-3 px-4 py-3.5 border-b border-neutral-200/80 dark:border-white/[0.06] bg-neutral-50/70 dark:bg-[#0A0B0E]">
-            <Search className="w-4 h-4 text-neutral-400 shrink-0" />
+          <div className="flex items-center gap-3 px-4 py-3.5 border-b border-slate-100 bg-[#F8FAFC]">
+            <Search className="w-4 h-4 text-[#067CF9] shrink-0" />
             <input
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search features, hooks, assets..."
               autoFocus
-              className="flex-1 bg-transparent text-xs text-neutral-900 dark:text-white placeholder-neutral-400 focus:outline-hidden font-medium"
+              className="flex-1 bg-transparent text-xs text-[#0F172A] placeholder-[#94A3B8] focus:outline-hidden font-medium"
             />
             {query && (
               <button 
                 onClick={() => setQuery('')}
-                className="text-neutral-400 hover:text-neutral-700 text-xs px-1.5 py-0.5 rounded cursor-pointer"
+                className="text-[#64748B] hover:text-[#0F172A] text-xs px-1.5 py-0.5 rounded cursor-pointer"
               >
                 Clear
               </button>
             )}
-            <kbd className="hidden sm:inline-block px-1.5 py-0.5 rounded bg-white dark:bg-white/[0.04] text-[10px] font-mono text-neutral-500 border border-neutral-200 dark:border-white/[0.08]">
+            <kbd className="hidden sm:inline-block px-1.5 py-0.5 rounded bg-white text-[10px] font-sans text-[#64748B] border border-slate-200 shadow-2xs">
               ESC
             </kbd>
           </div>
 
           {/* Results List */}
-          <div className="max-h-80 overflow-y-auto p-1.5 space-y-0.5">
+          <div className="max-h-80 overflow-y-auto p-2 space-y-1">
             {filtered.length === 0 ? (
-              <div className="text-center py-8 text-neutral-400 text-xs font-mono">
+              <div className="text-center py-8 text-[#94A3B8] text-xs font-sans">
                 No matching results found for "{query}"
               </div>
             ) : (
@@ -108,29 +108,29 @@ export default function GlobalSearchModal({ isOpen, onClose, onSelectModule }) {
                     if (onSelectModule) onSelectModule(item.module);
                     onClose();
                   }}
-                  className="flex items-center justify-between p-2.5 rounded-xl hover:bg-emerald-50/60 dark:hover:bg-white/[0.04] transition-colors cursor-pointer group"
+                  className="flex items-center justify-between p-2.5 rounded-xl hover:bg-[#EFF6FF] transition-colors cursor-pointer group"
                 >
                   <div className="flex items-center gap-2.5">
-                    <div className="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-white/[0.03] border border-emerald-100 dark:border-white/[0.06] flex items-center justify-center shrink-0">
+                    <div className="w-8 h-8 rounded-lg bg-[#EFF6FF] border border-[rgba(6,124,249,0.14)] flex items-center justify-center shrink-0">
                       {getItemIcon(item.type)}
                     </div>
                     <div>
-                      <div className="text-xs font-semibold text-neutral-900 dark:text-white group-hover:text-emerald-700 dark:group-hover:text-white transition-colors leading-tight">
+                      <div className="text-xs font-semibold text-[#0F172A] group-hover:text-[#067CF9] transition-colors leading-tight">
                         {item.title}
                       </div>
-                      <div className="text-[10px] text-neutral-500 dark:text-neutral-400 font-mono mt-0.5">
+                      <div className="text-[10px] text-[#64748B] font-sans mt-0.5">
                         {item.subtitle}
                       </div>
                     </div>
                   </div>
-                  <ArrowRight className="w-3.5 h-3.5 text-neutral-400 group-hover:text-emerald-700 dark:group-hover:text-white transition-colors" />
+                  <ArrowRight className="w-3.5 h-3.5 text-[#94A3B8] group-hover:text-[#067CF9] group-hover:translate-x-0.5 transition-all" />
                 </div>
               ))
             )}
           </div>
 
           {/* Footer tip */}
-          <div className="px-3.5 py-2 border-t border-neutral-200/80 dark:border-white/[0.06] bg-neutral-50/70 dark:bg-[#0A0B0E] flex items-center justify-between text-[10px] text-neutral-400 font-mono font-medium">
+          <div className="px-3.5 py-2 border-t border-slate-100 bg-[#F8FAFC] flex items-center justify-between text-[10px] text-[#64748B] font-sans font-medium">
             <span>Use &uarr; &darr; to navigate</span>
             <span>Jump to module in 1 click</span>
           </div>

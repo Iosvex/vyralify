@@ -547,8 +547,7 @@ export default function PublicStorefront({ slug, onBackToApp }) {
       <footer className="w-full py-6 text-center text-[11px] text-neutral-500 border-t border-white/[0.04] bg-[#08090C]">
         <div className="flex items-center justify-center gap-1.5">
           <span>Powered by</span>
-          <span className="font-bold text-neutral-300">Vyralify</span>
-          <span className="w-1.5 h-1.5 rounded-full bg-[#23E598]" />
+          <img src="/vyralify-logo-white.png" alt="Vyralify" className="h-3.5 w-auto object-contain opacity-85 ml-1" />
         </div>
         <p className="text-[10px] text-neutral-600 mt-1">
           Launch your own Instagram link-in-bio store &bull; Zero monthly fee

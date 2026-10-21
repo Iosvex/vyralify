@@ -160,7 +160,6 @@ export default function AccountSettings({ onNavigate }) {
           {[
             { id: 'account', label: 'Profile' },
             { id: 'billing', label: 'Billing & Plan' },
-            { id: 'security', label: 'Security & 2FA' },
             { id: 'preferences', label: 'Preferences' },
             { id: 'notifications', label: 'Notifications' },
             { id: 'help', label: 'Help & Support' }
@@ -239,26 +238,6 @@ export default function AccountSettings({ onNavigate }) {
               </button>
             </div>
           </form>
-
-          {/* Privacy & Compliance Card */}
-          <div className="p-6 rounded-2xl bg-white border border-slate-200/90 shadow-xs space-y-3">
-            <h3 className="font-bold text-[#0F172A] text-sm flex items-center gap-2 font-headline">
-              <ShieldCheck className="w-4 h-4 text-[#067CF9]" />
-              <span>Data Compliance &amp; AI Processing Rights</span>
-            </h3>
-            <p className="text-xs text-slate-500 leading-relaxed">
-              Vyralify processes Instagram insights under strict Meta Graph API permissions and India Digital Personal Data Protection (DPDP) Act guidelines. Your proprietary scripts and subscriber leads are never trained on by external third-parties without consent.
-            </p>
-            <div className="pt-2 flex items-center gap-3">
-              <button
-                onClick={handleExportData}
-                className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold flex items-center gap-1.5 cursor-pointer border border-slate-200 transition-colors"
-              >
-                <Download className="w-3.5 h-3.5" />
-                <span>Export My Data (JSON)</span>
-              </button>
-            </div>
-          </div>
         </div>
       )}
 
@@ -369,78 +348,7 @@ export default function AccountSettings({ onNavigate }) {
         </div>
       )}
 
-      {/* 4. SUB-TAB: SECURITY & 2FA */}
-      {activeTab === 'security' && (
-        <div className="space-y-6">
-          <div className="p-6 rounded-2xl bg-white border border-slate-200/90 shadow-xs space-y-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="font-bold text-[#0F172A] text-sm font-headline">Two-Factor Authentication (2FA)</h3>
-                <p className="text-xs text-slate-500 mt-0.5">Require an authenticator code when signing into your creator workspace.</p>
-              </div>
-              <button
-                onClick={handleToggle2FA}
-                className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
-                  is2FAEnabled 
-                    ? 'bg-[#067CF9] text-white shadow-xs' 
-                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-                }`}
-              >
-                {is2FAEnabled ? '2FA Active (Enabled)' : 'Enable 2FA'}
-              </button>
-            </div>
-          </div>
-
-          <div className="p-6 rounded-2xl bg-white border border-slate-200/90 shadow-xs space-y-4">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-              <div>
-                <h3 className="font-bold text-[#0F172A] text-sm font-headline">Active Sessions &amp; Devices</h3>
-                <p className="text-xs text-slate-500">Devices currently authenticated to your Vyralify account.</p>
-              </div>
-              <button
-                onClick={handleRevokeOtherSessions}
-                className="px-3.5 py-1.5 rounded-xl bg-red-50 hover:bg-red-100 text-red-600 text-xs font-semibold transition-colors cursor-pointer border border-red-200"
-              >
-                Log Out Other Devices
-              </button>
-            </div>
-
-            <div className="space-y-2.5">
-              {sessions.map(s => (
-                <div
-                  key={s.id}
-                  className="p-3.5 rounded-xl bg-slate-50 border border-slate-200/80 flex items-center justify-between text-xs"
-                >
-                  <div className="flex items-center gap-3">
-                    {s.device.includes('iPhone') ? (
-                      <Smartphone className="w-5 h-5 text-slate-400" />
-                    ) : (
-                      <Laptop className="w-5 h-5 text-slate-400" />
-                    )}
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <span className="font-semibold text-[#0F172A]">{s.device}</span>
-                        {s.current && (
-                          <span className="px-1.5 py-0.2 rounded-full bg-[#EFF6FF] text-[#067CF9] text-[9px] font-mono font-semibold">
-                            This Device
-                          </span>
-                        )}
-                      </div>
-                      <span className="text-[10px] text-slate-400 font-mono">
-                        {s.ip} &bull; {s.location}
-                      </span>
-                    </div>
-                  </div>
-
-                  <span className="text-[10px] font-mono text-slate-400">{s.time}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* 5. SUB-TAB: REGIONAL PREFERENCES */}
+      {/* 4. SUB-TAB: REGIONAL PREFERENCES */}
       {activeTab === 'preferences' && (
         <div className="p-6 rounded-2xl bg-white border border-slate-200/90 shadow-xs space-y-5">
           <h3 className="font-bold text-[#0F172A] text-sm font-headline">Regional &amp; Currency Preferences</h3>

@@ -33,7 +33,16 @@ import {
   UserCheck,
   RefreshCw,
   Calendar,
-  X
+  X,
+  Image as ImageIcon,
+  CheckCircle2,
+  Flame,
+  User,
+  Star,
+  CheckCheck,
+  Cpu,
+  Globe,
+  Zap
 } from 'lucide-react';
 import { collection, query, where, onSnapshot, addDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
@@ -42,70 +51,112 @@ import { usePage, getSafeAvatarUrl } from '../../context/PageContext';
 import { usePlanGating } from '../../context/PlanGatingContext';
 import { useNotifications } from '../../context/NotificationContext';
 
-// 4 Core Pre-Built Digital Asset Starters
-const TEMPLATE_VAULT = [
+// Verified Winning Products Database for Commerce Section
+const WINNING_PRODUCTS = [
   {
-    id: 'tpl_1',
-    title: 'The Faceless Operating Manual',
-    format: 'Digital Guide • PDF',
+    id: 'win_1',
+    title: 'The Faceless Operating Manual (2026 Edition)',
+    category: 'guides',
+    categoryLabel: 'Digital Guide • PDF',
     type: 'Digital Download',
     suggestedPrice: '₹499',
     suggestedPriceNum: 499,
+    margin: '100% Margin (₹499 Profit)',
+    salesProof: '2,840+ copies sold across creators',
+    badge: '🔥 Top Performer',
     thumbnail: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&auto=format&fit=crop&q=80',
     description: 'Comprehensive 42-page roadmap covering niche selection, copyright-free B-roll sourcing, retention loops, and monetization.'
   },
   {
-    id: 'tpl_2',
+    id: 'win_2',
     title: '150+ Viral Retention Hooks Vault',
-    format: 'Notion Database',
+    category: 'notion',
+    categoryLabel: 'Notion Database',
     type: 'Digital Download',
     suggestedPrice: '₹299',
     suggestedPriceNum: 299,
+    margin: '100% Margin (₹299 Profit)',
+    salesProof: '4,120+ downloads recorded',
+    badge: '⚡ High Conversion',
     thumbnail: 'https://images.unsplash.com/photo-1517842645767-c639042777db?w=600&auto=format&fit=crop&q=80',
     description: 'Swipe file of the top 1% tested opening lines, visual zooms, and comment-to-DM triggers categorized by emotional hooks.'
   },
   {
-    id: 'tpl_3',
-    title: '1-on-1 Growth Audit Session',
-    format: 'Calendly Consultation',
+    id: 'win_3',
+    title: '1-on-1 Growth Audit & Monetization Call',
+    category: 'consulting',
+    categoryLabel: 'Calendly Consultation',
     type: '1-on-1 Call',
     suggestedPrice: '₹1,499',
     suggestedPriceNum: 1499,
+    margin: 'High-Ticket Direct Payout',
+    salesProof: '180+ sessions booked',
+    badge: '💎 Premium Ticket',
     thumbnail: 'https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=600&auto=format&fit=crop&q=80',
     description: 'Direct 30-minute private screen-share consultation reviewing content calendar, bio structure, and DM funnel architecture.'
   },
   {
-    id: 'tpl_4',
-    title: 'Aesthetic B-Roll Video Vault',
-    format: 'Digital Asset Pack',
+    id: 'win_4',
+    title: 'Aesthetic B-Roll Video Vault (4K Vertical)',
+    category: 'media',
+    categoryLabel: 'Digital Asset Pack',
     type: 'Digital Download',
     suggestedPrice: '₹799',
     suggestedPriceNum: 799,
+    margin: '100% Margin (₹799 Profit)',
+    salesProof: '980+ packs downloaded',
+    badge: '⭐ High Retention',
     thumbnail: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=600&auto=format&fit=crop&q=80',
     description: 'Curated 4K vertical footage library of luxury cars, lo-fi workspaces, city skylines, and moody coffee clips ready to caption.'
+  },
+  {
+    id: 'win_5',
+    title: 'High-Converting DM Sales Funnel Scripts',
+    category: 'notion',
+    categoryLabel: 'Notion Swipe File',
+    type: 'Digital Download',
+    suggestedPrice: '₹599',
+    suggestedPriceNum: 599,
+    margin: '100% Margin (₹599 Profit)',
+    salesProof: '1,420+ units sold',
+    badge: '🚀 High ROI',
+    thumbnail: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&auto=format&fit=crop&q=80',
+    description: 'Exact word-for-word conversation triggers to turn comments into automated DMs and high-ticket clients without sounding salesy.'
+  },
+  {
+    id: 'win_6',
+    title: 'Creator Media Kit & Brand Pitch Deck',
+    category: 'guides',
+    categoryLabel: 'Canva & Figma Deck',
+    type: 'Digital Download',
+    suggestedPrice: '₹399',
+    suggestedPriceNum: 399,
+    margin: '100% Margin (₹399 Profit)',
+    salesProof: '850+ decks downloaded',
+    badge: '📈 Brand Magnet',
+    thumbnail: 'https://images.unsplash.com/photo-1557804506-669a67965ba0?w=600&auto=format&fit=crop&q=80',
+    description: 'Sleek agency-grade media kit template ready to customize with your handles, reach metrics, audience demos, and package pricing.'
   }
 ];
 
-export default function StoreCommerce({ onNavigate, initialTab = 'builder' }) {
+export default function StoreCommerce({ onNavigate, initialSection = 'store' }) {
   const { user, tier } = useAuth();
   const { activePage } = usePage();
   const { openUpgradeModal } = usePlanGating();
   const { addNotification } = useNotifications();
 
-  // Sub-Tab Navigation: 5 clean tabs
-  // 'builder' | 'products' | 'templates' | 'orders' | 'resell'
-  const [activeTab, setActiveTab] = useState(initialTab);
+  // Top-Level Two Sections: 'store' | 'commerce'
+  const [activeSection, setActiveSection] = useState(initialSection === 'resell' ? 'commerce' : 'store');
 
-  React.useEffect(() => {
-    if (initialTab) {
-      setActiveTab(initialTab);
-    }
-  }, [initialTab]);
+  // Commerce Section: Winning Products Filters
+  const [winningCategory, setWinningCategory] = useState('all');
+  const [winningSearchQuery, setWinningSearchQuery] = useState('');
 
-  // Store Customizer State
+  // Store Customizer State: Title, Img, Subtitle, Theme
   const [storeThemeColor, setStoreThemeColor] = useState('blue');
   const [storeHeadline, setStoreHeadline] = useState('Official Resource Vault & Toolkits');
   const [storeBio, setStoreBio] = useState(`Digital products, cheat sheets, and 1-on-1 strategy calls to fast-track your results in ${activePage?.category || 'business'}.`);
+  const [storeCustomImage, setStoreCustomImage] = useState('');
   const [copiedStoreLink, setCopiedStoreLink] = useState(false);
 
   // Professional Product Catalog State
@@ -161,7 +212,7 @@ export default function StoreCommerce({ onNavigate, initialTab = 'builder' }) {
     ctaText: 'Get Instant Access'
   });
 
-  // Orders Log State
+  // Orders Log State - "Ki naam ata rhe, kon kya khreeed raha hai"
   const [orderSearchQuery, setOrderSearchQuery] = useState('');
   const [orders, setOrders] = useState([
     { 
@@ -230,6 +281,9 @@ export default function StoreCommerce({ onNavigate, initialTab = 'builder' }) {
   const rawHandle = (activePage?.handle || 'creator').replace(/^@/, '');
   const cleanStoreUrl = `vyralify.me/${rawHandle}`;
 
+  // Effective avatar image
+  const displayAvatar = storeCustomImage || getSafeAvatarUrl(activePage?.avatar, rawHandle);
+
   // Initial load of custom products & orders
   useEffect(() => {
     const savedProds = localStorage.getItem('vyralify_store_products');
@@ -251,9 +305,14 @@ export default function StoreCommerce({ onNavigate, initialTab = 'builder' }) {
         }
       } catch (e) {}
     }
-  }, []);
 
-  // Sync store settings & products for the public storefront
+    const savedCustomImg = localStorage.getItem(`vyralify_store_img_${rawHandle}`);
+    if (savedCustomImg) {
+      setStoreCustomImage(savedCustomImg);
+    }
+  }, [rawHandle]);
+
+  // Sync store settings & products for public storefront
   useEffect(() => {
     localStorage.setItem('vyralify_store_products', JSON.stringify(products));
     const handleKey = rawHandle;
@@ -263,9 +322,9 @@ export default function StoreCommerce({ onNavigate, initialTab = 'builder' }) {
       bio: storeBio,
       products: products,
       themeColor: storeThemeColor,
-      avatar: activePage?.avatar
+      avatar: displayAvatar
     }));
-  }, [products, storeHeadline, storeBio, storeThemeColor, rawHandle, activePage?.avatar]);
+  }, [products, storeHeadline, storeBio, storeThemeColor, rawHandle, displayAvatar]);
 
   // Real-time Firestore sync for incoming live store orders
   useEffect(() => {
@@ -304,6 +363,34 @@ export default function StoreCommerce({ onNavigate, initialTab = 'builder' }) {
       type: 'success'
     });
     setTimeout(() => setCopiedStoreLink(false), 2000);
+  };
+
+  // Avatar Upload Handler
+  const handleAvatarUpload = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (file.size > 5 * 1024 * 1024) {
+      addNotification({
+        title: 'Image Too Large',
+        message: 'Please choose an image under 5MB.',
+        type: 'warning'
+      });
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const dataUrl = event.target?.result;
+      setStoreCustomImage(dataUrl);
+      localStorage.setItem(`vyralify_store_img_${rawHandle}`, dataUrl);
+      addNotification({
+        title: 'Store Image Updated',
+        message: 'Storefront logo and avatar updated.',
+        type: 'success'
+      });
+    };
+    reader.readAsDataURL(file);
   };
 
   // Digital Asset File Upload Handler (Up to 25MB)
@@ -405,26 +492,37 @@ export default function StoreCommerce({ onNavigate, initialTab = 'builder' }) {
     addNotification({ title: 'Product Removed', message: 'Product removed from your catalog.', type: 'info' });
   };
 
-  // 1-Click Import from Pre-Built Digital Asset Vault
-  const handleImportTemplate = (tpl) => {
+  // 1-Click Import from Winning Products Vault into Creator Store
+  const handleImportWinningProduct = (winProd) => {
+    // Check if already in store
+    const isAlreadyInStore = products.some(p => p.title.toLowerCase() === winProd.title.toLowerCase());
+    if (isAlreadyInStore) {
+      addNotification({
+        title: 'Already in Store',
+        message: `"${winProd.title}" is already listed on your storefront.`,
+        type: 'info'
+      });
+      return;
+    }
+
     if (tier === 'free' && products.length >= 1) {
       openUpgradeModal(
         'store_products',
-        'Upgrade to Pro to import unlimited turnkey assets from the Pre-Built Vault.'
+        'Upgrade to Pro to import unlimited turnkey assets from the Winning Products Vault.'
       );
       return;
     }
 
     const imported = {
       id: 'prod_' + Date.now(),
-      title: tpl.title,
-      price: tpl.suggestedPrice,
-      priceNumeric: tpl.suggestedPriceNum,
-      type: tpl.type,
-      description: tpl.description,
+      title: winProd.title,
+      price: winProd.suggestedPrice,
+      priceNumeric: winProd.suggestedPriceNum,
+      type: winProd.type,
+      description: winProd.description,
       deliveryMethod: 'upload',
-      fileName: `${tpl.title.toLowerCase().replace(/[^a-z0-9]/g, '-')}.pdf`,
-      fileSize: '2.4 MB',
+      fileName: `${winProd.title.toLowerCase().replace(/[^a-z0-9]/g, '-')}.pdf`,
+      fileSize: '3.2 MB',
       accessUrl: 'https://vyralify.me',
       salesCount: 0,
       revenue: '₹0',
@@ -436,8 +534,8 @@ export default function StoreCommerce({ onNavigate, initialTab = 'builder' }) {
     setProducts(updated);
     localStorage.setItem('vyralify_store_products', JSON.stringify(updated));
     addNotification({
-      title: 'Template Imported',
-      message: `"${tpl.title}" added to your store. Ready to sell!`,
+      title: 'Winning Product Imported! 🎉',
+      message: `"${winProd.title}" is now active in your store. Ready to earn!`,
       type: 'success'
     });
   };
@@ -462,12 +560,13 @@ export default function StoreCommerce({ onNavigate, initialTab = 'builder' }) {
 
   // Simulate Test Order
   const handleSimulateTestOrder = () => {
-    const targetProduct = products[0] || TEMPLATE_VAULT[0];
+    const targetProduct = products[0] || WINNING_PRODUCTS[0];
     const testBuyers = [
       { name: 'Arjun Verma', email: 'arjun.v@gmail.com' },
       { name: 'Meera Sengupta', email: 'meera@creatorflow.in' },
       { name: 'Sameer Khan', email: 'sameer.k@outlook.com' },
-      { name: 'Tanvi Deshmukh', email: 'tanvi@digitalvault.io' }
+      { name: 'Tanvi Deshmukh', email: 'tanvi@digitalvault.io' },
+      { name: 'Kavita Nair', email: 'kavita.nair@icloud.com' }
     ];
     const buyer = testBuyers[Math.floor(Math.random() * testBuyers.length)];
     const priceNum = targetProduct.priceNumeric || parseInt(targetProduct.price?.replace(/[^0-9]/g, '') || '499');
@@ -479,7 +578,7 @@ export default function StoreCommerce({ onNavigate, initialTab = 'builder' }) {
       product: targetProduct.title,
       amount: targetProduct.price || '₹499',
       amountNumeric: priceNum,
-      paymentGateway: 'Razorpay',
+      paymentGateway: Math.random() > 0.5 ? 'Razorpay' : 'Stripe',
       fulfillment: 'Delivered',
       date: 'Just now',
       status: 'Paid',
@@ -499,7 +598,7 @@ export default function StoreCommerce({ onNavigate, initialTab = 'builder' }) {
     }
 
     addNotification({
-      title: 'Test Order Received',
+      title: 'New Customer Purchase! 🎉',
       message: `${buyer.name} purchased "${targetProduct.title}" (${targetProduct.price}).`,
       type: 'success'
     });
@@ -517,6 +616,19 @@ export default function StoreCommerce({ onNavigate, initialTab = 'builder' }) {
     );
   });
 
+  // Filtered winning products in Commerce
+  const filteredWinningProducts = WINNING_PRODUCTS.filter(w => {
+    if (winningCategory !== 'all' && w.category !== winningCategory) return false;
+    if (winningSearchQuery.trim()) {
+      const q = winningSearchQuery.toLowerCase();
+      const matchTitle = w.title.toLowerCase().includes(q);
+      const matchDesc = w.description.toLowerCase().includes(q);
+      const matchCat = w.categoryLabel.toLowerCase().includes(q);
+      if (!matchTitle && !matchDesc && !matchCat) return false;
+    }
+    return true;
+  });
+
   const totalStoreRevenue = orders.reduce((acc, o) => {
     const num = o.amountNumeric || parseInt(o.amount?.replace(/[^0-9]/g, '') || '0', 10);
     return acc + (isNaN(num) ? 0 : num);
@@ -527,102 +639,270 @@ export default function StoreCommerce({ onNavigate, initialTab = 'builder' }) {
     return text.replace(/&rarr;/g, '').replace(/→/g, '').trim();
   };
 
+  // Initials generator for customer avatars
+  const getInitials = (name = '') => {
+    return name
+      .split(' ')
+      .map(part => part[0])
+      .filter(Boolean)
+      .slice(0, 2)
+      .join('')
+      .toUpperCase() || 'CU';
+  };
+
   return (
     <div className="space-y-6 max-w-7xl mx-auto pb-16 font-sans">
       
-      {/* 1. TOP PANEL TITLE & TAB NAVIGATION */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-4 border-b border-[rgba(6,124,249,0.12)]">
+      {/* 1. TOP HEADER & TWO MASTER TOGGLES: [ Store | Commerce ] */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[rgba(6,124,249,0.12)]">
         <div>
           <h1 className="text-xl sm:text-2xl font-bold text-[#0F172A] tracking-tight">
-            Creator Storefront &amp; Commerce
+            Store &amp; Commerce
           </h1>
           <p className="text-[#64748B] text-xs mt-1 font-medium">
-            Build ultra-fast digital storefronts, manage products, and track instant payouts.
+            Build ultra-fast digital storefronts, resell Vyralify Co-Pilot software, and import verified winning products.
           </p>
         </div>
 
-        {/* Streamlined Segmented Navigation (5 Tabs) */}
-        <div className="flex items-center gap-1 bg-white/80 p-1 rounded-xl border border-[rgba(6,124,249,0.12)] shadow-xs overflow-x-auto no-scrollbar shrink-0">
-          {[
-            { id: 'builder', label: 'Store Builder', icon: Smartphone },
-            { id: 'products', label: 'Products', icon: Package },
-            { id: 'templates', label: 'Digital Templates', icon: Sparkles },
-            { id: 'orders', label: 'Orders & Sales', icon: CreditCard },
-            { id: 'resell', label: 'Agency Resell', icon: Crown }
-          ].map(tab => {
-            const Icon = tab.icon;
-            const isActive = activeTab === tab.id;
-            return (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer whitespace-nowrap ${
-                  isActive
-                    ? 'bg-[#067CF9] text-white shadow-xs font-semibold'
-                    : 'text-[#64748B] hover:text-[#0F172A]'
-                }`}
-              >
-                <Icon className="w-3.5 h-3.5" />
-                <span>{tab.label}</span>
-              </button>
-            );
-          })}
+        {/* Top-Level Master Two Toggles: [ Store | Commerce ] */}
+        <div className="flex items-center gap-1 bg-white/90 p-1 rounded-xl border border-[rgba(6,124,249,0.15)] shadow-xs shrink-0">
+          <button
+            onClick={() => setActiveSection('store')}
+            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+              activeSection === 'store'
+                ? 'bg-[#067CF9] text-white shadow-xs'
+                : 'text-[#64748B] hover:text-[#0F172A]'
+            }`}
+          >
+            <ShoppingBag className="w-3.5 h-3.5" />
+            <span>Store</span>
+          </button>
+
+          <button
+            onClick={() => setActiveSection('commerce')}
+            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+              activeSection === 'commerce'
+                ? 'bg-[#067CF9] text-white shadow-xs'
+                : 'text-[#64748B] hover:text-[#0F172A]'
+            }`}
+          >
+            <Crown className="w-3.5 h-3.5" />
+            <span>Commerce</span>
+          </button>
         </div>
       </div>
 
-      {/* 2. TAB 1: STORE BUILDER & LIVE MOBILE PREVIEW STUDIO (Panel 5 Blueprint: Sleek iOS white phone bezel frame over a soft clean backdrop) */}
-      {activeTab === 'builder' && (
+      {/* =========================================================================
+          SECTION 1: STORE VIEW
+          Structure:
+          A. Storefront Analytics (4 KPI Cards)
+          B. Live Customer Orders & Sales Feed ("Ki naam ata rhe, kon kya khreeed raha hai")
+          C. Storefront Builder (Title, Img, Subtitle, Products, Mobile Phone Preview)
+         ========================================================================= */}
+      {activeSection === 'store' && (
         <div className="space-y-6">
           
-          {/* Store Analytics Row */}
+          {/* A. STOREFRONT ANALYTICS (4 KPI CARDS) */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3.5">
             <div className="p-4 rounded-xl bg-white/95 backdrop-blur-xl border border-[rgba(6,124,249,0.12)] shadow-[0_2px_12px_rgba(6,124,249,0.03)]">
-              <span className="text-[11px] font-mono text-[#64748B] font-medium">Total Revenue</span>
-              <div className="text-xl font-bold font-mono text-[#0F172A] mt-1">
+              <span className="text-[11px] text-[#64748B] font-medium block">Total Revenue</span>
+              <div className="text-xl font-bold text-[#0F172A] mt-1">
                 ₹{totalStoreRevenue.toLocaleString('en-IN')}
               </div>
-              <span className="text-[10px] text-[#10B981] font-mono mt-1 block font-semibold">+18.2% this month</span>
+              <span className="text-[10px] text-[#10B981] mt-1 block font-semibold">+18.2% this month</span>
             </div>
 
             <div className="p-4 rounded-xl bg-white/95 backdrop-blur-xl border border-[rgba(6,124,249,0.12)] shadow-[0_2px_12px_rgba(6,124,249,0.03)]">
-              <span className="text-[11px] font-mono text-[#64748B] font-medium">Storefront Clicks</span>
-              <div className="text-xl font-bold font-mono text-[#0F172A] mt-1">2,840</div>
-              <span className="text-[10px] text-[#64748B] font-mono mt-1 block">Traffic across bio links</span>
+              <span className="text-[11px] text-[#64748B] font-medium block">Storefront Clicks</span>
+              <div className="text-xl font-bold text-[#0F172A] mt-1">2,840</div>
+              <span className="text-[10px] text-[#64748B] mt-1 block font-medium">Traffic across bio links</span>
             </div>
 
             <div className="p-4 rounded-xl bg-white/95 backdrop-blur-xl border border-[rgba(6,124,249,0.12)] shadow-[0_2px_12px_rgba(6,124,249,0.03)]">
-              <span className="text-[11px] font-mono text-[#64748B] font-medium">Conversion Rate</span>
-              <div className="text-xl font-bold font-mono text-[#0F172A] mt-1">4.2%</div>
-              <span className="text-[10px] text-[#10B981] font-mono mt-1 block font-semibold">Above creator avg (2.8%)</span>
+              <span className="text-[11px] text-[#64748B] font-medium block">Conversion Rate</span>
+              <div className="text-xl font-bold text-[#0F172A] mt-1">4.2%</div>
+              <span className="text-[10px] text-[#10B981] mt-1 block font-semibold">Above creator avg (2.8%)</span>
             </div>
 
             <div className="p-4 rounded-xl bg-white/95 backdrop-blur-xl border border-[rgba(6,124,249,0.12)] shadow-[0_2px_12px_rgba(6,124,249,0.03)]">
-              <span className="text-[11px] font-mono text-[#64748B] font-medium">Active Products</span>
-              <div className="text-xl font-bold font-mono text-[#0F172A] mt-1">
+              <span className="text-[11px] text-[#64748B] font-medium block">Active Products</span>
+              <div className="text-xl font-bold text-[#0F172A] mt-1">
                 {products.length} / {tier === 'free' ? '1 (Free)' : 'Unlimited'}
               </div>
-              <span className="text-[10px] text-[#067CF9] font-mono mt-1 block font-semibold">Instant checkout enabled</span>
+              <span className="text-[10px] text-[#067CF9] mt-1 block font-semibold">Instant checkout enabled</span>
             </div>
           </div>
 
-          {/* 2-Column Store Builder: Left Form Controls (7 Cols) & Right Mobile Preview (5 Cols) */}
+          {/* B. ORDERS & SALES FEED (Directly Under Analytics)
+              User Request: "Ki naam ata rhe, kon kya khreeed raha hai. Analytics ke neechey" */}
+          <div className="p-5 rounded-2xl bg-white/95 backdrop-blur-xl border border-[rgba(6,124,249,0.12)] shadow-[0_2px_16px_rgba(6,124,249,0.04)] space-y-4">
+            
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
+              <div>
+                <div className="flex items-center gap-2">
+                  <h3 className="font-bold text-[#0F172A] text-sm">
+                    Orders &amp; Live Customer Purchases
+                  </h3>
+                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-600 border border-emerald-200 text-[10px] font-semibold">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                    Live Activity Feed
+                  </span>
+                </div>
+                <p className="text-xs text-[#64748B] mt-0.5 font-medium">
+                  Real-time log of customer names, products purchased, and instant payment settlements.
+                </p>
+              </div>
+
+              {/* Action Buttons: Search, Export CSV, Test Order */}
+              <div className="flex items-center gap-2 flex-wrap">
+                <div className="relative min-w-[200px]">
+                  <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-[#94A3B8]" />
+                  <input
+                    type="text"
+                    value={orderSearchQuery}
+                    onChange={(e) => setOrderSearchQuery(e.target.value)}
+                    placeholder="Search by customer name, email..."
+                    className="w-full bg-[#F8FAFC] border border-[rgba(6,124,249,0.15)] rounded-xl pl-8 pr-3 py-1.5 text-xs text-[#0F172A] placeholder:text-[#94A3B8] focus:outline-hidden focus:border-[#067CF9]"
+                  />
+                </div>
+
+                <button
+                  type="button"
+                  onClick={handleExportOrdersCsv}
+                  className="px-3 py-1.5 rounded-xl border border-[rgba(6,124,249,0.2)] text-[#0F172A] hover:bg-[#EFF6FF] text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
+                >
+                  <Download className="w-3.5 h-3.5 text-[#067CF9]" />
+                  <span>Export CSV</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handleSimulateTestOrder}
+                  className="px-3 py-1.5 rounded-xl bg-[#EFF6FF] hover:bg-[#DBEAFE] text-[#067CF9] border border-[rgba(6,124,249,0.25)] text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
+                  title="Simulate a live customer purchase"
+                >
+                  <Plus className="w-3.5 h-3.5" />
+                  <span>+ Test Purchase</span>
+                </button>
+              </div>
+            </div>
+
+            {/* High-Contrast Light Orders Table */}
+            <div className="overflow-x-auto rounded-xl border border-[rgba(6,124,249,0.1)]">
+              <table className="w-full text-left text-xs">
+                <thead>
+                  <tr className="bg-[#F8FAFC] border-b border-[rgba(6,124,249,0.1)] text-[#64748B] text-[11px]">
+                    <th className="py-2.5 px-3.5 font-semibold">Customer (Naam &amp; Email)</th>
+                    <th className="py-2.5 px-3 font-semibold">Product Purchased</th>
+                    <th className="py-2.5 px-3 font-semibold">Amount</th>
+                    <th className="py-2.5 px-3 font-semibold">Gateway</th>
+                    <th className="py-2.5 px-3 font-semibold">Status</th>
+                    <th className="py-2.5 px-3.5 font-semibold text-right">Time</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-[rgba(6,124,249,0.06)]">
+                  {filteredOrders.length === 0 ? (
+                    <tr>
+                      <td colSpan="6" className="py-8 text-center text-[#94A3B8] text-xs">
+                        No orders found matching your search.
+                      </td>
+                    </tr>
+                  ) : (
+                    filteredOrders.map((ord, idx) => (
+                      <tr 
+                        key={ord.id} 
+                        className={`${idx % 2 === 1 ? 'bg-[#FAFCFF]' : 'bg-white'} hover:bg-[#EFF6FF]/60 transition-colors`}
+                      >
+                        {/* Customer Column: Displays name and email clearly */}
+                        <td className="py-3 px-3.5">
+                          <div className="flex items-center gap-2.5">
+                            <div className="w-7 h-7 rounded-full bg-[#EFF6FF] border border-[rgba(6,124,249,0.25)] text-[#067CF9] text-[10px] font-bold flex items-center justify-center shrink-0">
+                              {getInitials(ord.customer)}
+                            </div>
+                            <div>
+                              <div className="font-bold text-[#0F172A] text-xs leading-tight">
+                                {ord.customer}
+                              </div>
+                              <div className="text-[11px] text-[#64748B] font-medium leading-tight">
+                                {ord.email}
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+
+                        {/* Product Purchased */}
+                        <td className="py-3 px-3">
+                          <div className="flex items-center gap-1.5">
+                            <Package className="w-3.5 h-3.5 text-[#067CF9] shrink-0" />
+                            <span className="font-semibold text-[#0F172A] max-w-[240px] truncate" title={ord.product}>
+                              {ord.product}
+                            </span>
+                          </div>
+                        </td>
+
+                        {/* Amount */}
+                        <td className="py-3 px-3">
+                          <span className="font-bold text-[#0F172A] text-xs">
+                            {ord.amount}
+                          </span>
+                        </td>
+
+                        {/* Payment Gateway */}
+                        <td className="py-3 px-3">
+                          <span className="text-[#64748B] text-[11px] font-medium">
+                            {ord.paymentGateway || 'Razorpay'}
+                          </span>
+                        </td>
+
+                        {/* Status Badge */}
+                        <td className="py-3 px-3">
+                          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md text-[10px] font-bold bg-[#EFF6FF] text-[#067CF9] border border-[rgba(6,124,249,0.2)]">
+                            <Check className="w-2.5 h-2.5" />
+                            {ord.status}
+                          </span>
+                        </td>
+
+                        {/* Date / Time */}
+                        <td className="py-3 px-3.5 text-right text-[#64748B] text-[11px] font-medium whitespace-nowrap">
+                          {ord.date}
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+
+          {/* C. STOREFRONT BUILDER (Title, Img, Subtitle, Products, Mobile Phone Preview)
+              User Request: "store builder, title, img, subtitle wagera" */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
             
-            {/* Left Input Controls */}
+            {/* Left Column: Store Configuration Controls (7 Cols) */}
             <div className="lg:col-span-7 space-y-4">
-              <div className="p-5 rounded-2xl bg-white/95 backdrop-blur-xl border border-[rgba(6,124,249,0.12)] shadow-[0_2px_16px_rgba(6,124,249,0.04)] space-y-4">
+              <div className="p-5 rounded-2xl bg-white/95 backdrop-blur-xl border border-[rgba(6,124,249,0.12)] shadow-[0_2px_16px_rgba(6,124,249,0.04)] space-y-5">
                 
-                {/* Store Link Row */}
+                <div>
+                  <h3 className="font-bold text-[#0F172A] text-sm">
+                    Storefront Builder &amp; Branding
+                  </h3>
+                  <p className="text-xs text-[#64748B] mt-0.5 font-medium">
+                    Customize your store's title, logo image, subtitle, and listed digital products.
+                  </p>
+                </div>
+
+                {/* 1. Store Link Row */}
                 <div className="space-y-1.5">
-                  <label className="text-xs font-mono text-[#64748B] font-medium">Store Link</label>
-                  <div className="flex items-center justify-between bg-[#F8FAFC] border border-[rgba(6,124,249,0.15)] rounded-xl px-3.5 py-2 text-xs font-mono">
-                    <span className="text-[#0F172A] font-semibold">
+                  <label className="text-xs text-[#64748B] font-semibold">Store Link</label>
+                  <div className="flex items-center justify-between bg-[#F8FAFC] border border-[rgba(6,124,249,0.15)] rounded-xl px-3.5 py-2 text-xs">
+                    <span className="text-[#0F172A] font-bold">
                       {cleanStoreUrl}
                     </span>
                     <button
                       type="button"
                       onClick={handleCopyStoreLink}
-                      className="px-2.5 py-1 rounded-lg bg-[#EFF6FF] border border-[rgba(6,124,249,0.2)] text-[#067CF9] text-[11px] font-sans font-semibold transition-colors flex items-center gap-1 cursor-pointer"
+                      className="px-2.5 py-1 rounded-lg bg-[#EFF6FF] border border-[rgba(6,124,249,0.2)] text-[#067CF9] text-[11px] font-semibold transition-colors flex items-center gap-1 cursor-pointer"
                     >
                       {copiedStoreLink ? <Check className="w-3 h-3 text-[#067CF9]" /> : <Copy className="w-3 h-3" />}
                       <span>{copiedStoreLink ? 'Copied' : 'Copy Store Link'}</span>
@@ -630,11 +910,59 @@ export default function StoreCommerce({ onNavigate, initialTab = 'builder' }) {
                   </div>
                 </div>
 
-                {/* Store Title & Subtitle */}
+                {/* 2. Store Image / Logo / Avatar (User Request: "img") */}
                 <div className="space-y-1.5">
-                  <div className="flex items-center justify-between text-xs font-mono text-[#64748B]">
-                    <label className="font-medium">Store Title</label>
-                    <span className="text-[11px]">{storeHeadline.length}/60</span>
+                  <label className="text-xs text-[#64748B] font-semibold">Store Image / Brand Logo</label>
+                  <div className="flex items-center gap-4 p-3 rounded-xl bg-[#F8FAFC] border border-[rgba(6,124,249,0.12)]">
+                    <div className="relative w-14 h-14 rounded-full ring-2 ring-[#067CF9] p-0.5 bg-white shrink-0">
+                      <img
+                        src={displayAvatar}
+                        alt="Store avatar"
+                        onError={(e) => {
+                          e.currentTarget.onerror = null;
+                          e.currentTarget.src = getSafeAvatarUrl('', rawHandle);
+                        }}
+                        className="w-full h-full rounded-full object-cover"
+                      />
+                    </div>
+
+                    <div className="flex-1 space-y-1">
+                      <div className="text-xs font-bold text-[#0F172A]">
+                        Displayed on your public store &amp; mobile link-in-bio
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <label className="px-3 py-1.5 rounded-lg bg-[#067CF9] hover:bg-[#0568D2] text-white text-xs font-semibold cursor-pointer transition-colors inline-flex items-center gap-1.5 shadow-xs">
+                          <Upload className="w-3.5 h-3.5" />
+                          <span>Upload Image</span>
+                          <input
+                            type="file"
+                            accept="image/*"
+                            onChange={handleAvatarUpload}
+                            className="hidden"
+                          />
+                        </label>
+                        {storeCustomImage && (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setStoreCustomImage('');
+                              localStorage.removeItem(`vyralify_store_img_${rawHandle}`);
+                            }}
+                            className="text-xs text-[#64748B] hover:text-red-500 font-medium px-2 py-1 cursor-pointer"
+                          >
+                            Reset to Profile Pic
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 3. Store Title (User Request: "title") */}
+                <div className="space-y-1.5">
+                  <div className="flex items-center justify-between text-xs text-[#64748B]">
+                    <label className="font-semibold">Store Title</label>
+                    <span className="text-[11px] font-medium">{storeHeadline.length}/60</span>
                   </div>
                   <input
                     type="text"
@@ -646,10 +974,11 @@ export default function StoreCommerce({ onNavigate, initialTab = 'builder' }) {
                   />
                 </div>
 
+                {/* 4. Store Subtitle / Bio (User Request: "subtitle wagera") */}
                 <div className="space-y-1.5">
-                  <div className="flex items-center justify-between text-xs font-mono text-[#64748B]">
-                    <label className="font-medium">Store Subtitle</label>
-                    <span className="text-[11px]">{storeBio.length}/160</span>
+                  <div className="flex items-center justify-between text-xs text-[#64748B]">
+                    <label className="font-semibold">Store Subtitle / Bio</label>
+                    <span className="text-[11px] font-medium">{storeBio.length}/160</span>
                   </div>
                   <textarea
                     rows={2}
@@ -661,9 +990,9 @@ export default function StoreCommerce({ onNavigate, initialTab = 'builder' }) {
                   />
                 </div>
 
-                {/* Theme Palette Picker */}
+                {/* 5. Theme Palette Selector */}
                 <div className="space-y-1.5">
-                  <label className="text-xs font-mono text-[#64748B] font-medium">Theme Palette</label>
+                  <label className="text-xs text-[#64748B] font-semibold">Theme Palette</label>
                   <div className="flex flex-wrap items-center gap-3">
                     {[
                       { id: 'blue', label: 'Electric Blue', colorClass: 'bg-[#067CF9]' },
@@ -689,9 +1018,93 @@ export default function StoreCommerce({ onNavigate, initialTab = 'builder' }) {
                   </div>
                 </div>
 
-                {/* Action Button */}
-                <div className="pt-3 border-t border-[rgba(6,124,249,0.08)] flex items-center justify-between">
-                  <span className="text-[11px] text-[#067CF9] font-mono flex items-center gap-1 font-semibold">
+                {/* 6. Product Management Section */}
+                <div className="pt-3 border-t border-[rgba(6,124,249,0.08)] space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h4 className="font-bold text-[#0F172A] text-xs">
+                        Active Products ({products.length})
+                      </h4>
+                      <p className="text-[11px] text-[#64748B]">
+                        Products shown on your storefront.
+                      </p>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (tier === 'free' && products.length >= 1) {
+                          openUpgradeModal('store_products', 'Free tier includes 1 product slot. Upgrade to Pro for unlimited store products.');
+                        } else {
+                          setIsAddProductModalOpen(true);
+                        }
+                      }}
+                      className="px-3 py-1.5 rounded-xl bg-[#067CF9] hover:bg-[#0568D2] text-white font-semibold text-xs transition-colors flex items-center gap-1.5 cursor-pointer shadow-xs"
+                    >
+                      <Plus className="w-3.5 h-3.5" />
+                      <span>+ Add Product</span>
+                    </button>
+                  </div>
+
+                  {/* Product items mini list */}
+                  <div className="space-y-2">
+                    {products.map(prod => (
+                      <div
+                        key={prod.id}
+                        className="p-3 rounded-xl bg-[#F8FAFC] border border-[rgba(6,124,249,0.12)] flex items-center justify-between gap-3 hover:border-[#067CF9]/40 transition-colors"
+                      >
+                        <div className="min-w-0 flex-1">
+                          <div className="flex items-center gap-2">
+                            <span className="font-bold text-xs text-[#0F172A] truncate">
+                              {prod.title}
+                            </span>
+                            <span className="text-[10px] px-1.5 py-0.2 rounded bg-white text-[#067CF9] font-bold border border-[rgba(6,124,249,0.15)] shrink-0">
+                              {prod.price}
+                            </span>
+                          </div>
+                          <div className="text-[11px] text-[#64748B] mt-0.5">
+                            {prod.type} &bull; {prod.salesCount} sold ({prod.revenue || '₹0'})
+                          </div>
+                        </div>
+
+                        <div className="flex items-center gap-1 shrink-0">
+                          <button
+                            type="button"
+                            onClick={() => handleDeleteProduct(prod.id)}
+                            className="p-1.5 rounded-lg text-[#64748B] hover:text-red-500 hover:bg-red-50 transition-colors cursor-pointer"
+                            title="Remove Product"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Quick Shortcut to Commerce Winning Products */}
+                  <div className="p-3 rounded-xl bg-[#EFF6FF] border border-[rgba(6,124,249,0.2)] flex items-center justify-between gap-3">
+                    <div className="flex items-center gap-2">
+                      <Sparkles className="w-4 h-4 text-[#067CF9] shrink-0" />
+                      <div>
+                        <div className="text-xs font-bold text-[#0F172A]">Need turnkey digital products to sell?</div>
+                        <div className="text-[11px] text-[#64748B]">Browse verified Winning Products in the Commerce section.</div>
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setActiveSection('commerce')}
+                      className="px-3 py-1.5 rounded-lg bg-[#067CF9] hover:bg-[#0568D2] text-white text-xs font-semibold flex items-center gap-1 cursor-pointer shadow-xs shrink-0"
+                    >
+                      <span>Explore Winning Products</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+
+                </div>
+
+                {/* Save & Publish Store button */}
+                <div className="pt-4 border-t border-[rgba(6,124,249,0.08)] flex items-center justify-between">
+                  <span className="text-[11px] text-[#067CF9] flex items-center gap-1 font-semibold">
                     <ShieldCheck className="w-3.5 h-3.5" /> Auto-synced with CDN
                   </span>
                   <button
@@ -709,14 +1122,15 @@ export default function StoreCommerce({ onNavigate, initialTab = 'builder' }) {
                     <span>Save &amp; Publish Store</span>
                   </button>
                 </div>
+
               </div>
             </div>
 
-            {/* Right Column: Sleek iOS White Phone Bezel Frame over Soft Clean Backdrop (Blueprint Section 2.F) */}
-            <div className="lg:col-span-5 flex justify-center">
+            {/* Right Column: Sleek iOS Phone Frame with Real-Time Mobile Preview (5 Cols) */}
+            <div className="lg:col-span-5 flex justify-center sticky top-6">
               <div className="w-[320px] rounded-[48px] bg-white p-3.5 shadow-[0_20px_50px_rgba(6,124,249,0.12)] border-[6px] border-slate-100 ring-1 ring-[rgba(6,124,249,0.2)] relative">
                 
-                {/* Dynamic Island pill */}
+                {/* Dynamic Island Pill */}
                 <div className="w-24 h-5 bg-[#0F172A] rounded-full mx-auto mb-2 flex items-center justify-end pr-2">
                   <span className="w-2 h-2 rounded-full bg-slate-800" />
                 </div>
@@ -728,7 +1142,7 @@ export default function StoreCommerce({ onNavigate, initialTab = 'builder' }) {
                   <div className="space-y-3 pt-1">
                     <div className="relative w-16 h-16 mx-auto">
                       <img
-                        src={getSafeAvatarUrl(activePage?.avatar, rawHandle)}
+                        src={displayAvatar}
                         alt={rawHandle}
                         onError={(e) => {
                           e.currentTarget.onerror = null;
@@ -741,20 +1155,20 @@ export default function StoreCommerce({ onNavigate, initialTab = 'builder' }) {
 
                     <div>
                       <h4 className="font-bold text-xs tracking-tight text-[#0F172A]">@{rawHandle}</h4>
-                      <p className="text-[10px] font-mono text-[#64748B] mt-0.5 font-medium">{storeHeadline}</p>
+                      <p className="text-[11px] text-[#0F172A] mt-0.5 font-bold">{storeHeadline}</p>
                       <p className="text-[10px] text-[#64748B] leading-tight mt-1 max-w-[240px] mx-auto line-clamp-2">
                         {storeBio}
                       </p>
                     </div>
 
-                    {/* Product Cards Stack in Phone (White cards with Electric Blue price tags) */}
+                    {/* Product Cards Stack in Phone */}
                     <div className="space-y-2.5 pt-2 text-left">
                       {products.map(p => (
                         <div
                           key={p.id}
                           className="p-3 rounded-xl bg-white border border-[rgba(6,124,249,0.12)] shadow-xs space-y-2 hover:border-[#067CF9]/40 transition-colors"
                         >
-                          <div className="flex items-center justify-between text-[10px] font-mono">
+                          <div className="flex items-center justify-between text-[10px]">
                             <span className="text-[#64748B] font-medium">{p.type}</span>
                             <span className="font-bold text-[#067CF9]">{p.price}</span>
                           </div>
@@ -770,7 +1184,7 @@ export default function StoreCommerce({ onNavigate, initialTab = 'builder' }) {
                   </div>
 
                   {/* Clean Footer Brand Tag */}
-                  <div className="pt-3 pb-1 border-t border-[rgba(6,124,249,0.1)] text-[9px] font-mono text-[#64748B]">
+                  <div className="pt-3 pb-1 border-t border-[rgba(6,124,249,0.1)] text-[9px] text-[#64748B] font-medium">
                     Powered by <strong className="text-[#067CF9]">Vyralify Store</strong>
                   </div>
 
@@ -783,303 +1197,240 @@ export default function StoreCommerce({ onNavigate, initialTab = 'builder' }) {
         </div>
       )}
 
-      {/* 3. TAB 2: PRODUCTS CATALOG (Panel 5 Blueprint: White glass cards with Electric Blue price tags ₹499) */}
-      {activeTab === 'products' && (
+      {/* =========================================================================
+          SECTION 2: COMMERCE VIEW
+          User Request:
+          "Winning Products ke upar he ek aisa tab add krdena
+           White-Label software resell wala
+           Ki sell vyralify's co-pilot
+           Agency resell nahi tha apna, Vyralfiy Co-Pilot resell tha. Software tha wo, Agency nai
+           Isko laga dena winning Products me Sabse up"
+         ========================================================================= */}
+      {activeSection === 'commerce' && (
         <div className="space-y-6">
           
-          {/* Catalog Overview Banner */}
-          <div className="p-4 rounded-2xl bg-white/95 backdrop-blur-xl border border-[rgba(6,124,249,0.12)] shadow-[0_2px_16px_rgba(6,124,249,0.04)] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div>
-              <div className="flex items-center gap-2">
-                <h3 className="font-bold text-[#0F172A] text-sm">Product Catalog</h3>
-                <span className="text-xs font-mono text-[#067CF9] bg-[#EFF6FF] px-2 py-0.5 rounded font-semibold border border-[rgba(6,124,249,0.15)]">
-                  {products.length} Listed
-                </span>
+          {/* 1. VYRALIFY CO-PILOT SOFTWARE RESELL (White-Label Software Reseller - Placed at the very top of Commerce) */}
+          <div className="p-6 rounded-2xl bg-white/95 backdrop-blur-xl border border-[rgba(6,124,249,0.15)] shadow-[0_2px_16px_rgba(6,124,249,0.04)] space-y-5">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <div className="flex items-center gap-2">
+                  <span className="w-2.5 h-2.5 rounded-full bg-[#067CF9] animate-pulse" />
+                  <h3 className="font-bold text-[#0F172A] text-base">
+                    Sell Vyralify Co-Pilot (White-Label Software Resell)
+                  </h3>
+                </div>
+                <p className="text-xs text-[#64748B] mt-1 font-medium max-w-2xl">
+                  Rebrand Vyralify's complete AI Co-Pilot software under your custom domain &amp; logo. Sell recurring software subscriptions directly to your audience, clients, and students—keep 100% of the recurring MRR.
+                </p>
               </div>
-              <p className="text-xs text-[#64748B] mt-0.5">
-                Manage your active digital assets, guides, and services.
-              </p>
+
+              <span className="px-3 py-1 rounded-full bg-[#EFF6FF] border border-[rgba(6,124,249,0.25)] text-[#067CF9] text-xs font-bold self-start sm:self-auto shrink-0 flex items-center gap-1.5 shadow-xs">
+                <Crown className="w-3.5 h-3.5 text-[#067CF9]" />
+                <span>100% Software Profit Margins</span>
+              </span>
             </div>
 
-            <button
-              onClick={() => {
-                if (tier === 'free' && products.length >= 1) {
-                  openUpgradeModal('store_products', 'Free tier includes 1 product slot. Upgrade to Pro for unlimited store products.');
-                } else {
-                  setIsAddProductModalOpen(true);
-                }
-              }}
-              className="px-3.5 py-2 rounded-xl bg-[#067CF9] hover:bg-[#0568D2] text-white font-semibold text-xs transition-colors flex items-center gap-1.5 cursor-pointer shadow-xs whitespace-nowrap"
-            >
-              <Plus className="w-3.5 h-3.5" />
-              <span>+ Add Product</span>
-            </button>
-          </div>
+            {/* 3 Pillar Feature Cards for Co-Pilot Software Resell */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 text-xs">
+              <div className="p-4 rounded-xl bg-[#F8FAFC] border border-[rgba(6,124,249,0.1)] space-y-1.5">
+                <div className="flex items-center gap-2">
+                  <Globe className="w-4 h-4 text-[#067CF9]" />
+                  <span className="font-bold text-[#0F172A] block">Custom Domain &amp; Logo</span>
+                </div>
+                <p className="text-[#64748B] leading-relaxed">
+                  Host under your custom domain (e.g., <code className="text-[#067CF9] font-semibold">copilot.yourbrand.com</code>) with your white-label logo, branding, and custom favicon.
+                </p>
+              </div>
 
-          {/* White glass cards with Electric Blue price tags (Blueprint Section 2.F) */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {products.map(prod => (
-              <div
-                key={prod.id}
-                className="p-5 rounded-2xl bg-white/95 backdrop-blur-xl border border-[rgba(6,124,249,0.12)] shadow-[0_2px_12px_rgba(6,124,249,0.03)] space-y-4 flex flex-col justify-between hover:border-[#067CF9]/30 transition-all"
-              >
+              <div className="p-4 rounded-xl bg-[#F8FAFC] border border-[rgba(6,124,249,0.1)] space-y-1.5">
+                <div className="flex items-center gap-2">
+                  <DollarSign className="w-4 h-4 text-[#067CF9]" />
+                  <span className="font-bold text-[#0F172A] block">100% Software Profit Margins</span>
+                </div>
+                <p className="text-[#64748B] leading-relaxed">
+                  Connect your own Stripe or Razorpay accounts. Charge ₹1,999/mo or ₹14,999/yr per license and keep 100% of recurring subscriber revenue.
+                </p>
+              </div>
+
+              <div className="p-4 rounded-xl bg-[#F8FAFC] border border-[rgba(6,124,249,0.1)] space-y-1.5">
+                <div className="flex items-center gap-2">
+                  <Cpu className="w-4 h-4 text-[#067CF9]" />
+                  <span className="font-bold text-[#0F172A] block">Turnkey Cloud AI Engine</span>
+                </div>
+                <p className="text-[#64748B] leading-relaxed">
+                  Zero server or GPU management. Vyralify handles all AI script engineering, viral intelligence, and uptime silently in the background.
+                </p>
+              </div>
+            </div>
+
+            {/* Action Banner for Co-Pilot Reseller */}
+            <div className="p-4 rounded-xl bg-[#EFF6FF] border border-[rgba(6,124,249,0.2)] flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs">
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-xl bg-white border border-[rgba(6,124,249,0.25)] text-[#067CF9] flex items-center justify-center shrink-0 shadow-xs">
+                  <Zap className="w-4 h-4 text-[#067CF9]" />
+                </div>
                 <div>
-                  <div className="flex items-center justify-between text-xs font-mono mb-2">
-                    <span className="px-2 py-0.5 rounded-md bg-[#F8FAFC] text-[#64748B] font-medium text-[10px] border border-neutral-100">
-                      {prod.type}
-                    </span>
-                    <span className="inline-flex items-center gap-1.5 text-[10px] text-[#067CF9] font-medium">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#067CF9] animate-pulse" />
-                      Active
-                    </span>
-                  </div>
-
-                  <h4 className="font-bold text-[#0F172A] text-sm leading-snug">
-                    {prod.title}
-                  </h4>
-
-                  {/* Electric Blue Price Tag */}
-                  <div className="text-xs text-[#64748B] font-mono mt-2">
-                    Price: <strong className="text-[#067CF9] font-bold text-sm">{prod.price}</strong> &bull; Sales: {prod.salesCount} units ({prod.revenue || '₹0'})
-                  </div>
-                </div>
-
-                {/* Card Actions */}
-                <div className="pt-3 border-t border-[rgba(6,124,249,0.08)] flex items-center justify-end gap-1">
-                  <button
-                    onClick={() => {
-                      addNotification({ title: 'Edit Product', message: 'Edit modal opening...', type: 'info' });
-                    }}
-                    className="p-1.5 rounded-lg text-[#64748B] hover:text-[#0F172A] hover:bg-[#F8FAFC] transition-colors cursor-pointer"
-                    title="Edit Product"
-                  >
-                    <Edit3 className="w-3.5 h-3.5" />
-                  </button>
-
-                  <button
-                    onClick={handleCopyStoreLink}
-                    className="p-1.5 rounded-lg text-[#64748B] hover:text-[#0F172A] hover:bg-[#F8FAFC] transition-colors cursor-pointer"
-                    title="Copy Link"
-                  >
-                    <Copy className="w-3.5 h-3.5" />
-                  </button>
-
-                  <button
-                    onClick={() => handleDeleteProduct(prod.id)}
-                    className="p-1.5 rounded-lg text-[#64748B] hover:text-red-500 hover:bg-red-50 transition-colors cursor-pointer"
-                    title="Delete Product"
-                  >
-                    <Trash2 className="w-3.5 h-3.5" />
-                  </button>
+                  <h4 className="font-bold text-[#0F172A]">Deploy Your Branded AI Co-Pilot Software</h4>
+                  <p className="text-[#64748B]">Activate your Co-Pilot reseller license to generate instant client access keys and white-label portals.</p>
                 </div>
               </div>
-            ))}
-          </div>
-
-        </div>
-      )}
-
-      {/* 4. TAB 3: DIGITAL TEMPLATES (Pre-Built Asset Vault) */}
-      {activeTab === 'templates' && (
-        <div className="space-y-6">
-          
-          <div className="p-4 rounded-2xl bg-white/95 backdrop-blur-xl border border-[rgba(6,124,249,0.12)] shadow-[0_2px_16px_rgba(6,124,249,0.04)] flex items-center justify-between">
-            <div>
-              <h3 className="font-bold text-[#0F172A] text-sm">Pre-Built Digital Asset Vault</h3>
-              <p className="text-xs text-[#64748B] mt-0.5">
-                Import verified templates, guides, and resource kits directly into your storefront.
-              </p>
-            </div>
-            <span className="text-xs font-mono text-[#067CF9] bg-[#EFF6FF] px-2 py-0.5 rounded font-semibold border border-[rgba(6,124,249,0.15)]">
-              4 Core Templates Available
-            </span>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {TEMPLATE_VAULT.map(tpl => (
-              <div
-                key={tpl.id}
-                className="p-5 rounded-2xl bg-white border border-[rgba(6,124,249,0.12)] shadow-[0_2px_12px_rgba(6,124,249,0.03)] space-y-4 flex flex-col justify-between hover:border-[#067CF9]/30 transition-all"
-              >
-                <div className="flex items-start gap-4">
-                  <img src={tpl.thumbnail} alt={tpl.title} className="w-20 h-20 rounded-xl object-cover shrink-0" />
-                  <div className="space-y-1">
-                    <span className="px-2 py-0.5 rounded bg-[#F8FAFC] text-[10px] font-mono text-[#64748B] font-medium border border-neutral-100">
-                      {tpl.format}
-                    </span>
-                    <h4 className="font-bold text-[#0F172A] text-xs leading-snug mt-1">{tpl.title}</h4>
-                    <p className="text-[11px] text-[#64748B] leading-relaxed line-clamp-2">{tpl.description}</p>
-                  </div>
-                </div>
-
-                <div className="pt-3 border-t border-[rgba(6,124,249,0.08)] flex items-center justify-between text-xs">
-                  <div>
-                    <span className="text-[#64748B] font-mono text-[11px]">Suggested Price: </span>
-                    <strong className="text-[#067CF9] font-mono font-bold text-sm">{tpl.suggestedPrice}</strong>
-                  </div>
-
-                  <button
-                    onClick={() => handleImportTemplate(tpl)}
-                    className="px-3.5 py-1.5 rounded-xl bg-[#067CF9] hover:bg-[#0568D2] text-white font-semibold text-xs transition-colors flex items-center gap-1.5 cursor-pointer shadow-xs"
-                  >
-                    <span>Import to My Store</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-
-        </div>
-      )}
-
-      {/* 5. TAB 4: ORDERS & SALES (Panel 5 Blueprint: High-contrast light table with alternating row fills #F8FAFC aur clean Electric Blue 'Paid' status badges) */}
-      {activeTab === 'orders' && (
-        <div className="space-y-4">
-          
-          {/* Top Controls */}
-          <div className="p-4 rounded-2xl bg-white/95 backdrop-blur-xl border border-[rgba(6,124,249,0.12)] shadow-[0_2px_16px_rgba(6,124,249,0.04)] flex flex-col md:flex-row md:items-center justify-between gap-3">
-            <div className="relative flex-1 max-w-md">
-              <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-[#94A3B8]" />
-              <input
-                type="text"
-                value={orderSearchQuery}
-                onChange={(e) => setOrderSearchQuery(e.target.value)}
-                placeholder="Search by customer email, order ID..."
-                className="w-full bg-[#F8FAFC] border border-[rgba(6,124,249,0.15)] rounded-xl pl-8 pr-3 py-2 text-xs text-[#0F172A] placeholder:text-[#94A3B8] focus:outline-hidden focus:border-[#067CF9]"
-              />
-            </div>
-
-            <div className="flex items-center gap-2">
-              <button
-                onClick={handleExportOrdersCsv}
-                className="px-3 py-1.5 rounded-xl border border-[rgba(6,124,249,0.2)] text-[#0F172A] hover:bg-[#EFF6FF] text-xs font-medium flex items-center gap-1.5 transition-colors cursor-pointer"
-              >
-                <Download className="w-3.5 h-3.5 text-[#067CF9]" />
-                <span>Export CSV</span>
-              </button>
 
               <button
-                onClick={handleSimulateTestOrder}
-                className="text-xs text-[#64748B] hover:text-[#067CF9] font-medium px-2 py-1 cursor-pointer transition-colors"
-                title="Simulate a test order to verify CRM logging"
+                type="button"
+                onClick={() => openUpgradeModal('white_label', 'Upgrade to Elite Plan to resell Vyralify Co-Pilot under your own software brand.')}
+                className="px-4 py-2 rounded-xl bg-[#067CF9] hover:bg-[#0568D2] text-white font-semibold text-xs transition-colors flex items-center gap-1.5 cursor-pointer whitespace-nowrap self-start sm:self-auto shadow-xs"
               >
-                Simulate Test Order
+                <span>Get Co-Pilot Reseller License</span>
+                <ArrowRight className="w-3.5 h-3.5" />
               </button>
             </div>
           </div>
 
-          {/* High-contrast light table with alternating row fills #F8FAFC & Electric Blue 'Paid' badges (Blueprint Section 2.F) */}
-          <div className="p-5 rounded-2xl bg-white border border-[rgba(6,124,249,0.12)] shadow-xs overflow-x-auto">
-            <table className="w-full text-left text-xs">
-              <thead>
-                <tr className="border-b border-[rgba(6,124,249,0.12)] text-[#64748B] font-mono text-[11px]">
-                  <th className="pb-2.5 font-semibold">Order ID</th>
-                  <th className="pb-2.5 font-semibold">Customer Email</th>
-                  <th className="pb-2.5 font-semibold">Product Purchased</th>
-                  <th className="pb-2.5 font-semibold">Amount</th>
-                  <th className="pb-2.5 font-semibold">Payment Gateway</th>
-                  <th className="pb-2.5 font-semibold">Fulfillment</th>
-                  <th className="pb-2.5 font-semibold text-right">Date</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-[rgba(6,124,249,0.06)]">
-                {filteredOrders.length === 0 ? (
-                  <tr>
-                    <td colSpan="7" className="py-8 text-center text-[#94A3B8] text-xs">
-                      No matching orders found.
-                    </td>
-                  </tr>
-                ) : (
-                  filteredOrders.map((ord, idx) => (
-                    <tr 
-                      key={ord.id} 
-                      className={`${idx % 2 === 1 ? 'bg-[#F8FAFC]' : 'bg-white'} hover:bg-[#EFF6FF]/60 transition-colors`}
-                    >
-                      <td className="py-3 font-mono text-[#64748B] font-medium">{ord.id}</td>
-                      <td className="py-3 font-mono text-[#0F172A]">{ord.email}</td>
-                      <td className="py-3 text-[#0F172A] font-medium max-w-[200px] truncate" title={ord.product}>
-                        {ord.product}
-                      </td>
-                      <td className="py-3 font-mono font-bold text-[#0F172A]">{ord.amount}</td>
-                      <td className="py-3 font-mono text-[#64748B] text-[11px]">{ord.paymentGateway || 'Razorpay'}</td>
-                      
-                      {/* Clean Electric Blue "Paid" status badges (Blueprint Section 2.F) */}
-                      <td className="py-3">
-                        <div className="flex items-center gap-2">
-                          <span className="px-2.5 py-0.5 rounded-md text-[10px] font-mono font-bold bg-[#EFF6FF] text-[#067CF9] border border-[rgba(6,124,249,0.2)]">
-                            {ord.status}
-                          </span>
-                          <span className="inline-flex items-center gap-1 text-[10px] text-[#64748B] font-medium">
-                            <span className="w-1.5 h-1.5 rounded-full bg-[#067CF9]" />
-                            {ord.fulfillment || 'Delivered'}
+          {/* 2. WINNING PRODUCTS VAULT (Directly Below Co-Pilot Resell in Commerce) */}
+          <div className="space-y-4">
+            
+            {/* Header & Filter Controls */}
+            <div className="p-5 rounded-2xl bg-white/95 backdrop-blur-xl border border-[rgba(6,124,249,0.12)] shadow-[0_2px_16px_rgba(6,124,249,0.04)] space-y-4">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
+                <div>
+                  <div className="flex items-center gap-2">
+                    <h3 className="font-bold text-[#0F172A] text-base">
+                      Winning Products Vault
+                    </h3>
+                    <span className="px-2.5 py-0.5 rounded-full bg-[#EFF6FF] text-[#067CF9] border border-[rgba(6,124,249,0.2)] text-[10px] font-bold">
+                      {WINNING_PRODUCTS.length} Verified Turnkey Assets
+                    </span>
+                  </div>
+                  <p className="text-xs text-[#64748B] mt-0.5 font-medium">
+                    Pre-packaged digital downloads, Notion templates, and 1-on-1 consultations tested for high conversion. 1-click import directly into your store.
+                  </p>
+                </div>
+
+                <div className="relative min-w-[240px]">
+                  <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-[#94A3B8]" />
+                  <input
+                    type="text"
+                    value={winningSearchQuery}
+                    onChange={(e) => setWinningSearchQuery(e.target.value)}
+                    placeholder="Search winning assets, guides..."
+                    className="w-full bg-[#F8FAFC] border border-[rgba(6,124,249,0.15)] rounded-xl pl-8 pr-3 py-1.5 text-xs text-[#0F172A] placeholder:text-[#94A3B8] focus:outline-hidden focus:border-[#067CF9]"
+                  />
+                </div>
+              </div>
+
+              {/* Category Filter Pills */}
+              <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar pt-1">
+                {[
+                  { id: 'all', label: 'All Winning Products' },
+                  { id: 'guides', label: 'Guides & Ebooks' },
+                  { id: 'notion', label: 'Notion Systems' },
+                  { id: 'consulting', label: '1-on-1 Consultations' },
+                  { id: 'media', label: '4K B-Roll & Media' }
+                ].map(cat => (
+                  <button
+                    key={cat.id}
+                    onClick={() => setWinningCategory(cat.id)}
+                    className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer whitespace-nowrap ${
+                      winningCategory === cat.id
+                        ? 'bg-[#067CF9] text-white shadow-xs'
+                        : 'bg-[#F8FAFC] text-[#64748B] hover:text-[#0F172A] border border-[rgba(6,124,249,0.08)]'
+                    }`}
+                  >
+                    {cat.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Winning Products Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {filteredWinningProducts.map(winProd => {
+                const isAlreadyInStore = products.some(
+                  p => p.title.toLowerCase().trim() === winProd.title.toLowerCase().trim()
+                );
+
+                return (
+                  <div
+                    key={winProd.id}
+                    className="p-5 rounded-2xl bg-white border border-[rgba(6,124,249,0.12)] shadow-[0_2px_12px_rgba(6,124,249,0.03)] space-y-4 flex flex-col justify-between hover:border-[#067CF9]/40 transition-all group"
+                  >
+                    <div className="space-y-3">
+                      {/* Top Thumbnail & Badges */}
+                      <div className="relative h-40 w-full rounded-xl overflow-hidden bg-slate-900">
+                        <img
+                          src={winProd.thumbnail}
+                          alt={winProd.title}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+                        
+                        <div className="absolute top-2.5 left-2.5 flex items-center gap-1.5">
+                          <span className="px-2 py-0.5 rounded-md bg-black/60 backdrop-blur-md text-white text-[10px] font-bold border border-white/10">
+                            {winProd.categoryLabel}
                           </span>
                         </div>
-                      </td>
-                      
-                      <td className="py-3 text-right text-[#64748B] font-mono text-[11px] whitespace-nowrap">{ord.date}</td>
-                    </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
+
+                        <div className="absolute top-2.5 right-2.5">
+                          <span className="px-2 py-0.5 rounded-md bg-[#067CF9] text-white text-[10px] font-bold shadow-xs">
+                            {winProd.badge}
+                          </span>
+                        </div>
+
+                        <div className="absolute bottom-2.5 left-2.5 right-2.5 text-white">
+                          <span className="text-[10px] text-white/80 font-medium block">{winProd.salesProof}</span>
+                          <span className="text-xs font-bold leading-tight line-clamp-1">{winProd.title}</span>
+                        </div>
+                      </div>
+
+                      {/* Content Details */}
+                      <div className="space-y-1.5">
+                        <h4 className="font-bold text-[#0F172A] text-sm leading-snug">
+                          {winProd.title}
+                        </h4>
+                        <p className="text-[11px] text-[#64748B] leading-relaxed line-clamp-2">
+                          {winProd.description}
+                        </p>
+                      </div>
+
+                      {/* Profit & Margin Highlights */}
+                      <div className="p-2.5 rounded-xl bg-[#F8FAFC] border border-[rgba(6,124,249,0.08)] flex items-center justify-between text-xs">
+                        <div>
+                          <span className="text-[10px] text-[#64748B] font-medium block">Suggested Price</span>
+                          <strong className="text-[#0F172A] font-bold text-sm">{winProd.suggestedPrice}</strong>
+                        </div>
+                        <div className="text-right">
+                          <span className="text-[10px] text-emerald-600 font-semibold block">{winProd.margin}</span>
+                          <span className="text-[10px] text-[#64748B] font-medium">Instant Payout</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Import to My Store Button */}
+                    <div className="pt-2">
+                      {isAlreadyInStore ? (
+                        <div className="w-full py-2 rounded-xl bg-emerald-50 text-emerald-600 border border-emerald-200 text-xs font-bold flex items-center justify-center gap-1.5">
+                          <CheckCheck className="w-3.5 h-3.5" />
+                          <span>Active on Your Storefront</span>
+                        </div>
+                      ) : (
+                        <button
+                          type="button"
+                          onClick={() => handleImportWinningProduct(winProd)}
+                          className="w-full py-2.5 rounded-xl bg-[#067CF9] hover:bg-[#0568D2] text-white font-semibold text-xs transition-colors flex items-center justify-center gap-1.5 cursor-pointer shadow-xs"
+                        >
+                          <span>Import to My Store</span>
+                          <ArrowRight className="w-3.5 h-3.5" />
+                        </button>
+                      )}
+                    </div>
+
+                  </div>
+                );
+              })}
+            </div>
+
           </div>
 
-        </div>
-      )}
-
-      {/* 6. TAB 5: AGENCY RESELL */}
-      {activeTab === 'resell' && (
-        <div className="p-6 rounded-2xl bg-white/95 backdrop-blur-xl border border-[rgba(6,124,249,0.12)] shadow-[0_2px_16px_rgba(6,124,249,0.04)] space-y-6">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            <div>
-              <h3 className="font-bold text-[#0F172A] text-base">
-                Agency Resell &amp; Custom Branding
-              </h3>
-              <p className="text-xs text-[#64748B] mt-0.5">
-                Rebrand Vyralify under your custom domain and sell subscription access to your clients.
-              </p>
-            </div>
-            <span className="px-2.5 py-1 rounded-lg bg-[#EFF6FF] border border-[rgba(6,124,249,0.2)] text-[#067CF9] text-xs font-mono font-bold self-start sm:self-auto">
-              Elite Agency Reseller
-            </span>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
-            <div className="p-4 rounded-xl bg-[#F8FAFC] border border-[rgba(6,124,249,0.08)] space-y-1.5">
-              <span className="font-bold text-[#0F172A] block">Custom Domain &amp; Logo</span>
-              <p className="text-[#64748B]">Host under your custom domain with white-label logos, colors, and favicon.</p>
-            </div>
-            <div className="p-4 rounded-xl bg-[#F8FAFC] border border-[rgba(6,124,249,0.08)] space-y-1.5">
-              <span className="font-bold text-[#0F172A] block">Client Billing &amp; Invoicing</span>
-              <p className="text-[#64748B]">Connect your own Stripe or Razorpay accounts and keep 100% of subscriber revenue.</p>
-            </div>
-            <div className="p-4 rounded-xl bg-[#F8FAFC] border border-[rgba(6,124,249,0.08)] space-y-1.5">
-              <span className="font-bold text-[#0F172A] block">Dedicated AI Inference Engine</span>
-              <p className="text-[#64748B]">Zero infrastructure overhead with Vyralify handling all AI processing silently in background.</p>
-            </div>
-          </div>
-
-          {/* Upgrade Lock Banner */}
-          <div className="p-5 rounded-2xl bg-[#EFF6FF] border border-[rgba(6,124,249,0.2)] flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-lg bg-white border border-[rgba(6,124,249,0.2)] text-[#067CF9] flex items-center justify-center shrink-0">
-                <Crown className="w-4 h-4 text-[#067CF9]" />
-              </div>
-              <div>
-                <h4 className="font-bold text-[#0F172A]">Agency Reseller Access</h4>
-                <p className="text-[#64748B]">Upgrade to Elite Agency Plan to deploy custom-branded portals for client rosters.</p>
-              </div>
-            </div>
-
-            <button
-              onClick={() => openUpgradeModal('white_label', 'Upgrade to Elite Agency to launch your custom branded software portal.')}
-              className="px-4 py-2 rounded-xl bg-[#067CF9] hover:bg-[#0568D2] text-white font-semibold text-xs transition-colors flex items-center gap-1.5 cursor-pointer whitespace-nowrap self-start sm:self-auto shadow-xs"
-            >
-              <span>Upgrade to Elite Agency Plan</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </button>
-          </div>
         </div>
       )}
 
@@ -1105,12 +1456,12 @@ export default function StoreCommerce({ onNavigate, initialTab = 'builder' }) {
               
               {/* STEP 1: Basic Details */}
               <div className="space-y-3 p-3.5 rounded-xl bg-[#F8FAFC] border border-[rgba(6,124,249,0.1)]">
-                <div className="font-mono text-[10px] font-bold text-[#067CF9] uppercase">
+                <div className="text-[10px] font-bold text-[#067CF9] uppercase">
                   Step 1 &bull; Basic Details
                 </div>
 
                 <div className="space-y-1">
-                  <label className="font-mono text-[#64748B] font-medium">Product Title</label>
+                  <label className="text-[#64748B] font-semibold">Product Title</label>
                   <input
                     type="text"
                     required
@@ -1123,7 +1474,7 @@ export default function StoreCommerce({ onNavigate, initialTab = 'builder' }) {
 
                 <div className="grid grid-cols-2 gap-3">
                   <div className="space-y-1">
-                    <label className="font-mono text-[#64748B] font-medium">Category</label>
+                    <label className="text-[#64748B] font-semibold">Category</label>
                     <select
                       value={newProd.type}
                       onChange={(e) => setNewProd({ ...newProd, type: e.target.value })}
@@ -1138,7 +1489,7 @@ export default function StoreCommerce({ onNavigate, initialTab = 'builder' }) {
                   </div>
 
                   <div className="space-y-1">
-                    <div className="flex items-center justify-between font-mono text-[#64748B] font-medium">
+                    <div className="flex items-center justify-between text-[#64748B] font-semibold">
                       <label>Price</label>
                       <div className="flex items-center gap-1 text-[10px]">
                         <button
@@ -1158,7 +1509,7 @@ export default function StoreCommerce({ onNavigate, initialTab = 'builder' }) {
                       </div>
                     </div>
                     <div className="relative">
-                      <span className="absolute left-3 top-1/2 -translate-y-1/2 font-mono font-bold text-[#64748B]">
+                      <span className="absolute left-3 top-1/2 -translate-y-1/2 font-bold text-[#64748B]">
                         {modalCurrency === 'INR' ? '₹' : '$'}
                       </span>
                       <input
@@ -1167,7 +1518,7 @@ export default function StoreCommerce({ onNavigate, initialTab = 'builder' }) {
                         value={newProd.priceAmount}
                         onChange={(e) => setNewProd({ ...newProd, priceAmount: e.target.value })}
                         placeholder="499"
-                        className="w-full bg-white border border-[rgba(6,124,249,0.15)] rounded-xl pl-7 pr-3 py-2 text-xs font-mono font-bold text-[#067CF9] focus:outline-hidden focus:border-[#067CF9]"
+                        className="w-full bg-white border border-[rgba(6,124,249,0.15)] rounded-xl pl-7 pr-3 py-2 text-xs font-bold text-[#067CF9] focus:outline-hidden focus:border-[#067CF9]"
                       />
                     </div>
                   </div>
@@ -1176,7 +1527,7 @@ export default function StoreCommerce({ onNavigate, initialTab = 'builder' }) {
 
               {/* STEP 2: Fulfillment Asset */}
               <div className="space-y-3 p-3.5 rounded-xl bg-[#F8FAFC] border border-[rgba(6,124,249,0.1)]">
-                <div className="font-mono text-[10px] font-bold text-[#067CF9] uppercase">
+                <div className="text-[10px] font-bold text-[#067CF9] uppercase">
                   Step 2 &bull; Fulfillment Asset
                 </div>
 
@@ -1222,13 +1573,13 @@ export default function StoreCommerce({ onNavigate, initialTab = 'builder' }) {
                           <FileText className="w-4 h-4 text-[#067CF9] shrink-0" />
                           <div className="truncate">
                             <span className="font-semibold text-[#0F172A] block truncate">{newProd.fileName}</span>
-                            <span className="text-[10px] text-[#64748B] font-mono">{newProd.fileSize} &bull; Ready for instant buyer download</span>
+                            <span className="text-[10px] text-[#64748B] font-medium">{newProd.fileSize} &bull; Ready for instant buyer download</span>
                           </div>
                         </div>
                         <button
                           type="button"
                           onClick={() => setNewProd({ ...newProd, fileData: null, fileName: '', fileSize: '' })}
-                          className="text-[#64748B] hover:text-red-500 text-xs font-mono ml-2 shrink-0 cursor-pointer"
+                          className="text-[#64748B] hover:text-red-500 text-xs ml-2 shrink-0 cursor-pointer font-medium"
                         >
                           Remove
                         </button>
@@ -1249,13 +1600,13 @@ export default function StoreCommerce({ onNavigate, initialTab = 'builder' }) {
                   </div>
                 ) : (
                   <div className="space-y-1">
-                    <label className="font-mono text-[#64748B] font-medium block">Customer Access Link</label>
+                    <label className="text-[#64748B] font-semibold block">Customer Access Link</label>
                     <input
                       type="url"
                       value={newProd.accessUrl}
                       onChange={(e) => setNewProd({ ...newProd, accessUrl: e.target.value })}
                       placeholder="https://calendly.com/... or https://notion.so/..."
-                      className="w-full bg-white border border-[rgba(6,124,249,0.15)] rounded-xl px-3 py-2 text-xs text-[#0F172A] focus:outline-hidden focus:border-[#067CF9] font-mono"
+                      className="w-full bg-white border border-[rgba(6,124,249,0.15)] rounded-xl px-3 py-2 text-xs text-[#0F172A] focus:outline-hidden focus:border-[#067CF9]"
                     />
                   </div>
                 )}
@@ -1263,12 +1614,12 @@ export default function StoreCommerce({ onNavigate, initialTab = 'builder' }) {
 
               {/* STEP 3: Button Label & Description */}
               <div className="space-y-3 p-3.5 rounded-xl bg-[#F8FAFC] border border-[rgba(6,124,249,0.1)]">
-                <div className="font-mono text-[10px] font-bold text-[#067CF9] uppercase">
+                <div className="text-[10px] font-bold text-[#067CF9] uppercase">
                   Step 3 &bull; Pitch &amp; Call to Action
                 </div>
 
                 <div className="space-y-1">
-                  <label className="font-mono text-[#64748B] font-medium">Short Sales Pitch</label>
+                  <label className="text-[#64748B] font-semibold">Short Sales Pitch</label>
                   <textarea
                     rows={2}
                     value={newProd.description}
@@ -1279,7 +1630,7 @@ export default function StoreCommerce({ onNavigate, initialTab = 'builder' }) {
                 </div>
 
                 <div className="space-y-1">
-                  <label className="font-mono text-[#64748B] font-medium">Button CTA Text</label>
+                  <label className="text-[#64748B] font-semibold">Button CTA Text</label>
                   <input
                     type="text"
                     value={newProd.ctaText}
@@ -1295,7 +1646,7 @@ export default function StoreCommerce({ onNavigate, initialTab = 'builder' }) {
                 <button
                   type="button"
                   onClick={() => setIsAddProductModalOpen(false)}
-                  className="px-3.5 py-1.5 rounded-xl text-[#64748B] hover:bg-neutral-100 cursor-pointer transition-colors"
+                  className="px-3.5 py-1.5 rounded-xl text-[#64748B] hover:bg-neutral-100 cursor-pointer transition-colors font-medium"
                 >
                   Cancel
                 </button>

@@ -58,6 +58,11 @@ export default function UpgradeModal() {
 
           {/* Header & Context Trigger */}
           <div className="text-center max-w-xl mx-auto mb-8">
+            <div className="flex items-center justify-center mb-3">
+              <img src="/vyralify-logo.png" alt="Vyralify" className="h-6 w-auto object-contain dark:hidden" />
+              <img src="/vyralify-logo-white.png" alt="Vyralify" className="h-6 w-auto object-contain hidden dark:block" />
+            </div>
+
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 dark:bg-white/[0.04] border border-emerald-200 dark:border-white/[0.08] text-emerald-700 dark:text-neutral-300 text-[11px] font-mono mb-3 font-semibold">
               <Sparkles className="w-3.5 h-3.5 text-emerald-600 dark:text-neutral-400" />
               <span>Creator Plans</span>

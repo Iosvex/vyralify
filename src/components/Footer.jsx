@@ -32,11 +32,12 @@ export default function Footer({ onNavigateSection, onOpenAuth }) {
           
           {/* Column 1: Brand (lg:col-span-4 or 3.5, ~25-30%) */}
           <div className="col-span-2 md:col-span-3 lg:col-span-4">
-            <div className="flex items-center gap-2 mb-3">
-              <div className="w-7 h-7 rounded-lg bg-[#23E598] flex items-center justify-center text-[#0A0A0A] font-extrabold text-sm shadow-sm">
-                V
-              </div>
-              <span className="font-bold text-xl tracking-tight text-white">Vyralify</span>
+            <div className="flex items-center mb-4">
+              <img 
+                src="/vyralify-logo-white.png" 
+                alt="Vyralify" 
+                className="h-7 w-auto object-contain" 
+              />
             </div>
             
             <p className="text-[13px] text-[#555555] leading-relaxed mb-6 max-w-xs">

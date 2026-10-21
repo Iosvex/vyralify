@@ -76,8 +76,9 @@
     letter-spacing: -0.01em;
   }
 
-  .font-mono, code, kbd {
-    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace !important;
+  .font-mono, code, kbd, pre {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+    letter-spacing: normal !important;
   }
 }
 

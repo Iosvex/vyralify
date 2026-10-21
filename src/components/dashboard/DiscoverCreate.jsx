@@ -22,7 +22,14 @@ import {
   FileText,
   RotateCw,
   Trash2,
-  ChevronDown
+  ChevronDown,
+  Music,
+  Volume2,
+  Radio,
+  Layers,
+  CheckCircle2,
+  Compass,
+  PenTool
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { usePage } from '../../context/PageContext';
@@ -172,40 +179,99 @@ const INITIAL_VIRAL_POSTS = [
     engagement: '95%',
     saves: '115K',
     shares: '64K',
-    format: 'Reels',
+    format: 'Carousels',
     retentionScore: '95%',
     hookType: 'Proof / Breakdown',
     hookText: 'How Olympic sprinters shave 0.2s without running faster (stride cadence science):',
     audioTrack: 'Stadium Roar & Sub Boom',
-    duration: '38s',
+    duration: '8 Slides',
     thumbnail: 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=600&auto=format&fit=crop&q=80',
     breakdown: 'Slow-motion biomechanical overlay with freeze frames at foot strike.'
   }
 ];
 
-export default function DiscoverCreate({ onNavigate, initialTab = 'feed' }) {
+// Curated Viral Audio Tracks for Discovery
+const VIRAL_AUDIOS = [
+  {
+    id: 'audio_1',
+    title: 'Dark Cinematic Ambient (Trending #1)',
+    artist: '@stoic.sounds',
+    uses: '412K Reels',
+    genre: 'Cinematic / Phonk',
+    duration: '0:34',
+    growth: '+42% this week',
+    badge: 'Viral Surge'
+  },
+  {
+    id: 'audio_2',
+    title: 'Ambient Lo-Fi Chill Beats #4',
+    artist: '@creator.frequency',
+    uses: '284K Reels',
+    genre: 'Lo-Fi / Focus',
+    duration: '0:28',
+    growth: '+28% this week',
+    badge: 'Creator Top Choice'
+  },
+  {
+    id: 'audio_3',
+    title: 'Deep Bass Drop & Sub Boom Impact',
+    artist: '@bassline.audio',
+    uses: '195K Reels',
+    genre: 'Hook Trigger / Bass',
+    duration: '0:15',
+    growth: '+65% this week',
+    badge: 'High Retention'
+  },
+  {
+    id: 'audio_4',
+    title: 'Luxury Motivational Strings & Piano',
+    artist: '@wealth.cadence',
+    uses: '320K Reels',
+    genre: 'Classical / Uplifting',
+    duration: '0:45',
+    growth: '+18% this week',
+    badge: 'Trending Audio'
+  },
+  {
+    id: 'audio_5',
+    title: 'Minimalist Tech House Groove',
+    artist: '@cyber.tempo',
+    uses: '164K Reels',
+    genre: 'Electronic / Fast',
+    duration: '0:22',
+    growth: '+34% this week',
+    badge: 'Fast Rise'
+  },
+  {
+    id: 'audio_6',
+    title: 'Slowed Reverberation - Midnight Drive',
+    artist: '@synth.nocturne',
+    uses: '512K Reels',
+    genre: 'Vaporwave / Mood',
+    duration: '0:30',
+    growth: '+12% this week',
+    badge: 'All-Time Hit'
+  }
+];
+
+export default function DiscoverCreate({ onNavigate, initialTab = 'discover' }) {
   const { user, tier, aiCredits, consumeCredit } = useAuth();
   const { activePage } = usePage();
   const { openUpgradeModal } = usePlanGating();
   const { addNotification } = useNotifications();
 
-  // Active Sub-Tab: 'feed' | 'studio' | 'planner' | 'competitors' | 'saved'
-  const [activeTab, setActiveTab] = useState(initialTab);
+  // Top-Level Two Master Toggles: 'discover' | 'create'
+  const [mainMode, setMainMode] = useState(
+    initialTab === 'studio' || initialTab === 'planner' ? 'create' : 'discover'
+  );
 
-  React.useEffect(() => {
-    if (initialTab) {
-      setActiveTab(initialTab);
-    }
-  }, [initialTab]);
-
-  // Tab 1: Discover Feed Filters & Search
+  // Discover Section: 5 Content Filter Toggles: 'all' | 'reels' | 'carousels' | 'audios' | 'competitors'
+  const [discoverFilter, setDiscoverFilter] = useState('all');
   const [selectedNiche, setSelectedNiche] = useState('All Niches');
-  const [selectedFormat, setSelectedFormat] = useState('all');
-  const [timeRange, setTimeRange] = useState('7d');
   const [searchQuery, setSearchQuery] = useState('');
   const [savedPosts, setSavedPosts] = useState(['post_1', 'post_3']);
 
-  // Tab 2: Script Studio State
+  // Create Section State: Script Studio
   const [scriptTopic, setScriptTopic] = useState('');
   const [scriptHookType, setScriptHookType] = useState('contrarian');
   const [scriptGoal, setScriptGoal] = useState('lead_magnet'); // 'lead_magnet' | 'viral_reach' | 'storefront_sales'
@@ -213,19 +279,19 @@ export default function DiscoverCreate({ onNavigate, initialTab = 'feed' }) {
   const [isGeneratingScript, setIsGeneratingScript] = useState(false);
   const [isCopiedScript, setIsCopiedScript] = useState(false);
 
-  // Tab 3: Content Planner State
+  // Create Section State: 30-Day Content Planner
   const [calendarSchedule, setCalendarSchedule] = useState([
-    { day: 1, date: 'Oct 09', format: 'Reels', pillar: 'Contrarian Hook', topic: 'Stop copying dead formats in 2026', time: '18:30 IST', status: 'Ready' },
-    { day: 2, date: 'Oct 10', format: 'Reels', pillar: 'Proof / Teardown', topic: 'How 1 reel drove 140 storefront sales', time: '19:00 IST', status: 'Draft' },
-    { day: 3, date: 'Oct 11', format: 'Carousel', pillar: 'Actionable Framework', topic: 'The 5-step bio conversion grid', time: '21:00 IST', status: 'Scheduled' },
-    { day: 4, date: 'Oct 12', format: 'Reels', pillar: 'Relatable Agitation', topic: 'Why you are working 10 hrs for 200 views', time: '18:30 IST', status: 'Draft' },
-    { day: 5, date: 'Oct 13', format: 'Reels', pillar: 'Monetization Offer', topic: 'High-Converting Bio Link Offer', time: '19:30 IST', status: 'Scheduled' },
-    { day: 6, date: 'Oct 14', format: 'Carousel', pillar: 'Resource Vault', topic: 'Tools the top 1% secretly use', time: '20:00 IST', status: 'Draft' },
-    { day: 7, date: 'Oct 15', format: 'Reels', pillar: 'Weekly Recap', topic: 'Creator growth sprint benchmarks', time: '18:00 IST', status: 'Ready' }
+    { day: 1, date: 'Day 01', format: 'Reels', pillar: 'Contrarian Hook', topic: 'Stop copying dead formats in 2026', time: '18:30 IST', status: 'Ready' },
+    { day: 2, date: 'Day 02', format: 'Reels', pillar: 'Proof / Teardown', topic: 'How 1 reel drove 140 storefront sales', time: '19:00 IST', status: 'Draft' },
+    { day: 3, date: 'Day 03', format: 'Carousels', pillar: 'Actionable Framework', topic: 'The 5-step bio conversion grid', time: '21:00 IST', status: 'Scheduled' },
+    { day: 4, date: 'Day 04', format: 'Reels', pillar: 'Relatable Agitation', topic: 'Why you are working 10 hrs for 200 views', time: '18:30 IST', status: 'Draft' },
+    { day: 5, date: 'Day 05', format: 'Reels', pillar: 'Monetization Offer', topic: 'High-Converting Bio Link Offer', time: '19:30 IST', status: 'Scheduled' },
+    { day: 6, date: 'Day 06', format: 'Carousels', pillar: 'Resource Vault', topic: 'Tools the top 1% secretly use', time: '20:00 IST', status: 'Draft' },
+    { day: 7, date: 'Day 07', format: 'Reels', pillar: 'Weekly Recap', topic: 'Creator growth sprint benchmarks', time: '18:00 IST', status: 'Ready' }
   ]);
   const [isAutoFillingCalendar, setIsAutoFillingCalendar] = useState(false);
 
-  // Tab 4: Competitor Tracking State
+  // Competitor Radar State
   const [competitors, setCompetitors] = useState([
     {
       handle: 'viralgrowth.ops',
@@ -235,6 +301,15 @@ export default function DiscoverCreate({ onNavigate, initialTab = 'feed' }) {
       topFormat: 'Whiteboard breakdown',
       avgViews: '420K',
       trend: '+12% this week'
+    },
+    {
+      handle: 'stoic.mindset',
+      niche: 'Self-Improvement',
+      followers: '310K',
+      cadence: '2.0 Reels/day',
+      topFormat: 'Dark aesthetic quote reels',
+      avgViews: '680K',
+      trend: '+24% this week'
     }
   ]);
   const [newCompetitorInput, setNewCompetitorInput] = useState('');
@@ -246,7 +321,7 @@ export default function DiscoverCreate({ onNavigate, initialTab = 'feed' }) {
       addNotification({ title: 'Removed', message: 'Post removed from saved vault.', type: 'info' });
     } else {
       setSavedPosts([...savedPosts, postId]);
-      addNotification({ title: 'Saved to Vault', message: 'Viral reference bookmarked for your script studio.', type: 'success' });
+      addNotification({ title: 'Saved to Vault', message: 'Viral reference bookmarked.', type: 'success' });
     }
   };
 
@@ -281,7 +356,7 @@ export default function DiscoverCreate({ onNavigate, initialTab = 'feed' }) {
     }
   };
 
-  // Save generated script to Content Planner
+  // 3. Save Generated Script to Content Planner
   const handleSaveScriptToPlanner = () => {
     if (!generatedScript) return;
     const newDay = calendarSchedule.length + 1;
@@ -293,7 +368,7 @@ export default function DiscoverCreate({ onNavigate, initialTab = 'feed' }) {
     };
     const newPlanItem = {
       day: newDay,
-      date: `Day ${newDay}`,
+      date: `Day ${newDay < 10 ? '0' + newDay : newDay}`,
       format: 'Reels',
       pillar: hookLabelMap[scriptHookType] || 'Viral Hook',
       topic: generatedScript.title,
@@ -302,53 +377,51 @@ export default function DiscoverCreate({ onNavigate, initialTab = 'feed' }) {
     };
     setCalendarSchedule([...calendarSchedule, newPlanItem]);
     addNotification({
-      title: 'Saved to Planner',
-      message: `"${generatedScript.title}" added to Day ${newDay} of your content calendar.`,
+      title: 'Added to Planner',
+      message: `"${generatedScript.title}" added to Day ${newDay} of your content plan.`,
       type: 'success'
     });
   };
 
-  // Copy full script to clipboard
-  const handleCopyScript = () => {
-    if (!generatedScript) return;
-    const fullText = `TITLE: ${generatedScript.title}\n\nHOOK (0-3s):\nVisual: ${generatedScript.hook?.visualFraming}\nText: ${generatedScript.hook?.textOnScreen}\nAudio: ${generatedScript.hook?.spokenAudio}\n\nBODY (3-25s):\n${generatedScript.scenes?.map(s => `${s.time} [${s.pacing}]: ${s.script} (Visual: ${s.visual})`).join('\n')}\n\nCTA (25-30s):\n${generatedScript.ctaTrigger?.delivery || 'Check the link in bio'}\n\nCAPTION:\n${generatedScript.caption || ''}`;
-    navigator.clipboard.writeText(fullText);
-    setIsCopiedScript(true);
-    setTimeout(() => setIsCopiedScript(false), 2000);
-    addNotification({ title: 'Copied', message: 'Script copied to clipboard.', type: 'info' });
-  };
-
-  // 3. Auto-fill Calendar with AI
-  const handleAutoFillCalendar = async () => {
+  // 4. Auto-Fill 30-Day Plan with AI
+  const handleAutoFill30Days = async () => {
     const daysToGenerate = tier === 'free' ? 7 : 30;
-    const canUse = consumeCredit(1);
+    if (tier === 'free' && calendarSchedule.length >= 7) {
+      openUpgradeModal(
+        'content_planner',
+        'Free plan includes 7 planned days. Upgrade to Pro for unlimited 30-day automated calendars.'
+      );
+      return;
+    }
+
+    const canUse = consumeCredit(2);
     if (!canUse) {
-      openUpgradeModal('ai_credits', 'Upgrade to Pro to generate complete 30-day schedules.');
+      openUpgradeModal('ai_credits', 'Auto-generating 30-day plan requires 2 credits.');
       return;
     }
 
     setIsAutoFillingCalendar(true);
     try {
-      const plans = await generateAi30DayPlan({
+      const aiSchedule = await generateAi30DayPlan({
         niche: selectedNiche === 'All Niches' ? (activePage?.category || 'Business & Money') : selectedNiche,
-        subNiche: activePage?.subNiche,
-        daysCount: daysToGenerate
+        goal: scriptGoal,
+        days: daysToGenerate
       });
 
-      const formatted = plans.map((p, idx) => ({
+      const formatted = aiSchedule.map((item, idx) => ({
         day: idx + 1,
-        date: `Day ${idx + 1}`,
-        format: p.format || 'Reels',
-        pillar: p.pillar || 'High Retention',
-        topic: p.hook || `Growth System Part ${idx + 1}`,
-        time: p.timeSlot || '18:30 IST',
-        status: idx === 0 ? 'Ready' : idx % 3 === 0 ? 'Draft' : 'Scheduled'
+        date: `Day ${idx + 1 < 10 ? '0' + (idx + 1) : idx + 1}`,
+        format: item.format || (idx % 3 === 0 ? 'Carousels' : 'Reels'),
+        pillar: item.pillar || 'High Retention Hook',
+        topic: item.topic || 'Strategic audience growth concept',
+        time: item.time || (idx % 2 === 0 ? '18:30 IST' : '19:00 IST'),
+        status: idx === 0 ? 'Ready' : idx % 2 === 0 ? 'Scheduled' : 'Draft'
       }));
 
       setCalendarSchedule(formatted);
       addNotification({
-        title: 'Content Plan Auto-Filled',
-        message: `Successfully populated ${daysToGenerate}-day strategic calendar.`,
+        title: '30-Day Plan Engineered',
+        message: `Successfully populated ${daysToGenerate}-day strategic viral calendar.`,
         type: 'success'
       });
     } catch (err) {
@@ -358,7 +431,7 @@ export default function DiscoverCreate({ onNavigate, initialTab = 'feed' }) {
     }
   };
 
-  // 4. Add Competitor Slot (Gated by Tier)
+  // 5. Add Competitor
   const handleAddCompetitor = () => {
     if (!newCompetitorInput.trim()) return;
 
@@ -367,14 +440,6 @@ export default function DiscoverCreate({ onNavigate, initialTab = 'feed' }) {
       openUpgradeModal(
         'competitor_tracking',
         'Free plan includes 1 competitor slot. Upgrade to Pro to track up to 10 competitors simultaneously.'
-      );
-      return;
-    }
-
-    if (tier === 'pro' && currentCount >= 10) {
-      openUpgradeModal(
-        'competitor_tracking',
-        'Pro plan includes 10 competitor slots. Upgrade to Elite for unlimited tracking.'
       );
       return;
     }
@@ -399,10 +464,33 @@ export default function DiscoverCreate({ onNavigate, initialTab = 'feed' }) {
     });
   };
 
-  // Filtered Viral Posts for Tab 1
+  // Use hook from Discover in Script Studio
+  const handleUseHookInScript = (post) => {
+    setScriptTopic(post.hookText);
+    setMainMode('create');
+    addNotification({
+      title: 'Hook Transferred',
+      message: 'Hook loaded into Script Studio. Ready to engineer full script.',
+      type: 'info'
+    });
+  };
+
+  // Use audio in Script Studio
+  const handleUseAudioInScript = (audio) => {
+    setScriptTopic(`Script matching vibe of "${audio.title}"`);
+    setMainMode('create');
+    addNotification({
+      title: 'Audio Selected',
+      message: `Loaded "${audio.title}" into Script Studio.`,
+      type: 'info'
+    });
+  };
+
+  // Filtered Viral Posts
   const filteredPosts = INITIAL_VIRAL_POSTS.filter(p => {
     if (selectedNiche !== 'All Niches' && p.niche !== selectedNiche) return false;
-    if (selectedFormat !== 'all' && p.format.toLowerCase() !== selectedFormat.toLowerCase()) return false;
+    if (discoverFilter === 'reels' && p.format !== 'Reels') return false;
+    if (discoverFilter === 'carousels' && p.format !== 'Carousels') return false;
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase();
       const matchHook = p.hookText.toLowerCase().includes(q);
@@ -416,716 +504,576 @@ export default function DiscoverCreate({ onNavigate, initialTab = 'feed' }) {
   return (
     <div className="space-y-6 max-w-7xl mx-auto pb-16 font-sans">
       
-      {/* 1. TOP PANEL TITLE & TAB NAVIGATION */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-4 border-b border-[rgba(6,124,249,0.12)]">
+      {/* 1. TOP HEADER & TWO MASTER TOGGLES: [ Discover | Create ] */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[rgba(6,124,249,0.12)]">
         <div>
           <h1 className="text-xl sm:text-2xl font-bold text-[#0F172A] tracking-tight">
-            Content &amp; Script Studio
+            Discover &amp; Create
           </h1>
           <p className="text-[#64748B] text-xs mt-1 font-medium">
-            Discover high-retention formats, engineer AI scripts, and manage your content calendar.
+            Discover trending formats, viral audios, competitors, and engineer 30-day viral content calendars.
           </p>
         </div>
 
-        {/* Streamlined Segmented Navigation (5 Tabs) */}
-        <div className="flex items-center gap-1 bg-white/80 p-1 rounded-xl border border-[rgba(6,124,249,0.12)] shadow-xs overflow-x-auto no-scrollbar shrink-0">
-          {[
-            { id: 'feed', label: 'Viral Discovery', icon: Flame },
-            { id: 'studio', label: 'Script Studio', icon: FileText },
-            { id: 'planner', label: 'Content Planner', icon: Calendar },
-            { id: 'competitors', label: 'Competitor Radar', icon: Users },
-            { id: 'saved', label: 'Saved Vault', icon: Bookmark }
-          ].map(tab => {
-            const Icon = tab.icon;
-            const isActive = activeTab === tab.id;
-            return (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer whitespace-nowrap ${
-                  isActive
-                    ? 'bg-[#067CF9] text-white shadow-xs font-semibold'
-                    : 'text-[#64748B] hover:text-[#0F172A]'
-                }`}
-              >
-                <Icon className="w-3.5 h-3.5" />
-                <span>{tab.label}</span>
-                {tab.id === 'saved' && savedPosts.length > 0 && (
-                  <span className={`px-1.5 py-0.2 rounded-full text-[9px] font-mono font-semibold ${
-                    isActive ? 'bg-white/20 text-white' : 'bg-[#EFF6FF] text-[#067CF9]'
-                  }`}>
-                    {savedPosts.length}
-                  </span>
-                )}
-              </button>
-            );
-          })}
+        {/* Master Two Toggles: [ Discover | Create ] */}
+        <div className="flex items-center gap-1 bg-white/90 p-1 rounded-xl border border-[rgba(6,124,249,0.15)] shadow-xs shrink-0">
+          <button
+            onClick={() => setMainMode('discover')}
+            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+              mainMode === 'discover'
+                ? 'bg-[#067CF9] text-white shadow-xs'
+                : 'text-[#64748B] hover:text-[#0F172A]'
+            }`}
+          >
+            <Compass className="w-3.5 h-3.5" />
+            <span>Discover</span>
+          </button>
+
+          <button
+            onClick={() => setMainMode('create')}
+            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+              mainMode === 'create'
+                ? 'bg-[#067CF9] text-white shadow-xs'
+                : 'text-[#64748B] hover:text-[#0F172A]'
+            }`}
+          >
+            <PenTool className="w-3.5 h-3.5" />
+            <span>Create</span>
+          </button>
         </div>
       </div>
 
-      {/* 2. TAB 1: VIRAL DISCOVERY */}
-      {activeTab === 'feed' && (
+      {/* =========================================================================
+          PANEL 1: DISCOVER
+          Toggles: [ All | Reels | Carousels | Audios | Competitors ]
+         ========================================================================= */}
+      {mainMode === 'discover' && (
         <div className="space-y-6">
           
-          {/* Filter Bar */}
-          <div className="p-3.5 rounded-2xl bg-white/95 backdrop-blur-xl border border-[rgba(6,124,249,0.12)] shadow-[0_2px_16px_rgba(6,124,249,0.04)] flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
+          {/* Sub-Filters: [ All | Reels | Carousels | Audios | Competitors ] */}
+          <div className="p-4 rounded-2xl bg-white/95 backdrop-blur-xl border border-[rgba(6,124,249,0.12)] shadow-[0_2px_16px_rgba(6,124,249,0.04)] flex flex-col md:flex-row md:items-center justify-between gap-4">
             
-            {/* Left: Dropdowns for Niche and Timeframe */}
-            <div className="flex flex-wrap items-center gap-2">
-              <div className="relative">
-                <select
-                  value={selectedNiche}
-                  onChange={(e) => setSelectedNiche(e.target.value)}
-                  className="appearance-none bg-[#F8FAFC] border border-[rgba(6,124,249,0.15)] text-xs font-medium rounded-xl pl-3 pr-7 py-2 text-[#0F172A] focus:outline-hidden focus:border-[#067CF9] cursor-pointer transition-colors"
-                >
-                  {NICHES.map(n => (
-                    <option key={n} value={n} className="bg-white text-[#0F172A]">
-                      {n}
-                    </option>
-                  ))}
-                </select>
-                <ChevronDown className="w-3.5 h-3.5 text-[#64748B] absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-              </div>
-
-              <div className="relative">
-                <select
-                  value={timeRange}
-                  onChange={(e) => setTimeRange(e.target.value)}
-                  className="appearance-none bg-[#F8FAFC] border border-[rgba(6,124,249,0.15)] text-xs font-medium rounded-xl pl-3 pr-7 py-2 text-[#0F172A] focus:outline-hidden focus:border-[#067CF9] cursor-pointer transition-colors"
-                >
-                  <option value="24h" className="bg-white text-[#0F172A]">Last 24 Hours</option>
-                  <option value="7d" className="bg-white text-[#0F172A]">Last 7 Days</option>
-                  <option value="30d" className="bg-white text-[#0F172A]">Last 30 Days</option>
-                  <option value="all" className="bg-white text-[#0F172A]">All-Time Viral</option>
-                </select>
-                <ChevronDown className="w-3.5 h-3.5 text-[#64748B] absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-              </div>
-            </div>
-
-            {/* Center: Segmented Toggle All | Reels | Carousels */}
-            <div className="flex items-center justify-center bg-[#F8FAFC] p-1 rounded-xl border border-[rgba(6,124,249,0.12)] self-center">
+            {/* 5 Content Toggles */}
+            <div className="flex items-center gap-1 bg-[#F8FAFC] p-1 rounded-xl border border-[rgba(6,124,249,0.12)] overflow-x-auto no-scrollbar shrink-0">
               {[
-                { id: 'all', label: 'All' },
-                { id: 'reels', label: 'Reels' },
-                { id: 'carousels', label: 'Carousels' }
-              ].map(fmt => (
-                <button
-                  key={fmt.id}
-                  onClick={() => setSelectedFormat(fmt.id)}
-                  className={`px-3 py-1 rounded-lg text-xs font-medium transition-colors cursor-pointer ${
-                    selectedFormat === fmt.id
-                      ? 'bg-white text-[#067CF9] shadow-xs font-bold border border-[rgba(6,124,249,0.12)]'
-                      : 'text-[#64748B] hover:text-[#0F172A]'
-                  }`}
-                >
-                  {fmt.label}
-                </button>
-              ))}
-            </div>
-
-            {/* Right: Search input field */}
-            <div className="relative min-w-[240px]">
-              <Search className="w-3.5 h-3.5 text-[#94A3B8] absolute left-3 top-1/2 -translate-y-1/2" />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search viral hooks or topics..."
-                className="w-full bg-[#F8FAFC] border border-[rgba(6,124,249,0.15)] text-xs rounded-xl pl-8 pr-3 py-2 text-[#0F172A] placeholder-neutral-400 focus:outline-hidden focus:border-[#067CF9] transition-colors"
-              />
-            </div>
-          </div>
-
-          {/* Card Grid View */}
-          {filteredPosts.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {filteredPosts.map(post => {
-                const isSaved = savedPosts.includes(post.id);
-
+                { id: 'all', label: 'All', icon: Layers },
+                { id: 'reels', label: 'Reels', icon: Video },
+                { id: 'carousels', label: 'Carousels', icon: Layers },
+                { id: 'audios', label: 'Audios', icon: Music },
+                { id: 'competitors', label: 'Competitors', icon: Users }
+              ].map(f => {
+                const Icon = f.icon;
+                const isActive = discoverFilter === f.id;
                 return (
-                  <div
-                    key={post.id}
-                    className="rounded-2xl bg-white border border-[rgba(6,124,249,0.12)] shadow-[0_2px_12px_rgba(6,124,249,0.03)] overflow-hidden flex flex-col justify-between group hover:border-[#067CF9]/40 transition-all"
+                  <button
+                    key={f.id}
+                    onClick={() => setDiscoverFilter(f.id)}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer whitespace-nowrap ${
+                      isActive
+                        ? 'bg-[#067CF9] text-white shadow-xs'
+                        : 'text-[#64748B] hover:text-[#0F172A]'
+                    }`}
                   >
-                    {/* Thumbnail Banner */}
-                    <div className="relative h-44 bg-neutral-900 overflow-hidden">
-                      <img 
-                        src={post.thumbnail} 
-                        alt={post.hookText} 
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 opacity-90"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
-                      
-                      {/* Top Badges */}
-                      <div className="absolute top-2.5 left-2.5 right-2.5 flex items-center justify-between">
-                        <span className="px-2 py-0.5 rounded-md bg-black/60 backdrop-blur-md text-white font-mono text-[10px] font-semibold border border-white/10">
-                          {post.format} &bull; {post.duration}
-                        </span>
-                        <span className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-black/60 backdrop-blur-md text-[#7DD3FC] font-semibold border border-white/10">
-                          {post.hookType}
-                        </span>
-                      </div>
-
-                      {/* Bottom Views Count */}
-                      <div className="absolute bottom-2.5 left-2.5 right-2.5 text-white">
-                        <div className="text-[11px] font-mono text-[#7DD3FC] font-semibold flex items-center gap-2">
-                          <span>🔥 {post.views} Views</span>
-                          <span>&bull;</span>
-                          <span>{post.engagement} Engagement</span>
-                        </div>
-                        <div className="flex items-center justify-between text-[10px] text-white/70 font-mono mt-0.5">
-                          <span>{post.creator}</span>
-                          <span>{post.niche}</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Card Body & Actions */}
-                    <div className="p-4 space-y-3 flex-1 flex flex-col justify-between">
-                      <div>
-                        <h3 className="font-semibold text-[#0F172A] text-xs leading-relaxed line-clamp-2">
-                          "{post.hookText}"
-                        </h3>
-                        <p className="text-[11px] text-[#64748B] mt-2 line-clamp-2 leading-relaxed">
-                          {post.breakdown}
-                        </p>
-                      </div>
-
-                      {/* Card Actions */}
-                      <div className="pt-3 border-t border-[rgba(6,124,249,0.08)] flex items-center justify-between gap-2">
-                        <button
-                          onClick={() => handleToggleBookmark(post.id)}
-                          className={`px-3 py-1.5 rounded-xl border text-xs font-medium transition-colors flex items-center gap-1.5 cursor-pointer ${
-                            isSaved
-                              ? 'border-[#067CF9]/40 text-[#067CF9] bg-[#EFF6FF]'
-                              : 'border-neutral-200 text-[#64748B] hover:text-[#0F172A] hover:bg-[#F8FAFC]'
-                          }`}
-                        >
-                          {isSaved ? <BookmarkCheck className="w-3.5 h-3.5" /> : <Bookmark className="w-3.5 h-3.5" />}
-                          <span>{isSaved ? 'Saved' : 'Save to Vault'}</span>
-                        </button>
-
-                        <button
-                          onClick={() => {
-                            setActiveTab('studio');
-                            setScriptTopic(post.hookText);
-                            handleGenerateScript(post.hookText);
-                          }}
-                          className="px-3 py-1.5 rounded-xl border border-[rgba(6,124,249,0.3)] text-[#067CF9] hover:bg-[#EFF6FF] text-xs font-semibold flex items-center gap-1 transition-colors cursor-pointer"
-                        >
-                          <span>Re-Script</span>
-                          <ArrowRight className="w-3 h-3" />
-                        </button>
-                      </div>
-                    </div>
-                  </div>
+                    <Icon className="w-3.5 h-3.5" />
+                    <span>{f.label}</span>
+                  </button>
                 );
               })}
             </div>
-          ) : (
-            <div className="p-12 text-center rounded-2xl bg-white border border-dashed border-[rgba(6,124,249,0.2)] space-y-3">
-              <div className="w-10 h-10 rounded-xl bg-[#EFF6FF] text-[#067CF9] flex items-center justify-center mx-auto">
-                <Search className="w-5 h-5" />
-              </div>
-              <p className="text-sm font-medium text-[#0F172A]">
-                No viral references found for this filter. Try extending the timeframe.
-              </p>
-              <button
-                onClick={() => {
-                  setSelectedNiche('All Niches');
-                  setSelectedFormat('all');
-                  setTimeRange('all');
-                  setSearchQuery('');
-                }}
-                className="text-xs text-[#067CF9] hover:underline font-semibold cursor-pointer"
-              >
-                Reset filters
-              </button>
-            </div>
-          )}
 
-        </div>
-      )}
-
-      {/* 3. TAB 2: SCRIPT STUDIO */}
-      {activeTab === 'studio' && (
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          
-          {/* Left Column: Script Form Controls */}
-          <div className="lg:col-span-5 space-y-4">
-            <div className="p-5 rounded-2xl bg-white/95 backdrop-blur-xl border border-[rgba(6,124,249,0.12)] shadow-[0_2px_16px_rgba(6,124,249,0.04)] space-y-4">
-              <div>
-                <h3 className="font-bold text-[#0F172A] text-sm flex items-center gap-2">
-                  <Sparkles className="w-4 h-4 text-[#067CF9]" />
-                  <span>AI Reel Script Architect</span>
-                </h3>
-                <p className="text-xs text-[#64748B] mt-0.5">
-                  Engineer retention-maximized 30s scripts with proven psychological hooks and pacing.
-                </p>
-              </div>
-
-              {/* Reel Topic Input */}
-              <div className="space-y-1.5">
-                <label className="text-xs font-mono text-[#64748B] font-medium">Reel Topic / Concept</label>
-                <textarea
-                  rows={3}
-                  value={scriptTopic}
-                  onChange={(e) => setScriptTopic(e.target.value)}
-                  placeholder="e.g., 3 mistakes keeping creators stuck under 10k followers..."
-                  className="w-full bg-[#F8FAFC] border border-[rgba(6,124,249,0.15)] rounded-xl px-3.5 py-2.5 text-xs text-[#0F172A] placeholder-neutral-400 focus:outline-hidden focus:border-[#067CF9] transition-colors resize-none"
-                />
-              </div>
-
-              {/* Hook Archetype Selector */}
-              <div className="space-y-1.5">
-                <label className="text-xs font-mono text-[#64748B] font-medium">Hook Archetype</label>
-                <div className="grid grid-cols-2 gap-2 text-xs">
-                  {[
-                    { id: 'contrarian', label: 'Contrarian' },
-                    { id: 'mistake_pain', label: 'Mistake / Pain' },
-                    { id: 'curiosity', label: 'Curiosity' },
-                    { id: 'proof_breakdown', label: 'Proof / Breakdown' }
-                  ].map(h => (
-                    <button
-                      key={h.id}
-                      onClick={() => setScriptHookType(h.id)}
-                      className={`p-2.5 rounded-xl border text-left transition-colors cursor-pointer ${
-                        scriptHookType === h.id
-                          ? 'bg-[#EFF6FF] border-[#067CF9] text-[#067CF9] font-bold shadow-xs'
-                          : 'bg-[#F8FAFC] border-neutral-200 text-[#64748B] hover:text-[#0F172A]'
-                      }`}
-                    >
-                      {h.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Conversion Objective */}
-              <div className="space-y-1.5">
-                <label className="text-xs font-mono text-[#64748B] font-medium">Conversion Objective</label>
-                <div className="grid grid-cols-3 gap-2 text-xs">
-                  {[
-                    { id: 'lead_magnet', label: 'Lead Magnet', sub: 'Link-in-bio focus' },
-                    { id: 'viral_reach', label: 'Viral Reach', sub: 'Maximize views' },
-                    { id: 'storefront_sales', label: 'Storefront Sales', sub: 'Offer conversion' }
-                  ].map(g => (
-                    <button
-                      key={g.id}
-                      onClick={() => setScriptGoal(g.id)}
-                      className={`p-2 rounded-xl border text-center transition-colors cursor-pointer ${
-                        scriptGoal === g.id
-                          ? 'bg-[#EFF6FF] border-[#067CF9] text-[#067CF9] font-bold shadow-xs'
-                          : 'bg-[#F8FAFC] border-neutral-200 text-[#64748B] hover:text-[#0F172A]'
-                      }`}
-                    >
-                      <div className="font-semibold">{g.label}</div>
-                      <div className="text-[9px] text-[#94A3B8] truncate mt-0.5">{g.sub}</div>
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Action Button */}
-              <button
-                onClick={() => handleGenerateScript()}
-                disabled={isGeneratingScript}
-                className="w-full py-2.5 rounded-xl bg-[#067CF9] hover:bg-[#0568D2] disabled:opacity-50 text-white font-semibold text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-xs"
-              >
-                {isGeneratingScript ? (
-                  <>
-                    <Sparkles className="w-3.5 h-3.5 animate-spin" />
-                    <span>Writing Scene-by-Scene Script...</span>
-                  </>
-                ) : (
-                  <>
-                    <Zap className="w-3.5 h-3.5" />
-                    <span>Generate Full Script (1 Credit)</span>
-                  </>
-                )}
-              </button>
-            </div>
-          </div>
-
-          {/* Right Column: Generated Script Workspace */}
-          <div className="lg:col-span-7 space-y-4">
-            {generatedScript ? (
-              <div className="p-6 rounded-2xl bg-white/95 backdrop-blur-xl border border-[rgba(6,124,249,0.12)] shadow-[0_2px_16px_rgba(6,124,249,0.04)] space-y-6">
-                
-                {/* Header: Title • Duration • Word Count | Right Actions */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-[rgba(6,124,249,0.08)] gap-3">
-                  <div>
-                    <h3 className="font-bold text-sm text-[#0F172A]">{generatedScript.title}</h3>
-                    <div className="flex items-center gap-2 text-[11px] font-mono text-[#64748B] mt-0.5">
-                      <span>30s Reel</span>
-                      <span>&bull;</span>
-                      <span>~135 Words</span>
-                      <span>&bull;</span>
-                      <span className="text-[#067CF9] font-semibold">{scriptGoal.toUpperCase()} FOCUS</span>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-2">
-                    <button
-                      onClick={handleCopyScript}
-                      className="px-3 py-1.5 rounded-xl border border-[rgba(6,124,249,0.2)] text-[#0F172A] hover:bg-[#EFF6FF] text-xs font-medium flex items-center gap-1.5 transition-colors cursor-pointer"
-                    >
-                      {isCopiedScript ? <Check className="w-3.5 h-3.5 text-[#067CF9]" /> : <Copy className="w-3.5 h-3.5" />}
-                      <span>{isCopiedScript ? 'Copied' : 'Copy'}</span>
-                    </button>
-                    <button
-                      onClick={handleSaveScriptToPlanner}
-                      className="px-3 py-1.5 rounded-xl bg-[#067CF9] hover:bg-[#0568D2] text-white text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer shadow-xs"
-                    >
-                      <Plus className="w-3.5 h-3.5" />
-                      <span>Send to Planner</span>
-                    </button>
-                  </div>
+            {/* Search and Niche selector (for All, Reels, Carousels) */}
+            {discoverFilter !== 'competitors' && (
+              <div className="flex items-center gap-2 flex-1 max-w-lg">
+                <div className="relative flex-1">
+                  <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-[#94A3B8]" />
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder={discoverFilter === 'audios' ? "Search audios, genres..." : "Search viral hooks, creators..."}
+                    className="w-full bg-[#F8FAFC] border border-[rgba(6,124,249,0.15)] rounded-xl pl-8 pr-3 py-1.5 text-xs text-[#0F172A] placeholder:text-[#94A3B8] focus:outline-hidden focus:border-[#067CF9]"
+                  />
                 </div>
 
-                {/* Hook Box */}
-                <div className="p-4 rounded-xl bg-[#EFF6FF] border border-[rgba(6,124,249,0.2)] space-y-2">
-                  <div className="flex items-center justify-between text-xs font-mono font-semibold text-[#067CF9]">
-                    <span>HOOK (0-3s): HIGH-RETENTION PATTERN INTERRUPT</span>
-                    <span>100% RETENTION TARGET</span>
-                  </div>
-                  <div className="space-y-1 text-xs text-[#0F172A]">
-                    <p><strong>Visual Framing:</strong> {generatedScript.hook?.visualFraming}</p>
-                    <p><strong>Text on Screen:</strong> <span className="font-mono text-[#067CF9] font-bold">"{generatedScript.hook?.textOnScreen}"</span></p>
-                    <p><strong>Spoken Audio:</strong> "{generatedScript.hook?.spokenAudio}"</p>
-                  </div>
-                </div>
-
-                {/* Scene-by-Scene Breakdown */}
-                <div className="space-y-3">
-                  <div className="font-mono text-[10px] text-[#94A3B8] font-semibold uppercase">
-                    BODY PACING (3-25s): 3-SECOND RETENTION GATES
-                  </div>
-
-                  <div className="space-y-2.5">
-                    {generatedScript.scenes?.map((scene, idx) => (
-                      <div key={idx} className="p-3.5 rounded-xl bg-[#F8FAFC] border border-[rgba(6,124,249,0.08)] flex items-start gap-3">
-                        <span className="font-mono text-[10px] font-bold text-[#067CF9] bg-[#EFF6FF] px-2 py-0.5 rounded shrink-0">
-                          {scene.time}
-                        </span>
-                        <div className="text-xs space-y-1 flex-1">
-                          <p className="text-[#0F172A] font-medium leading-relaxed">
-                            {scene.script}
-                          </p>
-                          <div className="flex items-center gap-2 text-[10px] font-mono text-[#64748B]">
-                            <span>B-Roll: {scene.visual}</span>
-                            <span>&bull;</span>
-                            <span className="text-[#067CF9] font-semibold">{scene.pacing}</span>
-                          </div>
-                        </div>
-                      </div>
+                {discoverFilter !== 'audios' && (
+                  <select
+                    value={selectedNiche}
+                    onChange={(e) => setSelectedNiche(e.target.value)}
+                    className="bg-[#F8FAFC] border border-[rgba(6,124,249,0.15)] rounded-xl px-3 py-1.5 text-xs text-[#0F172A] font-medium focus:outline-hidden focus:border-[#067CF9] cursor-pointer"
+                  >
+                    {NICHES.map(n => (
+                      <option key={n} value={n}>{n}</option>
                     ))}
-                  </div>
-                </div>
-
-                {/* CTA Block */}
-                <div className="p-4 rounded-xl bg-[#F8FAFC] border border-[rgba(6,124,249,0.12)] text-xs">
-                  <div className="font-mono text-[10px] text-[#94A3B8] font-semibold uppercase">
-                    CTA (25-30s): CLEAR DIRECTION TO LINK-IN-BIO OR COMMENT
-                  </div>
-                  <p className="text-[#0F172A] font-medium leading-relaxed mt-1">
-                    {generatedScript.ctaTrigger?.delivery || 'Tap the link in my bio to download the complete free system.'}
-                  </p>
-                </div>
-
-                {/* Caption Block */}
-                {generatedScript.caption && (
-                  <div className="p-4 rounded-xl bg-[#F8FAFC] border border-[rgba(6,124,249,0.12)] space-y-1.5 text-xs">
-                    <span className="font-mono text-[10px] text-[#94A3B8] uppercase font-semibold">Ready-to-Post Caption</span>
-                    <p className="text-[#0F172A] whitespace-pre-line leading-relaxed text-[11px]">
-                      {generatedScript.caption}
-                    </p>
-                  </div>
+                  </select>
                 )}
-
-              </div>
-            ) : (
-              <div className="p-8 text-center rounded-2xl bg-white border border-dashed border-[rgba(6,124,249,0.2)] space-y-3">
-                <div className="w-10 h-10 rounded-xl bg-[#EFF6FF] text-[#067CF9] flex items-center justify-center mx-auto">
-                  <FileText className="w-5 h-5" />
-                </div>
-                <h3 className="font-bold text-[#0F172A] text-xs">
-                  Script Studio Canvas Ready
-                </h3>
-                <p className="text-xs text-[#64748B] max-w-sm mx-auto leading-relaxed">
-                  Enter your topic on the left and click "Generate Full Script", or click quick prompt below:
-                </p>
-                <div className="flex flex-wrap justify-center gap-2 pt-1">
-                  {[
-                    '3 mistakes keeping creators under 10k',
-                    'The quiet luxury bio-funnel framework',
-                    'Why 90% of reels die in the first 3 seconds'
-                  ].map((preset, i) => (
-                    <button
-                      key={i}
-                      onClick={() => setScriptTopic(preset)}
-                      className="px-2.5 py-1 rounded-lg bg-[#F8FAFC] hover:bg-[#EFF6FF] border border-neutral-200 text-[11px] text-[#0F172A] transition-colors cursor-pointer"
-                    >
-                      {preset}
-                    </button>
-                  ))}
-                </div>
               </div>
             )}
           </div>
 
-        </div>
-      )}
-
-      {/* 4. TAB 3: CONTENT PLANNER (Panel 4 Blueprint: Minimalist white grid with light borders. Status pills Ready, Scheduled, Draft me sirf subtle blue ya gray outlines) */}
-      {activeTab === 'planner' && (
-        <div className="space-y-6">
-          
-          {/* Planner Header Bar */}
-          <div className="p-4 rounded-2xl bg-white/95 backdrop-blur-xl border border-[rgba(6,124,249,0.12)] shadow-[0_2px_16px_rgba(6,124,249,0.04)] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div>
-              <h3 className="font-bold text-[#0F172A] text-sm">
-                30-Day Content Planner
-              </h3>
-              <p className="text-xs text-[#64748B] mt-0.5">
-                Schedule release cadence tuned to peak audience active hours.
-              </p>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <button
-                onClick={handleAutoFillCalendar}
-                disabled={isAutoFillingCalendar}
-                className="px-3.5 py-1.5 rounded-xl bg-[#067CF9] hover:bg-[#0568D2] disabled:opacity-50 text-white font-semibold text-xs transition-colors flex items-center gap-1.5 cursor-pointer shadow-xs"
-              >
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>{isAutoFillingCalendar ? 'Auto-Filling...' : '+ Auto-Fill Calendar'}</span>
-              </button>
-            </div>
-          </div>
-
-          {/* Schedule Grid: Minimalist white grid with light borders and subtle outline pills (Blueprint Section 2.E) */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3.5">
-            {calendarSchedule.map((item, idx) => {
-              // Status pills: subtle blue or gray outlines, no heavy fills (Blueprint Section 2.E)
-              const getStatusStyle = (status) => {
-                switch (status) {
-                  case 'Ready':
-                    return 'border border-[#067CF9]/40 text-[#067CF9] bg-[#EFF6FF]/60';
-                  case 'Scheduled':
-                    return 'border border-[#067CF9]/30 text-[#067CF9] bg-[#EFF6FF]/30';
-                  case 'Draft':
-                    return 'border border-[#64748B]/30 text-[#64748B] bg-neutral-50';
-                  case 'Idea':
-                  default:
-                    return 'border border-neutral-200 text-[#64748B] bg-neutral-50';
-                }
-              };
-
-              return (
+          {/* VIEW A: VIRAL POSTS (All | Reels | Carousels) */}
+          {(discoverFilter === 'all' || discoverFilter === 'reels' || discoverFilter === 'carousels') && (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              {filteredPosts.map(post => (
                 <div
-                  key={idx}
-                  className="p-4 rounded-xl bg-white border border-[rgba(6,124,249,0.12)] shadow-[0_2px_12px_rgba(6,124,249,0.03)] space-y-3 flex flex-col justify-between hover:border-[#067CF9]/30 transition-all"
+                  key={post.id}
+                  className="rounded-2xl bg-white border border-[rgba(6,124,249,0.12)] shadow-[0_2px_12px_rgba(6,124,249,0.03)] overflow-hidden flex flex-col justify-between hover:border-[#067CF9]/40 transition-all group"
                 >
-                  {/* Header: Day Number • Date | Status Badge */}
-                  <div>
-                    <div className="flex items-center justify-between text-[11px] font-mono mb-2">
-                      <span className="font-bold text-[#0F172A]">Day {item.day} &bull; {item.date}</span>
-                      <span className={`px-2 py-0.5 rounded-md text-[10px] font-semibold ${getStatusStyle(item.status)}`}>
-                        {item.status}
+                  <div className="relative h-44 w-full overflow-hidden bg-slate-900">
+                    <img
+                      src={post.thumbnail}
+                      alt={post.hookText}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                    
+                    <div className="absolute top-2.5 left-2.5 flex items-center gap-1.5">
+                      <span className="px-2 py-0.5 rounded-md bg-black/60 backdrop-blur-md text-white text-[10px] font-semibold border border-white/10">
+                        {post.format}
+                      </span>
+                      <span className="px-2 py-0.5 rounded-md bg-[#067CF9]/80 backdrop-blur-md text-white text-[10px] font-semibold">
+                        {post.retentionScore} Retention
                       </span>
                     </div>
 
-                    {/* Content Type Tag & Card Title */}
-                    <div className="space-y-1">
-                      <span className="text-[10px] font-mono text-[#067CF9] font-bold uppercase">
-                        {item.format} &bull; {item.pillar}
-                      </span>
-                      <h4 className="font-semibold text-[#0F172A] text-xs leading-snug">
-                        "{item.topic}"
-                      </h4>
-                    </div>
-                  </div>
-
-                  {/* Footer */}
-                  <div className="pt-2.5 border-t border-[rgba(6,124,249,0.08)] flex items-center justify-between text-[11px] font-mono text-[#94A3B8]">
-                    <div className="flex items-center gap-1">
-                      <Clock className="w-3 h-3 text-[#94A3B8]" />
-                      <span>{item.time}</span>
-                    </div>
                     <button
-                      onClick={() => {
-                        setActiveTab('studio');
-                        setScriptTopic(item.topic);
-                        handleGenerateScript(item.topic);
-                      }}
-                      className="text-[#067CF9] hover:underline font-semibold cursor-pointer"
-                    >
-                      Edit Script &rarr;
-                    </button>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
-        </div>
-      )}
-
-      {/* 5. TAB 4: COMPETITOR RADAR */}
-      {activeTab === 'competitors' && (
-        <div className="space-y-6">
-          
-          {/* Top Row */}
-          <div className="p-4 rounded-2xl bg-white/95 backdrop-blur-xl border border-[rgba(6,124,249,0.12)] shadow-[0_2px_16px_rgba(6,124,249,0.04)] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div>
-              <h3 className="font-bold text-[#0F172A] text-sm">Competitor Velocity Radar</h3>
-              <p className="text-xs text-[#64748B] mt-0.5">
-                Track top accounts in your niche to detect breakthrough reel formats before they saturate.
-              </p>
-            </div>
-            <div className="text-xs font-mono text-[#64748B] font-medium">
-              {competitors.length} of {tier === 'elite' ? 'Unlimited' : '10'} Accounts Tracked
-            </div>
-          </div>
-
-          {/* Input Bar */}
-          <div className="p-3.5 rounded-2xl bg-white/95 backdrop-blur-xl border border-[rgba(6,124,249,0.12)] shadow-[0_2px_16px_rgba(6,124,249,0.04)] flex items-center gap-2">
-            <div className="relative flex-1">
-              <Search className="w-3.5 h-3.5 text-[#94A3B8] absolute left-3 top-1/2 -translate-y-1/2" />
-              <input
-                type="text"
-                value={newCompetitorInput}
-                onChange={(e) => setNewCompetitorInput(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && handleAddCompetitor()}
-                placeholder="Search handle to track (e.g., @competitor_handle)..."
-                className="w-full bg-[#F8FAFC] border border-[rgba(6,124,249,0.15)] rounded-xl pl-8 pr-3 py-2 text-xs text-[#0F172A] placeholder-neutral-400 focus:outline-hidden focus:border-[#067CF9]"
-              />
-            </div>
-            <button
-              onClick={handleAddCompetitor}
-              className="px-4 py-2 rounded-xl bg-[#067CF9] hover:bg-[#0568D2] text-white font-semibold text-xs transition-colors flex items-center gap-1.5 cursor-pointer whitespace-nowrap shadow-xs"
-            >
-              <Plus className="w-3.5 h-3.5" />
-              <span>Track Account</span>
-            </button>
-          </div>
-
-          {/* Tracked Cards Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {competitors.map((comp, idx) => (
-              <div key={idx} className="p-5 rounded-2xl bg-white border border-[rgba(6,124,249,0.12)] shadow-[0_2px_12px_rgba(6,124,249,0.03)] space-y-4">
-                
-                {/* Account Header */}
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2.5">
-                    <div className="w-9 h-9 rounded-full bg-[#EFF6FF] border border-[rgba(6,124,249,0.2)] flex items-center justify-center font-bold text-xs text-[#067CF9]">
-                      @{comp.handle.slice(0, 2).toUpperCase()}
-                    </div>
-                    <div>
-                      <h4 className="font-bold text-[#0F172A] text-xs">@{comp.handle}</h4>
-                      <p className="text-[10px] text-[#94A3B8] font-mono">{comp.niche}</p>
-                    </div>
-                  </div>
-                  <span className="text-[10px] font-mono text-[#067CF9] font-semibold px-2 py-0.5 rounded-md bg-[#EFF6FF] border border-[rgba(6,124,249,0.2)]">
-                    {comp.trend}
-                  </span>
-                </div>
-
-                {/* Metrics Grid */}
-                <div className="grid grid-cols-3 gap-2 text-center text-xs">
-                  <div className="p-2 rounded-lg bg-[#F8FAFC] border border-neutral-100">
-                    <div className="text-[10px] text-[#94A3B8] font-mono">Followers</div>
-                    <div className="font-bold text-[#0F172A] font-mono mt-0.5">{comp.followers}</div>
-                  </div>
-                  <div className="p-2 rounded-lg bg-[#F8FAFC] border border-neutral-100">
-                    <div className="text-[10px] text-[#94A3B8] font-mono">Cadence</div>
-                    <div className="font-bold text-[#0F172A] font-mono mt-0.5">{comp.cadence}</div>
-                  </div>
-                  <div className="p-2 rounded-lg bg-[#F8FAFC] border border-neutral-100">
-                    <div className="text-[10px] text-[#94A3B8] font-mono">Avg Views</div>
-                    <div className="font-bold text-[#0F172A] font-mono mt-0.5">{comp.avgViews}</div>
-                  </div>
-                </div>
-
-                {/* Breakdown Tag */}
-                <div className="p-2.5 rounded-lg bg-[#EFF6FF] border border-[rgba(6,124,249,0.15)] text-xs">
-                  <span className="text-[10px] font-mono text-[#067CF9] font-bold block">Top Performing Format:</span>
-                  <span className="text-[#0F172A]">{comp.topFormat}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-
-        </div>
-      )}
-
-      {/* 6. TAB 5: SAVED VAULT */}
-      {activeTab === 'saved' && (
-        <div className="space-y-4">
-          
-          {/* Header */}
-          <div className="p-4 rounded-2xl bg-white/95 backdrop-blur-xl border border-[rgba(6,124,249,0.12)] shadow-[0_2px_16px_rgba(6,124,249,0.04)] flex items-center justify-between">
-            <div>
-              <h3 className="font-bold text-[#0F172A] text-sm">Saved References &amp; Hooks</h3>
-              <p className="text-xs text-[#64748B]">Your personal swipe file of high-performing references ready for re-scripting.</p>
-            </div>
-            <span className="text-xs font-mono text-[#067CF9] bg-[#EFF6FF] px-2.5 py-0.5 rounded font-semibold border border-[rgba(6,124,249,0.15)]">
-              {savedPosts.length} Bookmarked
-            </span>
-          </div>
-
-          {/* Saved Cards Grid */}
-          {savedPosts.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {INITIAL_VIRAL_POSTS.filter(p => savedPosts.includes(p.id)).map(post => (
-                <div key={post.id} className="p-4 rounded-2xl bg-white border border-[rgba(6,124,249,0.12)] shadow-[0_2px_12px_rgba(6,124,249,0.03)] space-y-3 flex flex-col justify-between">
-                  <div>
-                    <div className="flex items-center justify-between text-[11px] font-mono text-[#94A3B8] mb-1">
-                      <span className="text-[#067CF9] font-bold">{post.views} Views</span>
-                      <span className="px-2 py-0.5 rounded bg-[#F8FAFC] text-[#64748B] text-[10px] border border-neutral-100">
-                        {post.niche}
-                      </span>
-                    </div>
-                    <h4 className="font-semibold text-[#0F172A] text-xs leading-snug">
-                      "{post.hookText}"
-                    </h4>
-                  </div>
-
-                  {/* Actions */}
-                  <div className="pt-2.5 border-t border-[rgba(6,124,249,0.08)] flex items-center justify-between">
-                    <button
+                      type="button"
                       onClick={() => handleToggleBookmark(post.id)}
-                      className="p-1.5 rounded-lg text-neutral-400 hover:text-red-500 hover:bg-red-50 transition-colors cursor-pointer"
-                      title="Remove from saved vault"
+                      className="absolute top-2.5 right-2.5 w-7 h-7 rounded-lg bg-black/60 backdrop-blur-md text-white flex items-center justify-center cursor-pointer hover:bg-[#067CF9] transition-colors"
                     >
-                      <Trash2 className="w-3.5 h-3.5" />
+                      {savedPosts.includes(post.id) ? (
+                        <BookmarkCheck className="w-3.5 h-3.5 text-white" />
+                      ) : (
+                        <Bookmark className="w-3.5 h-3.5 text-white/80" />
+                      )}
                     </button>
 
+                    <div className="absolute bottom-2.5 left-2.5 right-2.5 text-white">
+                      <div className="text-[10px] text-white/80 font-medium">{post.creator}</div>
+                      <div className="text-xs font-bold leading-snug line-clamp-2 mt-0.5">{post.hookText}</div>
+                    </div>
+                  </div>
+
+                  <div className="p-3.5 space-y-3 flex-1 flex flex-col justify-between">
+                    <div className="space-y-1.5 text-xs">
+                      <div className="flex items-center justify-between text-[#64748B] text-[11px]">
+                        <span>Views: <strong className="text-[#0F172A] font-semibold">{post.views}</strong></span>
+                        <span>Saves: <strong className="text-[#067CF9] font-semibold">{post.saves}</strong></span>
+                      </div>
+                      <p className="text-[11px] text-[#64748B] line-clamp-2 leading-relaxed">
+                        {post.breakdown}
+                      </p>
+                    </div>
+
                     <button
-                      onClick={() => {
-                        setActiveTab('studio');
-                        setScriptTopic(post.hookText);
-                        handleGenerateScript(post.hookText);
-                      }}
-                      className="px-3 py-1.5 rounded-xl border border-[rgba(6,124,249,0.3)] text-[#067CF9] hover:bg-[#EFF6FF] text-xs font-semibold flex items-center gap-1 transition-colors cursor-pointer"
+                      type="button"
+                      onClick={() => handleUseHookInScript(post)}
+                      className="w-full py-1.5 rounded-xl bg-[#EFF6FF] hover:bg-[#067CF9] text-[#067CF9] hover:text-white font-semibold text-xs transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
                     >
-                      <span>Re-Script</span>
+                      <span>Use Hook in Script</span>
                       <ArrowRight className="w-3 h-3" />
                     </button>
                   </div>
                 </div>
               ))}
             </div>
-          ) : (
-            <div className="p-12 text-center rounded-2xl bg-white border border-dashed border-[rgba(6,124,249,0.2)] space-y-3">
-              <Bookmark className="w-8 h-8 text-[#94A3B8] mx-auto" />
-              <h3 className="font-bold text-[#0F172A] text-sm">No Saved References Yet</h3>
-              <p className="text-xs text-[#64748B] max-w-sm mx-auto">
-                Bookmark viral posts from the Viral Discovery tab to build your swipe file for rapid re-scripting.
-              </p>
+          )}
+
+          {/* VIEW B: VIRAL AUDIOS */}
+          {discoverFilter === 'audios' && (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {VIRAL_AUDIOS.map(audio => (
+                <div
+                  key={audio.id}
+                  className="p-5 rounded-2xl bg-white border border-[rgba(6,124,249,0.12)] shadow-[0_2px_12px_rgba(6,124,249,0.03)] space-y-4 hover:border-[#067CF9]/30 transition-all flex flex-col justify-between"
+                >
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <span className="px-2 py-0.5 rounded-md bg-[#EFF6FF] text-[#067CF9] text-[10px] font-bold border border-[rgba(6,124,249,0.15)]">
+                        {audio.badge}
+                      </span>
+                      <span className="text-[10px] text-emerald-600 font-semibold">{audio.growth}</span>
+                    </div>
+
+                    <div className="flex items-start gap-3">
+                      <div className="w-10 h-10 rounded-xl bg-[#EFF6FF] border border-[rgba(6,124,249,0.2)] text-[#067CF9] flex items-center justify-center shrink-0">
+                        <Music className="w-5 h-5 text-[#067CF9]" />
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-[#0F172A] text-xs leading-snug">{audio.title}</h4>
+                        <div className="text-[11px] text-[#64748B] mt-0.5">{audio.artist} &bull; {audio.genre}</div>
+                      </div>
+                    </div>
+
+                    {/* Audio wave simulation bars */}
+                    <div className="flex items-center gap-1 h-5 px-2 bg-[#F8FAFC] rounded-lg">
+                      {[40, 70, 30, 90, 60, 45, 80, 50, 95, 40, 65, 85, 30, 70, 55, 90, 45].map((h, i) => (
+                        <span
+                          key={i}
+                          style={{ height: `${h}%` }}
+                          className="flex-1 bg-[#067CF9]/40 rounded-full"
+                        />
+                      ))}
+                    </div>
+
+                    <div className="flex items-center justify-between text-[11px] text-[#64748B] font-medium">
+                      <span>Uses: <strong className="text-[#0F172A]">{audio.uses}</strong></span>
+                      <span>Length: <strong className="text-[#0F172A]">{audio.duration}</strong></span>
+                    </div>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => handleUseAudioInScript(audio)}
+                    className="w-full py-2 rounded-xl bg-[#067CF9] hover:bg-[#0568D2] text-white font-semibold text-xs transition-colors flex items-center justify-center gap-1.5 cursor-pointer shadow-xs"
+                  >
+                    <span>Use Audio in Script Studio</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              ))}
             </div>
           )}
+
+          {/* VIEW C: COMPETITOR RADAR */}
+          {discoverFilter === 'competitors' && (
+            <div className="space-y-4">
+              
+              {/* Add Competitor Banner */}
+              <div className="p-4 rounded-2xl bg-white/95 backdrop-blur-xl border border-[rgba(6,124,249,0.12)] shadow-[0_2px_16px_rgba(6,124,249,0.04)] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div>
+                  <h3 className="font-bold text-[#0F172A] text-sm">Competitor Radar &amp; Format Benchmarking</h3>
+                  <p className="text-xs text-[#64748B] mt-0.5">Track publishing cadence, follower velocity, and top-converting formats.</p>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <input
+                    type="text"
+                    value={newCompetitorInput}
+                    onChange={(e) => setNewCompetitorInput(e.target.value)}
+                    placeholder="@competitor.handle"
+                    className="bg-[#F8FAFC] border border-[rgba(6,124,249,0.15)] rounded-xl px-3 py-1.5 text-xs text-[#0F172A] placeholder:text-[#94A3B8] focus:outline-hidden focus:border-[#067CF9]"
+                  />
+                  <button
+                    type="button"
+                    onClick={handleAddCompetitor}
+                    className="px-3.5 py-1.5 rounded-xl bg-[#067CF9] hover:bg-[#0568D2] text-white font-semibold text-xs transition-colors flex items-center gap-1 cursor-pointer shadow-xs shrink-0"
+                  >
+                    <Plus className="w-3.5 h-3.5" />
+                    <span>Track Competitor</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Competitors List */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {competitors.map((comp, idx) => (
+                  <div
+                    key={idx}
+                    className="p-5 rounded-2xl bg-white border border-[rgba(6,124,249,0.12)] shadow-xs space-y-3"
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2.5">
+                        <div className="w-9 h-9 rounded-full bg-[#EFF6FF] border border-[rgba(6,124,249,0.2)] text-[#067CF9] font-bold text-xs flex items-center justify-center">
+                          @{comp.handle[0]?.toUpperCase()}
+                        </div>
+                        <div>
+                          <h4 className="font-bold text-xs text-[#0F172A]">@{comp.handle}</h4>
+                          <span className="text-[10px] text-[#64748B]">{comp.niche}</span>
+                        </div>
+                      </div>
+
+                      <span className="text-[10px] text-emerald-600 font-bold bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
+                        {comp.trend}
+                      </span>
+                    </div>
+
+                    <div className="grid grid-cols-3 gap-2 pt-2 border-t border-[rgba(6,124,249,0.08)] text-center text-xs">
+                      <div className="p-2 rounded-xl bg-[#F8FAFC]">
+                        <span className="text-[10px] text-[#64748B] block font-medium">Followers</span>
+                        <strong className="text-[#0F172A] font-bold text-xs">{comp.followers}</strong>
+                      </div>
+                      <div className="p-2 rounded-xl bg-[#F8FAFC]">
+                        <span className="text-[10px] text-[#64748B] block font-medium">Cadence</span>
+                        <strong className="text-[#0F172A] font-bold text-xs">{comp.cadence}</strong>
+                      </div>
+                      <div className="p-2 rounded-xl bg-[#F8FAFC]">
+                        <span className="text-[10px] text-[#64748B] block font-medium">Avg Views</span>
+                        <strong className="text-[#067CF9] font-bold text-xs">{comp.avgViews}</strong>
+                      </div>
+                    </div>
+
+                    <div className="text-[11px] text-[#64748B] pt-1">
+                      Top format: <strong className="text-[#0F172A]">{comp.topFormat}</strong>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+            </div>
+          )}
+
+        </div>
+      )}
+
+      {/* =========================================================================
+          PANEL 2: CREATE
+          Structure:
+          A. Script Studio (Top)
+          B. 30-Day Content Planner (Directly underneath)
+         ========================================================================= */}
+      {mainMode === 'create' && (
+        <div className="space-y-6">
+          
+          {/* A. SCRIPT STUDIO */}
+          <div className="p-6 rounded-2xl bg-white/95 backdrop-blur-xl border border-[rgba(6,124,249,0.12)] shadow-[0_2px_16px_rgba(6,124,249,0.04)] space-y-5">
+            <div>
+              <h3 className="font-bold text-[#0F172A] text-base">
+                AI Script Studio &amp; Scene Architecture
+              </h3>
+              <p className="text-xs text-[#64748B] mt-0.5 font-medium">
+                Engineer full viral reel scripts with high-retention visual hooks, body mechanisms, and conversion CTAs.
+              </p>
+            </div>
+
+            {/* Inputs: Hook Type, Target Goal, Topic */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+              
+              <div className="space-y-1.5">
+                <label className="text-[#64748B] font-semibold">Hook Psychology</label>
+                <select
+                  value={scriptHookType}
+                  onChange={(e) => setScriptHookType(e.target.value)}
+                  className="w-full bg-[#F8FAFC] border border-[rgba(6,124,249,0.15)] rounded-xl px-3 py-2 text-xs text-[#0F172A] font-medium focus:outline-hidden focus:border-[#067CF9]"
+                >
+                  <option value="contrarian">Contrarian (Challenge beliefs)</option>
+                  <option value="mistake_pain">Mistake / Pain (Stop doing X)</option>
+                  <option value="curiosity">Curiosity Loop (The secret reason...)</option>
+                  <option value="proof_breakdown">Proof / Breakdown (Case study)</option>
+                </select>
+              </div>
+
+              <div className="space-y-1.5">
+                <label className="text-[#64748B] font-semibold">Monetization Objective</label>
+                <select
+                  value={scriptGoal}
+                  onChange={(e) => setScriptGoal(e.target.value)}
+                  className="w-full bg-[#F8FAFC] border border-[rgba(6,124,249,0.15)] rounded-xl px-3 py-2 text-xs text-[#0F172A] font-medium focus:outline-hidden focus:border-[#067CF9]"
+                >
+                  <option value="lead_magnet">Free Lead Magnet / DM Trigger</option>
+                  <option value="storefront_sales">Storefront Product Direct Sale</option>
+                  <option value="viral_reach">Viral Audience Expansion</option>
+                </select>
+              </div>
+
+              <div className="space-y-1.5">
+                <label className="text-[#64748B] font-semibold">Topic / Central Theme</label>
+                <input
+                  type="text"
+                  value={scriptTopic}
+                  onChange={(e) => setScriptTopic(e.target.value)}
+                  placeholder="e.g. Stop wasting 5 hours making Reels"
+                  className="w-full bg-[#F8FAFC] border border-[rgba(6,124,249,0.15)] rounded-xl px-3 py-2 text-xs text-[#0F172A] focus:outline-hidden focus:border-[#067CF9]"
+                />
+              </div>
+
+            </div>
+
+            {/* Generate Script Action Button */}
+            <div className="flex items-center justify-between pt-2">
+              <span className="text-xs text-[#64748B] flex items-center gap-1.5 font-medium">
+                <Zap className="w-3.5 h-3.5 text-[#067CF9]" />
+                Uses 1 AI Credit &bull; Optimized for 3-Second Retention
+              </span>
+
+              <button
+                type="button"
+                onClick={() => handleGenerateScript()}
+                disabled={isGeneratingScript}
+                className="px-4 py-2 rounded-xl bg-[#067CF9] hover:bg-[#0568D2] text-white font-semibold text-xs transition-colors flex items-center gap-1.5 cursor-pointer shadow-xs disabled:opacity-50"
+              >
+                {isGeneratingScript ? (
+                  <>
+                    <RotateCw className="w-3.5 h-3.5 animate-spin" />
+                    <span>Engineering Script...</span>
+                  </>
+                ) : (
+                  <>
+                    <Sparkles className="w-3.5 h-3.5" />
+                    <span>Generate AI Script</span>
+                  </>
+                )}
+              </button>
+            </div>
+
+            {/* Generated Script Card */}
+            {generatedScript && (
+              <div className="p-5 rounded-2xl bg-[#F8FAFC] border border-[rgba(6,124,249,0.2)] space-y-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="px-2 py-0.5 rounded-md bg-[#EFF6FF] text-[#067CF9] text-[10px] font-bold border border-[rgba(6,124,249,0.2)]">
+                      {generatedScript.angle || 'Viral Script'}
+                    </span>
+                    <h4 className="font-bold text-xs text-[#0F172A]">{generatedScript.title}</h4>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const fullText = `${generatedScript.title}\n\nHook: ${generatedScript.hook}\n\nScenes:\n${(generatedScript.scenes || []).map(s => s.visual + ': ' + s.audio).join('\n')}\n\nCTA: ${generatedScript.cta}`;
+                        navigator.clipboard.writeText(fullText);
+                        setIsCopiedScript(true);
+                        setTimeout(() => setIsCopiedScript(false), 2000);
+                      }}
+                      className="px-2.5 py-1 rounded-lg bg-white border border-[rgba(6,124,249,0.2)] text-[#0F172A] text-xs font-medium flex items-center gap-1 cursor-pointer"
+                    >
+                      {isCopiedScript ? <Check className="w-3 h-3 text-[#067CF9]" /> : <Copy className="w-3 h-3" />}
+                      <span>{isCopiedScript ? 'Copied' : 'Copy'}</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={handleSaveScriptToPlanner}
+                      className="px-2.5 py-1 rounded-lg bg-[#067CF9] text-white text-xs font-semibold flex items-center gap-1 cursor-pointer shadow-xs"
+                    >
+                      <Plus className="w-3 h-3" />
+                      <span>Add to 30-Day Planner</span>
+                    </button>
+                  </div>
+                </div>
+
+                <div className="space-y-3 text-xs">
+                  <div className="p-3 rounded-xl bg-white border border-[rgba(6,124,249,0.1)]">
+                    <span className="text-[10px] font-bold text-[#067CF9] uppercase tracking-wider block">Opening Hook (0:00 - 0:03)</span>
+                    <p className="text-xs font-semibold text-[#0F172A] mt-1">{generatedScript.hook}</p>
+                  </div>
+
+                  {generatedScript.scenes && generatedScript.scenes.length > 0 && (
+                    <div className="space-y-2">
+                      <span className="text-[10px] font-bold text-[#64748B] uppercase tracking-wider block">Scene Breakdown</span>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                        {generatedScript.scenes.map((sc, i) => (
+                          <div key={i} className="p-3 rounded-xl bg-white border border-[rgba(6,124,249,0.08)]">
+                            <span className="text-[10px] text-[#067CF9] font-bold block">{sc.timeframe || `Scene ${i + 1}`}</span>
+                            <div className="text-[11px] text-[#0F172A] font-semibold mt-0.5">{sc.visual}</div>
+                            <div className="text-[11px] text-[#64748B] mt-1">{sc.audio}</div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="p-3 rounded-xl bg-white border border-[rgba(6,124,249,0.1)]">
+                    <span className="text-[10px] font-bold text-[#10B981] uppercase tracking-wider block">Conversion Call To Action</span>
+                    <p className="text-xs font-semibold text-[#0F172A] mt-1">{generatedScript.cta}</p>
+                  </div>
+                </div>
+              </div>
+            )}
+
+          </div>
+
+          {/* B. 30-DAY CONTENT PLANNER (Directly Under Script Studio) */}
+          <div className="p-6 rounded-2xl bg-white/95 backdrop-blur-xl border border-[rgba(6,124,249,0.12)] shadow-[0_2px_16px_rgba(6,124,249,0.04)] space-y-5">
+            
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <div className="flex items-center gap-2">
+                  <h3 className="font-bold text-[#0F172A] text-base">
+                    30-Day Strategic Content Planner
+                  </h3>
+                  <span className="px-2 py-0.5 rounded-full bg-[#EFF6FF] text-[#067CF9] border border-[rgba(6,124,249,0.2)] text-[10px] font-bold">
+                    {calendarSchedule.length} Days Planned
+                  </span>
+                </div>
+                <p className="text-xs text-[#64748B] mt-0.5 font-medium">
+                  Automated strategic roadmap alternating viral reach, retention teardowns, and storefront monetization offers.
+                </p>
+              </div>
+
+              <button
+                type="button"
+                onClick={handleAutoFill30Days}
+                disabled={isAutoFillingCalendar}
+                className="px-4 py-2 rounded-xl bg-[#067CF9] hover:bg-[#0568D2] text-white font-semibold text-xs transition-colors flex items-center gap-1.5 cursor-pointer shadow-xs whitespace-nowrap self-start sm:self-auto disabled:opacity-50"
+              >
+                {isAutoFillingCalendar ? (
+                  <>
+                    <RotateCw className="w-3.5 h-3.5 animate-spin" />
+                    <span>Engineering 30-Day Plan...</span>
+                  </>
+                ) : (
+                  <>
+                    <Sparkles className="w-3.5 h-3.5" />
+                    <span>Auto-Fill 30-Day Plan with AI</span>
+                  </>
+                )}
+              </button>
+            </div>
+
+            {/* Day-by-Day Strategic Schedule Table */}
+            <div className="overflow-x-auto rounded-xl border border-[rgba(6,124,249,0.1)]">
+              <table className="w-full text-left text-xs">
+                <thead>
+                  <tr className="bg-[#F8FAFC] border-b border-[rgba(6,124,249,0.1)] text-[#64748B] text-[11px]">
+                    <th className="py-2.5 px-3.5 font-semibold">Day &amp; Schedule</th>
+                    <th className="py-2.5 px-3 font-semibold">Format</th>
+                    <th className="py-2.5 px-3 font-semibold">Strategic Pillar</th>
+                    <th className="py-2.5 px-3 font-semibold">Topic &amp; Hook Angle</th>
+                    <th className="py-2.5 px-3 font-semibold">Posting Time</th>
+                    <th className="py-2.5 px-3.5 font-semibold text-right">Status</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-[rgba(6,124,249,0.06)]">
+                  {calendarSchedule.map((item, idx) => (
+                    <tr
+                      key={item.day || idx}
+                      className={`${idx % 2 === 1 ? 'bg-[#FAFCFF]' : 'bg-white'} hover:bg-[#EFF6FF]/60 transition-colors`}
+                    >
+                      <td className="py-3 px-3.5 font-bold text-[#0F172A] whitespace-nowrap">
+                        {item.date}
+                      </td>
+
+                      <td className="py-3 px-3">
+                        <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-bold ${
+                          item.format === 'Carousels'
+                            ? 'bg-purple-50 text-purple-700 border border-purple-200'
+                            : 'bg-blue-50 text-blue-700 border border-blue-200'
+                        }`}>
+                          {item.format}
+                        </span>
+                      </td>
+
+                      <td className="py-3 px-3 text-[#64748B] font-medium text-[11px]">
+                        {item.pillar}
+                      </td>
+
+                      <td className="py-3 px-3 font-semibold text-[#0F172A] max-w-[280px] truncate" title={item.topic}>
+                        {item.topic}
+                      </td>
+
+                      <td className="py-3 px-3 text-[#64748B] text-[11px]">
+                        {item.time}
+                      </td>
+
+                      <td className="py-3 px-3.5 text-right">
+                        <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold ${
+                          item.status === 'Ready'
+                            ? 'bg-emerald-50 text-emerald-600 border border-emerald-200'
+                            : item.status === 'Scheduled'
+                            ? 'bg-blue-50 text-[#067CF9] border border-blue-200'
+                            : 'bg-slate-100 text-slate-600 border border-slate-200'
+                        }`}>
+                          {item.status}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+          </div>
 
         </div>
       )}

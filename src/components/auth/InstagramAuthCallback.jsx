@@ -80,11 +80,10 @@ export default function InstagramAuthCallback({ onComplete }) {
       <div className="w-full max-w-md p-8 rounded-2xl bg-[#111218] border border-white/10 shadow-2xl text-center space-y-6">
         
         {/* Logo Header */}
-        <div className="flex items-center justify-center gap-2">
-          <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#23E598] to-emerald-400 flex items-center justify-center shadow-lg shadow-emerald-500/20">
-            <span className="font-black text-black font-mono text-sm">V</span>
-          </div>
-          <span className="font-bold text-lg tracking-tight">Vyralify &times; Meta</span>
+        <div className="flex items-center justify-center gap-2.5">
+          <img src="/vyralify-logo-white.png" alt="Vyralify" className="h-6 w-auto object-contain" />
+          <span className="text-neutral-500 font-mono text-sm">&times;</span>
+          <span className="font-bold text-sm text-neutral-300 tracking-tight">Meta Graph</span>
         </div>
 
         {/* Status Animation */}

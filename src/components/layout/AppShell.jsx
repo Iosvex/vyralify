@@ -32,7 +32,7 @@ import GlobalSearchModal from '../common/GlobalSearchModal';
 import ConnectAccountModal from '../common/ConnectAccountModal';
 
 export default function AppShell({ activeModule, onSelectModule, onNavigateLanding, children }) {
-  const { user, tier, logout } = useAuth();
+  const { user, tier, aiCredits, logout } = useAuth();
   const { pages, activePage, switchPage, canAddMorePages, getPageLimit } = usePage();
   const { openUpgradeModal } = usePlanGating();
   const { notifications, unreadCount, markAsRead, markAllAsRead } = useNotifications();
@@ -44,16 +44,14 @@ export default function AppShell({ activeModule, onSelectModule, onNavigateLandi
   const [isConnectModalOpen, setIsConnectModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 
-  // Navigation Items matching the exact sidebar in Image 1
+  // Navigation Items matching the streamlined UX
   const navItems = [
     { id: 'home', label: 'Home', icon: Home },
     { id: 'assistant', label: 'AI Assistant', icon: Sparkles },
-    { id: 'builder', label: 'Page & Profile Studio', icon: User },
-    { id: 'discover_create', label: 'Content & Script Studio', icon: FileText },
-    { id: 'viral_discovery', label: 'Viral Discovery', icon: Compass },
+    { id: 'builder', label: 'Page Builder', icon: User },
+    { id: 'discover_create', label: 'Discover & Create', icon: Compass },
     { id: 'analytics', label: 'Analytics', icon: BarChart2 },
-    { id: 'monetisation', label: 'Monetisation', icon: DollarSign },
-    { id: 'store', label: 'Creator Store', icon: ShoppingBag },
+    { id: 'store', label: 'Store & Commerce', icon: ShoppingBag },
     { id: 'settings', label: 'Settings', icon: Settings }
   ];
 
@@ -62,6 +60,12 @@ export default function AppShell({ activeModule, onSelectModule, onNavigateLandi
   };
 
   const isNavActive = (id) => {
+    if (id === 'discover_create') {
+      return activeModule === 'discover_create' || activeModule === 'viral_discovery';
+    }
+    if (id === 'store') {
+      return activeModule === 'store' || activeModule === 'monetisation';
+    }
     return activeModule === id;
   };
 
@@ -76,6 +80,11 @@ export default function AppShell({ activeModule, onSelectModule, onNavigateLandi
 
   const currentHandle = activePage?.handle ? activePage.handle.replace(/^@/, '') : (user?.displayName ? user.displayName.toLowerCase().replace(/\s+/g, '') : 'maaz');
 
+  const creditsLimit = aiCredits?.limit || (tier === 'pro' ? 300 : tier === 'elite' ? 99999 : 20);
+  const creditsUsed = aiCredits?.usedToday || 0;
+  const creditsRemaining = Math.max(0, creditsLimit - creditsUsed);
+  const isUnlimited = creditsLimit > 90000;
+
   return (
     <div className="flex h-screen w-full bg-[#F0F6FE] text-[#0F172A] font-sans overflow-hidden select-none antialiased">
       
@@ -84,15 +93,16 @@ export default function AppShell({ activeModule, onSelectModule, onNavigateLandi
         
         {/* Top: Logo */}
         <div>
-          <div className="flex items-center gap-2.5 px-5 py-4 border-b border-[rgba(6,124,249,0.08)]">
-            <div className="w-8 h-8 rounded-xl bg-[#067CF9] flex items-center justify-center text-white shadow-xs">
-              <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-              </svg>
-            </div>
-            <span className="font-bold text-lg tracking-tight text-[#0F172A]">
-              Vyralify
-            </span>
+          <div 
+            onClick={onNavigateLanding}
+            className="flex items-center px-5 py-4 border-b border-[rgba(6,124,249,0.08)] cursor-pointer hover:opacity-90 transition-opacity"
+            title="Vyralify — Back to Home"
+          >
+            <img 
+              src="/vyralify-logo.png" 
+              alt="Vyralify" 
+              className="h-7 w-auto object-contain" 
+            />
           </div>
 
           {/* Navigation Links */}
@@ -157,9 +167,36 @@ export default function AppShell({ activeModule, onSelectModule, onNavigateLandi
             />
           </div>
 
-          {/* RIGHT: Action Buttons (+ Create, Store, Ask AI) | Bell | Profile Pill */}
+          {/* RIGHT: AI Credits Pill + Action Buttons (+ Create, Store, Ask AI) | Bell | Profile Pill */}
           <div className="flex items-center gap-3">
             
+            {/* AI Credits Quota Pill Widget in Top Strip */}
+            <div
+              onClick={() => openUpgradeModal('ai_credits', 'Upgrade to Pro to unlock 300 daily AI credits & vision models!')}
+              className="flex items-center gap-2.5 px-3 py-1.5 rounded-xl bg-[#EFF6FF] border border-[rgba(6,124,249,0.18)] hover:border-[#067CF9]/40 transition-all cursor-pointer shadow-2xs group"
+              title="Daily AI Credits Quota (Click to Upgrade)"
+            >
+              <div className="w-5 h-5 rounded-lg bg-[#067CF9] text-white flex items-center justify-center shrink-0 shadow-2xs">
+                <Zap className="w-3 h-3 fill-current" />
+              </div>
+              <div className="flex flex-col text-left">
+                <div className="flex items-center gap-1.5 leading-none">
+                  <span className="font-bold text-xs text-[#0F172A] font-mono">
+                    {isUnlimited ? '∞ Unlimited' : `${creditsRemaining} / ${creditsLimit}`}
+                  </span>
+                  <span className="text-[10px] font-semibold text-[#067CF9] uppercase tracking-wider">Credits</span>
+                </div>
+                {!isUnlimited && (
+                  <div className="w-20 bg-[#DBEAFE] h-1 rounded-full overflow-hidden mt-1">
+                    <div 
+                      className="bg-[#067CF9] h-full rounded-full transition-all duration-300"
+                      style={{ width: `${Math.min(100, Math.max(0, (creditsRemaining / creditsLimit) * 100))}%` }}
+                    />
+                  </div>
+                )}
+              </div>
+            </div>
+
             {/* + Create (The ONLY Solid Electric Blue CTA button) */}
             <button
               onClick={() => onSelectModule('discover_create')}

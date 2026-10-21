@@ -102,14 +102,14 @@ function CleanFormattedMessage({ text }) {
           key={`quote-${key}-${renderedElements.length}`}
           className="my-3 p-3.5 rounded-xl bg-white border border-[rgba(6,124,249,0.18)] text-xs shadow-2xs relative group"
         >
-          <div className="flex items-center justify-between text-[10px] font-mono uppercase tracking-wider text-[#067CF9] font-bold mb-2">
+          <div className="flex items-center justify-between text-[10px] font-sans uppercase tracking-wider text-[#067CF9] font-bold mb-2">
             <span className="flex items-center gap-1.5">
               <span className="w-1.5 h-1.5 rounded-full bg-[#067CF9] animate-pulse" />
               <span>Recommended Script / Copy</span>
             </span>
             <button
               onClick={() => handleCopyQuote(quoteContent, quoteIndex)}
-              className="px-2 py-0.5 rounded-md bg-[#EFF6FF] hover:bg-[#DBEAFE] text-[#067CF9] text-[10px] font-mono transition-colors cursor-pointer flex items-center gap-1 border border-[#067CF9]/30 shadow-2xs"
+              className="px-2 py-0.5 rounded-md bg-[#EFF6FF] hover:bg-[#DBEAFE] text-[#067CF9] text-[10px] font-sans transition-colors cursor-pointer flex items-center gap-1 border border-[#067CF9]/30 shadow-2xs"
               title="Copy to clipboard"
             >
               {copiedQuoteIdx === quoteIndex ? (
@@ -125,7 +125,7 @@ function CleanFormattedMessage({ text }) {
               )}
             </button>
           </div>
-          <div className="font-mono text-[#0F172A] whitespace-pre-line leading-relaxed selection:bg-[#067CF9]/20 font-medium">
+          <div className="font-sans text-[#0F172A] whitespace-pre-line leading-relaxed selection:bg-[#067CF9]/20 font-medium">
             {quoteContent}
           </div>
         </div>
@@ -186,7 +186,7 @@ function CleanFormattedMessage({ text }) {
             {renderCleanInline(mainTitle)}
           </h4>
           {badge && (
-            <span className="px-2 py-0.5 rounded border border-[#067CF9]/20 bg-[#EFF6FF] text-[#067CF9] text-[10px] font-mono font-semibold">
+            <span className="px-2 py-0.5 rounded border border-[#067CF9]/20 bg-[#EFF6FF] text-[#067CF9] text-[10px] font-sans font-semibold">
               {badge}
             </span>
           )}
@@ -257,7 +257,7 @@ function renderCleanInline(text) {
         return (
           <span
             key={pIdx}
-            className="inline-flex items-center px-1.5 py-0.2 mr-1.5 rounded border border-[#067CF9]/25 bg-[#EFF6FF] text-[#067CF9] font-mono font-bold text-[10px] uppercase tracking-wider"
+            className="inline-flex items-center px-2 py-0.5 mr-1.5 rounded-md border border-[#067CF9]/20 bg-[#EFF6FF] text-[#067CF9] font-sans font-semibold text-[11px]"
           >
             {boldText.replace(/:$/, '')}
           </span>
@@ -595,7 +595,7 @@ export default function AIAssistant({ onNavigate }) {
               <div className="flex items-center gap-2">
                 <MessageSquare className="w-4 h-4 text-[#067CF9]" />
                 <span className="font-semibold text-xs text-[#0F172A]">Conversations</span>
-                <span className="px-1.5 py-0.2 rounded-full bg-blue-50 text-[10px] font-mono text-[#067CF9] font-semibold">
+                <span className="px-1.5 py-0.2 rounded-full bg-blue-50 text-[10px] font-sans text-[#067CF9] font-semibold">
                   {sessions.length}
                 </span>
               </div>
@@ -662,7 +662,7 @@ export default function AIAssistant({ onNavigate }) {
                   >
                     <div className="min-w-0 flex-1">
                       <p className="text-xs truncate">{s.title}</p>
-                      <div className="flex items-center gap-1.5 text-[10px] text-slate-400 font-mono mt-0.5">
+                      <div className="flex items-center gap-1.5 text-xs text-slate-500 font-sans mt-0.5">
                         <span>{s.messages.length} msgs</span>
                         <span>&bull;</span>
                         <span>{new Date(s.updatedAt).toLocaleDateString([], { month: 'short', day: 'numeric' })}</span>
@@ -689,7 +689,7 @@ export default function AIAssistant({ onNavigate }) {
 
             {/* Sidebar Footer */}
             <div className="p-2.5 px-3 border-t border-slate-100 bg-slate-50/70 text-[11px] text-slate-500 flex items-center justify-between">
-              <div className="flex items-center gap-1.5 font-mono text-[10px] text-slate-600">
+              <div className="flex items-center gap-1.5 font-sans text-[10px] text-slate-600">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#067CF9]" />
                 <span>{tier === 'free' ? 'Starter Memory' : 'Cloud History Synced'}</span>
               </div>
@@ -726,20 +726,9 @@ export default function AIAssistant({ onNavigate }) {
               <div className="w-8 h-8 rounded-xl bg-[#067CF9] text-white flex items-center justify-center font-bold shadow-xs">
                 <Sparkles className="w-4 h-4" />
               </div>
-              <div>
-                <div className="font-bold text-[#0F172A] text-xs flex items-center gap-2 font-headline">
-                  <span>Vyralify Assistant</span>
-                  <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#EFF6FF] border border-[#067CF9]/20 text-[#067CF9] text-[10px] font-mono font-semibold">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#067CF9] animate-pulse" />
-                    <span>Grounded in Account Analytics</span>
-                  </span>
-                </div>
-                <div className="text-[10px] text-slate-500 font-mono flex items-center gap-1.5 mt-0.5">
-                  <span className="text-[#067CF9] font-semibold">Live Data Connected</span>
-                  <span>&bull;</span>
-                  <span>Active Context</span>
-                </div>
-              </div>
+              <h2 className="font-bold text-[#0F172A] text-sm font-headline tracking-tight">
+                Vyralify Assistant
+              </h2>
             </div>
           </div>
 
@@ -792,7 +781,7 @@ export default function AIAssistant({ onNavigate }) {
                   <div className="mb-2 max-w-sm rounded-xl overflow-hidden border border-blue-200 shadow-xs">
                     <img src={msg.mediaUrl} alt="Uploaded critique media" className="max-h-48 w-full object-cover" />
                     {msg.mediaName && (
-                      <div className="p-1.5 bg-[#0F172A] text-white text-[10px] font-mono px-2 truncate">
+                      <div className="p-1.5 bg-[#0F172A] text-white text-[10px] font-sans px-2 truncate">
                         📎 {msg.mediaName}
                       </div>
                     )}
@@ -808,12 +797,12 @@ export default function AIAssistant({ onNavigate }) {
                   
                   {/* Sender Header for AI */}
                   {!isUser && (
-                    <div className="flex items-center justify-between gap-3 mb-2 pb-2 border-b border-slate-100 text-[10px] font-mono text-slate-400">
+                    <div className="flex items-center justify-between gap-3 mb-2 pb-2 border-b border-slate-100 text-[10px] font-sans text-slate-400">
                       <div className="flex items-center gap-1.5">
                         <span className="w-1.5 h-1.5 rounded-full bg-[#067CF9]" />
                         <span className="font-semibold text-slate-700">Vyralify Assistant</span>
                         {msg.provider && (
-                          <span className="text-[9px] px-1 py-0.2 rounded bg-slate-100 text-slate-500 font-mono">
+                          <span className="text-[9px] px-1 py-0.2 rounded bg-slate-100 text-slate-500 font-sans">
                             {msg.provider}
                           </span>
                         )}
@@ -834,7 +823,7 @@ export default function AIAssistant({ onNavigate }) {
                   {/* Interactive Action Buttons */}
                   {!isUser && msg.actions && msg.actions.length > 0 && (
                     <div className="mt-3.5 pt-3 border-t border-slate-100 flex flex-wrap items-center gap-2">
-                      <span className="text-[10px] font-mono text-slate-400 mr-1">Recommended:</span>
+                      <span className="text-[10px] font-sans text-slate-400 mr-1">Recommended:</span>
                       {msg.actions.map((act, aIdx) => (
                         <button
                           key={aIdx}
@@ -867,7 +856,7 @@ export default function AIAssistant({ onNavigate }) {
                 </div>
 
                 {isUser && (
-                  <span className="text-[10px] font-mono text-slate-400 mt-1 mr-1">
+                  <span className="text-[10px] font-sans text-slate-400 mt-1 mr-1">
                     {msg.timestamp}
                   </span>
                 )}
@@ -914,7 +903,7 @@ export default function AIAssistant({ onNavigate }) {
               <img src={attachedMedia.previewUrl} alt="Preview" className="w-8 h-8 rounded-lg object-cover border border-[#067CF9]/30" />
               <div>
                 <span className="font-semibold text-[#0F172A]">{attachedMedia.name}</span>
-                <span className="text-[10px] text-[#067CF9] block font-mono">Multimodal Vision Critique Ready</span>
+                <span className="text-[10px] text-[#067CF9] block font-sans">Multimodal Vision Critique Ready</span>
               </div>
             </div>
             <button

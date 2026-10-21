@@ -121,9 +121,9 @@ export default function Navbar({ onStartFree, onLogin, onSelectPath, onOpenDashb
       <div className="max-w-[1200px] h-full mx-auto px-5 sm:px-10 lg:px-20 flex items-center justify-between">
         
         {/* LEFT: [Vyralify Logo] */}
-        <a href="#" className="flex items-center gap-2.5 focus:outline-none shrink-0 py-1">
+        <a href="#" className="flex items-center focus:outline-none shrink-0 py-1">
           <img 
-            src="/vyralify-logo.png" 
+            src="/vyralify-logo-white.png" 
             alt="Vyralify" 
             className="h-7 w-auto object-contain" 
           />
@@ -263,9 +263,9 @@ export default function Navbar({ onStartFree, onLogin, onSelectPath, onOpenDashb
           >
             {/* Top Bar with Logo and Close X */}
             <div className="flex items-center justify-between pb-6 border-b border-[#1F1F1F]">
-              <a href="#" className="flex items-center gap-2.5">
+              <a href="#" className="flex items-center">
                 <img 
-                  src="/vyralify-logo.png" 
+                  src="/vyralify-logo-white.png" 
                   alt="Vyralify" 
                   className="h-7 w-auto object-contain" 
                 />

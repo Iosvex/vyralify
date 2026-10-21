@@ -98,13 +98,12 @@ export default function WatchDemoModal({ isOpen, onClose, onStartFree }) {
         
         {/* Modal Header */}
         <div className="py-4 px-6 border-b border-blue-100 flex items-center justify-between bg-gradient-to-r from-blue-50/60 to-white">
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-[#067CF9] flex items-center justify-center text-white font-extrabold text-xs shadow-md shadow-blue-500/20">
-              AI
-            </div>
+          <div className="flex items-center gap-3">
+            <img src="/vyralify-logo.png" alt="Vyralify" className="h-6 w-auto object-contain" />
+            <div className="h-4 w-px bg-slate-200" />
             <div>
               <h3 className="text-sm font-bold text-[#0F172A] flex items-center gap-2 font-headline">
-                <span>Vyralify AI Interactive Demo</span>
+                <span>AI Interactive Demo</span>
                 <span className="px-2 py-0.5 rounded-full bg-blue-100/80 text-[#067CF9] text-[10px] font-mono font-semibold">Live Simulation</span>
               </h3>
               <p className="text-[11px] text-slate-500">Grounding responses on real page analytics</p>

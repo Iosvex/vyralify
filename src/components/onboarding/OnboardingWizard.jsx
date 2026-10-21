@@ -16,6 +16,7 @@ import {
 import { useAuth } from '../../context/AuthContext';
 import { usePage } from '../../context/PageContext';
 import { auditLiveBio } from '../../lib/aiService';
+import { generateCreatorGraphData } from '../../lib/instagramDataEngine';
 
 function InstagramIcon({ className = "w-5 h-5" }) {
   return (
@@ -127,17 +128,13 @@ export default function OnboardingWizard({ initialTrack, onComplete }) {
     setIsConnectingMeta(true);
 
     const cleanHandle = instagramHandle.replace('@', '').toLowerCase();
+    const graphData = generateCreatorGraphData(cleanHandle, selectedCategory.name, '24.8K');
+
     const connectedAcc = {
+      ...graphData,
       id: `ig_${Date.now()}`,
-      handle: cleanHandle,
-      displayName: `${cleanHandle.charAt(0).toUpperCase() + cleanHandle.slice(1)} Official`,
-      avatar: `https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80`,
-      followersCount: '24.8K',
-      followersNumeric: 24800,
-      engagementRate: '4.8%',
       category: selectedCategory.name,
-      subNiche: selectedSubNiche,
-      bio: `Empowering creators in ${selectedCategory.name} with high-retention frameworks & digital leverage.`
+      subNiche: selectedSubNiche
     };
 
     setConnectedProfile(connectedAcc);
@@ -193,17 +190,14 @@ export default function OnboardingWizard({ initialTrack, onComplete }) {
         const fallbackHandle = themeHandle 
           ? themeHandle.replace('@', '').toLowerCase() 
           : `${(selectedSubNiche || 'creator').toLowerCase().replace(/[^a-z0-9]/g, '.')}.daily`;
+        const graphData = generateCreatorGraphData(fallbackHandle, selectedCategory?.name || 'Business & Money', '1.2K');
         addPage({
+          ...graphData,
           id: `scratch_${Date.now()}`,
           handle: fallbackHandle,
           displayName: `${selectedSubNiche || 'Theme'} Daily`,
-          avatar: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=150&auto=format&fit=crop&q=80',
-          followersCount: '0',
-          followersNumeric: 0,
-          engagementRate: '0.0%',
           category: selectedCategory?.name || 'Business & Money',
-          subNiche: selectedSubNiche || 'Online Business',
-          bio: `Daily ${selectedSubNiche || 'creator'} insights for high-performers. Curated by Vyralify AI.`
+          subNiche: selectedSubNiche || 'Online Business'
         }, true);
       }
     } catch (err) {
@@ -234,9 +228,9 @@ export default function OnboardingWizard({ initialTrack, onComplete }) {
       
       {/* Header with step progress */}
       <div className="w-full max-w-xl mb-6 flex items-center justify-between z-10">
-        <div className="flex items-center gap-2">
-          <img src="/vyralify-logo.png" alt="Vyralify" className="h-5 w-auto" />
-          <span className="font-bold text-sm text-neutral-900 dark:text-white">Vyralify</span>
+        <div className="flex items-center">
+          <img src="/vyralify-logo.png" alt="Vyralify" className="h-6 w-auto object-contain dark:hidden" />
+          <img src="/vyralify-logo-white.png" alt="Vyralify" className="h-6 w-auto object-contain hidden dark:block" />
         </div>
 
         {/* Step indicator and Skip button */}

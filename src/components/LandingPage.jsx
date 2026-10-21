@@ -104,17 +104,13 @@ export default function LandingPage({ onLoginSuccess }) {
           {/* LOGO */}
           <div 
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            className="flex items-center gap-2.5 cursor-pointer group"
+            className="flex items-center cursor-pointer group hover:opacity-90 transition-opacity"
           >
-            {/* Winged Blue Checkmark SVG Logo */}
-            <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#067CF9] to-[#38BDF8] flex items-center justify-center text-white shadow-md shadow-blue-500/25 group-hover:scale-105 transition-transform">
-              <svg className="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.8} d="M4.5 12.75l6 6 9-13.5" />
-              </svg>
-            </div>
-            <span className="font-extrabold text-2xl tracking-tight text-[#0F172A] font-headline">
-              Vyralify
-            </span>
+            <img 
+              src="/vyralify-logo.png" 
+              alt="Vyralify" 
+              className="h-8 w-auto object-contain" 
+            />
           </div>
 
           {/* DESKTOP NAV LINKS */}
@@ -318,13 +314,12 @@ export default function LandingPage({ onLoginSuccess }) {
           {/* TOP HEADER INSIDE SHOWCASE CARD */}
           <div className="flex items-center justify-between gap-3 pb-3 sm:pb-4 border-b border-slate-100">
             {/* Logo */}
-            <div className="flex items-center gap-2">
-              <div className="w-6 h-6 rounded-lg bg-gradient-to-tr from-[#067CF9] to-[#38BDF8] flex items-center justify-center text-white shadow-xs">
-                <svg className="w-3.5 h-3.5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M4.5 12.75l6 6 9-13.5" />
-                </svg>
-              </div>
-              <span className="font-extrabold text-base tracking-tight text-[#0F172A] font-headline">Vyralify</span>
+            <div className="flex items-center">
+              <img 
+                src="/vyralify-logo.png" 
+                alt="Vyralify" 
+                className="h-5.5 w-auto object-contain" 
+              />
             </div>
 
             {/* Search Input Bar */}
@@ -1030,14 +1025,13 @@ export default function LandingPage({ onLoginSuccess }) {
       {/* ========================================================================= */}
       <footer className="border-t border-slate-200/80 bg-white/70 py-12 px-4 sm:px-6 lg:px-8 text-xs text-slate-500">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="flex items-center gap-2">
-            <div className="w-6 h-6 rounded-lg bg-gradient-to-tr from-[#067CF9] to-[#38BDF8] flex items-center justify-center text-white shadow-xs">
-              <svg className="w-3.5 h-3.5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M4.5 12.75l6 6 9-13.5" />
-              </svg>
-            </div>
-            <span className="font-extrabold text-base tracking-tight text-[#0F172A] font-headline">Vyralify</span>
-            <span className="text-slate-400 ml-2">© 2026 Vyralify Inc. All rights reserved.</span>
+          <div className="flex items-center gap-3">
+            <img 
+              src="/vyralify-logo.png" 
+              alt="Vyralify" 
+              className="h-6 w-auto object-contain" 
+            />
+            <span className="text-slate-400 text-xs">© 2026 Vyralify Inc. All rights reserved.</span>
           </div>
 
           <div className="flex items-center gap-6">

@@ -474,9 +474,8 @@ export default function FunctionWorkbench({ onToggleFullUi }) {
       
       {/* 1. CLEAN, MINIMAL HEADER - No verbose badges or developer noise */}
       <header className="border-b border-white/[0.08] bg-[#0C0D12] px-6 py-3.5 flex items-center justify-between sticky top-0 z-40">
-        <div className="flex items-center gap-2.5">
-          <img src="/vyralify-logo.png" alt="Vyralify" className="h-6 w-auto object-contain" />
-          <span className="font-bold text-base tracking-tight text-white">Vyralify</span>
+        <div className="flex items-center gap-2">
+          <img src="/vyralify-logo-white.png" alt="Vyralify" className="h-6 w-auto object-contain" />
           <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse ml-0.5" />
         </div>
 

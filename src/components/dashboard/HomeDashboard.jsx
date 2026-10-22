@@ -18,10 +18,12 @@ import {
   ChevronDown, 
   MoreHorizontal, 
   Check, 
-  FileText 
+  FileText,
+  Trash2 
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
-import { usePage } from '../../context/PageContext';
+import { usePage, getSafeAvatarUrl } from '../../context/PageContext';
+import ConnectAccountModal from '../common/ConnectAccountModal';
 
 const InstagramIcon = ({ className = "w-5 h-5" }) => (
   <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -33,12 +35,16 @@ const InstagramIcon = ({ className = "w-5 h-5" }) => (
 
 export default function HomeDashboard({ onNavigate }) {
   const { user } = useAuth();
-  const { activePage } = usePage();
+  const { pages, activePage, switchPage, removePage } = usePage();
 
   const [activeHoverPoint, setActiveHoverPoint] = useState(6); // Default highlight Sun
+  const [isConnectModalOpen, setIsConnectModalOpen] = useState(false);
+  const [isSwitchDropdownOpen, setIsSwitchDropdownOpen] = useState(false);
 
-  // Personalized name from user or default 'Maaz' matching Image 1
-  const displayName = user?.displayName ? user.displayName.split(' ')[0] : 'Maaz';
+  // Personalized name from user or active account
+  const displayName = user?.displayName 
+    ? user.displayName.split(' ')[0] 
+    : (activePage?.handle ? `@${activePage.handle}` : 'Creator');
 
   // Dynamic greeting
   const getGreeting = () => {
@@ -62,15 +68,15 @@ export default function HomeDashboard({ onNavigate }) {
 
   const completedCount = checklist.filter(c => c.done).length;
 
-  // Default Stock Market Spline Line Data Points (Mon to Sun matching user's photo curve)
+  // Default Stock Market Spline Line Data Points
   const defaultStockPoints = [
-    { day: 'Mon', x: 50,  y: 165, value: '24.2K', change: '+8.4%' },
-    { day: 'Tue', x: 150, y: 135, value: '38.5K', change: '+14.2%' },
-    { day: 'Wed', x: 250, y: 85,  value: '64.8K', change: '+28.0%' },
-    { day: 'Thu', x: 350, y: 120, value: '49.0K', change: '-4.6%' },
-    { day: 'Fri', x: 450, y: 100, value: '58.3K', change: '+12.5%' },
-    { day: 'Sat', x: 550, y: 55,  value: '84.0K', change: '+35.1%' },
-    { day: 'Sun', x: 650, y: 25,  value: '112.5K', change: '+46.8%' }
+    { day: 'Mon', x: 50,  y: 165, value: '0', change: '0%' },
+    { day: 'Tue', x: 150, y: 135, value: '0', change: '0%' },
+    { day: 'Wed', x: 250, y: 85,  value: '0', change: '0%' },
+    { day: 'Thu', x: 350, y: 120, value: '0', change: '0%' },
+    { day: 'Fri', x: 450, y: 100, value: '0', change: '0%' },
+    { day: 'Sat', x: 550, y: 55,  value: '0', change: '0%' },
+    { day: 'Sun', x: 650, y: 25,  value: '0', change: '0%' }
   ];
 
   // Dynamic stockPoints linked to active Instagram Page Graph data
@@ -100,76 +106,161 @@ export default function HomeDashboard({ onNavigate }) {
   const linePathD = getSplinePath(stockPoints);
   const areaPathD = `${linePathD} L 650 200 L 50 200 Z`;
 
-  // Default Top Performing Reels List
-  const defaultTopReels = [
-    {
-      id: 1,
-      title: 'This Niche is Exploding 🚀',
-      date: 'Oct 18, 2024',
-      caption: '3 underrated niches...',
-      views: '2.4M',
-      retention: '72%',
-      shares: '24.1K',
-      thumbnail: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=200&auto=format&fit=crop&q=80'
-    },
-    {
-      id: 2,
-      title: 'Faceless Page Strategy',
-      date: 'Oct 16, 2024',
-      caption: 'How I grew to 100K...',
-      views: '1.8M',
-      retention: '68%',
-      shares: '18.4K',
-      thumbnail: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=200&auto=format&fit=crop&q=80'
-    },
-    {
-      id: 3,
-      title: '₹0 to $10K in 30 Days',
-      date: 'Oct 14, 2024',
-      caption: 'The exact blueprint...',
-      views: '1.2M',
-      retention: '65%',
-      shares: '12.1K',
-      thumbnail: 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=200&auto=format&fit=crop&q=80'
-    },
-    {
-      id: 4,
-      title: 'Make Better Reels (3 Tips)',
-      date: 'Oct 12, 2024',
-      caption: 'Stop making these...',
-      views: '842K',
-      retention: '62%',
-      shares: '8.9K',
-      thumbnail: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=200&auto=format&fit=crop&q=80'
-    },
-    {
-      id: 5,
-      title: 'Best AI Tools for Creators',
-      date: 'Oct 10, 2024',
-      caption: 'These 5 tools saved...',
-      views: '612K',
-      retention: '58%',
-      shares: '6.4K',
-      thumbnail: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=200&auto=format&fit=crop&q=80'
-    }
-  ];
-
   // Dynamic Top Performing Reels linked to active Instagram Page Graph data
-  const topReels = (activePage?.topReels && Array.isArray(activePage.topReels) && activePage.topReels.length > 0)
+  const topReels = (activePage?.topReels && Array.isArray(activePage.topReels))
     ? activePage.topReels
-    : defaultTopReels;
+    : [];
+
+  // Zero state if no account connected
+  if (!activePage || pages.length === 0) {
+    return (
+      <div className="space-y-6 max-w-5xl mx-auto pb-12 font-sans">
+        
+        {/* Zero State Hero Card */}
+        <div className="bg-white/80 backdrop-blur-2xl border border-white/90 rounded-3xl p-8 sm:p-12 shadow-[0_8px_32px_rgba(6,124,249,0.08)] ring-1 ring-[rgba(99,102,241,0.18)] text-center space-y-6 my-6">
+          <div className="w-20 h-20 rounded-2xl bg-gradient-to-tr from-[#FD1D1D] via-[#E1306C] to-[#C13584] text-white flex items-center justify-center mx-auto shadow-xl shadow-pink-500/25">
+            <InstagramIcon className="w-10 h-10" />
+          </div>
+
+          <div className="space-y-2 max-w-lg mx-auto">
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-[#0F172A] tracking-tight">
+              Connect Your Instagram Account
+            </h2>
+            <p className="text-sm text-[#64748B] leading-relaxed">
+              No Instagram profile linked yet. Connect your official creator or business account to unlock real-time followers, 7-day reel views, engagement rate benchmarks, and AI growth insights.
+            </p>
+          </div>
+
+          <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
+            <button
+              onClick={() => setIsConnectModalOpen(true)}
+              className="w-full sm:w-auto px-7 py-3 rounded-xl bg-gradient-to-r from-[#067CF9] via-[#6366F1] to-[#8B5CF6] text-white font-bold text-sm shadow-md hover:shadow-lg hover:opacity-95 transition-all flex items-center justify-center gap-2 cursor-pointer"
+            >
+              <Plus className="w-4 h-4 stroke-[3]" />
+              <span>Connect Instagram Profile</span>
+            </button>
+          </div>
+
+          {/* 4 Feature Columns */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-6 border-t border-[rgba(99,102,241,0.12)] text-left">
+            <div className="p-3.5 rounded-xl bg-white/60 border border-[rgba(99,102,241,0.12)] space-y-1">
+              <div className="font-bold text-xs text-[#0F172A]">Real Follower Growth</div>
+              <p className="text-[11px] text-[#64748B]">Accurate follower counts and 7-day velocity curve synced from Instagram.</p>
+            </div>
+            <div className="p-3.5 rounded-xl bg-white/60 border border-[rgba(99,102,241,0.12)] space-y-1">
+              <div className="font-bold text-xs text-[#0F172A]">Reel Reach &amp; Retention</div>
+              <p className="text-[11px] text-[#64748B]">Analyze your top reels with actual views, watch duration, and shares.</p>
+            </div>
+            <div className="p-3.5 rounded-xl bg-white/60 border border-[rgba(99,102,241,0.12)] space-y-1">
+              <div className="font-bold text-xs text-[#0F172A]">Optimal Posting Windows</div>
+              <p className="text-[11px] text-[#64748B]">Know the exact hour when your followers are most active on Instagram.</p>
+            </div>
+            <div className="p-3.5 rounded-xl bg-white/60 border border-[rgba(99,102,241,0.12)] space-y-1">
+              <div className="font-bold text-xs text-[#0F172A]">Link-in-Bio Storefront</div>
+              <p className="text-[11px] text-[#64748B]">Automate digital product sales directly linked to your Instagram handle.</p>
+            </div>
+          </div>
+        </div>
+
+        <ConnectAccountModal
+          isOpen={isConnectModalOpen}
+          onClose={() => setIsConnectModalOpen(false)}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6 max-w-7xl mx-auto pb-12 font-sans">
       
-      {/* 1. GREETING HEADER */}
-      <div className="pb-1">
-        <h1 className="text-2xl sm:text-3xl font-extrabold text-[#0F172A] tracking-tight">
-          {getGreeting()}, {displayName}
-        </h1>
-        <p className="text-sm text-[#64748B] mt-1 font-medium">
-          Here is your growth overview for today.
-        </p>
+      {/* 1. GREETING & ACTIVE INSTAGRAM ACCOUNT HEADER */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-2 border-b border-[rgba(99,102,241,0.1)]">
+        <div>
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-[#0F172A] tracking-tight">
+            {getGreeting()}, {displayName}
+          </h1>
+          <p className="text-xs sm:text-sm text-[#64748B] mt-0.5 font-medium">
+            Here is your live analytics overview for <span className="font-semibold text-[#0F172A]">@{activePage.handle}</span>.
+          </p>
+        </div>
+
+        {/* Active Account Switcher & Add Button */}
+        <div className="flex items-center gap-2 self-start md:self-auto">
+          {/* Active Account Pill */}
+          <div className="flex items-center gap-2.5 px-3 py-1.5 rounded-xl bg-white/80 border border-[rgba(99,102,241,0.2)] shadow-xs">
+            <img
+              src={getSafeAvatarUrl(activePage.avatar, activePage.handle)}
+              alt={activePage.handle}
+              onError={(e) => {
+                e.currentTarget.onerror = null;
+                e.currentTarget.src = getSafeAvatarUrl('', activePage.handle);
+              }}
+              className="w-7 h-7 rounded-full object-cover ring-2 ring-[#6366F1]/30"
+            />
+            <div className="text-left">
+              <div className="flex items-center gap-1.5">
+                <span className="font-bold text-xs text-[#0F172A]">@{activePage.handle}</span>
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" title="Live Synced" />
+              </div>
+              <div className="text-[10px] text-[#64748B] font-medium">
+                {activePage.category || 'Creator'} • {activePage.followersCount || '0'} followers
+              </div>
+            </div>
+          </div>
+
+          {/* Quick Account Switcher dropdown if multiple accounts */}
+          {pages.length > 1 && (
+            <div className="relative">
+              <button
+                onClick={() => setIsSwitchDropdownOpen(!isSwitchDropdownOpen)}
+                className="px-2.5 py-2 rounded-xl bg-white/80 hover:bg-white border border-[rgba(99,102,241,0.2)] text-xs font-semibold text-[#6366F1] flex items-center gap-1 cursor-pointer transition-colors shadow-xs"
+                title="Switch between connected accounts"
+              >
+                <span>Switch</span>
+                <ChevronDown className="w-3.5 h-3.5" />
+              </button>
+
+              {isSwitchDropdownOpen && (
+                <div className="absolute right-0 top-11 w-64 bg-white/95 backdrop-blur-xl border border-[rgba(99,102,241,0.2)] rounded-2xl shadow-xl p-2 z-50 text-xs space-y-1">
+                  <div className="px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-[#94A3B8]">
+                    Switch Account
+                  </div>
+                  {pages.map(p => (
+                    <button
+                      key={p.id}
+                      onClick={() => {
+                        switchPage(p.id);
+                        setIsSwitchDropdownOpen(false);
+                      }}
+                      className={`w-full flex items-center justify-between p-2 rounded-xl transition-colors cursor-pointer ${
+                        p.id === activePage.id ? 'bg-[#EFF6FF] border border-blue-200' : 'hover:bg-[#F8FAFC]'
+                      }`}
+                    >
+                      <div className="flex items-center gap-2">
+                        <img src={getSafeAvatarUrl(p.avatar, p.handle)} alt={p.handle} className="w-6 h-6 rounded-full object-cover" />
+                        <span className="font-semibold text-[#0F172A]">@{p.handle}</span>
+                      </div>
+                      {p.id === activePage.id ? (
+                        <span className="text-[10px] text-emerald-600 font-bold">Active</span>
+                      ) : (
+                        <span className="text-[10px] text-[#64748B]">{p.followersCount || '0'}</span>
+                      )}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Connect Another Account Button */}
+          <button
+            onClick={() => setIsConnectModalOpen(true)}
+            className="p-2 rounded-xl bg-white/80 hover:bg-white border border-[rgba(99,102,241,0.2)] text-[#067CF9] hover:text-[#6366F1] cursor-pointer transition-colors shadow-xs"
+            title="Add another Instagram account"
+          >
+            <Plus className="w-4 h-4 stroke-[2.5]" />
+          </button>
+        </div>
       </div>
 
       {/* 2. TOP 4 KPI CARDS (Pure Text-Based, No Icons, Clean Modern Metrics) */}
@@ -182,7 +273,7 @@ export default function HomeDashboard({ onNavigate }) {
               Followers
             </span>
             <span className="text-2xl sm:text-3xl font-extrabold text-[#0F172A] tracking-tight block my-1.5">
-              {activePage?.followersCount && activePage.followersCount !== '0' ? activePage.followersCount : '24.5K'}
+              {activePage.followersCount || '0'}
             </span>
           </div>
           <div className="text-xs font-semibold flex items-center gap-1.5">
@@ -198,7 +289,7 @@ export default function HomeDashboard({ onNavigate }) {
               Reel Views (7D)
             </span>
             <span className="text-2xl sm:text-3xl font-extrabold text-[#0F172A] tracking-tight block my-1.5">
-              {activePage?.views7d && activePage.views7d !== '0' ? activePage.views7d : '102.9K'}
+              {activePage.views7d || '0'}
             </span>
           </div>
           <div className="text-xs font-semibold flex items-center gap-1.5">
@@ -214,7 +305,7 @@ export default function HomeDashboard({ onNavigate }) {
               Store Revenue (30D)
             </span>
             <span className="text-2xl sm:text-3xl font-extrabold text-[#0F172A] tracking-tight block my-1.5">
-              {activePage?.revenue30d && activePage.revenue30d !== '₹0' ? activePage.revenue30d : '₹23,275'}
+              {activePage.revenue30d || '₹0'}
             </span>
           </div>
           <div className="text-xs font-semibold flex items-center gap-1.5">
@@ -230,7 +321,7 @@ export default function HomeDashboard({ onNavigate }) {
               Engagement Rate
             </span>
             <span className="text-2xl sm:text-3xl font-extrabold text-[#0F172A] tracking-tight block my-1.5">
-              {activePage?.engagementRate && activePage.engagementRate !== '0.0%' ? activePage.engagementRate : '5.4%'}
+              {activePage.engagementRate || '0.0%'}
             </span>
           </div>
           <div className="text-xs font-semibold flex items-center gap-1.5">
@@ -532,60 +623,72 @@ export default function HomeDashboard({ onNavigate }) {
           </div>
         </div>
 
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs">
-            <thead>
-              <tr className="border-b border-[rgba(99,102,241,0.1)] text-[#64748B] text-[11px]">
-                <th className="pb-3 w-10 text-center font-semibold">#</th>
-                <th className="pb-3 w-[30%] min-w-[200px] font-semibold">Reel</th>
-                <th className="pb-3 w-[15%] min-w-[110px] font-semibold">Publish Date</th>
-                <th className="pb-3 w-[25%] min-w-[160px] font-semibold">Hook / Caption</th>
-                <th className="pb-3 w-[10%] text-right font-semibold">Views</th>
-                <th className="pb-3 w-[10%] text-right font-semibold">Retention</th>
-                <th className="pb-3 w-[10%] text-right font-semibold">Shares</th>
-                <th className="pb-3 w-28 text-right font-semibold">Action</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-[rgba(99,102,241,0.06)]">
-              {topReels.map((reel) => (
-                <tr key={reel.id} className="hover:bg-[#EFF6FF]/40 transition-colors group">
-                  <td className="py-3 text-center text-[#94A3B8] font-medium">{reel.id}</td>
-                  <td className="py-3">
-                    <div className="flex items-center gap-3">
-                      <img 
-                        src={reel.thumbnail} 
-                        alt={reel.title} 
-                        className="w-9 h-9 rounded-lg object-cover ring-1 ring-black/5 shrink-0" 
-                      />
-                      <span className="font-semibold text-[#0F172A] truncate">
-                        {reel.title}
-                      </span>
-                    </div>
-                  </td>
-                  <td className="py-3 text-[#64748B] whitespace-nowrap">{reel.date}</td>
-                  <td className="py-3 text-[#64748B] truncate max-w-[200px]">{reel.caption}</td>
-                  <td className="py-3 text-right font-bold text-[#0F172A]">{reel.views}</td>
-                  <td className="py-3 text-right font-semibold text-[#10B981]">{reel.retention}</td>
-                  <td className="py-3 text-right text-[#64748B]">{reel.shares}</td>
-                  <td className="py-3 text-right">
-                    <div className="inline-flex items-center gap-1.5 justify-end">
-                      <button
-                        onClick={() => onNavigate('assistant')}
-                        className="px-2.5 py-1 rounded-lg bg-gradient-to-r from-blue-50 to-indigo-50 border border-[rgba(99,102,241,0.2)] hover:from-blue-100 hover:to-indigo-100 text-[#6366F1] text-[11px] font-semibold transition-colors flex items-center gap-1 cursor-pointer"
-                      >
-                        <Sparkles className="w-3 h-3 text-[#6366F1]" />
-                        <span>AI Remix</span>
-                      </button>
-                      <button className="p-1 rounded-lg hover:bg-neutral-100 text-[#94A3B8] cursor-pointer">
-                        <MoreHorizontal className="w-3.5 h-3.5" />
-                      </button>
-                    </div>
-                  </td>
+        {topReels.length === 0 ? (
+          <div className="py-12 text-center text-xs space-y-2.5">
+            <div className="w-10 h-10 rounded-full bg-blue-50 text-[#6366F1] flex items-center justify-center mx-auto">
+              <Play className="w-5 h-5 ml-0.5" />
+            </div>
+            <div className="font-bold text-sm text-[#0F172A]">No reels synced yet for @{activePage.handle}</div>
+            <p className="text-xs text-[#64748B] max-w-sm mx-auto">
+              Once reels are published and gain reach, their real retention, plays, and shares will appear here.
+            </p>
+          </div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-xs">
+              <thead>
+                <tr className="border-b border-[rgba(99,102,241,0.1)] text-[#64748B] text-[11px]">
+                  <th className="pb-3 w-10 text-center font-semibold">#</th>
+                  <th className="pb-3 w-[30%] min-w-[200px] font-semibold">Reel</th>
+                  <th className="pb-3 w-[15%] min-w-[110px] font-semibold">Publish Date</th>
+                  <th className="pb-3 w-[25%] min-w-[160px] font-semibold">Hook / Caption</th>
+                  <th className="pb-3 w-[10%] text-right font-semibold">Views</th>
+                  <th className="pb-3 w-[10%] text-right font-semibold">Retention</th>
+                  <th className="pb-3 w-[10%] text-right font-semibold">Shares</th>
+                  <th className="pb-3 w-28 text-right font-semibold">Action</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody className="divide-y divide-[rgba(99,102,241,0.06)]">
+                {topReels.map((reel) => (
+                  <tr key={reel.id} className="hover:bg-[#EFF6FF]/40 transition-colors group">
+                    <td className="py-3 text-center text-[#94A3B8] font-medium">{reel.id}</td>
+                    <td className="py-3">
+                      <div className="flex items-center gap-3">
+                        <img 
+                          src={reel.thumbnail} 
+                          alt={reel.title} 
+                          className="w-9 h-9 rounded-lg object-cover ring-1 ring-black/5 shrink-0" 
+                        />
+                        <span className="font-semibold text-[#0F172A] truncate">
+                          {reel.title}
+                        </span>
+                      </div>
+                    </td>
+                    <td className="py-3 text-[#64748B] whitespace-nowrap">{reel.date}</td>
+                    <td className="py-3 text-[#64748B] truncate max-w-[200px]">{reel.caption}</td>
+                    <td className="py-3 text-right font-bold text-[#0F172A]">{reel.views}</td>
+                    <td className="py-3 text-right font-semibold text-[#10B981]">{reel.retention}</td>
+                    <td className="py-3 text-right text-[#64748B]">{reel.shares}</td>
+                    <td className="py-3 text-right">
+                      <div className="inline-flex items-center gap-1.5 justify-end">
+                        <button
+                          onClick={() => onNavigate('assistant')}
+                          className="px-2.5 py-1 rounded-lg bg-gradient-to-r from-blue-50 to-indigo-50 border border-[rgba(99,102,241,0.2)] hover:from-blue-100 hover:to-indigo-100 text-[#6366F1] text-[11px] font-semibold transition-colors flex items-center gap-1 cursor-pointer"
+                        >
+                          <Sparkles className="w-3 h-3 text-[#6366F1]" />
+                          <span>AI Remix</span>
+                        </button>
+                        <button className="p-1 rounded-lg hover:bg-neutral-100 text-[#94A3B8] cursor-pointer">
+                          <MoreHorizontal className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
 
       {/* 5. GETTING STARTED CHECKLIST (Moved below Top Performing Reels per user request) */}
@@ -653,6 +756,12 @@ export default function HomeDashboard({ onNavigate }) {
           ))}
         </div>
       </div>
+
+      {/* Connect Account Modal */}
+      <ConnectAccountModal
+        isOpen={isConnectModalOpen}
+        onClose={() => setIsConnectModalOpen(false)}
+      />
 
     </div>
   );

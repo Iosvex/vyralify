@@ -28,60 +28,8 @@ export function getSafeAvatarUrl(avatar, handle = 'Creator') {
   return avatar;
 }
 
-const RAW_INITIAL_PAGES = [
-  {
-    id: 'page_growth_mindset',
-    handle: 'growth.mindset',
-    displayName: 'Growth Mindset Hub',
-    avatar: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=300&auto=format&fit=crop&q=80',
-    bio: 'Daily mental models, stoicism & wealth frameworks. Turning discipline into leverage.',
-    category: 'Self-Improvement',
-    subNiche: 'Motivation & Mindset',
-    followersCount: '48.2K',
-    followersNumeric: 48200,
-    views7d: '184.5K',
-    revenue30d: '₹24,950',
-    revenue30dNumeric: 24950,
-    engagementRate: '4.8%',
-    isConnected: true,
-    metaConnected: true,
-    metaVerified: true,
-    lastSynced: '12m ago',
-    audit: {
-      overallScore: 84,
-      strengths: ['High retention on 7-second text reels', 'Strong bio hook with clear outcome', 'Consistently active story schedule'],
-      gaps: ['No automated DM keyword funnel active', 'Bio link needs a structured product catalog', 'Hashtags are too broad (low niche specificity)'],
-      nicheRank: 'Top 12% in Self-Improvement'
-    }
-  },
-  {
-    id: 'page_tech_hustle',
-    handle: 'tech.hustle',
-    displayName: 'AI & SaaS Secrets',
-    avatar: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=300&auto=format&fit=crop&q=80',
-    bio: 'Breakdowns of modern software, AI workflows & internet money.',
-    category: 'Business & Money',
-    subNiche: 'AI Business & SaaS',
-    followersCount: '12.4K',
-    followersNumeric: 12400,
-    views7d: '62.1K',
-    revenue30d: '₹9,800',
-    revenue30dNumeric: 9800,
-    engagementRate: '5.2%',
-    isConnected: true,
-    metaConnected: true,
-    metaVerified: true,
-    lastSynced: '1h ago',
-    audit: {
-      overallScore: 78,
-      strengths: ['Great visual hook editing', 'Clear product callouts in captions'],
-      gaps: ['Low comment conversion rate', 'Infrequent carousel usage'],
-      nicheRank: 'Top 24% in AI Business'
-    }
-  }
-];
-
-const INITIAL_PAGES = RAW_INITIAL_PAGES.map(p => enrichPageWithGraphData(p));
+// Empty initial pages: Real connected accounts only
+const INITIAL_PAGES = [];
 
 export function PageProvider({ children }) {
   const { user, tier } = useAuth();
@@ -91,7 +39,15 @@ export function PageProvider({ children }) {
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
-        return parsed.map(p => enrichPageWithGraphData({
+        // Exclude legacy mock accounts so user sees only their real connected accounts
+        const realOnly = parsed.filter(p => 
+          p &&
+          p.id !== 'page_growth_mindset' && 
+          p.id !== 'page_tech_hustle' && 
+          p.handle !== 'growth.mindset' && 
+          p.handle !== 'tech.hustle'
+        );
+        return realOnly.map(p => enrichPageWithGraphData({
           ...p,
           avatar: getSafeAvatarUrl(p.avatar, p.handle)
         }));
@@ -102,10 +58,25 @@ export function PageProvider({ children }) {
 
   const [activePageId, setActivePageId] = useState(() => {
     const savedId = localStorage.getItem('vyralify_active_page_id');
-    return savedId || 'page_growth_mindset';
+    if (savedId === 'page_growth_mindset' || savedId === 'page_tech_hustle') {
+      localStorage.removeItem('vyralify_active_page_id');
+      return null;
+    }
+    return savedId || null;
   });
 
   const activePage = pages.find(p => p.id === activePageId) || pages[0] || null;
+
+  // Auto-sync activePageId if pages change or if activePageId points to a deleted page
+  useEffect(() => {
+    if (pages.length > 0) {
+      if (!activePageId || !pages.some(p => p.id === activePageId)) {
+        setActivePageId(pages[0].id);
+      }
+    } else if (activePageId !== null) {
+      setActivePageId(null);
+    }
+  }, [pages, activePageId]);
 
   // Real-time Firestore sync when authenticated
   useEffect(() => {
@@ -187,7 +158,7 @@ export function PageProvider({ children }) {
       ? generateCreatorGraphData(
           cleanHandle,
           newPageData.category || 'Business & Money',
-          newPageData.followersCount || '24.5K',
+          newPageData.followersCount || '0',
           newPageData
         )
       : {};
@@ -198,21 +169,21 @@ export function PageProvider({ children }) {
       handle: cleanHandle,
       displayName: newPageData.displayName || `@${cleanHandle}`,
       avatar: getSafeAvatarUrl(newPageData.avatar || graphData.avatar, cleanHandle),
-      bio: newPageData.bio || graphData.bio || 'New Instagram creator account.',
+      bio: newPageData.bio || graphData.bio || 'Instagram creator account.',
       category: newPageData.category || graphData.category || 'General',
       subNiche: newPageData.subNiche || graphData.subNiche || 'General',
-      followersCount: newPageData.followersCount || graphData.followersCount || '24.5K',
-      followersNumeric: newPageData.followersNumeric || graphData.followersNumeric || 24500,
-      views7d: newPageData.views7d || graphData.views7d || '102.5K',
-      revenue30d: newPageData.revenue30d || graphData.revenue30d || '₹23,200',
-      revenue30dNumeric: newPageData.revenue30dNumeric || graphData.revenue30dNumeric || 23200,
-      engagementRate: newPageData.engagementRate || graphData.engagementRate || '4.8%',
+      followersCount: newPageData.followersCount ?? graphData.followersCount ?? '0',
+      followersNumeric: newPageData.followersNumeric ?? graphData.followersNumeric ?? 0,
+      views7d: newPageData.views7d ?? graphData.views7d ?? '0',
+      revenue30d: newPageData.revenue30d ?? graphData.revenue30d ?? '₹0',
+      revenue30dNumeric: newPageData.revenue30dNumeric ?? graphData.revenue30dNumeric ?? 0,
+      engagementRate: newPageData.engagementRate ?? graphData.engagementRate ?? '0.0%',
       isConnected: newPageData.isConnected ?? true,
       metaConnected: true,
       metaVerified: true,
       lastSynced: 'Just now',
       stockPoints: newPageData.stockPoints || graphData.stockPoints,
-      topReels: newPageData.topReels || graphData.topReels,
+      topReels: newPageData.topReels || graphData.topReels || [],
       audience: newPageData.audience || graphData.audience,
       audit: newPageData.audit || graphData.audit || {
         overallScore: 82,
@@ -225,9 +196,10 @@ export function PageProvider({ children }) {
     if (isInitialOnboarding) {
       setPages([newPage]);
     } else {
-      setPages(prev => [...prev, newPage]);
+      setPages(prev => [...prev.filter(p => p.id !== newPage.id), newPage]);
     }
     setActivePageId(newPage.id);
+    localStorage.setItem('vyralify_active_page_id', newPage.id);
 
     // Sync to Firestore if authenticated
     if (user?.uid) {
@@ -241,8 +213,14 @@ export function PageProvider({ children }) {
   const removePage = (pageId) => {
     setPages(prev => {
       const filtered = prev.filter(p => p.id !== pageId);
-      if (activePageId === pageId && filtered.length > 0) {
-        setActivePageId(filtered[0].id);
+      if (activePageId === pageId) {
+        const nextId = filtered.length > 0 ? filtered[0].id : null;
+        setActivePageId(nextId);
+        if (nextId) {
+          localStorage.setItem('vyralify_active_page_id', nextId);
+        } else {
+          localStorage.removeItem('vyralify_active_page_id');
+        }
       }
       return filtered;
     });

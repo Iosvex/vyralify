@@ -19,12 +19,14 @@ import {
   ChevronRight,
   Trash2,
   Mail,
-  UserCheck
+  UserCheck,
+  Plus
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
-import { usePage } from '../../context/PageContext';
+import { usePage, getSafeAvatarUrl } from '../../context/PageContext';
 import { usePlanGating } from '../../context/PlanGatingContext';
 import { useNotifications } from '../../context/NotificationContext';
+import ConnectAccountModal from '../common/ConnectAccountModal';
 
 /**
  * Account Settings & Subscription Management - Strict Electric Light Blueprint
@@ -33,12 +35,13 @@ import { useNotifications } from '../../context/NotificationContext';
 
 export default function AccountSettings({ onNavigate }) {
   const { user, tier, updateTier, logout, changeEmail, updateCurrency, deleteAccount } = useAuth();
-  const { activePage } = usePage();
+  const { pages, activePage, switchPage, removePage, canAddMorePages, getPageLimit } = usePage();
   const { openUpgradeModal } = usePlanGating();
   const { addNotification } = useNotifications();
 
   // Active Sub-Tab: 'account' | 'billing' | 'security' | 'preferences' | 'notifications' | 'help'
   const [activeTab, setActiveTab] = useState('account');
+  const [isConnectModalOpen, setIsConnectModalOpen] = useState(false);
 
   // Profile Form State
   const [displayName, setDisplayName] = useState(user?.displayName || 'Creator');
@@ -214,18 +217,109 @@ export default function AccountSettings({ onNavigate }) {
               </div>
             </div>
 
-            <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between text-xs">
-              <div>
-                <span className="font-semibold text-[#0F172A] block">Active Instagram Workspace:</span>
-                <span className="text-[11px] text-[#067CF9] font-mono font-medium">@{activePage?.handle || 'creator'} ({activePage?.category || 'General'})</span>
+            {/* Connected Instagram Accounts Section */}
+            <div className="pt-4 border-t border-slate-100 space-y-3">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h4 className="font-bold text-xs text-[#0F172A]">Connected Instagram Accounts</h4>
+                  <p className="text-[11px] text-slate-500">
+                    Switch active account or manage connected creator profiles ({pages.length}/{getPageLimit()}).
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (!canAddMorePages()) {
+                      openUpgradeModal('multi_page', `Plan limit of ${getPageLimit()} page(s) reached. Upgrade to add more.`);
+                    } else {
+                      setIsConnectModalOpen(true);
+                    }
+                  }}
+                  className="px-3 py-1.5 rounded-lg bg-blue-50 hover:bg-blue-100 text-[#067CF9] text-xs font-semibold flex items-center gap-1.5 cursor-pointer transition-colors"
+                >
+                  <Plus className="w-3.5 h-3.5" />
+                  <span>Connect Account</span>
+                </button>
               </div>
-              <button
-                type="button"
-                onClick={() => onNavigate && onNavigate('builder')}
-                className="text-xs text-[#067CF9] hover:underline font-semibold cursor-pointer"
-              >
-                Switch Account in Builder &rarr;
-              </button>
+
+              <div className="space-y-2">
+                {pages.length === 0 ? (
+                  <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 text-center text-xs text-slate-500">
+                    No Instagram accounts connected yet. Click "Connect Account" to link your profile.
+                  </div>
+                ) : (
+                  pages.map(p => {
+                    const isActive = activePage?.id === p.id;
+                    return (
+                      <div
+                        key={p.id}
+                        className={`p-3 rounded-xl border flex items-center justify-between transition-all ${
+                          isActive
+                            ? 'bg-blue-50/60 border-blue-200 text-[#0F172A]'
+                            : 'bg-white border-slate-200 hover:border-slate-300'
+                        }`}
+                      >
+                        <div className="flex items-center gap-3">
+                          <img
+                            src={getSafeAvatarUrl(p.avatar, p.handle)}
+                            alt={p.handle}
+                            className="w-8 h-8 rounded-full object-cover ring-1 ring-black/5"
+                          />
+                          <div>
+                            <div className="flex items-center gap-1.5">
+                              <span className="font-bold text-xs text-[#0F172A]">@{p.handle}</span>
+                              {isActive ? (
+                                <span className="px-1.5 py-0.2 rounded-md bg-emerald-100 text-emerald-700 text-[10px] font-bold">
+                                  Active
+                                </span>
+                              ) : null}
+                            </div>
+                            <div className="text-[11px] text-slate-500">
+                              {p.followersCount || '0'} followers • {p.category || 'Creator'}
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center gap-2">
+                          {!isActive && (
+                            <button
+                              type="button"
+                              onClick={() => {
+                                switchPage(p.id);
+                                addNotification({
+                                  title: 'Account Switched',
+                                  message: `Now active: @${p.handle}`,
+                                  type: 'info'
+                                });
+                              }}
+                              className="px-2.5 py-1 rounded-lg bg-white border border-slate-200 hover:bg-slate-50 text-xs font-semibold text-[#067CF9] cursor-pointer transition-colors"
+                            >
+                              Switch to this
+                            </button>
+                          )}
+                          <button
+                            type="button"
+                            onClick={() => {
+                              if (window.confirm(`Disconnect @${p.handle}?`)) {
+                                removePage(p.id);
+                                addNotification({
+                                  title: 'Account Disconnected',
+                                  message: `@${p.handle} removed.`,
+                                  type: 'warning'
+                                });
+                              }
+                            }}
+                            title={`Disconnect @${p.handle}`}
+                            className="p-1.5 rounded-lg text-slate-400 hover:text-red-500 hover:bg-red-50 transition-colors cursor-pointer"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })
+                )}
+              </div>
             </div>
 
             <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-100">
@@ -528,6 +622,12 @@ export default function AccountSettings({ onNavigate }) {
           </div>
         </div>
       )}
+
+      {/* Connect Account Modal */}
+      <ConnectAccountModal
+        isOpen={isConnectModalOpen}
+        onClose={() => setIsConnectModalOpen(false)}
+      />
 
     </div>
   );

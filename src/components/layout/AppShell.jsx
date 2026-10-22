@@ -20,7 +20,8 @@ import {
   User,
   Layers,
   BarChart2,
-  DollarSign
+  DollarSign,
+  Trash2
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '../../context/ThemeContext';
@@ -31,11 +32,19 @@ import UpgradeModal from '../common/UpgradeModal';
 import GlobalSearchModal from '../common/GlobalSearchModal';
 import ConnectAccountModal from '../common/ConnectAccountModal';
 
+const InstagramIcon = ({ className = "w-4 h-4" }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+  </svg>
+);
+
 export default function AppShell({ activeModule, onSelectModule, onNavigateLanding, children }) {
   const { user, tier, aiCredits, logout } = useAuth();
-  const { pages, activePage, switchPage, canAddMorePages, getPageLimit } = usePage();
+  const { pages, activePage, switchPage, removePage, canAddMorePages, getPageLimit } = usePage();
   const { openUpgradeModal } = usePlanGating();
-  const { notifications, unreadCount, markAsRead, markAllAsRead } = useNotifications();
+  const { notifications, unreadCount, markAsRead, markAllAsRead, addNotification } = useNotifications();
 
   const [isPageDropdownOpen, setIsPageDropdownOpen] = useState(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
@@ -189,13 +198,182 @@ export default function AppShell({ activeModule, onSelectModule, onNavigateLandi
             />
           </div>
 
-          {/* RIGHT: Notification Bell | AI Credits Pill (directly left of Account) | Profile Pill */}
+          {/* RIGHT: Instagram Account Switcher | AI Credits | Notification Bell | User Profile */}
           <div className="flex items-center gap-2.5">
             
-            {/* Notification Bell */}
+            {/* 1. INSTAGRAM ACCOUNT SWITCHER & MANAGER */}
+            <div className="relative">
+              {activePage ? (
+                <button
+                  onClick={() => {
+                    setIsPageDropdownOpen(!isPageDropdownOpen);
+                    setIsProfileMenuOpen(false);
+                    setIsNotificationsOpen(false);
+                  }}
+                  className="flex items-center gap-2 p-1 pl-1.5 pr-2.5 rounded-xl bg-white/85 hover:bg-white border border-[rgba(99,102,241,0.22)] hover:border-[#6366F1]/50 cursor-pointer transition-all shadow-xs group"
+                  title="Switch or manage connected Instagram accounts"
+                >
+                  <div className="relative shrink-0">
+                    <img
+                      src={getSafeAvatarUrl(activePage.avatar, activePage.handle)}
+                      alt={activePage.handle}
+                      onError={(e) => {
+                        e.currentTarget.onerror = null;
+                        e.currentTarget.src = getSafeAvatarUrl('', activePage.handle);
+                      }}
+                      className="w-6 h-6 rounded-full object-cover ring-2 ring-[#6366F1]/30"
+                    />
+                    <span className="absolute -bottom-0.5 -right-0.5 w-2 h-2 rounded-full bg-emerald-500 ring-1 ring-white" />
+                  </div>
+                  <div className="text-left leading-tight hidden sm:block">
+                    <div className="text-xs font-bold text-[#0F172A] flex items-center gap-1">
+                      <span>@{activePage.handle}</span>
+                    </div>
+                  </div>
+                  <ChevronDown className={`w-3.5 h-3.5 text-[#94A3B8] transition-transform duration-200 ${isPageDropdownOpen ? 'rotate-180' : ''}`} />
+                </button>
+              ) : (
+                <button
+                  onClick={handleConnectPageClick}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-[#067CF9] via-[#6366F1] to-[#8B5CF6] text-white hover:opacity-95 cursor-pointer transition-all shadow-xs text-xs font-bold"
+                >
+                  <InstagramIcon className="w-3.5 h-3.5" />
+                  <span>+ Connect Instagram</span>
+                </button>
+              )}
+
+              {/* Instagram Account Switcher Dropdown */}
+              {isPageDropdownOpen && (
+                <div className="absolute right-0 top-12 w-72 bg-white/95 backdrop-blur-2xl border border-[rgba(99,102,241,0.18)] rounded-2xl shadow-2xl p-2 z-50 text-xs">
+                  
+                  {/* Header */}
+                  <div className="flex items-center justify-between px-2.5 py-1.5 border-b border-neutral-100 mb-1">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-[#94A3B8]">
+                      Instagram Accounts ({pages.length}/{getPageLimit()})
+                    </span>
+                    <button
+                      onClick={handleConnectPageClick}
+                      className="text-[11px] font-semibold text-[#067CF9] hover:underline flex items-center gap-0.5 cursor-pointer"
+                    >
+                      <Plus className="w-3 h-3 stroke-[3]" />
+                      <span>Add Account</span>
+                    </button>
+                  </div>
+
+                  {/* Connected Accounts List */}
+                  <div className="space-y-1 max-h-60 overflow-y-auto no-scrollbar py-1">
+                    {pages.length === 0 ? (
+                      <div className="p-3 text-center text-xs text-[#64748B]">
+                        No Instagram accounts connected yet.
+                      </div>
+                    ) : (
+                      pages.map((p) => {
+                        const isActive = activePage?.id === p.id;
+                        return (
+                          <div
+                            key={p.id}
+                            className={`flex items-center justify-between p-2 rounded-xl transition-all ${
+                              isActive 
+                                ? 'bg-gradient-to-r from-[#EFF6FF] to-[#F5F3FF] border border-[rgba(99,102,241,0.25)] text-[#0F172A]' 
+                                : 'hover:bg-[#F8FAFC] text-[#334155]'
+                            }`}
+                          >
+                            {/* Click to Switch */}
+                            <button
+                              onClick={() => {
+                                switchPage(p.id);
+                                setIsPageDropdownOpen(false);
+                                addNotification({
+                                  title: 'Account Switched',
+                                  message: `Now viewing analytics for @${p.handle}`,
+                                  type: 'info'
+                                });
+                              }}
+                              className="flex items-center gap-2.5 flex-1 text-left min-w-0 cursor-pointer"
+                            >
+                              <img
+                                src={getSafeAvatarUrl(p.avatar, p.handle)}
+                                alt={p.handle}
+                                onError={(e) => {
+                                  e.currentTarget.onerror = null;
+                                  e.currentTarget.src = getSafeAvatarUrl('', p.handle);
+                                }}
+                                className="w-7 h-7 rounded-full object-cover shrink-0 ring-1 ring-black/5"
+                              />
+                              <div className="min-w-0 flex-1">
+                                <div className="font-bold text-xs truncate flex items-center gap-1">
+                                  <span>@{p.handle}</span>
+                                  {isActive && (
+                                    <span className="px-1.5 py-0.2 rounded-md bg-emerald-100 text-emerald-700 text-[9px] font-bold">
+                                      Active
+                                    </span>
+                                  )}
+                                </div>
+                                <div className="text-[10px] text-[#64748B] truncate">
+                                  {p.followersCount || '0'} followers • {p.category || 'Creator'}
+                                </div>
+                              </div>
+                            </button>
+
+                            {/* Disconnect / Remove Button */}
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                if (window.confirm(`Disconnect @${p.handle} from Vyralify? You can reconnect anytime.`)) {
+                                  removePage(p.id);
+                                  addNotification({
+                                    title: 'Account Disconnected',
+                                    message: `@${p.handle} was removed.`,
+                                    type: 'warning'
+                                  });
+                                }
+                              }}
+                              title={`Disconnect @${p.handle}`}
+                              className="p-1.5 rounded-lg text-slate-400 hover:text-red-500 hover:bg-red-50 transition-colors ml-1 cursor-pointer shrink-0"
+                            >
+                              <Trash2 className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
+                        );
+                      })
+                    )}
+                  </div>
+
+                  {/* Add Account Footer */}
+                  <div className="pt-1.5 border-t border-neutral-100 mt-1">
+                    <button
+                      onClick={handleConnectPageClick}
+                      className="w-full py-2 px-3 rounded-xl bg-gradient-to-r from-blue-50 to-indigo-50 hover:from-blue-100 hover:to-indigo-100 border border-[rgba(99,102,241,0.2)] text-[#6366F1] font-semibold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer"
+                    >
+                      <Plus className="w-3.5 h-3.5 stroke-[2.5]" />
+                      <span>Connect Another Instagram Account</span>
+                    </button>
+                  </div>
+
+                </div>
+              )}
+            </div>
+
+            {/* 2. AI CREDITS PILL */}
+            <div
+              onClick={() => openUpgradeModal('ai_credits', 'Upgrade to Pro to unlock 300 daily AI credits & vision models!')}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-[#EFF6FF] via-[#F5F3FF] to-[#FAF5FF] hover:from-[#DBEAFE] hover:to-[#EDE9FE] border border-[rgba(99,102,241,0.22)] hover:border-[#6366F1]/50 text-[#0F172A] transition-all cursor-pointer shadow-xs group"
+              title="Daily AI Credits Remaining (Click to Upgrade)"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-[#6366F1] group-hover:scale-110 transition-transform" />
+              <span className="font-bold text-xs font-mono bg-gradient-to-r from-[#067CF9] via-[#6366F1] to-[#8B5CF6] bg-clip-text text-transparent">
+                {isUnlimited ? '∞ Unlimited' : `${creditsRemaining} AI left`}
+              </span>
+            </div>
+
+            {/* 3. NOTIFICATION BELL */}
             <div className="relative">
               <button
-                onClick={() => setIsNotificationsOpen(!isNotificationsOpen)}
+                onClick={() => {
+                  setIsNotificationsOpen(!isNotificationsOpen);
+                  setIsPageDropdownOpen(false);
+                  setIsProfileMenuOpen(false);
+                }}
                 className="p-2 rounded-xl hover:bg-[#F8FAFC] text-[#64748B] hover:text-[#0F172A] transition-colors relative cursor-pointer"
                 aria-label="View notifications"
               >
@@ -237,40 +415,34 @@ export default function AppShell({ activeModule, onSelectModule, onNavigateLandi
               )}
             </div>
 
-            {/* AI Credits Pill: Positioned directly left of connected account with subtle blue-purple styling */}
-            <div
-              onClick={() => openUpgradeModal('ai_credits', 'Upgrade to Pro to unlock 300 daily AI credits & vision models!')}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-[#EFF6FF] via-[#F5F3FF] to-[#FAF5FF] hover:from-[#DBEAFE] hover:to-[#EDE9FE] border border-[rgba(99,102,241,0.22)] hover:border-[#6366F1]/50 text-[#0F172A] transition-all cursor-pointer shadow-xs group"
-              title="Daily AI Credits Remaining (Click to Upgrade)"
-            >
-              <Sparkles className="w-3.5 h-3.5 text-[#6366F1] group-hover:scale-110 transition-transform" />
-              <span className="font-bold text-xs font-mono bg-gradient-to-r from-[#067CF9] via-[#6366F1] to-[#8B5CF6] bg-clip-text text-transparent">
-                {isUnlimited ? '∞ Unlimited' : `${creditsRemaining} AI left`}
-              </span>
-            </div>
-
-            {/* Profile Pill: Avatar + @handle + chevron */}
+            {/* 4. USER PROFILE PILL */}
             <div className="relative">
               <button
-                onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
-                className="flex items-center gap-2 p-1 pl-1.5 pr-2 rounded-xl bg-white/80 hover:bg-white border border-[rgba(99,102,241,0.18)] hover:border-[#6366F1]/40 cursor-pointer transition-colors shadow-xs"
+                onClick={() => {
+                  setIsProfileMenuOpen(!isProfileMenuOpen);
+                  setIsPageDropdownOpen(false);
+                  setIsNotificationsOpen(false);
+                }}
+                className="flex items-center gap-2 p-1.5 pl-2 pr-2.5 rounded-xl bg-white/80 hover:bg-white border border-[rgba(99,102,241,0.18)] hover:border-[#6366F1]/40 cursor-pointer transition-colors shadow-xs"
+                title="User profile and settings"
               >
-                <img
-                  src={getSafeAvatarUrl(activePage?.avatar, currentHandle)}
-                  alt={currentHandle}
-                  onError={(e) => {
-                    e.currentTarget.onerror = null;
-                    e.currentTarget.src = getSafeAvatarUrl('', currentHandle);
-                  }}
-                  className="w-6 h-6 rounded-full object-cover ring-2 ring-[#6366F1]/30"
-                />
-                <span className="text-xs font-semibold text-[#0F172A]">@{currentHandle}</span>
+                <div className="w-6 h-6 rounded-full bg-gradient-to-tr from-[#067CF9] to-[#8B5CF6] text-white flex items-center justify-center font-bold text-[11px] ring-2 ring-[#6366F1]/20">
+                  {user?.displayName ? user.displayName.charAt(0).toUpperCase() : 'U'}
+                </div>
+                <span className="text-xs font-semibold text-[#0F172A] hidden sm:inline">
+                  {user?.displayName?.split(' ')[0] || 'My Account'}
+                </span>
                 <ChevronDown className="w-3.5 h-3.5 text-[#94A3B8]" />
               </button>
 
               {/* Profile Menu Dropdown */}
               {isProfileMenuOpen && (
                 <div className="absolute right-0 top-11 w-52 bg-white/95 backdrop-blur-xl border border-[rgba(99,102,241,0.16)] rounded-2xl shadow-xl p-1.5 z-50 text-xs">
+                  <div className="px-3 py-2 border-b border-neutral-100 mb-1">
+                    <div className="font-bold text-[#0F172A] text-xs truncate">{user?.displayName || 'Creator'}</div>
+                    <div className="text-[10px] text-[#64748B] font-mono truncate">{user?.email || 'user@vyralify.in'}</div>
+                  </div>
+
                   <button
                     onClick={() => {
                       setIsProfileMenuOpen(false);

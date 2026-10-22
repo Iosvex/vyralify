@@ -37,6 +37,7 @@ import {
 } from 'lucide-react';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
+import PremiumProductPage from './PremiumProductPage';
 
 // Real-time FX exchange conversion engine per Spec Section 5 (Auto-FX)
 // Base currency is INR; rates refreshed with a 1.5% volatility buffer
@@ -451,18 +452,10 @@ export default function PublicStorefront({ slug, productSlug, onBackToApp }) {
         <div className="absolute top-1/3 -left-32 w-80 h-80 rounded-full bg-[#6366F1]/5 blur-3xl" />
       </div>
 
-      {/* TOP BAR / NAVIGATION */}
-      <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-xl border-b border-[rgba(6,124,249,0.1)] px-4 py-3 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          {currentLayer === 'product' ? (
-            <button
-              onClick={() => setCurrentLayer('hub')}
-              className="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-xs font-semibold text-[#0F172A] flex items-center gap-1.5 transition-all cursor-pointer"
-            >
-              <ArrowLeft className="w-3.5 h-3.5 text-[#067CF9]" />
-              <span>Back to Store</span>
-            </button>
-          ) : (
+      {/* TOP BAR / NAVIGATION (Hub Layer) */}
+      {currentLayer === 'hub' && (
+        <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-xl border-b border-[rgba(6,124,249,0.1)] px-4 py-3 flex items-center justify-between">
+          <div className="flex items-center gap-2">
             <div className="flex items-center gap-2">
               <div className="w-7 h-7 rounded-lg bg-[#067CF9] text-white flex items-center justify-center font-bold text-xs shadow-xs">
                 V
@@ -471,46 +464,46 @@ export default function PublicStorefront({ slug, productSlug, onBackToApp }) {
                 vyralify.me/@{cleanSlug}
               </span>
             </div>
-          )}
-        </div>
-
-        {/* Global Auto-FX Currency Selector & Share */}
-        <div className="flex items-center gap-2">
-          {/* Dynamic Auto-FX Dropdown */}
-          <div className="relative">
-            <select
-              value={activeCurrency}
-              onChange={(e) => handleCurrencySelect(e.target.value)}
-              aria-label="Select Storefront Currency"
-              className="px-2.5 py-1 rounded-lg bg-[#F8FAFC] border border-[rgba(6,124,249,0.15)] text-[11px] font-bold text-[#0F172A] cursor-pointer hover:border-[#067CF9] transition-all focus:outline-hidden"
-            >
-              {Object.entries(FX_RATES).map(([code, item]) => (
-                <option key={code} value={code}>
-                  {item.label}
-                </option>
-              ))}
-            </select>
           </div>
 
-          <button
-            onClick={handleCopyLink}
-            className="px-2.5 py-1 rounded-lg bg-[#F8FAFC] hover:bg-[#EFF6FF] border border-[rgba(6,124,249,0.15)] text-[#067CF9] text-xs font-semibold transition-all flex items-center gap-1 cursor-pointer"
-            title="Share Storefront URL"
-          >
-            {copiedLink ? <Check className="w-3 h-3 text-[#10B981]" /> : <Share2 className="w-3 h-3" />}
-            <span className="hidden sm:inline">{copiedLink ? 'Copied' : 'Share'}</span>
-          </button>
+          {/* Global Auto-FX Currency Selector & Share */}
+          <div className="flex items-center gap-2">
+            {/* Dynamic Auto-FX Dropdown */}
+            <div className="relative">
+              <select
+                value={activeCurrency}
+                onChange={(e) => handleCurrencySelect(e.target.value)}
+                aria-label="Select Storefront Currency"
+                className="px-2.5 py-1 rounded-lg bg-[#F8FAFC] border border-[rgba(6,124,249,0.15)] text-[11px] font-bold text-[#0F172A] cursor-pointer hover:border-[#067CF9] transition-all focus:outline-hidden"
+              >
+                {Object.entries(FX_RATES).map(([code, item]) => (
+                  <option key={code} value={code}>
+                    {item.label}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-          {onBackToApp && (
             <button
-              onClick={onBackToApp}
-              className="px-3 py-1 rounded-lg bg-[#067CF9] hover:bg-[#0568D2] text-white text-xs font-semibold shadow-xs transition-colors cursor-pointer"
+              onClick={handleCopyLink}
+              className="px-2.5 py-1 rounded-lg bg-[#F8FAFC] hover:bg-[#EFF6FF] border border-[rgba(6,124,249,0.15)] text-[#067CF9] text-xs font-semibold transition-all flex items-center gap-1 cursor-pointer"
+              title="Share Storefront URL"
             >
-              Dashboard
+              {copiedLink ? <Check className="w-3 h-3 text-[#10B981]" /> : <Share2 className="w-3 h-3" />}
+              <span className="hidden sm:inline">{copiedLink ? 'Copied' : 'Share'}</span>
             </button>
-          )}
-        </div>
-      </header>
+
+            {onBackToApp && (
+              <button
+                onClick={onBackToApp}
+                className="px-3 py-1 rounded-lg bg-[#067CF9] hover:bg-[#0568D2] text-white text-xs font-semibold shadow-xs transition-colors cursor-pointer"
+              >
+                Dashboard
+              </button>
+            )}
+          </div>
+        </header>
+      )}
 
       {/* =========================================================================
           LAYER 1: LINK-IN-BIO HUB VIEW (vyralify.me/@username)
@@ -724,190 +717,28 @@ export default function PublicStorefront({ slug, productSlug, onBackToApp }) {
       )}
 
       {/* =========================================================================
-          LAYER 2: DEDICATED HIGH-TICKET SALES LANDING PAGE (vyralify.me/@username/product-slug)
-          Spec Section 2: Rich video embed, accordion FAQs, bulleted deliverables, 
-          social proof badges, sticky bottom buy-bar on mobile.
+          LAYER 2: PREMIUM RESPONSIVE PRODUCT DETAIL LANDING PAGE
+          Built to Developer Specification & UI Design Reference
          ========================================================================= */}
       {currentLayer === 'product' && selectedProduct && (
-        <main className="relative z-10 w-full max-w-2xl mx-auto px-4 py-6 pb-28 space-y-6">
-          
-          {/* Breadcrumb Header */}
-          <div className="flex items-center justify-between pb-3 border-b border-[rgba(6,124,249,0.1)]">
-            <button
-              onClick={() => setCurrentLayer('hub')}
-              className="text-xs font-bold text-[#067CF9] hover:underline flex items-center gap-1 cursor-pointer"
-            >
-              <ArrowLeft className="w-3.5 h-3.5" />
-              <span>Back to @{cleanSlug}'s Storefront</span>
-            </button>
-            <span className="text-[11px] font-semibold text-[#64748B]">
-              Dedicated Product Page
-            </span>
-          </div>
-
-          {/* Product Hero Section */}
-          <div className="space-y-3">
-            <div className="flex items-center gap-2">
-              <span className="px-2.5 py-0.5 rounded-full bg-[#EFF6FF] text-[#067CF9] font-bold text-[10px] border border-[rgba(6,124,249,0.2)]">
-                {selectedProduct.type}
-              </span>
-              <span className="text-[11px] text-[#64748B] font-semibold flex items-center gap-1">
-                <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
-                <span>{selectedProduct.rating || '4.9/5'} ({selectedProduct.reviewsCount || '280+'} verified buyers)</span>
-              </span>
-            </div>
-
-            <h1 className="text-xl sm:text-2xl font-bold text-[#0F172A] tracking-tight leading-snug">
-              {selectedProduct.title}
-            </h1>
-
-            <p className="text-xs sm:text-sm text-[#64748B] leading-relaxed">
-              {selectedProduct.description}
-            </p>
-
-            {/* Price & Guarantee Pill */}
-            <div className={`p-3.5 ${radiusClass} bg-[#F0F6FE] border border-[rgba(6,124,249,0.15)] flex items-center justify-between`}>
-              <div>
-                <span className="text-[11px] text-[#64748B] font-medium block">Price (Includes Lifetime Updates)</span>
-                <div className="text-2xl font-bold text-[#067CF9]">
-                  {formatPriceFx(selectedProduct.priceNumeric || selectedProduct.price, activeCurrency)}
-                </div>
-              </div>
-              <button
-                type="button"
-                onClick={(e) => handleTriggerCheckout(selectedProduct, e)}
-                className={`px-5 py-2.5 ${radiusClass} bg-[#067CF9] hover:bg-[#0568D2] text-white font-bold text-xs transition-all flex items-center gap-1.5 shadow-md shadow-[#067CF9]/25 cursor-pointer`}
-              >
-                <span>{selectedProduct.ctaText || 'Get Instant Access'}</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </button>
-            </div>
-          </div>
-
-          {/* RICH VIDEO / MEDIA EMBED (Spec Section 2) */}
-          <div className={`relative ${radiusClass} overflow-hidden border border-[rgba(6,124,249,0.15)] shadow-md bg-slate-900 aspect-video flex items-center justify-center`}>
-            {selectedProduct.videoUrl ? (
-              <img 
-                src={selectedProduct.videoUrl} 
-                alt="Product overview" 
-                className="w-full h-full object-cover"
-              />
-            ) : (
-              <div className="w-full h-full bg-gradient-to-tr from-slate-900 to-slate-800 flex items-center justify-center">
-                <div className="text-center space-y-2 p-6">
-                  <div className="w-14 h-14 rounded-full bg-[#067CF9] text-white flex items-center justify-center mx-auto shadow-lg cursor-pointer hover:scale-105 transition-transform">
-                    <Play className="w-6 h-6 fill-white ml-0.5" />
-                  </div>
-                  <div className="text-xs font-bold text-white">Watch Comprehensive Video Teardown</div>
-                  <div className="text-[11px] text-slate-300">Click to preview the complete toolkit &amp; templates</div>
-                </div>
-              </div>
-            )}
-            <div className="absolute top-3 left-3 px-2 py-0.5 rounded-md bg-black/60 backdrop-blur-md text-white text-[10px] font-bold">
-              Instant 4K Video Walkthrough Included
-            </div>
-          </div>
-
-          {/* BULLETED DELIVERABLES / WHAT'S INCLUDED (Spec Section 2) */}
-          <div className={`p-5 ${radiusClass} bg-white border border-[rgba(6,124,249,0.12)] shadow-xs space-y-3`}>
-            <h3 className="font-bold text-sm text-[#0F172A] flex items-center gap-1.5">
-              <Package className="w-4 h-4 text-[#067CF9]" />
-              <span>What's Included in Your Package</span>
-            </h3>
-
-            <div className="space-y-2">
-              {(
-                (selectedProduct.deliverables && selectedProduct.deliverables.length > 0)
-                  ? selectedProduct.deliverables
-                  : (selectedProduct.deliverablesText
-                      ? selectedProduct.deliverablesText.split('\n').filter(Boolean)
-                      : [
-                          'Full complete digital master blueprint and workflow guides',
-                          'Pre-configured templates for instant 1-click import',
-                          'Curated video assets and high-converting hook databases',
-                          'Direct automated download pass delivered upon checkout'
-                        ]
-                    )
-              ).map((item, idx) => (
-                <div key={idx} className="flex items-start gap-2.5 text-xs text-[#0F172A]">
-                  <CheckCircle2 className="w-4 h-4 text-[#067CF9] shrink-0 mt-0.5" />
-                  <span className="font-medium leading-relaxed">{item}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* TARGET AUDIENCE ("WHO THIS IS FOR") (Spec Section 2 & 4) */}
-          <div className={`p-5 ${radiusClass} bg-[#F8FAFD] border border-[rgba(6,124,249,0.12)] space-y-2`}>
-            <h3 className="font-bold text-xs text-[#0F172A] flex items-center gap-1.5 uppercase tracking-wide">
-              <Compass className="w-3.5 h-3.5 text-[#067CF9]" />
-              <span>Target Audience Architecture</span>
-            </h3>
-            <p className="text-xs text-[#64748B] leading-relaxed">
-              {selectedProduct.targetAudience || 'Ideal for content creators, Instagram operators, and digital service providers looking for automated turnkey solutions.'}
-            </p>
-          </div>
-
-          {/* ACCORDION FAQS (Spec Section 2) */}
-          <div className={`p-5 ${radiusClass} bg-white border border-[rgba(6,124,249,0.12)] shadow-xs space-y-3`}>
-            <h3 className="font-bold text-sm text-[#0F172A] flex items-center gap-1.5">
-              <HelpCircle className="w-4 h-4 text-[#067CF9]" />
-              <span>Frequently Asked Questions</span>
-            </h3>
-
-            <div className="space-y-2">
-              {(
-                (selectedProduct.faqs && selectedProduct.faqs.length > 0)
-                  ? selectedProduct.faqs
-                  : (selectedProduct.faqQ1
-                      ? [
-                          { q: selectedProduct.faqQ1, a: selectedProduct.faqA1 || 'Instant automated access upon checkout.' },
-                          ...(selectedProduct.faqQ2 ? [{ q: selectedProduct.faqQ2, a: selectedProduct.faqA2 || 'Yes, suitable for complete beginners.' }] : [])
-                        ]
-                      : [
-                          { q: 'How is this product delivered?', a: 'You receive instant download access on screen immediately upon purchase, plus a backup license copy sent to your email.' },
-                          { q: 'Do you offer updates?', a: 'Yes! All buyers receive free future revisions and additions without extra charges.' }
-                        ]
-                    )
-              ).map((faq, idx) => (
-                <div key={idx} className={`border border-slate-100 ${radiusClass} overflow-hidden`}>
-                  <button
-                    type="button"
-                    onClick={() => setOpenFaqIndex(openFaqIndex === idx ? null : idx)}
-                    className="w-full p-3 text-left font-bold text-xs text-[#0F172A] flex items-center justify-between bg-[#F8FAFC] hover:bg-[#F0F6FE] transition-colors cursor-pointer"
-                  >
-                    <span>{faq.q}</span>
-                    <ChevronDown className={`w-4 h-4 text-[#067CF9] transition-transform ${openFaqIndex === idx ? 'rotate-180' : ''}`} />
-                  </button>
-                  {openFaqIndex === idx && (
-                    <div className="p-3 text-xs text-[#64748B] leading-relaxed bg-white border-t border-slate-100">
-                      {faq.a}
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* STICKY BOTTOM BUY-BAR ON MOBILE (Spec Section 2) */}
-          <div className="fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur-xl border-t border-[rgba(6,124,249,0.15)] p-3 shadow-2xl flex items-center justify-between max-w-2xl mx-auto">
-            <div>
-              <span className="text-[10px] text-[#64748B] block font-medium">Instant 1-Click Access</span>
-              <span className="text-base font-bold text-[#067CF9]">
-                {formatPriceFx(selectedProduct.priceNumeric || selectedProduct.price, activeCurrency)}
-              </span>
-            </div>
-            <button
-              type="button"
-              onClick={(e) => handleTriggerCheckout(selectedProduct, e)}
-              className={`py-2.5 px-6 ${radiusClass} bg-[#067CF9] hover:bg-[#0568D2] text-white text-xs font-bold transition-all flex items-center gap-1.5 shadow-md shadow-[#067CF9]/25 cursor-pointer`}
-            >
-              <span>{selectedProduct.ctaText || 'Get Instant Access'}</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </button>
-          </div>
-
-        </main>
+        <PremiumProductPage
+          product={selectedProduct}
+          storeData={storeData}
+          activeCurrency={activeCurrency}
+          formatPriceFx={formatPriceFx}
+          radiusClass={radiusClass}
+          allProducts={products}
+          onTriggerCheckout={handleTriggerCheckout}
+          onBackToStore={() => {
+            setCurrentLayer('hub');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+          onSelectProduct={(prod) => {
+            setSelectedProduct(prod);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+          cleanSlug={cleanSlug}
+        />
       )}
 
       {/* =========================================================================

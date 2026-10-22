@@ -780,7 +780,7 @@ export default function FunctionWorkbench({ onToggleFullUi }) {
               inputs={
                 <div className="md:col-span-2 text-xs font-medium text-neutral-300">
                   <p className="font-mono text-emerald-400 font-bold">Meta App ID: 2269459297171981</p>
-                  <p className="text-neutral-400 mt-1">Scopes: instagram_basic, pages_show_list, instagram_manage_comments, instagram_manage_messages</p>
+                  <p className="text-neutral-400 mt-1">Scopes: instagram_basic, instagram_manage_insights, pages_show_list, pages_read_engagement, instagram_manage_messages</p>
                 </div>
               }
               onRun={() => runTest('meta_oauth', async () => {

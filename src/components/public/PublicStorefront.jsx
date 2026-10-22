@@ -333,6 +333,30 @@ export default function PublicStorefront({ slug, productSlug, onBackToApp }) {
     }
   }, [productSlug, products]);
 
+  // Listen to browser Back/Forward navigation (popstate)
+  useEffect(() => {
+    const handlePopState = () => {
+      const path = window.location.pathname.replace(/^\/+/, '').replace(/\/+$/, '');
+      const parts = path.split('/');
+      if (parts.length <= 1) {
+        setCurrentLayer('hub');
+        setSelectedProduct(null);
+      } else if (parts.length >= 2) {
+        const prodSlug = parts[1];
+        const match = products.find(p => 
+          (p.slug && p.slug.toLowerCase() === prodSlug.toLowerCase()) || 
+          p.id === prodSlug
+        );
+        if (match) {
+          setSelectedProduct(match);
+          setCurrentLayer('product');
+        }
+      }
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, [products]);
+
   // Handle Currency change
   const handleCurrencySelect = (curr) => {
     setActiveCurrency(curr);
@@ -349,6 +373,11 @@ export default function PublicStorefront({ slug, productSlug, onBackToApp }) {
     setSelectedProduct(product);
     setCurrentLayer('product');
     window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    try {
+      const prodSlug = product.slug || product.id;
+      window.history.pushState({}, '', `/${cleanSlug}/${prodSlug}`);
+    } catch {}
   };
 
   // Trigger 1-Click Checkout Drawer
@@ -435,7 +464,10 @@ export default function PublicStorefront({ slug, productSlug, onBackToApp }) {
   };
 
   const handleCopyLink = () => {
-    navigator.clipboard?.writeText(window.location.href);
+    const shareUrl = typeof window !== 'undefined' && window.location.hostname.includes('localhost')
+      ? `${window.location.origin}/${cleanSlug}`
+      : `https://vyralify.in/${cleanSlug}`;
+    navigator.clipboard?.writeText(shareUrl);
     setCopiedLink(true);
     setTimeout(() => setCopiedLink(false), 2000);
   };
@@ -461,7 +493,7 @@ export default function PublicStorefront({ slug, productSlug, onBackToApp }) {
                 V
               </div>
               <span className="font-bold text-xs text-[#0F172A] tracking-tight">
-                vyralify.me/@{cleanSlug}
+                vyralify.in/{cleanSlug}
               </span>
             </div>
           </div>
@@ -732,10 +764,17 @@ export default function PublicStorefront({ slug, productSlug, onBackToApp }) {
           onBackToStore={() => {
             setCurrentLayer('hub');
             window.scrollTo({ top: 0, behavior: 'smooth' });
+            try {
+              window.history.pushState({}, '', `/${cleanSlug}`);
+            } catch {}
           }}
           onSelectProduct={(prod) => {
             setSelectedProduct(prod);
             window.scrollTo({ top: 0, behavior: 'smooth' });
+            try {
+              const prodSlug = prod.slug || prod.id;
+              window.history.pushState({}, '', `/${cleanSlug}/${prodSlug}`);
+            } catch {}
           }}
           cleanSlug={cleanSlug}
         />

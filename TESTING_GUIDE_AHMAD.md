@@ -9,9 +9,10 @@
 
 The store system has been engineered to provide an interconnected, high-converting digital storefront operating on a **dual-layer architecture**:
 
-1. **Layer 1: The Bio Storefront Hub** (`vyralify.me/@handle` or `/u/:handle`): High-speed mobile-first creator link-in-bio storefront displaying headline, avatar, social links, pinned hero offer, and product grid/stack.
-2. **Layer 2: Dedicated Product Landing Page** (`vyralify.me/@handle/:productSlug`): High-ticket conversion page with cover video/media teardown, bulleted deliverables checklist, target audience architecture ("Who This Is For"), and accordion FAQs.
-3. **1-Click Slide-Out Checkout Drawer**: Zero-friction checkout with automated simulated delivery and real-time CRM order ingestion.
+1. **Layer 1: The Bio Storefront Hub** (`vyralify.in/:customerstorename` or `/@customerstorename`): High-speed mobile-first creator storefront displaying custom store handle, headline, avatar, social links, pinned hero offer, and product grid/stack.
+2. **Layer 2: Dedicated Product Landing Page** (`vyralify.in/:customerstorename/:productSlug`): High-ticket conversion page with 2-column hero gallery, dynamic FX pricing (50% OFF pills), bulleted deliverables checklist, target audience architecture ("Who This Is For"), accordion FAQs, verified student reviews, and cross-sell carousel.
+3. **1-Click Share & Copy Links**: Creators can copy direct links for both their full store (`vyralify.in/:storename`) and individual products (`vyralify.in/:storename/:productSlug`) with 1-click clipboard buttons.
+4. **1-Click Slide-Out Checkout Drawer**: Zero-friction checkout with automated simulated delivery, instant file downloads, and real-time CRM order ingestion.
 
 ---
 

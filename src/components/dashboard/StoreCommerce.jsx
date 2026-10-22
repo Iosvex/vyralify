@@ -341,6 +341,7 @@ export default function StoreCommerce({ onNavigate, initialSection = 'store' }) 
   const [newProd, setNewProd] = useState({
     itemKind: 'product', // 'product' | 'link'
     title: '',
+    slug: '',
     priceAmount: '499',
     type: 'Digital Download',
     deliveryMethod: 'upload', // 'upload' | 'link'
@@ -430,9 +431,32 @@ export default function StoreCommerce({ onNavigate, initialSection = 'store' }) 
     }
   ]);
 
-  // Clean Storefront URL
-  const rawHandle = (activePage?.handle || 'creator').replace(/^@/, '');
-  const cleanStoreUrl = `vyralify.app/${rawHandle}`;
+  // Custom Creator Store Handle & Clean vyralify.in URL
+  const [storeHandle, setStoreHandle] = useState(() => {
+    return localStorage.getItem('vyralify_store_handle') || (activePage?.handle || 'creator').replace(/^@/, '');
+  });
+  const rawHandle = storeHandle.replace(/^@/, '').trim() || 'creator';
+  const cleanStoreUrl = `vyralify.in/${rawHandle}`;
+
+  // Individual product link copied state
+  const [copiedProductId, setCopiedProductId] = useState(null);
+
+  // Copy Direct Product Landing Page Link
+  const handleCopyProductLink = (prod, e) => {
+    if (e) e.stopPropagation();
+    const prodSlug = prod.slug || prod.id;
+    const fullProdUrl = typeof window !== 'undefined' && window.location.hostname.includes('localhost')
+      ? `${window.location.origin}/${rawHandle}/${prodSlug}`
+      : `https://vyralify.in/${rawHandle}/${prodSlug}`;
+    navigator.clipboard.writeText(fullProdUrl);
+    setCopiedProductId(prod.id);
+    addNotification({
+      title: 'Product Link Copied! 📋',
+      message: `${fullProdUrl} copied to clipboard! Share it directly with your buyers.`,
+      type: 'success'
+    });
+    setTimeout(() => setCopiedProductId(null), 2000);
+  };
 
   // Effective avatar image
   const displayAvatar = storeCustomImage || getSafeAvatarUrl(activePage?.avatar, rawHandle);
@@ -527,11 +551,14 @@ export default function StoreCommerce({ onNavigate, initialSection = 'store' }) 
 
   // Copy Storefront Link
   const handleCopyStoreLink = () => {
-    navigator.clipboard.writeText(`https://${cleanStoreUrl}`);
+    const fullStoreUrl = typeof window !== 'undefined' && window.location.hostname.includes('localhost')
+      ? `${window.location.origin}/${rawHandle}`
+      : `https://vyralify.in/${rawHandle}`;
+    navigator.clipboard.writeText(fullStoreUrl);
     setCopiedStoreLink(true);
     addNotification({
-      title: 'Store Link Copied',
-      message: `https://${cleanStoreUrl} copied to clipboard!`,
+      title: 'Store Link Copied! 🚀',
+      message: `${fullStoreUrl} copied to clipboard! Share it with your followers.`,
       type: 'success'
     });
     setTimeout(() => setCopiedStoreLink(false), 2000);
@@ -634,6 +661,7 @@ export default function StoreCommerce({ onNavigate, initialSection = 'store' }) 
     setNewProd({
       itemKind: isLink ? 'link' : 'product',
       title: prod.title || '',
+      slug: prod.slug || '',
       priceAmount: String(prod.priceNumeric || (prod.price ? prod.price.replace(/[^0-9.]/g, '') : '499')),
       type: prod.type || 'Digital Download',
       deliveryMethod: prod.deliveryMethod || 'upload',
@@ -694,6 +722,7 @@ export default function StoreCommerce({ onNavigate, initialSection = 'store' }) 
       setNewProd({
         itemKind: 'product',
         title: '',
+        slug: '',
         priceAmount: '499',
         type: 'Digital Download',
         deliveryMethod: 'upload',
@@ -727,7 +756,10 @@ export default function StoreCommerce({ onNavigate, initialSection = 'store' }) 
     const currencySymbol = modalCurrency === 'INR' ? '₹' : '$';
     const cleanPrice = `${currencySymbol}${newProd.priceAmount.replace(/[^0-9.]/g, '') || '499'}`;
     const cleanNum = parseFloat(newProd.priceAmount.replace(/[^0-9.]/g, '') || '499');
-    const autoSlug = existingProd?.slug || newProd.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+    const autoSlug = (newProd.slug?.trim() || existingProd?.slug || newProd.title)
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/(^-|-$)/g, '') || ('prod-' + Date.now());
 
     const deliverablesArr = newProd.deliverablesText 
       ? newProd.deliverablesText.split('\n').map(s => s.trim()).filter(Boolean)
@@ -1323,16 +1355,31 @@ export default function StoreCommerce({ onNavigate, initialSection = 'store' }) 
                   </p>
                 </div>
 
-                {/* 1. Store Link Row */}
+                {/* 1. Store Link & Custom Handle Row */}
                 <div className="space-y-1.5">
-                  <label className="text-xs text-[#64748B] font-semibold">Store Link</label>
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 bg-white/60 border border-[rgba(99,102,241,0.15)] rounded-xl px-3.5 py-2 text-xs">
-                    <span className="text-[#0F172A] font-bold truncate">
-                      {cleanStoreUrl}
-                    </span>
+                  <div className="flex items-center justify-between text-xs text-[#64748B]">
+                    <label className="font-semibold">Store Link &amp; Custom Handle</label>
+                    <span className="text-[10px] text-slate-400">Share with followers</span>
+                  </div>
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 bg-white/70 border border-[rgba(99,102,241,0.2)] rounded-xl px-3.5 py-2 text-xs shadow-2xs">
+                    <div className="flex items-center gap-1 overflow-hidden">
+                      <span className="text-[#64748B] font-semibold text-xs shrink-0">vyralify.in/</span>
+                      <input
+                        type="text"
+                        value={storeHandle}
+                        onChange={(e) => {
+                          const clean = e.target.value.toLowerCase().replace(/[^a-z0-9._-]/g, '');
+                          setStoreHandle(clean);
+                          localStorage.setItem('vyralify_store_handle', clean);
+                        }}
+                        placeholder="yourstorename"
+                        className="font-bold text-[#0F172A] text-xs bg-transparent border-b border-dashed border-[#067CF9]/40 focus:border-[#067CF9] focus:outline-hidden px-1 py-0.5 max-w-[150px] sm:max-w-[200px]"
+                        title="Edit your public store handle (e.g. onlycashuniversity)"
+                      />
+                    </div>
                     <div className="flex items-center gap-1.5 shrink-0">
                       <a
-                        href={`/@${rawHandle}`}
+                        href={`/${rawHandle}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="px-2.5 py-1 rounded-lg bg-white border border-[rgba(6,124,249,0.2)] text-[#067CF9] hover:bg-[#EFF6FF] text-[11px] font-semibold transition-all flex items-center gap-1 cursor-pointer shadow-2xs"
@@ -1346,8 +1393,8 @@ export default function StoreCommerce({ onNavigate, initialSection = 'store' }) 
                         onClick={handleCopyStoreLink}
                         className="px-2.5 py-1 rounded-lg bg-gradient-to-r from-blue-50/80 via-indigo-50/70 to-purple-50/60 border border-[rgba(99,102,241,0.25)] text-[#6366F1] hover:text-[#4F46E5] text-[11px] font-semibold transition-all flex items-center gap-1 cursor-pointer shadow-xs"
                       >
-                        {copiedStoreLink ? <Check className="w-3 h-3 text-[#6366F1]" /> : <Copy className="w-3 h-3" />}
-                        <span>{copiedStoreLink ? 'Copied' : 'Copy Link'}</span>
+                        {copiedStoreLink ? <Check className="w-3 h-3 text-[#10B981]" /> : <Copy className="w-3 h-3" />}
+                        <span>{copiedStoreLink ? 'Copied' : 'Copy Store Link'}</span>
                       </button>
                     </div>
                   </div>
@@ -1681,9 +1728,44 @@ export default function StoreCommerce({ onNavigate, initialSection = 'store' }) 
                             <div className="text-[11px] text-[#64748B] mt-0.5 truncate max-w-sm">
                               {isLink ? (prod.accessUrl || 'Custom redirect link') : `${prod.type} • ${prod.salesCount || 0} sold`}
                             </div>
+                            {!isLink && (
+                              <div className="text-[10px] text-[#067CF9] font-mono mt-0.5 truncate max-w-sm flex items-center gap-1">
+                                <span>vyralify.in/{rawHandle}/{prod.slug || prod.id}</span>
+                              </div>
+                            )}
                           </div>
 
                           <div className="flex items-center gap-1 shrink-0">
+                            {/* Copy Direct Product Link button */}
+                            {!isLink && (
+                              <button
+                                type="button"
+                                onClick={(e) => handleCopyProductLink(prod, e)}
+                                className={`px-2 py-1 rounded-lg border text-xs font-semibold transition-all flex items-center gap-1 cursor-pointer shadow-2xs ${
+                                  copiedProductId === prod.id
+                                    ? 'bg-emerald-50 border-emerald-300 text-emerald-600'
+                                    : 'bg-white border-blue-100 text-[#067CF9] hover:bg-blue-50'
+                                }`}
+                                title="Copy direct product link to clipboard"
+                              >
+                                {copiedProductId === prod.id ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
+                                <span className="text-[10px] hidden sm:inline">{copiedProductId === prod.id ? 'Copied!' : 'Copy Link'}</span>
+                              </button>
+                            )}
+
+                            {/* View Live Product Page in new tab */}
+                            {!isLink && (
+                              <a
+                                href={`/${rawHandle}/${prod.slug || prod.id}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="p-1.5 rounded-lg text-[#64748B] hover:text-[#067CF9] hover:bg-blue-50 transition-colors cursor-pointer"
+                                title="Open live product landing page in new tab"
+                              >
+                                <ExternalLink className="w-3.5 h-3.5" />
+                              </a>
+                            )}
+
                             {/* Pin Hero Offer button */}
                             {!isLink && (
                               <button
@@ -2438,10 +2520,40 @@ export default function StoreCommerce({ onNavigate, initialSection = 'store' }) 
                     type="text"
                     required
                     value={newProd.title}
-                    onChange={(e) => setNewProd({ ...newProd, title: e.target.value })}
+                    onChange={(e) => {
+                      const title = e.target.value;
+                      const next = { ...newProd, title };
+                      if (!editingProductId && !newProd.slugManuallyEdited) {
+                        next.slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+                      }
+                      setNewProd(next);
+                    }}
                     placeholder="e.g. 30-Day Stoic Mindset Journal & Audio Guide"
                     className="w-full bg-white border border-[rgba(6,124,249,0.15)] rounded-xl px-3 py-2 text-xs text-[#0F172A] focus:outline-hidden focus:border-[#067CF9]"
                   />
+                </div>
+
+                {/* Direct Landing Page Slug */}
+                <div className="space-y-1">
+                  <div className="flex items-center justify-between text-xs text-[#64748B]">
+                    <label className="font-semibold">Direct Product URL Slug</label>
+                    <span className="text-[10px] text-slate-400">Shareable buyer link</span>
+                  </div>
+                  <div className="flex items-center bg-white border border-[rgba(6,124,249,0.15)] rounded-xl px-3 py-2 text-xs text-[#0F172A] focus-within:border-[#067CF9]">
+                    <span className="text-[#64748B] font-semibold text-[11px] shrink-0">
+                      vyralify.in/{rawHandle}/
+                    </span>
+                    <input
+                      type="text"
+                      value={newProd.slug || ''}
+                      onChange={(e) => {
+                        const clean = e.target.value.toLowerCase().replace(/[^a-z0-9-_]/g, '');
+                        setNewProd({ ...newProd, slug: clean, slugManuallyEdited: true });
+                      }}
+                      placeholder="custom-product-slug"
+                      className="w-full bg-transparent border-0 focus:outline-hidden font-bold text-[#067CF9] text-xs px-1"
+                    />
+                  </div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">

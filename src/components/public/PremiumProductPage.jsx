@@ -64,7 +64,18 @@ export default function PremiumProductPage({
   const [newReviewText, setNewReviewText] = useState('');
   const [newReviewRating, setNewReviewRating] = useState(5);
   const [searchQuery, setSearchQuery] = useState('');
+  const [copiedProductPageLink, setCopiedProductPageLink] = useState(false);
   const heroCtaRef = useRef(null);
+
+  const handleCopyProductPageLink = () => {
+    const prodSlug = product.slug || product.id;
+    const url = typeof window !== 'undefined' && window.location.hostname.includes('localhost')
+      ? `${window.location.origin}/${cleanSlug}/${prodSlug}`
+      : `https://vyralify.in/${cleanSlug}/${prodSlug}`;
+    navigator.clipboard?.writeText(url);
+    setCopiedProductPageLink(true);
+    setTimeout(() => setCopiedProductPageLink(false), 2000);
+  };
 
   // Gallery images with high-resolution fallbacks
   const galleryImages = [
@@ -256,7 +267,7 @@ export default function PremiumProductPage({
                 V
               </div>
               <span className="font-bold text-sm tracking-tight text-[#0F172A]">
-                {storeData.name || `vyralify.me/@${cleanSlug}`}
+                {storeData.name || `vyralify.in/${cleanSlug}`}
               </span>
             </div>
           </div>
@@ -295,6 +306,17 @@ export default function PremiumProductPage({
                 className="w-full bg-[#F8FAFC] border border-slate-200 rounded-xl pl-8 pr-3 py-1.5 text-xs text-[#0F172A] placeholder:text-slate-400 focus:outline-hidden focus:border-[#067CF9]"
               />
             </div>
+
+            {/* Share / Copy Product Link Button */}
+            <button
+              type="button"
+              onClick={handleCopyProductPageLink}
+              className="px-2.5 py-1.5 rounded-xl bg-[#EFF6FF] hover:bg-[#DBEAFE] border border-[rgba(6,124,249,0.2)] text-[#067CF9] text-xs font-semibold transition-all flex items-center gap-1.5 cursor-pointer shadow-2xs"
+              title="Copy direct product landing page link"
+            >
+              {copiedProductPageLink ? <Check className="w-3.5 h-3.5 text-[#10B981]" /> : <Share2 className="w-3.5 h-3.5" />}
+              <span className="hidden sm:inline">{copiedProductPageLink ? 'Link Copied!' : 'Share'}</span>
+            </button>
 
             {/* Shopping Cart Button */}
             <button

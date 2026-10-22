@@ -62,19 +62,45 @@ function WorkspaceRouter() {
     );
   }
 
-  // Check if accessing public creator link-in-bio storefront /u/:slug or /@handle per v2.4 spec
+  // Reserved application paths that shouldn't be treated as creator storefronts
+  const RESERVED_APP_PATHS = new Set([
+    '', 
+    'auth', 
+    'api', 
+    'dashboard', 
+    'login', 
+    'signup', 
+    'workbench', 
+    'assets', 
+    'favicon.ico', 
+    'robots.txt'
+  ]);
+
+  // Check if accessing public creator storefront (e.g. vyralify.in/:storeSlug or vyralify.in/:storeSlug/:productSlug)
   const pathname = typeof window !== 'undefined' ? window.location.pathname : '';
-  const isPublicStore = pathname.startsWith('/u/') || pathname.startsWith('/@');
+  const cleanPath = pathname.replace(/^\/+/, '').replace(/\/+$/, '');
+  const pathParts = cleanPath ? cleanPath.split('/') : [];
+  const firstSegment = pathParts[0] || '';
+
+  let isPublicStore = false;
   let storeSlug = null;
   let initialProductSlug = null;
-  if (isPublicStore) {
-    const raw = pathname.replace(/^(\/u\/|\/@)/, '').replace(/\/$/, '');
-    const parts = raw.split('/');
-    storeSlug = parts[0] || 'creator';
-    initialProductSlug = parts[1] || null;
+
+  if (firstSegment.startsWith('@')) {
+    isPublicStore = true;
+    storeSlug = firstSegment.slice(1);
+    initialProductSlug = pathParts[1] || null;
+  } else if (firstSegment === 'u' && pathParts[1]) {
+    isPublicStore = true;
+    storeSlug = pathParts[1];
+    initialProductSlug = pathParts[2] || null;
+  } else if (firstSegment && !RESERVED_APP_PATHS.has(firstSegment.toLowerCase())) {
+    isPublicStore = true;
+    storeSlug = firstSegment;
+    initialProductSlug = pathParts[1] || null;
   }
 
-  if (isPublicStore) {
+  if (isPublicStore && storeSlug) {
     return (
       <PublicStorefront 
         slug={storeSlug} 

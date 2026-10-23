@@ -57,6 +57,7 @@ import { useAuth } from '../../context/AuthContext';
 import { usePage, getSafeAvatarUrl } from '../../context/PageContext';
 import { usePlanGating } from '../../context/PlanGatingContext';
 import { useNotifications } from '../../context/NotificationContext';
+import PublicStorefrontProductView from '../storefront/PublicStorefrontProductView';
 
 // Curated Storefront Theme Palettes with rich gradients and live styling
 export const STORE_THEMES = [
@@ -440,6 +441,7 @@ export default function StoreCommerce({ onNavigate, initialSection = 'store' }) 
 
   // Individual product link copied state
   const [copiedProductId, setCopiedProductId] = useState(null);
+  const [isBeaconsPreviewOpen, setIsBeaconsPreviewOpen] = useState(false);
 
   // Copy Direct Product Landing Page Link
   const handleCopyProductLink = (prod, e) => {
@@ -1154,6 +1156,17 @@ export default function StoreCommerce({ onNavigate, initialSection = 'store' }) 
                 >
                   <Download className="w-3.5 h-3.5" />
                   <span className="hidden sm:inline">Lead Vault (CSV)</span>
+                </button>
+
+                {/* Beacons-Style Product Storefront Preview (Blueprint Section 5) */}
+                <button
+                  type="button"
+                  onClick={() => setIsBeaconsPreviewOpen(true)}
+                  className="px-3 py-1.5 rounded-xl bg-[#067CF9] text-white hover:bg-[#0063D1] text-xs font-semibold flex items-center gap-1.5 shadow-xs transition-all cursor-pointer"
+                  title="Preview Beacons-Style Mobile Storefront (390px x 844px)"
+                >
+                  <Smartphone className="w-3.5 h-3.5" />
+                  <span>Beacons Preview</span>
                 </button>
               </div>
             </div>
@@ -2894,6 +2907,75 @@ export default function StoreCommerce({ onNavigate, initialSection = 'store' }) 
               </div>
 
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* Beacons-Style Mobile Storefront Modal (Blueprint Section 5) */}
+      {isBeaconsPreviewOpen && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-2 sm:p-4 overflow-y-auto">
+          <div className="relative w-full max-w-4xl my-auto">
+            <PublicStorefrontProductView
+              product={{
+                storeName: `@${rawHandle}`,
+                creatorAvatar: displayAvatar,
+                creatorBio: storeBio || 'Digital Creator & Monetization Strategist • 240K+ followers',
+                title: products[0]?.title || 'Ultimate Reels Growth Guide 2025',
+                currencySymbol: storeCurrency === 'USD' ? '$' : '₹',
+                price: products[0]?.price?.replace(/[^0-9.]/g, '') || (storeCurrency === 'USD' ? '29.00' : '499'),
+                comparePrice: storeCurrency === 'USD' ? '89.00' : '1499',
+                rating: 5.0,
+                reviewCount: 128,
+                coverImage: products[0]?.fileData || 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&auto=format&fit=crop&q=80',
+                media: [
+                  {
+                    url: products[0]?.fileData || 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&auto=format&fit=crop&q=80',
+                    title: products[0]?.title || 'Course Teaser Video / Masterclass'
+                  },
+                  {
+                    url: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&fit=crop&q=80',
+                    title: 'Viral Hook Vault & Retention Blueprints'
+                  }
+                ],
+                description: products[0]?.description || `
+                  <p>Master the exact algorithm mechanisms behind <b>10M+ organic Reel impressions</b> without spending on ads.</p>
+                  <ul>
+                    <li><b>12 High-Retention Hook Archetypes:</b> 3-second pattern interrupts tested across viral reels.</li>
+                    <li><b>Retention Curve Blueprints:</b> Stop the 3-second viewer drop-off.</li>
+                    <li><b>Beacons Storefront Funnel:</b> High-converting digital commerce checkout.</li>
+                  </ul>
+                `,
+                faqs: [
+                  {
+                    question: 'How do I access the product after checkout?',
+                    answer: 'Instant automated delivery on your screen and direct email download link.'
+                  },
+                  {
+                    question: 'What payment methods are supported?',
+                    answer: 'Stripe Direct (Global Cards/Apple Pay), Razorpay Custom, and UPI Direct.'
+                  }
+                ],
+                reviews: [
+                  {
+                    name: 'Sarah Jenkins',
+                    handle: '@sarahj_creative',
+                    rating: 5,
+                    date: '2 days ago',
+                    text: 'The 3-second hook formulas completely turned my page around. My first reel using Hook #2 just crossed 48,000 views!',
+                    verified: true
+                  },
+                  {
+                    name: 'Marcus Vance',
+                    handle: '@marcusgrowth',
+                    rating: 5,
+                    date: '1 week ago',
+                    text: 'Hands down the best link-in-bio digital product I have bought. The Notion sprint calendar alone is worth 5x the price.',
+                    verified: true
+                  }
+                ]
+              }}
+              onClose={() => setIsBeaconsPreviewOpen(false)}
+            />
           </div>
         </div>
       )}

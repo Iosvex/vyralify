@@ -1,0 +1,85 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id            String                @id @default(uuid()) @db.Uuid
+  email         String                @unique @db.VarChar(255)
+  fullName      String                @map("full_name") @db.VarChar(255)
+  createdAt     DateTime              @default(now()) @map("created_at")
+  updatedAt     DateTime              @updatedAt @map("updated_at")
+  integrations  UserIntegration[]
+  snapshots     IgAnalyticsSnapshot[]
+
+  @@map("users")
+}
+
+model UserIntegration {
+  id                   String               @id @default(uuid()) @db.Uuid
+  userId               String               @map("user_id") @db.Uuid
+  provider             String               @default("INSTAGRAM") @db.VarChar(32)
+  instagramUserId      String               @unique @map("instagram_user_id") @db.VarChar(128)
+  accessTokenEncrypted String               @map("access_token_encrypted") @db.Text
+  tokenExpiresAt       DateTime             @map("token_expires_at")
+  syncStatus           SyncStatus           @default(IDLE) @map("sync_status")
+  lastSyncedAt         DateTime?            @map("last_synced_at")
+  createdAt            DateTime             @default(now()) @map("created_at")
+  updatedAt            DateTime             @updatedAt @map("updated_at")
+  user                 User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  reels                IgReelsPerformance[]
+
+  @@index([instagramUserId])
+  @@map("user_integrations")
+}
+
+model IgAnalyticsSnapshot {
+  id              String   @id @default(uuid()) @db.Uuid
+  userId          String   @map("user_id") @db.Uuid
+  followerCount   Int      @map("follower_count")
+  followingCount  Int      @map("following_count")
+  mediaCount      Int      @map("media_count")
+  impressions     Int      @default(0)
+  reach           Int      @default(0)
+  profileViews    Int      @default(0) @map("profile_views")
+  activeHoursJson Json     @map("active_hours_json")
+  snapshotDate    DateTime @map("snapshot_date") @db.Date
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, snapshotDate])
+  @@index([snapshotDate])
+  @@map("ig_analytics_snapshots")
+}
+
+model IgReelsPerformance {
+  id            String          @id @default(uuid()) @db.Uuid
+  integrationId String          @map("integration_id") @db.Uuid
+  igMediaId     String          @unique @map("ig_media_id") @db.VarChar(128)
+  caption       String?         @db.Text
+  mediaUrl      String          @map("media_url") @db.Text
+  permalink     String          @db.Text
+  publishedAt   DateTime        @map("published_at")
+  playsCount    Int             @default(0) @map("plays_count")
+  reachCount    Int             @default(0) @map("reach_count")
+  likesCount    Int             @default(0) @map("likes_count")
+  commentsCount Int             @default(0) @map("comments_count")
+  savesCount    Int             @default(0) @map("saves_count")
+  sharesCount   Int             @default(0) @map("shares_count")
+  viralityScore Float           @default(0.0) @map("virality_score")
+  updatedAt     DateTime        @updatedAt @map("updated_at")
+  integration   UserIntegration @relation(fields: [integrationId], references: [id], onDelete: Cascade)
+
+  @@index([viralityScore(sort: Desc)])
+  @@map("ig_reels_performance")
+}
+
+enum SyncStatus {
+  IDLE
+  PENDING
+  IN_PROGRESS
+  FAILED
+}

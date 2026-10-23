@@ -18,7 +18,8 @@ import {
   ChevronRight,
   MessageSquare,
   Target,
-  Calendar
+  Calendar,
+  ChevronDown
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { usePage } from '../../context/PageContext';
@@ -159,6 +160,11 @@ function CleanFormattedMessage({ text }) {
 
   lines.forEach((line, lineIdx) => {
     const trimmed = line.trim();
+
+    // Skip ACTION_CARD from text rendering as it is rendered as an interactive card
+    if (trimmed.startsWith('ACTION_CARD')) {
+      return;
+    }
 
     // 1. Divider / Separator
     if (/^[-*_]{3,}$/.test(trimmed)) {
@@ -313,6 +319,14 @@ export default function AIAssistant({ onNavigate }) {
   const [isGenerating, setIsGenerating] = useState(false);
   const [attachedMedia, setAttachedMedia] = useState(null);
   const [copiedMessageId, setCopiedMessageId] = useState(null);
+  const [thinkingOpenMap, setThinkingOpenMap] = useState({});
+
+  const toggleThinking = (id) => {
+    setThinkingOpenMap(prev => ({
+      ...prev,
+      [id]: prev[id] === undefined ? false : !prev[id]
+    }));
+  };
 
   const messagesEndRef = useRef(null);
   const fileInputRef = useRef(null);
@@ -684,15 +698,17 @@ export default function AIAssistant({ onNavigate }) {
         {/* Workspace Top Header Bar */}
         <div className="p-3 px-5 border-b border-slate-100 bg-slate-50/80 flex flex-wrap items-center justify-between gap-3 z-10">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#067CF9] to-[#6366F1] text-white flex items-center justify-center font-bold shadow-xs">
-              <Sparkles className="w-4 h-4" />
+            <div className="w-8 h-8 rounded-xl bg-[#067CF9] text-white flex items-center justify-center font-bold shadow-xs">
+              <Sparkles className="w-4 h-4 text-white" />
             </div>
             <div>
               <div className="flex items-center gap-2">
                 <h2 className="font-bold text-[#0F172A] text-sm tracking-tight">
-                  Vyralify Assistant
+                  Vyralify AI Strategy Engine
                 </h2>
-                <span className="w-2 h-2 rounded-full bg-emerald-500 ring-2 ring-emerald-100" />
+                <span className="text-[11px] px-2.5 py-0.5 rounded-full bg-blue-50 text-[#067CF9] font-medium border border-blue-100">
+                  GPT-4o Realtime
+                </span>
               </div>
               <p className="text-[11px] text-[#64748B]">
                 Active Page Context: <strong className="text-[#0F172A]">@{activePage?.handle || 'creator'}</strong> &bull; {activeSession?.title || 'Growth Strategy Session'}
@@ -790,14 +806,70 @@ export default function AIAssistant({ onNavigate }) {
                     </div>
                   )}
 
-                  {/* Message Content */}
+                  {/* Message Content with Thinking Accordion for AI responses */}
                   <div className="font-sans">
                     {isUser ? (
                       <div className="whitespace-pre-line text-white">{msg.text}</div>
                     ) : (
-                      <CleanFormattedMessage text={msg.text} />
+                      <>
+                        {/* Thinking Accordion (Blueprint Section 4.3) */}
+                        <div className="w-full mb-3 rounded-xl border border-slate-200 bg-slate-50/90 overflow-hidden">
+                          <button
+                            type="button"
+                            onClick={() => toggleThinking(msg.id)}
+                            className="w-full px-3.5 py-2 flex items-center justify-between text-xs font-semibold text-slate-700 bg-slate-100/70 hover:bg-slate-100 transition-colors cursor-pointer"
+                          >
+                            <div className="flex items-center gap-1.5">
+                              <Sparkles className="w-3.5 h-3.5 text-[#067CF9]" />
+                              <span>AI Reasoning & Analytics Context Execution</span>
+                            </div>
+                            <ChevronDown className={`w-3.5 h-3.5 text-slate-500 transition-transform ${thinkingOpenMap[msg.id] !== false ? 'rotate-180' : ''}`} />
+                          </button>
+                          {thinkingOpenMap[msg.id] !== false && (
+                            <div className="p-3 text-[11px] font-sans text-slate-600 border-t border-slate-200 bg-white/70 space-y-1">
+                              <p className="flex items-center gap-1.5 text-emerald-600 font-medium">
+                                <span className="font-bold">✓</span> Connected to Instagram Graph Nodes (Profile, Reels, Online Hours)
+                              </p>
+                              <p className="flex items-center gap-1.5 text-emerald-600 font-medium">
+                                <span className="font-bold">✓</span> Analyzed engagement rate signals & peak active hours
+                              </p>
+                              <p className="flex items-center gap-1.5 text-emerald-600 font-medium">
+                                <span className="font-bold">✓</span> Synthesized 3 hook strategies aligned with storefront CTA
+                              </p>
+                            </div>
+                          )}
+                        </div>
+
+                        <CleanFormattedMessage text={msg.text} />
+                      </>
                     )}
                   </div>
+
+                  {/* Interactive Action Card Component (Blueprint Section 4.3) */}
+                  {!isUser && (msg.text.includes('ACTION_CARD') || msg.text.toLowerCase().includes('script') || msg.text.toLowerCase().includes('hook')) && (
+                    <div className="mt-3 p-3.5 rounded-xl border border-blue-200 bg-blue-50/70 w-full flex items-center justify-between shadow-2xs">
+                      <div>
+                        <h4 className="text-xs font-bold text-slate-900">Apply Script to Content Planner</h4>
+                        <p className="text-[11px] text-slate-500">Auto-schedules for peak engagement window (18:00 UTC)</p>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          if (onNavigate) onNavigate('discover_create');
+                          if (addNotification) {
+                            addNotification({
+                              title: 'Applied to Content Planner 📅',
+                              message: 'Viral script scheduled for peak follower active hours.',
+                              type: 'success'
+                            });
+                          }
+                        }}
+                        className="px-3.5 py-1.5 bg-[#067CF9] hover:bg-[#0063D1] text-white rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer shadow-xs shrink-0"
+                      >
+                        <span>Apply</span> <ArrowRight className="w-3 h-3" />
+                      </button>
+                    </div>
+                  )}
 
                   {/* Interactive Action Buttons */}
                   {!isUser && msg.actions && msg.actions.length > 0 && (

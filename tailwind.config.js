@@ -18,8 +18,14 @@ export default {
         },
         surface: {
           light: '#FFFFFF',
-          glass: 'rgba(255, 255, 255, 0.85)',
+          glass: 'rgba(255, 255, 255, 0.75)',
           border: 'rgba(6, 124, 249, 0.12)',
+          subtle: '#E2E8F0',
+        },
+        accent: {
+          blue: '#067CF9',
+          hover: '#0063D1',
+          emerald: '#10B981',
         },
         black: '#000000',
         dark: {

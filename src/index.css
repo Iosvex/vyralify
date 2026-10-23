@@ -7,13 +7,19 @@
 
 @layer base {
   :root {
+    --bg-base: #FFFFFF;
     --bg-page: #F0F6FE;
+    --surface-glass: rgba(255, 255, 255, 0.75);
+    --border-subtle: #E2E8F0;
     --text-primary: #0F172A;
+    --text-secondary: #64748B;
     --text-muted: #64748B;
-    --border-subtle: rgba(6, 124, 249, 0.12);
+    --brand-accent: #067CF9;
+    --brand-accent-hover: #0063D1;
+    --status-success: #10B981;
     --card-bg: #FFFFFF;
     --brand-blue: #067CF9;
-    --brand-blue-hover: #056AD6;
+    --brand-blue-hover: #0063D1;
     --brand-blue-tint: #EFF6FF;
     color-scheme: light;
   }
@@ -171,5 +177,21 @@ html.dark ::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(135deg, #067CF9 0%, #6366F1 50%, #A855F7 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+/* Blueprint Section 1.1: Electric Light Glassmorphic Standard */
+.electric-light-container {
+  background: var(--surface-glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-subtle);
+  box-shadow: 0 8px 32px rgba(15, 23, 42, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+}
+
+.surface-glass {
+  background: var(--surface-glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-subtle);
 }
 

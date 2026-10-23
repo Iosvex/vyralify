@@ -214,8 +214,8 @@ export default function ConnectAccountModal({ isOpen, onClose }) {
               audit: {
                 overallScore: 92,
                 aiAnalysis: auditRes?.text || 'Account authenticated via Meta Graph API v19.0 3-Step Chain.',
-                strengths: ['Meta OAuth verified token active', 'Official Instagram Business Account linked (1784...)', 'Live media & insights pipeline synced'],
-                gaps: ['Configure automated DM keyword triggers for bio link'],
+                strengths: ['Native Instagram OAuth verified token active', 'Official Instagram Business Account linked', 'Live media & insights pipeline synced'],
+                gaps: ['Deploy Beacons-style storefront link in bio', 'Align Reels posting with peak follower active hours'],
                 nicheRank: `Top 10% in ${selectedNiche}`
               }
             });
@@ -476,7 +476,7 @@ export default function ConnectAccountModal({ isOpen, onClose }) {
 
                   <div className="relative flex py-1 items-center">
                     <div className="flex-grow border-t border-neutral-200 dark:border-white/[0.08]" />
-                    <span className="flex-shrink mx-3 text-[10px] font-mono text-neutral-400 dark:text-neutral-500 uppercase">or via Facebook Login</span>
+                    <span className="flex-shrink mx-3 text-[10px] font-mono text-neutral-400 dark:text-neutral-500 uppercase">or Native Instagram Login</span>
                     <div className="flex-grow border-t border-neutral-200 dark:border-white/[0.08]" />
                   </div>
 
@@ -484,10 +484,10 @@ export default function ConnectAccountModal({ isOpen, onClose }) {
                     type="button"
                     onClick={handleMetaOAuth}
                     disabled={isConnecting}
-                    className="w-full py-2 px-4 rounded-xl bg-white dark:bg-white/[0.04] hover:bg-neutral-50 dark:hover:bg-white/[0.08] text-neutral-800 dark:text-neutral-200 border border-neutral-200/90 dark:border-white/[0.1] font-medium text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-xs"
+                    className="w-full py-2.5 px-4 rounded-xl bg-white dark:bg-white/[0.04] hover:bg-neutral-50 dark:hover:bg-white/[0.08] text-neutral-800 dark:text-neutral-200 border border-neutral-200/90 dark:border-white/[0.1] font-semibold text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-xs"
                   >
-                    <InstagramIcon className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-                    <span>Open Meta OAuth Window</span>
+                    <InstagramIcon className="w-4 h-4 text-[#067CF9]" />
+                    <span>Open Native Instagram Login</span>
                     <ExternalLink className="w-3.5 h-3.5 text-neutral-400" />
                   </button>
 

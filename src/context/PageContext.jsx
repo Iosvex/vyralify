@@ -132,8 +132,8 @@ export function PageProvider({ children }) {
   };
 
   const getPageLimit = () => {
-    if (tier === 'free') return 1;
-    if (tier === 'pro') return 3;
+    if (tier === 'free') return 5;
+    if (tier === 'pro') return 15;
     return 9999; // Elite
   };
 
@@ -145,8 +145,8 @@ export function PageProvider({ children }) {
     const limit = getPageLimit();
     if (!isInitialOnboarding && pages.length >= limit) {
       const upgradeMsg = tier === 'free'
-        ? "You've hit your Free plan's 1-page limit. Upgrade to Pro to manage up to 3 pages."
-        : "You've hit your Pro plan's 3-page limit. Upgrade to Elite to manage unlimited pages.";
+        ? "You've hit your Free plan's 5-page limit. Upgrade to Pro to manage up to 15 accounts."
+        : "You've hit your Pro plan's 15-page limit. Upgrade to Elite to manage unlimited accounts.";
       throw new Error(upgradeMsg);
     }
 

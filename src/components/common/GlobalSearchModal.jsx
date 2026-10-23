@@ -3,27 +3,34 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Search, X, MessageSquare, FileText, Target, ShoppingBag, ArrowRight } from 'lucide-react';
 
 const SEARCHABLE_ITEMS = [
-  { id: 's1', type: 'ai', title: 'Why did my Reel about 5 AM routine flop?', subtitle: 'AI Conversation · 3 days ago', module: 'assistant' },
-  { id: 's2', type: 'ai', title: 'Hook formula for luxury lifestyle theme page', subtitle: 'AI Conversation · Yesterday', module: 'assistant' },
-  { id: 's3', type: 'script', title: '3 Mistakes People Make When Starting Dropshipping', subtitle: 'Reel Script · 48s estimated duration', module: 'create' },
-  { id: 's4', type: 'script', title: 'Stop Scrolling If You Want Financial Freedom in 2026', subtitle: 'Hook Template · 88% retention benchmark', module: 'create' },
-  { id: 's5', type: 'competitor', title: '@millionaire.mindset.daily', subtitle: 'Tracked Competitor · 420K Followers', module: 'discover' },
-  { id: 's6', type: 'competitor', title: '@stoic.habits', subtitle: 'Tracked Competitor · 185K Followers', module: 'discover' },
-  { id: 's7', type: 'product', title: 'The Faceless Creator Blueprint (E-book)', subtitle: 'Store Product · ₹499 · 24 sales', module: 'store' },
-  { id: 's8', type: 'product', title: '1-on-1 Instagram Page Audit Call', subtitle: 'Store Service · ₹1,999 · 6 booked', module: 'store' },
+  { id: 's1', type: 'ai', title: 'Viral Hook & 3-Second Retention Co-Pilot', subtitle: 'AI Assistant · Strategy Chat', module: 'assistant' },
+  { id: 's2', type: 'ai', title: 'Why did my Reel about 5 AM routine flop?', subtitle: 'AI Conversation · History', module: 'assistant' },
+  { id: 's3', type: 'script', title: '3 Mistakes People Make When Starting Dropshipping', subtitle: 'Reel Script · Discover & Create', module: 'discover_create' },
+  { id: 's4', type: 'script', title: 'Stop Scrolling If You Want Financial Freedom in 2026', subtitle: 'Hook Template · Discover & Create', module: 'discover_create' },
+  { id: 's5', type: 'competitor', title: 'Track Competitor Formats & Outlier Reels', subtitle: 'Viral Discovery · Discover & Create', module: 'discover_create' },
+  { id: 's6', type: 'product', title: 'The Faceless Creator Blueprint (E-book)', subtitle: 'Store Product · ₹499 · Store & Commerce', module: 'store' },
+  { id: 's7', type: 'product', title: '1-on-1 Instagram Page Audit Call', subtitle: 'Store Service · ₹1,999 · Store & Commerce', module: 'store' },
+  { id: 's8', type: 'builder', title: 'Instagram Link-in-Bio Page Builder', subtitle: 'Page Builder · Bio & Theme', module: 'builder' },
+  { id: 's9', type: 'home', title: 'Home Performance Trends & Analytics', subtitle: 'Home Dashboard · Overview', module: 'home' },
+  { id: 's10', type: 'settings', title: 'Connected Accounts & Tier Settings', subtitle: 'Settings · Multi-Account Manager', module: 'settings' }
 ];
 
-export default function GlobalSearchModal({ isOpen, onClose, onSelectModule }) {
-  const [query, setQuery] = useState('');
+export default function GlobalSearchModal({ isOpen, onClose, onSelectModule, onNavigate, initialQuery = '' }) {
+  const [query, setQuery] = useState(initialQuery);
+
+  const handleSelect = onSelectModule || onNavigate;
+
+  useEffect(() => {
+    if (isOpen) {
+      setQuery(initialQuery || '');
+    }
+  }, [isOpen, initialQuery]);
 
   useEffect(() => {
     const handleKeyDown = (e) => {
       if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
         e.preventDefault();
         if (isOpen) onClose();
-        else {
-          // Open handled by parent or state
-        }
       }
       if (e.key === 'Escape' && isOpen) {
         onClose();
@@ -105,7 +112,7 @@ export default function GlobalSearchModal({ isOpen, onClose, onSelectModule }) {
                 <div
                   key={item.id}
                   onClick={() => {
-                    if (onSelectModule) onSelectModule(item.module);
+                    if (handleSelect) handleSelect(item.module);
                     onClose();
                   }}
                   className="flex items-center justify-between p-2.5 rounded-xl hover:bg-[#EFF6FF] transition-colors cursor-pointer group"

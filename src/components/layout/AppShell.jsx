@@ -41,13 +41,14 @@ const InstagramIcon = ({ className = "w-4 h-4" }) => (
 );
 
 export default function AppShell({ activeModule, onSelectModule, onNavigateLanding, children }) {
-  const { user, tier, aiCredits, logout } = useAuth();
+  const { user, tier, aiCredits, addBonusCredits, refreshCredits, logout } = useAuth();
   const { pages, activePage, switchPage, removePage, canAddMorePages, getPageLimit } = usePage();
   const { openUpgradeModal } = usePlanGating();
   const { notifications, unreadCount, markAsRead, markAllAsRead, addNotification } = useNotifications();
 
   const [isPageDropdownOpen, setIsPageDropdownOpen] = useState(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+  const [isCreditsPopoverOpen, setIsCreditsPopoverOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const [isConnectModalOpen, setIsConnectModalOpen] = useState(false);
@@ -354,16 +355,103 @@ export default function AppShell({ activeModule, onSelectModule, onNavigateLandi
               )}
             </div>
 
-            {/* 2. AI CREDITS PILL */}
-            <div
-              onClick={() => openUpgradeModal('ai_credits', 'Upgrade to Pro to unlock 300 daily AI credits & vision models!')}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-[#EFF6FF] via-[#F5F3FF] to-[#FAF5FF] hover:from-[#DBEAFE] hover:to-[#EDE9FE] border border-[rgba(99,102,241,0.22)] hover:border-[#6366F1]/50 text-[#0F172A] transition-all cursor-pointer shadow-xs group"
-              title="Daily AI Credits Remaining (Click to Upgrade)"
-            >
-              <Sparkles className="w-3.5 h-3.5 text-[#6366F1] group-hover:scale-110 transition-transform" />
-              <span className="font-bold text-xs font-mono bg-gradient-to-r from-[#067CF9] via-[#6366F1] to-[#8B5CF6] bg-clip-text text-transparent">
-                {isUnlimited ? '∞ Unlimited' : `${creditsRemaining} AI left`}
-              </span>
+            {/* 2. AI CREDITS PILL WITH INTERACTIVE RECHARGE & UPGRADE POPOVER */}
+            <div className="relative">
+              <button
+                onClick={() => {
+                  setIsCreditsPopoverOpen(!isCreditsPopoverOpen);
+                  setIsNotificationsOpen(false);
+                  setIsPageDropdownOpen(false);
+                  setIsProfileMenuOpen(false);
+                }}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-[#EFF6FF] via-[#F5F3FF] to-[#FAF5FF] hover:from-[#DBEAFE] hover:to-[#EDE9FE] border border-[rgba(99,102,241,0.22)] hover:border-[#6366F1]/50 text-[#0F172A] transition-all cursor-pointer shadow-xs group"
+                title="Daily AI Credits Remaining (Click for details & options)"
+              >
+                <Sparkles className="w-3.5 h-3.5 text-[#6366F1] group-hover:scale-110 transition-transform" />
+                <span className="font-bold text-xs font-mono bg-gradient-to-r from-[#067CF9] via-[#6366F1] to-[#8B5CF6] bg-clip-text text-transparent">
+                  {isUnlimited ? '∞ Unlimited' : `${creditsRemaining} AI left`}
+                </span>
+                <ChevronDown className={`w-3 h-3 text-[#94A3B8] transition-transform ${isCreditsPopoverOpen ? 'rotate-180' : ''}`} />
+              </button>
+
+              {/* Credits Popover */}
+              {isCreditsPopoverOpen && (
+                <div className="absolute right-0 top-11 w-72 bg-white border border-[rgba(6,124,249,0.14)] rounded-2xl shadow-xl p-3.5 z-50 text-xs space-y-3">
+                  <div className="flex items-center justify-between pb-2 border-b border-neutral-100">
+                    <span className="font-bold text-[#0F172A] flex items-center gap-1.5">
+                      <Sparkles className="w-3.5 h-3.5 text-[#067CF9]" />
+                      <span>Daily AI Credits</span>
+                    </span>
+                    <span className="font-mono text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-blue-50 text-[#067CF9] border border-blue-200">
+                      {tier}
+                    </span>
+                  </div>
+
+                  {/* Balance & Progress */}
+                  <div>
+                    <div className="flex items-center justify-between text-[11px] mb-1 font-medium text-slate-600">
+                      <span>Remaining Balance:</span>
+                      <span className="font-bold text-[#0F172A] font-mono">
+                        {isUnlimited ? 'Unlimited' : `${creditsRemaining} / ${creditsLimit}`}
+                      </span>
+                    </div>
+                    {!isUnlimited && (
+                      <div className="w-full h-2 rounded-full bg-slate-100 overflow-hidden">
+                        <div 
+                          className="h-full bg-gradient-to-r from-[#067CF9] to-[#8B5CF6] transition-all"
+                          style={{ width: `${Math.min(100, (creditsRemaining / creditsLimit) * 100)}%` }}
+                        />
+                      </div>
+                    )}
+                    <p className="text-[10px] text-slate-400 mt-1">Daily quota automatically refreshes every 24h.</p>
+                  </div>
+
+                  {/* Actions to Increase or Reset Credits */}
+                  <div className="space-y-1.5 pt-1 border-t border-neutral-100">
+                    <button
+                      onClick={() => {
+                        addBonusCredits(5);
+                        addNotification({
+                          title: 'Bonus Credits Added! ✦',
+                          message: '+5 AI Credits added to your balance.',
+                          type: 'success'
+                        });
+                        setIsCreditsPopoverOpen(false);
+                      }}
+                      className="w-full py-1.5 px-2.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-700 font-semibold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer border border-emerald-200"
+                    >
+                      <Plus className="w-3.5 h-3.5" />
+                      <span>Claim +5 Free Bonus Credits</span>
+                    </button>
+
+                    <button
+                      onClick={() => {
+                        refreshCredits();
+                        addNotification({
+                          title: 'Daily Credits Refreshed',
+                          message: 'Your credits balance has been restored.',
+                          type: 'info'
+                        });
+                        setIsCreditsPopoverOpen(false);
+                      }}
+                      className="w-full py-1.5 px-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-700 font-semibold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer border border-slate-200"
+                    >
+                      <span>🔄 Reset Full Quota ({creditsLimit})</span>
+                    </button>
+
+                    <button
+                      onClick={() => {
+                        setIsCreditsPopoverOpen(false);
+                        openUpgradeModal('ai_credits', 'Upgrade to Pro for 300 daily AI credits & vision models!');
+                      }}
+                      className="w-full py-2 px-3 rounded-xl bg-gradient-to-r from-[#067CF9] via-[#6366F1] to-[#8B5CF6] text-white font-bold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer shadow-xs hover:opacity-95"
+                    >
+                      <Sparkles className="w-3.5 h-3.5" />
+                      <span>Upgrade for 300 Daily Credits</span>
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* 3. NOTIFICATION BELL */}
@@ -371,6 +459,7 @@ export default function AppShell({ activeModule, onSelectModule, onNavigateLandi
               <button
                 onClick={() => {
                   setIsNotificationsOpen(!isNotificationsOpen);
+                  setIsCreditsPopoverOpen(false);
                   setIsPageDropdownOpen(false);
                   setIsProfileMenuOpen(false);
                 }}
@@ -405,7 +494,10 @@ export default function AppShell({ activeModule, onSelectModule, onNavigateLandi
                     ) : (
                       notifications.map(n => (
                         <div key={n.id} onClick={() => markAsRead(n.id)} className="p-2 rounded-xl hover:bg-[#F8FAFC] transition-colors cursor-pointer">
-                          <div className="font-semibold text-[#0F172A] text-xs">{n.title}</div>
+                          <div className="flex items-center justify-between gap-2">
+                            <div className="font-semibold text-[#0F172A] text-xs leading-snug">{n.title}</div>
+                            <span className="text-[10px] text-[#94A3B8] font-mono shrink-0">{n.time || 'Just now'}</span>
+                          </div>
                           <p className="text-[11px] text-[#64748B] mt-0.5">{n.message}</p>
                         </div>
                       ))
@@ -496,6 +588,8 @@ export default function AppShell({ activeModule, onSelectModule, onNavigateLandi
       <GlobalSearchModal 
         isOpen={isSearchOpen} 
         onClose={() => setIsSearchOpen(false)} 
+        initialQuery={searchQuery}
+        onSelectModule={(mod) => onSelectModule(mod)}
         onNavigate={(mod) => onSelectModule(mod)} 
       />
 

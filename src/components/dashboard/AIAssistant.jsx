@@ -25,6 +25,7 @@ import { usePage } from '../../context/PageContext';
 import { usePlanGating } from '../../context/PlanGatingContext';
 import { useNotifications } from '../../context/NotificationContext';
 import { askVyralifyAssistant } from '../../lib/aiService';
+import Tesseract from 'tesseract.js';
 
 const SESSIONS_STORAGE_KEY = 'vyralify_chat_sessions_v4';
 
@@ -284,10 +285,15 @@ function renderCleanInline(text) {
 }
 
 export default function AIAssistant({ onNavigate }) {
-  const { user, tier, aiCredits } = useAuth();
+  const { user, tier, aiCredits, consumeCredit } = useAuth();
   const { activePage } = usePage();
   const { openUpgradeModal } = usePlanGating();
   const { addNotification } = useNotifications();
+
+  const creditsLimit = aiCredits?.limit || (tier === 'pro' ? 300 : tier === 'elite' ? 99999 : 20);
+  const creditsUsed = aiCredits?.usedToday || 0;
+  const creditsRemaining = Math.max(0, creditsLimit - creditsUsed);
+  const isNearLimit = tier === 'free' && creditsRemaining <= 4 && creditsRemaining > 0;
 
   const [sessions, setSessions] = useState([]);
   const [activeSessionId, setActiveSessionId] = useState(null);
@@ -416,15 +422,30 @@ export default function AIAssistant({ onNavigate }) {
     const reader = new FileReader();
     reader.onload = (event) => {
       const base64String = event.target?.result;
-      setAttachedMedia({
+      const mediaItem = {
         name: file.name,
         mimeType: file.type,
         base64: base64String,
-        previewUrl: URL.createObjectURL(file)
+        previewUrl: URL.createObjectURL(file),
+        ocrText: '',
+        ocrPromise: null
+      };
+
+      // Background client-side OCR extraction
+      mediaItem.ocrPromise = Tesseract.recognize(base64String, 'eng', {
+        logger: () => {}
+      }).then(({ data: { text } }) => {
+        mediaItem.ocrText = text;
+        return text;
+      }).catch(err => {
+        console.warn('Multimodal OCR notice:', err.message);
+        return '';
       });
+
+      setAttachedMedia(mediaItem);
       addNotification({
         title: 'Screenshot Attached',
-        message: 'Ready for multimodal vision retention critique.',
+        message: 'Visual OCR & multimodal retention analysis ready.',
         type: 'info'
       });
     };
@@ -451,6 +472,17 @@ export default function AIAssistant({ onNavigate }) {
   const handleSendMessage = async (textOverride = null) => {
     const textToSend = textOverride || inputMessage;
     if (!textToSend.trim() && !attachedMedia) return;
+
+    // 1. Quota Check & Credit Deduction
+    const creditGranted = consumeCredit(1);
+    if (!creditGranted) {
+      addNotification({
+        title: 'Daily AI Credits Exhausted',
+        message: 'You have reached your daily limit of 20 credits. Claim bonus credits or upgrade to Pro to continue.',
+        type: 'warning'
+      });
+      return;
+    }
 
     const userMessageId = 'msg_user_' + Date.now();
     const newUserMsg = {
@@ -498,6 +530,22 @@ export default function AIAssistant({ onNavigate }) {
         topPost: activePage?.topPost?.title || 'Contrarian Reel Breakdown (342K views)',
         audit: activePage?.audit?.recommendation || 'Optimize bio CTA and conversion flow'
       };
+
+      // If media attached, ensure OCR has extracted text before dispatch
+      if (mediaForRequest && !mediaForRequest.ocrText) {
+        try {
+          if (mediaForRequest.ocrPromise) {
+            const timeoutPromise = new Promise(resolve => setTimeout(() => resolve(''), 3500));
+            const extracted = await Promise.race([mediaForRequest.ocrPromise, timeoutPromise]);
+            if (extracted) mediaForRequest.ocrText = extracted;
+          } else if (mediaForRequest.base64) {
+            const { data: { text } } = await Tesseract.recognize(mediaForRequest.base64, 'eng');
+            mediaForRequest.ocrText = text;
+          }
+        } catch (ocrErr) {
+          console.warn('Multimodal OCR extraction notice:', ocrErr.message);
+        }
+      }
 
       const res = await askVyralifyAssistant({
         messages: updatedMessages,
@@ -552,10 +600,6 @@ export default function AIAssistant({ onNavigate }) {
     s.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
     s.messages.some(m => m.text.toLowerCase().includes(searchQuery.toLowerCase()))
   );
-
-  const creditsRemaining = Math.max(0, (aiCredits?.limit || 20) - (aiCredits?.usedToday || 0));
-  const creditUsagePercent = (aiCredits?.limit || 20) > 90000 ? 0 : Math.round(((aiCredits?.usedToday || 0) / (aiCredits?.limit || 20)) * 100);
-  const isNearLimit = creditUsagePercent >= 80 && (aiCredits?.limit || 20) < 90000;
 
   const PROMPT_SUGGESTIONS = [
     { 

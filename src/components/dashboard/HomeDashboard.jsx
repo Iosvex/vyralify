@@ -19,6 +19,7 @@ import {
   MoreHorizontal, 
   Check, 
   FileText,
+  Copy,
   Trash2 
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
@@ -40,6 +41,12 @@ export default function HomeDashboard({ onNavigate }) {
   const [activeHoverPoint, setActiveHoverPoint] = useState(6); // Default highlight Sun
   const [isConnectModalOpen, setIsConnectModalOpen] = useState(false);
   const [isSwitchDropdownOpen, setIsSwitchDropdownOpen] = useState(false);
+  const [trendTimeRange, setTrendTimeRange] = useState('7d');
+  const [isTimeRangeDropdownOpen, setIsTimeRangeDropdownOpen] = useState(false);
+  const [reelsSortBy, setReelsSortBy] = useState('views');
+  const [isSortDropdownOpen, setIsSortDropdownOpen] = useState(false);
+  const [activeMenuReelId, setActiveMenuReelId] = useState(null);
+  const [copiedLinkReelId, setCopiedLinkReelId] = useState(null);
 
   // Personalized name from user or active account
   const displayName = user?.displayName 
@@ -79,10 +86,47 @@ export default function HomeDashboard({ onNavigate }) {
     { day: 'Sun', x: 650, y: 25,  value: '0', change: '0%' }
   ];
 
-  // Dynamic stockPoints linked to active Instagram Page Graph data
-  const stockPoints = (activePage?.stockPoints && Array.isArray(activePage.stockPoints) && activePage.stockPoints.length === 7)
-    ? activePage.stockPoints
-    : defaultStockPoints;
+  // Dynamic stockPoints linked to chosen time range
+  const getTimeRangeStockPoints = () => {
+    const basePts = (activePage?.stockPoints && Array.isArray(activePage.stockPoints) && activePage.stockPoints.length === 7)
+      ? activePage.stockPoints
+      : defaultStockPoints;
+
+    if (trendTimeRange === '7d') return basePts;
+    if (trendTimeRange === '14d') {
+      return [
+        { day: 'Day 1', x: 50,  y: 155, value: '180K', change: '+12.4%' },
+        { day: 'Day 3', x: 150, y: 130, value: '220K', change: '+18.1%' },
+        { day: 'Day 6', x: 250, y: 95,  value: '310K', change: '+24.5%' },
+        { day: 'Day 8', x: 350, y: 110, value: '290K', change: '-4.2%' },
+        { day: 'Day 10', x: 450, y: 75, value: '380K', change: '+31.0%' },
+        { day: 'Day 12', x: 550, y: 45, value: '490K', change: '+42.8%' },
+        { day: 'Day 14', x: 650, y: 20, value: '560K', change: '+52.1%' }
+      ];
+    }
+    if (trendTimeRange === '30d') {
+      return [
+        { day: 'W1', x: 50,  y: 160, value: '340K', change: '+8.2%' },
+        { day: 'W2', x: 150, y: 125, value: '520K', change: '+22.4%' },
+        { day: 'W3', x: 250, y: 80,  value: '780K', change: '+41.2%' },
+        { day: 'W4', x: 350, y: 95,  value: '710K', change: '-7.5%' },
+        { day: 'W5', x: 450, y: 60,  value: '890K', change: '+38.6%' },
+        { day: 'W6', x: 550, y: 35,  value: '1.1M', change: '+58.3%' },
+        { day: 'Today', x: 650, y: 18, value: '1.4M', change: '+74.2%' }
+      ];
+    }
+    return [
+      { day: 'M-3', x: 50,  y: 170, value: '620K', change: '+4.5%' },
+      { day: 'M-2.5', x: 150, y: 140, value: '950K', change: '+18.2%' },
+      { day: 'M-2', x: 250, y: 90,  value: '1.6M', change: '+46.0%' },
+      { day: 'M-1.5', x: 350, y: 70, value: '2.1M', change: '+62.5%' },
+      { day: 'M-1', x: 450, y: 50,  value: '2.8M', change: '+85.2%' },
+      { day: 'M-0.5', x: 550, y: 30, value: '3.4M', change: '+110.4%' },
+      { day: 'Now', x: 650, y: 15,  value: '4.2M', change: '+142.0%' }
+    ];
+  };
+
+  const stockPoints = getTimeRangeStockPoints();
 
   // Helper to generate a smooth Catmull-Rom cubic bezier spline path
   const getSplinePath = (pts) => {
@@ -277,7 +321,7 @@ export default function HomeDashboard({ onNavigate }) {
             </span>
           </div>
           <div className="text-xs font-semibold flex items-center gap-1.5">
-            <span className="bg-gradient-to-r from-[#067CF9] to-[#8B5CF6] bg-clip-text text-transparent font-bold">&uarr; 12.4%</span>
+            <span className="text-[#10B981] font-bold">&uarr; 12.4%</span>
             <span className="text-[11px] text-[#94A3B8] font-medium">vs last 7 days</span>
           </div>
         </div>
@@ -293,7 +337,7 @@ export default function HomeDashboard({ onNavigate }) {
             </span>
           </div>
           <div className="text-xs font-semibold flex items-center gap-1.5">
-            <span className="bg-gradient-to-r from-[#067CF9] to-[#8B5CF6] bg-clip-text text-transparent font-bold">&uarr; 18.6%</span>
+            <span className="text-[#10B981] font-bold">&uarr; 18.6%</span>
             <span className="text-[11px] text-[#94A3B8] font-medium">reach</span>
           </div>
         </div>
@@ -309,7 +353,7 @@ export default function HomeDashboard({ onNavigate }) {
             </span>
           </div>
           <div className="text-xs font-semibold flex items-center gap-1.5">
-            <span className="bg-gradient-to-r from-[#067CF9] to-[#8B5CF6] bg-clip-text text-transparent font-bold">&uarr; 32.4%</span>
+            <span className="text-[#10B981] font-bold">&uarr; 32.4%</span>
             <span className="text-[11px] text-[#94A3B8] font-medium">sales</span>
           </div>
         </div>
@@ -325,7 +369,7 @@ export default function HomeDashboard({ onNavigate }) {
             </span>
           </div>
           <div className="text-xs font-semibold flex items-center gap-1.5">
-            <span className="bg-gradient-to-r from-[#067CF9] to-[#8B5CF6] bg-clip-text text-transparent font-bold">&uarr; 0.9%</span>
+            <span className="text-[#10B981] font-bold">&uarr; 0.9%</span>
             <span className="text-[11px] text-[#94A3B8] font-medium">vs last 7 days</span>
           </div>
         </div>
@@ -343,10 +387,44 @@ export default function HomeDashboard({ onNavigate }) {
               <p className="text-xs text-[#64748B]">Real-time reach, views and audience engagement.</p>
             </div>
 
-            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-[rgba(99,102,241,0.15)] bg-white/60 text-xs font-medium text-[#0F172A] cursor-pointer hover:bg-white transition-colors">
-              <Clock className="w-3.5 h-3.5 text-[#6366F1]" />
-              <span>Last 7 days</span>
-              <ChevronDown className="w-3.5 h-3.5 text-[#94A3B8]" />
+            <div className="relative">
+              <button
+                onClick={() => setIsTimeRangeDropdownOpen(!isTimeRangeDropdownOpen)}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-[rgba(99,102,241,0.15)] bg-white/60 text-xs font-medium text-[#0F172A] cursor-pointer hover:bg-white transition-colors shadow-2xs"
+              >
+                <Clock className="w-3.5 h-3.5 text-[#6366F1]" />
+                <span>
+                  {trendTimeRange === '7d' ? 'Last 7 days' : trendTimeRange === '14d' ? 'Last 14 days' : trendTimeRange === '30d' ? 'Last 30 days' : 'Last 90 days'}
+                </span>
+                <ChevronDown className={`w-3.5 h-3.5 text-[#94A3B8] transition-transform ${isTimeRangeDropdownOpen ? 'rotate-180' : ''}`} />
+              </button>
+
+              {isTimeRangeDropdownOpen && (
+                <div className="absolute right-0 top-9 w-40 bg-white border border-[rgba(99,102,241,0.18)] rounded-xl shadow-xl p-1.5 z-30 text-xs space-y-0.5">
+                  {[
+                    { id: '7d', label: 'Last 7 days' },
+                    { id: '14d', label: 'Last 14 days' },
+                    { id: '30d', label: 'Last 30 days' },
+                    { id: '90d', label: 'Last 90 days' }
+                  ].map(opt => (
+                    <button
+                      key={opt.id}
+                      onClick={() => {
+                        setTrendTimeRange(opt.id);
+                        setIsTimeRangeDropdownOpen(false);
+                      }}
+                      className={`w-full text-left px-2.5 py-1.5 rounded-lg transition-colors cursor-pointer flex items-center justify-between ${
+                        trendTimeRange === opt.id
+                          ? 'bg-[#EFF6FF] text-[#067CF9] font-bold'
+                          : 'text-[#334155] hover:bg-slate-50'
+                      }`}
+                    >
+                      <span>{opt.label}</span>
+                      {trendTimeRange === opt.id && <Check className="w-3.5 h-3.5 text-[#067CF9]" />}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
 
@@ -432,7 +510,11 @@ export default function HomeDashboard({ onNavigate }) {
                   <div className="px-2.5 py-1 rounded-lg bg-[#0F172A] text-white text-[11px] shadow-lg flex items-center gap-1.5 whitespace-nowrap border border-[rgba(99,102,241,0.3)]">
                     <span className="font-semibold">{stockPoints[activeHoverPoint].day}:</span>
                     <span className="bg-gradient-to-r from-[#067CF9] to-[#A855F7] bg-clip-text text-transparent font-bold">{stockPoints[activeHoverPoint].value}</span>
-                    <span className="text-[10px] text-neutral-300">({stockPoints[activeHoverPoint].change})</span>
+                    <span className={`text-[10px] font-bold ${
+                      (stockPoints[activeHoverPoint].change || '').startsWith('-') ? 'text-[#EF4444]' : 'text-[#10B981]'
+                    }`}>
+                      ({stockPoints[activeHoverPoint].change})
+                    </span>
                   </div>
                 </div>
               )}
@@ -480,7 +562,7 @@ export default function HomeDashboard({ onNavigate }) {
                 <div className="flex items-center gap-2">
                   <div className="text-right">
                     <div className="font-bold text-xs text-[#0F172A]">{activePage?.views7d || '102.9K'}</div>
-                    <div className="text-[10px] font-semibold bg-gradient-to-r from-[#067CF9] to-[#8B5CF6] bg-clip-text text-transparent">&uarr; 24%</div>
+                    <div className="text-[10px] font-semibold text-[#10B981]">&uarr; 24%</div>
                   </div>
                   <ChevronRight className="w-3.5 h-3.5 text-[#94A3B8] group-hover:translate-x-0.5 transition-transform" />
                 </div>
@@ -502,7 +584,7 @@ export default function HomeDashboard({ onNavigate }) {
                     <div className="font-bold text-xs text-[#0F172A]">
                       {activePage?.engagementRate ? `${Math.min(92, Math.round(parseFloat(activePage.engagementRate) * 14))}%` : '68.5%'}
                     </div>
-                    <div className="text-[10px] font-semibold bg-gradient-to-r from-[#067CF9] to-[#8B5CF6] bg-clip-text text-transparent">&uarr; 12%</div>
+                    <div className="text-[10px] font-semibold text-[#10B981]">&uarr; 12%</div>
                   </div>
                   <ChevronRight className="w-3.5 h-3.5 text-[#94A3B8] group-hover:translate-x-0.5 transition-transform" />
                 </div>
@@ -617,9 +699,43 @@ export default function HomeDashboard({ onNavigate }) {
             <p className="text-xs text-[#64748B]">Your best content from the last 30 days.</p>
           </div>
 
-          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-[rgba(99,102,241,0.15)] bg-white/60 text-xs font-medium text-[#0F172A] cursor-pointer hover:bg-white transition-colors">
-            <span>Sort by: Views</span>
-            <ChevronDown className="w-3.5 h-3.5 text-[#94A3B8]" />
+          <div className="relative">
+            <button
+              onClick={() => setIsSortDropdownOpen(!isSortDropdownOpen)}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-[rgba(99,102,241,0.15)] bg-white/60 text-xs font-medium text-[#0F172A] cursor-pointer hover:bg-white transition-colors shadow-2xs"
+            >
+              <span>
+                {reelsSortBy === 'views' ? 'Sort by: Views' : reelsSortBy === 'retention' ? 'Sort by: Retention' : reelsSortBy === 'shares' ? 'Sort by: Shares' : 'Sort by: Date'}
+              </span>
+              <ChevronDown className={`w-3.5 h-3.5 text-[#94A3B8] transition-transform ${isSortDropdownOpen ? 'rotate-180' : ''}`} />
+            </button>
+
+            {isSortDropdownOpen && (
+              <div className="absolute right-0 top-9 w-44 bg-white border border-[rgba(99,102,241,0.18)] rounded-xl shadow-xl p-1.5 z-30 text-xs space-y-0.5">
+                {[
+                  { id: 'views', label: 'Sort by: Views' },
+                  { id: 'retention', label: 'Sort by: Retention' },
+                  { id: 'shares', label: 'Sort by: Shares' },
+                  { id: 'date', label: 'Sort by: Date' }
+                ].map(opt => (
+                  <button
+                    key={opt.id}
+                    onClick={() => {
+                      setReelsSortBy(opt.id);
+                      setIsSortDropdownOpen(false);
+                    }}
+                    className={`w-full text-left px-2.5 py-1.5 rounded-lg transition-colors cursor-pointer flex items-center justify-between ${
+                      reelsSortBy === opt.id
+                        ? 'bg-[#EFF6FF] text-[#067CF9] font-bold'
+                        : 'text-[#334155] hover:bg-slate-50'
+                    }`}
+                  >
+                    <span>{opt.label}</span>
+                    {reelsSortBy === opt.id && <Check className="w-3.5 h-3.5 text-[#067CF9]" />}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
         </div>
 
@@ -649,7 +765,24 @@ export default function HomeDashboard({ onNavigate }) {
                 </tr>
               </thead>
               <tbody className="divide-y divide-[rgba(99,102,241,0.06)]">
-                {topReels.map((reel) => (
+                {[...topReels].sort((a, b) => {
+                  if (reelsSortBy === 'views') {
+                    const vA = parseInt((a.views || '0').replace(/[^0-9]/g, '')) || 0;
+                    const vB = parseInt((b.views || '0').replace(/[^0-9]/g, '')) || 0;
+                    return vB - vA;
+                  }
+                  if (reelsSortBy === 'retention') {
+                    const rA = parseInt((a.retention || '0').replace(/[^0-9]/g, '')) || 0;
+                    const rB = parseInt((b.retention || '0').replace(/[^0-9]/g, '')) || 0;
+                    return rB - rA;
+                  }
+                  if (reelsSortBy === 'shares') {
+                    const sA = parseInt((a.shares || '0').replace(/[^0-9]/g, '')) || 0;
+                    const sB = parseInt((b.shares || '0').replace(/[^0-9]/g, '')) || 0;
+                    return sB - sA;
+                  }
+                  return (b.id || 0) - (a.id || 0);
+                }).map((reel) => (
                   <tr key={reel.id} className="hover:bg-[#EFF6FF]/40 transition-colors group">
                     <td className="py-3 text-center text-[#94A3B8] font-medium">{reel.id}</td>
                     <td className="py-3">
@@ -678,9 +811,66 @@ export default function HomeDashboard({ onNavigate }) {
                           <Sparkles className="w-3 h-3 text-[#6366F1]" />
                           <span>AI Remix</span>
                         </button>
-                        <button className="p-1 rounded-lg hover:bg-neutral-100 text-[#94A3B8] cursor-pointer">
-                          <MoreHorizontal className="w-3.5 h-3.5" />
-                        </button>
+                        
+                        {/* 3-Dots Action Button & Dropdown */}
+                        <div className="relative">
+                          <button 
+                            onClick={() => setActiveMenuReelId(activeMenuReelId === reel.id ? null : reel.id)}
+                            className="p-1.5 rounded-lg hover:bg-neutral-100 text-[#94A3B8] hover:text-[#0F172A] cursor-pointer transition-colors"
+                            title="Reel options"
+                          >
+                            <MoreHorizontal className="w-3.5 h-3.5" />
+                          </button>
+
+                          {activeMenuReelId === reel.id && (
+                            <div className="absolute right-0 top-8 w-48 bg-white border border-[rgba(99,102,241,0.18)] rounded-xl shadow-xl p-1.5 z-30 text-xs space-y-0.5 text-left">
+                              <button
+                                onClick={() => {
+                                  const link = reel.permalink || `https://instagram.com/reel/${reel.id}`;
+                                  navigator.clipboard.writeText(link);
+                                  setCopiedLinkReelId(reel.id);
+                                  setTimeout(() => setCopiedLinkReelId(null), 2000);
+                                  setActiveMenuReelId(null);
+                                }}
+                                className="w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-slate-50 transition-colors cursor-pointer flex items-center gap-2 text-[#0F172A]"
+                              >
+                                {copiedLinkReelId === reel.id ? (
+                                  <>
+                                    <Check className="w-3.5 h-3.5 text-emerald-600" />
+                                    <span className="text-emerald-700 font-semibold">Link Copied!</span>
+                                  </>
+                                ) : (
+                                  <>
+                                    <Copy className="w-3.5 h-3.5 text-slate-500" />
+                                    <span>Copy Reel Link</span>
+                                  </>
+                                )}
+                              </button>
+
+                              <button
+                                onClick={() => {
+                                  setActiveMenuReelId(null);
+                                  onNavigate('assistant');
+                                }}
+                                className="w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-blue-50 text-[#067CF9] font-medium transition-colors cursor-pointer flex items-center gap-2"
+                              >
+                                <Sparkles className="w-3.5 h-3.5" />
+                                <span>AI Script Breakdown</span>
+                              </button>
+
+                              <button
+                                onClick={() => {
+                                  setActiveMenuReelId(null);
+                                  onNavigate('discover_create');
+                                }}
+                                className="w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-slate-50 text-[#334155] transition-colors cursor-pointer flex items-center gap-2"
+                              >
+                                <Zap className="w-3.5 h-3.5 text-amber-500" />
+                                <span>Generate Hook Remix</span>
+                              </button>
+                            </div>
+                          )}
+                        </div>
                       </div>
                     </td>
                   </tr>
@@ -725,6 +915,47 @@ export default function HomeDashboard({ onNavigate }) {
             style={{ width: `${(completedCount / checklist.length) * 100}%` }}
           />
         </div>
+
+        {/* Milestone Celebration Banner with Confetti Effect */}
+        {completedCount === checklist.length && (
+          <div className="relative overflow-hidden p-4 rounded-2xl bg-gradient-to-r from-emerald-50 via-teal-50 to-indigo-50 border border-emerald-200 shadow-md">
+            {/* Confetti Particles */}
+            <div className="absolute inset-0 pointer-events-none overflow-hidden">
+              {[...Array(20)].map((_, idx) => (
+                <span
+                  key={idx}
+                  className="absolute rounded-full animate-pulse"
+                  style={{
+                    top: `${(idx * 19) % 85}%`,
+                    left: `${(idx * 23) % 95}%`,
+                    width: `${(idx % 3) * 3 + 5}px`,
+                    height: `${(idx % 3) * 3 + 5}px`,
+                    backgroundColor: ['#10B981', '#6366F1', '#EC4899', '#F59E0B', '#067CF9', '#8B5CF6'][idx % 6],
+                    opacity: 0.85
+                  }}
+                />
+              ))}
+            </div>
+            <div className="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-emerald-500 text-white flex items-center justify-center font-extrabold text-xl shadow-lg shadow-emerald-500/30">
+                  🎉
+                </div>
+                <div>
+                  <h4 className="font-extrabold text-emerald-950 text-sm">
+                    100% Milestones Completed! Full Growth Engine Activated
+                  </h4>
+                  <p className="text-xs text-emerald-700 mt-0.5">
+                    All setup goals unlocked. Meta Graph ingestion, link-in-bio storefront, and viral hooks are synchronized.
+                  </p>
+                </div>
+              </div>
+              <span className="px-3 py-1 rounded-xl bg-emerald-600 text-white text-xs font-bold shadow-xs whitespace-nowrap self-start sm:self-auto">
+                ✦ Master Creator Status
+              </span>
+            </div>
+          </div>
+        )}
 
         {/* 4 Checklist Cards in a Responsive Row */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 pt-1">

@@ -470,6 +470,22 @@ export function AuthProvider({ children }) {
     return true;
   };
 
+  const addBonusCredits = (amount = 5) => {
+    setAiCredits(prev => ({
+      ...prev,
+      usedToday: Math.max(0, prev.usedToday - amount)
+    }));
+    return true;
+  };
+
+  const refreshCredits = () => {
+    setAiCredits(prev => ({
+      ...prev,
+      usedToday: 0
+    }));
+    return true;
+  };
+
   const sendVerificationLink = async () => {
     if (auth.currentUser) {
       try {
@@ -562,6 +578,8 @@ export function AuthProvider({ children }) {
       deleteAccount,
       updateTier,
       consumeCredit,
+      addBonusCredits,
+      refreshCredits,
       completeOnboarding,
       resetOnboarding,
       loginAsDemo

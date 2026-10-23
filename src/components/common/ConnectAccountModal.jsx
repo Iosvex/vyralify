@@ -36,7 +36,7 @@ const NICHES = [
 ];
 
 export default function ConnectAccountModal({ isOpen, onClose }) {
-  const { addPage, canAddMorePages, getPageLimit, pages } = usePage();
+  const { addPage, switchPage, canAddMorePages, getPageLimit, pages } = usePage();
   const { tier } = useAuth();
   const { openUpgradeModal } = usePlanGating();
   const { addNotification } = useNotifications();
@@ -66,6 +66,20 @@ export default function ConnectAccountModal({ isOpen, onClose }) {
     }
 
     const cleanHandle = (customHandle || handle || 'creator').replace('@', '').trim();
+
+    const existing = pages.find(p => p.handle.toLowerCase() === cleanHandle.toLowerCase());
+    if (existing) {
+      switchPage(existing.id);
+      addNotification({
+        title: 'Account Switched',
+        message: `Switched to active account @${cleanHandle}.`,
+        type: 'info'
+      });
+      setHandle('');
+      onClose();
+      return;
+    }
+
     setIsConnecting(true);
     setConnectingMode('meta');
 

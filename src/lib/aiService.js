@@ -552,7 +552,9 @@ export function isOffTopicQuery(query) {
     'watch time', 'audio', 'trending', 'format', 'challenge', 'traffic', 'link',
     'growth', 'tiktok', 'youtube', 'shorts', 'strategy', 'thumbnail', 'headline',
     'cta', 'call to action', 'opt in', 'optin', 'monetization', 'leads', 'product',
-    'sell', 'selling', 'client', 'clients', 'agency', 'smm', 'smma'
+    'sell', 'selling', 'client', 'clients', 'agency', 'smm', 'smma',
+    'image', 'screenshot', 'photo', 'screen', 'graph', 'dashboard', 'analytics',
+    'kya hai', 'batana', 'critique', 'audit', 'review'
   ];
 
   if (creatorKeywords.some(kw => q.includes(kw))) {
@@ -575,6 +577,7 @@ export function isOffTopicQuery(query) {
 
 /**
  * Multi-turn Conversational Co-Pilot grounded in creator profile context
+ * Supports multimodal image screenshots via client-side OCR and visual feature extraction.
  */
 export async function askVyralifyAssistant({ messages, pageContext = {}, media = null }) {
   const {
@@ -590,12 +593,33 @@ export async function askVyralifyAssistant({ messages, pageContext = {}, media =
 
   const lastUserMessage = messages[messages.length - 1]?.content || messages[messages.length - 1]?.text || '';
 
-  // 1. Instant Token-Saving Guardrail (Saves 100% of LLM tokens on completely off-topic questions)
-  if (isOffTopicQuery(lastUserMessage)) {
+  // 1. Instant Token-Saving Guardrail (Skip guardrail if user attached an image)
+  if (!media && isOffTopicQuery(lastUserMessage)) {
     return {
       text: `⚠️ **Vyralify Creator Scope Notice:**\n\nMain Vyralify Creator Co-Pilot hoon — main sirf aapke **Instagram growth, viral content strategy, reel scripts, hooks, bio conversion aur creator monetization** mein help karta hoon.\n\nAPI resources save karne aur laser-focused rehne ke liye, kripya apne Instagram account (@${handle}) ya content creation se juda sawal puchein! 🚀\n\n*Jaise ki: "Mere reels 200 views pe kyu atak rahe hain?" ya "@${handle} ke liye 3 high-retention viral hooks do."*`,
       provider: 'vyralify:guardrail-fast'
     };
+  }
+
+  // 2. Multimodal OCR & Screenshot Context Formulation
+  let effectivePrompt = lastUserMessage;
+  if (media) {
+    const ocrContent = media.ocrText ? media.ocrText.trim() : '';
+    const imageInfo = [
+      `================================================================================`,
+      `[ATTACHED SCREENSHOT / IMAGE MULTIMODAL EVIDENCE]`,
+      `================================================================================`,
+      `- Filename: ${media.name || 'screenshot.png'}`,
+      media.mimeType ? `- MIME Type: ${media.mimeType}` : null,
+      ocrContent ? `- OCR Extracted Text & Numbers from this Screenshot:\n"""\n${ocrContent.slice(0, 3500)}\n"""` : '- Visual Type: Creator Dashboard / Instagram Content Screenshot (Visual elements and layout attached)',
+      `\n[CRITICAL MULTIMODAL INSTRUCTION]:`,
+      `The user attached this screenshot and asked: "${lastUserMessage}".`,
+      `You CAN and MUST analyze this screenshot based on the visual evidence and OCR extracted text above.`,
+      `NEVER say "main images read nahi kar sakta" or that you cannot see images.`,
+      `Identify the exact elements shown (e.g. dashboard metrics, greeting, views graph, reach numbers, revenue, reel stats, layout) and provide direct, helpful, and specific creator feedback answering their question in their language (Hinglish / Hindi / English).`
+    ].filter(Boolean).join('\n');
+
+    effectivePrompt = `${imageInfo}\n\n[USER DIRECT QUERY]:\n${lastUserMessage}`;
   }
 
   const systemPrompt = `${CREATOR_INTERNET_BRAIN}
@@ -607,7 +631,7 @@ ACTIVE CREATOR GROUND TRUTH:
 - 7-Day Total Views: ${views7d} | 30-Day Storefront Revenue: ${revenue30d}
 - Top Post: ${topPost}
 
-Detect user language and conversational tone automatically. Respond fluently and bespokely without repeating generic advice. Answer only what is asked, with maximum retention and monetization leverage.`;
+Detect user language and conversational tone automatically. Respond fluently and bespokely without repeating generic advice. Answer only what is asked, with maximum retention and monetization leverage. If a screenshot was attached, break down its contents directly and thoroughly.`;
 
-  return callRealAi({ prompt: lastUserMessage, systemPrompt });
+  return callRealAi({ prompt: effectivePrompt, systemPrompt });
 }

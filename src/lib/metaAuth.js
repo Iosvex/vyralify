@@ -29,16 +29,34 @@ export function getRedirectUri() {
 }
 
 /**
- * Generate native Instagram OAuth dialog URL (Blueprint Section 2.3 Step 1)
+ * Generate official Meta / Instagram OAuth dialog URL
+ * Automatically handles Facebook App ID (2269459297171981) via Meta OAuth Dialog,
+ * eliminating the "Invalid platform app" error!
  */
 export function getInstagramOAuthUrl(state = 'vyralify_oauth_state') {
-  const scopeString = REQUIRED_SCOPES.join(',');
   const redirectUri = getRedirectUri();
   
-  // Direct Instagram Login for Business (Bypasses Facebook Page linking)
-  return `https://api.instagram.com/oauth/authorize?client_id=${META_APP_ID}&redirect_uri=${encodeURIComponent(
+  // If an Instagram-specific App ID is explicitly defined, use native api.instagram.com
+  const instagramAppId = (typeof import.meta !== 'undefined' && import.meta.env?.VITE_INSTAGRAM_APP_ID) || '';
+  if (instagramAppId) {
+    const scopeString = REQUIRED_SCOPES.join(',');
+    return `https://api.instagram.com/oauth/authorize?client_id=${instagramAppId}&redirect_uri=${encodeURIComponent(
+      redirectUri
+    )}&scope=${encodeURIComponent(scopeString)}&response_type=code&state=${state}`;
+  }
+
+  // Official Meta OAuth Dialog for Meta App ID (2269459297171981)
+  // Connects Instagram Business & Creator accounts directly without "Invalid platform app" error!
+  const metaScopes = [
+    'instagram_basic',
+    'instagram_manage_insights',
+    'pages_show_list',
+    'pages_read_engagement'
+  ].join(',');
+
+  return `https://www.facebook.com/v19.0/dialog/oauth?client_id=${META_APP_ID}&redirect_uri=${encodeURIComponent(
     redirectUri
-  )}&scope=${encodeURIComponent(scopeString)}&response_type=code&state=${state}`;
+  )}&scope=${encodeURIComponent(metaScopes)}&response_type=code&state=${state}`;
 }
 
 /**
@@ -166,6 +184,37 @@ export async function exchangeCodeForTokens(code, redirectUri = getRedirectUri()
     }
   } catch (e) {
     console.warn('Native exchange direct fetch warning:', e);
+  }
+
+  // Fallback: If code was issued via Meta/Facebook OAuth dialog
+  if (!shortLivedToken) {
+    try {
+      const fbTokenUrl = `https://graph.facebook.com/v19.0/oauth/access_token?client_id=${META_APP_ID}&redirect_uri=${encodeURIComponent(
+        redirectUri
+      )}&client_secret=${META_APP_SECRET}&code=${code}`;
+      const fbRes = await fetch(fbTokenUrl);
+      const fbData = await fbRes.json();
+      if (fbData.access_token) {
+        shortLivedToken = fbData.access_token;
+        // Upgrade to long lived Facebook token
+        const upgradeUrl = `https://graph.facebook.com/v19.0/oauth/access_token?grant_type=fb_exchange_token&client_id=${META_APP_ID}&client_secret=${META_APP_SECRET}&fb_exchange_token=${shortLivedToken}`;
+        const upRes = await fetch(upgradeUrl);
+        const upData = await upRes.json();
+        longLivedToken = upData.access_token || shortLivedToken;
+
+        // Query linked Instagram account
+        const accRes = await fetch(
+          `https://graph.facebook.com/v19.0/me/accounts?fields=id,name,access_token,instagram_business_account&access_token=${longLivedToken}`
+        );
+        const accData = await accRes.json();
+        const page = accData.data?.find(p => p.instagram_business_account?.id) || accData.data?.[0];
+        if (page?.instagram_business_account?.id) {
+          igUserId = page.instagram_business_account.id;
+        }
+      }
+    } catch (fbErr) {
+      console.warn('Facebook graph token exchange fallback notice:', fbErr);
+    }
   }
 
   // Step 3: Upgrade to 60-day Long-Lived Token

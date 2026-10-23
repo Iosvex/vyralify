@@ -149,6 +149,17 @@ export default async function handler(req, res) {
       console.warn('Profile node fetch notice:', e.message);
     }
 
+    if (!profileData && instagramUserId) {
+      try {
+        const fbProfileUrl = `https://graph.facebook.com/v19.0/${instagramUserId}?fields=id,username,name,profile_picture_url,followers_count,follows_count,media_count,biography&access_token=${longLivedToken}`;
+        const pRes2 = await fetch(fbProfileUrl);
+        const pJson2 = await pRes2.json();
+        if (!pJson2.error) {
+          profileData = pJson2;
+        }
+      } catch (e2) {}
+    }
+
     // B. Reels Media Performance Node Specification
     try {
       const mediaUrl = `https://graph.instagram.com/v19.0/me/media?fields=id,caption,media_type,media_url,permalink,thumbnail_url,timestamp,like_count,comments_count,insights.metric(plays,reach,saved,shares,total_interactions)&access_token=${longLivedToken}`;
@@ -188,6 +199,31 @@ export default async function handler(req, res) {
       }
     } catch (e) {
       console.warn('Reels performance node fetch notice:', e.message);
+    }
+
+    if (reelsData.length === 0 && instagramUserId) {
+      try {
+        const fbMediaUrl = `https://graph.facebook.com/v19.0/${instagramUserId}/media?fields=id,caption,media_type,media_url,permalink,thumbnail_url,timestamp,like_count,comments_count,insights.metric(impressions,reach,saved,plays,total_interactions)&access_token=${longLivedToken}&limit=20`;
+        const mRes2 = await fetch(fbMediaUrl);
+        const mJson2 = await mRes2.json();
+        if (mJson2.data && Array.isArray(mJson2.data)) {
+          reelsData = mJson2.data.map((item) => ({
+            id: item.id,
+            caption: item.caption || '',
+            mediaType: item.media_type,
+            mediaUrl: item.media_url || item.thumbnail_url || '',
+            permalink: item.permalink,
+            publishedAt: item.timestamp,
+            playsCount: item.insights?.data?.find((m) => m.name === 'plays')?.values?.[0]?.value || item.insights?.data?.find((m) => m.name === 'impressions')?.values?.[0]?.value || 0,
+            reachCount: item.insights?.data?.find((m) => m.name === 'reach')?.values?.[0]?.value || 0,
+            savedCount: item.insights?.data?.find((m) => m.name === 'saved')?.values?.[0]?.value || 0,
+            sharesCount: item.insights?.data?.find((m) => m.name === 'total_interactions')?.values?.[0]?.value || 0,
+            likesCount: item.like_count || 0,
+            commentsCount: item.comments_count || 0,
+            viralityScore: 8.5
+          }));
+        }
+      } catch (e3) {}
     }
 
     // C. Audience Demographics & Online Followers Matrix Node Specification

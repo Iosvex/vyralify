@@ -50,12 +50,6 @@ export default function HomeDashboard({ onNavigate }) {
   const [activeMenuReelId, setActiveMenuReelId] = useState(null);
   const [copiedLinkReelId, setCopiedLinkReelId] = useState(null);
 
-  // Edit Profile Modal State
-  const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
-  const [editHandle, setEditHandle] = useState('');
-  const [editFollowers, setEditFollowers] = useState('');
-  const [editCategory, setEditCategory] = useState('Tech & AI');
-  const [editBio, setEditBio] = useState('');
 
   // 100% Real Store Revenue & Order Count
   const realStoreOrders = (() => {
@@ -110,31 +104,6 @@ export default function HomeDashboard({ onNavigate }) {
         : 'All core creator assets active'
     };
   })();
-
-  const handleOpenEditProfile = () => {
-    setEditHandle(activePage?.handle || '1vexw');
-    setEditFollowers(activePage?.followersCount || '0');
-    setEditCategory(activePage?.category || 'Tech & AI');
-    setEditBio(activePage?.bio || '');
-    setIsEditProfileOpen(true);
-  };
-
-  const handleSaveRealProfile = (e) => {
-    e.preventDefault();
-    if (!activePage?.id) return;
-    const cleanH = editHandle.replace(/^@/, '').trim().toLowerCase();
-    const cleanF = editFollowers.trim() || '0';
-    const numF = parseInt(cleanF.replace(/[^0-9]/g, ''), 10) || 0;
-    updatePage(activePage.id, {
-      handle: cleanH,
-      displayName: `@${cleanH}`,
-      followersCount: cleanF,
-      followersNumeric: numF,
-      category: editCategory,
-      bio: editBio
-    });
-    setIsEditProfileOpen(false);
-  };
 
   // Personalized name from user or active account
   const displayName = user?.displayName 
@@ -340,15 +309,6 @@ export default function HomeDashboard({ onNavigate }) {
             </div>
           </div>
 
-          {/* Quick Edit Profile Handle & Stats Button */}
-          <button
-            onClick={handleOpenEditProfile}
-            className="p-2 rounded-xl bg-white/80 hover:bg-white border border-[rgba(99,102,241,0.2)] text-[#64748B] hover:text-[#067CF9] cursor-pointer transition-colors shadow-xs"
-            title="Edit Instagram Handle, Real Followers & Bio"
-          >
-            <Edit2 className="w-3.5 h-3.5" />
-          </button>
-
           {/* Quick Account Switcher dropdown if multiple accounts */}
           {pages.length > 1 && (
             <div className="relative">
@@ -410,18 +370,9 @@ export default function HomeDashboard({ onNavigate }) {
         {/* KPI 1: Followers */}
         <div className="bg-white/75 backdrop-blur-xl border border-white/80 rounded-2xl p-5 shadow-[0_8px_30px_rgba(6,124,249,0.04)] ring-1 ring-[rgba(99,102,241,0.12)] hover:ring-[rgba(99,102,241,0.28)] transition-all flex flex-col justify-between">
           <div>
-            <div className="flex items-center justify-between">
-              <span className="text-[11px] font-bold tracking-wider text-[#64748B] uppercase block">
-                Followers
-              </span>
-              <button 
-                onClick={handleOpenEditProfile}
-                className="text-[10px] text-[#067CF9] hover:underline font-semibold flex items-center gap-0.5"
-              >
-                <Edit2 className="w-2.5 h-2.5" />
-                <span>Edit</span>
-              </button>
-            </div>
+            <span className="text-[11px] font-bold tracking-wider text-[#64748B] uppercase block">
+              Followers
+            </span>
             <span className="text-2xl sm:text-3xl font-extrabold text-[#0F172A] tracking-tight block my-1.5">
               {activePage.followersCount || '0'}
             </span>
@@ -1113,101 +1064,6 @@ export default function HomeDashboard({ onNavigate }) {
           ))}
         </div>
       </div>
-
-      {/* Edit Real Profile Modal */}
-      {isEditProfileOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="relative w-full max-w-md bg-white/95 backdrop-blur-2xl border border-white/80 rounded-3xl p-6 shadow-2xl space-y-5">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-              <div>
-                <h3 className="text-base font-bold text-[#0F172A]">Edit Real Profile &amp; Stats</h3>
-                <p className="text-xs text-[#64748B]">Set your live Instagram handle and exact followers</p>
-              </div>
-              <button
-                onClick={() => setIsEditProfileOpen(false)}
-                className="p-1.5 rounded-xl hover:bg-slate-100 text-[#64748B] transition-colors"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            </div>
-
-            <form onSubmit={handleSaveRealProfile} className="space-y-4">
-              <div>
-                <label className="text-xs font-semibold text-[#0F172A] block mb-1">
-                  Instagram Handle
-                </label>
-                <div className="relative">
-                  <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-sm font-semibold text-[#64748B]">@</span>
-                  <input
-                    type="text"
-                    required
-                    value={editHandle}
-                    onChange={(e) => setEditHandle(e.target.value.replace(/^@/, ''))}
-                    placeholder="1vexw"
-                    className="w-full pl-8 pr-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-sm font-semibold text-[#0F172A] focus:outline-none focus:ring-2 focus:ring-[#067CF9]/30 focus:border-[#067CF9]"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="text-xs font-semibold text-[#0F172A] block mb-1">
-                  Exact Follower Count
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={editFollowers}
-                  onChange={(e) => setEditFollowers(e.target.value)}
-                  placeholder="e.g. 24,500 or 142"
-                  className="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-sm font-semibold text-[#0F172A] focus:outline-none focus:ring-2 focus:ring-[#067CF9]/30 focus:border-[#067CF9]"
-                />
-              </div>
-
-              <div>
-                <label className="text-xs font-semibold text-[#0F172A] block mb-1">
-                  Creator Niche / Category
-                </label>
-                <input
-                  type="text"
-                  value={editCategory}
-                  onChange={(e) => setEditCategory(e.target.value)}
-                  placeholder="e.g. AI &amp; Tech, Business, Lifestyle"
-                  className="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-sm text-[#0F172A] focus:outline-none focus:ring-2 focus:ring-[#067CF9]/30 focus:border-[#067CF9]"
-                />
-              </div>
-
-              <div>
-                <label className="text-xs font-semibold text-[#0F172A] block mb-1">
-                  Bio Proposition
-                </label>
-                <textarea
-                  rows={2}
-                  value={editBio}
-                  onChange={(e) => setEditBio(e.target.value)}
-                  placeholder="Building in public | AI &amp; Creator workflows"
-                  className="w-full px-4 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs text-[#0F172A] focus:outline-none focus:ring-2 focus:ring-[#067CF9]/30 focus:border-[#067CF9]"
-                />
-              </div>
-
-              <div className="flex items-center gap-3 pt-2">
-                <button
-                  type="button"
-                  onClick={() => setIsEditProfileOpen(false)}
-                  className="flex-1 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-xs font-semibold text-[#64748B] transition-colors"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="flex-1 py-2.5 rounded-xl bg-[#067CF9] hover:bg-[#0063D1] text-white text-xs font-bold transition-all shadow-md shadow-[#067CF9]/20"
-                >
-                  Save Profile
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
 
       {/* Connect Account Modal */}
       <ConnectAccountModal

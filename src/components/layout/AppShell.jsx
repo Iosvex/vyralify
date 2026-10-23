@@ -81,11 +81,7 @@ export default function AppShell({ activeModule, onSelectModule, onNavigateLandi
 
   const handleConnectPageClick = () => {
     setIsPageDropdownOpen(false);
-    if (!canAddMorePages()) {
-      openUpgradeModal('multi_page', `You've reached your ${tier.toUpperCase()} plan limit of ${getPageLimit()} page(s). Upgrade to add more accounts.`);
-    } else {
-      setIsConnectModalOpen(true);
-    }
+    setIsConnectModalOpen(true);
   };
 
   const [recentChats, setRecentChats] = useState(() => {

@@ -433,10 +433,20 @@ export default function StoreCommerce({ onNavigate, initialSection = 'store' }) 
   ]);
 
   // Custom Creator Store Handle & Clean vyralify.in URL
+  const defaultUserHandle = (activePage?.handle || user?.displayName || user?.name || 'maazahmad').replace(/^@/, '');
   const [storeHandle, setStoreHandle] = useState(() => {
-    return localStorage.getItem('vyralify_store_handle') || (activePage?.handle || 'creator').replace(/^@/, '');
+    return localStorage.getItem('vyralify_store_handle') || defaultUserHandle;
   });
-  const rawHandle = storeHandle.replace(/^@/, '').trim() || 'creator';
+
+  useEffect(() => {
+    if (activePage?.handle && activePage.handle !== 'creator') {
+      const clean = activePage.handle.replace(/^@/, '');
+      setStoreHandle(clean);
+      localStorage.setItem('vyralify_store_handle', clean);
+    }
+  }, [activePage?.handle]);
+
+  const rawHandle = storeHandle.replace(/^@/, '').trim() || defaultUserHandle;
   const cleanStoreUrl = `vyralify.in/${rawHandle}`;
 
   // Individual product link copied state

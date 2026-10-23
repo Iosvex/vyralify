@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   Search, 
@@ -11,6 +11,7 @@ import {
   Copy, 
   Check, 
   Play, 
+  Pause,
   Clock, 
   Eye, 
   Filter, 
@@ -29,7 +30,8 @@ import {
   Layers,
   CheckCircle2,
   Compass,
-  PenTool
+  PenTool,
+  X
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { usePage } from '../../context/PageContext';
@@ -187,6 +189,142 @@ const INITIAL_VIRAL_POSTS = [
     duration: '8 Slides',
     thumbnail: 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=600&auto=format&fit=crop&q=80',
     breakdown: 'Slow-motion biomechanical overlay with freeze frames at foot strike.'
+  },
+  {
+    id: 'post_9',
+    niche: 'Business & Money',
+    creator: '@saas.builder',
+    views: '2.9M',
+    engagement: '97%',
+    saves: '210K',
+    shares: '98K',
+    format: 'Reels',
+    retentionScore: '97%',
+    hookType: 'Curiosity',
+    hookText: 'The $0 SaaS tech stack solo founders secretly use to make $20K/month in 2026:',
+    audioTrack: 'Minimalist Tech House Groove',
+    duration: '26s',
+    thumbnail: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&auto=format&fit=crop&q=80',
+    breakdown: 'Screen recording shows free tools with text arrows pointing out the exact workflow.'
+  },
+  {
+    id: 'post_10',
+    niche: 'Self-Improvement',
+    creator: '@deepwork.lab',
+    views: '3.1M',
+    engagement: '98%',
+    saves: '280K',
+    shares: '140K',
+    format: 'Reels',
+    retentionScore: '98%',
+    hookType: 'Contrarian',
+    hookText: 'Why top CEOs never use to-do lists (and the 1 calendar rule they use instead):',
+    audioTrack: 'Dark Cinematic Ambient (Trending #1)',
+    duration: '35s',
+    thumbnail: 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=600&auto=format&fit=crop&q=80',
+    breakdown: 'Whiteboard demonstration of time-boxing quadrant. Massive saves from office workers.'
+  },
+  {
+    id: 'post_11',
+    niche: 'Health & Fitness',
+    creator: '@core.biomechanics',
+    views: '1.8M',
+    engagement: '94%',
+    saves: '160K',
+    shares: '58K',
+    format: 'Reels',
+    retentionScore: '94%',
+    hookType: 'Mistake / Pain',
+    hookText: 'Stop doing 100 crunches. Here is the 2-minute anti-rotation drill that actually builds a bulletproof core:',
+    audioTrack: 'Deep Bass Drop Impact',
+    duration: '22s',
+    thumbnail: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600&auto=format&fit=crop&q=80',
+    breakdown: 'Side-by-side spine comparison graphic showing compression vs stabilization.'
+  },
+  {
+    id: 'post_12',
+    niche: 'Cars & Automotive',
+    creator: '@f1.telemetry',
+    views: '3.8M',
+    engagement: '96%',
+    saves: '190K',
+    shares: '125K',
+    format: 'Reels',
+    retentionScore: '96%',
+    hookType: 'Proof / Breakdown',
+    hookText: 'Why Formula 1 telemetry engineers obsess over tire thermals rather than pure horsepower:',
+    audioTrack: 'Twin Turbo Exhaust Roar',
+    duration: '38s',
+    thumbnail: 'https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=600&auto=format&fit=crop&q=80',
+    breakdown: 'Infrared thermal camera footage synchronized with track speed graph.'
+  },
+  {
+    id: 'post_13',
+    niche: 'Fashion & Beauty',
+    creator: '@aesthetic.rules',
+    views: '2.2M',
+    engagement: '93%',
+    saves: '145K',
+    shares: '72K',
+    format: 'Carousels',
+    retentionScore: '93%',
+    hookType: 'Contrarian',
+    hookText: 'The 3 color theory rules that instantly make a $30 outfit look like $3,000:',
+    audioTrack: 'French Bistro Chill',
+    duration: '6 Slides',
+    thumbnail: 'https://images.unsplash.com/photo-1445205170230-053b83016050?w=600&auto=format&fit=crop&q=80',
+    breakdown: 'High-contrast split palettes with monochromatic anchor guides.'
+  },
+  {
+    id: 'post_14',
+    niche: 'Travel & Lifestyle',
+    creator: '@flight.hacks',
+    views: '4.5M',
+    engagement: '99%',
+    saves: '410K',
+    shares: '230K',
+    format: 'Reels',
+    retentionScore: '99%',
+    hookType: 'Curiosity',
+    hookText: '3 hidden flight booking loopholes Google Flights doesn’t show you on mobile:',
+    audioTrack: 'Ambient Lo-Fi Chill Beats #4',
+    duration: '31s',
+    thumbnail: 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=600&auto=format&fit=crop&q=80',
+    breakdown: 'Live screen recording tapping multi-city matrix and currency conversion hack.'
+  },
+  {
+    id: 'post_15',
+    niche: 'Entertainment',
+    creator: '@cinema.deconstruct',
+    views: '2.7M',
+    engagement: '97%',
+    saves: '175K',
+    shares: '88K',
+    format: 'Reels',
+    retentionScore: '97%',
+    hookType: 'Proof / Breakdown',
+    hookText: 'How Christopher Nolan directs unbearable tension in Dunkirk without using background music:',
+    audioTrack: 'Sub-bass Shepards Tone',
+    duration: '39s',
+    thumbnail: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=600&auto=format&fit=crop&q=80',
+    breakdown: 'Audio frequency visualizer reveals rising Shepard tone disguised as ticking watch.'
+  },
+  {
+    id: 'post_16',
+    niche: 'Sports',
+    creator: '@recovery.science',
+    views: '1.9M',
+    engagement: '94%',
+    saves: '130K',
+    shares: '60K',
+    format: 'Reels',
+    retentionScore: '94%',
+    hookType: 'Curiosity',
+    hookText: 'The exact 20-minute protocol NBA trainers mandate immediately after the final whistle:',
+    audioTrack: 'Stadium Roar & Sub Boom',
+    duration: '27s',
+    thumbnail: 'https://images.unsplash.com/photo-1546519638-68e109498ffc?w=600&auto=format&fit=crop&q=80',
+    breakdown: 'Chronological timeline of hydration, cold plunge, and lymphatic elevation.'
   }
 ];
 
@@ -278,6 +416,8 @@ export default function DiscoverCreate({ onNavigate, initialTab = 'discover' }) 
   const [generatedScript, setGeneratedScript] = useState(null);
   const [isGeneratingScript, setIsGeneratingScript] = useState(false);
   const [isCopiedScript, setIsCopiedScript] = useState(false);
+  const [attachedAudio, setAttachedAudio] = useState(null);
+  const [playingAudioId, setPlayingAudioId] = useState(null);
 
   // Create Section State: 30-Day Content Planner
   const [calendarSchedule, setCalendarSchedule] = useState([
@@ -326,13 +466,10 @@ export default function DiscoverCreate({ onNavigate, initialTab = 'discover' }) 
   };
 
   // 2. Generate Full Reel Script via AI
-  const handleGenerateScript = async (presetTopic = null) => {
+  const handleGenerateScript = async (presetTopic = null, presetHookType = null) => {
     const topicToUse = presetTopic || scriptTopic || `How to win in ${selectedNiche === 'All Niches' ? (activePage?.category || 'Creator Growth') : selectedNiche}`;
-    const canUse = consumeCredit(1);
-    if (!canUse) {
-      openUpgradeModal('ai_credits', 'You have hit your daily AI credit limit. Upgrade to Pro for 300 daily generations.');
-      return;
-    }
+    const hookTypeToUse = presetHookType || scriptHookType;
+    consumeCredit(1);
 
     setIsGeneratingScript(true);
     try {
@@ -340,17 +477,22 @@ export default function DiscoverCreate({ onNavigate, initialTab = 'discover' }) 
         niche: selectedNiche === 'All Niches' ? (activePage?.category || 'Business & Money') : selectedNiche,
         subNiche: activePage?.subNiche,
         topic: topicToUse,
-        hookType: scriptHookType,
+        hookType: hookTypeToUse,
         targetGoal: scriptGoal
       });
       setGeneratedScript(script);
       addNotification({
         title: 'Script Engineered',
-        message: 'Full retention-optimized Reel script generated with scenes and CTA.',
+        message: `High-retention script engineered for "${topicToUse.slice(0, 32)}...".`,
         type: 'success'
       });
     } catch (err) {
       console.warn('Script generation error:', err);
+      addNotification({
+        title: 'Script Generation Issue',
+        message: 'Could not generate AI script. Please try again.',
+        type: 'error'
+      });
     } finally {
       setIsGeneratingScript(false);
     }
@@ -383,29 +525,19 @@ export default function DiscoverCreate({ onNavigate, initialTab = 'discover' }) 
     });
   };
 
-  // 4. Auto-Fill 30-Day Plan with AI
+  // 4. Auto-Fill 30-Day Plan with AI (Populates all 30 days)
   const handleAutoFill30Days = async () => {
-    const daysToGenerate = tier === 'free' ? 7 : 30;
-    if (tier === 'free' && calendarSchedule.length >= 7) {
-      openUpgradeModal(
-        'content_planner',
-        'Free plan includes 7 planned days. Upgrade to Pro for unlimited 30-day automated calendars.'
-      );
-      return;
-    }
-
-    const canUse = consumeCredit(2);
-    if (!canUse) {
-      openUpgradeModal('ai_credits', 'Auto-generating 30-day plan requires 2 credits.');
-      return;
-    }
+    const daysToGenerate = 30;
+    consumeCredit(2);
 
     setIsAutoFillingCalendar(true);
     try {
       const aiSchedule = await generateAi30DayPlan({
         niche: selectedNiche === 'All Niches' ? (activePage?.category || 'Business & Money') : selectedNiche,
+        subNiche: activePage?.subNiche,
         goal: scriptGoal,
-        days: daysToGenerate
+        days: daysToGenerate,
+        daysCount: daysToGenerate
       });
 
       const formatted = aiSchedule.map((item, idx) => ({
@@ -421,7 +553,7 @@ export default function DiscoverCreate({ onNavigate, initialTab = 'discover' }) 
       setCalendarSchedule(formatted);
       addNotification({
         title: '30-Day Plan Engineered',
-        message: `Successfully populated ${daysToGenerate}-day strategic viral calendar.`,
+        message: `Successfully populated all 30 days of strategic viral content.`,
         type: 'success'
       });
     } catch (err) {
@@ -431,31 +563,40 @@ export default function DiscoverCreate({ onNavigate, initialTab = 'discover' }) 
     }
   };
 
-  // 5. Add Competitor
+  // 5. Add Competitor with Dynamic Intelligence
   const handleAddCompetitor = () => {
     if (!newCompetitorInput.trim()) return;
 
-    const currentCount = competitors.length;
-    if (tier === 'free' && currentCount >= 1) {
-      openUpgradeModal(
-        'competitor_tracking',
-        'Free plan includes 1 competitor slot. Upgrade to Pro to track up to 10 competitors simultaneously.'
-      );
+    const cleanHandle = newCompetitorInput.replace('@', '').trim();
+    if (competitors.some(c => c.handle.toLowerCase() === cleanHandle.toLowerCase())) {
+      addNotification({ title: 'Already Tracking', message: `@${cleanHandle} is already on your radar.`, type: 'info' });
       return;
     }
 
-    const cleanHandle = newCompetitorInput.replace('@', '').trim();
+    // Dynamic stats generator based on handle hash
+    const hash = cleanHandle.split('').reduce((acc, c) => acc + c.charCodeAt(0), 0);
+    const followersK = 35 + (hash % 420);
+    const avgViewsK = Math.round(followersK * (1.6 + ((hash % 10) / 10)));
+    const cadences = ['1.2 Reels/day', '1.8 Reels/day', '2.5 Reels/day', '1.0 Reel/day'];
+    const formats = [
+      'Whiteboard breakdown', 
+      'Harsh pattern interrupt', 
+      'Side-by-side proof comparison', 
+      'Screen recording teardown', 
+      'Dark aesthetic typography'
+    ];
+
     const newComp = {
       handle: cleanHandle,
-      niche: selectedNiche === 'All Niches' ? 'General' : selectedNiche,
-      followers: '72K',
-      cadence: '1.5 Reels/day',
-      topFormat: 'Screen breakdown format',
-      avgViews: '290K',
-      trend: '+10% this week'
+      niche: selectedNiche === 'All Niches' ? (activePage?.category || 'Creator Growth') : selectedNiche,
+      followers: `${followersK}K`,
+      cadence: cadences[hash % cadences.length],
+      topFormat: formats[hash % formats.length],
+      avgViews: `${avgViewsK}K`,
+      trend: `+${8 + (hash % 22)}% this week`
     };
 
-    setCompetitors([...competitors, newComp]);
+    setCompetitors([newComp, ...competitors]);
     setNewCompetitorInput('');
     addNotification({
       title: 'Competitor Added',
@@ -464,42 +605,137 @@ export default function DiscoverCreate({ onNavigate, initialTab = 'discover' }) 
     });
   };
 
-  // Use hook from Discover in Script Studio
-  const handleUseHookInScript = (post) => {
-    setScriptTopic(post.hookText);
-    setMainMode('create');
+  // Delete Competitor
+  const handleDeleteCompetitor = (handle) => {
+    setCompetitors(competitors.filter(c => c.handle !== handle));
     addNotification({
-      title: 'Hook Transferred',
-      message: 'Hook loaded into Script Studio. Ready to engineer full script.',
+      title: 'Competitor Removed',
+      message: `@${handle} removed from your radar.`,
       type: 'info'
     });
+  };
+
+  // Use hook from Discover in Script Studio (Automatically triggers generation)
+  const handleUseHookInScript = async (post) => {
+    const hookVal = post.hookText;
+    setScriptTopic(hookVal);
+
+    // Map hook type to scriptHookType
+    const ht = (post.hookType || '').toLowerCase();
+    let mappedHookType = 'contrarian';
+    if (ht.includes('contrarian')) mappedHookType = 'contrarian';
+    else if (ht.includes('pain') || ht.includes('mistake')) mappedHookType = 'mistake_pain';
+    else if (ht.includes('curiosity')) mappedHookType = 'curiosity';
+    else if (ht.includes('proof')) mappedHookType = 'proof_breakdown';
+
+    setScriptHookType(mappedHookType);
+    setMainMode('create');
+
+    // Smooth scroll to top of Script Studio so user sees progress immediately
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    addNotification({
+      title: 'Hook Transferred to Script Studio',
+      message: `Engineering viral script for "${hookVal.slice(0, 32)}..."`,
+      type: 'info'
+    });
+
+    // Auto-generate script immediately so user doesn't have to click again!
+    await handleGenerateScript(hookVal, mappedHookType);
   };
 
   // Use audio in Script Studio
   const handleUseAudioInScript = (audio) => {
-    setScriptTopic(`Script matching vibe of "${audio.title}"`);
+    setAttachedAudio(audio);
+    setScriptTopic(`High-retention Reel timed to "${audio.title}"`);
     setMainMode('create');
     addNotification({
-      title: 'Audio Selected',
-      message: `Loaded "${audio.title}" into Script Studio.`,
-      type: 'info'
+      title: 'Audio Attached to Studio',
+      message: `"${audio.title}" by ${audio.artist} linked to Script Studio.`,
+      type: 'success'
     });
   };
 
-  // Filtered Viral Posts
-  const filteredPosts = INITIAL_VIRAL_POSTS.filter(p => {
-    if (selectedNiche !== 'All Niches' && p.niche !== selectedNiche) return false;
-    if (discoverFilter === 'reels' && p.format !== 'Reels') return false;
-    if (discoverFilter === 'carousels' && p.format !== 'Carousels') return false;
-    if (searchQuery.trim()) {
-      const q = searchQuery.toLowerCase();
-      const matchHook = p.hookText.toLowerCase().includes(q);
-      const matchCreator = p.creator.toLowerCase().includes(q);
-      const matchNiche = p.niche.toLowerCase().includes(q);
-      if (!matchHook && !matchCreator && !matchNiche) return false;
+  // Multi-Token Fuzzy Search Across Viral Posts
+  const filteredPosts = useMemo(() => {
+    const q = searchQuery.toLowerCase().trim();
+    if (!q) {
+      return INITIAL_VIRAL_POSTS.filter(p => {
+        if (selectedNiche !== 'All Niches' && p.niche !== selectedNiche) return false;
+        if (discoverFilter === 'reels' && p.format !== 'Reels') return false;
+        if (discoverFilter === 'carousels' && p.format !== 'Carousels') return false;
+        return true;
+      });
     }
-    return true;
-  });
+
+    const tokens = q.split(/\s+/).filter(Boolean);
+
+    // Niche and industry synonyms
+    const synonymMap = {
+      car: ['automotive', 'engine', 'german', 'speed', 'telemetry', 'exhaust', 'cars'],
+      cars: ['automotive', 'engine', 'german', 'speed', 'telemetry', 'exhaust', 'car'],
+      porsche: ['engine', 'automotive', 'german', 'telemetry', 'car', 'cars'],
+      gym: ['rotator', 'workout', 'fitness', 'exercise', 'olympic', 'biomechanic', 'health'],
+      workout: ['rotator', 'gym', 'fitness', 'exercise', 'olympic', 'biomechanic', 'health'],
+      fitness: ['rotator', 'gym', 'workout', 'exercise', 'health', 'biomechanic'],
+      dopamine: ['lazy', 'focus', 'stoic', 'mindset', 'habits', 'discipline'],
+      lazy: ['dopamine', 'focus', 'stoic', 'habits', 'architecture'],
+      money: ['business', 'sales', 'course', 'courses', 'revenue', 'ticket', 'capital', 'saas'],
+      business: ['sales', 'course', 'courses', 'revenue', 'ticket', 'capital', 'saas', 'money'],
+      saas: ['software', 'tools', 'tech', 'stack', 'business', 'money'],
+      stoic: ['dopamine', 'lazy', 'focus', 'mindset', 'self-improvement'],
+      fashion: ['luxury', 'wardrobe', 'quiet', 'capsule', 'pieces', 'clothes', 'style', 'color'],
+      clothes: ['fashion', 'wardrobe', 'outfit', 'luxury', 'capsule'],
+      travel: ['island', 'nomad', 'mediterranean', 'odyssey', 'country', 'cost', 'flights', 'flight'],
+      flight: ['flights', 'travel', 'booking', 'loopholes', 'google'],
+      movie: ['hollywood', 'sound', 'thriller', 'trailer', 'entertainment', 'cinema', 'nolan'],
+      cinema: ['hollywood', 'sound', 'thriller', 'trailer', 'entertainment', 'movie', 'nolan']
+    };
+
+    return INITIAL_VIRAL_POSTS.filter(p => {
+      if (discoverFilter === 'reels' && p.format !== 'Reels') return false;
+      if (discoverFilter === 'carousels' && p.format !== 'Carousels') return false;
+
+      const haystack = [
+        p.hookText,
+        p.breakdown,
+        p.creator,
+        p.niche,
+        p.format,
+        p.hookType,
+        p.audioTrack
+      ].join(' ').toLowerCase();
+
+      // Check if all search tokens match (directly or via synonyms)
+      return tokens.every(token => {
+        if (haystack.includes(token)) return true;
+        const syns = synonymMap[token] || [];
+        return syns.some(s => haystack.includes(s));
+      });
+    });
+  }, [searchQuery, selectedNiche, discoverFilter]);
+
+  // Filtered Viral Audios
+  const filteredAudios = useMemo(() => {
+    const q = searchQuery.toLowerCase().trim();
+    if (!q) return VIRAL_AUDIOS;
+    const tokens = q.split(/\s+/).filter(Boolean);
+    return VIRAL_AUDIOS.filter(a => {
+      const haystack = `${a.title} ${a.artist} ${a.genre} ${a.badge} ${a.growth}`.toLowerCase();
+      return tokens.every(t => haystack.includes(t));
+    });
+  }, [searchQuery]);
+
+  // Filtered Competitors
+  const filteredCompetitors = useMemo(() => {
+    const q = searchQuery.toLowerCase().trim();
+    if (!q) return competitors;
+    return competitors.filter(c => 
+      c.handle.toLowerCase().includes(q) || 
+      c.niche.toLowerCase().includes(q) || 
+      c.topFormat.toLowerCase().includes(q)
+    );
+  }, [searchQuery, competitors]);
 
   return (
     <div className="space-y-6 max-w-7xl mx-auto pb-16 font-sans">
@@ -587,107 +823,158 @@ export default function DiscoverCreate({ onNavigate, initialTab = 'discover' }) 
               })}
             </div>
 
-            {/* Search and Niche selector (for All, Reels, Carousels) */}
-            {discoverFilter !== 'competitors' && (
-              <div className="flex items-center gap-2 flex-1 max-w-lg">
-                <div className="relative flex-1">
-                  <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-[#94A3B8]" />
-                  <input
-                    type="text"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder={discoverFilter === 'audios' ? "Search audios, genres..." : "Search viral hooks, creators..."}
-                    className="w-full bg-white/60 border border-[rgba(99,102,241,0.15)] rounded-xl pl-8 pr-3 py-1.5 text-xs text-[#0F172A] placeholder:text-[#94A3B8] focus:outline-hidden focus:border-[#6366F1]/60"
-                  />
-                </div>
-
-                {discoverFilter !== 'audios' && (
-                  <select
-                    value={selectedNiche}
-                    onChange={(e) => setSelectedNiche(e.target.value)}
-                    className="bg-white/60 border border-[rgba(99,102,241,0.15)] rounded-xl px-3 py-1.5 text-xs text-[#0F172A] font-medium focus:outline-hidden focus:border-[#6366F1]/60 cursor-pointer"
+            {/* Search and Niche selector (for All, Reels, Carousels, Audios, Competitors) */}
+            <div className="flex items-center gap-2 flex-1 max-w-lg">
+              <div className="relative flex-1">
+                <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-[#94A3B8]" />
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder={
+                    discoverFilter === 'audios' 
+                      ? "Search audios, tempo, genre..." 
+                      : discoverFilter === 'competitors'
+                      ? "Search tracked competitors..."
+                      : "Search viral hooks, cars, gym, money, mindset..."
+                  }
+                  className="w-full bg-white/60 border border-[rgba(99,102,241,0.15)] rounded-xl pl-8 pr-8 py-1.5 text-xs text-[#0F172A] placeholder:text-[#94A3B8] focus:outline-hidden focus:border-[#6366F1]/60"
+                />
+                {searchQuery && (
+                  <button
+                    type="button"
+                    onClick={() => setSearchQuery('')}
+                    className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#94A3B8] hover:text-[#0F172A] p-0.5 cursor-pointer"
                   >
-                    {NICHES.map(n => (
-                      <option key={n} value={n}>{n}</option>
-                    ))}
-                  </select>
+                    <X className="w-3.5 h-3.5" />
+                  </button>
                 )}
               </div>
-            )}
+
+              {discoverFilter !== 'audios' && discoverFilter !== 'competitors' && (
+                <select
+                  value={selectedNiche}
+                  onChange={(e) => setSelectedNiche(e.target.value)}
+                  className="bg-white/60 border border-[rgba(99,102,241,0.15)] rounded-xl px-3 py-1.5 text-xs text-[#0F172A] font-medium focus:outline-hidden focus:border-[#6366F1]/60 cursor-pointer"
+                >
+                  {NICHES.map(n => (
+                    <option key={n} value={n}>{n}</option>
+                  ))}
+                </select>
+              )}
+            </div>
           </div>
 
           {/* VIEW A: VIRAL POSTS (All | Reels | Carousels) */}
           {(discoverFilter === 'all' || discoverFilter === 'reels' || discoverFilter === 'carousels') && (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              {filteredPosts.map(post => (
-                <div
-                  key={post.id}
-                  className="rounded-2xl bg-white/75 backdrop-blur-xl border border-white/80 shadow-[0_8px_30px_rgba(6,124,249,0.04)] ring-1 ring-[rgba(99,102,241,0.12)] hover:ring-[rgba(99,102,241,0.28)] overflow-hidden flex flex-col justify-between transition-all group"
-                >
-                  <div className="relative h-44 w-full overflow-hidden bg-slate-900">
-                    <img
-                      src={post.thumbnail}
-                      alt={post.hookText}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                    
-                    <div className="absolute top-2.5 left-2.5 flex items-center gap-1.5">
-                      <span className="px-2 py-0.5 rounded-md bg-black/60 backdrop-blur-md text-white text-[10px] font-semibold border border-white/10">
-                        {post.format}
-                      </span>
-                      <span className="px-2 py-0.5 rounded-md bg-gradient-to-r from-[#067CF9] to-[#6366F1] backdrop-blur-md text-white text-[10px] font-semibold shadow-xs">
-                        {post.retentionScore} Retention
-                      </span>
-                    </div>
-
-                    <button
-                      type="button"
-                      onClick={() => handleToggleBookmark(post.id)}
-                      className="absolute top-2.5 right-2.5 w-7 h-7 rounded-lg bg-black/60 backdrop-blur-md text-white flex items-center justify-center cursor-pointer hover:bg-[#6366F1] transition-colors"
-                    >
-                      {savedPosts.includes(post.id) ? (
-                        <BookmarkCheck className="w-3.5 h-3.5 text-white" />
-                      ) : (
-                        <Bookmark className="w-3.5 h-3.5 text-white/80" />
-                      )}
-                    </button>
-
-                    <div className="absolute bottom-2.5 left-2.5 right-2.5 text-white">
-                      <div className="text-[10px] text-white/80 font-medium">{post.creator}</div>
-                      <div className="text-xs font-bold leading-snug line-clamp-2 mt-0.5">{post.hookText}</div>
-                    </div>
+            <>
+              {filteredPosts.length === 0 ? (
+                <div className="p-8 rounded-2xl bg-white/75 backdrop-blur-xl border border-white/80 text-center space-y-4 max-w-md mx-auto my-6 shadow-xs">
+                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50 border border-[rgba(99,102,241,0.2)] text-[#6366F1] flex items-center justify-center mx-auto">
+                    <Sparkles className="w-6 h-6" />
                   </div>
-
-                  <div className="p-3.5 space-y-3 flex-1 flex flex-col justify-between">
-                    <div className="space-y-1.5 text-xs">
-                      <div className="flex items-center justify-between text-[#64748B] text-[11px]">
-                        <span>Views: <strong className="text-[#0F172A] font-semibold">{post.views}</strong></span>
-                        <span>Saves: <strong className="text-[#6366F1] font-semibold">{post.saves}</strong></span>
-                      </div>
-                      <p className="text-[11px] text-[#64748B] line-clamp-2 leading-relaxed">
-                        {post.breakdown}
-                      </p>
-                    </div>
-
+                  <div>
+                    <h3 className="font-bold text-sm text-[#0F172A]">No viral references match "{searchQuery}"</h3>
+                    <p className="text-xs text-[#64748B] mt-1 leading-relaxed">
+                      Want to build a high-retention script for this exact idea? Click below to engineer it in Script Studio.
+                    </p>
+                  </div>
+                  <div className="flex flex-col sm:flex-row items-center justify-center gap-2 pt-1">
                     <button
                       type="button"
-                      onClick={() => handleUseHookInScript(post)}
-                      className="w-full py-1.5 rounded-xl bg-gradient-to-r from-blue-50 to-indigo-50 border border-[rgba(99,102,241,0.2)] hover:from-blue-100 hover:to-indigo-100 text-[#6366F1] font-semibold text-xs transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+                      onClick={() => {
+                        const q = searchQuery;
+                        setScriptTopic(q);
+                        setMainMode('create');
+                        handleGenerateScript(q);
+                      }}
+                      className="w-full sm:w-auto px-4 py-2 rounded-xl bg-gradient-to-r from-[#067CF9] via-[#6366F1] to-[#8B5CF6] text-white font-semibold text-xs transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-md shadow-[#6366F1]/20"
                     >
-                      <span>Use Hook in Script</span>
-                      <ArrowRight className="w-3 h-3" />
+                      <Sparkles className="w-3.5 h-3.5" />
+                      <span>Engineer Script for "{searchQuery.slice(0, 20)}..."</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setSearchQuery('')}
+                      className="w-full sm:w-auto px-3 py-2 rounded-xl bg-white border border-[rgba(99,102,241,0.2)] text-[#64748B] hover:text-[#0F172A] text-xs font-medium cursor-pointer"
+                    >
+                      Reset Filter
                     </button>
                   </div>
                 </div>
-              ))}
-            </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                  {filteredPosts.map(post => (
+                    <div
+                      key={post.id}
+                      className="rounded-2xl bg-white/75 backdrop-blur-xl border border-white/80 shadow-[0_8px_30px_rgba(6,124,249,0.04)] ring-1 ring-[rgba(99,102,241,0.12)] hover:ring-[rgba(99,102,241,0.28)] overflow-hidden flex flex-col justify-between transition-all group"
+                    >
+                      <div className="relative h-44 w-full overflow-hidden bg-slate-900">
+                        <img
+                          src={post.thumbnail}
+                          alt={post.hookText}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                        
+                        <div className="absolute top-2.5 left-2.5 flex items-center gap-1.5">
+                          <span className="px-2 py-0.5 rounded-md bg-black/60 backdrop-blur-md text-white text-[10px] font-semibold border border-white/10">
+                            {post.format}
+                          </span>
+                          <span className="px-2 py-0.5 rounded-md bg-gradient-to-r from-[#067CF9] to-[#6366F1] backdrop-blur-md text-white text-[10px] font-semibold shadow-xs">
+                            {post.retentionScore} Retention
+                          </span>
+                        </div>
+
+                        <button
+                          type="button"
+                          onClick={() => handleToggleBookmark(post.id)}
+                          className="absolute top-2.5 right-2.5 w-7 h-7 rounded-lg bg-black/60 backdrop-blur-md text-white flex items-center justify-center cursor-pointer hover:bg-[#6366F1] transition-colors"
+                        >
+                          {savedPosts.includes(post.id) ? (
+                            <BookmarkCheck className="w-3.5 h-3.5 text-white" />
+                          ) : (
+                            <Bookmark className="w-3.5 h-3.5 text-white/80" />
+                          )}
+                        </button>
+
+                        <div className="absolute bottom-2.5 left-2.5 right-2.5 text-white">
+                          <div className="text-[10px] text-white/80 font-medium">{post.creator}</div>
+                          <div className="text-xs font-bold leading-snug line-clamp-2 mt-0.5">{post.hookText}</div>
+                        </div>
+                      </div>
+
+                      <div className="p-3.5 space-y-3 flex-1 flex flex-col justify-between">
+                        <div className="space-y-1.5 text-xs">
+                          <div className="flex items-center justify-between text-[#64748B] text-[11px]">
+                            <span>Views: <strong className="text-[#0F172A] font-semibold">{post.views}</strong></span>
+                            <span>Saves: <strong className="text-[#6366F1] font-semibold">{post.saves}</strong></span>
+                          </div>
+                          <p className="text-[11px] text-[#64748B] line-clamp-2 leading-relaxed">
+                            {post.breakdown}
+                          </p>
+                        </div>
+
+                        <button
+                          type="button"
+                          onClick={() => handleUseHookInScript(post)}
+                          className="w-full py-1.5 rounded-xl bg-gradient-to-r from-blue-50 to-indigo-50 border border-[rgba(99,102,241,0.2)] hover:from-blue-100 hover:to-indigo-100 text-[#6366F1] font-semibold text-xs transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+                        >
+                          <span>Use Hook in Script</span>
+                          <ArrowRight className="w-3 h-3" />
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </>
           )}
 
           {/* VIEW B: VIRAL AUDIOS */}
           {discoverFilter === 'audios' && (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {VIRAL_AUDIOS.map(audio => (
+              {filteredAudios.map(audio => (
                 <div
                   key={audio.id}
                   className="p-5 rounded-2xl bg-white/75 backdrop-blur-xl border border-white/80 shadow-[0_8px_30px_rgba(6,124,249,0.04)] ring-1 ring-[rgba(99,102,241,0.12)] hover:ring-[rgba(99,102,241,0.28)] space-y-4 transition-all flex flex-col justify-between"
@@ -701,9 +988,22 @@ export default function DiscoverCreate({ onNavigate, initialTab = 'discover' }) 
                     </div>
 
                     <div className="flex items-start gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-50 to-indigo-50 border border-[rgba(99,102,241,0.2)] text-[#6366F1] flex items-center justify-center shrink-0 shadow-2xs">
-                        <Music className="w-5 h-5 text-[#6366F1]" />
-                      </div>
+                      <button
+                        type="button"
+                        onClick={() => setPlayingAudioId(playingAudioId === audio.id ? null : audio.id)}
+                        className={`w-10 h-10 rounded-xl border flex items-center justify-center shrink-0 shadow-2xs transition-all cursor-pointer ${
+                          playingAudioId === audio.id
+                            ? 'bg-gradient-to-r from-[#067CF9] to-[#6366F1] text-white border-transparent shadow-md'
+                            : 'bg-gradient-to-br from-blue-50 to-indigo-50 border-[rgba(99,102,241,0.2)] text-[#6366F1] hover:scale-105'
+                        }`}
+                        title={playingAudioId === audio.id ? "Pause Audio Preview" : "Play Audio Preview"}
+                      >
+                        {playingAudioId === audio.id ? (
+                          <Pause className="w-5 h-5" />
+                        ) : (
+                          <Play className="w-5 h-5 ml-0.5" />
+                        )}
+                      </button>
                       <div>
                         <h4 className="font-bold text-[#0F172A] text-xs leading-snug">{audio.title}</h4>
                         <div className="text-[11px] text-[#64748B] mt-0.5">{audio.artist} &bull; {audio.genre}</div>
@@ -715,8 +1015,14 @@ export default function DiscoverCreate({ onNavigate, initialTab = 'discover' }) 
                       {[40, 70, 30, 90, 60, 45, 80, 50, 95, 40, 65, 85, 30, 70, 55, 90, 45].map((h, i) => (
                         <span
                           key={i}
-                          style={{ height: `${h}%` }}
-                          className="flex-1 bg-gradient-to-t from-[#067CF9] to-[#8B5CF6] rounded-full opacity-60"
+                          style={{ 
+                            height: playingAudioId === audio.id ? `${Math.min(100, h * 1.2)}%` : `${h}%` 
+                          }}
+                          className={`flex-1 rounded-full transition-all duration-300 ${
+                            playingAudioId === audio.id 
+                              ? 'bg-gradient-to-t from-[#067CF9] via-[#6366F1] to-[#8B5CF6] opacity-100 animate-pulse' 
+                              : 'bg-gradient-to-t from-[#067CF9] to-[#8B5CF6] opacity-60'
+                          }`}
                         />
                       ))}
                     </div>
@@ -727,14 +1033,31 @@ export default function DiscoverCreate({ onNavigate, initialTab = 'discover' }) 
                     </div>
                   </div>
 
-                  <button
-                    type="button"
-                    onClick={() => handleUseAudioInScript(audio)}
-                    className="w-full py-2 rounded-xl bg-gradient-to-r from-[#067CF9] via-[#6366F1] to-[#8B5CF6] hover:opacity-95 text-white font-semibold text-xs transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-md shadow-[#6366F1]/20"
-                  >
-                    <span>Use Audio in Script Studio</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </button>
+                  <div className="space-y-1.5 pt-1">
+                    <button
+                      type="button"
+                      onClick={() => handleUseAudioInScript(audio)}
+                      className="w-full py-2 rounded-xl bg-gradient-to-r from-[#067CF9] via-[#6366F1] to-[#8B5CF6] hover:opacity-95 text-white font-semibold text-xs transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-md shadow-[#6366F1]/20"
+                    >
+                      <span>Use Audio in Script Studio</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        navigator.clipboard.writeText(`${audio.title} - ${audio.artist}`);
+                        addNotification({
+                          title: 'Audio Name Copied',
+                          message: `Saved "${audio.title}" to clipboard. Ready to search on Instagram.`,
+                          type: 'success'
+                        });
+                      }}
+                      className="w-full py-1 rounded-lg text-[11px] text-[#64748B] hover:text-[#0F172A] hover:bg-white/80 transition-colors flex items-center justify-center gap-1 cursor-pointer font-medium"
+                    >
+                      <Copy className="w-3 h-3" />
+                      <span>Copy Audio Name</span>
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>
@@ -772,10 +1095,10 @@ export default function DiscoverCreate({ onNavigate, initialTab = 'discover' }) 
 
               {/* Competitors List */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {competitors.map((comp, idx) => (
+                {filteredCompetitors.map((comp, idx) => (
                   <div
                     key={idx}
-                    className="p-5 rounded-2xl bg-white/75 backdrop-blur-xl border border-white/80 shadow-[0_8px_30px_rgba(6,124,249,0.04)] ring-1 ring-[rgba(99,102,241,0.12)] hover:ring-[rgba(99,102,241,0.28)] space-y-3 transition-all"
+                    className="p-5 rounded-2xl bg-white/75 backdrop-blur-xl border border-white/80 shadow-[0_8px_30px_rgba(6,124,249,0.04)] ring-1 ring-[rgba(99,102,241,0.12)] hover:ring-[rgba(99,102,241,0.28)] space-y-3 transition-all relative group"
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2.5">
@@ -788,9 +1111,19 @@ export default function DiscoverCreate({ onNavigate, initialTab = 'discover' }) 
                         </div>
                       </div>
 
-                      <span className="text-[10px] text-emerald-600 font-bold bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
-                        {comp.trend}
-                      </span>
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-[10px] text-emerald-600 font-bold bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
+                          {comp.trend}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => handleDeleteCompetitor(comp.handle)}
+                          className="opacity-0 group-hover:opacity-100 text-[#94A3B8] hover:text-red-500 p-1 transition-opacity cursor-pointer"
+                          title="Remove Competitor"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
                     </div>
 
                     <div className="grid grid-cols-3 gap-2 pt-2 border-t border-[rgba(99,102,241,0.1)] text-center text-xs">
@@ -840,6 +1173,29 @@ export default function DiscoverCreate({ onNavigate, initialTab = 'discover' }) 
                 Engineer full viral reel scripts with high-retention visual hooks, body mechanisms, and conversion CTAs.
               </p>
             </div>
+
+            {/* Attached Audio Notification in Script Studio */}
+            {attachedAudio && (
+              <div className="p-3 rounded-xl bg-gradient-to-r from-blue-50/90 via-indigo-50/80 to-purple-50/70 border border-[rgba(99,102,241,0.25)] flex items-center justify-between text-xs shadow-2xs">
+                <div className="flex items-center gap-2.5 text-[#0F172A]">
+                  <div className="w-7 h-7 rounded-lg bg-[#6366F1] text-white flex items-center justify-center shrink-0 shadow-xs">
+                    <Music className="w-3.5 h-3.5" />
+                  </div>
+                  <div>
+                    <span className="font-bold text-[#6366F1]">Attached Trending Audio:</span>{' '}
+                    <strong className="text-[#0F172A]">{attachedAudio.title}</strong> &bull; {attachedAudio.artist} ({attachedAudio.duration})
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setAttachedAudio(null)}
+                  className="px-2 py-1 rounded-md text-xs text-[#64748B] hover:text-red-500 hover:bg-white/80 transition-colors cursor-pointer flex items-center gap-1 font-semibold"
+                >
+                  <X className="w-3 h-3" />
+                  <span>Remove Audio</span>
+                </button>
+              </div>
+            )}
 
             {/* Inputs: Hook Type, Target Goal, Topic */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
@@ -911,8 +1267,21 @@ export default function DiscoverCreate({ onNavigate, initialTab = 'discover' }) 
               </button>
             </div>
 
+            {/* Live Generating Animation Box */}
+            {isGeneratingScript && (
+              <div className="p-6 rounded-2xl bg-gradient-to-r from-blue-50/90 via-indigo-50/80 to-purple-50/70 border border-indigo-200/80 text-center space-y-3 animate-pulse shadow-xs">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#067CF9] to-[#6366F1] text-white flex items-center justify-center mx-auto shadow-md shadow-indigo-500/20">
+                  <RotateCw className="w-5 h-5 animate-spin" />
+                </div>
+                <div className="space-y-1">
+                  <h4 className="text-sm font-bold text-[#0F172A]">Engineering Viral Reel Architecture...</h4>
+                  <p className="text-xs text-[#64748B]">Synthesizing 3-second pattern interrupt hook, 3-scene retention framework, and bio conversion trigger.</p>
+                </div>
+              </div>
+            )}
+
             {/* Generated Script Card */}
-            {generatedScript && (
+            {generatedScript && !isGeneratingScript && (
               <div className="p-5 rounded-2xl bg-white/60 border border-[rgba(99,102,241,0.2)] space-y-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
@@ -926,7 +1295,13 @@ export default function DiscoverCreate({ onNavigate, initialTab = 'discover' }) 
                     <button
                       type="button"
                       onClick={() => {
-                        const fullText = `${generatedScript.title}\n\nHook: ${generatedScript.hook}\n\nScenes:\n${(generatedScript.scenes || []).map(s => s.visual + ': ' + s.audio).join('\n')}\n\nCTA: ${generatedScript.cta}`;
+                        const hookText = typeof generatedScript.hook === 'object'
+                          ? (generatedScript.hook.spokenAudio || generatedScript.hook.textOnScreen)
+                          : generatedScript.hook;
+                        const ctaText = typeof generatedScript.cta === 'object'
+                          ? (generatedScript.cta.delivery || JSON.stringify(generatedScript.cta))
+                          : generatedScript.cta;
+                        const fullText = `${generatedScript.title}\n\nHook: ${hookText}\n\nScenes:\n${(generatedScript.scenes || []).map(s => s.visual + ': ' + (s.audio || s.script || '')).join('\n')}\n\nCTA: ${ctaText}`;
                         navigator.clipboard.writeText(fullText);
                         setIsCopiedScript(true);
                         setTimeout(() => setIsCopiedScript(false), 2000);
@@ -951,18 +1326,27 @@ export default function DiscoverCreate({ onNavigate, initialTab = 'discover' }) 
                 <div className="space-y-3 text-xs">
                   <div className="p-3 rounded-xl bg-white border border-[rgba(6,124,249,0.1)]">
                     <span className="text-[10px] font-bold text-[#067CF9] uppercase tracking-wider block">Opening Hook (0:00 - 0:03)</span>
-                    <p className="text-xs font-semibold text-[#0F172A] mt-1">{generatedScript.hook}</p>
+                    <p className="text-xs font-semibold text-[#0F172A] mt-1">
+                      {typeof generatedScript.hook === 'object'
+                        ? (generatedScript.hook.spokenAudio || generatedScript.hook.textOnScreen || String(generatedScript.hook))
+                        : generatedScript.hook}
+                    </p>
+                    {generatedScript.visualHook && (
+                      <div className="text-[11px] text-[#6366F1] mt-1.5 bg-indigo-50/70 p-2 rounded-lg border border-indigo-100 font-medium">
+                        <strong>Visual Framing:</strong> {generatedScript.visualHook}
+                      </div>
+                    )}
                   </div>
 
                   {generatedScript.scenes && generatedScript.scenes.length > 0 && (
                     <div className="space-y-2">
                       <span className="text-[10px] font-bold text-[#64748B] uppercase tracking-wider block">Scene Breakdown</span>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
                         {generatedScript.scenes.map((sc, i) => (
                           <div key={i} className="p-3 rounded-xl bg-white border border-[rgba(6,124,249,0.08)]">
-                            <span className="text-[10px] text-[#067CF9] font-bold block">{sc.timeframe || `Scene ${i + 1}`}</span>
+                            <span className="text-[10px] text-[#067CF9] font-bold block">{sc.timeframe || sc.time || `Scene ${i + 1}`}</span>
                             <div className="text-[11px] text-[#0F172A] font-semibold mt-0.5">{sc.visual}</div>
-                            <div className="text-[11px] text-[#64748B] mt-1">{sc.audio}</div>
+                            <div className="text-[11px] text-[#64748B] mt-1 leading-relaxed">{sc.audio || sc.script}</div>
                           </div>
                         ))}
                       </div>
@@ -971,8 +1355,32 @@ export default function DiscoverCreate({ onNavigate, initialTab = 'discover' }) 
 
                   <div className="p-3 rounded-xl bg-white border border-[rgba(6,124,249,0.1)]">
                     <span className="text-[10px] font-bold text-[#10B981] uppercase tracking-wider block">Conversion Call To Action</span>
-                    <p className="text-xs font-semibold text-[#0F172A] mt-1">{generatedScript.cta}</p>
+                    <p className="text-xs font-semibold text-[#0F172A] mt-1">
+                      {typeof generatedScript.cta === 'object'
+                        ? (generatedScript.cta.delivery || JSON.stringify(generatedScript.cta))
+                        : generatedScript.cta}
+                    </p>
                   </div>
+
+                  {generatedScript.caption && (
+                    <div className="p-3 rounded-xl bg-white border border-[rgba(99,102,241,0.12)]">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[10px] font-bold text-[#6366F1] uppercase tracking-wider block">Recommended Caption</span>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            navigator.clipboard.writeText(generatedScript.caption);
+                            addNotification({ title: 'Caption Copied', message: 'Ready to paste into Instagram.', type: 'info' });
+                          }}
+                          className="text-[11px] text-[#6366F1] hover:underline flex items-center gap-1 cursor-pointer font-semibold"
+                        >
+                          <Copy className="w-3 h-3" />
+                          <span>Copy Caption</span>
+                        </button>
+                      </div>
+                      <p className="text-xs text-[#475569] mt-1 whitespace-pre-line leading-relaxed">{generatedScript.caption}</p>
+                    </div>
+                  )}
                 </div>
               </div>
             )}

@@ -266,41 +266,129 @@ Format with clear bold headings and bullet points.`;
 
 /**
  * Generate 3 High-Converting Instagram Bios adhering to 150 character limit
+ * Strictly respects primary objective:
+ * - lead_magnet: Link-in-bio freebie (Never DM keyword)
+ * - store_clicks: Digital product / Storefront catalog CTA (Never DM keyword)
+ * - viral_followers: Brand authority & follower conversion
  */
-export async function generateLiveBios({ handle, niche, subNiche, currentBio, objective = 'growth' }) {
+export async function generateLiveBios({ handle, niche, subNiche, currentBio, objective = 'lead_magnet' }) {
+  let objectiveGuide = '';
+  let exampleCta = '';
+  let fallbackBios = [];
+
+  if (objective === 'lead_magnet') {
+    objectiveGuide = `Objective: LEAD MAGNET (Link-in-bio freebie).
+Focus on a free guide, checklist, toolkit, or resource vault accessed via link in bio.
+CRITICAL RULE: DO NOT use 'DM [KEYWORD]' triggers! The CTA must point directly to the link in bio.`;
+    exampleCta = 'Grab free 2026 playbook in link 👇';
+    fallbackBios = [
+      {
+        archetype: "The Resource Vault",
+        text: `Curated ${subNiche || niche} frameworks ⚡\nHelping creators scale digital reach & audience\nFree 2026 Playbook in link 👇`,
+        ctaType: "Link in Bio",
+        charCount: 136
+      },
+      {
+        archetype: "The Tactical Guide",
+        text: `Top 1% systems for ${subNiche || niche} 📈\nNo fluff. Pure algorithmic leverage.\nGrab the free starter toolkit below 🔗`,
+        ctaType: "Link in Bio",
+        charCount: 135
+      },
+      {
+        archetype: "The Masterclass Anchor",
+        text: `Building audience leverage in ${subNiche || niche}\nJoin 35K+ operators executing daily\nUnlock free strategy blueprint in bio ⚡`,
+        ctaType: "Link in Bio",
+        charCount: 142
+      }
+    ];
+  } else if (objective === 'store_clicks') {
+    objectiveGuide = `Objective: STOREFRONT SALES (Catalog / Digital Products Direct).
+Focus on digital products, templates, paid guides, courses, or storefront shop.
+CRITICAL RULE: DO NOT use 'DM [KEYWORD]' triggers! The CTA must direct visitors to shop products or browse the store in bio.`;
+    exampleCta = 'Shop creator templates & playbooks 🛍️';
+    fallbackBios = [
+      {
+        archetype: "The Catalog Direct",
+        text: `High-leverage ${subNiche || niche} assets & playbooks 🛍️\nBuilt for founders & modern creators\nShop verified systems in bio 👇`,
+        ctaType: "Storefront",
+        charCount: 138
+      },
+      {
+        archetype: "The Digital Storefront",
+        text: `Proven ${subNiche || niche} templates & operating tools ⚡\nAutomate your workflow & 10x output\nBrowse products & guides below 🔗`,
+        ctaType: "Storefront",
+        charCount: 140
+      },
+      {
+        archetype: "The Premium Suite",
+        text: `Executive systems for ${subNiche || niche} operators 🏆\nBattle-tested digital resources & courses\nStore link in bio 👇`,
+        ctaType: "Storefront",
+        charCount: 132
+      }
+    ];
+  } else {
+    // viral_followers / Brand Authority
+    objectiveGuide = `Objective: BRAND AUTHORITY & REACH (Follower Conversion).
+Focus on social proof, credibility, high-status thought leadership, and reasons to hit Follow.
+The CTA must drive follows and community membership.`;
+    exampleCta = 'Follow for daily high-retention breakdowns 👇';
+    fallbackBios = [
+      {
+        archetype: "The High-Status Authority",
+        text: `Engineering top 1% leverage in ${subNiche || niche} 📈\nDeconstructing what the top pages do secretly\nFollow for daily algorithmic breakdowns 👇`,
+        ctaType: "Follow",
+        charCount: 145
+      },
+      {
+        archetype: "The Industry Teardown",
+        text: `Documenting the modern ${subNiche || niche} playbook ⚡\nHelping 50K+ creators beat the algorithm\nFollow for raw frameworks daily 👁️`,
+        ctaType: "Follow",
+        charCount: 138
+      },
+      {
+        archetype: "The Contrarian Operator",
+        text: `Cut through 99% of dead ${subNiche || niche} advice ⚔️\nPure retention data, case studies & systems\nFollow to join the top 1% 📈`,
+        ctaType: "Follow",
+        charCount: 139
+      }
+    ];
+  }
+
   const prompt = `Generate 3 distinct, high-converting Instagram bios for this account:
 - Handle: @${handle || 'creator'}
 - Primary Niche: ${niche}
 - Sub-Niche: ${subNiche || 'General'}
-- Core Objective: ${objective} (e.g. dm_sales, store_clicks, viral_followers)
+${objectiveGuide}
 ${currentBio ? `- Current Bio: "${currentBio}"` : ''}
 
 Rules:
-1. Must strictly be under 150 characters each.
-2. Use professional, high-impact aesthetic formatting with clean line breaks.
+1. Must strictly be under 150 characters each. Count carefully!
+2. Use professional, aesthetic formatting with 3 clean lines.
 3. Every bio must contain:
-   - Line 1: Hook / Authority statement
-   - Line 2: What followers will learn or achieve (Outcome)
-   - Line 3: Direct Call-To-Action (e.g. "DM 'VAULT' for free tools 👇" or "Grab free guide in bio 🔗")
-4. Format output as JSON:
+   - Line 1: Hook / High-status authority statement
+   - Line 2: What followers will learn or achieve (Transformation/Outcome)
+   - Line 3: Direct CTA strictly matching the objective (e.g. "${exampleCta}")
+4. Absolutely DO NOT include 'DM [KEYWORD]' unless objective is specifically dm_automation.
+
+Format output as strictly valid JSON:
 {
   "bios": [
     {
-      "archetype": "The Direct Monetizer",
+      "archetype": "The Authority Lead",
       "text": "Line 1\\nLine 2\\nLine 3",
-      "ctaWord": "VAULT",
+      "ctaType": "${objective}",
       "charCount": 138
     },
     {
-      "archetype": "The Viral Authority",
+      "archetype": "The Strategic Operator",
       "text": "Line 1\\nLine 2\\nLine 3",
-      "ctaWord": "START",
+      "ctaType": "${objective}",
       "charCount": 142
     },
     {
-      "archetype": "The Community Leader",
+      "archetype": "The Conversion Anchor",
       "text": "Line 1\\nLine 2\\nLine 3",
-      "ctaWord": "SCALE",
+      "ctaType": "${objective}",
       "charCount": 135
     }
   ]
@@ -314,84 +402,94 @@ Return only valid JSON.`;
     return { ...parsed, provider: res.provider };
   } catch (e) {
     return {
-      bios: [
-        {
-          archetype: "The Direct Monetizer",
-          text: `Daily ${subNiche || niche} frameworks ⚡\nHelping creators scale digital revenue\nDM 'GROWTH' for free checklist 👇`,
-          ctaWord: "GROWTH",
-          charCount: 135
-        },
-        {
-          archetype: "The Viral Authority",
-          text: `Top 1% insights on ${niche} 📈\nNo fluff. Pure retention & leverage.\nGet our free 7-day playbook 🔗`,
-          ctaWord: "PLAYBOOK",
-          charCount: 138
-        },
-        {
-          archetype: "The Community Leader",
-          text: `Building internet leverage in ${subNiche || 'modern business'}\nJoin 25K+ high-performers\nTap link below for vault 👇`,
-          ctaWord: "VAULT",
-          charCount: 132
-        }
-      ],
-      provider: res.provider || 'local:fallback'
+      bios: fallbackBios,
+      provider: res?.provider || 'local:fallback'
     };
   }
 }
 
 /**
  * Generate Authority Positioning Statement for Creator Page
+ * Intelligently interprets creator shorthand (e.g., '18-25 men business', 'reach only', 'no comments and share')
+ * and generates 4 distinct, high-status 2026 positioning archetypes without robotic template fill-ins.
  */
 export async function generatePositioningStatement({ niche, subNiche, audience, painPoint, outcome }) {
-  const prompt = `Create 3 authority positioning statements for an Instagram creator:
-- Niche: ${niche} (${subNiche || ''})
-- Target Audience: ${audience || 'Aspiring creators & operators'}
-- Big Pain Point: ${painPoint || 'Inconsistent views & zero monetization'}
-- Dream Outcome: ${outcome || 'Predictable viral reach & recurring digital sales'}
+  const prompt = `You are Vyralify's Chief Creator Strategist.
+Generate 4 distinct, high-status 2026 Instagram positioning blueprints for a creator:
+- Niche: ${niche} (${subNiche || 'General'})
+- Audience Input: "${audience || '18-25 ambitious operators'}"
+- Pain Point / Obstacle Input: "${painPoint || 'Zero reach, no comments or shares, invisible content'}"
+- Desired Outcome / Transformation: "${outcome || 'High organic reach, magnetic retention, high-value community'}"
 
-Format as JSON:
+IMPORTANT INSTRUCTIONS:
+- The user inputs may be shorthand, informal, or conversational (e.g. "18-25 men business", "reach only", "no comments and share").
+- Intelligently parse what they actually mean.
+- DO NOT generate rigid, robotic sentences like "I help [audience] achieve [outcome] without [pain point]".
+- Instead, craft punchy, natural, high-status positioning archetypes that sound like an elite 2026 creator:
+  1. The Contrarian Authority (challenges standard industry nonsense)
+  2. The Algorithmic Leverage Formula (shows the smart shortcut / systematic unlock)
+  3. The High-Status Operator (commands respect & authority)
+  4. The 1-Line Bio Hook (sharp 10-12 word positioning line for top of profile)
+
+Format as strictly valid JSON:
 {
   "statements": [
     {
-      "formula": "The Outcome-Driven Formula",
-      "statement": "I help [audience] achieve [outcome] without [pain point].",
-      "bannerHook": "Punchy 5-word authority slogan"
-    },
-    {
       "formula": "The Contrarian Authority",
-      "statement": "Stop [pain point]. Here is the exact system to [outcome].",
-      "bannerHook": "Punchy 5-word authority slogan"
+      "statement": "Natural, punchy sentence expressing contrarian leverage.",
+      "bannerHook": "Punchy 4-5 word slogan"
     },
     {
-      "formula": "The High-Leverage Playbook",
-      "statement": "Transforming [audience] with proven [subNiche] blueprints to [outcome].",
-      "bannerHook": "Punchy 5-word authority slogan"
+      "formula": "The Algorithmic Leverage Blueprint",
+      "statement": "Natural, outcome-focused authority statement.",
+      "bannerHook": "Punchy 4-5 word slogan"
+    },
+    {
+      "formula": "The High-Status Operator",
+      "statement": "High-conviction statement establishing dominance in niche.",
+      "bannerHook": "Punchy 4-5 word slogan"
+    },
+    {
+      "formula": "The 1-Line Bio Hook",
+      "statement": "Ultra-sharp 1-liner crafted for Instagram bio Line 1.",
+      "bannerHook": "Bio-Ready Anchor"
     }
   ]
 }
 Return only valid JSON.`;
 
-  const res = await callRealAi({ prompt, temperature: 0.7 });
+  const res = await callRealAi({ prompt, temperature: 0.72 });
   try {
     const cleaned = res.text.replace(/```json/g, '').replace(/```/g, '').trim();
-    return JSON.parse(cleaned);
+    const parsed = JSON.parse(cleaned);
+    return parsed;
   } catch (e) {
+    // Intelligent shorthand expansion for fallback
+    const targetAud = audience ? audience.replace(/men\s+business/i, 'young entrepreneurs & builders') : 'modern operators';
+    const cleanOutcome = outcome ? outcome.replace(/reach\s+only/i, 'exponential organic reach and high-retention virality') : 'explosive organic distribution';
+    const cleanPain = painPoint ? painPoint.replace(/no\s+comments\s+and\s+share/i, 'being ignored with zero engagement or shares') : 'shouting into the void with dead views';
+
     return {
       statements: [
         {
-          formula: "The Outcome-Driven Formula",
-          statement: `Helping ${audience || 'ambitious creators'} achieve ${outcome || 'predictable viral reach'} without ${painPoint || 'wasting months on dead tactics'}.`,
-          bannerHook: `Viral Growth Simplified.`
-        },
-        {
           formula: "The Contrarian Authority",
-          statement: `Stop ${painPoint || 'copying generic reels'}. Here is the exact system to build ${outcome || 'high-converting audiences'}.`,
-          bannerHook: `The Anti-Algorithm Playbook.`
+          statement: `Most ${subNiche || niche} creators obsess over posting frequency while ignoring retention architecture. We engineer ${cleanOutcome} by fixing the first 3 seconds.`,
+          bannerHook: "Stop Shouting into the Void."
         },
         {
-          formula: "The High-Leverage Playbook",
-          statement: `Curated daily frameworks to give ${audience || 'modern operators'} unfair leverage in ${niche}.`,
-          bannerHook: `Leverage & Distribution.`
+          formula: "The Algorithmic Leverage Blueprint",
+          statement: `Equipping ${targetAud} with data-backed retention frameworks to achieve ${cleanOutcome} without ${cleanPain}.`,
+          bannerHook: "Algorithmic Leverage Unlocked."
+        },
+        {
+          formula: "The High-Status Operator",
+          statement: `The de facto playbook for ${subNiche || niche}. Transforming invisible profiles into category-defining brands that command comments, saves, and clients.`,
+          bannerHook: "Category-Defining Authority."
+        },
+        {
+          formula: "The 1-Line Bio Hook",
+          statement: `Fixing the 3-second retention gap for ${targetAud} in ${subNiche || niche}.`,
+          bannerHook: "Bio-Ready Anchor"
         }
       ]
     };
@@ -400,49 +498,45 @@ Return only valid JSON.`;
 
 /**
  * Generate Full Viral Reel Script with Hook, Retention Framework, CTA, and Caption
+ * Guarantees a normalized, robust data contract that works directly with React components without object rendering crashes.
  */
-export async function generateFullReelScript({ niche, subNiche, topic, hookType = 'contrarian', targetGoal = 'leads' }) {
+export async function generateFullReelScript({ niche, subNiche, topic, hookType = 'contrarian', targetGoal = 'lead_magnet' }) {
   const prompt = `You are Vyralify's Elite Viral Video Producer and Instagram Scriptwriter.
 Generate an end-to-end viral Reel script for:
 - Niche: ${niche} (${subNiche || 'General'})
-- Specific Topic: ${topic || 'The #1 mistake beginners make'}
-- Hook Archetype: ${hookType} (contrarian, negative_framing, curiosity_gap, case_study)
-- Primary Objective: ${targetGoal} (dm_leads, viral_reach, product_sales)
+- Specific Topic / Hook: "${topic || 'The #1 mistake beginners make'}"
+- Hook Archetype: ${hookType} (contrarian, mistake_pain, curiosity, proof_breakdown)
+- Primary Objective: ${targetGoal} (lead_magnet, storefront_sales, viral_reach)
 
 Format response as strictly valid JSON:
 {
-  "title": "Short Punchy Title",
+  "title": "Short Punchy Title (e.g. Dopamine Architecture Fix)",
+  "angle": "Contrarian Retention",
   "estimatedDuration": "32 seconds",
-  "hook": {
-    "visualFraming": "Describe camera angle, lighting, motion interrupt (0-1.5s)",
-    "textOnScreen": "Punchy 5-7 words capitalized",
-    "spokenAudio": "Exact opening spoken sentence (0-3s)"
-  },
+  "hook": "Exact spoken opening hook sentence (0-3s). Must match topic.",
+  "visualHook": "Camera framing, motion pattern interrupt, text on screen cue",
   "scenes": [
     {
-      "time": "0:03 - 0:09",
-      "visual": "B-roll or gestures description",
-      "script": "Agitate the common problem or mistake",
+      "timeframe": "0:03 - 0:08",
+      "visual": "Describe camera angle, gesture, or graphic overlay",
+      "audio": "Exact spoken script agitating the mistake or curiosity gap",
       "pacing": "Fast cut"
     },
     {
-      "time": "0:09 - 0:22",
-      "visual": "Demonstration, screen recording, or 3-step proof",
-      "script": "The contrarian mechanism or breakthrough solution",
+      "timeframe": "0:08 - 0:22",
+      "visual": "Demonstration, side-by-side proof, or 3-step breakdown",
+      "audio": "The breakthrough mechanism or contrarian step-by-step fix",
       "pacing": "High-density value"
     },
     {
-      "time": "0:22 - 0:32",
-      "visual": "Point down towards caption or DM interface",
-      "script": "Clear Call-To-Action trigger",
+      "timeframe": "0:22 - 0:30",
+      "visual": "Direct eye contact, hand pointing down towards bio link",
+      "audio": "Clear conversion Call-To-Action trigger",
       "pacing": "Direct conviction"
     }
   ],
-  "ctaTrigger": {
-    "type": "BIO_LINK",
-    "delivery": "Check the link in my bio for the complete free system."
-  },
-  "caption": "High-converting 3-line Instagram caption with relevant tags."
+  "cta": "Check the link in my bio to download the complete free system.",
+  "caption": "High-converting 3-line Instagram caption with relevant hashtags."
 }
 Return only valid JSON.`;
 
@@ -450,64 +544,114 @@ Return only valid JSON.`;
   try {
     const cleaned = res.text.replace(/```json/g, '').replace(/```/g, '').trim();
     const parsed = JSON.parse(cleaned);
-    return { ...parsed, provider: res.provider };
-  } catch (e) {
+
+    // Normalize hook: ensure it is always a string for safe React rendering
+    let hookStr = '';
+    let visualStr = '';
+    if (typeof parsed.hook === 'string') {
+      hookStr = parsed.hook;
+    } else if (parsed.hook && typeof parsed.hook === 'object') {
+      hookStr = parsed.hook.spokenAudio || parsed.hook.textOnScreen || String(topic);
+      visualStr = parsed.hook.visualFraming || '';
+    } else {
+      hookStr = String(topic || 'Stop doing this in 2026');
+    }
+
+    // Normalize scenes
+    const scenes = (parsed.scenes || []).map((sc, i) => ({
+      timeframe: sc.timeframe || sc.time || `0:0${i * 8} - 0:0${(i + 1) * 8}`,
+      visual: sc.visual || 'Direct-to-camera with on-screen text pop',
+      audio: sc.audio || sc.script || '',
+      pacing: sc.pacing || 'Punchy cut'
+    }));
+
+    // Normalize CTA
+    let ctaStr = '';
+    if (typeof parsed.cta === 'string') {
+      ctaStr = parsed.cta;
+    } else if (parsed.ctaTrigger && typeof parsed.ctaTrigger === 'object') {
+      ctaStr = parsed.ctaTrigger.delivery || 'Link in bio to access the complete blueprint.';
+    } else {
+      ctaStr = 'Tap the link in my bio to unlock the full breakdown.';
+    }
+
     return {
-      title: `${topic || 'Viral System'} (${subNiche || niche})`,
+      title: parsed.title || topic || 'Viral Retention Blueprint',
+      angle: parsed.angle || 'Retention Engine',
+      estimatedDuration: parsed.estimatedDuration || '30 seconds',
+      hook: hookStr,
+      visualHook: visualStr || parsed.visualHook || 'Harsh pattern interrupt flash with high-contrast text overlay',
+      scenes: scenes.length > 0 ? scenes : [
+        { timeframe: '0:03 - 0:09', visual: 'Fast cut to screen breakdown', audio: 'Here is what 99% of creators get wrong about this.', pacing: 'Rapid cut' },
+        { timeframe: '0:09 - 0:22', visual: '3-bullet framework graphic', audio: 'Step 1: Polarizing opening. Step 2: High-density proof. Step 3: Bio link conversion.', pacing: 'High density' },
+        { timeframe: '0:22 - 0:30', visual: 'Direct eye contact and hand gesture down', audio: ctaStr, pacing: 'High conviction' }
+      ],
+      cta: ctaStr,
+      caption: parsed.caption || `${topic}\n\nTap the link in my bio to unlock the full breakdown.\n\n#${(subNiche || niche).replace(/\s+/g, '').toLowerCase()} #creatorgrowth`,
+      provider: res.provider || 'gemini'
+    };
+  } catch (e) {
+    const cleanTopic = topic || `How to win in ${subNiche || niche} in 2026`;
+    return {
+      title: cleanTopic,
+      angle: "High Retention Blueprint",
       estimatedDuration: "30 seconds",
-      hook: {
-        visualFraming: "Snap zoom onto face with bold contrast text overlay and black-and-white flash",
-        textOnScreen: "STOP DOING THIS IN 2026",
-        spokenAudio: `If you are still trying to grow in ${subNiche || niche} using 2024 methods, here is why you are invisible.`
-      },
+      hook: cleanTopic.endsWith(':') ? cleanTopic : `${cleanTopic}. Watch this 3-rule fix:`,
+      visualHook: "Snap zoom onto face with bold contrast text overlay and black-and-white flash",
       scenes: [
         {
-          time: "0:03 - 0:08",
+          timeframe: "0:03 - 0:08",
           visual: "Rapid head turn + screenshot of low engagement chart",
-          script: `99% of creators focus on vanity views instead of high-retention retention loops.`,
+          audio: `99% of creators focus on vanity views instead of high-retention retention loops.`,
           pacing: "Rapid cut"
         },
         {
-          time: "0:08 - 0:22",
+          timeframe: "0:08 - 0:22",
           visual: "3-step bullet graphic popping onto screen with sound effect",
-          script: `Here is the 3-step flywheel top 1% pages use: Step 1: Polarizing opening. Step 2: High-density proof. Step 3: Link in bio resource vault.`,
+          audio: `Here is the 3-step flywheel top 1% pages use: Step 1: Polarizing opening. Step 2: High-density proof. Step 3: Bio link conversion funnel.`,
           pacing: "High-density value"
         },
         {
-          time: "0:22 - 0:30",
+          timeframe: "0:22 - 0:30",
           visual: "Direct eye contact, hand pointing towards bio",
-          script: `Tap the link in my bio right now to unlock the complete template for free.`,
+          audio: `Tap the link in my bio right now to unlock the complete template for free.`,
           pacing: "Direct conviction"
         }
       ],
-      ctaTrigger: {
-        type: "BIO_LINK",
-        delivery: "Link in bio for instant access."
-      },
-      caption: `The game changed. If you are not using high-retention hooks in ${subNiche || niche}, you are working 10x harder for 10% of the results.\n\nTap the link in my bio to unlock the full breakdown.\n\n#${(subNiche || niche).replace(/\s+/g, '').toLowerCase()} #creatorgrowth #instagramreels`,
-      provider: res.provider || 'local:fallback'
+      cta: "Tap the link in my bio right now to unlock the complete template for free.",
+      caption: `${cleanTopic}\n\nThe algorithm changed. If you are not using high-retention hooks in ${subNiche || niche}, you are working 10x harder for 10% of the results.\n\nTap the link in my bio to unlock the full breakdown.\n\n#${(subNiche || niche).replace(/\s+/g, '').toLowerCase()} #creatorgrowth #instagramreels`,
+      provider: res?.provider || 'local:fallback'
     };
   }
 }
 
 /**
  * Generate 30-Day Content Planner Concepts
+ * Supports days / daysCount up to 30 full days with strategic pillars and posting cadences.
  */
-export async function generateAi30DayPlan({ niche, subNiche, daysCount = 7 }) {
-  const prompt = `Generate a ${daysCount}-day Instagram content calendar for:
+export async function generateAi30DayPlan({ niche, subNiche, daysCount, days }) {
+  const targetDays = days || daysCount || 30;
+
+  const prompt = `Generate a strategic ${targetDays}-day Instagram content roadmap for:
 - Niche: ${niche}
 - Sub-Niche: ${subNiche || 'General'}
 
-Return JSON:
+Alternate between 4 content pillars:
+1. Contrarian Hook (High viral reach, pattern interrupt)
+2. Proof & Teardown (High saves, case study)
+3. Actionable Carousel Grid (High shares, tactical value)
+4. Monetization Offer (Bio link / storefront CTA)
+
+Return strictly valid JSON:
 {
   "calendar": [
     {
       "day": 1,
       "format": "Reels",
-      "pillar": "Authority Breakdown",
-      "hook": "The contrarian truth about...",
-      "timeSlot": "18:30 IST",
-      "targetGoal": "Viral Reach"
+      "pillar": "Contrarian Hook",
+      "topic": "Stop copying dead formats in 2026",
+      "time": "18:30 IST",
+      "status": "Ready"
     }
   ]
 }
@@ -517,16 +661,58 @@ Return only valid JSON.`;
   try {
     const cleaned = res.text.replace(/```json/g, '').replace(/```/g, '').trim();
     const parsed = JSON.parse(cleaned);
-    return parsed.calendar || [];
+    if (parsed.calendar && parsed.calendar.length >= targetDays) {
+      return parsed.calendar.slice(0, targetDays);
+    }
+    // If fewer days returned, fill the rest up to targetDays
+    const existing = parsed.calendar || [];
+    const missing = targetDays - existing.length;
+    const filled = [...existing];
+    const samplePillars = [
+      { format: 'Reels', pillar: 'Contrarian Hook', topicPrefix: 'The unfiltered truth about' },
+      { format: 'Reels', pillar: 'Proof / Teardown', topicPrefix: 'How 1 breakdown generated 200K views in' },
+      { format: 'Carousels', pillar: 'Actionable Framework', topicPrefix: 'The 5-step visual system for' },
+      { format: 'Reels', pillar: 'Relatable Agitation', topicPrefix: 'Why you are working 10 hours for 200 views in' },
+      { format: 'Reels', pillar: 'Monetization Offer', topicPrefix: 'High-Converting Link-in-Bio Guide for' },
+      { format: 'Carousels', pillar: 'Resource Vault', topicPrefix: 'The top 7 hidden tools every creator needs in' },
+      { format: 'Reels', pillar: 'Weekly Recap / Case Study', topicPrefix: 'Sprint review: What worked best this week in' }
+    ];
+
+    for (let i = 0; i < missing; i++) {
+      const dayNum = existing.length + i + 1;
+      const t = samplePillars[i % samplePillars.length];
+      filled.push({
+        day: dayNum,
+        format: t.format,
+        pillar: t.pillar,
+        topic: `${t.topicPrefix} ${subNiche || niche}`,
+        time: (dayNum % 2 === 0) ? '18:30 IST' : '19:00 IST',
+        status: dayNum === 1 ? 'Ready' : dayNum % 2 === 0 ? 'Scheduled' : 'Draft'
+      });
+    }
+    return filled;
   } catch (e) {
-    return Array.from({ length: daysCount }).map((_, i) => ({
-      day: i + 1,
-      format: i % 3 === 0 ? "Carousel" : "Reels",
-      pillar: i % 2 === 0 ? "Contrarian Take" : "Tactical Blueprint",
-      hook: `Day ${i + 1}: How top creators dominate ${subNiche || niche} in 2026`,
-      timeSlot: i % 2 === 0 ? "18:00 IST" : "21:00 IST",
-      targetGoal: i % 4 === 0 ? "DM Lead Capture" : "Mass Retention"
-    }));
+    const samplePillars = [
+      { format: 'Reels', pillar: 'Contrarian Hook', topic: `Stop copying dead ${subNiche || niche} tactics in 2026` },
+      { format: 'Reels', pillar: 'Proof / Teardown', topic: `Deconstructing a 1.2M view reel in ${subNiche || niche}` },
+      { format: 'Carousels', pillar: 'Actionable Framework', topic: `The 5-step conversion blueprint for ${subNiche || niche}` },
+      { format: 'Reels', pillar: 'Relatable Agitation', topic: `Why 95% of creators fail in ${subNiche || niche}` },
+      { format: 'Reels', pillar: 'Monetization Offer', topic: `The high-converting bio link freebie strategy` },
+      { format: 'Carousels', pillar: 'Resource Vault', topic: `Tools the top 1% secretly use for ${subNiche || niche}` },
+      { format: 'Reels', pillar: 'Weekly Growth Sprint', topic: `Algorithm benchmarking & retention numbers` }
+    ];
+
+    return Array.from({ length: targetDays }).map((_, i) => {
+      const template = samplePillars[i % samplePillars.length];
+      return {
+        day: i + 1,
+        format: template.format,
+        pillar: template.pillar,
+        topic: i < 7 ? template.topic : `Day ${i + 1}: ${template.pillar} - Advanced ${subNiche || niche} system`,
+        time: (i % 2 === 0) ? '18:30 IST' : '19:00 IST',
+        status: i === 0 ? 'Ready' : i % 2 === 0 ? 'Scheduled' : 'Draft'
+      };
+    });
   }
 }
 

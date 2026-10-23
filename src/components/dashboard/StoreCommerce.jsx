@@ -906,11 +906,16 @@ export default function StoreCommerce({ onNavigate, initialSection = 'store' }) 
       return;
     }
 
-    if (tier === 'free' && products.length >= 1) {
+    if (tier === 'free' && products.length >= 3) {
       openUpgradeModal(
-        'store_products',
-        'Upgrade to Pro to import unlimited turnkey assets from the Winning Products Vault.'
+        'unlimited_products',
+        'Free tier allows up to 3 active storefront products. Upgrade to Pro to import unlimited turnkey assets!'
       );
+      addNotification({
+        title: 'Product Limit Reached (Free Plan)',
+        message: 'Upgrade to Pro to import unlimited turnkey assets from the Winning Products Vault.',
+        type: 'info'
+      });
       return;
     }
 
@@ -2227,7 +2232,7 @@ export default function StoreCommerce({ onNavigate, initialSection = 'store' }) 
 
               <button
                 type="button"
-                onClick={() => openUpgradeModal('white_label', 'Upgrade to Elite Plan to resell Vyralify Co-Pilot under your own software brand.')}
+                onClick={() => openUpgradeModal('white_label_ai', 'Upgrade to Elite Plan to resell Vyralify Co-Pilot under your own software brand.')}
                 className="px-4 py-2 rounded-xl bg-gradient-to-r from-[#067CF9] via-[#6366F1] to-[#8B5CF6] hover:opacity-95 text-white font-semibold text-xs transition-all flex items-center gap-1.5 cursor-pointer whitespace-nowrap self-start sm:self-auto shadow-sm shadow-indigo-500/20"
               >
                 <span>Get Co-Pilot Reseller License</span>

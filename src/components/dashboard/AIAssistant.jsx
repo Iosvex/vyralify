@@ -75,8 +75,9 @@ function generateCleanSessionTitle(rawText, pageCategory) {
 }
 
 /**
- * Modern Clean Message Formatter - Strict Electric Light Blueprint
- * Uses White (#FFFFFF), Obsidian Navy (#0F172A), Slate (#64748B), and Electric Blue (#067CF9)
+ * Modern Executive ChatGPT-Style Message Formatter
+ * Natural hierarchy, dark bold headings, clean bullet points, numbered steps,
+ * and elegant markdown without artificial blue badges or cheap styling.
  */
 function CleanFormattedMessage({ text }) {
   const [copiedQuoteIdx, setCopiedQuoteIdx] = useState(null);
@@ -101,21 +102,18 @@ function CleanFormattedMessage({ text }) {
       renderedElements.push(
         <div 
           key={`quote-${key}-${renderedElements.length}`}
-          className="my-3 p-3.5 rounded-xl bg-white border border-[rgba(6,124,249,0.18)] text-xs shadow-2xs relative group"
+          className="my-3 p-3.5 rounded-xl bg-slate-50/90 border border-slate-200 text-xs shadow-2xs relative group"
         >
-          <div className="flex items-center justify-between text-[10px] font-sans uppercase tracking-wider text-[#067CF9] font-bold mb-2">
-            <span className="flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#067CF9] animate-pulse" />
-              <span>Recommended Script / Copy</span>
-            </span>
+          <div className="flex items-center justify-between text-[11px] font-semibold text-slate-600 mb-1.5">
+            <span>Copy / Template</span>
             <button
               onClick={() => handleCopyQuote(quoteContent, quoteIndex)}
-              className="px-2 py-0.5 rounded-md bg-[#EFF6FF] hover:bg-[#DBEAFE] text-[#067CF9] text-[10px] font-sans transition-colors cursor-pointer flex items-center gap-1 border border-[#067CF9]/30 shadow-2xs"
+              className="px-2 py-0.5 rounded-md bg-white hover:bg-slate-100 text-slate-700 text-[10px] font-medium transition-colors cursor-pointer flex items-center gap-1 border border-slate-200 shadow-2xs"
               title="Copy to clipboard"
             >
               {copiedQuoteIdx === quoteIndex ? (
                 <>
-                  <Check className="w-2.5 h-2.5 text-[#067CF9]" />
+                  <Check className="w-2.5 h-2.5 text-emerald-600" />
                   <span>Copied!</span>
                 </>
               ) : (
@@ -126,7 +124,7 @@ function CleanFormattedMessage({ text }) {
               )}
             </button>
           </div>
-          <div className="font-sans text-[#0F172A] whitespace-pre-line leading-relaxed selection:bg-[#067CF9]/20 font-medium">
+          <div className="text-[#0F172A] whitespace-pre-line leading-relaxed font-normal">
             {quoteContent}
           </div>
         </div>
@@ -138,12 +136,18 @@ function CleanFormattedMessage({ text }) {
   const flushList = (key) => {
     if (currentList.length > 0) {
       renderedElements.push(
-        <div key={`list-${key}-${renderedElements.length}`} className="my-2 space-y-2">
+        <div key={`list-${key}-${renderedElements.length}`} className="my-2.5 space-y-1.5">
           {currentList.map((item, idx) => (
-            <div key={idx} className="flex items-start gap-2.5 text-xs leading-relaxed text-[#0F172A]">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#067CF9] mt-2 shrink-0" />
+            <div key={idx} className="flex items-start gap-2.5 text-xs leading-relaxed text-[#1E293B]">
+              {item.type === 'ordered' ? (
+                <span className="font-semibold text-slate-700 shrink-0 select-none min-w-[18px]">
+                  {item.number}.
+                </span>
+              ) : (
+                <span className="w-1.5 h-1.5 rounded-full bg-slate-400 mt-2 shrink-0" />
+              )}
               <div className="flex-1 font-normal">
-                {renderCleanInline(item)}
+                {renderCleanInline(item.text)}
               </div>
             </div>
           ))}
@@ -166,33 +170,33 @@ function CleanFormattedMessage({ text }) {
       return;
     }
 
-    // 2. Heading
+    // 2. Headings (#, ##, ###, ####)
     if (/^#{1,4}\s+(.+)$/.test(trimmed)) {
       flushQuote(lineIdx);
       flushList(lineIdx);
-      const headingRaw = trimmed.replace(/^#{1,4}\s+/, '').trim();
-      
-      let mainTitle = headingRaw;
-      let badge = null;
-      const parenMatch = headingRaw.match(/\(([^)]+)\)$/);
-      if (parenMatch) {
-        mainTitle = headingRaw.replace(/\(([^)]+)\)$/, '').trim();
-        badge = parenMatch[1];
-      }
+      const headingMatch = trimmed.match(/^(#{1,4})\s+(.+)$/);
+      const level = headingMatch ? headingMatch[1].length : 3;
+      const headingText = headingMatch ? headingMatch[2].trim() : trimmed;
 
-      renderedElements.push(
-        <div key={`h-${lineIdx}`} className="mt-4 mb-2 pt-2 border-t border-slate-100 first:border-0 first:pt-0 flex flex-wrap items-center gap-2">
-          <span className="w-1.5 h-3.5 rounded-full bg-[#067CF9] shrink-0" />
-          <h4 className="text-xs font-bold text-[#0F172A] uppercase tracking-tight font-headline">
-            {renderCleanInline(mainTitle)}
+      if (level === 1) {
+        renderedElements.push(
+          <h2 key={`h-${lineIdx}`} className="text-base font-bold text-[#0F172A] mt-4 mb-2 first:mt-0 tracking-tight">
+            {renderCleanInline(headingText)}
+          </h2>
+        );
+      } else if (level === 2) {
+        renderedElements.push(
+          <h3 key={`h-${lineIdx}`} className="text-sm font-bold text-[#0F172A] mt-3.5 mb-1.5 tracking-tight">
+            {renderCleanInline(headingText)}
+          </h3>
+        );
+      } else {
+        renderedElements.push(
+          <h4 key={`h-${lineIdx}`} className="text-xs font-bold text-[#0F172A] mt-3 mb-1 uppercase tracking-wide">
+            {renderCleanInline(headingText)}
           </h4>
-          {badge && (
-            <span className="px-2 py-0.5 rounded border border-[#067CF9]/20 bg-[#EFF6FF] text-[#067CF9] text-[10px] font-sans font-semibold">
-              {badge}
-            </span>
-          )}
-        </div>
-      );
+        );
+      }
       return;
     }
 
@@ -206,23 +210,37 @@ function CleanFormattedMessage({ text }) {
       flushQuote(lineIdx);
     }
 
-    // 4. Bullet points (* line, - line, • line)
+    // 4. Ordered List (1. line, 2. line)
+    const orderedMatch = trimmed.match(/^(\d+)[\.\)]\s+(.+)$/);
+    if (orderedMatch) {
+      currentList.push({
+        type: 'ordered',
+        number: orderedMatch[1],
+        text: orderedMatch[2]
+      });
+      return;
+    }
+
+    // 5. Bullet List (* line, - line, • line)
     if (/^[*•-]\s+(.+)$/.test(trimmed)) {
       const cleanItem = trimmed.replace(/^[*•-]\s+/, '');
-      currentList.push(cleanItem);
+      currentList.push({
+        type: 'bullet',
+        text: cleanItem
+      });
       return;
     } else {
       flushList(lineIdx);
     }
 
-    // 5. Empty line
+    // 6. Empty line
     if (!trimmed) {
       return;
     }
 
-    // 6. Regular paragraph
+    // 7. Regular paragraph
     renderedElements.push(
-      <p key={`p-${lineIdx}`} className="text-xs leading-relaxed text-[#0F172A]">
+      <p key={`p-${lineIdx}`} className="text-xs leading-relaxed text-[#1E293B]">
         {renderCleanInline(trimmed)}
       </p>
     );
@@ -237,44 +255,35 @@ function CleanFormattedMessage({ text }) {
 function renderCleanInline(text) {
   if (!text) return null;
 
-  let cleaned = text.replace(/^\*\s*\*\*/, '**').replace(/^\*\*\*/, '**');
-  const parts = cleaned.split(/(\*\*.*?\*\*)/g);
+  // Split by inline code `...` and bold **...** and italic *...*
+  const parts = text.split(/(`[^`]+`|\*\*.*?\*\*|\*[^*]+?\*)/g);
 
   return parts.map((part, pIdx) => {
+    if (!part) return null;
+
+    // Inline code: `code`
+    if (part.startsWith('`') && part.endsWith('`') && part.length >= 2) {
+      return (
+        <code key={pIdx} className="px-1.5 py-0.5 rounded bg-slate-100 text-slate-800 text-[11px] font-mono border border-slate-200">
+          {part.slice(1, -1)}
+        </code>
+      );
+    }
+
+    // Bold text: **bold** (Clean dark bold text without blue badges)
     if (part.startsWith('**') && part.endsWith('**') && part.length >= 4) {
       const boldText = part.slice(2, -2).trim();
-
-      const isLabel = boldText.endsWith(':') || 
-                      boldText.startsWith('Line ') || 
-                      boldText.startsWith('Option ') || 
-                      boldText.includes('Trigger:') ||
-                      boldText === 'Why it works' ||
-                      boldText === 'Bio Text' ||
-                      boldText.startsWith('Hook') ||
-                      boldText === 'CRUCIAL' ||
-                      boldText.includes('STEP');
-
-      if (isLabel) {
-        return (
-          <span
-            key={pIdx}
-            className="inline-flex items-center px-2 py-0.5 mr-1.5 rounded-md border border-[#067CF9]/20 bg-[#EFF6FF] text-[#067CF9] font-sans font-semibold text-[11px]"
-          >
-            {boldText.replace(/:$/, '')}
-          </span>
-        );
-      }
-
       return (
-        <strong key={pIdx} className="font-bold text-[#0F172A]">
+        <strong key={pIdx} className="font-semibold text-[#0F172A]">
           {boldText}
         </strong>
       );
     }
 
-    if (part.startsWith('*') && part.endsWith('*') && part.length > 2 && !part.startsWith('**')) {
+    // Italic text: *italic*
+    if (part.startsWith('*') && part.endsWith('*') && part.length > 2) {
       return (
-        <em key={pIdx} className="text-slate-500 italic">
+        <em key={pIdx} className="text-slate-600 italic">
           {part.slice(1, -1)}
         </em>
       );
@@ -311,11 +320,13 @@ export default function AIAssistant({ onNavigate }) {
   useEffect(() => {
     try {
       const stored = localStorage.getItem(SESSIONS_STORAGE_KEY);
+      const activeStored = localStorage.getItem('vyralify_active_session_id');
       if (stored) {
         const parsed = JSON.parse(stored);
         if (Array.isArray(parsed) && parsed.length > 0) {
           setSessions(parsed);
-          setActiveSessionId(parsed[0].id);
+          const targetId = (activeStored && parsed.some(s => s.id === activeStored)) ? activeStored : parsed[0].id;
+          setActiveSessionId(targetId);
           return;
         }
       }
@@ -329,12 +340,52 @@ export default function AIAssistant({ onNavigate }) {
   }, []);
 
   useEffect(() => {
+    const handleSessionChange = (e) => {
+      if (e.detail) {
+        setActiveSessionId(e.detail);
+      }
+    };
+    const handleNewChat = () => {
+      handleNewSession();
+    };
+    const handleChatUpdated = () => {
+      try {
+        const stored = localStorage.getItem(SESSIONS_STORAGE_KEY);
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            setSessions(parsed);
+          }
+        }
+      } catch (e) {}
+    };
+
+    window.addEventListener('vyralify_session_changed', handleSessionChange);
+    window.addEventListener('vyralify_new_chat', handleNewChat);
+    window.addEventListener('vyralify_chat_updated', handleChatUpdated);
+
+    return () => {
+      window.removeEventListener('vyralify_session_changed', handleSessionChange);
+      window.removeEventListener('vyralify_new_chat', handleNewChat);
+      window.removeEventListener('vyralify_chat_updated', handleChatUpdated);
+    };
+  }, []);
+
+  useEffect(() => {
     if (sessions.length > 0) {
       try {
         localStorage.setItem(SESSIONS_STORAGE_KEY, JSON.stringify(sessions));
+        window.dispatchEvent(new CustomEvent('vyralify_chat_updated'));
       } catch (e) {}
     }
   }, [sessions]);
+
+  useEffect(() => {
+    if (activeSessionId) {
+      localStorage.setItem('vyralify_active_session_id', activeSessionId);
+      window.dispatchEvent(new CustomEvent('vyralify_active_session_changed', { detail: activeSessionId }));
+    }
+  }, [activeSessionId]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -625,169 +676,53 @@ export default function AIAssistant({ onNavigate }) {
   ];
 
   return (
-    <div className="h-[calc(100vh-5.5rem)] flex flex-col lg:flex-row gap-3 max-w-7xl mx-auto overflow-hidden">
+    <div className="h-[calc(100vh-5.5rem)] flex flex-col max-w-6xl mx-auto overflow-hidden">
       
-      {/* 1. SESSIONS HISTORY DRAWER (Clean Frosted White Container) */}
-      <div className={`shrink-0 transition-all duration-300 ease-in-out flex flex-col bg-white border border-slate-200/90 rounded-2xl overflow-hidden shadow-xs ${
-        isSidebarOpen ? 'w-full lg:w-72' : 'w-14 hidden lg:flex'
-      }`}>
-        
-        {/* Drawer Header */}
-        <div className="p-3 border-b border-slate-100 flex items-center justify-between gap-2 bg-slate-50/60">
-          {isSidebarOpen ? (
-            <>
-              <div className="flex items-center gap-2">
-                <MessageSquare className="w-4 h-4 text-[#067CF9]" />
-                <span className="font-semibold text-xs text-[#0F172A]">Conversations</span>
-                <span className="px-1.5 py-0.2 rounded-full bg-blue-50 text-[10px] font-sans text-[#067CF9] font-semibold">
-                  {sessions.length}
-                </span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <button
-                  onClick={handleNewSession}
-                  className="p-1.5 rounded-lg bg-[#EFF6FF] hover:bg-[#DBEAFE] text-[#067CF9] text-xs transition-colors cursor-pointer shadow-2xs"
-                  title="New Thread"
-                  aria-label="New Thread"
-                >
-                  <Plus className="w-3.5 h-3.5" />
-                </button>
-                <button
-                  onClick={() => setIsSidebarOpen(false)}
-                  className="p-1.5 rounded-lg hover:bg-slate-100 text-slate-400 hover:text-slate-700 transition-colors cursor-pointer"
-                  title="Collapse Sidebar"
-                  aria-label="Collapse Sidebar"
-                >
-                  <ChevronLeft className="w-3.5 h-3.5" />
-                </button>
-              </div>
-            </>
-          ) : (
-            <button
-              onClick={() => setIsSidebarOpen(true)}
-              className="w-full py-2 flex items-center justify-center hover:bg-slate-100 text-slate-400 rounded-lg transition-colors cursor-pointer"
-              title="Expand Conversations"
-              aria-label="Expand Conversations"
-            >
-              <ChevronRight className="w-4 h-4" />
-            </button>
-          )}
-        </div>
-
-        {/* Drawer Search & List */}
-        {isSidebarOpen && (
-          <>
-            <div className="p-2.5 border-b border-slate-100">
-              <div className="relative">
-                <Search className="w-3 h-3 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2" />
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search chats..."
-                  className="w-full bg-[#F8FAFC] border border-slate-200 rounded-xl pl-7 pr-2.5 py-1.5 text-[11px] text-[#0F172A] placeholder-slate-400 focus:outline-hidden focus:border-[#067CF9] focus:bg-white transition-colors"
-                />
-              </div>
-            </div>
-
-            {/* Sessions Scroll List */}
-            <div className="flex-1 overflow-y-auto p-2 space-y-1 bg-white">
-              {filteredSessions.map((s) => {
-                const isActive = s.id === activeSessionId;
-                return (
-                  <div
-                    key={s.id}
-                    onClick={() => setActiveSessionId(s.id)}
-                    className={`group relative p-2.5 rounded-xl border transition-all cursor-pointer flex items-center justify-between gap-2 ${
-                      isActive
-                        ? 'bg-[#EFF6FF] border-[#067CF9]/40 text-[#067CF9] font-semibold shadow-2xs'
-                        : 'bg-transparent border-transparent hover:bg-slate-50 text-slate-600 hover:text-[#0F172A]'
-                    }`}
-                  >
-                    <div className="min-w-0 flex-1">
-                      <p className="text-xs truncate">{s.title}</p>
-                      <div className="flex items-center gap-1.5 text-xs text-slate-500 font-sans mt-0.5">
-                        <span>{s.messages.length} msgs</span>
-                        <span>&bull;</span>
-                        <span>{new Date(s.updatedAt).toLocaleDateString([], { month: 'short', day: 'numeric' })}</span>
-                      </div>
-                    </div>
-
-                    <button
-                      onClick={(e) => handleDeleteSession(e, s.id)}
-                      className="opacity-0 group-hover:opacity-100 p-1 rounded-md hover:bg-red-50 text-slate-400 hover:text-red-500 transition-all cursor-pointer"
-                      title="Delete Thread"
-                    >
-                      <Trash2 className="w-3 h-3" />
-                    </button>
-                  </div>
-                );
-              })}
-
-              {filteredSessions.length === 0 && (
-                <div className="p-4 text-center text-xs text-slate-400">
-                  No matching sessions found.
-                </div>
-              )}
-            </div>
-
-            {/* Sidebar Footer */}
-            <div className="p-2.5 px-3 border-t border-slate-100 bg-slate-50/70 text-[11px] text-slate-500 flex items-center justify-between">
-              <div className="flex items-center gap-1.5 font-sans text-[10px] text-slate-600">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#067CF9]" />
-                <span>{tier === 'free' ? 'Starter Memory' : 'Cloud History Synced'}</span>
-              </div>
-              {tier === 'free' && (
-                <button
-                  onClick={() => openUpgradeModal('ai_history', 'Upgrade to Pro for unlimited searchable chat memory.')}
-                  className="text-[#067CF9] hover:underline font-semibold text-[10px] cursor-pointer"
-                >
-                  Upgrade &rarr;
-                </button>
-              )}
-            </div>
-          </>
-        )}
-      </div>
-
-      {/* 2. MAIN CONVERSATION WORKSPACE (Clean Frosted White Container) */}
+      {/* MAIN CONVERSATION WORKSPACE (Clean Frosted White Container) */}
       <div className="flex-1 flex flex-col bg-white border border-slate-200/90 rounded-2xl overflow-hidden shadow-xs relative">
         
         {/* Workspace Top Header Bar */}
-        <div className="p-3 px-4 border-b border-slate-100 bg-slate-50/70 flex flex-wrap items-center justify-between gap-3 z-10">
+        <div className="p-3 px-5 border-b border-slate-100 bg-slate-50/80 flex flex-wrap items-center justify-between gap-3 z-10">
           <div className="flex items-center gap-3">
-            {!isSidebarOpen && (
-              <button
-                onClick={() => setIsSidebarOpen(true)}
-                className="p-1.5 rounded-lg hover:bg-slate-100 text-slate-500 transition-colors cursor-pointer"
-                title="View Chats"
-              >
-                <MessageSquare className="w-4 h-4 text-[#067CF9]" />
-              </button>
-            )}
-
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-xl bg-[#067CF9] text-white flex items-center justify-center font-bold shadow-xs">
-                <Sparkles className="w-4 h-4" />
+            <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#067CF9] to-[#6366F1] text-white flex items-center justify-center font-bold shadow-xs">
+              <Sparkles className="w-4 h-4" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <h2 className="font-bold text-[#0F172A] text-sm tracking-tight">
+                  Vyralify Assistant
+                </h2>
+                <span className="w-2 h-2 rounded-full bg-emerald-500 ring-2 ring-emerald-100" />
               </div>
-              <h2 className="font-bold text-[#0F172A] text-sm font-headline tracking-tight">
-                Vyralify Assistant
-              </h2>
+              <p className="text-[11px] text-[#64748B]">
+                Active Page Context: <strong className="text-[#0F172A]">@{activePage?.handle || 'creator'}</strong> &bull; {activeSession?.title || 'Growth Strategy Session'}
+              </p>
             </div>
           </div>
 
           {/* Right Header Status */}
           <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={handleNewSession}
+              className="px-3 py-1.5 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 text-[#0F172A] font-semibold text-xs transition-colors cursor-pointer flex items-center gap-1.5 shadow-2xs"
+              title="Start a new chat thread"
+            >
+              <Plus className="w-3.5 h-3.5 text-[#067CF9]" />
+              <span>New Thread</span>
+            </button>
+
             {tier === 'free' && (
               <button
                 onClick={() => openUpgradeModal('ai_credits', 'Unlock 300 daily generations & vision critiques with Pro.')}
-                className="px-3 py-1.5 rounded-xl bg-[#067CF9] hover:bg-[#056ad6] text-white font-semibold text-xs transition-colors cursor-pointer shadow-xs"
+                className="px-3 py-1.5 rounded-xl bg-gradient-to-r from-[#067CF9] via-[#6366F1] to-[#8B5CF6] hover:opacity-95 text-white font-semibold text-xs transition-colors cursor-pointer shadow-xs"
               >
                 Upgrade to Pro
               </button>
             )}
           </div>
         </div>
+
 
         {/* 80% Credit Warning Banner */}
         {isNearLimit && (

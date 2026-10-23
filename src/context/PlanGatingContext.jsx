@@ -6,6 +6,7 @@ const PlanGatingContext = createContext(null);
 export const FEATURE_GATES = {
   MULTI_PAGE: {
     key: 'multi_page',
+    aliases: ['multi_account', 'pages'],
     minTier: 'pro',
     title: 'Multi-Page Management',
     description: 'Manage up to 3 Instagram pages on Pro, or unlimited pages on Elite with individual analytics and content queues.',
@@ -13,6 +14,7 @@ export const FEATURE_GATES = {
   },
   THIRTY_DAY_PLANNER: {
     key: '30_day_planner',
+    aliases: ['planner', 'calendar'],
     minTier: 'pro',
     title: 'Full 30-Day Content Planner',
     description: 'Free tier includes a 7-day planner. Upgrade to Pro to auto-populate and schedule a full 30-day viral content calendar.',
@@ -20,6 +22,7 @@ export const FEATURE_GATES = {
   },
   UNLIMITED_PRODUCTS: {
     key: 'unlimited_products',
+    aliases: ['store_products', 'products', 'commerce'],
     minTier: 'pro',
     title: 'Unlimited Link-in-Bio Products',
     description: 'Free tier allows 1 active product or link. Upgrade to Pro to build a full creator storefront with unlimited offers.',
@@ -27,6 +30,7 @@ export const FEATURE_GATES = {
   },
   COMPETITOR_SLOTS: {
     key: 'competitor_slots',
+    aliases: ['competitors'],
     minTier: 'pro',
     title: 'Advanced Competitor Tracking',
     description: 'Track up to 10 competitors on Pro (or unlimited on Elite) to reverse-engineer winning formats and viral hooks.',
@@ -34,9 +38,10 @@ export const FEATURE_GATES = {
   },
   WHITE_LABEL_AI: {
     key: 'white_label_ai',
+    aliases: ['white_label', 'reseller', 'co_pilot_license'],
     minTier: 'elite',
-    title: 'White-Label AI Assistant Resale',
-    description: 'Exclusive to Elite: Rebrand Vyralify AI as your own proprietary creator tool and sell access directly on your storefront.',
+    title: 'Vyralify Co-Pilot Reseller License',
+    description: 'Exclusive to Elite: Rebrand Vyralify AI as your own software, issue client keys, and keep 100% of recurring subscriber revenue.',
     icon: 'Sparkles'
   }
 };
@@ -69,12 +74,20 @@ export function PlanGatingProvider({ children }) {
   const openUpgradeModal = (featureKeyOrConfig, customDescription = '') => {
     let gate = null;
     if (typeof featureKeyOrConfig === 'string') {
-      gate = Object.values(FEATURE_GATES).find(g => g.key === featureKeyOrConfig) || {
-        key: featureKeyOrConfig,
-        minTier: 'pro',
-        title: 'Upgrade Your Plan to Unlock',
-        description: customDescription || 'Unlock higher limits, advanced AI models, and automated creator workflows.'
-      };
+      const keyLower = featureKeyOrConfig.toLowerCase();
+      gate = Object.values(FEATURE_GATES).find(g => 
+        g.key === keyLower || (g.aliases && g.aliases.includes(keyLower))
+      );
+
+      if (!gate) {
+        const isElite = keyLower.includes('white_label') || keyLower.includes('resell') || keyLower.includes('elite');
+        gate = {
+          key: featureKeyOrConfig,
+          minTier: isElite ? 'elite' : 'pro',
+          title: isElite ? 'Vyralify Co-Pilot Reseller License' : 'Upgrade Your Plan to Unlock',
+          description: customDescription || 'Unlock higher limits, advanced AI models, and automated creator workflows.'
+        };
+      }
     } else {
       gate = featureKeyOrConfig;
     }

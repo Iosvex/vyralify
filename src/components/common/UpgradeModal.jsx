@@ -12,6 +12,12 @@ export default function UpgradeModal() {
   const [upgrading, setUpgrading] = useState(false);
   const [success, setSuccess] = useState(false);
 
+  React.useEffect(() => {
+    if (modalState.targetTier) {
+      setSelectedTier(modalState.targetTier);
+    }
+  }, [modalState.targetTier, modalState.isOpen]);
+
   if (!modalState.isOpen) return null;
 
   const handleSimulateUpgrade = (tierToSet) => {

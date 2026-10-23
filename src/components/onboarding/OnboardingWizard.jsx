@@ -488,62 +488,29 @@ export default function OnboardingWizard({ initialTrack, onComplete }) {
 
             {!connectedProfile ? (
               <div className="space-y-4 max-w-md mx-auto">
-                {/* 1. Primary Action: Official Meta OAuth Ingestion */}
+                <div className="p-4 rounded-xl bg-blue-50 dark:bg-blue-500/10 border border-blue-200 dark:border-blue-500/20 text-xs text-blue-900 dark:text-blue-200 space-y-1.5 text-left">
+                  <div className="font-bold flex items-center gap-1.5">
+                    <ShieldCheck className="w-4 h-4 text-[#067CF9] shrink-0" />
+                    <span>Official Meta Graph API v19.0 Ingestion</span>
+                  </div>
+                  <p className="text-[11px] leading-relaxed text-slate-600 dark:text-blue-300">
+                    Authenticate directly via Instagram Login for Business. Vyralify connects with read-only permissions to securely fetch your real follower count, bio, reels performance metrics, and peak active hours.
+                  </p>
+                </div>
+
+                {/* Primary Action: Official Meta OAuth Ingestion */}
                 <button
                   type="button"
                   onClick={handleMetaOAuthConnect}
                   disabled={isConnectingMeta}
-                  className="w-full py-3 px-4 rounded-xl bg-[#067CF9] hover:bg-[#0063D1] text-white font-bold text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 shadow-md shadow-blue-500/20"
+                  className="w-full py-3.5 px-4 rounded-xl bg-[#067CF9] hover:bg-[#0063D1] text-white font-bold text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 shadow-md shadow-blue-500/20"
                 >
                   <InstagramIcon className="w-4 h-4 text-white" />
-                  <span>{isConnectingMeta ? 'Authorizing Meta Graph v19.0...' : 'Connect With Official Instagram (Meta OAuth)'}</span>
-                </button>
-
-                <div className="relative flex py-1 items-center">
-                  <div className="flex-grow border-t border-neutral-200 dark:border-white/[0.08]" />
-                  <span className="flex-shrink mx-3 text-[10px] font-mono text-neutral-400 dark:text-neutral-500 uppercase">or connect handle directly</span>
-                  <div className="flex-grow border-t border-neutral-200 dark:border-white/[0.08]" />
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                  <div>
-                    <label className="block text-[11px] font-mono text-neutral-500 mb-1 font-medium">Instagram Handle</label>
-                    <div className="relative">
-                      <span className="absolute left-3 top-2.5 text-neutral-400 font-mono text-xs">@</span>
-                      <input
-                        type="text"
-                        value={instagramHandle}
-                        onChange={(e) => setInstagramHandle(e.target.value)}
-                        placeholder="yourbrand"
-                        className="w-full bg-neutral-50 dark:bg-white/[0.03] border border-neutral-200 dark:border-white/[0.08] rounded-xl pl-7 pr-3 py-2 text-xs text-neutral-900 dark:text-white font-mono focus:outline-hidden focus:border-[#067CF9] transition-colors"
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-[11px] font-mono text-neutral-500 mb-1 font-medium">Followers Count</label>
-                    <input
-                      type="text"
-                      value={followersCountInput}
-                      onChange={(e) => setFollowersCountInput(e.target.value)}
-                      placeholder="e.g. 520, 1.4K, 12K"
-                      className="w-full bg-neutral-50 dark:bg-white/[0.03] border border-neutral-200 dark:border-white/[0.08] rounded-xl px-3 py-2 text-xs text-neutral-900 dark:text-white font-mono focus:outline-hidden focus:border-[#067CF9] transition-colors"
-                    />
-                  </div>
-                </div>
-
-                <button
-                  type="button"
-                  onClick={handleConnectInstagram}
-                  disabled={!instagramHandle || isConnectingMeta}
-                  className="w-full py-2.5 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-semibold text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 shadow-xs"
-                >
-                  <Sparkles className="w-3.5 h-3.5 text-[#067CF9]" />
-                  <span>Instant Setup With Custom Handle</span>
+                  <span>{isConnectingMeta ? 'Authorizing Meta Graph v19.0...' : 'Log In With Instagram (Fetch Real Data)'}</span>
                 </button>
 
                 {oauthError && (
-                  <div className="text-[11px] text-red-600 bg-red-50 p-2.5 rounded-xl border border-red-200">
+                  <div className="text-[11px] text-red-600 bg-red-50 p-2.5 rounded-xl border border-red-200 text-left">
                     {oauthError}
                   </div>
                 )}

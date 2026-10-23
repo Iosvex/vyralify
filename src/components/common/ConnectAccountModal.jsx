@@ -332,178 +332,48 @@ export default function ConnectAccountModal({ isOpen, onClose }) {
             </div>
           ) : (
             <div className="space-y-4">
-              {/* Tab Selector */}
-              <div className="grid grid-cols-2 p-1 rounded-xl bg-neutral-100 dark:bg-white/[0.04] border border-neutral-200/80 dark:border-white/[0.06] text-xs">
-                <button
-                  type="button"
-                  onClick={() => { setConnectTab('direct'); setError(''); }}
-                  className={`py-2 px-3 rounded-lg font-medium transition-all cursor-pointer text-center flex items-center justify-center gap-1.5 ${
-                    connectTab === 'direct'
-                      ? 'bg-emerald-600 text-white font-semibold shadow-xs'
-                      : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white'
-                  }`}
-                >
-                  <Sparkles className="w-3.5 h-3.5" />
-                  <span>Enter Handle & Audit</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => { setConnectTab('meta'); setError(''); }}
-                  className={`py-2 px-3 rounded-lg font-medium transition-all cursor-pointer text-center flex items-center justify-center gap-1.5 ${
-                    connectTab === 'meta'
-                      ? 'bg-white dark:bg-white/[0.1] text-neutral-900 dark:text-white font-semibold shadow-xs'
-                      : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white'
-                  }`}
-                >
-                  <InstagramIcon className="w-3.5 h-3.5" />
-                  <span>Meta OAuth Popup</span>
-                </button>
+              <div className="p-4 rounded-xl bg-blue-50 dark:bg-blue-500/10 border border-blue-200 dark:border-blue-500/20 text-xs text-blue-900 dark:text-blue-200 space-y-1.5 text-left">
+                <div className="font-bold flex items-center gap-1.5">
+                  <Shield className="w-4 h-4 text-[#067CF9] shrink-0" />
+                  <span>Official Meta Graph API v19.0 Ingestion</span>
+                </div>
+                <p className="text-[11px] leading-relaxed text-slate-600 dark:text-blue-300">
+                  Authenticate directly via Instagram Login for Business. Vyralify connects with read-only permissions to securely fetch your real follower count, bio, reels performance metrics, and peak active hours.
+                </p>
               </div>
 
-              {/* TAB 1: DIRECT HANDLE & AI AUDIT (V1 RECOMMENDED FALLBACK) */}
-              {connectTab === 'direct' && (
-                <form onSubmit={handleConnect} className="space-y-3.5">
-                  <div className="p-2.5 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 text-[11px] text-emerald-800 dark:text-emerald-300">
-                    ⚡ <strong>Instant Setup:</strong> Zero Facebook popups or role delays. Enters your handle and executes live AI audit immediately.
-                  </div>
+              {/* Primary Action: Official Meta OAuth Ingestion */}
+              <button
+                type="button"
+                onClick={handleMetaOAuth}
+                disabled={isConnecting}
+                className="w-full py-3.5 px-4 rounded-xl bg-[#067CF9] hover:bg-[#0063D1] text-white font-bold text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 shadow-md shadow-blue-500/20"
+              >
+                {isConnecting ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    <span>Connecting Instagram Graph...</span>
+                  </>
+                ) : (
+                  <>
+                    <InstagramIcon className="w-4 h-4 text-white" />
+                    <span>Log In With Instagram (Fetch Real Data)</span>
+                    <ExternalLink className="w-3.5 h-3.5 opacity-80" />
+                  </>
+                )}
+              </button>
 
-                  {/* Handle Input */}
-                  <div className="space-y-1">
-                    <label className="text-[11px] font-semibold text-neutral-700 dark:text-neutral-300 uppercase tracking-wider font-mono">
-                      Instagram Handle
-                    </label>
-                    <div className="relative">
-                      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400 text-xs font-mono">@</span>
-                      <input
-                        type="text"
-                        value={handle}
-                        onChange={(e) => setHandle(e.target.value)}
-                        placeholder="your_handle"
-                        required
-                        className="w-full pl-7 pr-3 py-2 bg-neutral-50 dark:bg-white/[0.04] border border-neutral-200 dark:border-white/[0.08] rounded-xl text-xs text-neutral-900 dark:text-white placeholder:text-neutral-400 focus:outline-none focus:border-emerald-500 transition-colors font-mono"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Niche Selection */}
-                  <div className="space-y-1">
-                    <label className="text-[11px] font-semibold text-neutral-700 dark:text-neutral-300 uppercase tracking-wider font-mono">
-                      Primary Niche
-                    </label>
-                    <select
-                      value={selectedNiche}
-                      onChange={(e) => setSelectedNiche(e.target.value)}
-                      className="w-full px-3 py-2 bg-neutral-50 dark:bg-white/[0.04] border border-neutral-200 dark:border-white/[0.08] rounded-xl text-xs text-neutral-900 dark:text-white focus:outline-none focus:border-emerald-500 transition-colors"
-                    >
-                      {NICHES.map(n => (
-                        <option key={n.id} value={n.name} className="dark:bg-[#12141C]">
-                          {n.name} ({n.sub})
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  {/* Followers Simulation */}
-                  <div className="space-y-1">
-                    <label className="text-[11px] font-semibold text-neutral-700 dark:text-neutral-300 uppercase tracking-wider font-mono">
-                      Follower Count
-                    </label>
-                    <input
-                      type="text"
-                      value={followers}
-                      onChange={(e) => setFollowers(e.target.value)}
-                      placeholder="e.g. 24.5K"
-                      className="w-full px-3 py-2 bg-neutral-50 dark:bg-white/[0.04] border border-neutral-200 dark:border-white/[0.08] rounded-xl text-xs text-neutral-900 dark:text-white placeholder:text-neutral-400 focus:outline-none focus:border-emerald-500 transition-colors font-mono"
-                    />
-                  </div>
-
-                  {error && (
-                    <div className="text-[11px] text-red-600 bg-red-50 dark:bg-red-500/10 p-2.5 rounded-lg border border-red-200 dark:border-red-500/20 font-medium">
-                      {error}
-                    </div>
-                  )}
-
-                  {/* Submit CTA */}
-                  <div className="pt-2">
-                    <button
-                      type="submit"
-                      disabled={isConnecting}
-                      className="w-full py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white font-semibold text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-xs"
-                    >
-                      {isConnecting ? (
-                        <>
-                          <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                          <span>Running AI Profile Audit...</span>
-                        </>
-                      ) : (
-                        <>
-                          <span>Connect & Run Live AI Audit</span>
-                          <ArrowRight className="w-3.5 h-3.5" />
-                        </>
-                      )}
-                    </button>
-                  </div>
-
-                  <p className="text-[10px] text-center text-neutral-400 dark:text-neutral-500 font-mono">
-                    Zero wait • Instant profile onboarding per v4 launch specification
-                  </p>
-                </form>
-              )}
-
-              {/* TAB 2: META OAUTH POPUP & INSTANT PROTOCOL */}
-              {connectTab === 'meta' && (
-                <div className="space-y-3.5">
-                  <div className="p-3 rounded-xl bg-blue-50 dark:bg-blue-500/10 border border-blue-200 dark:border-blue-500/20 text-xs text-blue-900 dark:text-blue-200 space-y-1.5">
-                    <div className="font-semibold flex items-center gap-1.5">
-                      <Shield className="w-4 h-4 text-[#067CF9] shrink-0" />
-                      <span>Meta Graph Protocol Ready</span>
-                    </div>
-                    <p className="text-[11px] leading-relaxed">
-                      Connect your account directly. If your app is not yet Meta Business Verified, Vyralify's Graph Ingestion Engine automatically loads your live analytics, audience demographics, and 7-day trend curve without blocking.
-                    </p>
-                  </div>
-
-                  {/* 1-Click Instant Meta Graph Button */}
-                  <button
-                    type="button"
-                    onClick={() => handleInstantIngestion(handle || 'creator')}
-                    disabled={isConnecting}
-                    className="w-full py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-xs"
-                  >
-                    <Sparkles className="w-3.5 h-3.5" />
-                    <span>Instant Meta Graph Connect (Bypass Review)</span>
-                  </button>
-
-                  <div className="relative flex py-1 items-center">
-                    <div className="flex-grow border-t border-neutral-200 dark:border-white/[0.08]" />
-                    <span className="flex-shrink mx-3 text-[10px] font-mono text-neutral-400 dark:text-neutral-500 uppercase">or Native Instagram Login</span>
-                    <div className="flex-grow border-t border-neutral-200 dark:border-white/[0.08]" />
-                  </div>
-
-                  <button
-                    type="button"
-                    onClick={handleMetaOAuth}
-                    disabled={isConnecting}
-                    className="w-full py-2.5 px-4 rounded-xl bg-white dark:bg-white/[0.04] hover:bg-neutral-50 dark:hover:bg-white/[0.08] text-neutral-800 dark:text-neutral-200 border border-neutral-200/90 dark:border-white/[0.1] font-semibold text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-xs"
-                  >
-                    <InstagramIcon className="w-4 h-4 text-[#067CF9]" />
-                    <span>Open Native Instagram Login</span>
-                    <ExternalLink className="w-3.5 h-3.5 text-neutral-400" />
-                  </button>
-
-                  {error && (
-                    <div className="text-[11px] text-red-600 bg-red-50 dark:bg-red-500/10 p-2.5 rounded-lg border border-red-200 dark:border-red-500/20 font-medium">
-                      {error}
-                    </div>
-                  )}
-
-                  <p className="text-[10px] text-center text-neutral-400 dark:text-neutral-500 font-mono">
-                    Zero verification delay • Live analytics enabled across all tabs
-                  </p>
+              {error && (
+                <div className="text-[11px] text-red-600 bg-red-50 dark:bg-red-500/10 p-2.5 rounded-lg border border-red-200 dark:border-red-500/20 font-medium text-left">
+                  {error}
                 </div>
               )}
+
+              <p className="text-[10px] text-center text-neutral-400 dark:text-neutral-500 font-mono">
+                🔒 256-Bit SSL Encrypted &bull; Read-only analytics permission &bull; Zero spam
+              </p>
             </div>
-        )}
+          )}
         </div>
       </motion.div>
     </div>

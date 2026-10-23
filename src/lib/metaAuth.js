@@ -225,22 +225,16 @@ export async function exchangeCodeForTokens(code, redirectUri = getRedirectUri()
           igUserId = igProfile.id;
           extractedProfile = {
             id: igProfile.id,
-            username: igProfile.username || '1vexw',
-            name: igProfile.name || igProfile.username || fbUser?.name || 'Maaz Ahmad',
-            profilePictureUrl: igProfile.profile_picture_url || fbUser?.picture?.data?.url,
-            followersCount: igProfile.followers_count || 1420,
-            biography: igProfile.biography || `Official creator page for ${igProfile.name || igProfile.username}`
+            username: igProfile.username || '',
+            name: igProfile.name || igProfile.username || 'Creator',
+            profilePictureUrl: igProfile.profile_picture_url || null,
+            followersCount: igProfile.followers_count || 0,
+            biography: igProfile.biography || `Official creator page for @${igProfile.username}`
           };
-        } else if (fbUser?.name) {
-          const userHandle = fbUser.name.toLowerCase().replace(/[^a-z0-9]/g, '');
-          extractedProfile = {
-            id: fbUser.id,
-            username: userHandle || '1vexw',
-            name: fbUser.name,
-            profilePictureUrl: fbUser.picture?.data?.url,
-            followersCount: 1420,
-            biography: `Official creator profile for ${fbUser.name}`
-          };
+        } else {
+          // STRICT RULE: Never use Facebook user profile as Instagram creator data!
+          console.warn('Meta OAuth: No Instagram Business account connected to Facebook account', fbUser?.name);
+          extractedProfile = null;
         }
       }
     } catch (fbErr) {
@@ -270,11 +264,13 @@ export async function exchangeCodeForTokens(code, redirectUri = getRedirectUri()
     success: true,
     userAccessToken: longLivedToken,
     longLivedToken,
-    instagramUserId: igUserId || extractedProfile?.id,
-    igAccountId: igUserId || extractedProfile?.id,
+    instagramUserId: igUserId || extractedProfile?.id || null,
+    igAccountId: igUserId || extractedProfile?.id || null,
     pageAccessToken: longLivedToken,
-    pageName: extractedProfile?.name || 'Maaz Ahmad',
-    profile: extractedProfile
+    pageName: extractedProfile?.name || '',
+    profile: extractedProfile,
+    fbUserName: fbUser?.name || null,
+    noInstagramLinked: !extractedProfile
   };
 }
 

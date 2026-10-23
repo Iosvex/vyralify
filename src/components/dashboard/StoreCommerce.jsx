@@ -384,7 +384,7 @@ export default function StoreCommerce({ onNavigate, initialSection = 'store' }) 
   });
 
   // Custom Creator Store Handle & Clean vyralify.in URL
-  const defaultUserHandle = (activePage?.handle || user?.displayName || user?.name || 'maazahmad').replace(/^@/, '');
+  const defaultUserHandle = (activePage?.handle || user?.displayName || user?.name || 'creator').replace(/^@/, '');
   const [storeHandle, setStoreHandle] = useState(() => {
     return localStorage.getItem('vyralify_store_handle') || defaultUserHandle;
   });

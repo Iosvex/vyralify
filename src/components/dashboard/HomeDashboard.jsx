@@ -327,26 +327,44 @@ export default function HomeDashboard({ onNavigate }) {
                     Switch Account
                   </div>
                   {pages.map(p => (
-                    <button
+                    <div
                       key={p.id}
-                      onClick={() => {
-                        switchPage(p.id);
-                        setIsSwitchDropdownOpen(false);
-                      }}
-                      className={`w-full flex items-center justify-between p-2 rounded-xl transition-colors cursor-pointer ${
+                      className={`w-full flex items-center justify-between p-2 rounded-xl transition-colors ${
                         p.id === activePage.id ? 'bg-[#EFF6FF] border border-blue-200' : 'hover:bg-[#F8FAFC]'
                       }`}
                     >
-                      <div className="flex items-center gap-2">
-                        <img src={getSafeAvatarUrl(p.avatar, p.handle)} alt={p.handle} className="w-6 h-6 rounded-full object-cover" />
-                        <span className="font-semibold text-[#0F172A]">@{p.handle}</span>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          switchPage(p.id);
+                          setIsSwitchDropdownOpen(false);
+                        }}
+                        className="flex items-center gap-2 flex-1 text-left cursor-pointer min-w-0"
+                      >
+                        <img src={getSafeAvatarUrl(p.avatar, p.handle)} alt={p.handle} className="w-6 h-6 rounded-full object-cover shrink-0" />
+                        <span className="font-semibold text-[#0F172A] truncate">@{p.handle}</span>
+                      </button>
+                      <div className="flex items-center gap-1.5 shrink-0 ml-2">
+                        {p.id === activePage.id ? (
+                          <span className="text-[10px] text-emerald-600 font-bold">Active</span>
+                        ) : (
+                          <>
+                            <span className="text-[10px] text-[#64748B]">{p.followersCount || '0'}</span>
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                removePage(p.id);
+                              }}
+                              className="p-1 rounded text-slate-400 hover:text-red-500 hover:bg-red-50 transition-colors cursor-pointer"
+                              title="Disconnect this account"
+                            >
+                              <X className="w-3.5 h-3.5" />
+                            </button>
+                          </>
+                        )}
                       </div>
-                      {p.id === activePage.id ? (
-                        <span className="text-[10px] text-emerald-600 font-bold">Active</span>
-                      ) : (
-                        <span className="text-[10px] text-[#64748B]">{p.followersCount || '0'}</span>
-                      )}
-                    </button>
+                    </div>
                   ))}
                 </div>
               )}

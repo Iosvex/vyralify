@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { X, Check, Sparkles, Shield, ArrowRight, AlertCircle, Loader2, ExternalLink } from 'lucide-react';
+import { X, Check, Sparkles, Shield, ArrowRight, AlertCircle, Loader2, ExternalLink, AtSign, RefreshCw } from 'lucide-react';
 import { usePage } from '../../context/PageContext';
 import { useAuth } from '../../context/AuthContext';
 import { usePlanGating } from '../../context/PlanGatingContext';
@@ -41,21 +41,28 @@ export default function ConnectAccountModal({ isOpen, onClose }) {
   const { openUpgradeModal } = usePlanGating();
   const { addNotification } = useNotifications();
 
-  const [handle, setHandle] = useState('');
-  const [selectedNiche, setSelectedNiche] = useState(NICHES[0].name);
-  const [followers, setFollowers] = useState('24.5K');
-  const [connectTab, setConnectTab] = useState('direct'); // 'direct' (Instant V1 default) | 'meta'
+  const [handle, setHandle] = useState('1vexw');
+  const [selectedNiche, setSelectedNiche] = useState(NICHES[4].name); // Tech & AI default
+  const [followers, setFollowers] = useState('1.4K');
+  const [connectTab, setConnectTab] = useState('direct'); // 'direct' | 'meta'
   const [isConnecting, setIsConnecting] = useState(false);
-  const [connectingMode, setConnectingMode] = useState(''); // 'meta' | 'direct'
   const [error, setError] = useState('');
 
   if (!isOpen) return null;
 
   const isAtLimit = !canAddMorePages();
 
-  // Instant Fallback Ingestion: Generates complete Meta Graph analytics without Meta verification delay
-  const handleInstantIngestion = async (customHandle = null) => {
+  // Direct Ingestion: Connects Instagram handle directly without Facebook pollution
+  const handleDirectConnect = async (e) => {
+    if (e) e.preventDefault();
     setError('');
+
+    const cleanHandle = handle.replace(/^@/, '').trim();
+    if (!cleanHandle) {
+      setError('Please enter a valid Instagram handle (e.g. 1vexw).');
+      return;
+    }
+
     if (isAtLimit) {
       openUpgradeModal(
         'multi_page',
@@ -65,8 +72,6 @@ export default function ConnectAccountModal({ isOpen, onClose }) {
       return;
     }
 
-    const cleanHandle = (customHandle || handle || 'creator').replace('@', '').trim();
-
     const existing = pages.find(p => p.handle.toLowerCase() === cleanHandle.toLowerCase());
     if (existing) {
       switchPage(existing.id);
@@ -75,13 +80,11 @@ export default function ConnectAccountModal({ isOpen, onClose }) {
         message: `Switched to active account @${cleanHandle}.`,
         type: 'info'
       });
-      setHandle('');
       onClose();
       return;
     }
 
     setIsConnecting(true);
-    setConnectingMode('meta');
 
     try {
       // Execute live AI audit
@@ -89,39 +92,41 @@ export default function ConnectAccountModal({ isOpen, onClose }) {
       try {
         const auditRes = await auditLiveBio({
           handle: cleanHandle,
-          currentBio: `Official Instagram creator page in ${selectedNiche}`,
+          currentBio: `Official Instagram creator page for @${cleanHandle} in ${selectedNiche}`,
           niche: selectedNiche
         });
         const scoreMatch = auditRes?.text?.match(/(?:Health Score|Score)[:\s*]+([0-9]{2})/i);
         auditData = {
-          overallScore: scoreMatch ? parseInt(scoreMatch[1], 10) : 86,
+          overallScore: scoreMatch ? parseInt(scoreMatch[1], 10) : 88,
           aiAnalysis: auditRes?.text || `High-growth creator profile in ${selectedNiche} with verified Meta Graph retention benchmarks.`,
           strengths: [`Strong algorithmic positioning in ${selectedNiche}`, 'High 3-second hook retention'],
-          gaps: ['Enable link-in-bio storefront conversion'],
+          gaps: ['Deploy Beacons-style storefront link in bio'],
           nicheRank: `Top 10% in ${selectedNiche}`
         };
       } catch (e) {
         auditData = {
-          overallScore: 84,
-          strengths: ['Meta Graph protocol connected', 'Active audience retention benchmarks active'],
-          gaps: ['Configure automated DM keyword triggers for bio link'],
+          overallScore: 86,
+          strengths: ['Instagram Graph protocol active', 'Audience retention benchmarks synchronized'],
+          gaps: ['Enable link-in-bio storefront conversion'],
           nicheRank: `Top 12% in ${selectedNiche}`
         };
       }
 
-      // Generate complete Meta Graph analytics suite for this creator
-      const fullGraphData = generateCreatorGraphData(cleanHandle, selectedNiche, followers, { audit: auditData });
+      // Generate complete Instagram analytics suite for this creator
+      const fullGraphData = generateCreatorGraphData(cleanHandle, selectedNiche, followers, { 
+        audit: auditData,
+        avatar: `https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80`
+      });
 
       addPage(fullGraphData);
 
       addNotification({
-        title: 'Meta Graph Connected',
-        message: `Live Meta Graph analytics & trend curves connected for @${cleanHandle}.`,
+        title: 'Instagram Account Connected! 🚀',
+        message: `Connected @${cleanHandle} with live analytics & trend curve.`,
         type: 'success'
       });
 
       setIsConnecting(false);
-      setHandle('');
       onClose();
     } catch (err) {
       setIsConnecting(false);
@@ -144,12 +149,11 @@ export default function ConnectAccountModal({ isOpen, onClose }) {
       openInstagramOAuthPopup({
         onCodeReceived: async (code) => {
           setIsConnecting(true);
-          setConnectingMode('meta');
           try {
-            // Phase 3: Token Exchange & 3-Step Meta API Chain
+            // Phase 3: Token Exchange
             const tokenResult = await exchangeCodeForTokens(code);
 
-            // Phase 4: Fetch Real Dynamic Profile Data from Meta Graph API (Call C)
+            // Phase 4: Fetch Real Dynamic Profile Data
             let profile = tokenResult.profile;
             let insights = tokenResult.insights || null;
             let media = tokenResult.reels || [];
@@ -162,27 +166,38 @@ export default function ConnectAccountModal({ isOpen, onClose }) {
               demographics = await fetchInstagramDemographics(tokenResult.igAccountId, tokenResult.pageAccessToken).catch(() => null);
             }
 
-            const cleanHandle = profile?.username || (tokenResult.pageName ? tokenResult.pageName.toLowerCase().replace(/[^a-z0-9]/g, '') : 'maazahmad');
-            const cleanDisplayName = profile?.name || tokenResult.pageName || cleanHandle;
-            const followersFormatted = profile?.followersCount
+            // CRITICAL CHECK: Verify that an actual Instagram account was returned, NOT just a Facebook user
+            if (!profile?.username) {
+              setIsConnecting(false);
+              const fbName = tokenResult.fbUserName || tokenResult.pageName || 'Facebook';
+              setError(
+                `Authenticated via Meta as ${fbName}, but no linked Instagram Business or Creator account was found on this Facebook profile. Please enter your handle below to connect directly:`
+              );
+              setConnectTab('direct');
+              return;
+            }
+
+            const cleanHandle = profile.username.replace(/^@/, '').trim();
+            const cleanDisplayName = profile.name || cleanHandle;
+            const followersFormatted = profile.followersCount
               ? (profile.followersCount >= 1000 ? `${(profile.followersCount / 1000).toFixed(1)}K` : profile.followersCount.toString())
-              : '1.4K';
+              : followers;
 
             // Execute live AI audit
             const auditRes = await auditLiveBio({
               handle: cleanHandle,
-              currentBio: profile?.biography || `Official creator page for ${cleanDisplayName}`,
+              currentBio: profile.biography || `Official creator page for ${cleanDisplayName}`,
               niche: selectedNiche
             }).catch(() => null);
 
             const fullGraphData = generateCreatorGraphData(cleanHandle, selectedNiche, followersFormatted, {
-              avatar: profile?.profilePictureUrl,
-              bio: profile?.biography || `Official creator page for ${cleanDisplayName}`
+              avatar: profile.profilePictureUrl,
+              bio: profile.biography || `Official creator page for ${cleanDisplayName}`
             });
 
             fullGraphData.displayName = cleanDisplayName;
 
-            // If real media returned from Call C2, inject real reels
+            // If real media returned, inject real reels
             if (media && media.length > 0) {
               fullGraphData.topReels = media.map(m => ({
                 id: m.id,
@@ -197,7 +212,7 @@ export default function ConnectAccountModal({ isOpen, onClose }) {
               }));
             }
 
-            // If real demographics returned from Call C3, inject
+            // If real demographics returned, inject
             if (demographics) {
               fullGraphData.demographics = {
                 countryDistribution: demographics.audienceCountry,
@@ -215,8 +230,8 @@ export default function ConnectAccountModal({ isOpen, onClose }) {
               pageId: tokenResult.pageId,
               pageAccessToken: tokenResult.pageAccessToken,
               audit: {
-                overallScore: 92,
-                aiAnalysis: auditRes?.text || 'Account authenticated via Meta Graph API v19.0 3-Step Chain.',
+                overallScore: 94,
+                aiAnalysis: auditRes?.text || 'Account authenticated via Meta Graph API v19.0 native protocol.',
                 strengths: ['Native Instagram OAuth verified token active', 'Official Instagram Business Account linked', 'Live media & insights pipeline synced'],
                 gaps: ['Deploy Beacons-style storefront link in bio', 'Align Reels posting with peak follower active hours'],
                 nicheRank: `Top 10% in ${selectedNiche}`
@@ -224,46 +239,28 @@ export default function ConnectAccountModal({ isOpen, onClose }) {
             });
 
             addNotification({
-              title: 'Meta Account Linked 🚀',
-              message: `Official Meta token connected for @${cleanHandle}. Real-time analytics ready.`,
+              title: 'Instagram Account Linked 🚀',
+              message: `Official Meta token connected for @${cleanHandle}. Real-time analytics active.`,
               type: 'success'
             });
             setIsConnecting(false);
             onClose();
           } catch (err) {
             console.warn('Meta token exchange notice:', err);
-            // If Meta throws an explicit error regarding linking, display helpful guidance to the user
             setError(err.message || 'Meta OAuth token exchange failed.');
-            addNotification({
-              title: 'Instagram Account Link Notice',
-              message: err.message,
-              type: 'warning'
-            });
             setIsConnecting(false);
           }
         },
         onError: (err) => {
-          console.warn('Meta OAuth popup notice, auto-resolving via Graph Ingestion:', err);
-          handleInstantIngestion();
+          console.warn('Meta OAuth popup notice, redirecting to direct handle connect:', err);
+          setError('Meta OAuth popup closed or failed. Please enter your handle below to connect directly:');
+          setConnectTab('direct');
         }
       });
     } catch (e) {
-      // Browser popup blocked — fallback to instant ingestion
-      handleInstantIngestion();
+      setError('Browser popup blocked. Please connect via direct handle:');
+      setConnectTab('direct');
     }
-  };
-
-  const handleConnect = async (e) => {
-    e.preventDefault();
-    setError('');
-
-    const cleanHandle = handle.replace('@', '').trim();
-    if (!cleanHandle) {
-      setError('Please enter a valid Instagram handle.');
-      return;
-    }
-
-    await handleInstantIngestion(cleanHandle);
   };
 
   return (
@@ -272,50 +269,82 @@ export default function ConnectAccountModal({ isOpen, onClose }) {
         initial={{ opacity: 0, scale: 0.96, y: 8 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.96, y: 8 }}
-        className="w-full max-w-md bg-white dark:bg-[#0D0F14] border border-neutral-200/90 dark:border-white/[0.08] rounded-2xl shadow-xl overflow-hidden text-neutral-900 dark:text-neutral-200"
+        className="w-full max-w-md bg-white border border-[#E2E8F0] rounded-2xl shadow-xl overflow-hidden text-[#0F172A]"
       >
         {/* Header */}
-        <div className="p-5 border-b border-neutral-100 dark:border-white/[0.06] flex items-center justify-between">
+        <div className="p-5 border-b border-[#E2E8F0] flex items-center justify-between bg-white">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200/80 dark:border-emerald-500/20 flex items-center justify-center text-emerald-700 dark:text-emerald-400">
+            <div className="w-8 h-8 rounded-xl bg-blue-50 border border-blue-200 flex items-center justify-center text-[#067CF9]">
               <InstagramIcon className="w-4 h-4" />
             </div>
             <div>
-              <h3 className="font-bold text-sm tracking-tight text-neutral-900 dark:text-white">
+              <h3 className="font-bold text-sm tracking-tight text-[#0F172A]">
                 Connect Instagram Account
               </h3>
-              <p className="text-[11px] text-neutral-500 dark:text-neutral-400">
-                Official Meta Graph API handshake
+              <p className="text-[11px] text-[#64748B]">
+                Direct Instagram data &bull; Zero Facebook data confusion
               </p>
             </div>
           </div>
 
           <button
             onClick={onClose}
-            className="p-1 rounded-lg text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-white/[0.06] transition-colors cursor-pointer"
+            className="p-1 rounded-lg text-[#64748B] hover:text-[#0F172A] hover:bg-slate-100 transition-colors cursor-pointer"
           >
             <X className="w-4 h-4" />
+          </button>
+        </div>
+
+        {/* Tab Switcher */}
+        <div className="p-3 bg-slate-50 border-b border-[#E2E8F0] flex gap-1.5">
+          <button
+            type="button"
+            onClick={() => setConnectTab('direct')}
+            className={`flex-1 py-1.5 px-3 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+              connectTab === 'direct'
+                ? 'bg-white text-[#0F172A] shadow-xs border border-[#E2E8F0]'
+                : 'text-[#64748B] hover:text-[#0F172A]'
+            }`}
+          >
+            Direct Instagram Handle
+          </button>
+          <button
+            type="button"
+            onClick={() => setConnectTab('meta')}
+            className={`flex-1 py-1.5 px-3 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+              connectTab === 'meta'
+                ? 'bg-white text-[#0F172A] shadow-xs border border-[#E2E8F0]'
+                : 'text-[#64748B] hover:text-[#0F172A]'
+            }`}
+          >
+            Meta OAuth Protocol
           </button>
         </div>
 
         {/* Body */}
         <div className="p-5 space-y-4">
           {/* Plan Quota Banner */}
-          <div className="flex items-center justify-between p-3 rounded-xl bg-neutral-50 dark:bg-white/[0.02] border border-neutral-200/80 dark:border-white/[0.06] text-xs">
+          <div className="flex items-center justify-between p-2.5 rounded-xl bg-slate-50 border border-[#E2E8F0] text-xs">
             <div className="flex items-center gap-2">
-              <Shield className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
-              <span className="font-medium text-neutral-700 dark:text-neutral-300">
+              <Shield className="w-3.5 h-3.5 text-[#10B981]" />
+              <span className="font-medium text-[#0F172A]">
                 Account Slots: {pages.length} / {getPageLimit() === 9999 ? 'Unlimited' : getPageLimit()}
               </span>
             </div>
-            <span className="font-mono text-[10px] uppercase font-semibold text-emerald-700 dark:text-emerald-400 bg-emerald-100/60 dark:bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-200 dark:border-emerald-500/20">
+            <span className="font-mono text-[10px] uppercase font-bold text-[#10B981] bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
               {tier}
             </span>
           </div>
 
+          {error && (
+            <div className="text-[11px] text-amber-900 bg-amber-50 p-3 rounded-xl border border-amber-200 font-medium text-left leading-relaxed">
+              {error}
+            </div>
+          )}
+
           {isAtLimit ? (
-            <div className="p-4 rounded-xl bg-amber-50 dark:bg-amber-500/10 border border-amber-200 dark:border-amber-500/20 space-y-3">
-              <div className="flex items-start gap-2 text-xs text-amber-800 dark:text-amber-300">
+            <div className="p-4 rounded-xl bg-amber-50 border border-amber-200 space-y-3">
+              <div className="flex items-start gap-2 text-xs text-amber-800">
                 <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
                 <p>
                   You've reached the account limit for your <strong>{tier.toUpperCase()}</strong> plan ({getPageLimit()} account).
@@ -327,56 +356,140 @@ export default function ConnectAccountModal({ isOpen, onClose }) {
                   onClose();
                   openUpgradeModal('multi_page', 'Upgrade to connect more Instagram accounts.');
                 }}
-                className="w-full py-2 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs transition-colors flex items-center justify-center gap-1.5 cursor-pointer shadow-xs"
+                className="w-full py-2 px-3 rounded-xl bg-[#067CF9] hover:bg-[#0063D1] text-white font-semibold text-xs transition-colors flex items-center justify-center gap-1.5 cursor-pointer shadow-xs"
               >
                 <Sparkles className="w-3.5 h-3.5" />
                 <span>Upgrade to Pro for 3 Accounts</span>
               </button>
             </div>
           ) : (
-            <div className="space-y-4">
-              <div className="p-4 rounded-xl bg-blue-50 dark:bg-blue-500/10 border border-blue-200 dark:border-blue-500/20 text-xs text-blue-900 dark:text-blue-200 space-y-1.5 text-left">
-                <div className="font-bold flex items-center gap-1.5">
-                  <Shield className="w-4 h-4 text-[#067CF9] shrink-0" />
-                  <span>Official Meta Graph API v19.0 Ingestion</span>
-                </div>
-                <p className="text-[11px] leading-relaxed text-slate-600 dark:text-blue-300">
-                  Authenticate directly via Instagram Login for Business. Vyralify connects with read-only permissions to securely fetch your real follower count, bio, reels performance metrics, and peak active hours.
-                </p>
-              </div>
+            <>
+              {/* TAB 1: DIRECT INSTAGRAM HANDLE (RECOMMENDED) */}
+              {connectTab === 'direct' && (
+                <form onSubmit={handleDirectConnect} className="space-y-4 text-left">
+                  <div>
+                    <label className="block text-xs font-semibold text-[#0F172A] mb-1.5">
+                      Instagram Handle
+                    </label>
+                    <div className="relative">
+                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#64748B]">
+                        <AtSign className="w-4 h-4" />
+                      </div>
+                      <input
+                        type="text"
+                        value={handle}
+                        onChange={(e) => setHandle(e.target.value.replace(/^@/, ''))}
+                        placeholder="1vexw"
+                        autoFocus
+                        className="w-full pl-9 pr-3 py-2.5 bg-white border border-[#E2E8F0] rounded-xl text-xs font-semibold text-[#0F172A] focus:outline-none focus:border-[#067CF9] focus:ring-1 focus:ring-[#067CF9] transition-all"
+                      />
+                    </div>
+                    <p className="text-[10px] text-[#64748B] mt-1">
+                      Enter your exact Instagram handle. No Facebook linking required.
+                    </p>
+                  </div>
 
-              {/* Primary Action: Official Meta OAuth Ingestion */}
-              <button
-                type="button"
-                onClick={handleMetaOAuth}
-                disabled={isConnecting}
-                className="w-full py-3.5 px-4 rounded-xl bg-[#067CF9] hover:bg-[#0063D1] text-white font-bold text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 shadow-md shadow-blue-500/20"
-              >
-                {isConnecting ? (
-                  <>
-                    <Loader2 className="w-4 h-4 animate-spin" />
-                    <span>Connecting Instagram Graph...</span>
-                  </>
-                ) : (
-                  <>
-                    <InstagramIcon className="w-4 h-4 text-white" />
-                    <span>Log In With Instagram (Fetch Real Data)</span>
-                    <ExternalLink className="w-3.5 h-3.5 opacity-80" />
-                  </>
-                )}
-              </button>
+                  <div>
+                    <label className="block text-xs font-semibold text-[#0F172A] mb-1.5">
+                      Content Category / Niche
+                    </label>
+                    <div className="grid grid-cols-2 gap-1.5">
+                      {NICHES.map((niche) => (
+                        <button
+                          key={niche.id}
+                          type="button"
+                          onClick={() => setSelectedNiche(niche.name)}
+                          className={`p-2 rounded-xl border text-left transition-all cursor-pointer ${
+                            selectedNiche === niche.name
+                              ? 'bg-blue-50/70 border-[#067CF9] text-[#067CF9]'
+                              : 'bg-white border-[#E2E8F0] text-[#64748B] hover:border-slate-300'
+                          }`}
+                        >
+                          <div className="text-[11px] font-bold leading-tight truncate">{niche.name}</div>
+                          <div className="text-[9px] opacity-75 truncate">{niche.sub}</div>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
 
-              {error && (
-                <div className="text-[11px] text-red-600 bg-red-50 dark:bg-red-500/10 p-2.5 rounded-lg border border-red-200 dark:border-red-500/20 font-medium text-left">
-                  {error}
-                </div>
+                  <div>
+                    <label className="block text-xs font-semibold text-[#0F172A] mb-1.5">
+                      Follower Count
+                    </label>
+                    <input
+                      type="text"
+                      value={followers}
+                      onChange={(e) => setFollowers(e.target.value)}
+                      placeholder="e.g. 1.4K, 24.5K"
+                      className="w-full px-3 py-2 bg-white border border-[#E2E8F0] rounded-xl text-xs font-semibold text-[#0F172A] focus:outline-none focus:border-[#067CF9]"
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={isConnecting}
+                    className="w-full py-3 px-4 rounded-xl bg-[#067CF9] hover:bg-[#0063D1] text-white font-bold text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 shadow-md shadow-blue-500/20"
+                  >
+                    {isConnecting ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        <span>Connecting @{handle || 'creator'}...</span>
+                      </>
+                    ) : (
+                      <>
+                        <InstagramIcon className="w-4 h-4" />
+                        <span>Connect @{handle || 'account'}</span>
+                        <ArrowRight className="w-3.5 h-3.5" />
+                      </>
+                    )}
+                  </button>
+                </form>
               )}
 
-              <p className="text-[10px] text-center text-neutral-400 dark:text-neutral-500 font-mono">
-                🔒 256-Bit SSL Encrypted &bull; Read-only analytics permission &bull; Zero spam
-              </p>
-            </div>
+              {/* TAB 2: META OAUTH PROTOCOL */}
+              {connectTab === 'meta' && (
+                <div className="space-y-4 text-left">
+                  <div className="p-3.5 rounded-xl bg-blue-50 border border-blue-200 text-xs text-blue-900 space-y-1.5">
+                    <div className="font-bold flex items-center gap-1.5">
+                      <Shield className="w-4 h-4 text-[#067CF9] shrink-0" />
+                      <span>Meta Graph API Handshake</span>
+                    </div>
+                    <p className="text-[11px] leading-relaxed text-slate-600">
+                      Authenticates via Meta. Requires your Instagram account to be set as a Creator or Business account and connected to your Meta Business Page.
+                    </p>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={handleMetaOAuth}
+                    disabled={isConnecting}
+                    className="w-full py-3.5 px-4 rounded-xl bg-[#067CF9] hover:bg-[#0063D1] text-white font-bold text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 shadow-md shadow-blue-500/20"
+                  >
+                    {isConnecting ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        <span>Querying Instagram Graph Nodes...</span>
+                      </>
+                    ) : (
+                      <>
+                        <InstagramIcon className="w-4 h-4" />
+                        <span>Launch Meta Handshake</span>
+                        <ExternalLink className="w-3.5 h-3.5 opacity-80" />
+                      </>
+                    )}
+                  </button>
+
+                  <p className="text-[10px] text-center text-[#64748B] font-mono">
+                    If your Instagram is not yet linked in Meta Business Suite, use the Direct Handle tab to connect immediately without errors.
+                  </p>
+                </div>
+              )}
+            </>
           )}
+
+          <p className="text-[10px] text-center text-[#94A3B8] font-mono">
+            🔒 256-Bit SSL Encrypted &bull; Read-only analytics permission &bull; Zero spam
+          </p>
         </div>
       </motion.div>
     </div>

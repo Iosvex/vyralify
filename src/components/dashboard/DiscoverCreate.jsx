@@ -31,13 +31,16 @@ import {
   CheckCircle2,
   Compass,
   PenTool,
-  X
+  X,
+  Download,
+  Film
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { usePage } from '../../context/PageContext';
 import { usePlanGating } from '../../context/PlanGatingContext';
 import { useNotifications } from '../../context/NotificationContext';
 import { generateFullReelScript, generateAi30DayPlan } from '../../lib/aiService';
+import ReelVideoAnalyzerModal from './ReelVideoAnalyzerModal';
 
 // 8 Official Niches matching Master Taxonomy
 const NICHES = [
@@ -419,16 +422,26 @@ export default function DiscoverCreate({ onNavigate, initialTab = 'discover' }) 
   const [attachedAudio, setAttachedAudio] = useState(null);
   const [playingAudioId, setPlayingAudioId] = useState(null);
 
-  // Create Section State: 30-Day Content Planner
-  const [calendarSchedule, setCalendarSchedule] = useState([
-    { day: 1, date: 'Day 01', format: 'Reels', pillar: 'Contrarian Hook', topic: 'Stop copying dead formats in 2026', time: '18:30 IST', status: 'Ready' },
-    { day: 2, date: 'Day 02', format: 'Reels', pillar: 'Proof / Teardown', topic: 'How 1 reel drove 140 storefront sales', time: '19:00 IST', status: 'Draft' },
-    { day: 3, date: 'Day 03', format: 'Carousels', pillar: 'Actionable Framework', topic: 'The 5-step bio conversion grid', time: '21:00 IST', status: 'Scheduled' },
-    { day: 4, date: 'Day 04', format: 'Reels', pillar: 'Relatable Agitation', topic: 'Why you are working 10 hrs for 200 views', time: '18:30 IST', status: 'Draft' },
-    { day: 5, date: 'Day 05', format: 'Reels', pillar: 'Monetization Offer', topic: 'High-Converting Bio Link Offer', time: '19:30 IST', status: 'Scheduled' },
-    { day: 6, date: 'Day 06', format: 'Carousels', pillar: 'Resource Vault', topic: 'Tools the top 1% secretly use', time: '20:00 IST', status: 'Draft' },
-    { day: 7, date: 'Day 07', format: 'Reels', pillar: 'Weekly Recap', topic: 'Creator growth sprint benchmarks', time: '18:00 IST', status: 'Ready' }
-  ]);
+  // Video Analyzer Modal State
+  const [isAnalyzerOpen, setIsAnalyzerOpen] = useState(false);
+  const [analyzerReel, setAnalyzerReel] = useState(null);
+
+  // Create Section State: 30-Day Content Planner (Loaded dynamically from localStorage or generated)
+  const [calendarSchedule, setCalendarSchedule] = useState(() => {
+    try {
+      const saved = localStorage.getItem(`vyralify_planner_${activePage?.handle || 'default'}`);
+      if (saved) return JSON.parse(saved);
+    } catch (e) {}
+    return [
+      { day: 1, date: 'Day 01', format: 'Reels', pillar: 'Contrarian Hook', topic: `Stop copying dead formats in ${activePage?.category || '2026'}`, time: '18:30 IST', status: 'Ready' },
+      { day: 2, date: 'Day 02', format: 'Reels', pillar: 'Proof / Teardown', topic: `Case Study: Converting followers to storefront buyers`, time: '19:00 IST', status: 'Draft' },
+      { day: 3, date: 'Day 03', format: 'Carousels', pillar: 'Actionable Framework', topic: `The 5-step bio conversion grid for @${activePage?.handle || 'creators'}`, time: '21:00 IST', status: 'Scheduled' },
+      { day: 4, date: 'Day 04', format: 'Reels', pillar: 'Relatable Agitation', topic: 'Why high-effort reels get zero algorithmic reach', time: '18:30 IST', status: 'Draft' },
+      { day: 5, date: 'Day 05', format: 'Reels', pillar: 'Monetization Offer', topic: 'High-Converting Digital Product Offer Drop', time: '19:30 IST', status: 'Scheduled' },
+      { day: 6, date: 'Day 06', format: 'Carousels', pillar: 'Resource Vault', topic: '5 secret creator tools saving 12 hours every week', time: '20:00 IST', status: 'Draft' },
+      { day: 7, date: 'Day 07', format: 'Reels', pillar: 'Weekly Recap', topic: 'Creator growth sprint retention benchmarks', time: '18:00 IST', status: 'Ready' }
+    ];
+  });
   const [isAutoFillingCalendar, setIsAutoFillingCalendar] = useState(false);
 
   // Competitor Radar State
@@ -551,9 +564,13 @@ export default function DiscoverCreate({ onNavigate, initialTab = 'discover' }) 
       }));
 
       setCalendarSchedule(formatted);
+      try {
+        localStorage.setItem(`vyralify_planner_${activePage?.handle || 'default'}`, JSON.stringify(formatted));
+      } catch (e) {}
+
       addNotification({
-        title: '30-Day Plan Engineered',
-        message: `Successfully populated all 30 days of strategic viral content.`,
+        title: '30-Day Plan Engineered 🚀',
+        message: `Successfully populated all 30 days of strategic viral content tailored to @${activePage?.handle || 'creator'}.`,
         type: 'success'
       });
     } catch (err) {
@@ -561,6 +578,62 @@ export default function DiscoverCreate({ onNavigate, initialTab = 'discover' }) 
     } finally {
       setIsAutoFillingCalendar(false);
     }
+  };
+
+  // Export Calendar to .ICS for Google Calendar / Apple Calendar
+  const handleExportIcsCalendar = () => {
+    let ics = "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//Vyralify//Content Calendar 2026//EN\nCALSCALE:GREGORIAN\nMETHOD:PUBLISH\n";
+    const now = new Date();
+    calendarSchedule.forEach((item, idx) => {
+      const eventDate = new Date(now.getTime() + (idx * 24 * 60 * 60 * 1000));
+      const year = eventDate.getFullYear();
+      const month = String(eventDate.getMonth() + 1).padStart(2, '0');
+      const day = String(eventDate.getDate()).padStart(2, '0');
+      const dtStart = `${year}${month}${day}T130000Z`;
+      const dtEnd = `${year}${month}${day}T133000Z`;
+
+      ics += "BEGIN:VEVENT\n";
+      ics += `UID:vyralify-${activePage?.handle || 'creator'}-day${idx + 1}@vyralify.in\n`;
+      ics += `DTSTAMP:${year}${month}${day}T000000Z\n`;
+      ics += `DTSTART:${dtStart}\n`;
+      ics += `DTEND:${dtEnd}\n`;
+      ics += `SUMMARY:[${item.format}] ${item.topic.replace(/[,;]/g, '')}\n`;
+      ics += `DESCRIPTION:Strategic Pillar: ${item.pillar}\\nTarget Posting Time: ${item.time}\\nGenerated by Vyralify AI for @${activePage?.handle || 'creator'}\n`;
+      ics += "STATUS:CONFIRMED\n";
+      ics += "END:VEVENT\n";
+    });
+    ics += "END:VCALENDAR";
+
+    const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `vyralify_30day_calendar_${activePage?.handle || 'creator'}.ics`;
+    a.click();
+    URL.revokeObjectURL(url);
+    addNotification({
+      title: 'Calendar (.ics) Exported',
+      message: 'Import into Google Calendar or Apple Calendar to schedule your content roadmap.',
+      type: 'success'
+    });
+  };
+
+  // Export Calendar to CSV
+  const handleExportCsvCalendar = () => {
+    const headers = "Day,Format,Strategic Pillar,Topic,Posting Time,Status\n";
+    const rows = calendarSchedule.map(i => `"${i.date}","${i.format}","${i.pillar}","${i.topic.replace(/"/g, '""')}","${i.time}","${i.status}"`).join('\n');
+    const blob = new Blob([headers + rows], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `vyralify_30day_content_plan_${activePage?.handle || 'creator'}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+    addNotification({
+      title: 'Content Plan (.csv) Exported',
+      message: 'Downloaded 30-day spreadsheet schedule.',
+      type: 'success'
+    });
   };
 
   // 5. Add Competitor with Dynamic Intelligence
@@ -955,14 +1028,34 @@ export default function DiscoverCreate({ onNavigate, initialTab = 'discover' }) 
                           </p>
                         </div>
 
-                        <button
-                          type="button"
-                          onClick={() => handleUseHookInScript(post)}
-                          className="w-full py-1.5 rounded-xl bg-gradient-to-r from-blue-50 to-indigo-50 border border-[rgba(99,102,241,0.2)] hover:from-blue-100 hover:to-indigo-100 text-[#6366F1] font-semibold text-xs transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
-                        >
-                          <span>Use Hook in Script</span>
-                          <ArrowRight className="w-3 h-3" />
-                        </button>
+                        <div className="flex items-center gap-1.5 pt-1">
+                          <button
+                            type="button"
+                            onClick={() => handleUseHookInScript(post)}
+                            className="flex-1 py-1.5 rounded-xl bg-gradient-to-r from-blue-50 to-indigo-50 border border-[rgba(99,102,241,0.2)] hover:from-blue-100 hover:to-indigo-100 text-[#6366F1] font-semibold text-[11px] transition-colors flex items-center justify-center gap-1 cursor-pointer"
+                          >
+                            <span>Use Hook</span>
+                            <ArrowRight className="w-3 h-3" />
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setAnalyzerReel({
+                                id: post.id,
+                                title: post.hookText,
+                                caption: post.breakdown,
+                                views: post.views,
+                                retentionRate: '86%'
+                              });
+                              setIsAnalyzerOpen(true);
+                            }}
+                            className="px-2.5 py-1.5 rounded-xl bg-white border border-[rgba(99,102,241,0.2)] hover:bg-slate-50 text-[#0F172A] font-semibold text-[11px] transition-colors flex items-center justify-center gap-1 cursor-pointer"
+                            title="Audit Reel Retention & Breakdown"
+                          >
+                            <Film className="w-3 h-3 text-[#6366F1]" />
+                            <span>Audit</span>
+                          </button>
+                        </div>
                       </div>
                     </div>
                   ))}
@@ -1163,6 +1256,38 @@ export default function DiscoverCreate({ onNavigate, initialTab = 'discover' }) 
       {mainMode === 'create' && (
         <div className="space-y-6">
           
+          {/* AI Video & Reel Retention Auditor Banner */}
+          <div className="p-5 rounded-2xl bg-gradient-to-r from-blue-50/80 via-indigo-50/70 to-purple-50/80 border border-[rgba(99,102,241,0.25)] flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-xs">
+            <div className="flex items-start gap-3.5">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#067CF9] to-[#6366F1] text-white flex items-center justify-center shrink-0 shadow-md">
+                <Film className="w-5 h-5" />
+              </div>
+              <div>
+                <div className="flex items-center gap-2">
+                  <h4 className="font-bold text-sm text-[#0F172A]">AI Reel &amp; Video Retention Auditor</h4>
+                  <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold font-mono">
+                    Gemini 2.5 Flash
+                  </span>
+                </div>
+                <p className="text-xs text-[#475569] mt-0.5 max-w-xl leading-relaxed">
+                  Upload any video file or paste an Instagram Reel link to diagnose viewer drop-off seconds, grade hook strength, and get 3 high-converting remix scripts.
+                </p>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => {
+                setAnalyzerReel(null);
+                setIsAnalyzerOpen(true);
+              }}
+              className="px-4 py-2 rounded-xl bg-gradient-to-r from-[#067CF9] to-[#6366F1] text-white font-semibold text-xs transition-all flex items-center gap-1.5 cursor-pointer shadow-md shadow-[#6366F1]/20 whitespace-nowrap self-start md:self-auto hover:opacity-95"
+            >
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>Launch Video Auditor</span>
+            </button>
+          </div>
+
           {/* A. SCRIPT STUDIO */}
           <div className="p-6 rounded-2xl bg-white/75 backdrop-blur-xl border border-white/80 shadow-[0_8px_30px_rgba(6,124,249,0.04)] ring-1 ring-[rgba(99,102,241,0.12)] hover:ring-[rgba(99,102,241,0.28)] transition-all space-y-5">
             <div>
@@ -1405,24 +1530,46 @@ export default function DiscoverCreate({ onNavigate, initialTab = 'discover' }) 
                 </p>
               </div>
 
-              <button
-                type="button"
-                onClick={handleAutoFill30Days}
-                disabled={isAutoFillingCalendar}
-                className="px-4 py-2 rounded-xl bg-gradient-to-r from-[#067CF9] via-[#6366F1] to-[#8B5CF6] hover:opacity-95 text-white font-semibold text-xs transition-all flex items-center gap-1.5 cursor-pointer shadow-md shadow-[#6366F1]/20 whitespace-nowrap self-start sm:self-auto disabled:opacity-50"
-              >
-                {isAutoFillingCalendar ? (
-                  <>
-                    <RotateCw className="w-3.5 h-3.5 animate-spin" />
-                    <span>Engineering 30-Day Plan...</span>
-                  </>
-                ) : (
-                  <>
-                    <Sparkles className="w-3.5 h-3.5" />
-                    <span>Auto-Fill 30-Day Plan with AI</span>
-                  </>
-                )}
-              </button>
+              <div className="flex flex-wrap items-center gap-2 self-start sm:self-auto">
+                <button
+                  type="button"
+                  onClick={handleExportCsvCalendar}
+                  className="px-3 py-2 rounded-xl bg-white/80 border border-[rgba(99,102,241,0.2)] hover:bg-slate-50 text-[#0F172A] font-semibold text-xs transition-colors flex items-center gap-1.5 cursor-pointer shadow-2xs"
+                  title="Export 30-day spreadsheet schedule (.csv)"
+                >
+                  <Download className="w-3.5 h-3.5 text-[#64748B]" />
+                  <span>CSV</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handleExportIcsCalendar}
+                  className="px-3 py-2 rounded-xl bg-white/80 border border-[rgba(99,102,241,0.2)] hover:bg-slate-50 text-[#0F172A] font-semibold text-xs transition-colors flex items-center gap-1.5 cursor-pointer shadow-2xs"
+                  title="Sync with Google Calendar or Apple Calendar (.ics)"
+                >
+                  <Calendar className="w-3.5 h-3.5 text-[#6366F1]" />
+                  <span>Sync Calendar (.ics)</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handleAutoFill30Days}
+                  disabled={isAutoFillingCalendar}
+                  className="px-4 py-2 rounded-xl bg-gradient-to-r from-[#067CF9] via-[#6366F1] to-[#8B5CF6] hover:opacity-95 text-white font-semibold text-xs transition-all flex items-center gap-1.5 cursor-pointer shadow-md shadow-[#6366F1]/20 whitespace-nowrap disabled:opacity-50"
+                >
+                  {isAutoFillingCalendar ? (
+                    <>
+                      <RotateCw className="w-3.5 h-3.5 animate-spin" />
+                      <span>Engineering 30-Day Plan...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Sparkles className="w-3.5 h-3.5" />
+                      <span>Auto-Fill 30-Day Plan with AI</span>
+                    </>
+                  )}
+                </button>
+              </div>
             </div>
 
             {/* Day-by-Day Strategic Schedule Table */}
@@ -1491,6 +1638,14 @@ export default function DiscoverCreate({ onNavigate, initialTab = 'discover' }) 
 
         </div>
       )}
+
+      {/* Reel & Video Analyzer Modal */}
+      <ReelVideoAnalyzerModal
+        isOpen={isAnalyzerOpen}
+        onClose={() => setIsAnalyzerOpen(false)}
+        initialReel={analyzerReel}
+        onDeployTrigger={() => onNavigate && onNavigate('instagram_automation')}
+      />
 
     </div>
   );

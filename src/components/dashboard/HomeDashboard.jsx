@@ -27,6 +27,8 @@ import {
 import { useAuth } from '../../context/AuthContext';
 import { usePage, getSafeAvatarUrl } from '../../context/PageContext';
 import ConnectAccountModal from '../common/ConnectAccountModal';
+import ReelVideoAnalyzerModal from './ReelVideoAnalyzerModal';
+import EditProfileBioModal from './EditProfileBioModal';
 
 const InstagramIcon = ({ className = "w-5 h-5" }) => (
   <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -49,6 +51,9 @@ export default function HomeDashboard({ onNavigate }) {
   const [isSortDropdownOpen, setIsSortDropdownOpen] = useState(false);
   const [activeMenuReelId, setActiveMenuReelId] = useState(null);
   const [copiedLinkReelId, setCopiedLinkReelId] = useState(null);
+  const [analyzerReel, setAnalyzerReel] = useState(null);
+  const [isAnalyzerOpen, setIsAnalyzerOpen] = useState(false);
+  const [isEditBioModalOpen, setIsEditBioModalOpen] = useState(false);
 
 
   // 100% Real Store Revenue & Order Count
@@ -370,6 +375,16 @@ export default function HomeDashboard({ onNavigate }) {
               )}
             </div>
           )}
+
+          {/* Edit Bio & Profile Button */}
+          <button
+            onClick={() => setIsEditBioModalOpen(true)}
+            className="px-3 py-2 rounded-xl bg-white/80 hover:bg-white border border-[rgba(99,102,241,0.2)] text-[#0F172A] hover:text-[#6366F1] text-xs font-semibold flex items-center gap-1.5 cursor-pointer transition-colors shadow-xs"
+            title="Edit Instagram Bio & Profile details"
+          >
+            <Edit2 className="w-3.5 h-3.5 text-[#6366F1]" />
+            <span className="hidden sm:inline">Edit Bio &amp; Profile</span>
+          </button>
 
           {/* Connect Another Account Button */}
           <button
@@ -900,7 +915,10 @@ export default function HomeDashboard({ onNavigate }) {
                     <td className="py-3 text-right">
                       <div className="inline-flex items-center gap-1.5 justify-end">
                         <button
-                          onClick={() => onNavigate('assistant')}
+                          onClick={() => {
+                            setAnalyzerReel(reel);
+                            setIsAnalyzerOpen(true);
+                          }}
                           className="px-2.5 py-1 rounded-lg bg-gradient-to-r from-blue-50 to-indigo-50 border border-[rgba(99,102,241,0.2)] hover:from-blue-100 hover:to-indigo-100 text-[#6366F1] text-[11px] font-semibold transition-colors flex items-center gap-1 cursor-pointer"
                         >
                           <Sparkles className="w-3 h-3 text-[#6366F1]" />
@@ -945,12 +963,13 @@ export default function HomeDashboard({ onNavigate }) {
                               <button
                                 onClick={() => {
                                   setActiveMenuReelId(null);
-                                  onNavigate('assistant');
+                                  setAnalyzerReel(reel);
+                                  setIsAnalyzerOpen(true);
                                 }}
                                 className="w-full text-left px-2.5 py-1.5 rounded-lg hover:bg-blue-50 text-[#067CF9] font-medium transition-colors cursor-pointer flex items-center gap-2"
                               >
                                 <Sparkles className="w-3.5 h-3.5" />
-                                <span>AI Script Breakdown</span>
+                                <span>AI Retention Audit</span>
                               </button>
 
                               <button
@@ -1087,6 +1106,22 @@ export default function HomeDashboard({ onNavigate }) {
       <ConnectAccountModal
         isOpen={isConnectModalOpen}
         onClose={() => setIsConnectModalOpen(false)}
+      />
+
+      {/* AI Video & Reel Retention Analyzer Modal */}
+      <ReelVideoAnalyzerModal
+        isOpen={isAnalyzerOpen}
+        onClose={() => setIsAnalyzerOpen(false)}
+        initialReel={analyzerReel}
+        onDeployTrigger={(keyword) => {
+          if (onNavigate) onNavigate('instagram_automation');
+        }}
+      />
+
+      {/* Edit Profile & Bio Modal */}
+      <EditProfileBioModal
+        isOpen={isEditBioModalOpen}
+        onClose={() => setIsEditBioModalOpen(false)}
       />
 
     </div>

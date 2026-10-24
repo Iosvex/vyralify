@@ -31,9 +31,10 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Authorization code is required' });
   }
 
-  const INSTAGRAM_APP_ID = process.env.INSTAGRAM_APP_ID || process.env.VITE_META_APP_ID || process.env.META_APP_ID || '2269459297171981';
-  const INSTAGRAM_APP_SECRET = process.env.INSTAGRAM_APP_SECRET || process.env.VITE_META_APP_SECRET || process.env.META_APP_SECRET || '234e80539dd2d9c45f144a632af4b67d';
-  const cleanRedirectUri = redirectUri || 'https://api.vyralify.com/api/v1/auth/instagram/callback';
+  const INSTAGRAM_APP_ID = process.env.INSTAGRAM_APP_ID || process.env.VITE_INSTAGRAM_APP_ID || process.env.META_APP_ID || '2568931813529253';
+  const INSTAGRAM_APP_SECRET = process.env.INSTAGRAM_APP_SECRET || process.env.VITE_INSTAGRAM_APP_SECRET || process.env.META_APP_SECRET || '';
+  const PRODUCTION_REDIRECT_URI = 'https://vyralify.in/auth/callback/instagram';
+  const cleanRedirectUri = redirectUri || PRODUCTION_REDIRECT_URI;
 
   try {
     let longLivedToken = null;
@@ -138,7 +139,7 @@ export default async function handler(req, res) {
 
     // A. Profile Node Specification
     try {
-      const profileUrl = `https://graph.instagram.com/v19.0/me?fields=id,username,name,profile_picture_url,followers_count,follows_count,media_count&access_token=${longLivedToken}`;
+      const profileUrl = `https://graph.instagram.com/v19.0/me?fields=id,username,name,profile_picture_url,followers_count,follows_count,media_count,biography,website&access_token=${longLivedToken}`;
       const pRes = await fetch(profileUrl);
       const pJson = await pRes.json();
       if (!pJson.error) {

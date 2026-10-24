@@ -115,8 +115,6 @@ export default function OnboardingWizard({ initialTrack, onComplete }) {
   const [track, setTrack] = useState(normalizedTrack);
   
   // Existing Track State
-  const [instagramHandle, setInstagramHandle] = useState('');
-  const [followersCountInput, setFollowersCountInput] = useState('');
   const [isConnectingMeta, setIsConnectingMeta] = useState(false);
   const [oauthError, setOauthError] = useState('');
   const [connectedProfile, setConnectedProfile] = useState(null);
@@ -150,10 +148,11 @@ export default function OnboardingWizard({ initialTrack, onComplete }) {
               demographics = await fetchInstagramDemographics(tokenResult.instagramUserId, tokenResult.longLivedToken).catch(() => null);
             }
 
-            const realHandle = profile?.username || (instagramHandle ? instagramHandle.replace('@', '').trim() : 'creator');
-            const realFollowersCount = profile?.followersCount 
-              ? (profile.followersCount >= 1000 ? `${(profile.followersCount / 1000).toFixed(1)}K` : `${profile.followersCount}`)
-              : (followersCountInput || '1.2K');
+            const realHandle = (profile?.username || 'creator').replace('@', '').trim();
+            const rawFollowers = profile?.followersCount ?? 0;
+            const realFollowersCount = rawFollowers >= 1000 
+              ? `${(rawFollowers / 1000).toFixed(1)}K` 
+              : `${rawFollowers}`;
             const realBio = profile?.biography || `Official Instagram creator account in ${selectedCategory.name}`;
             const realAvatar = profile?.profilePictureUrl;
 
@@ -238,66 +237,6 @@ export default function OnboardingWizard({ initialTrack, onComplete }) {
     }
   };
 
-  // Handle Manual Handle Onboarding Connection
-  const handleConnectInstagram = async () => {
-    if (!instagramHandle) return;
-    setIsConnectingMeta(true);
-    setOauthError('');
-
-    const cleanHandle = instagramHandle.replace('@', '').toLowerCase();
-    const cleanFollowers = followersCountInput.trim() || '1.2K';
-    const graphData = generateCreatorGraphData(cleanHandle, selectedCategory.name, cleanFollowers);
-
-    const connectedAcc = {
-      ...graphData,
-      id: `ig_${Date.now()}`,
-      handle: cleanHandle,
-      followersCount: cleanFollowers,
-      category: selectedCategory.name,
-      subNiche: selectedSubNiche
-    };
-
-    setConnectedProfile(connectedAcc);
-    setIsConnectingMeta(false);
-    setAuditRunning(true);
-
-    // Call Real AI Intelligence to analyze the creator's profile
-    try {
-      const aiResult = await auditLiveBio({
-        handle: cleanHandle,
-        currentBio: connectedAcc.bio,
-        niche: selectedCategory.name
-      });
-
-      setAuditResults({
-        overallScore: Math.floor(78 + Math.random() * 12),
-        aiAnalysis: aiResult.text,
-        strengths: [
-          `Strong high-CPM positioning in ${selectedCategory.name}`,
-          'Clear niche outcome tailored for viral retention'
-        ],
-        gaps: [
-          'Deploy Beacons-style storefront link in bio',
-          'Align Reels posting with peak follower active hours'
-        ]
-      });
-    } catch (e) {
-      console.warn('AI audit fallback:', e.message);
-      setAuditResults({
-        overallScore: 84,
-        strengths: [
-          'Consistent hook framing in last 12 reels',
-          'Clear bio value proposition with high CTR'
-        ],
-        gaps: [
-          'Deploy Beacons-style storefront link in bio',
-          'No digital store checkout link in bio'
-        ]
-      });
-    } finally {
-      setAuditRunning(false);
-    }
-  };
 
   const handleFinish = () => {
     try {

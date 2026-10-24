@@ -110,10 +110,61 @@ The store system has been engineered to provide an interconnected, high-converti
 
 ---
 
+### Test Scenario 7: Instagram Automation & Live Trigger Engine
+- **URL**: Open `/dashboard` and select the **Instagram Automation** tab.
+- **Actions to Test**:
+  1. **Dynamic Trigger Persistence**:
+     - Notice all triggers are loaded dynamically in real time from Firestore (`users/{uid}/instagram_automations`).
+     - Click **"Create Trigger"** to open the builder.
+     - Select trigger type (e.g. `Comment on Any Reel/Post` with keyword `BLUEPRINT`).
+     - Set human reply delay (e.g. 5–15 seconds) and public comment reply variation.
+     - Click **"Create Trigger"** — syncs instantly to Firestore without page refresh.
+  2. **Active Status Toggle**:
+     - Toggle the switch on any trigger. The switch turns active/paused and updates in cloud state immediately.
+  3. **Simulate Trigger Execution**:
+     - Click **"Test Trigger"** on any active trigger.
+     - Vyralify runs an end-to-end simulation of the public reply + direct message payload with live progress feedback and toast notification.
+  4. **Meta Graph Webhook Ready**:
+     - Check `/api/webhooks/instagram` and `/api/meta/send-dm`: serverless endpoints with dedup caching, signature verification, and Meta Messaging API integration.
+
+---
+
+### Test Scenario 8: AI Reel & Video Retention Auditor
+- **URL**: Open `/dashboard` -> **Discover & Create** or click **AI Retention Audit** from any reel in the Reel Matrix or Dashboard menu.
+- **Actions to Test**:
+  1. **Launch Video Auditor**:
+     - Click **"Launch Video Auditor"** in Discover & Create.
+     - Paste any Instagram Reel URL or select an existing reel.
+     - Click **"Run Retention Audit (Gemini 2.5 Flash)"**.
+  2. **Retention Drop-off Curve & Grading**:
+     - View estimated overall retention rate, Hook Grade (e.g., `A+` or `B`), and primary drop-off second markers (e.g., `00:03 - Pacing Drop`, `00:09 - Visual Fatigue`).
+     - Review the AI diagnostic recommendations to eliminate retention cliffs.
+  3. **Instant Action & Automation Flow**:
+     - Click **"Deploy Automation Trigger"** to instantly jump to the Instagram Automation builder with the keyword pre-configured.
+     - Click **"Copy Remix Script"** to paste the viral remix directly into your script workflow.
+
+---
+
+### Test Scenario 9: 30-Day Content Planner & Calendar Sync (.ics / .csv)
+- **URL**: Open `/dashboard` -> **Discover & Create** -> scroll to **30-Day Strategic Content Planner**.
+- **Actions to Test**:
+  1. **AI Auto-Fill 30 Days**:
+     - Click **"Auto-Fill 30-Day Plan with AI"**.
+     - System engineers 30 days of strategic hooks, formats, and monetization offers tailored to the connected Instagram account.
+     - Plan automatically saves to local browser memory for persistent retrieval.
+  2. **Export to Calendar (.ics)**:
+     - Click **"Sync Calendar (.ics)"**.
+     - An `.ics` iCalendar file downloads immediately containing all 30 days as scheduled calendar events.
+     - Double click the `.ics` file to import all events directly into Google Calendar, Apple Calendar, or Outlook.
+  3. **Export to CSV**:
+     - Click **"CSV"** to download a clean spreadsheet of the entire 30-day production roadmap.
+
+---
+
 ## 📊 Quick Verification Checklist for Sign-Off
 
 - [x] Production build passes cleanly (`npm run build` -> Exit code 0)
-- [x] Pushed to remote repo (`origin/main` -> Commit `5306786`)
+- [x] Pushed to remote repo (`origin/main`)
 - [x] Theme radius & fonts propagate to live store & phone preview
 - [x] Layout collapse tested for mobile viewports (<640px)
 - [x] Star toggle pins Hero Offer and deduplicates from list
@@ -121,3 +172,11 @@ The store system has been engineered to provide an interconnected, high-converti
 - [x] CTA label length constrained to max 28 chars
 - [x] 1-Click checkout generates instant download screen & updates CRM table
 - [x] Direct "Visit Store" link button active in Store Link bar
+- [x] Instagram Automation: Zero hardcoded triggers, live Firestore sync, interactive test simulator
+- [x] Meta Webhook & DM API: Endpoints `/api/meta/send-dm`, `/api/meta/reply-comment`, `/api/webhooks/instagram`
+- [x] AI Video & Reel Retention Auditor: Powered by Gemini 2.5 Flash with drop-off markers & remix scripts
+- [x] 30-Day Content Planner: 1-Click `.ics` calendar sync and `.csv` spreadsheet export
+- [x] Official Meta Graph API Connection: Zero fake handle inputs or manual typing; 100% official Meta OAuth handshake
+- [x] Live Meta Graph Metrics: Real follower count, bio, reels reach/plays, and active follower hours pulled directly from Meta
+- [x] Edit Bio & Profile Studio: Direct in-dashboard "Edit Bio & Profile" modal with 1-click AI bio enhancement and Cloud Firestore sync
+

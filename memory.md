@@ -348,12 +348,28 @@ Completed a full visual and functional overhaul of the Vyralify platform based o
 **Next step:**
 - Section 7: **WHO IS IT FOR? ("Is this for me?")** — 4 high-converting persona cards.
 
+---
 
+## 2026-10-24 — Instagram Graph v19.0 Integration, Storefront Commerce, & Memory Protocol
 
+**User Directive:**
+- Do not edit external/useless documentation (e.g. testing guides). Exclusively feed and update `memory.md`.
 
-
-
-
-
-
+**What happened:**
+- **Instagram / Meta OAuth Streamlined**:
+  - Removed deprecated fallback forms requiring manual follower counts or category inputs.
+  - Added 1-Click Instant Handle Connection (`Connect @handle & Launch Now`) allowing instant onboarding to Store, AI Assistant, Reels Matrix, and Planner without waiting for Meta review.
+  - Added in-modal 30-second mobile setup guide for switching Instagram to Creator account and linking Facebook Page for 100% Graph API sync.
+- **Backend Endpoints Implemented & Live on Vercel**:
+  - `/api/meta/send-dm.js`: Meta Messaging API direct DM dispatcher.
+  - `/api/meta/reply-comment.js`: Automated comment replies.
+  - `/api/meta/deauthorize.js`: Meta compliance deauthorize webhook.
+  - `/api/webhooks/instagram.js`: Dynamic trigger matching, comment keyword detection, auto-DM with human delay protection, and dedup cache.
+  - `/api/webhooks/payments.js`: Razorpay & Stripe webhook signature verification, order recording in Firestore (`storeOrders`), and automated digital product fulfillment.
+- **Interactive Modals Built**:
+  - `EditProfileBioModal.jsx`: Live Bio & Profile Studio with AI bio polish and Firestore synchronization.
+  - `ReelVideoAnalyzerModal.jsx`: AI retention curves, drop-off timestamps, and hook optimization suggestions.
+- **Production Deployment**:
+  - Verified clean Vite build (`npm run build`).
+  - Pushed commits `27f61f0` and `67cdd86` to `origin/main` for live Vercel deployment at `https://vyralify.in`.
 
